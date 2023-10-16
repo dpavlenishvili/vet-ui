@@ -1,0 +1,719 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "VET OpenApi Documentation",
+        "description": "VET Swagger OpenApi",
+        "contact": {
+            "email": "vsinauridze@emis.ge"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1",
+            "description": "VET API Server"
+        }
+    ],
+    "paths": {
+        "/general/countries": {
+            "get": {
+                "tags": [
+                    "Generals"
+                ],
+                "summary": "Get list of countries",
+                "description": "Returns list of countries",
+                "operationId": "GetCountriesList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "Country code",
+                                            "type": "string",
+                                            "default": "GE"
+                                        },
+                                        "name": {
+                                            "description": "Country Name",
+                                            "type": "string",
+                                            "default": "Georgia"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users",
+                "description": "Returns list of users",
+                "operationId": "getUserList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRes"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Store new user",
+                "description": "Returns user data",
+                "operationId": "storeUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserReq"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user information",
+                "description": "Returns user data",
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update existing user",
+                "description": "Returns updated user data",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserReq"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete existing user",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/register/validate": {
+            "get": {
+                "tags": [
+                    "Register"
+                ],
+                "summary": "Validate Person",
+                "description": "Validate person by Personal Id and Last name",
+                "operationId": "ValidatePerson",
+                "parameters": [
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "Personal ID",
+                        "required": true,
+                        "example": "01000000000"
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "description": "Last name",
+                        "required": true,
+                        "example": "Doe"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "firstName": {
+                                            "description": "First name",
+                                            "type": "string",
+                                            "default": "John"
+                                        },
+                                        "birthDate": {
+                                            "description": "Birth date",
+                                            "type": "string",
+                                            "default": "1999-12-31"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Person not validated",
+                                            "type": "boolean",
+                                            "default": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sms/send": {
+            "get": {
+                "tags": [
+                    "SMS"
+                ],
+                "summary": "Send one time code",
+                "description": "Send one time code to validate phone number",
+                "operationId": "Send Sms code",
+                "parameters": [
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Phone Number",
+                        "required": true,
+                        "example": "555123456"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Send sms code",
+                                            "type": "boolean",
+                                            "default": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Sms send failed",
+                                            "type": "boolean",
+                                            "default": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sms/validate": {
+            "post": {
+                "tags": [
+                    "SMS"
+                ],
+                "summary": "Validate SMS code",
+                "description": "Validate SMS code",
+                "operationId": "validate Sms",
+                "requestBody": {
+                    "description": "Validate SMS code",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone",
+                                    "sms_code"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "description": "Phone number",
+                                        "type": "string",
+                                        "default": "555123456"
+                                    },
+                                    "sms_code": {
+                                        "description": "SMS code",
+                                        "type": "string",
+                                        "default": "1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Send sms code",
+                                            "type": "boolean",
+                                            "default": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "SMS code not valid",
+                                            "type": "boolean",
+                                            "default": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Register"
+                ],
+                "summary": "Register user",
+                "description": "Returns user data",
+                "operationId": "Register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserReq"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "pid": {
+                        "title": "Personal ID",
+                        "description": "Personal ID of the user",
+                        "type": "string",
+                        "example": "01000000000"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Fullname of the user",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "firstName": {
+                        "title": "First name",
+                        "description": "First name of the user",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "lastName": {
+                        "title": "Last name",
+                        "description": "Last name of the user",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "gender": {
+                        "title": "Gender",
+                        "description": "gender of the user",
+                        "type": "string",
+                        "example": "Male"
+                    },
+                    "birthDate": {
+                        "title": "Birth date",
+                        "description": "Birth date of the user",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1999-12-31"
+                    },
+                    "residential": {
+                        "title": "Residential",
+                        "description": "Residential of the user",
+                        "type": "string",
+                        "example": "GE"
+                    },
+                    "region": {
+                        "title": "Region",
+                        "description": "Region of the user",
+                        "type": "string",
+                        "example": "Tbilisi"
+                    },
+                    "city": {
+                        "title": "City",
+                        "description": "City of the user",
+                        "type": "string",
+                        "example": "Tbilisi"
+                    },
+                    "address": {
+                        "title": "Address",
+                        "description": "Address of the user",
+                        "type": "string",
+                        "example": "Robert Robertson, 1234"
+                    },
+                    "altPhone": {
+                        "title": "Alternative phone",
+                        "description": "Alternative phone of the user",
+                        "type": "string",
+                        "example": "555123456"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email of the user",
+                        "type": "string",
+                        "format": "email",
+                        "example": "example@example.com"
+                    },
+                    "isActive": {
+                        "title": "Is active",
+                        "description": "Is active user",
+                        "type": "boolean",
+                        "format": "bool",
+                        "example": true
+                    },
+                    "blockReason": {
+                        "title": "Block reason",
+                        "description": "Block reason of user",
+                        "type": "string",
+                        "example": "Some reason"
+                    },
+                    "createdAt": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2024-01-27 17:50:45"
+                    },
+                    "deletedAt": {
+                        "title": "Deleted at",
+                        "description": "Deleted at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
+                }
+            },
+            "UserRes": {
+                "title": "UserResource",
+                "description": "User resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserResource"
+                }
+            },
+            "UserReq": {
+                "title": "User request",
+                "description": "User request body data",
+                "required": [
+                    "pid",
+                    "phone",
+                    "first_name",
+                    "last_name",
+                    "gender",
+                    "birth_date",
+                    "residential"
+                ],
+                "properties": {
+                    "pid": {
+                        "title": "Personal Id",
+                        "description": "Personal Id of project",
+                        "type": "string",
+                        "example": "01000000000"
+                    },
+                    "first_name": {
+                        "title": "First name",
+                        "description": "First name of the user",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "title": "Last name",
+                        "description": "Last name of the user",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "gender": {
+                        "title": "Gender",
+                        "description": "gender of the user",
+                        "type": "string",
+                        "example": "Male"
+                    },
+                    "birth_date": {
+                        "title": "Birth date",
+                        "description": "Birth date of the user",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1999-12-31"
+                    },
+                    "residential": {
+                        "title": "Residential",
+                        "description": "Residential of the user",
+                        "type": "string",
+                        "example": "GE"
+                    },
+                    "region": {
+                        "title": "Region",
+                        "description": "Region of the user",
+                        "type": "string",
+                        "example": "Tbilisi"
+                    },
+                    "city": {
+                        "title": "City",
+                        "description": "City of the user",
+                        "type": "string",
+                        "example": "Tbilisi"
+                    },
+                    "address": {
+                        "title": "Address",
+                        "description": "Address of the user",
+                        "type": "string",
+                        "example": "Robert Robertson, 1234"
+                    },
+                    "alt_phone": {
+                        "title": "Alternative phone",
+                        "description": "Alternative phone of the user",
+                        "type": "string",
+                        "example": "555123456"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email of the user",
+                        "type": "string",
+                        "format": "email",
+                        "example": "example@example.com"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "VET",
+            "description": "API Endpoints of Projects"
+        }
+    ]
+}
