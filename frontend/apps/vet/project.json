@@ -1,0 +1,81 @@
+{
+    "name": "vet",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "prefix": "app",
+    "sourceRoot": "frontend/apps/vet/src",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@angular-devkit/build-angular:browser-esbuild",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/frontend/apps/vet",
+                "index": "frontend/apps/vet/src/index.html",
+                "main": "frontend/apps/vet/src/main.ts",
+                "polyfills": ["zone.js"],
+                "tsConfig": "frontend/apps/vet/tsconfig.app.json",
+                "assets": [
+                    "frontend/apps/vet/src/favicon.ico",
+                    "frontend/apps/vet/src/assets"
+                ],
+                "styles": ["frontend/apps/vet/src/styles.scss"],
+                "scripts": []
+            },
+            "configurations": {
+                "production": {
+                    "outputHashing": "all"
+                },
+                "development": {
+                    "buildOptimizer": false,
+                    "optimization": false,
+                    "extractLicenses": false,
+                    "sourceMap": true
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve": {
+            "executor": "@angular-devkit/build-angular:dev-server",
+            "configurations": {
+                "production": {
+                    "browserTarget": "vet:build:production"
+                },
+                "development": {
+                    "browserTarget": "vet:build:development"
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "options": {
+                "browserTarget": "vet:build"
+            }
+        },
+        "lint": {
+            "executor": "@nx/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "frontend/apps/vet/**/*.ts",
+                    "frontend/apps/vet/**/*.html"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "frontend/apps/vet/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
+        }
+    }
+}
