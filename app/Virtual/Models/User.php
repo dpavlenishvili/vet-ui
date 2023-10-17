@@ -21,7 +21,7 @@ class User
      *     example=1
      * )
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -79,7 +79,6 @@ class User
      * @var string
      */
     public $gender;
-
 
     /**
      * @OA\Property(
@@ -148,7 +147,6 @@ class User
      */
     public $altPhone;
 
-
     /**
      * @OA\Property(
      *      title="Email",
@@ -169,7 +167,7 @@ class User
      *      example=true
      * )
      *
-     * @var boolean
+     * @var bool
      */
     public $isActive;
 

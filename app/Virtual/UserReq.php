@@ -10,7 +10,6 @@ namespace App\Virtual;
  *      required={"pid", "phone", "first_name", "last_name", "gender", "birth_date", "residential"}
  * )
  */
-
 class UserReq
 {
     /**
@@ -56,7 +55,6 @@ class UserReq
      * @var string
      */
     public $gender;
-
 
     /**
      * @OA\Property(
@@ -124,7 +122,6 @@ class UserReq
      * @var string
      */
     public $alt_phone;
-
 
     /**
      * @OA\Property(

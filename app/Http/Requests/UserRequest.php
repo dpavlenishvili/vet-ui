@@ -37,7 +37,7 @@ class UserRequest extends FormRequest
     public function all($keys = null)
     {
         $input = parent::all();
-        $input['name'] = $input['first_name'] . ' ' . $input['last_name'];
+        $input['name'] = $input['first_name'].' '.$input['last_name'];
 
         return $input;
     }

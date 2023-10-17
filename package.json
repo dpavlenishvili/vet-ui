@@ -49,6 +49,7 @@
         "jest-environment-jsdom": "^29.4.1",
         "jest-preset-angular": "~13.1.0",
         "jsonc-eslint-parser": "^2.1.0",
+        "lint-staged": "^15.0.1",
         "nx": "16.10.0",
         "prettier": "^2.6.2",
         "ts-jest": "^29.1.0",
@@ -74,6 +75,14 @@
     "config": {
         "commitizen": {
             "path": "@commitlint/cz-commitlint"
+        }
+    },
+    "lint-staged": {
+        "*.php": "php ./vendor/bin/php-cs-fixer fix --config .php-cs-fixer.php"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
         }
     }
 }

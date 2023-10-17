@@ -18,7 +18,7 @@ Route::group([
     'prefix' => 'v1',
     'as' => 'api.',
     'namespace' => 'App\Http\Controllers\api\v1',
-//    'middleware' => ['auth:api']
+    //    'middleware' => ['auth:api']
 ], function () {
     Route::apiResource('users', 'UserApiController');
     Route::get('register/validate', 'UserApiController@validatePerson');
@@ -27,6 +27,4 @@ Route::group([
     Route::post('sms/validate', 'UserApiController@validatePhone');
 
     Route::get('general/countries', 'GeneralApiController@countries');
-
-
 });

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\api\v1;
 
 use App\Classes\Identity;
@@ -8,9 +9,9 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Virtual\UserReq;
+use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\Request;
 
 class UserApiController extends Controller
 {
@@ -36,10 +37,10 @@ class UserApiController extends Controller
      *      )
      *     )
      */
-
     public function index()
     {
         $users = User::get();
+
         return UserResource::collection($users);
     }
 
@@ -174,7 +175,6 @@ class UserApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-
     /**
      * @OA\Delete(
      *      path="/users/{id}",
@@ -216,7 +216,6 @@ class UserApiController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
-
 
     /**
      * @OA\Get(
@@ -277,11 +276,12 @@ class UserApiController extends Controller
     {
         $request = (new Identity($request->get('pid'), $request->get('last_name')))->get();
 
-        if (!$request || !$request->json('firstName')) {
+        if (! $request || ! $request->json('firstName')) {
             return response()->json(['status' => false])->setStatusCode(400);
         }
 
         $timeStamp = $request->json('birthDate') / 1000;
+
         return ['firstName' => $request->json('firstName'), 'birthDate' => date('Y-m-d', $timeStamp)];
     }
 
@@ -330,7 +330,7 @@ class UserApiController extends Controller
     public function sendSms(Request $request)
     {
         $sms = random_int(1000, 9999);
-        $request = (new SMS())->set('phone', $request->get('phone'))->set('text', 'SMS code: ' . $sms)->send();
+        $request = (new SMS())->set('phone', $request->get('phone'))->set('text', 'SMS code: '.$sms)->send();
 
         \App\Models\Sms::where('phone', $request->get('phone'))->delete();
 
@@ -401,11 +401,11 @@ class UserApiController extends Controller
     {
         $status = \App\Models\Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
 
-        if (!$status) {
-            return response()->json(['status' => false])->setStatusCode( 400);
+        if (! $status) {
+            return response()->json(['status' => false])->setStatusCode(400);
         }
 
-        return response()->json(['status' => true])->setStatusCode( 200);
+        return response()->json(['status' => true])->setStatusCode(200);
     }
 
     /**

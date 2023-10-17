@@ -10,7 +10,7 @@ class DefaultUserSeeder extends Seeder
     public function run()
     {
         $superAdmin = User::updateOrCreate([
-           'email' => 'admin@vet.ge',
+            'email' => 'admin@vet.ge',
         ], [
             'pid' => '1000',
             'name' => 'Super Admin',
@@ -24,7 +24,7 @@ class DefaultUserSeeder extends Seeder
             'address' => '1 Infinite Loop, Cupertino, California.',
             'password' => bcrypt('987654321'),
             'phone' => '555555555',
-            '2fa' => 0
+            '2fa' => 0,
         ]);
     }
 }
