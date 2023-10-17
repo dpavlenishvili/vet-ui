@@ -1,0 +1,24 @@
+{
+    "name": "vet-e2e",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "frontend/apps/vet-e2e/src",
+    "targets": {
+        "e2e": {
+            "executor": "@nx/playwright:playwright",
+            "outputs": [
+                "{workspaceRoot}/dist/.playwright/frontend/apps/vet-e2e"
+            ],
+            "options": {
+                "config": "frontend/apps/vet-e2e/playwright.config.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nx/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["frontend/apps/vet-e2e/**/*.{js,ts}"]
+            }
+        }
+    },
+    "implicitDependencies": ["vet"]
+}
