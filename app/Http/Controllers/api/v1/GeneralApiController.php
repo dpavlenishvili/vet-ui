@@ -29,23 +29,29 @@ class GeneralApiController extends Controller
      *           @OA\JsonContent(
      *                type="object",
      *                @OA\Property(
-     *                     type="string",
-     *                     default="GE",
-     *                     description="Country code",
-     *                     property="code"
-     *                 ),
-     *                 @OA\Property(
-     *                      type="string",
-     *                      default="Georgia",
-     *                      description="Country Name",
-     *                      property="name"
-     *                  )
+     *                      type="array",
+     *                      property="data",
+     *                      @OA\Items(
+     *                           @OA\Property(
+     *                              type="string",
+     *                              default="GE",
+     *                              description="Country code",
+     *                              property="code"
+     *                          ),
+     *                          @OA\Property(
+     *                              type="string",
+     *                              default="Georgia",
+     *                              description="Country Name",
+     *                              property="name"
+     *                          )
+     *                      )
+     *                 )
      *            )
      *       ),
      *  )
      */
     public function countries()
     {
-        return DB::table('countries')->addSelect('name', 'code')->get()->toJson();
+        return ['data' => DB::table('countries')->addSelect('name', 'code')->get()];
     }
 }

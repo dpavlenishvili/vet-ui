@@ -15,6 +15,385 @@
         }
     ],
     "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User authentication",
+                "operationId": "Login User",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pid": {
+                                        "description": "Personal ID",
+                                        "type": "string",
+                                        "default": "010000000000"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "default": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "description": "Access token",
+                                            "type": "string",
+                                            "default": "qwertyuio..."
+                                        },
+                                        "token_type": {
+                                            "description": "Token Type",
+                                            "type": "string",
+                                            "default": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "description": "Token expiration time",
+                                            "type": "integer",
+                                            "default": "3600"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "Successful operation but need 2fa code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "msg": {
+                                            "description": "Waiting 2fa code",
+                                            "type": "string",
+                                            "default": "Waiting 2fa code"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Already accepted, 2fa code still active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Already accepted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Can't send message",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Can't send 2fa Code"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login/2fa": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User authentication with 2fa code",
+                "operationId": "Validate 2fa code",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pid": {
+                                        "description": "Personal ID",
+                                        "type": "string",
+                                        "default": "010000000000"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "default": "password"
+                                    },
+                                    "code": {
+                                        "description": "2fa code",
+                                        "type": "string",
+                                        "default": "1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "description": "Access token",
+                                            "type": "string",
+                                            "default": "qwertyuio..."
+                                        },
+                                        "token_type": {
+                                            "description": "Token Type",
+                                            "type": "string",
+                                            "default": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "description": "Token expiration time",
+                                            "type": "integer",
+                                            "default": "3600"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "Time out to validate 2fa code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Time out to validate 2fa code",
+                                            "type": "string",
+                                            "default": "Time out to validate 2fa code"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get user info",
+                "operationId": "Get user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserRes"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "delete": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "operationId": "Logout user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "msg": {
+                                            "description": "Successfully logged out",
+                                            "type": "string",
+                                            "default": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh token",
+                "operationId": "Refresh token",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "description": "Access token",
+                                            "type": "string",
+                                            "default": "qwertyuio..."
+                                        },
+                                        "token_type": {
+                                            "description": "Token Type",
+                                            "type": "string",
+                                            "default": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "description": "Token expiration time",
+                                            "type": "integer",
+                                            "default": "3600"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/general/countries": {
             "get": {
                 "tags": [
@@ -30,15 +409,23 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "code": {
-                                            "description": "Country code",
-                                            "type": "string",
-                                            "default": "GE"
-                                        },
-                                        "name": {
-                                            "description": "Country Name",
-                                            "type": "string",
-                                            "default": "Georgia"
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "description": "Country code",
+                                                        "type": "string",
+                                                        "default": "GE"
+                                                    },
+                                                    "name": {
+                                                        "description": "Country Name",
+                                                        "type": "string",
+                                                        "default": "Georgia"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -63,7 +450,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserRes"
+                                    "$ref": "#/components/schemas/UsersRes"
                                 }
                             }
                         }
@@ -607,6 +994,19 @@
                 }
             },
             "UserRes": {
+                "title": "UserResource",
+                "description": "User resource",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserResource"
+                }
+            },
+            "UsersRes": {
                 "title": "UserResource",
                 "description": "User resource",
                 "properties": {

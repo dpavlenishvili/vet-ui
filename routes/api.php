@@ -18,13 +18,26 @@ Route::group([
     'prefix' => 'v1',
     'as' => 'api.',
     'namespace' => 'App\Http\Controllers\api\v1',
-    //    'middleware' => ['auth:api']
+    'middleware' => ['api']
 ], function () {
-    Route::apiResource('users', 'UserApiController');
     Route::get('register/validate', 'UserApiController@validatePerson');
     Route::post('register', 'UserApiController@register');
     Route::get('sms/send', 'UserApiController@sendSms');
     Route::post('sms/validate', 'UserApiController@validatePhone');
-
     Route::get('general/countries', 'GeneralApiController@countries');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::apiResource('users', 'UserApiController');
+    });
+
+    Route::group([
+        'prefix' => 'auth'
+    ], function ($router) {
+        Route::post('login', 'AuthApiController@login')->name('login');
+        Route::post('login/2fa', 'AuthApiController@validateLogin');
+        Route::delete('logout', 'AuthApiController@logout');
+        Route::post('refresh', 'AuthApiController@refresh');
+        Route::get('me', 'AuthApiController@me');
+    });
 });
+
