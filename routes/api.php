@@ -18,7 +18,7 @@ Route::group([
     'prefix' => 'v1',
     'as' => 'api.',
     'namespace' => 'App\Http\Controllers\api\v1',
-    'middleware' => ['api']
+    'middleware' => ['api'],
 ], function () {
     Route::get('register/validate', 'UserApiController@validatePerson');
     Route::post('register', 'UserApiController@register');
@@ -31,7 +31,7 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => 'auth'
+        'prefix' => 'auth',
     ], function ($router) {
         Route::post('login', 'AuthApiController@login')->name('login');
         Route::post('login/2fa', 'AuthApiController@validateLogin');
@@ -40,4 +40,3 @@ Route::group([
         Route::get('me', 'AuthApiController@me');
     });
 });
-

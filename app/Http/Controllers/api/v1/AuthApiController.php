@@ -155,7 +155,7 @@ class AuthApiController extends Controller
             return response()->json(['status' => false, 'msg' => 'Invalid credentials'], 401);
         }
 
-        if (!auth()->user()->{'2fa'}) {
+        if (! auth()->user()->{'2fa'}) {
             return $this->respondWithToken($token);
         }
 
@@ -169,7 +169,7 @@ class AuthApiController extends Controller
             return response()->json(['status' => false, 'msg' => 'Can\'t send 2fa Code'], 500);
         }
 
-        return response()->json(['status' => true, 'msg' => 'Waiting 2fa code on: ' . route('api.2fa.login')], 202);
+        return response()->json(['status' => true, 'msg' => 'Waiting 2fa code on: '.route('api.2fa.login')], 202);
     }
 
     /**
@@ -282,7 +282,7 @@ class AuthApiController extends Controller
 
         $sms = Sms::where('phone', auth()->user()->phone)->where('created_at', '>', date('Y-m-d H:i:s', strtotime('-2 minutes')))->first();
 
-        if (!$sms) {
+        if (! $sms) {
             return response()->json(['status' => false, 'msg' => 'Time out to validate 2fa code'], 408);
         }
 
@@ -314,58 +314,57 @@ class AuthApiController extends Controller
      *
      * @return JsonResponse
      */
-
     public function me(): UserResource
     {
         $user = auth()->user();
+
         return new UserResource($user);
     }
 
     /**
-    * @OA\Delete(
-    *      path="/auth/logout",
-    *      operationId="Logout user",
-    *      tags={"Auth"},
-    *      summary="Logout user",
-    *      @OA\Parameter(
-    *          name="Authorization",
-    *          in="header",
-    *          description="Bearer token",
-    *          @OA\Schema(
-    *              type="string"
-    *          )
-    *      ),
-    *      @OA\Response(
-    *           response=200,
-    *           description="Successful operation",
-    *           @OA\JsonContent(
-    *                  @OA\Property(
-    *                       type="boolean",
-    *                       default="true",
-    *                       description="Status",
-    *                       property="status"
-    *                  ),
-    *                  @OA\Property(
-    *                      type="string",
-    *                      default="Successfully logged out",
-    *                      description="Successfully logged out",
-    *                      property="msg"
-    *                  )
-    *             )
-    *        ),
-    * )
-    *
-    * Log the user out (Invalidate the token).
-    *
-    * @return JsonResponse
-    */
+     * @OA\Delete(
+     *      path="/auth/logout",
+     *      operationId="Logout user",
+     *      tags={"Auth"},
+     *      summary="Logout user",
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          in="header",
+     *          description="Bearer token",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(
+     *                  @OA\Property(
+     *                       type="boolean",
+     *                       default="true",
+     *                       description="Status",
+     *                       property="status"
+     *                  ),
+     *                  @OA\Property(
+     *                      type="string",
+     *                      default="Successfully logged out",
+     *                      description="Successfully logged out",
+     *                      property="msg"
+     *                  )
+     *             )
+     *        ),
+     * )
+     *
+     * Log the user out (Invalidate the token).
+     *
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse
     {
         auth()->logout();
 
         return response()->json(['status' => true, 'msg' => 'Successfully logged out']);
     }
-
 
     /**
      * @OA\Post(
@@ -428,7 +427,7 @@ class AuthApiController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
         ]);
     }
 
@@ -444,9 +443,9 @@ class AuthApiController extends Controller
         $user->sms_code = $code;
         $user->save();
 
-        $request = (new SmsFacade())->set('phone', $user->phone)->set('text', 'SMS code: ' . $code)->send();
+        $request = (new SmsFacade())->set('phone', $user->phone)->set('text', 'SMS code: '.$code)->send();
 
-        if (!$request) {
+        if (! $request) {
             return 0;
         }
 

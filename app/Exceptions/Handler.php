@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'errors' => $exception->getMessage(),
                 'status' => 'false',
-                'msg' => 'Forbidden'
+                'msg' => 'Forbidden',
             ])->setStatusCode($exception instanceof AuthenticationException ? 403 : 500);
         }
 
