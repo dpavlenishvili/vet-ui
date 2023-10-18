@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Classes\Identity;
-use App\Classes\SMS;
 use App\Classes\SmsFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Sms;
 use App\Models\User;
 use App\Virtual\UserReq;
 use Illuminate\Http\Request;
@@ -23,6 +23,15 @@ class UserApiController extends Controller
      *      tags={"Users"},
      *      summary="Get list of users",
      *      description="Returns list of users",
+     *      @OA\Parameter(
+     *           name="Authorization",
+     *           in="header",
+     *           description="Bearer token",
+     *           required=true,
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *       ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -52,6 +61,15 @@ class UserApiController extends Controller
      *      tags={"Users"},
      *      summary="Store new user",
      *      description="Returns user data",
+     *      @OA\Parameter(
+     *           name="Authorization",
+     *           in="header",
+     *           description="Bearer token",
+     *           required=true,
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *      ),
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/UserReq")
@@ -92,6 +110,15 @@ class UserApiController extends Controller
      *      summary="Get user information",
      *      description="Returns user data",
      *      @OA\Parameter(
+     *           name="Authorization",
+     *           in="header",
+     *           description="Bearer token",
+     *           required=true,
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *       ),
+     *      @OA\Parameter(
      *          name="id",
      *          description="user id",
      *          required=true,
@@ -131,6 +158,15 @@ class UserApiController extends Controller
      *      tags={"Users"},
      *      summary="Update existing user",
      *      description="Returns updated user data",
+     *      @OA\Parameter(
+     *           name="Authorization",
+     *           in="header",
+     *           description="Bearer token",
+     *           required=true,
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *      ),
      *      @OA\Parameter(
      *          name="id",
      *          description="user id",
@@ -183,6 +219,15 @@ class UserApiController extends Controller
      *      tags={"Users"},
      *      summary="Delete existing user",
      *      description="Deletes a record and returns no content",
+     *      @OA\Parameter(
+     *           name="Authorization",
+     *           in="header",
+     *           description="Bearer token",
+     *           required=true,
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *      ),
      *      @OA\Parameter(
      *          name="id",
      *          description="User id",
@@ -251,7 +296,7 @@ class UserApiController extends Controller
      *                   property="firstName"
      *               ),
      *               @OA\Property(
-     *                   type="string",
+     *                    type="string",
      *                    default="1999-12-31",
      *                    description="Birth date",
      *                    property="birthDate"
@@ -298,7 +343,7 @@ class UserApiController extends Controller
      *           in="query",
      *           description="Phone Number",
      *           required=true,
-     *           example="555123456"
+     *           example="555123456",
      *      ),
      *      @OA\Response(
      *          response=202,
@@ -333,9 +378,9 @@ class UserApiController extends Controller
         $sms = random_int(1000, 9999);
         $request = (new SmsFacade())->set('phone', $request->get('phone'))->set('text', 'SMS code: '.$sms)->send();
 
-        \App\Models\Sms::where('phone', $request->get('phone'))->delete();
+        Sms::where('phone', $request->get('phone'))->delete();
 
-        \App\Models\Sms::create([
+        Sms::create([
             $request->get('phone'),
             'code' => $sms,
             'created_at' => date('Y-m-d H:i:s'),
@@ -400,7 +445,7 @@ class UserApiController extends Controller
      */
     public function validatePhone(Request $request)
     {
-        $status = \App\Models\Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
+        $status = Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
 
         if (! $status) {
             return response()->json(['status' => false])->setStatusCode(400);
@@ -427,7 +472,22 @@ class UserApiController extends Controller
      *       ),
      *      @OA\Response(
      *          response=400,
-     *          description="Bad Request"
+     *          description="2fa code not valid",
+     *          @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(
+     *                     type="boolean",
+     *                     default=false,
+     *                     description="2fa code not valid",
+     *                     property="status"
+     *                ),
+     *                @OA\Property(
+     *                     type="string",
+     *                     default="2fa code not valid",
+     *                     description="2fa code not valid",
+     *                     property="msg"
+     *                )
+     *           )
      *      ),
      *      @OA\Response(
      *          response=401,
@@ -441,6 +501,12 @@ class UserApiController extends Controller
      */
     public function register(UserRequest $request)
     {
+        $sms = Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
+
+        if (!$sms) {
+            return response()->json(['status' => false, 'msg' => '2fa code not valid'])->setStatusCode(400);
+        }
+
         $user = User::create($request->all());
 
         return (new UserResource($user))

@@ -299,6 +299,7 @@ class AuthApiController extends Controller
      *          name="Authorization",
      *          in="header",
      *          description="Bearer token",
+     *          required=true,
      *          @OA\Schema(
      *              type="string"
      *          )
@@ -331,6 +332,7 @@ class AuthApiController extends Controller
      *          name="Authorization",
      *          in="header",
      *          description="Bearer token",
+     *          required=true,
      *          @OA\Schema(
      *              type="string"
      *          )
@@ -376,6 +378,7 @@ class AuthApiController extends Controller
      *          name="Authorization",
      *          in="header",
      *          description="Bearer token",
+     *          required=true,
      *          @OA\Schema(
      *              type="string"
      *          )
@@ -449,7 +452,7 @@ class AuthApiController extends Controller
             return 0;
         }
 
-        \App\Models\Sms::create([
+        Sms::create([
             'phone' => $user->phone,
             'code' => $code,
             'created_at' => date('Y-m-d H:i:s'),

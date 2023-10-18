@@ -284,6 +284,7 @@
                         "name": "Authorization",
                         "in": "header",
                         "description": "Bearer token",
+                        "required": true,
                         "schema": {
                             "type": "string"
                         }
@@ -315,6 +316,7 @@
                         "name": "Authorization",
                         "in": "header",
                         "description": "Bearer token",
+                        "required": true,
                         "schema": {
                             "type": "string"
                         }
@@ -358,6 +360,7 @@
                         "name": "Authorization",
                         "in": "header",
                         "description": "Bearer token",
+                        "required": true,
                         "schema": {
                             "type": "string"
                         }
@@ -440,6 +443,17 @@
                 "summary": "Get list of users",
                 "description": "Returns list of users",
                 "operationId": "getUserList",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -464,6 +478,17 @@
                 "summary": "Store new user",
                 "description": "Returns user data",
                 "operationId": "storeUser",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -505,6 +530,15 @@
                 "operationId": "getUserById",
                 "parameters": [
                     {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "id",
                         "in": "path",
                         "description": "user id",
@@ -542,6 +576,15 @@
                 "description": "Returns updated user data",
                 "operationId": "updateUser",
                 "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "id",
                         "in": "path",
@@ -593,6 +636,15 @@
                 "description": "Deletes a record and returns no content",
                 "operationId": "deleteUser",
                 "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "id",
                         "in": "path",
@@ -838,7 +890,26 @@
                         }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "2fa code not valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "2fa code not valid",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "msg": {
+                                            "description": "2fa code not valid",
+                                            "type": "string",
+                                            "default": "2fa code not valid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -909,31 +980,31 @@
                     "region": {
                         "title": "Region",
                         "description": "Region of the user",
-                        "type": "string",
+                        "type": "['null', string]",
                         "example": "Tbilisi"
                     },
                     "city": {
                         "title": "City",
                         "description": "City of the user",
-                        "type": "string",
+                        "type": "['null', string]",
                         "example": "Tbilisi"
                     },
                     "address": {
                         "title": "Address",
                         "description": "Address of the user",
-                        "type": "string",
+                        "type": "['null', string]",
                         "example": "Robert Robertson, 1234"
                     },
                     "altPhone": {
                         "title": "Alternative phone",
                         "description": "Alternative phone of the user",
-                        "type": "string",
+                        "type": "['null', string]",
                         "example": "555123456"
                     },
                     "email": {
                         "title": "Email",
                         "description": "Email of the user",
-                        "type": "string",
+                        "type": "['null', string]",
                         "format": "email",
                         "example": "example@example.com"
                     },
@@ -942,12 +1013,12 @@
                         "description": "Is active user",
                         "type": "boolean",
                         "format": "bool",
-                        "example": true
+                        "example": false
                     },
                     "blockReason": {
                         "title": "Block reason",
                         "description": "Block reason of user",
-                        "type": "string",
+                        "type": "['null', string]",
                         "example": "Some reason"
                     },
                     "createdAt": {
@@ -960,9 +1031,9 @@
                     "deletedAt": {
                         "title": "Deleted at",
                         "description": "Deleted at",
-                        "type": "string",
+                        "type": "['null', string]",
                         "format": "datetime",
-                        "example": "2020-01-27 17:50:45"
+                        "example": "null"
                     }
                 },
                 "type": "object",
@@ -1027,7 +1098,7 @@
                     "gender": {
                         "title": "Gender",
                         "description": "gender of the user",
-                        "type": "string",
+                        "type": "[null, string]",
                         "example": "Male"
                     },
                     "birth_date": {
@@ -1046,33 +1117,39 @@
                     "region": {
                         "title": "Region",
                         "description": "Region of the user",
-                        "type": "string",
+                        "type": "[null, string]",
                         "example": "Tbilisi"
                     },
                     "city": {
                         "title": "City",
                         "description": "City of the user",
-                        "type": "string",
+                        "type": "[null, string]",
                         "example": "Tbilisi"
                     },
                     "address": {
                         "title": "Address",
                         "description": "Address of the user",
-                        "type": "string",
+                        "type": "[null, string]",
                         "example": "Robert Robertson, 1234"
                     },
                     "alt_phone": {
                         "title": "Alternative phone",
                         "description": "Alternative phone of the user",
-                        "type": "string",
+                        "type": "[null, string]",
                         "example": "555123456"
                     },
                     "email": {
                         "title": "Email",
                         "description": "Email of the user",
-                        "type": "string",
+                        "type": "[null, string]",
                         "format": "email",
                         "example": "example@example.com"
+                    },
+                    "sms_code": {
+                        "title": "Sms code",
+                        "description": "2fa code of the user",
+                        "type": "[null, string]",
+                        "example": "1234"
                     }
                 },
                 "type": "object"
