@@ -15,10 +15,7 @@
                 "main": "frontend/apps/vet/src/main.ts",
                 "polyfills": ["zone.js"],
                 "tsConfig": "frontend/apps/vet/tsconfig.app.json",
-                "assets": [
-                    "frontend/apps/vet/src/favicon.ico",
-                    "frontend/apps/vet/src/assets"
-                ],
+                "assets": ["frontend/apps/vet/src/favicon.ico", "frontend/apps/vet/src/assets"],
                 "styles": ["frontend/apps/vet/src/styles.scss"],
                 "scripts": []
             },
@@ -57,10 +54,7 @@
             "executor": "@nx/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": [
-                    "frontend/apps/vet/**/*.ts",
-                    "frontend/apps/vet/**/*.html"
-                ]
+                "lintFilePatterns": ["frontend/apps/vet/**/*.ts", "frontend/apps/vet/**/*.html"]
             }
         },
         "test": {

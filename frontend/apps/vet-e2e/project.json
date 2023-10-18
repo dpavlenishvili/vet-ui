@@ -5,9 +5,7 @@
     "targets": {
         "e2e": {
             "executor": "@nx/playwright:playwright",
-            "outputs": [
-                "{workspaceRoot}/dist/.playwright/frontend/apps/vet-e2e"
-            ],
+            "outputs": ["{workspaceRoot}/dist/.playwright/frontend/apps/vet-e2e"],
             "options": {
                 "config": "frontend/apps/vet-e2e/playwright.config.ts"
             }
