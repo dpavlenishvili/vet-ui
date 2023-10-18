@@ -18,7 +18,8 @@ class User
      *     title="ID",
      *     description="ID",
      *     format="int32",
-     *     example=1
+     *     example=1,
+     *     type="integer",
      * )
      *
      * @var int
@@ -29,7 +30,8 @@ class User
      * @OA\Property(
      *      title="Personal ID",
      *      description="Personal ID of the user",
-     *      example="01000000000"
+     *      example="01000000000",
+     *      type="string"
      * )
      *
      * @var string
@@ -40,7 +42,8 @@ class User
      * @OA\Property(
      *      title="Name",
      *      description="Fullname of the user",
-     *      example="John Doe"
+     *      example="John Doe",
+     *      type="string"
      * )
      *
      * @var string
@@ -51,7 +54,8 @@ class User
      * @OA\Property(
      *      title="First name",
      *      description="First name of the user",
-     *      example="John"
+     *      example="John",
+     *      type="string"
      * )
      *
      * @var string
@@ -62,7 +66,8 @@ class User
      * @OA\Property(
      *      title="Last name",
      *      description="Last name of the user",
-     *      example="Doe"
+     *      example="Doe",
+     *      type="string"
      * )
      *
      * @var string
@@ -73,7 +78,8 @@ class User
      * @OA\Property(
      *      title="Gender",
      *      description="gender of the user",
-     *      example="Male"
+     *      example="Male",
+     *     type="string"
      * )
      *
      * @var string
@@ -85,7 +91,8 @@ class User
      *      title="Birth date",
      *      description="Birth date of the user",
      *      format="date",
-     *      example="1999-12-31"
+     *      example="1999-12-31",
+     *      type="string"
      * )
      *
      * @var string
@@ -96,7 +103,8 @@ class User
      * @OA\Property(
      *      title="Residential",
      *      description="Residential of the user",
-     *      example="GE"
+     *      example="GE",
+     *      type="string"
      * )
      *
      * @var string
@@ -107,7 +115,8 @@ class User
      * @OA\Property(
      *      title="Region",
      *      description="Region of the user",
-     *      example="Tbilisi"
+     *      example="Tbilisi",
+     *      type="['null', string]"
      * )
      *
      * @var string
@@ -118,7 +127,8 @@ class User
      * @OA\Property(
      *      title="City",
      *      description="City of the user",
-     *      example="Tbilisi"
+     *      example="Tbilisi",
+     *      type="['null', string]"
      * )
      *
      * @var string
@@ -129,7 +139,8 @@ class User
      * @OA\Property(
      *      title="Address",
      *      description="Address of the user",
-     *      example="Robert Robertson, 1234"
+     *      example="Robert Robertson, 1234",
+     *      type="['null', string]"
      * )
      *
      * @var string
@@ -140,7 +151,8 @@ class User
      * @OA\Property(
      *      title="Alternative phone",
      *      description="Alternative phone of the user",
-     *      example="555123456"
+     *      example="555123456",
+     *      type="['null', string]"
      * )
      *
      * @var string
@@ -152,7 +164,8 @@ class User
      *      title="Email",
      *      description="Email of the user",
      *      format="email",
-     *      example="example@example.com"
+     *      example="example@example.com",
+     *      type="['null', string]"
      * )
      *
      * @var string
@@ -164,7 +177,8 @@ class User
      *      title="Is active",
      *      description="Is active user",
      *      format="bool",
-     *      example=true
+     *      example=false,
+     *      type="boolean",
      * )
      *
      * @var bool
@@ -175,7 +189,8 @@ class User
      * @OA\Property(
      *      title="Block reason",
      *      description="Block reason of user",
-     *      example="Some reason"
+     *      example="Some reason",
+     *      type="['null', string]"
      * )
      *
      * @var string
@@ -199,9 +214,9 @@ class User
      * @OA\Property(
      *     title="Deleted at",
      *     description="Deleted at",
-     *     example="2020-01-27 17:50:45",
+     *     example="null",
      *     format="datetime",
-     *     type="string"
+     *     type="['null', string]"
      * )
      *
      * @var \DateTime
