@@ -11,7 +11,7 @@ namespace App\Virtual\Res;
  *     )
  * )
  */
-class UserRes
+class UsersRes
 {
     /**
      * @OA\Property(
@@ -19,7 +19,7 @@ class UserRes
      *     description="Data wrapper"
      * )
      *
-     * @var \App\Virtual\Models\User
+     * @var \App\Virtual\Models\User[]
      */
     private $data;
 }

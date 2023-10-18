@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Classes\Identity;
 use App\Classes\SMS;
+use App\Classes\SmsFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
@@ -25,7 +26,7 @@ class UserApiController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/UserRes")
+     *          @OA\JsonContent(ref="#/components/schemas/UsersRes")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -330,7 +331,7 @@ class UserApiController extends Controller
     public function sendSms(Request $request)
     {
         $sms = random_int(1000, 9999);
-        $request = (new SMS())->set('phone', $request->get('phone'))->set('text', 'SMS code: '.$sms)->send();
+        $request = (new SmsFacade())->set('phone', $request->get('phone'))->set('text', 'SMS code: '.$sms)->send();
 
         \App\Models\Sms::where('phone', $request->get('phone'))->delete();
 
