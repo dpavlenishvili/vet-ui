@@ -24,4 +24,4 @@ yarn-error.log
 
 .angular
 dist
-.php_cs.cache
+.php-cs-fixer.cache

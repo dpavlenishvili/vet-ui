@@ -63,7 +63,6 @@ class User extends Authenticatable implements JWTSubject
         'is_active' => 'boolean',
     ];
 
-
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

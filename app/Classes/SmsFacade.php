@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Log;
 
 class SmsFacade
 {
-
     private $phone;
+
     private $text;
 
-    public function set(string $key, string $value):SmsFacade
+    public function set(string $key, string $value):self
     {
         $this->{$key} = $value;
 
@@ -27,23 +27,24 @@ class SmsFacade
         $payLoad = http_build_query([
             'src' => config('services.sms.token'),
             'dst' => $this->phone,
-            'txt' => $this->text
+            'txt' => $this->text,
         ]);
 
         $client = (new Client);
         try {
-            $feedback = $client->request('get', config('services.sms.base_url') . '?' . $payLoad, [
+            $feedback = $client->request('get', config('services.sms.base_url').'?'.$payLoad, [
                 'timeout' => 5,
                 'connect_timeout' => 5,
             ]);
         } catch (\Exception $exception) {
-            Log::channel('mylog')->error('Failed SMS: ' . $payLoad);
+            Log::channel('mylog')->error('Failed SMS: '.$payLoad);
 
             return false;
         }
 
-        if ($feedback->getReasonPhrase() != 'OK')
+        if ($feedback->getReasonPhrase() != 'OK') {
             return false;
+        }
 
         return true;
     }
