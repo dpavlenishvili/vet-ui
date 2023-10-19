@@ -373,15 +373,15 @@ class UserApiController extends Controller
      *      )
      * )
      */
-    public function sendSms(Request $request)
+    public function sendSms()
     {
         $sms = random_int(1000, 9999);
-        $request = (new SmsFacade())->set('phone', $request->get('phone'))->set('text', 'SMS code: '.$sms)->send();
+        $request = (new SmsFacade())->set('phone', request()->get('phone'))->set('text', 'SMS code: '.$sms)->send();
 
-        Sms::where('phone', $request->get('phone'))->delete();
+        Sms::where('phone', request()->get('phone'))->delete();
 
         Sms::create([
-            $request->get('phone'),
+            'phone' => request()->get('phone'),
             'code' => $sms,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
