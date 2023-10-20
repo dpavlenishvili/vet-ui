@@ -174,6 +174,18 @@ class User
 
     /**
      * @OA\Property(
+     *      title="Photo",
+     *      description="Photo of the user",
+     *      example="/users/photos/qwertyuio.jpg",
+     *      type="['null', string]"
+     * )
+     *
+     * @var string
+     */
+    public $photo;
+
+    /**
+     * @OA\Property(
      *      title="Is active",
      *      description="Is active user",
      *      format="bool",

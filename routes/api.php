@@ -34,7 +34,7 @@ Route::group([
         'prefix' => 'auth',
     ], function ($router) {
         Route::post('login', 'AuthApiController@login')->name('login');
-        Route::post('login/2fa', 'AuthApiController@validateLogin');
+        Route::post('login/2fa', 'AuthApiController@validateLogin')->name('2fa.login');
         Route::delete('logout', 'AuthApiController@logout');
         Route::post('refresh', 'AuthApiController@refresh');
         Route::get('me', 'AuthApiController@me');

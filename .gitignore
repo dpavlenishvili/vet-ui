@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/users/photos
 /storage/*.key
 /vendor
 /frontend/.angular
