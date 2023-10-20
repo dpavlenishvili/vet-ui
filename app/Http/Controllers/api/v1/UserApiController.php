@@ -503,7 +503,7 @@ class UserApiController extends Controller
     {
         $sms = Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
 
-        if (!$sms) {
+        if (! $sms) {
             return response()->json(['status' => false, 'msg' => '2fa code not valid'])->setStatusCode(400);
         }
 
