@@ -26,6 +26,18 @@ class UserReq
 
     /**
      * @OA\Property(
+     *      title="Phone",
+     *      description="Phone number",
+     *      example="555123456",
+     *      type="string"
+     * )
+     *
+     * @var string
+     */
+    public $phone;
+
+    /**
+     * @OA\Property(
      *      title="First name",
      *      description="First name of the user",
      *      example="John",
@@ -52,7 +64,7 @@ class UserReq
      * @OA\Property(
      *      title="Gender",
      *      description="gender of the user",
-     *      example="Male",
+     *      example="male",
      *      type="[null, string]"
      * )
      *
@@ -157,4 +169,16 @@ class UserReq
      * @var string
      */
     public $sms_code;
+
+    /**
+     * @OA\Property(
+     *      title="Photo",
+     *      description="Photo of the user",
+     *      example="base64 string",
+     *      type="[null, string]"
+     * )
+     *
+     * @var string
+     */
+    public $photo;
 }

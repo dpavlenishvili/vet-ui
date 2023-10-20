@@ -203,8 +203,12 @@ class UserApiController extends Controller
      *      )
      * )
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
+        if (auth()->user()->id !== $user->id) {
+            abort(404);
+        }
+
         $user->update($request->all());
 
         return (new UserResource($user))
@@ -503,7 +507,7 @@ class UserApiController extends Controller
     {
         $sms = Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
 
-        if (!$sms) {
+        if (! $sms) {
             return response()->json(['status' => false, 'msg' => '2fa code not valid'])->setStatusCode(400);
         }
 
