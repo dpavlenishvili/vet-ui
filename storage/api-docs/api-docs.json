@@ -399,7 +399,9 @@
         },
         "/general/countries": {
             "get": {
-                "tags": ["Generals"],
+                "tags": [
+                    "Generals"
+                ],
                 "summary": "Get list of countries",
                 "description": "Returns list of countries",
                 "operationId": "GetCountriesList",
@@ -439,7 +441,9 @@
         },
         "/users": {
             "get": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Get list of users",
                 "description": "Returns list of users",
                 "operationId": "getUserList",
@@ -474,7 +478,9 @@
                 }
             },
             "post": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Store new user",
                 "description": "Returns user data",
                 "operationId": "storeUser",
@@ -524,7 +530,9 @@
         },
         "/users/{id}": {
             "get": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Get user information",
                 "description": "Returns user data",
                 "operationId": "getUserById",
@@ -571,7 +579,9 @@
                 }
             },
             "put": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Update existing user",
                 "description": "Returns updated user data",
                 "operationId": "updateUser",
@@ -631,7 +641,9 @@
                 }
             },
             "delete": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Delete existing user",
                 "description": "Deletes a record and returns no content",
                 "operationId": "deleteUser",
@@ -678,7 +690,9 @@
         },
         "/register/validate": {
             "get": {
-                "tags": ["Register"],
+                "tags": [
+                    "Register"
+                ],
                 "summary": "Validate Person",
                 "description": "Validate person by Personal Id and Last name",
                 "operationId": "ValidatePerson",
@@ -743,7 +757,9 @@
         },
         "/sms/send": {
             "get": {
-                "tags": ["SMS"],
+                "tags": [
+                    "SMS"
+                ],
                 "summary": "Send one time code",
                 "description": "Send one time code to validate phone number",
                 "operationId": "Send Sms code",
@@ -796,7 +812,9 @@
         },
         "/sms/validate": {
             "post": {
-                "tags": ["SMS"],
+                "tags": [
+                    "SMS"
+                ],
                 "summary": "Validate SMS code",
                 "description": "Validate SMS code",
                 "operationId": "validate Sms",
@@ -806,7 +824,10 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": ["phone", "sms_code"],
+                                "required": [
+                                    "phone",
+                                    "sms_code"
+                                ],
                                 "properties": {
                                     "phone": {
                                         "description": "Phone number",
@@ -864,7 +885,9 @@
         },
         "/register": {
             "post": {
-                "tags": ["Register"],
+                "tags": [
+                    "Register"
+                ],
                 "summary": "Register user",
                 "description": "Returns user data",
                 "operationId": "Register",
@@ -1008,6 +1031,12 @@
                         "format": "email",
                         "example": "example@example.com"
                     },
+                    "photo": {
+                        "title": "Photo",
+                        "description": "Photo of the user",
+                        "type": "['null', string]",
+                        "example": "/users/photos/qwertyuio.jpg"
+                    },
                     "isActive": {
                         "title": "Is active",
                         "description": "Is active user",
@@ -1075,13 +1104,27 @@
             "UserReq": {
                 "title": "User request",
                 "description": "User request body data",
-                "required": ["pid", "phone", "first_name", "last_name", "gender", "birth_date", "residential"],
+                "required": [
+                    "pid",
+                    "phone",
+                    "first_name",
+                    "last_name",
+                    "gender",
+                    "birth_date",
+                    "residential"
+                ],
                 "properties": {
                     "pid": {
                         "title": "Personal Id",
                         "description": "Personal Id of project",
                         "type": "string",
                         "example": "01000000000"
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "description": "Phone number",
+                        "type": "string",
+                        "example": "555123456"
                     },
                     "first_name": {
                         "title": "First name",
@@ -1099,7 +1142,7 @@
                         "title": "Gender",
                         "description": "gender of the user",
                         "type": "[null, string]",
-                        "example": "Male"
+                        "example": "male"
                     },
                     "birth_date": {
                         "title": "Birth date",
@@ -1150,6 +1193,12 @@
                         "description": "2fa code of the user",
                         "type": "[null, string]",
                         "example": "1234"
+                    },
+                    "photo": {
+                        "title": "Photo",
+                        "description": "Photo of the user",
+                        "type": "[null, string]",
+                        "example": "base64 string"
                     }
                 },
                 "type": "object"
