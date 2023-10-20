@@ -1,0 +1,59 @@
+{
+    "name": "ui",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "frontend/libs/ui/src",
+    "prefix": "v-ui",
+    "tags": [],
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/angular:package",
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+            "options": {
+                "project": "frontend/libs/ui/ng-package.json"
+            },
+            "configurations": {
+                "production": {
+                    "tsConfig": "frontend/libs/ui/tsconfig.lib.prod.json"
+                },
+                "development": {
+                    "tsConfig": "frontend/libs/ui/tsconfig.lib.json"
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "frontend/libs/ui/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": [
+                    "frontend/libs/ui/**/*.ts",
+                    "frontend/libs/ui/**/*.html",
+                    "frontend/libs/ui/package.json",
+                    "frontend/libs/ui/card/**/*.ts",
+                    "frontend/libs/ui/card/**/*.html",
+                    "frontend/libs/ui/button/**/*.ts",
+                    "frontend/libs/ui/button/**/*.html",
+                    "frontend/libs/ui/input/**/*.ts",
+                    "frontend/libs/ui/input/**/*.html",
+                    "frontend/libs/ui/dropdown/**/*.ts",
+                    "frontend/libs/ui/dropdown/**/*.html"
+                ]
+            }
+        }
+    }
+}

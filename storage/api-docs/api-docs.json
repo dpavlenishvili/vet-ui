@@ -17,9 +17,7 @@
     "paths": {
         "/auth/login": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "User authentication",
                 "operationId": "Login User",
                 "requestBody": {
@@ -165,9 +163,7 @@
         },
         "/auth/login/2fa": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "User authentication with 2fa code",
                 "operationId": "Validate 2fa code",
                 "requestBody": {
@@ -274,9 +270,7 @@
         },
         "/auth/me": {
             "get": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Get user info",
                 "operationId": "Get user",
                 "parameters": [
@@ -306,9 +300,7 @@
         },
         "/auth/logout": {
             "delete": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Logout user",
                 "operationId": "Logout user",
                 "parameters": [
@@ -350,9 +342,7 @@
         },
         "/auth/refresh": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Refresh token",
                 "operationId": "Refresh token",
                 "parameters": [
@@ -399,9 +389,7 @@
         },
         "/auth/password": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Change password for user",
                 "operationId": "Change password",
                 "requestBody": {
@@ -508,9 +496,7 @@
         },
         "/general/countries": {
             "get": {
-                "tags": [
-                    "Generals"
-                ],
+                "tags": ["Generals"],
                 "summary": "Get list of countries",
                 "description": "Returns list of countries",
                 "operationId": "GetCountriesList",
@@ -550,9 +536,7 @@
         },
         "/users": {
             "get": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Get list of users",
                 "description": "Returns list of users",
                 "operationId": "getUserList",
@@ -587,9 +571,7 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Store new user",
                 "description": "Returns user data",
                 "operationId": "storeUser",
@@ -639,9 +621,7 @@
         },
         "/users/{id}": {
             "get": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Get user information",
                 "description": "Returns user data",
                 "operationId": "getUserById",
@@ -688,9 +668,7 @@
                 }
             },
             "put": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Update existing user",
                 "description": "Returns updated user data",
                 "operationId": "updateUser",
@@ -750,9 +728,7 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Delete existing user",
                 "description": "Deletes a record and returns no content",
                 "operationId": "deleteUser",
@@ -799,9 +775,7 @@
         },
         "/register/validate": {
             "get": {
-                "tags": [
-                    "Register"
-                ],
+                "tags": ["Register"],
                 "summary": "Validate Person",
                 "description": "Validate person by Personal Id and Last name",
                 "operationId": "ValidatePerson",
@@ -866,9 +840,7 @@
         },
         "/sms/send": {
             "get": {
-                "tags": [
-                    "SMS"
-                ],
+                "tags": ["SMS"],
                 "summary": "Send one time code",
                 "description": "Send one time code to validate phone number",
                 "operationId": "Send Sms code",
@@ -921,9 +893,7 @@
         },
         "/sms/validate": {
             "post": {
-                "tags": [
-                    "SMS"
-                ],
+                "tags": ["SMS"],
                 "summary": "Validate SMS code",
                 "description": "Validate SMS code",
                 "operationId": "validate Sms",
@@ -933,10 +903,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "phone",
-                                    "sms_code"
-                                ],
+                                "required": ["phone", "sms_code"],
                                 "properties": {
                                     "phone": {
                                         "description": "Phone number",
@@ -994,9 +961,7 @@
         },
         "/register": {
             "post": {
-                "tags": [
-                    "Register"
-                ],
+                "tags": ["Register"],
                 "summary": "Register user",
                 "description": "Returns user data",
                 "operationId": "Register",
@@ -1213,15 +1178,7 @@
             "UserReq": {
                 "title": "User request",
                 "description": "User request body data",
-                "required": [
-                    "pid",
-                    "phone",
-                    "first_name",
-                    "last_name",
-                    "gender",
-                    "birth_date",
-                    "residential"
-                ],
+                "required": ["pid", "phone", "first_name", "last_name", "gender", "birth_date", "residential"],
                 "properties": {
                     "pid": {
                         "title": "Personal Id",
