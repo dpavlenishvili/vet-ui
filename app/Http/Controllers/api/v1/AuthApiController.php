@@ -8,6 +8,8 @@ use App\Http\Resources\UserResource;
 use App\Models\Sms;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use OpenApi\Annotations as OA;
 
 class AuthApiController extends Controller
@@ -19,7 +21,7 @@ class AuthApiController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'validateLogin']]);
+        $this->middleware('auth:api', ['except' => ['login', 'validateLogin', 'changePassword']]);
     }
 
     /**
@@ -416,6 +418,119 @@ class AuthApiController extends Controller
     public function refresh(): JsonResponse
     {
         return $this->respondWithToken(auth()->refresh());
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/auth/password",
+     *      operationId="Change password",
+     *      tags={"Auth"},
+     *      summary="Change password for user",
+     *      @OA\RequestBody(
+     *            required=true,
+     *            @OA\JsonContent(
+     *                @OA\Property(
+     *                    type="string",
+     *                    default="010000000000",
+     *                    description="Personal ID",
+     *                    property="pid"
+     *                ),
+     *                @OA\Property(
+     *                    type="string",
+     *                    default="password",
+     *                    description="Password",
+     *                    property="password"
+     *                ),
+     *                @OA\Property(
+     *                    type="string",
+     *                    default="password",
+     *                    description="New Password",
+     *                    property="new_password"
+     *                ),
+     *                @OA\Property(
+     *                    type="string",
+     *                    default="password",
+     *                    description="Password confirmation",
+     *                    property="password_confirmation"
+     *                )
+     *            )
+     *       ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(
+     *                 @OA\Property(
+     *                       type="boolean",
+     *                       default="true",
+     *                       description="Status",
+     *                       property="status"
+     *                  ),
+     *                  @OA\Property(
+     *                      type="string",
+     *                      default="Password updated",
+     *                      description="Password updated",
+     *                      property="msg"
+     *                  )
+     *            )
+     *       ),
+     *       @OA\Response(
+     *           response=401,
+     *           description="Unauthenticated",
+     *           @OA\JsonContent(
+     *                 @OA\Property(
+     *                      type="boolean",
+     *                      default="false",
+     *                      description="Status",
+     *                      property="status"
+     *                 ),
+     *                 @OA\Property(
+     *                     type="string",
+     *                     default="Invalid credentials",
+     *                     description="Message",
+     *                     property="msg"
+     *                 )
+     *            )
+     *       ),
+     *        @OA\Response(
+     *             response=400,
+     *             description="Password confirmation does not match",
+     *             @OA\JsonContent(
+     *                   @OA\Property(
+     *                        type="boolean",
+     *                        default="false",
+     *                        description="Status",
+     *                        property="status"
+     *                   ),
+     *                   @OA\Property(
+     *                       type="string",
+     *                       default="Password confirmation does not match",
+     *                       description="Password confirmation does not match",
+     *                       property="msg"
+     *                   )
+     *              )
+     *         )
+     *     )
+     * )
+     *
+     * Change password
+     *
+     * @return JsonResponse
+     */
+    public function changePassword(): JsonResponse
+    {
+        if (! Auth::attempt(['pid' => request()->get('pid'), 'password' => request()->get('password')])) {
+            return response()->json(['status' => false, 'msg' => 'Invalid credentials'], 401);
+        }
+
+        if (request()->get('new_password') !== request()->get('password_confirmation')) {
+            return response()->json(['status' => false, 'msg' => 'Password confirmation does not match'], 400);
+        }
+
+        User::where('pid', request()->get('pid'))->update([
+            'password' => Hash::make(request()->get('new_password')),
+        ]);
+
+        return response()->json(['status' => true, 'msg' => 'Password updated']);
     }
 
     /**

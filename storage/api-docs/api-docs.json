@@ -397,6 +397,115 @@
                 }
             }
         },
+        "/auth/password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Change password for user",
+                "operationId": "Change password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pid": {
+                                        "description": "Personal ID",
+                                        "type": "string",
+                                        "default": "010000000000"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "default": "password"
+                                    },
+                                    "new_password": {
+                                        "description": "New Password",
+                                        "type": "string",
+                                        "default": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Password confirmation",
+                                        "type": "string",
+                                        "default": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "msg": {
+                                            "description": "Password updated",
+                                            "type": "string",
+                                            "default": "Password updated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Password confirmation does not match",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Password confirmation does not match",
+                                            "type": "string",
+                                            "default": "Password confirmation does not match"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/general/countries": {
             "get": {
                 "tags": [

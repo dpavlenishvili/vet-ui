@@ -38,5 +38,6 @@ Route::group([
         Route::delete('logout', 'AuthApiController@logout');
         Route::post('refresh', 'AuthApiController@refresh');
         Route::get('me', 'AuthApiController@me');
+        Route::post('password', 'AuthApiController@changePassword');
     });
 });
