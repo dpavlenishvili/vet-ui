@@ -293,18 +293,30 @@ class UserApiController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *               type="object",
-     *               @OA\Property(
-     *                   type="string",
-     *                   default="John",
-     *                   description="First name",
-     *                   property="firstName"
-     *               ),
-     *               @OA\Property(
+     *              @OA\Property(
      *                    type="string",
-     *                    default="1999-12-31",
-     *                    description="Birth date",
-     *                    property="birthDate"
-     *               )
+     *                    default="John",
+     *                    description="First name",
+     *                    property="firstName"
+     *                ),
+     *                @OA\Property(
+     *                     type="string",
+     *                     default="1999-12-31",
+     *                     description="Birth date",
+     *                     property="birthDate"
+     *                ),
+     *                @OA\Property(
+     *                    type="string",
+     *                    default="male",
+     *                    description="Gender",
+     *                    property="gender"
+     *                ),
+     *                @OA\Property(
+     *                     type="string",
+     *                     default="base64 string",
+     *                     description="photo of user",
+     *                     property="photo"
+     *                )
      *           )
      *       ),
      *      @OA\Response(
@@ -322,9 +334,9 @@ class UserApiController extends Controller
      *      )
      * )
      */
-    public function validatePerson(Request $request)
+    public function validatePerson()
     {
-        $request = (new Identity($request->get('pid'), $request->get('last_name')))->get();
+        $request = (new Identity(request()->get('pid'), request()->get('last_name')))->get();
 
         if (! $request || ! $request->json('firstName')) {
             return response()->json(['status' => false])->setStatusCode(400);
@@ -332,7 +344,12 @@ class UserApiController extends Controller
 
         $timeStamp = $request->json('birthDate') / 1000;
 
-        return ['firstName' => $request->json('firstName'), 'birthDate' => date('Y-m-d', $timeStamp)];
+        return [
+            'firstName' => $request->json('firstName'),
+            'birthDate' => date('Y-m-d', $timeStamp),
+            'gender' => $request->json('gender') === 1 ? 'male' : 'female',
+            'photo' => $request->json('photos.base64Binary.0')
+        ];
     }
 
     /**
