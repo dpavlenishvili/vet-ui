@@ -23,7 +23,7 @@
                                 : ''),
                             (this.name = 'UnsubscriptionError'),
                             (this.errors = n);
-                    },
+                    }
             );
             function Gr(e, t) {
                 if (e) {
@@ -158,7 +158,7 @@
                               (function gt(e) {
                                   return ji('N', e, void 0);
                               })(t),
-                              this,
+                              this
                           )
                         : this._next(t);
                 }
@@ -168,7 +168,7 @@
                               (function Cr(e) {
                                   return ji('E', void 0, e);
                               })(t),
-                              this,
+                              this
                           )
                         : ((this.isStopped = !0), this._error(t));
                 }
@@ -352,7 +352,7 @@
                             this.subscribe(
                                 (s) => (i = s),
                                 (s) => o(s),
-                                () => r(i),
+                                () => r(i)
                             );
                         });
                     }
@@ -367,7 +367,7 @@
                 (e) =>
                     function () {
                         e(this), (this.name = 'ObjectUnsubscribedError'), (this.message = 'object unsubscribed');
-                    },
+                    }
             );
             let on = (() => {
                 class e extends at {
@@ -547,7 +547,7 @@
                     n.subscribe(
                         ct(r, (i) => {
                             r.next(e.call(t, i, o++));
-                        }),
+                        })
                     );
                 });
             }
@@ -610,7 +610,7 @@
                 return new TypeError(
                     `You provided ${
                         null !== e && 'object' == typeof e ? 'an invalid object' : `'${e}'`
-                    } where a stream was expected. You can provide an Observable, Promise, ReadableStream, Array, AsyncIterable, or Iterable.`,
+                    } where a stream was expected. You can provide an Observable, Promise, ReadableStream, Array, AsyncIterable, or Iterable.`
                 );
             }
             const te = (function De() {
@@ -702,7 +702,7 @@
                                     (n) => {
                                         t.closed || (t.next(n), t.complete());
                                     },
-                                    (n) => t.error(n),
+                                    (n) => t.error(n)
                                 ).then(null, _o);
                             });
                         })(e);
@@ -815,21 +815,21 @@
                                                       } catch (S) {
                                                           t.error(S);
                                                       }
-                                              },
-                                          ),
+                                              }
+                                          )
                                       );
                                   };
                               return (
                                   e.subscribe(
                                       ct(t, h, () => {
                                           (d = !0), f();
-                                      }),
+                                      })
                                   ),
                                   () => {
                                       a?.();
                                   }
                               );
-                          })(r, o, e, n),
+                          })(r, o, e, n)
                       ));
             }
             function A(e = 1 / 0) {
@@ -853,8 +853,8 @@
                             r,
                             (o) => B(r, e, () => r.next(o), t),
                             () => B(r, e, () => r.complete(), t),
-                            (o) => B(r, e, () => r.error(o), t),
-                        ),
+                            (o) => B(r, e, () => r.error(o), t)
+                        )
                     );
                 });
             }
@@ -877,7 +877,7 @@
                                 });
                             },
                             0,
-                            !0,
+                            !0
                         );
                     });
                 });
@@ -926,7 +926,7 @@
                                                               i ? n.complete() : n.next(o);
                                                           },
                                                           0,
-                                                          !0,
+                                                          !0
                                                       );
                                               }),
                                               () => je(r?.return) && r.return()
@@ -1040,14 +1040,14 @@
                                         (d) => r.next(t ? t(u, d, l, c++) : d),
                                         () => {
                                             (o = null), a();
-                                        },
-                                    )),
+                                        }
+                                    ))
                                 );
                             },
                             () => {
                                 (s = !0), a();
-                            },
-                        ),
+                            }
+                        )
                     );
                 });
             }
@@ -1096,7 +1096,7 @@
                     super(
                         (function ya(e, t) {
                             return `NG0${Math.abs(e)}${t ? ': ' + t : ''}`;
-                        })(t, n),
+                        })(t, n)
                     ),
                         (this.code = t);
                 }
@@ -1111,7 +1111,7 @@
                 null == e &&
                     (function re(e, t, n, r) {
                         throw new Error(
-                            `ASSERTION ERROR: ${e}` + (null == r ? '' : ` [Expected=> ${n} ${r} ${t} <=Actual]`),
+                            `ASSERTION ERROR: ${e}` + (null == r ? '' : ` [Expected=> ${n} ${r} ${t} <=Actual]`)
                         );
                     })(t, e, null, '!=');
             }
@@ -2240,7 +2240,7 @@
                                     : 'object' == typeof e && null != e && 'function' == typeof e.type
                                     ? e.type.name || e.type.toString()
                                     : ue(e);
-                            })(i[n]),
+                            })(i[n])
                         );
                     const a = Fa(s.canSeeViewProviders);
                     s.resolving = !0;
@@ -2834,7 +2834,7 @@
                                                 if (t.hasOwnProperty(s)) {
                                                     let a = t[s];
                                                     i.push(
-                                                        s + ':' + ('string' == typeof a ? JSON.stringify(a) : Dt(a)),
+                                                        s + ':' + ('string' == typeof a ? JSON.stringify(a) : Dt(a))
                                                     );
                                                 }
                                             o = `{${i.join(', ')}}`;
@@ -2908,7 +2908,7 @@
                                       }
                                       return r;
                                   })(e),
-                                  au,
+                                  au
                               );
                     })(t);
                     if (io(t) || !0 !== t.multi) this.records.get(n);
@@ -3162,7 +3162,7 @@
                                                     },
                                                     void 0,
                                                     () => {},
-                                                    () => {},
+                                                    () => {}
                                                 )),
                                                 e.fakeTopEventTask.invoke();
                                         })),
@@ -3331,7 +3331,7 @@
                         return () => {
                             i.unsubscribe(), s.unsubscribe();
                         };
-                    }).pipe(qi()),
+                    }).pipe(qi())
                 );
             }
             function lr(e) {
@@ -3562,8 +3562,8 @@
                                         e[Oo].rendererFactory.createRenderer(r, n),
                                         null,
                                         null,
-                                        null,
-                                    ),
+                                        null
+                                    )
                                 );
                                 e[t.index] = a;
                             })(t, n, e.data[o + n.componentOffset]),
@@ -3605,7 +3605,7 @@
                           e.viewQuery,
                           e.schemas,
                           e.consts,
-                          e.id,
+                          e.id
                       ))
                     : t;
             }
@@ -3955,7 +3955,7 @@
                                 (c) => {
                                     this.all.has(c) && this.queue.set(c, i);
                                 },
-                                o,
+                                o
                             );
                         let a;
                         this.all.add(s), s.notify();
@@ -4297,7 +4297,7 @@
                                   (function p1(e) {
                                       const t = e.toLowerCase();
                                       return 'svg' === t ? 'svg' : 'math' === t ? 'math' : null;
-                                  })(h),
+                                  })(h)
                               ),
                         S = this.componentDef.signals ? 4608 : this.componentDef.onPush ? 576 : 528;
                     let _ = null;
@@ -4444,7 +4444,7 @@
                                   null,
                                   t.schemas,
                                   c,
-                                  null,
+                                  null
                               ));
                               return (
                                   null !== t.queries &&
@@ -4471,7 +4471,7 @@
                     (function BC() {
                         return oe.lFrame.contextLView;
                     })(),
-                    _e + e,
+                    _e + e
                 );
             }
             function Lr(e, t, n) {
@@ -4518,7 +4518,7 @@
                             t,
                             r[ce],
                             n,
-                            !1,
+                            !1
                         ),
                     Lr
                 );
@@ -4607,7 +4607,7 @@
                     o,
                     (function Hp() {
                         return oe.lFrame.currentNamespace;
-                    })(),
+                    })()
                 )
             );
             function Ru(e) {
@@ -4744,7 +4744,7 @@
                                 ...r,
                             ],
                             Dt(t),
-                            new Set(['environment']),
+                            new Set(['environment'])
                         )),
                         this._r3Injector.resolveInjectorInitializers(),
                         (this.instance = this._r3Injector.get(t));
@@ -4779,7 +4779,7 @@
                         ],
                         t.parent || uu(),
                         t.debugName,
-                        new Set(['environment']),
+                        new Set(['environment'])
                     );
                     (this.injector = n), t.runEnvironmentInitializers && n.resolveInjectorInitializers();
                 }
@@ -4883,7 +4883,7 @@
                                     null,
                                     null,
                                     r?.injector ?? null,
-                                    r?.hydrationInfo ?? null,
+                                    r?.hydrationInfo ?? null
                                 );
                             a[Ji] = e[t.index];
                             const c = e[Un];
@@ -5042,7 +5042,7 @@
                                       (function cI(e, t) {
                                           return e.nextSibling(t);
                                       })(n, o),
-                                      !1,
+                                      !1
                                   ),
                                   r
                               );
@@ -5237,7 +5237,7 @@
                             else {
                                 let n = this.getPendingTasks();
                                 (this._callbacks = this._callbacks.filter(
-                                    (r) => !r.updateCb || !r.updateCb(n) || (clearTimeout(r.timeoutId), !1),
+                                    (r) => !r.updateCb || !r.updateCb(n) || (clearTimeout(r.timeoutId), !1)
                                 )),
                                     (this._didWork = !0);
                             }
@@ -5264,7 +5264,7 @@
                         whenStable(n, r, o) {
                             if (o && !this.taskTrackingZone)
                                 throw new Error(
-                                    'Task tracking zone is required when passing an update callback to whenStable(). Is "zone.js/plugins/task-tracking" loaded?',
+                                    'Task tracking zone is required when passing an update callback to whenStable(). Is "zone.js/plugins/task-tracking" loaded?'
                                 );
                             this.addCallback(n, r, o), this._runCallbacksIfReady();
                         }
@@ -5362,7 +5362,7 @@
                                               ...e,
                                           ],
                                       });
-                                  })(a, r),
+                                  })(a, r)
                               );
                     }
                     return (function YA(e) {
@@ -5394,7 +5394,7 @@
                                     shouldCoalesceEventChangeDetection: e?.eventCoalescing ?? !1,
                                     shouldCoalesceRunChangeDetection: e?.runCoalescing ?? !1,
                                 };
-                            })({ eventCoalescing: r?.ngZoneEventCoalescing, runCoalescing: r?.ngZoneRunCoalescing }),
+                            })({ eventCoalescing: r?.ngZoneEventCoalescing, runCoalescing: r?.ngZoneRunCoalescing })
                         );
                         return o.run(() => {
                             const i = (function oT(e, t, n) {
@@ -5416,7 +5416,7 @@
                                             { provide: g0, useFactory: KA },
                                             { provide: bm, useFactory: Mm },
                                         ];
-                                    })(() => o),
+                                    })(() => o)
                                 ),
                                 s = i.injector.get(cr, null);
                             return (
@@ -5454,7 +5454,7 @@
                                                 })(i.injector.get(pr, wi) || wi),
                                                 this._moduleDoBootstrap(i),
                                                 i
-                                            ),
+                                            )
                                         )
                                     );
                                 })
@@ -5526,12 +5526,12 @@
                                                 ct(r, (s) => {
                                                     const a = t(s);
                                                     (i || !e(o, a)) && ((i = !1), (o = a), r.next(s));
-                                                }),
+                                                })
                                             );
                                         })
                                     );
                                 })(),
-                                qi(),
+                                qi()
                             )),
                             (this._injector = L(_n));
                     }
@@ -5840,7 +5840,7 @@
                         onPopState(n) {
                             this._removeListenerFns.push(
                                 this._platformLocation.onPopState(n),
-                                this._platformLocation.onHashChange(n),
+                                this._platformLocation.onHashChange(n)
                             );
                         }
                         getBaseHref() {
@@ -5896,7 +5896,7 @@
                         onPopState(n) {
                             this._removeListenerFns.push(
                                 this._platformLocation.onPopState(n),
-                                this._platformLocation.onHashChange(n),
+                                this._platformLocation.onHashChange(n)
                             );
                         }
                         getBaseHref() {
@@ -5976,7 +5976,7 @@
                                     if (!e || !t.startsWith(e)) return t;
                                     const n = t.substring(e.length);
                                     return '' === n || ['/', ';', '?', '#'].includes(n[0]) ? n : t;
-                                })(this._basePath, L0(n)),
+                                })(this._basePath, L0(n))
                             );
                         }
                         prepareExternalUrl(n) {
@@ -6942,14 +6942,14 @@
                                                         },
                                                         () => {
                                                             --s || r.complete();
-                                                        },
-                                                    ),
+                                                        }
+                                                    )
                                                 );
                                             },
-                                            r,
+                                            r
                                         );
                                 },
-                                r,
+                                r
                             );
                         };
                     })(
@@ -6960,8 +6960,8 @@
                                   (function cO(e, t) {
                                       return e.reduce((n, r, o) => ((n[r] = t[o]), n), {});
                                   })(o, s)
-                            : Ct,
-                    ),
+                            : Ct
+                    )
                 );
                 return n
                     ? i.pipe(
@@ -6969,9 +6969,9 @@
                               return ze((t) =>
                                   (function aO(e, t) {
                                       return sO(t) ? e(...t) : e(t);
-                                  })(e, t),
+                                  })(e, t)
                               );
-                          })(n),
+                          })(n)
                       )
                     : i;
             }
@@ -6982,7 +6982,7 @@
                 (e) =>
                     function () {
                         e(this), (this.name = 'EmptyError'), (this.message = 'no elements in sequence');
-                    },
+                    }
             );
             function oh(...e) {
                 return (function dO() {
@@ -7050,9 +7050,9 @@
                                     (r) => {
                                         this._teardown(), n.error(r);
                                     },
-                                    () => this._teardown(),
-                                ),
-                            ),
+                                    () => this._teardown()
+                                )
+                            )
                         ),
                             t.closed && ((this._connection = null), (t = bt.EMPTY));
                     }
@@ -7070,7 +7070,7 @@
                           t.subscribe(
                               ct(n, (o) => {
                                   ++r <= e && (n.next(o), e <= r && n.complete());
-                              }),
+                              })
                           );
                       });
             }
@@ -7091,8 +7091,8 @@
                             },
                             () => {
                                 r || n.next(e), n.complete();
-                            },
-                        ),
+                            }
+                        )
                     );
                 });
             }
@@ -7105,8 +7105,8 @@
                             (o) => {
                                 (r = !0), n.next(o);
                             },
-                            () => (r ? n.complete() : n.error(e())),
-                        ),
+                            () => (r ? n.complete() : n.error(e()))
+                        )
                     );
                 });
             }
@@ -7146,8 +7146,8 @@
                                       var u, c;
                                       a && (null === (u = r.unsubscribe) || void 0 === u || u.call(r)),
                                           null === (c = r.finalize) || void 0 === c || c.call(r);
-                                  },
-                              ),
+                                  }
+                              )
                           );
                       })
                     : Ct;
@@ -7160,7 +7160,7 @@
                     (r = t.subscribe(
                         ct(n, void 0, void 0, (s) => {
                             (i = be(e(s, go(e)(t)))), r ? (r.unsubscribe(), (r = null), i.subscribe(n)) : (o = !0);
-                        }),
+                        })
                     )),
                         o && (r.unsubscribe(), (r = null), i.subscribe(n));
                 });
@@ -7183,8 +7183,8 @@
                                   void 0,
                                   () => {
                                       r = null;
-                                  },
-                              ),
+                                  }
+                              )
                           );
                       });
             }
@@ -7624,7 +7624,7 @@
                         }
                         const a = new Ue(i.url, s);
                         return i === e && (t = a), a;
-                    })(e.root),
+                    })(e.root)
                 );
                 return t ?? o;
             }
@@ -8176,7 +8176,7 @@
                             data: { ...t.data, ...n.data },
                             resolve: { ...n.data, ...t.resolve, ...n.routeConfig?.data, ...n._resolvedData },
                         }),
-                        { params: {}, data: {}, resolve: {} },
+                        { params: {}, data: {}, resolve: {} }
                     );
                 })(n.slice(r));
             }
@@ -8411,8 +8411,8 @@
                                     Rt(
                                         ([i, s, a], u) => (
                                             (a = { ...i, ...s, ...a }), 0 === u ? Y(a) : Promise.resolve(a)
-                                        ),
-                                    ),
+                                        )
+                                    )
                                 )
                                 .subscribe((i) => {
                                     if (
@@ -8496,7 +8496,7 @@
                                 new Lt(e.data),
                                 e.outlet,
                                 e.component,
-                                e,
+                                e
                             );
                         })(t.value),
                         o = t.children.map((i) => oa(e, i));
@@ -8738,7 +8738,7 @@
                     aa(s, o.component ? (t ? t.children.getContext(i) : null) : t, n);
                 }),
                     n.canDeactivateChecks.push(
-                        new _c(o.component && t && t.outlet && t.outlet.isActivated ? t.outlet.component : null, o),
+                        new _c(o.component && t && t.outlet && t.outlet.isActivated ? t.outlet.component : null, o)
                     );
             }
             function ua(e) {
@@ -8759,9 +8759,9 @@
                                     return ut((n, r) => {
                                         (t ? oh(e, n, t) : oh(e, n)).subscribe(r);
                                     });
-                                })(Cc),
-                            ),
-                        ),
+                                })(Cc)
+                            )
+                        )
                     ).pipe(
                         ze((t) => {
                             for (const n of t)
@@ -8772,8 +8772,8 @@
                             return !0;
                         }),
                         Hr((t) => t !== Cc),
-                        Mi(1),
-                    ),
+                        Mi(1)
+                    )
                 );
             }
             function a_(e) {
@@ -8783,7 +8783,7 @@
                     kt((t) => {
                         if (vo(t)) throw t_(0, t);
                     }),
-                    ze((t) => !0 === t),
+                    ze((t) => !0 === t)
                 );
             }
             class Ec {
@@ -8849,7 +8849,7 @@
                 }
                 createSegments(t, n, r, o) {
                     return n.map((i) =>
-                        i.path.startsWith(':') ? this.findPosParam(t, i, o) : this.findOrReturn(i, r),
+                        i.path.startsWith(':') ? this.findPosParam(t, i, o) : this.findOrReturn(i, r)
                     );
                 }
                 findPosParam(t, n, r) {
@@ -8893,9 +8893,9 @@
                                                 return e && ua(e.canMatch);
                                             })(a)
                                                 ? a.canMatch(t, n)
-                                                : e.runInContext(() => a(t, n)),
+                                                : e.runInContext(() => a(t, n))
                                         );
-                                    }),
+                                    })
                                 ).pipe(Oi(), a_())
                               : Y(!0);
                       })(r, t, n).pipe(ze((s) => (!0 === s ? i : { ...Eh }))))
@@ -8995,7 +8995,7 @@
                                     ge,
                                     this.rootComponentType,
                                     null,
-                                    {},
+                                    {}
                                 ),
                                 o = new yr(r, n),
                                 i = new Xw('', o),
@@ -9008,14 +9008,14 @@
                                 this.inheritParamsAndData(i._root),
                                 { state: i, tree: s }
                             );
-                        }),
+                        })
                     );
                 }
                 match(t) {
                     return this.processSegmentGroup(this.injector, this.config, t.root, ge).pipe(
                         go((r) => {
                             throw r instanceof Ec ? this.noMatchError(r) : r;
-                        }),
+                        })
                     );
                 }
                 inheritParamsAndData(t) {
@@ -9059,11 +9059,11 @@
                                                 o &&
                                                     (() => {
                                                         a && s.next(u), s.complete();
-                                                    }),
-                                            ),
+                                                    })
+                                            )
                                         );
                                     };
-                                })(e, t, arguments.length >= 2, !0),
+                                })(e, t, arguments.length >= 2, !0)
                             );
                         })((i, s) => (i.push(...s), i)),
                         lc(null),
@@ -9082,12 +9082,12 @@
                                             ? -1
                                             : n.value.outlet === ge
                                             ? 1
-                                            : t.value.outlet.localeCompare(n.value.outlet),
+                                            : t.value.outlet.localeCompare(n.value.outlet)
                                     );
                                 })(s),
                                 Y(s)
                             );
-                        }),
+                        })
                     );
                 }
                 processSegment(t, n, r, o, i, s) {
@@ -9097,8 +9097,8 @@
                                 go((u) => {
                                     if (u instanceof Ec) return Y(null);
                                     throw u;
-                                }),
-                            ),
+                                })
+                            )
                         ),
                         po((a) => !!a),
                         go((a) => {
@@ -9109,7 +9109,7 @@
                                     ? Y([])
                                     : Pi(r);
                             throw a;
-                        }),
+                        })
                     );
                 }
                 processSegmentAgainstRoute(t, n, r, o, i, s, a) {
@@ -9136,7 +9136,7 @@
                               Ce((s) => {
                                   const a = new Ue(s, {});
                                   return this.processSegment(t, n, a, s, o, !1);
-                              }),
+                              })
                           );
                 }
                 expandRegularSegmentAgainstRouteUsingRedirect(t, n, r, o, i, s) {
@@ -9168,7 +9168,7 @@
                                 jn(r),
                                 r.component ?? r._loadedComponent ?? null,
                                 r,
-                                h_(r),
+                                h_(r)
                             ),
                             consumedSegments: [],
                             remainingSegments: [],
@@ -9188,13 +9188,13 @@
                                               jn(r),
                                               r.component ?? r._loadedComponent ?? null,
                                               r,
-                                              h_(r),
+                                              h_(r)
                                           ),
                                           consumedSegments: c,
                                           remainingSegments: l,
                                       }
-                                    : null,
-                            ),
+                                    : null
+                            )
                         );
                     return a.pipe(
                         Rt((u) =>
@@ -9207,16 +9207,16 @@
                                               { segmentGroup: m, slicedSegments: w } = l_(n, f, h, c);
                                           if (0 === w.length && m.hasChildren())
                                               return this.processChildren(l, c, m).pipe(
-                                                  ze((S) => (null === S ? null : [new yr(d, S)])),
+                                                  ze((S) => (null === S ? null : [new yr(d, S)]))
                                               );
                                           if (0 === c.length && 0 === w.length) return Y([new yr(d, [])]);
                                           const M = jn(r) === i;
                                           return this.processSegment(l, c, m, w, M ? ge : i, !0).pipe(
-                                              ze((S) => [new yr(d, S)]),
+                                              ze((S) => [new yr(d, S)])
                                           );
-                                      }),
-                                  ),
-                        ),
+                                      })
+                                  )
+                        )
                     );
                 }
                 getChildConfig(t, n, r) {
@@ -9237,9 +9237,9 @@
                                                         return e && ua(e.canLoad);
                                                     })(a)
                                                         ? a.canLoad(t, n)
-                                                        : e.runInContext(() => a(t, n)),
+                                                        : e.runInContext(() => a(t, n))
                                                 );
-                                            }),
+                                            })
                                         ).pipe(Oi(), a_());
                               })(t, n, r).pipe(
                                   Ce((o) =>
@@ -9247,12 +9247,12 @@
                                           ? this.configLoader.loadChildren(t, n).pipe(
                                                 kt((i) => {
                                                     (n._loadedRoutes = i.routes), (n._loadedInjector = i.injector);
-                                                }),
+                                                })
                                             )
                                           : (function $P(e) {
                                                 return Zs(n_(!1, 3));
-                                            })(),
-                                  ),
+                                            })()
+                                  )
                               )
                         : Y({ routes: [], injector: t });
                 }
@@ -9312,7 +9312,7 @@
                                 }),
                                 ah(() => {
                                     this.componentLoaders.delete(n);
-                                }),
+                                })
                             ),
                             o = new bw(r, () => new on()).pipe(ih());
                         return this.componentLoaders.set(n, o), o;
@@ -9325,7 +9325,7 @@
                                 return Br(e.loadChildren()).pipe(
                                     ze(g_),
                                     Ce((o) =>
-                                        o instanceof rD || Array.isArray(o) ? Y(o) : mt(t.compileModuleAsync(o)),
+                                        o instanceof rD || Array.isArray(o) ? Y(o) : mt(t.compileModuleAsync(o))
                                     ),
                                     ze((o) => {
                                         r && r(e);
@@ -9339,12 +9339,12 @@
                                                   (s = i.get(ki, [], { optional: !0, self: !0 }).flat())),
                                             { routes: s.map(Ch), injector: i }
                                         );
-                                    }),
+                                    })
                                 );
                             })(r, this.compiler, n, this.onLoadEndListener).pipe(
                                 ah(() => {
                                     this.childrenLoaders.delete(r);
-                                }),
+                                })
                             ),
                             s = new bw(i, () => new on()).pipe(ih());
                         return this.childrenLoaders.set(r, s), s;
@@ -9448,7 +9448,7 @@
                                                 const f = '';
                                                 return (
                                                     this.events.next(
-                                                        new Ai(u.id, this.urlSerializer.serialize(u.rawUrl), f, 0),
+                                                        new Ai(u.id, this.urlSerializer.serialize(u.rawUrl), f, 0)
                                                     ),
                                                     u.resolve(null),
                                                     N
@@ -9464,8 +9464,8 @@
                                                                     f.id,
                                                                     this.urlSerializer.serialize(f.extractedUrl),
                                                                     f.source,
-                                                                    f.restoredState,
-                                                                ),
+                                                                    f.restoredState
+                                                                )
                                                             ),
                                                             h !== this.transitions?.getValue() ? N : Promise.resolve(f)
                                                         );
@@ -9479,8 +9479,8 @@
                                                                     ...s,
                                                                     targetSnapshot: a,
                                                                     urlAfterRedirects: u,
-                                                                })),
-                                                            ),
+                                                                }))
+                                                            )
                                                         );
                                                     })(
                                                         this.environmentInjector,
@@ -9488,7 +9488,7 @@
                                                         this.rootComponentType,
                                                         n.config,
                                                         this.urlSerializer,
-                                                        n.paramsInheritanceStrategy,
+                                                        n.paramsInheritanceStrategy
                                                     ),
                                                     kt((f) => {
                                                         (i.targetSnapshot = f.targetSnapshot),
@@ -9501,10 +9501,10 @@
                                                             f.id,
                                                             this.urlSerializer.serialize(f.extractedUrl),
                                                             this.urlSerializer.serialize(f.urlAfterRedirects),
-                                                            f.targetSnapshot,
+                                                            f.targetSnapshot
                                                         );
                                                         this.events.next(h);
-                                                    }),
+                                                    })
                                                 );
                                             if (l && n.urlHandlingStrategy.shouldProcessUrl(u.currentRawUrl)) {
                                                 const {
@@ -9532,12 +9532,7 @@
                                                 const f = '';
                                                 return (
                                                     this.events.next(
-                                                        new Ai(
-                                                            u.id,
-                                                            this.urlSerializer.serialize(u.extractedUrl),
-                                                            f,
-                                                            1,
-                                                        ),
+                                                        new Ai(u.id, this.urlSerializer.serialize(u.extractedUrl), f, 1)
                                                     ),
                                                     u.resolve(null),
                                                     N
@@ -9549,7 +9544,7 @@
                                                 u.id,
                                                 this.urlSerializer.serialize(u.extractedUrl),
                                                 this.urlSerializer.serialize(u.urlAfterRedirects),
-                                                u.targetSnapshot,
+                                                u.targetSnapshot
                                             );
                                             this.events.next(c);
                                         }),
@@ -9561,11 +9556,11 @@
                                                         guards: yP(
                                                             u.targetSnapshot,
                                                             u.currentSnapshot,
-                                                            this.rootContexts,
+                                                            this.rootContexts
                                                         ),
                                                     }),
                                                 i
-                                            ),
+                                            )
                                         ),
                                         (function AP(e, t) {
                                             return Ce((n) => {
@@ -9599,18 +9594,18 @@
                                                                                                   e,
                                                                                                   t,
                                                                                                   n,
-                                                                                                  r,
+                                                                                                  r
                                                                                               )
                                                                                             : u.runInContext(() =>
-                                                                                                  c(e, t, n, r),
-                                                                                              ),
+                                                                                                  c(e, t, n, r)
+                                                                                              )
                                                                                     ).pipe(po());
-                                                                                }),
+                                                                                })
                                                                             ).pipe(Oi())
                                                                           : Y(!0);
-                                                                  })(o.component, o.route, n, t, r),
+                                                                  })(o.component, o.route, n, t, r)
                                                               ),
-                                                              po((o) => !0 !== o, !0),
+                                                              po((o) => !0 !== o, !0)
                                                           );
                                                       })(s, r, o, e).pipe(
                                                           Ce((a) =>
@@ -9659,10 +9654,10 @@
                                                                                                                   guards: t,
                                                                                                               }
                                                                                                             : null;
-                                                                                                    })(s),
+                                                                                                    })(s)
                                                                                                 )
                                                                                                 .filter(
-                                                                                                    (s) => null !== s,
+                                                                                                    (s) => null !== s
                                                                                                 )
                                                                                                 .map((s) =>
                                                                                                     Iw(() =>
@@ -9671,45 +9666,45 @@
                                                                                                                 (u) => {
                                                                                                                     const c =
                                                                                                                             ia(
-                                                                                                                                s.node,
+                                                                                                                                s.node
                                                                                                                             ) ??
                                                                                                                             n,
                                                                                                                         l =
                                                                                                                             xi(
                                                                                                                                 u,
-                                                                                                                                c,
+                                                                                                                                c
                                                                                                                             );
                                                                                                                     return Br(
                                                                                                                         (function bP(
-                                                                                                                            e,
+                                                                                                                            e
                                                                                                                         ) {
                                                                                                                             return (
                                                                                                                                 e &&
                                                                                                                                 ua(
-                                                                                                                                    e.canActivateChild,
+                                                                                                                                    e.canActivateChild
                                                                                                                                 )
                                                                                                                             );
                                                                                                                         })(
-                                                                                                                            l,
+                                                                                                                            l
                                                                                                                         )
                                                                                                                             ? l.canActivateChild(
                                                                                                                                   r,
-                                                                                                                                  e,
+                                                                                                                                  e
                                                                                                                               )
                                                                                                                             : c.runInContext(
                                                                                                                                   () =>
                                                                                                                                       l(
                                                                                                                                           r,
-                                                                                                                                          e,
-                                                                                                                                      ),
-                                                                                                                              ),
+                                                                                                                                          e
+                                                                                                                                      )
+                                                                                                                              )
                                                                                                                     ).pipe(
-                                                                                                                        po(),
+                                                                                                                        po()
                                                                                                                     );
-                                                                                                                },
-                                                                                                            ),
-                                                                                                        ).pipe(Oi()),
-                                                                                                    ),
+                                                                                                                }
+                                                                                                            )
+                                                                                                        ).pipe(Oi())
+                                                                                                    )
                                                                                                 );
                                                                                         return Y(i).pipe(Oi());
                                                                                     })(e, o.path, n),
@@ -9728,34 +9723,34 @@
                                                                                                         return (
                                                                                                             e &&
                                                                                                             ua(
-                                                                                                                e.canActivate,
+                                                                                                                e.canActivate
                                                                                                             )
                                                                                                         );
                                                                                                     })(a)
                                                                                                         ? a.canActivate(
                                                                                                               t,
-                                                                                                              e,
+                                                                                                              e
                                                                                                           )
                                                                                                         : s.runInContext(
                                                                                                               () =>
                                                                                                                   a(
                                                                                                                       t,
-                                                                                                                      e,
-                                                                                                                  ),
-                                                                                                          ),
+                                                                                                                      e
+                                                                                                                  )
+                                                                                                          )
                                                                                                 ).pipe(po());
-                                                                                            }),
+                                                                                            })
                                                                                         );
                                                                                         return Y(o).pipe(Oi());
-                                                                                    })(e, o.route, n),
-                                                                                ),
+                                                                                    })(e, o.route, n)
+                                                                                )
                                                                             ),
-                                                                            po((o) => !0 !== o, !0),
+                                                                            po((o) => !0 !== o, !0)
                                                                         );
                                                                     })(r, i, e, t)
-                                                                  : Y(a),
+                                                                  : Y(a)
                                                           ),
-                                                          ze((a) => ({ ...n, guardsResult: a })),
+                                                          ze((a) => ({ ...n, guardsResult: a }))
                                                       );
                                             });
                                         })(this.environmentInjector, (u) => this.events.next(u)),
@@ -9767,7 +9762,7 @@
                                                 this.urlSerializer.serialize(u.extractedUrl),
                                                 this.urlSerializer.serialize(u.urlAfterRedirects),
                                                 u.targetSnapshot,
-                                                !!u.guardsResult,
+                                                !!u.guardsResult
                                             );
                                             this.events.next(c);
                                         }),
@@ -9780,7 +9775,7 @@
                                                             c.id,
                                                             this.urlSerializer.serialize(c.extractedUrl),
                                                             this.urlSerializer.serialize(c.urlAfterRedirects),
-                                                            c.targetSnapshot,
+                                                            c.targetSnapshot
                                                         );
                                                         this.events.next(l);
                                                     }),
@@ -9809,7 +9804,7 @@
                                                                                             return [
                                                                                                 ...Object.keys(e),
                                                                                                 ...Object.getOwnPropertySymbols(
-                                                                                                    e,
+                                                                                                    e
                                                                                                 ),
                                                                                             ];
                                                                                         })(e);
@@ -9822,7 +9817,7 @@
                                                                                                     e,
                                                                                                     t,
                                                                                                     n,
-                                                                                                    r,
+                                                                                                    r
                                                                                                 ) {
                                                                                                     const o =
                                                                                                             ia(t) ?? r,
@@ -9831,30 +9826,30 @@
                                                                                                         i.resolve
                                                                                                             ? i.resolve(
                                                                                                                   t,
-                                                                                                                  n,
+                                                                                                                  n
                                                                                                               )
                                                                                                             : o.runInContext(
                                                                                                                   () =>
                                                                                                                       i(
                                                                                                                           t,
-                                                                                                                          n,
-                                                                                                                      ),
-                                                                                                              ),
+                                                                                                                          n
+                                                                                                                      )
+                                                                                                              )
                                                                                                     );
                                                                                                 })(e[s], t, n, r).pipe(
                                                                                                     po(),
                                                                                                     kt((a) => {
                                                                                                         i[s] = a;
-                                                                                                    }),
-                                                                                                ),
+                                                                                                    })
+                                                                                                )
                                                                                             ),
                                                                                             sh(1),
                                                                                             (function vO(e) {
                                                                                                 return ze(() => e);
                                                                                             })(i),
                                                                                             go((s) =>
-                                                                                                s_(s) ? N : Zs(s),
-                                                                                            ),
+                                                                                                s_(s) ? N : Zs(s)
+                                                                                            )
                                                                                         );
                                                                                     })(i, e, t, r).pipe(
                                                                                         ze(
@@ -9862,22 +9857,22 @@
                                                                                                 (e._resolvedData = s),
                                                                                                 (e.data = Kw(
                                                                                                     e,
-                                                                                                    n,
+                                                                                                    n
                                                                                                 ).resolve),
                                                                                                 o &&
                                                                                                     p_(o) &&
                                                                                                     (e.data[Ys] =
                                                                                                         o.title),
                                                                                                 null
-                                                                                            ),
-                                                                                        ),
+                                                                                            )
+                                                                                        )
                                                                                     )
                                                                                 );
-                                                                            })(s.route, r, e, t),
+                                                                            })(s.route, r, e, t)
                                                                         ),
                                                                         kt(() => i++),
                                                                         sh(1),
-                                                                        Ce((s) => (i === o.length ? Y(n) : N)),
+                                                                        Ce((s) => (i === o.length ? Y(n) : N))
                                                                     );
                                                                 });
                                                             })(n.paramsInheritanceStrategy, this.environmentInjector),
@@ -9886,7 +9881,7 @@
                                                                 complete: () => {
                                                                     l || this.cancelNavigationTransition(c, '', 2);
                                                                 },
-                                                            }),
+                                                            })
                                                         );
                                                     }),
                                                     kt((c) => {
@@ -9894,10 +9889,10 @@
                                                             c.id,
                                                             this.urlSerializer.serialize(c.extractedUrl),
                                                             this.urlSerializer.serialize(c.urlAfterRedirects),
-                                                            c.targetSnapshot,
+                                                            c.targetSnapshot
                                                         );
                                                         this.events.next(l);
-                                                    }),
+                                                    })
                                                 );
                                         }),
                                         bh((u) => {
@@ -9910,8 +9905,8 @@
                                                             kt((f) => {
                                                                 l.component = f;
                                                             }),
-                                                            ze(() => {}),
-                                                        ),
+                                                            ze(() => {})
+                                                        )
                                                     );
                                                 for (const f of l.children) d.push(...c(f));
                                                 return d;
@@ -9933,15 +9928,15 @@
                                             ze(
                                                 (o) => (
                                                     new vP(t, o.targetRouterState, o.currentRouterState, n, r).activate(
-                                                        e,
+                                                        e
                                                     ),
                                                     o
-                                                ),
+                                                )
                                             ))(
                                             this.rootContexts,
                                             n.routeReuseStrategy,
                                             (u) => this.events.next(u),
-                                            this.inputBindingEnabled,
+                                            this.inputBindingEnabled
                                         ),
                                         Mi(1),
                                         kt({
@@ -9952,8 +9947,8 @@
                                                         new Ur(
                                                             u.id,
                                                             this.urlSerializer.serialize(u.extractedUrl),
-                                                            this.urlSerializer.serialize(u.urlAfterRedirects),
-                                                        ),
+                                                            this.urlSerializer.serialize(u.urlAfterRedirects)
+                                                        )
                                                     ),
                                                     n.titleStrategy?.updateTitle(u.targetRouterState.snapshot),
                                                     u.resolve(!0);
@@ -9971,8 +9966,8 @@
                                             this.transitionAbortSubject.pipe(
                                                 kt((u) => {
                                                     throw u;
-                                                }),
-                                            ),
+                                                })
+                                            )
                                         ),
                                         ah(() => {
                                             s || a || this.cancelNavigationTransition(i, '', 1),
@@ -9985,8 +9980,8 @@
                                                         i.id,
                                                         this.urlSerializer.serialize(i.extractedUrl),
                                                         u.message,
-                                                        u.cancellationCode,
-                                                    ),
+                                                        u.cancellationCode
+                                                    )
                                                 ),
                                                     (function lP(e) {
                                                         return r_(e) && vo(e.url);
@@ -9999,8 +9994,8 @@
                                                         i.id,
                                                         this.urlSerializer.serialize(i.extractedUrl),
                                                         u,
-                                                        i.targetSnapshot ?? void 0,
-                                                    ),
+                                                        i.targetSnapshot ?? void 0
+                                                    )
                                                 );
                                                 try {
                                                     i.resolve(n.errorHandler(u));
@@ -10009,9 +10004,9 @@
                                                 }
                                             }
                                             return N;
-                                        }),
+                                        })
                                     );
-                                }),
+                                })
                             )
                         );
                     }
@@ -10180,10 +10175,10 @@
                                 ? ca.COMPLETE
                                 : n instanceof na && (0 === n.code || 1 === n.code)
                                 ? ca.REDIRECTING
-                                : ca.FAILED,
+                                : ca.FAILED
                         ),
                         Hr((n) => n !== ca.REDIRECTING),
-                        Mi(1),
+                        Mi(1)
                     )
                     .subscribe(() => {
                         t();
@@ -10250,7 +10245,7 @@
                                     },
                                     (n) => {
                                         this.console.warn(`Unhandled Navigation Error: ${n}`);
-                                    },
+                                    }
                                 ),
                             this.subscribeToNavigationEvents();
                     }
@@ -10273,7 +10268,7 @@
                                     (this.currentUrlTree = o.urlAfterRedirects),
                                         (this.rawUrlTree = this.urlHandlingStrategy.merge(
                                             o.urlAfterRedirects,
-                                            o.rawUrl,
+                                            o.rawUrl
                                         )),
                                         (this.routerState = o.targetRouterState),
                                         'deferred' === this.urlUpdateStrategy &&
@@ -10488,7 +10483,7 @@
                         this.location.replaceState(
                             this.urlSerializer.serialize(this.rawUrlTree),
                             '',
-                            this.generateNgRouterState(this.lastSuccessfulId, this.currentPageId),
+                            this.generateNgRouterState(this.lastSuccessfulId, this.currentPageId)
                         );
                     }
                     generateNgRouterState(n, r) {
@@ -10516,7 +10511,7 @@
                         this.subscription = this.router.events
                             .pipe(
                                 Hr((n) => n instanceof Ur),
-                                Ws(() => this.preload()),
+                                Ws(() => this.preload())
                             )
                             .subscribe(() => {});
                     }
@@ -10550,8 +10545,8 @@
                                         ? Y(void 0)
                                         : ((r._loadedRoutes = s.routes),
                                           (r._loadedInjector = s.injector),
-                                          this.processRoutes(s.injector ?? n, s.routes)),
-                                ),
+                                          this.processRoutes(s.injector ?? n, s.routes))
+                                )
                             );
                             return r.loadComponent && !r._loadedComponent
                                 ? mt([i, this.loader.loadComponent(r)]).pipe(A())
@@ -10625,8 +10620,8 @@
                                         new Zw(
                                             n,
                                             'popstate' === this.lastSource ? this.store[this.restoredId] : null,
-                                            r,
-                                        ),
+                                            r
+                                        )
                                     );
                                 });
                             }, 0);
@@ -10779,7 +10774,7 @@
                                                               r(!0), i.closed ? Y(void 0) : i
                                                           )),
                                                           o.initialNavigation();
-                                                  }),
+                                                  })
                                           );
                                   },
                               },
@@ -11269,7 +11264,7 @@
                                         Ne(50, 'path', 30)(51, 'path', 31)(52, 'path', 32)(53, 'path', 33)(
                                             54,
                                             'path',
-                                            34,
+                                            34
                                         ),
                                         U(),
                                         et(),
@@ -11505,7 +11500,7 @@
                         static assertZonePatched() {
                             if (p.Promise !== sn.ZoneAwarePromise)
                                 throw new Error(
-                                    'Zone.js has detected that ZoneAwarePromise `(window|global).Promise` has been overwritten.\nMost likely cause is that a Promise polyfill has been loaded after Zone.js (Polyfilling Promise api is not necessary when zone.js is loaded. If you must load one, do so before loading zone.js.)',
+                                    'Zone.js has detected that ZoneAwarePromise `(window|global).Promise` has been overwritten.\nMost likely cause is that a Promise polyfill has been loaded after Zone.js (Polyfilling Promise api is not necessary when zone.js is loaded. If you must load one, do so before loading zone.js.)'
                                 );
                         }
                         static get root() {
@@ -11590,7 +11585,7 @@
                                         (g.zone || yt).name +
                                         '; Execution: ' +
                                         this.name +
-                                        ')',
+                                        ')'
                                 );
                             if (g.state === Ve && (g.type === It || g.type === te)) return;
                             const fe = g.state != j;
@@ -11622,7 +11617,7 @@
                                 for (; B; ) {
                                     if (B === g.zone)
                                         throw Error(
-                                            `can not reschedule task to ${this.name} which is descendants of the original zone ${g.zone.name}`,
+                                            `can not reschedule task to ${this.name} which is descendants of the original zone ${g.zone.name}`
                                         );
                                     B = B.parent;
                                 }
@@ -11657,7 +11652,7 @@
                                         (g.zone || yt).name +
                                         '; Execution: ' +
                                         this.name +
-                                        ')',
+                                        ')'
                                 );
                             if (g.state === Se || g.state === j) {
                                 g._transitionTo($e, Se, j);
@@ -11761,7 +11756,7 @@
                                     this._scheduleTaskDlgt,
                                     this._scheduleTaskCurrZone,
                                     V,
-                                    g,
+                                    g
                                 )),
                                 y || (y = g);
                         else if (g.scheduleFn) g.scheduleFn(g);
@@ -11779,7 +11774,7 @@
                                   V,
                                   g,
                                   y,
-                                  B,
+                                  B
                               )
                             : g.callback.apply(y, B);
                     }
@@ -11861,7 +11856,7 @@
                             throw new Error(
                                 `${this.type} '${this.source}': can not transition to '${V}', expecting state '${g}'${
                                     y ? " or '" + y + "'" : ''
-                                }, was '${this._state}'.`,
+                                }, was '${this._state}'.`
                             );
                         (this._state = V), V == Ve && (this._zoneDelegates = null);
                     }
@@ -12139,7 +12134,7 @@
                             return ee.cbIdx >= 0 && 'function' == typeof k[ee.cbIdx]
                                 ? _o(ee.name, k[ee.cbIdx], ee, I)
                                 : T.apply(H, k);
-                        },
+                        }
                 );
             }
             function mn(p, v) {
@@ -12179,7 +12174,7 @@
                                   A.task && A.task.source,
                                   '; Value:',
                                   N,
-                                  N instanceof Error ? N.stack : void 0,
+                                  N instanceof Error ? N.stack : void 0
                               )
                             : console.error(A);
                     }
@@ -12294,7 +12289,7 @@
                                                     ? A.toString()
                                                     : Object.prototype.toString.call(A);
                                             })(E) +
-                                            (E && E.stack ? '\n' + E.stack : ''),
+                                            (E && E.stack ? '\n' + E.stack : '')
                                     );
                                 } catch (ae) {
                                     G = ae;
@@ -12339,7 +12334,7 @@
                                 it(E, !1, ae);
                             }
                         },
-                        E,
+                        E
                     );
                 }
                 const Me = function () {},
@@ -12377,7 +12372,7 @@
                                         ne.push(pe),
                                             x--,
                                             0 === x && ((Z = !0), ae(new V(ne, 'All promises were rejected')));
-                                    },
+                                    }
                                 );
                         });
                     }
@@ -12424,7 +12419,7 @@
                                     },
                                     (Ge) => {
                                         E ? ((me[He] = E.errorCallback(Ge)), G--, 0 === G && x(me)) : Z(Ge);
-                                    },
+                                    }
                                 );
                             } catch (Ge) {
                                 Z(Ge);
@@ -12498,7 +12493,7 @@
                                     let Z = x.constructor;
                                     return Z[B] || fe(Z), x;
                                 };
-                            })(A),
+                            })(A)
                         )),
                     (Promise[v.__symbol__('uncaughtPromiseErrors')] = k),
                     g
@@ -12762,7 +12757,7 @@
                                 },
                                 y,
                                 Se,
-                                !0,
+                                !0
                             )),
                         (j[T] = function () {
                             const E = this || p;
@@ -12822,7 +12817,7 @@
                                                 this,
                                                 x,
                                                 Ge.originalDelegate ? Ge.originalDelegate : Ge.callback,
-                                                Ge.options,
+                                                Ge.options
                                             );
                                         }
                                     }
@@ -12834,7 +12829,7 @@
                                                 this,
                                                 x,
                                                 Ge.originalDelegate ? Ge.originalDelegate : Ge.callback,
-                                                Ge.options,
+                                                Ge.options
                                             );
                                         }
                                     }
@@ -12890,7 +12885,7 @@
                         (D) =>
                             function (I, T) {
                                 (I[ct] = !0), D && D.apply(I, T);
-                            },
+                            }
                     );
             }
             function $i(p, v, C, D, I) {
@@ -13024,7 +13019,7 @@
                                 );
                             }
                             return Q.apply(p, Ie);
-                        },
+                        }
                 )),
                     (T = Ct(
                         p,
@@ -13040,7 +13035,7 @@
                                           ('number' == typeof ve ? delete H[ve] : ve && (ve[Bi] = null),
                                           ye.zone.cancelTask(ye))
                                         : Q.apply(p, Ie);
-                            },
+                            }
                     ));
             }
             Zone.__load_patch('legacy', (p) => {
@@ -13066,7 +13061,7 @@
                             (T, H, k) =>
                                 function (ee, Q) {
                                     return v.current.run(T, p, Q, k);
-                                },
+                                }
                         );
                 }),
                 Zone.__load_patch('EventTarget', (p, v, C) => {
@@ -13215,7 +13210,7 @@
                                 () =>
                                     function (F, De) {
                                         return (F[D] = 0 == De[2]), (F[H] = De[1]), yt.apply(F, De);
-                                    },
+                                    }
                             ),
                             ot = Re('fetchTaskAborting'),
                             Se = Re('fetchTaskScheduling'),
@@ -13230,7 +13225,7 @@
                                                 It = _o('XMLHttpRequest.send', le, te, rt, $);
                                             F && !0 === F[k] && !te.aborted && It.state === Et && It.invoke();
                                         }
-                                    },
+                                    }
                             ),
                             $e = Ct(
                                 Ie,
@@ -13244,7 +13239,7 @@
                                             if (null == te.cancelFn || (te.data && te.data.aborted)) return;
                                             te.zone.cancelTask(te);
                                         } else if (!0 === v.current[ot]) return $e.apply(F, De);
-                                    },
+                                    }
                             );
                     })(p);
                     const C = Re('xhrTask'),
@@ -13298,7 +13293,7 @@
                             (C) =>
                                 function (D, I) {
                                     Zone.current.scheduleMicroTask('queueMicrotask', I[0]);
-                                },
+                                }
                         );
                     })(p, C);
                 });

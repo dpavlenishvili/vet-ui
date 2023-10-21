@@ -14,7 +14,14 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
-        "paths": {}
+        "paths": {
+            "@vet/features/registration": ["frontend/libs/features/registration/src/index.ts"],
+            "@vet/ui": ["frontend/libs/ui/src/index.ts"],
+            "@vet/ui/button": ["frontend/libs/ui/button/src/index.ts"],
+            "@vet/ui/card": ["frontend/libs/ui/card/src/index.ts"],
+            "@vet/ui/dropdown": ["frontend/libs/ui/dropdown/src/index.ts"],
+            "@vet/ui/input": ["frontend/libs/ui/input/src/index.ts"]
+        }
     },
     "exclude": ["node_modules", "tmp"]
 }

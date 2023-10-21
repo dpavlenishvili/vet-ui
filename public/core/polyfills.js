@@ -27,7 +27,7 @@
                         static assertZonePatched() {
                             if (e.Promise !== oe.ZoneAwarePromise)
                                 throw new Error(
-                                    'Zone.js has detected that ZoneAwarePromise `(window|global).Promise` has been overwritten.\nMost likely cause is that a Promise polyfill has been loaded after Zone.js (Polyfilling Promise api is not necessary when zone.js is loaded. If you must load one, do so before loading zone.js.)',
+                                    'Zone.js has detected that ZoneAwarePromise `(window|global).Promise` has been overwritten.\nMost likely cause is that a Promise polyfill has been loaded after Zone.js (Polyfilling Promise api is not necessary when zone.js is loaded. If you must load one, do so before loading zone.js.)'
                                 );
                         }
                         static get root() {
@@ -112,7 +112,7 @@
                                         (t.zone || J).name +
                                         '; Execution: ' +
                                         this.name +
-                                        ')',
+                                        ')'
                                 );
                             if (t.state === x && (t.type === Q || t.type === P)) return;
                             const C = t.state != E;
@@ -144,7 +144,7 @@
                                 for (; k; ) {
                                     if (k === t.zone)
                                         throw Error(
-                                            `can not reschedule task to ${this.name} which is descendants of the original zone ${t.zone.name}`,
+                                            `can not reschedule task to ${this.name} which is descendants of the original zone ${t.zone.name}`
                                         );
                                     k = k.parent;
                                 }
@@ -179,7 +179,7 @@
                                         (t.zone || J).name +
                                         '; Execution: ' +
                                         this.name +
-                                        ')',
+                                        ')'
                                 );
                             if (t.state === A || t.state === E) {
                                 t._transitionTo(G, A, E);
@@ -283,7 +283,7 @@
                                     this._scheduleTaskDlgt,
                                     this._scheduleTaskCurrZone,
                                     T,
-                                    t,
+                                    t
                                 )),
                                 r || (r = t);
                         else if (t.scheduleFn) t.scheduleFn(t);
@@ -301,7 +301,7 @@
                                   T,
                                   t,
                                   r,
-                                  k,
+                                  k
                               )
                             : t.callback.apply(r, k);
                     }
@@ -383,7 +383,7 @@
                             throw new Error(
                                 `${this.type} '${this.source}': can not transition to '${T}', expecting state '${t}'${
                                     r ? " or '" + r + "'" : ''
-                                }, was '${this._state}'.`,
+                                }, was '${this._state}'.`
                             );
                         (this._state = T), T == x && (this._zoneDelegates = null);
                     }
@@ -661,7 +661,7 @@
                             return b.cbIdx >= 0 && 'function' == typeof d[b.cbIdx]
                                 ? Me(b.name, d[b.cbIdx], b, c)
                                 : a.apply(y, d);
-                        },
+                        }
                 );
             }
             function le(e, n) {
@@ -701,7 +701,7 @@
                                   l.task && l.task.source,
                                   '; Value:',
                                   u,
-                                  u instanceof Error ? u.stack : void 0,
+                                  u instanceof Error ? u.stack : void 0
                               )
                             : console.error(l);
                     }
@@ -816,7 +816,7 @@
                                                     ? l.toString()
                                                     : Object.prototype.toString.call(l);
                                             })(s) +
-                                            (s && s.stack ? '\n' + s.stack : ''),
+                                            (s && s.stack ? '\n' + s.stack : '')
                                     );
                                 } catch (S) {
                                     m = S;
@@ -861,7 +861,7 @@
                                 z(s, !1, S);
                             }
                         },
-                        s,
+                        s
                     );
                 }
                 const L = function () {},
@@ -899,7 +899,7 @@
                                         w.push(D),
                                             f--,
                                             0 === f && ((g = !0), S(new T(w, 'All promises were rejected')));
-                                    },
+                                    }
                                 );
                         });
                     }
@@ -946,7 +946,7 @@
                                     },
                                     (F) => {
                                         s ? ((Z[V] = s.errorCallback(F)), m--, 0 === m && f(Z)) : g(F);
-                                    },
+                                    }
                                 );
                             } catch (F) {
                                 g(F);
@@ -1020,7 +1020,7 @@
                                     let g = f.constructor;
                                     return g[k] || C(g), f;
                                 };
-                            })(l),
+                            })(l)
                         )),
                     (Promise[n.__symbol__('uncaughtPromiseErrors')] = d),
                     t
@@ -1280,7 +1280,7 @@
                                 },
                                 r,
                                 A,
-                                !0,
+                                !0
                             )),
                         (E[a] = function () {
                             const s = this || e;
@@ -1340,7 +1340,7 @@
                                                 this,
                                                 f,
                                                 F.originalDelegate ? F.originalDelegate : F.callback,
-                                                F.options,
+                                                F.options
                                             );
                                         }
                                     }
@@ -1352,7 +1352,7 @@
                                                 this,
                                                 f,
                                                 F.originalDelegate ? F.originalDelegate : F.callback,
-                                                F.options,
+                                                F.options
                                             );
                                         }
                                     }
@@ -1408,7 +1408,7 @@
                         (o) =>
                             function (c, a) {
                                 (c[$e] = !0), o && o.apply(c, a);
-                            },
+                            }
                     );
             }
             function Et(e, n, i, o, c) {
@@ -1542,7 +1542,7 @@
                                 );
                             }
                             return v.apply(e, M);
-                        },
+                        }
                 )),
                     (a = ae(
                         e,
@@ -1558,7 +1558,7 @@
                                           ('number' == typeof O ? delete y[O] : O && (O[Re] = null),
                                           N.zone.cancelTask(N))
                                         : v.apply(e, M);
-                            },
+                            }
                     ));
             }
             Zone.__load_patch('legacy', (e) => {
@@ -1584,7 +1584,7 @@
                             (a, y, d) =>
                                 function (b, v) {
                                     return n.current.run(a, e, v, d);
-                                },
+                                }
                         );
                 }),
                 Zone.__load_patch('EventTarget', (e, n, i) => {
@@ -1733,7 +1733,7 @@
                                 () =>
                                     function (h, I) {
                                         return (h[o] = 0 == I[2]), (h[y] = I[1]), J.apply(h, I);
-                                    },
+                                    }
                             ),
                             X = j('fetchTaskAborting'),
                             A = j('fetchTaskScheduling'),
@@ -1748,7 +1748,7 @@
                                                 Q = Me('XMLHttpRequest.send', R, P, q, _);
                                             h && !0 === h[d] && !P.aborted && Q.state === K && Q.invoke();
                                         }
-                                    },
+                                    }
                             ),
                             G = ae(
                                 M,
@@ -1762,7 +1762,7 @@
                                             if (null == P.cancelFn || (P.data && P.data.aborted)) return;
                                             P.zone.cancelTask(P);
                                         } else if (!0 === n.current[X]) return G.apply(h, I);
-                                    },
+                                    }
                             );
                     })(e);
                     const i = j('xhrTask'),
@@ -1816,7 +1816,7 @@
                             (i) =>
                                 function (o, c) {
                                     Zone.current.scheduleMicroTask('queueMicrotask', c[0]);
-                                },
+                                }
                         );
                     })(e, i);
                 });
