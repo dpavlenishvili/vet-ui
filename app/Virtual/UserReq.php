@@ -2,6 +2,8 @@
 
 namespace App\Virtual;
 
+use OpenApi\Annotations as OA;
+
 /**
  * @OA\Schema(
  *      title="User request",
@@ -22,7 +24,7 @@ class UserReq
      *
      * @var string
      */
-    public $pid;
+    public string $pid;
 
     /**
      * @OA\Property(
@@ -34,7 +36,7 @@ class UserReq
      *
      * @var string
      */
-    public $phone;
+    public string $phone;
 
     /**
      * @OA\Property(
@@ -46,7 +48,7 @@ class UserReq
      *
      * @var string
      */
-    public $first_name;
+    public string $first_name;
 
     /**
      * @OA\Property(
@@ -58,7 +60,7 @@ class UserReq
      *
      * @var string
      */
-    public $last_name;
+    public string $last_name;
 
     /**
      * @OA\Property(
@@ -70,7 +72,7 @@ class UserReq
      *
      * @var string
      */
-    public $gender;
+    public string $gender;
 
     /**
      * @OA\Property(
@@ -83,7 +85,7 @@ class UserReq
      *
      * @var string
      */
-    public $birth_date;
+    public string $birth_date;
 
     /**
      * @OA\Property(
@@ -95,7 +97,7 @@ class UserReq
      *
      * @var string
      */
-    public $residential;
+    public string $residential;
 
     /**
      * @OA\Property(
@@ -105,9 +107,9 @@ class UserReq
      *      type="[null, string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $region;
+    public string $region;
 
     /**
      * @OA\Property(
@@ -117,9 +119,9 @@ class UserReq
      *      type="[null, string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $city;
+    public ?string $city;
 
     /**
      * @OA\Property(
@@ -129,9 +131,9 @@ class UserReq
      *      type="[null, string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $address;
+    public ?string $address;
 
     /**
      * @OA\Property(
@@ -141,9 +143,9 @@ class UserReq
      *      type="[null, string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $alt_phone;
+    public ?string $alt_phone;
 
     /**
      * @OA\Property(
@@ -154,9 +156,9 @@ class UserReq
      *      type="[null, string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $email;
+    public ?string $email;
 
     /**
      * @OA\Property(
@@ -166,9 +168,9 @@ class UserReq
      *      type="[null, string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $sms_code;
+    public ?string $sms_code;
 
     /**
      * @OA\Property(
@@ -178,7 +180,7 @@ class UserReq
      *      type="[null, string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $photo;
+    public ?string $photo;
 }

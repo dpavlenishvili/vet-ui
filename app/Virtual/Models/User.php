@@ -2,6 +2,8 @@
 
 namespace App\Virtual\Models;
 
+use OpenApi\Annotations as OA;
+
 /**
  * @OA\Schema(
  *     title="User",
@@ -24,7 +26,7 @@ class User
      *
      * @var int
      */
-    public $id;
+    public int $id;
 
     /**
      * @OA\Property(
@@ -36,7 +38,7 @@ class User
      *
      * @var string
      */
-    public $pid;
+    public string $pid;
 
     /**
      * @OA\Property(
@@ -48,7 +50,7 @@ class User
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * @OA\Property(
@@ -60,7 +62,7 @@ class User
      *
      * @var string
      */
-    public $firstName;
+    public string $firstName;
 
     /**
      * @OA\Property(
@@ -72,7 +74,7 @@ class User
      *
      * @var string
      */
-    public $lastName;
+    public string $lastName;
 
     /**
      * @OA\Property(
@@ -84,7 +86,7 @@ class User
      *
      * @var string
      */
-    public $gender;
+    public string $gender;
 
     /**
      * @OA\Property(
@@ -97,7 +99,7 @@ class User
      *
      * @var string
      */
-    public $birthDate;
+    public string $birthDate;
 
     /**
      * @OA\Property(
@@ -109,7 +111,7 @@ class User
      *
      * @var string
      */
-    public $residential;
+    public string $residential;
 
     /**
      * @OA\Property(
@@ -119,9 +121,9 @@ class User
      *      type="['null', string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $region;
+    public ?string $region;
 
     /**
      * @OA\Property(
@@ -131,9 +133,9 @@ class User
      *      type="['null', string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $city;
+    public ?string $city;
 
     /**
      * @OA\Property(
@@ -143,9 +145,9 @@ class User
      *      type="['null', string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $address;
+    public ?string $address;
 
     /**
      * @OA\Property(
@@ -155,9 +157,9 @@ class User
      *      type="['null', string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $altPhone;
+    public ?string $altPhone;
 
     /**
      * @OA\Property(
@@ -168,9 +170,9 @@ class User
      *      type="['null', string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $email;
+    public ?string $email;
 
     /**
      * @OA\Property(
@@ -180,9 +182,9 @@ class User
      *      type="['null', string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $photo;
+    public string $photo;
 
     /**
      * @OA\Property(
@@ -195,7 +197,7 @@ class User
      *
      * @var bool
      */
-    public $isActive;
+    public bool $isActive;
 
     /**
      * @OA\Property(
@@ -205,9 +207,9 @@ class User
      *      type="['null', string]"
      * )
      *
-     * @var string
+     * @var string | null
      */
-    public $blockReason;
+    public ?string $blockReason;
 
     /**
      * @OA\Property(
@@ -218,9 +220,9 @@ class User
      *     type="string"
      * )
      *
-     * @var \DateTime
+     * @var string
      */
-    public $createdAt;
+    public string $createdAt;
 
     /**
      * @OA\Property(
@@ -231,7 +233,7 @@ class User
      *     type="['null', string]"
      * )
      *
-     * @var \DateTime
+     * @var string | null
      */
-    public $deletedAt;
+    public ?string $deletedAt;
 }

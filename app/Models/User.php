@@ -36,7 +36,6 @@ class User extends Authenticatable implements JWTSubject
         'sms_code',
         'is_active',
         'block_reason',
-        'email_verified_at',
         'password',
     ];
 
@@ -50,6 +49,13 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
         'sms_code',
     ];
+
+    /**
+     * The attributes that are not mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast.
