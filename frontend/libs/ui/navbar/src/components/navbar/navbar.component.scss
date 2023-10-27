@@ -1,0 +1,13 @@
+@import '@vet/theming/src/lib/theming-utilities';
+
+@include light-theme() {
+    --navbarBgColor: #4682b4;
+}
+
+nav[v-ui-navbar] {
+    background-color: var(--navbarBgColor);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 8rem;
+}

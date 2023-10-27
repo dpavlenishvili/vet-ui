@@ -60,7 +60,13 @@
                     "frontend/libs/ui/checkbox/**/*.html",
                     "frontend/libs/ui/form-item/**/*.html",
                     "frontend/libs/ui/wizard/**/*.ts",
-                    "frontend/libs/ui/wizard/**/*.html"
+                    "frontend/libs/ui/wizard/**/*.html",
+                    "frontend/libs/ui/form-item/**/*.html",
+                    "frontend/libs/ui/dropdown/**/*.html",
+                    "frontend/libs/ui/theming/**/*.ts",
+                    "frontend/libs/ui/theming/**/*.html",
+                    "frontend/libs/ui/navbar/**/*.ts",
+                    "frontend/libs/ui/navbar/**/*.html"
                 ]
             }
         }

@@ -71,6 +71,10 @@
         "@angular/platform-browser": "^16.2.12",
         "@angular/platform-browser-dynamic": "^16.2.12",
         "@angular/router": "^16.2.12",
+        "@ng-web-apis/common": "^3.0.5",
+        "@ng-web-apis/universal": "^3.0.6",
+        "@popperjs/core": "^2.11.8",
+        "bootstrap": "^5.3.2",
         "@ngneat/transloco": "^6.0.0",
         "angular-svg-icon": "^16.0.0",
         "prettier": "^3.0.3",
@@ -92,5 +96,8 @@
             "eslint"
         ],
         "*.php": "php ./vendor/bin/php-cs-fixer fix --config php-cs-fixer"
-    }
+    },
+    "workspaces": [
+        "frontend/libs/theming"
+    ]
 }

@@ -1,0 +1,15 @@
+@mixin light-theme() {
+    @at-root {
+        [data-theme='light'] {
+            @content;
+        }
+    }
+}
+
+@mixin hc-theme() {
+    @at-root {
+        [data-theme='hc'] {
+            @content;
+        }
+    }
+}
