@@ -51,7 +51,11 @@
                     "frontend/libs/ui/input/**/*.ts",
                     "frontend/libs/ui/input/**/*.html",
                     "frontend/libs/ui/dropdown/**/*.ts",
-                    "frontend/libs/ui/dropdown/**/*.html"
+                    "frontend/libs/ui/dropdown/**/*.html",
+                    "frontend/libs/ui/radio-button/**/*.ts",
+                    "frontend/libs/ui/radio-button/**/*.html",
+                    "frontend/libs/ui/form-item/**/*.ts",
+                    "frontend/libs/ui/form-item/**/*.html"
                 ]
             }
         }

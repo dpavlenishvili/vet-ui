@@ -1,1 +1,18 @@
-<v-ui-wrapper-card></v-ui-wrapper-card>
+<form [formGroup]="registrationForm">
+    <v-ui-form-item [border]="true">
+        <v-ui-radio-button-group formControlName="radioButtons">
+            <v-ui-radio-button value="1">
+                <span>საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე</span>
+            </v-ui-radio-button>
+            <v-ui-radio-button value="2">
+                <span>სხვა</span>
+            </v-ui-radio-button>
+        </v-ui-radio-button-group>
+        <v-ui-form-error-c>
+            <div>!!</div>
+            <span>გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა</span>
+        </v-ui-form-error-c>
+    </v-ui-form-item>
+</form>
+
+<button (click)="onSubmit()">Submit</button>
