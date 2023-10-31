@@ -82,11 +82,17 @@ class AuthApiController extends Controller
      *                      property="status"
      *                 ),
      *                 @OA\Property(
-     *                     type="string",
-     *                     default="Waiting 2fa code",
-     *                     description="Waiting 2fa code",
-     *                     property="msg"
-     *                 )
+     *                      type="string",
+     *                      default="Waiting 2fa code",
+     *                      description="Waiting 2fa code",
+     *                      property="msg"
+     *                  ),
+     *                 @OA\Property(
+     *                      type="string",
+     *                      default="555****56",
+     *                      description="Phone Mask",
+     *                      property="phone_mask"
+     *                  )
      *           )
      *       ),
      *      @OA\Response(
@@ -171,7 +177,11 @@ class AuthApiController extends Controller
             return response()->json(['status' => false, 'msg' => 'Can\'t send 2fa Code'], 500);
         }
 
-        return response()->json(['status' => true, 'msg' => 'Waiting 2fa code on: '.route('api.2fa.login')], 202);
+        return response()->json([
+            'status' => true,
+            'msg' => 'Waiting 2fa code on: '.route('api.2fa.login'),
+            'phone_mask' => maskPhoneNumber(auth()->user()->phone),
+        ], 202);
     }
 
     /**
