@@ -1,0 +1,10 @@
+:host(.radio-button-wrapper-flex-row) {
+    display: flex;
+    gap: 4rem;
+}
+
+:host(.radio-button-wrapper-flex-column) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}

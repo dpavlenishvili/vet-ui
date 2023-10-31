@@ -1,0 +1,13 @@
+<div class="radio-button-container">
+    <input class="hidden-radio-button" [attr.id]="_id" name="" type="radio" />
+
+    <div class="radio-button" aria-hidden="true">
+        <div class="radio-button-white-circle">
+            <div *ngIf="checked" class="radio-button-blue-circle"></div>
+        </div>
+    </div>
+
+    <label [attr.for]="_id" class="radio-button-label">
+        <ng-content></ng-content>
+    </label>
+</div>

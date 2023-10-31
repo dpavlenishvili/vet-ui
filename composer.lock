@@ -1556,9 +1556,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+            "license": ["MIT"],
             "authors": [
                 {
                     "name": "Luís Cobucci",
@@ -1625,9 +1623,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
+            "license": ["BSD-3-Clause"],
             "authors": [
                 {
                     "name": "Luís Cobucci",
@@ -1636,10 +1632,7 @@
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
-            "keywords": [
-                "JWS",
-                "jwt"
-            ],
+            "keywords": ["JWS", "jwt"],
             "support": {
                 "issues": "https://github.com/lcobucci/jwt/issues",
                 "source": "https://github.com/lcobucci/jwt/tree/4.3.0"
@@ -5429,9 +5422,7 @@
                         "JWTAuth": "Tymon\\JWTAuth\\Facades\\JWTAuth",
                         "JWTFactory": "Tymon\\JWTAuth\\Facades\\JWTFactory"
                     },
-                    "providers": [
-                        "Tymon\\JWTAuth\\Providers\\LaravelServiceProvider"
-                    ]
+                    "providers": ["Tymon\\JWTAuth\\Providers\\LaravelServiceProvider"]
                 }
             },
             "autoload": {
@@ -5440,9 +5431,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
+            "license": ["MIT"],
             "authors": [
                 {
                     "name": "Sean Tymon",
@@ -5453,13 +5442,7 @@
             ],
             "description": "JSON Web Token Authentication for Laravel and Lumen",
             "homepage": "https://github.com/tymondesigns/jwt-auth",
-            "keywords": [
-                "Authentication",
-                "JSON Web Token",
-                "auth",
-                "jwt",
-                "laravel"
-            ],
+            "keywords": ["Authentication", "JSON Web Token", "auth", "jwt", "laravel"],
             "support": {
                 "issues": "https://github.com/tymondesigns/jwt-auth/issues",
                 "source": "https://github.com/tymondesigns/jwt-auth"

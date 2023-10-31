@@ -1,13 +1,13 @@
 import { ApplicationConfig } from '@angular/core';
-import {provideRouter} from "@angular/router";
+import { provideRouter } from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideRouter([
             {
                 path: 'registration',
-                loadChildren: () => import('@vet/features/registration')
-            }
-        ])
+                loadChildren: () => import('@vet/features/registration'),
+            },
+        ]),
     ],
 };

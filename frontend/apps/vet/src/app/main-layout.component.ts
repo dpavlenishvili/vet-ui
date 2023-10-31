@@ -4,8 +4,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
     standalone: true,
     imports: [],
     encapsulation: ViewEncapsulation.None,
-    template: `
-
-    `
+    template: ``,
 })
 export class MainLayoutComponent {}

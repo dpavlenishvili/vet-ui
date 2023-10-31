@@ -1,1 +1,1 @@
-export * from './wrapper-card/wrapper-card.component'
+export * from './wrapper-card/wrapper-card.component';
