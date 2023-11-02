@@ -1,0 +1,96 @@
+$block: '.v-ui-wizard';
+$step: $block + '__step';
+$stepContent: $step + '-content';
+$stepFooter: $step + '-footer';
+$list: $block + '__list';
+$listItem: $block + '__list-item';
+$listItemSeparator: $block + '__list-item-separator';
+$compressed: $block + '__compressed';
+
+#{$block} {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    align-items: flex-start;
+
+    &--horizontal {
+        flex-direction: row;
+    }
+
+    #{$step} {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 1.7rem;
+        border-radius: 2rem;
+        background-color: white; // Replace with proper variable
+
+        #{$stepContent} {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+    }
+
+    #{$list} {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: 1.7rem;
+        border-radius: 2rem;
+        background-color: white;
+
+        &-item-separator {
+            height: 7rem;
+            display: flex;
+            padding: 0.7rem 0 0.7rem 1rem;
+            &:before {
+                display: block;
+                content: '';
+                height: 100%;
+                border-radius: 0.15rem;
+                width: 0.3rem;
+                background-color: var(--separatorColor, #4caee8);
+            }
+        }
+
+        &-item {
+            --indexBorderColor: #4carr8;
+            --indexBackgroundColor: #4caee8; // Replace with proper variable
+            --itemTextColor: #4caee8; // Replace with proper variable
+            min-height: 3rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: var(--itemTextColor);
+
+            &-index {
+                display: flex;
+                margin-right: 1rem;
+                width: 2.4rem;
+                height: 2.4rem;
+                border: 0.3rem solid var(--indexBorderColor);
+                background-color: var(--indexBackgroundColor);
+                color: white;
+                align-items: center;
+                justify-content: space-around;
+                border-radius: 50%;
+            }
+
+            &--active ~ #{$listItem} {
+                --indexBorderColor: transparent; // Replace with proper variable
+                --indexBackgroundColor: #b1b7bb; // Replace with proper variable
+                --itemTextColor: #757575; // Replace with proper variable
+            }
+
+            &--active + #{$listItemSeparator} ~ #{$listItemSeparator} {
+                --separatorColor: #b1b7bb; // Replace with proper variable
+            }
+        }
+    }
+}
+
+#{$compressed} {
+    width: 25px;
+}
