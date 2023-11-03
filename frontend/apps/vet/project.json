@@ -16,7 +16,7 @@
                 "polyfills": ["zone.js"],
                 "tsConfig": "frontend/apps/vet/tsconfig.app.json",
                 "assets": ["frontend/apps/vet/src/favicon.ico", "frontend/apps/vet/src/assets"],
-                "styles": ["frontend/apps/vet/src/styles.scss"],
+                "styles": ["frontend/apps/vet/src/styles.scss", "frontend/apps/vet/src/assets/icons.scss"],
                 "scripts": []
             },
             "configurations": {

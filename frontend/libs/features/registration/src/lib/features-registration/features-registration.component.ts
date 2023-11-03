@@ -2,21 +2,11 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WrapperCardComponent } from '@vet/ui/card';
 import { RadioButtonComponent, RadioButtonGroupComponent } from '@vet/ui/radio-button';
-import {
-    AbstractControl,
-    FormControl,
-    FormGroup,
-    FormGroupDirective,
-    NgForm,
-    ReactiveFormsModule,
-} from '@angular/forms';
-import { ErrorStateMatcher, FormErrorComponent, FormItemComponent } from '@vet/ui/form-item';
-
-class CustomErrorStateMatcher extends ErrorStateMatcher {
-    override isErrorState(control: AbstractControl | null, form: FormGroupDirective | NgForm | null): boolean {
-        return !!(control && !control.value && form && form.dirty);
-    }
-}
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormErrorComponent, FormItemComponent, FormLabelDirective } from '@vet/ui/form-item';
+import { InputComponent } from '@vet/ui/input';
+import { TranslocoModule } from '@ngneat/transloco';
+import { ValidationErrorPipe } from '@vet/ui/input';
 
 @Component({
     selector: 'lib-features-registration',
@@ -29,20 +19,19 @@ class CustomErrorStateMatcher extends ErrorStateMatcher {
         ReactiveFormsModule,
         FormItemComponent,
         FormErrorComponent,
+        InputComponent,
+        TranslocoModule,
+        ValidationErrorPipe,
+        FormLabelDirective,
     ],
     templateUrl: './features-registration.component.html',
     styleUrls: ['./features-registration.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: ErrorStateMatcher,
-            useClass: CustomErrorStateMatcher,
-        },
-    ],
 })
 export class FeaturesRegistrationComponent implements OnInit {
     registrationForm = new FormGroup({
-        radioButtons: new FormControl(null, [() => ({ required: true })]),
+        radioButtons: new FormControl(null, [Validators.required]),
+        username: new FormControl(null, [Validators.required, Validators.minLength(5)]),
     });
 
     ngOnInit() {
@@ -52,7 +41,7 @@ export class FeaturesRegistrationComponent implements OnInit {
     }
 
     onSubmit() {
-        this.registrationForm.markAsDirty();
         console.log(this.registrationForm.value);
+        this.registrationForm.markAllAsTouched();
     }
 }

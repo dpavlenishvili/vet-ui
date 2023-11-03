@@ -1,18 +1,28 @@
-<form [formGroup]="registrationForm">
-    <v-ui-form-item [border]="true">
-        <v-ui-radio-button-group formControlName="radioButtons">
-            <v-ui-radio-button value="1">
-                <span>საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე</span>
-            </v-ui-radio-button>
-            <v-ui-radio-button value="2">
-                <span>სხვა</span>
-            </v-ui-radio-button>
-        </v-ui-radio-button-group>
-        <v-ui-form-error-c>
-            <div>!!</div>
-            <span>გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა</span>
-        </v-ui-form-error-c>
-    </v-ui-form-item>
-</form>
+<ng-container *transloco="let t">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" style="padding: 3rem">
+        <v-ui-form-item [borderless]="true">
+            <v-ui-radio-button-group formControlName="radioButtons">
+                <v-ui-radio-button value="1">
+                    <span>საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე</span>
+                </v-ui-radio-button>
+                <v-ui-radio-button value="2">
+                    <span>სხვა</span>
+                </v-ui-radio-button>
+            </v-ui-radio-button-group>
+            <v-ui-form-error>
+                <div>!!</div>
+                <span>გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა</span>
+            </v-ui-form-error>
+        </v-ui-form-item>
 
-<button (click)="onSubmit()">Submit</button>
+        <v-ui-form-item [clearBtn]="true">
+            <v-ui-form-item-label>საქართველოს მოქალაქე</v-ui-form-item-label>
+            <input v-ui-input formControlName="username" />
+            <v-ui-form-error>
+                <span>{{ registrationForm.get('username')?.errors | validationErrorPipe }}</span>
+            </v-ui-form-error>
+        </v-ui-form-item>
+
+        <button>Submit</button>
+    </form>
+</ng-container>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function,@angular-eslint/no-host-metadata-property */
 import { ChangeDetectionStrategy, Component, forwardRef, inject, Input } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { RadioButtonService } from '../radio-button.service';
+import { RadioButtonService, RadioButtonValue } from '../radio-button.service';
 import { FormControlProvider } from '@vet/ui/form-item';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -9,6 +9,8 @@ enum RadioOrientation {
     HORIZONTAL = 'horizontal',
     VERTICAL = 'vertical',
 }
+
+let quantity = 0;
 
 @Component({
     selector: 'v-ui-radio-button-group',
@@ -29,10 +31,12 @@ enum RadioOrientation {
     ],
 })
 export class RadioButtonGroupComponent extends FormControlProvider implements ControlValueAccessor {
+    @Input() id = `v-ui-radio-button-group-${++quantity}`;
     @Input() radioOrientation: RadioOrientation.HORIZONTAL | RadioOrientation.VERTICAL = RadioOrientation.HORIZONTAL;
 
     isDisabled = false;
     ngControl = inject(NgControl);
+
     protected _radioButtonService = inject(RadioButtonService);
 
     constructor() {
@@ -43,14 +47,14 @@ export class RadioButtonGroupComponent extends FormControlProvider implements Co
         });
     }
 
-    onChange: (...args: any) => void = () => {};
-    onTouched: (...args: any) => void = () => {};
+    onChange: (value: RadioButtonValue) => void = () => {};
+    onTouched: () => void = () => {};
 
-    registerOnChange(fn: any): void {
+    registerOnChange(fn: (value: RadioButtonValue) => void): void {
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    registerOnTouched(fn: () => void): void {
         this.onTouched = fn;
     }
 
@@ -59,7 +63,7 @@ export class RadioButtonGroupComponent extends FormControlProvider implements Co
         this._radioButtonService.setIsDisabled(this.isDisabled);
     }
 
-    writeValue(value: string | number): void {
+    writeValue(value: RadioButtonValue): void {
         value && this._radioButtonService.selected$.next(value);
     }
 }

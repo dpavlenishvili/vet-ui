@@ -1,0 +1,22 @@
+.v-ui-input {
+    font-size: 1.2rem;
+    color: #636363;
+    outline: none;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    flex-grow: 1;
+
+    ::placeholder {
+        color: #757575;
+        opacity: 1;
+    }
+
+    ::-ms-input-placeholder {
+        color: #757575;
+    }
+
+    &:disabled {
+        border: 0.1rem solid #f6f6f6;
+    }
+}

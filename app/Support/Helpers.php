@@ -7,5 +7,5 @@ function maskPhoneNumber(string $phoneNumber): string
     $numAsterisks = strlen($phoneNumber) - 5;
     $asterisks = str_repeat('*', $numAsterisks);
 
-    return $prefix . $asterisks . $suffix;
+    return $prefix.$asterisks.$suffix;
 }

@@ -348,7 +348,7 @@ class UserApiController extends Controller
             'firstName' => $request->json('firstName'),
             'birthDate' => date('Y-m-d', $timeStamp),
             'gender' => $request->json('gender') === 1 ? 'male' : 'female',
-            'photo' => $request->json('photos.base64Binary.0')
+            'photo' => $request->json('photos.base64Binary.0'),
         ];
     }
 
