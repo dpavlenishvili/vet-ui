@@ -2,7 +2,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'v-ui-form-error-c',
+    selector: 'v-ui-form-error',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: ` <ng-content></ng-content>`,

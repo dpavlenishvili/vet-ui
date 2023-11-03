@@ -1,0 +1,6 @@
+{
+    "errors": {
+        "required": "Field is required",
+        "minlength": "Minimum length should be {{requiredLength}}"
+    }
+}

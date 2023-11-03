@@ -2,7 +2,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RadioButtonGroupComponent } from '../radio-button-group/radio-button-group.component';
-import { RadioButtonService } from '../radio-button.service';
+import { RadioButtonService, RadioButtonValue } from '../radio-button.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 let quantity = 0;
@@ -16,12 +16,11 @@ let quantity = 0;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioButtonComponent {
-    @Input() value = '';
+    @Input() id = `v-ui-radio-button-${++quantity}`;
+    @Input() value: RadioButtonValue = '';
     @Input() name = '';
     @Input() isDisabled = false;
     checked = false;
-
-    protected _id = `v-ui-radio-button-${++quantity}`;
 
     constructor(
         private cdr: ChangeDetectorRef,
@@ -47,6 +46,6 @@ export class RadioButtonComponent {
             return;
         }
 
-        this.radioButtonService?.setRadioButtonValue(this.value);
+        this.radioButtonService.setRadioButtonValue(this.value);
     }
 }
