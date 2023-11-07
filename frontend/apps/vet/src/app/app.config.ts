@@ -1,5 +1,5 @@
-import { ApplicationConfig, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { ApplicationConfig, isDevMode } from '@angular/core';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@ngneat/transloco';
 import { provideHttpClient } from '@angular/common/http';
