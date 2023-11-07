@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WrapperCardComponent } from '@vet/ui/card';
+import { ButtonComponent } from '@vet/ui/button';
 import { RadioButtonComponent, RadioButtonGroupComponent } from '@vet/ui/radio-button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormErrorComponent, FormItemComponent, FormLabelDirective } from '@vet/ui/form-item';
@@ -23,6 +24,7 @@ import { ValidationErrorPipe } from '@vet/ui/input';
         TranslocoModule,
         ValidationErrorPipe,
         FormLabelDirective,
+        ButtonComponent,
     ],
     templateUrl: './features-registration.component.html',
     styleUrls: ['./features-registration.component.scss'],

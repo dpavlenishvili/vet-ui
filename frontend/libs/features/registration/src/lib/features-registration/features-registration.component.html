@@ -1,3 +1,21 @@
+<h2>Primary</h2>
+<div style="display: flex; justify-content: space-around; align-items: center; padding: 2rem">
+    <button v-ui-button size="sm">პატარა</button>
+    <button v-ui-button>საშუალო</button>
+    <button v-ui-button size="l">დიდი</button>
+</div>
+<h2>Secondary</h2>
+<div style="display: flex; justify-content: space-around; align-items: center; padding: 2rem">
+    <button v-ui-button size="sm" color="secondary">პატარა</button>
+    <button v-ui-button color="secondary">საშუალო</button>
+    <button v-ui-button size="l" color="secondary">დიდი</button>
+</div>
+<h2>Disabled</h2>
+<div style="display: flex; justify-content: space-around; align-items: center; padding: 2rem">
+    <button v-ui-button size="sm" disabled>პატარა</button>
+    <button v-ui-button disabled>საშუალო</button>
+    <button v-ui-button size="l" disabled>დიდი</button>
+</div>
 <ng-container *transloco="let t">
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" style="padding: 3rem">
         <v-ui-form-item [borderless]="true">
