@@ -811,6 +811,16 @@
                                             "description": "Birth date",
                                             "type": "string",
                                             "default": "1999-12-31"
+                                        },
+                                        "gender": {
+                                            "description": "Gender",
+                                            "type": "string",
+                                            "default": "male"
+                                        },
+                                        "photo": {
+                                            "description": "photo of user",
+                                            "type": "string",
+                                            "default": "base64 string"
                                         }
                                     },
                                     "type": "object"

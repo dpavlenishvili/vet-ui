@@ -24,7 +24,7 @@ class DefaultUserSeeder extends Seeder
             'address' => '1 Infinite Loop, Cupertino, California.',
             'password' => bcrypt('987654321'),
             'phone' => '555555555',
-            '2fa' => 0,
+            '2fa' => false,
         ]);
     }
 }

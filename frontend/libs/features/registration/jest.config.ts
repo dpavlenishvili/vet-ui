@@ -3,8 +3,7 @@ export default {
     displayName: 'features-registration',
     preset: '../../../../jest.preset.js',
     setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-    coverageDirectory:
-        '../../../../coverage/frontend/libs/features/registration',
+    coverageDirectory: '../../../../coverage/frontend/libs/features/registration',
     transform: {
         '^.+\\.(ts|mjs|js|html)$': [
             'jest-preset-angular',
