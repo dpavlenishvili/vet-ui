@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use InvalidArgumentException;
 
@@ -40,6 +41,10 @@ class UserRequest extends FormRequest
 
         if (isset($input['photo']) && $input['photo'] != '') {
             $input['photo'] = $this->saveUserPhotoAndGetUrl($input['photo'], $input['pid']);
+        }
+
+        if (isset($input['password']) && $input['password'] != '') {
+            $input['password'] = Hash::make($input['password']);
         }
 
         return $input;
