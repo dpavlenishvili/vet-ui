@@ -39,5 +39,7 @@ Route::group([
         Route::post('refresh', 'AuthApiController@refresh');
         Route::get('me', 'AuthApiController@me');
         Route::post('password', 'AuthApiController@changePassword');
+        Route::post('reset', 'AuthApiController@initForgetPassword');
+        Route::post('reset/save', 'AuthApiController@resetPassword');
     });
 });
