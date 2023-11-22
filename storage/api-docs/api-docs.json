@@ -85,6 +85,11 @@
                                             "description": "Waiting 2fa code",
                                             "type": "string",
                                             "default": "Waiting 2fa code"
+                                        },
+                                        "phone_mask": {
+                                            "description": "Phone Mask",
+                                            "type": "string",
+                                            "default": "555****56"
                                         }
                                     },
                                     "type": "object"
@@ -484,6 +489,224 @@
                                             "description": "Password confirmation does not match",
                                             "type": "string",
                                             "default": "Password confirmation does not match"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/reset": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Init forget password for user",
+                "operationId": "Init forget password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pid": {
+                                        "description": "Personal ID",
+                                        "type": "string",
+                                        "default": "010000000000"
+                                    },
+                                    "phone": {
+                                        "description": "Phone Number",
+                                        "type": "string",
+                                        "default": "555123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "msg": {
+                                            "description": "Sms code sent",
+                                            "type": "string",
+                                            "default": "Password updated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/reset/save": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Reset password for user",
+                "operationId": "Reset password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pid": {
+                                        "description": "Personal ID",
+                                        "type": "string",
+                                        "default": "010000000000"
+                                    },
+                                    "phone": {
+                                        "description": "Phone Number",
+                                        "type": "string",
+                                        "default": "555123456"
+                                    },
+                                    "code": {
+                                        "description": "Sms code",
+                                        "type": "string",
+                                        "default": "1234"
+                                    },
+                                    "password": {
+                                        "description": "New Password",
+                                        "type": "string",
+                                        "default": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "msg": {
+                                            "description": "Password updated",
+                                            "type": "string",
+                                            "default": "Password updated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "Invalid SMS code or expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Invalid Sms code"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "false"
+                                        },
+                                        "msg": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "default": "Invalid password"
+                                        },
+                                        "errors": {
+                                            "description": "Validation Error",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "password": {
+                                                        "type": "string",
+                                                        "example": "..."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "default": "[...]"
                                         }
                                     },
                                     "type": "object"
