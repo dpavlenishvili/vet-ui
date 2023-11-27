@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use InvalidArgumentException;
 
 class UserRequest extends FormRequest
@@ -26,10 +27,15 @@ class UserRequest extends FormRequest
             'first_name' => ['required', 'min:2', 'max:32'],
             'last_name' => ['required', 'min:2', 'max:32'],
             'gender' => ['required', Rule::in(['male', 'female'])],
-            'birth_date' => ['required', 'date_format:Y-m-d'],
-            'residential' => ['required', 'min:2', 'max:2', Rule::in(DB::table('countries')->pluck('code')->toArray())],
-            'alt_phone' => ['sometimes', 'min:9', 'max:9'],
-            'sms_code' => ['sometimes', 'min:4', 'max:4'],
+            'birth_date' => ['required', 'date_format:yyyy-MM-dd'],
+            'residential' => ['required', 'min:2', 'max:2', Rule::in(DB::table('counties')->pluck('code')->toArray())],
+            'alt_phone' => ['sometimes', 'min:6', 'max:6'],
+            'sms_code' => ['required', 'min:4', 'max:4'],
+            'password' => ['sometimes', 'string', 'min:8', 'confirmed', Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->symbols()],
         ];
     }
 
