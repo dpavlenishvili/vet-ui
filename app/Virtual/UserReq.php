@@ -174,13 +174,37 @@ class UserReq
 
     /**
      * @OA\Property(
+     *      title="Password",
+     *      description="Password of the user",
+     *      example="password",
+     *      type="[null, string]"
+     * )
+     *
+     * @var string
+     */
+    public $password;
+
+    /**
+     * @OA\Property(
+     *      title="Password confirmation",
+     *      description="Password confirmation",
+     *      example="password",
+     *      type="[null, string]"
+     * )
+     *
+     * @var string
+     */
+    public ?string $photo;
+
+    /**
+     * @OA\Property(
      *      title="Photo",
      *      description="Photo of the user",
      *      example="base64 string",
      *      type="[null, string]"
      * )
      *
-     * @var string | null
+     * @var string
      */
-    public ?string $photo;
+    public $password_confirmation;
 }

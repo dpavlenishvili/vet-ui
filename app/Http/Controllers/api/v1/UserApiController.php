@@ -538,6 +538,7 @@ class UserApiController extends Controller
         }
 
         $user = User::create($request->all());
+        $sms->delete();
 
         return (new UserResource($user))
             ->response()
