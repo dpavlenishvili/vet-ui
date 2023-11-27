@@ -168,7 +168,10 @@ class AuthApiController extends Controller
         $credentials = request(['pid', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['status' => false, 'msg' => 'Invalid credentials'], 401);
+            return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
+                'code' => 1001,
+                'message' => __('error-codes.1001'),
+            ]], 401);
         }
 
         if (! auth()->user()->{'2fa'}) {
@@ -178,11 +181,17 @@ class AuthApiController extends Controller
         $response = $this->generateAndSendSMSCode(auth()->user());
 
         if ($response == -1) {
-            return response()->json(['status' => false, 'msg' => 'Already accepted'], 406);
+            return response()->json(['status' => false, 'msg' => 'Already accepted', 'error' => [
+                'code' => 1002,
+                'message' => __('error-codes.1002'),
+            ]], 406);
         }
 
         if ($response == 0) {
-            return response()->json(['status' => false, 'msg' => 'Can\'t send 2fa Code'], 500);
+            return response()->json(['status' => false, 'msg' => 'Can\'t send 2fa Code', 'error' => [
+                'code' => 1003,
+                'message' => __('error-codes.1003'),
+            ]], 500);
         }
 
         return response()->json([
@@ -293,17 +302,26 @@ class AuthApiController extends Controller
         $credentials = request(['pid', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['status' => false, 'msg' => 'Invalid credentials'], 401);
+            return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
+                'code' => 1001,
+                'message' => __('error-codes.1001'),
+            ]], 401);
         }
 
         if (auth()->user()->sms_code != request()->get('code')) {
-            return response()->json(['status' => false, 'msg' => 'Invalid 2fa code'], 401);
+            return response()->json(['status' => false, 'msg' => 'Invalid 2fa code', 'error' => [
+                'code' => 1004,
+                'message' => __('error-codes.1004'),
+            ]], 401);
         }
 
         $sms = Sms::where('phone', auth()->user()->phone)->where('created_at', '>', date('Y-m-d H:i:s', strtotime('-2 minutes')))->first();
 
         if (! $sms) {
-            return response()->json(['status' => false, 'msg' => 'Time out to validate 2fa code'], 408);
+            return response()->json(['status' => false, 'msg' => 'Time out to validate 2fa code', 'error' => [
+                'code' => 1005,
+                'message' => __('error-codes.1005'),
+            ]], 408);
         }
 
         return $this->respondWithToken($token);
@@ -537,11 +555,32 @@ class AuthApiController extends Controller
     public function changePassword(): JsonResponse
     {
         if (! Auth::attempt(['pid' => request()->get('pid'), 'password' => request()->get('password')])) {
-            return response()->json(['status' => false, 'msg' => 'Invalid credentials'], 401);
+            return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
+                'code' => 1001,
+                'message' => __('error-codes.1001'),
+            ]], 401);
         }
 
         if (request()->get('new_password') !== request()->get('password_confirmation')) {
-            return response()->json(['status' => false, 'msg' => 'Password confirmation does not match'], 400);
+            return response()->json(['status' => false, 'msg' => 'Password confirmation does not match', 'error' => [
+                'code' => 1006,
+                'message' => __('error-codes.1006'),
+            ]], 400);
+        }
+
+        $validator = Validator::make(request()->only('password'), [
+            'password' => [
+                'required',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'msg' => 'Invalid password', 'errors' => $validator->errors()], 400);
         }
 
         User::where('pid', request()->get('pid'))->update([
@@ -622,7 +661,10 @@ class AuthApiController extends Controller
         $user = User::where('pid', request()->get('pid'))->where('phone', request()->get('phone'))->first();
 
         if (! $user) {
-            return response()->json(['status' => false, 'msg' => 'Invalid credentials'], 400);
+            return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
+                'code' => 1007,
+                'message' => __('error-codes.1007'),
+            ]], 400);
         }
 
         $smsCode = mt_rand(1000, 9999);
@@ -772,7 +814,10 @@ class AuthApiController extends Controller
         $user = User::where('pid', request()->get('pid'))->where('phone', request()->get('phone'))->first();
 
         if (! $user) {
-            return response()->json(['status' => false, 'msg' => 'Invalid credentials'], 401);
+            return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
+                'code' => 1007,
+                'message' => __('error-codes.1007'),
+            ]], 401);
         }
 
         $sms = Sms::where('phone', $user->phone)
@@ -780,11 +825,17 @@ class AuthApiController extends Controller
             ->first();
 
         if (! $sms) {
-            return response()->json(['status' => false, 'msg' => 'Invalid SMS code'], 400);
+            return response()->json(['status' => false, 'msg' => 'Invalid SMS code', 'error' => [
+                'code' => 1004,
+                'message' => __('error-codes.1004'),
+            ]], 400);
         }
 
         if (strtotime($sms->created_at) > strtotime('-2 minutes')) {
-            return response()->json(['status' => false, 'msg' => 'SMS code is expired'], 408);
+            return response()->json(['status' => false, 'msg' => 'SMS code is expired', 'error' => [
+                'code' => 1005,
+                'message' => __('error-codes.1005'),
+            ]], 408);
         }
 
         $validator = Validator::make(request()->only('password'), [
