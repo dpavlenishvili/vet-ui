@@ -339,7 +339,10 @@ class UserApiController extends Controller
         $request = (new Identity(request()->get('pid'), request()->get('last_name')))->get();
 
         if (! $request || ! $request->json('firstName')) {
-            return response()->json(['status' => false])->setStatusCode(400);
+            return response()->json(['status' => false, 'error' => [
+                'code' => 1008,
+                'message' => __('error-codes.1008'),
+            ]])->setStatusCode(400);
         }
 
         $timeStamp = $request->json('birthDate') / 1000;
@@ -469,7 +472,10 @@ class UserApiController extends Controller
         $status = Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
 
         if (! $status) {
-            return response()->json(['status' => false])->setStatusCode(400);
+            return response()->json(['status' => false, 'error' => [
+                'code' => 1004,
+                'message' => __('error-codes.1004'),
+            ]])->setStatusCode(400);
         }
 
         return response()->json(['status' => true])->setStatusCode(200);
@@ -525,7 +531,10 @@ class UserApiController extends Controller
         $sms = Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
 
         if (! $sms) {
-            return response()->json(['status' => false, 'msg' => '2fa code not valid'])->setStatusCode(400);
+            return response()->json(['status' => false, 'msg' => '2fa code not valid', 'error' => [
+                'code' => 1004,
+                'message' => __('error-codes.1004'),
+            ]])->setStatusCode(400);
         }
 
         $user = User::create($request->all());
