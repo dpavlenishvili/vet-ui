@@ -8,6 +8,7 @@ import { FormErrorComponent, FormItemComponent, FormLabelDirective } from '@vet/
 import { InputComponent } from '@vet/ui/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ValidationErrorPipe } from '@vet/ui/input';
+import { CheckboxComponent, CheckboxGroupComponent } from '@vet/ui/checkbox';
 
 @Component({
     selector: 'lib-features-registration',
@@ -25,6 +26,8 @@ import { ValidationErrorPipe } from '@vet/ui/input';
         ValidationErrorPipe,
         FormLabelDirective,
         ButtonComponent,
+        CheckboxComponent,
+        CheckboxGroupComponent,
     ],
     templateUrl: './features-registration.component.html',
     styleUrls: ['./features-registration.component.scss'],
@@ -36,14 +39,28 @@ export class FeaturesRegistrationComponent implements OnInit {
         username: new FormControl(null, [Validators.required, Validators.minLength(5)]),
     });
 
+    checkboxForm = new FormGroup({
+        checkbox: new FormControl(),
+    });
+
+    multipleCheckboxesForm = new FormGroup({
+        checkboxes: new FormControl([2]),
+    });
+
     ngOnInit() {
         this.registrationForm.get('radioButtons')?.valueChanges.subscribe((res) => {
+            console.log(res);
+        });
+
+        this.checkboxForm.get('checkbox')?.valueChanges.subscribe((res) => {
             console.log(res);
         });
     }
 
     onSubmit() {
         console.log(this.registrationForm.value);
+        console.log(this.checkboxForm.value);
+        console.log(this.multipleCheckboxesForm.value);
         this.registrationForm.markAllAsTouched();
     }
 }

@@ -29,10 +29,10 @@ import { FormLabelDirective } from '../form-label.directive';
             [class.v-ui-form-item__control-container--borderless]="borderless"
         >
             <ng-content></ng-content>
-            <ng-container *ngIf="clearBtn && controlProvider.ngControl.control?.value">
+            <ng-container *ngIf="clearBtn && controlProvider.ngControl?.control?.value">
                 <button
                     class="v-ui-form-item__clear-btn"
-                    (click)="$event.stopPropagation(); controlProvider.ngControl.control?.reset(null)"
+                    (click)="$event.stopPropagation(); controlProvider.ngControl?.control?.reset(null)"
                 >
                     <i class="v-ui-icon cross"></i>
                 </button>
@@ -66,12 +66,12 @@ export class FormItemComponent implements AfterViewInit {
     changeDetectorRef = inject(ChangeDetectorRef);
 
     get disabled() {
-        return this.controlProvider.ngControl.disabled;
+        return !!this.controlProvider.ngControl?.disabled;
     }
 
     @HostBinding('class.v-ui-form-item--error')
     get showError(): boolean {
-        if (this.controlProvider) {
+        if (this.controlProvider && this.controlProvider.ngControl) {
             const isErrorState = this.errorStateMatcher.isErrorState(
                 this.controlProvider.ngControl.control,
                 this.formGroupDirective || this.ngForm || null,

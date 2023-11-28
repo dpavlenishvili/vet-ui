@@ -19,6 +19,7 @@
             "@vet/ui": ["frontend/libs/ui/src/index.ts"],
             "@vet/ui/button": ["frontend/libs/ui/button/src/index.ts"],
             "@vet/ui/card": ["frontend/libs/ui/card/src/index.ts"],
+            "@vet/ui/checkbox": ["frontend/libs/ui/checkbox/src/index.ts"],
             "@vet/ui/dropdown": ["frontend/libs/ui/dropdown/src/index.ts"],
             "@vet/ui/form-item": ["frontend/libs/ui/form-item/src/index.ts"],
             "@vet/ui/input": ["frontend/libs/ui/input/src/index.ts"],

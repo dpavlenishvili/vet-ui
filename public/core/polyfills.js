@@ -813,8 +813,8 @@
                                                           ': ' +
                                                           JSON.stringify(l)
                                                     : l
-                                                    ? l.toString()
-                                                    : Object.prototype.toString.call(l);
+                                                      ? l.toString()
+                                                      : Object.prototype.toString.call(l);
                                             })(s) +
                                             (s && s.stack ? '\n' + s.stack : ''),
                                     );
@@ -1218,14 +1218,14 @@
                                         return !Ee && 'object' == typeof s && s
                                             ? !!s.capture
                                             : Ee && f
-                                            ? 'boolean' == typeof s
-                                                ? { capture: s, passive: !0 }
-                                                : s
-                                                ? 'object' == typeof s && !1 !== s.passive
-                                                    ? { ...s, passive: !0 }
-                                                    : s
-                                                : { passive: !0 }
-                                            : s;
+                                              ? 'boolean' == typeof s
+                                                  ? { capture: s, passive: !0 }
+                                                  : s
+                                                    ? 'object' == typeof s && !1 !== s.passive
+                                                        ? { ...s, passive: !0 }
+                                                        : s
+                                                    : { passive: !0 }
+                                              : s;
                                     })(arguments[2], fe);
                                 if ($)
                                     for (let de = 0; de < $.length; de++)

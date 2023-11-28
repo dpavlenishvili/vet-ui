@@ -279,10 +279,10 @@
                 return 0 === e.length
                     ? Ct
                     : 1 === e.length
-                    ? e[0]
-                    : function (n) {
-                          return e.reduce((r, o) => o(r), n);
-                      };
+                      ? e[0]
+                      : function (n) {
+                            return e.reduce((r, o) => o(r), n);
+                        };
             }
             let at = (() => {
                 class e {
@@ -1156,10 +1156,10 @@
                         ? (r.value = r.factory())
                         : r.value
                     : n & we.Optional
-                    ? null
-                    : void 0 !== t
-                    ? t
-                    : void jc(Dt(e));
+                      ? null
+                      : void 0 !== t
+                        ? t
+                        : void jc(Dt(e));
             }
             const We = globalThis,
                 Zi = {},
@@ -2238,8 +2238,8 @@
                                 return 'function' == typeof e
                                     ? e.name || e.toString()
                                     : 'object' == typeof e && null != e && 'function' == typeof e.type
-                                    ? e.type.name || e.type.toString()
-                                    : ue(e);
+                                      ? e.type.name || e.type.toString()
+                                      : ue(e);
                             })(i[n]),
                         );
                     const a = Fa(s.canSeeViewProviders);
@@ -2383,16 +2383,16 @@
                             ? Ng(t, n, a)
                             : oo(t, n, a, o || null, !0)
                         : 1 === e && null !== n
-                        ? oo(t, n, a, o || null, !0)
-                        : 2 === e
-                        ? (function nu(e, t, n) {
-                              const r = eu(e, t);
-                              r &&
-                                  (function uI(e, t, n, r) {
-                                      e.removeChild(t, n, r);
-                                  })(e, r, t, n);
-                          })(t, a, s)
-                        : 3 === e && t.destroyNode(a),
+                          ? oo(t, n, a, o || null, !0)
+                          : 2 === e
+                            ? (function nu(e, t, n) {
+                                  const r = eu(e, t);
+                                  r &&
+                                      (function uI(e, t, n, r) {
+                                          e.removeChild(t, n, r);
+                                      })(e, r, t, n);
+                              })(t, a, s)
+                            : 3 === e && t.destroyNode(a),
                         null != i &&
                             (function dI(e, t, n, r, o) {
                                 const i = n[zn];
@@ -3985,8 +3985,8 @@
                         'number' == typeof a
                             ? (i = a)
                             : 1 == i
-                            ? (o = Pc(o, a))
-                            : 2 == i && (r = Pc(r, a + ': ' + t[++s] + ';'));
+                              ? (o = Pc(o, a))
+                              : 2 == i && (r = Pc(r, a + ': ' + t[++s] + ';'));
                     }
                 n ? (e.styles = r) : (e.stylesWithoutHost = r), n ? (e.classes = o) : (e.classesWithoutHost = o);
             }
@@ -4494,16 +4494,16 @@
                                       return 'class' === e
                                           ? 'className'
                                           : 'for' === e
-                                          ? 'htmlFor'
-                                          : 'formaction' === e
-                                          ? 'formAction'
-                                          : 'innerHtml' === e
-                                          ? 'innerHTML'
-                                          : 'readonly' === e
-                                          ? 'readOnly'
-                                          : 'tabindex' === e
-                                          ? 'tabIndex'
-                                          : e;
+                                            ? 'htmlFor'
+                                            : 'formaction' === e
+                                              ? 'formAction'
+                                              : 'innerHtml' === e
+                                                ? 'innerHTML'
+                                                : 'readonly' === e
+                                                  ? 'readOnly'
+                                                  : 'tabindex' === e
+                                                    ? 'tabIndex'
+                                                    : e;
                                   })(r)),
                                   (o = null != s ? s(o, t.value || '', r) : o),
                                   i.setProperty(u, r, o));
@@ -7266,8 +7266,8 @@
                 })(e)
                     ? e
                     : Ru(e)
-                    ? mt(Promise.resolve(e))
-                    : Y(e);
+                      ? mt(Promise.resolve(e))
+                      : Y(e);
             }
             const CO = {
                     exact: function Rw(e, t, n) {
@@ -7652,12 +7652,12 @@
                         return 'string' != typeof i
                             ? [...o, i]
                             : 0 === s
-                            ? (i.split('/').forEach((a, u) => {
-                                  (0 == u && '.' === a) ||
-                                      (0 == u && '' === a ? (n = !0) : '..' === a ? t++ : '' != a && o.push(a));
-                              }),
-                              o)
-                            : [...o, i];
+                              ? (i.split('/').forEach((a, u) => {
+                                    (0 == u && '.' === a) ||
+                                        (0 == u && '' === a ? (n = !0) : '..' === a ? t++ : '' != a && o.push(a));
+                                }),
+                                o)
+                              : [...o, i];
                     }, []);
                     return new Bw(n, t, r);
                 })(t);
@@ -7763,10 +7763,10 @@
                 return r.match && 0 === o.length
                     ? new Ue(e.segments, {})
                     : r.match && !e.hasChildren()
-                    ? fh(e, t, n)
-                    : r.match
-                    ? ea(e, 0, o)
-                    : fh(e, t, n);
+                      ? fh(e, t, n)
+                      : r.match
+                        ? ea(e, 0, o)
+                        : fh(e, t, n);
             }
             function ea(e, t, n) {
                 if (0 === n.length) return new Ue(e.segments, {});
@@ -8934,11 +8934,11 @@
                     })(e, n, r)
                     ? { segmentGroup: new Ue(t, zP(r, new Ue(n, e.children))), slicedSegments: [] }
                     : 0 === n.length &&
-                      (function qP(e, t, n) {
-                          return n.some((r) => Ic(e, t, r));
-                      })(e, n, r)
-                    ? { segmentGroup: new Ue(e.segments, UP(e, 0, n, r, e.children)), slicedSegments: n }
-                    : { segmentGroup: new Ue(e.segments, e.children), slicedSegments: n };
+                        (function qP(e, t, n) {
+                            return n.some((r) => Ic(e, t, r));
+                        })(e, n, r)
+                      ? { segmentGroup: new Ue(e.segments, UP(e, 0, n, r, e.children)), slicedSegments: n }
+                      : { segmentGroup: new Ue(e.segments, e.children), slicedSegments: n };
             }
             function UP(e, t, n, r, o) {
                 const i = {};
@@ -9081,8 +9081,8 @@
                                         t.value.outlet === ge
                                             ? -1
                                             : n.value.outlet === ge
-                                            ? 1
-                                            : t.value.outlet.localeCompare(n.value.outlet),
+                                              ? 1
+                                              : t.value.outlet.localeCompare(n.value.outlet),
                                     );
                                 })(s),
                                 Y(s)
@@ -9119,8 +9119,8 @@
                         ? void 0 === r.redirectTo
                             ? this.matchSegmentAgainstRoute(t, o, r, i, s, a)
                             : a && this.allowRedirects
-                            ? this.expandSegmentAgainstRouteUsingRedirect(t, o, n, r, i, s)
-                            : Pi(o)
+                              ? this.expandSegmentAgainstRouteUsingRedirect(t, o, n, r, i, s)
+                              : Pi(o)
                         : Pi(o);
                 }
                 expandSegmentAgainstRouteUsingRedirect(t, n, r, o, i, s) {
@@ -9223,38 +9223,38 @@
                     return n.children
                         ? Y({ routes: n.children, injector: t })
                         : n.loadChildren
-                        ? void 0 !== n._loadedRoutes
-                            ? Y({ routes: n._loadedRoutes, injector: n._loadedInjector })
-                            : (function LP(e, t, n, r) {
-                                  const o = t.canLoad;
-                                  return void 0 === o || 0 === o.length
-                                      ? Y(!0)
-                                      : Y(
-                                            o.map((s) => {
-                                                const a = xi(s, e);
-                                                return Br(
-                                                    (function EP(e) {
-                                                        return e && ua(e.canLoad);
-                                                    })(a)
-                                                        ? a.canLoad(t, n)
-                                                        : e.runInContext(() => a(t, n)),
-                                                );
-                                            }),
-                                        ).pipe(Oi(), a_());
-                              })(t, n, r).pipe(
-                                  Ce((o) =>
-                                      o
-                                          ? this.configLoader.loadChildren(t, n).pipe(
-                                                kt((i) => {
-                                                    (n._loadedRoutes = i.routes), (n._loadedInjector = i.injector);
-                                                }),
-                                            )
-                                          : (function $P(e) {
-                                                return Zs(n_(!1, 3));
-                                            })(),
-                                  ),
-                              )
-                        : Y({ routes: [], injector: t });
+                          ? void 0 !== n._loadedRoutes
+                              ? Y({ routes: n._loadedRoutes, injector: n._loadedInjector })
+                              : (function LP(e, t, n, r) {
+                                    const o = t.canLoad;
+                                    return void 0 === o || 0 === o.length
+                                        ? Y(!0)
+                                        : Y(
+                                              o.map((s) => {
+                                                  const a = xi(s, e);
+                                                  return Br(
+                                                      (function EP(e) {
+                                                          return e && ua(e.canLoad);
+                                                      })(a)
+                                                          ? a.canLoad(t, n)
+                                                          : e.runInContext(() => a(t, n)),
+                                                  );
+                                              }),
+                                          ).pipe(Oi(), a_());
+                                })(t, n, r).pipe(
+                                    Ce((o) =>
+                                        o
+                                            ? this.configLoader.loadChildren(t, n).pipe(
+                                                  kt((i) => {
+                                                      (n._loadedRoutes = i.routes), (n._loadedInjector = i.injector);
+                                                  }),
+                                              )
+                                            : (function $P(e) {
+                                                  return Zs(n_(!1, 3));
+                                              })(),
+                                    ),
+                                )
+                          : Y({ routes: [], injector: t });
                 }
             }
             function XP(e) {
@@ -10179,8 +10179,8 @@
                             n instanceof Ur || n instanceof Ai
                                 ? ca.COMPLETE
                                 : n instanceof na && (0 === n.code || 1 === n.code)
-                                ? ca.REDIRECTING
-                                : ca.FAILED,
+                                  ? ca.REDIRECTING
+                                  : ca.FAILED,
                         ),
                         Hr((n) => n !== ca.REDIRECTING),
                         Mi(1),
@@ -10594,13 +10594,13 @@
                                   (this.lastSource = n.navigationTrigger),
                                   (this.restoredId = n.restoredState ? n.restoredState.navigationId : 0))
                                 : n instanceof Ur
-                                ? ((this.lastId = n.id),
-                                  this.scheduleScrollEvent(n, this.urlSerializer.parse(n.urlAfterRedirects).fragment))
-                                : n instanceof Ai &&
-                                  0 === n.code &&
-                                  ((this.lastSource = void 0),
-                                  (this.restoredId = 0),
-                                  this.scheduleScrollEvent(n, this.urlSerializer.parse(n.url).fragment));
+                                  ? ((this.lastId = n.id),
+                                    this.scheduleScrollEvent(n, this.urlSerializer.parse(n.urlAfterRedirects).fragment))
+                                  : n instanceof Ai &&
+                                    0 === n.code &&
+                                    ((this.lastSource = void 0),
+                                    (this.restoredId = 0),
+                                    this.scheduleScrollEvent(n, this.urlSerializer.parse(n.url).fragment));
                         });
                     }
                     consumeScrollEvents() {
@@ -10612,9 +10612,9 @@
                                         : 'enabled' === this.options.scrollPositionRestoration &&
                                           this.viewportScroller.scrollToPosition(n.position)
                                     : n.anchor && 'enabled' === this.options.anchorScrolling
-                                    ? this.viewportScroller.scrollToAnchor(n.anchor)
-                                    : 'disabled' !== this.options.scrollPositionRestoration &&
-                                      this.viewportScroller.scrollToPosition([0, 0]));
+                                      ? this.viewportScroller.scrollToAnchor(n.anchor)
+                                      : 'disabled' !== this.options.scrollPositionRestoration &&
+                                        this.viewportScroller.scrollToPosition([0, 0]));
                         });
                     }
                     scheduleScrollEvent(n, r) {
@@ -12291,8 +12291,8 @@
                                                           ': ' +
                                                           JSON.stringify(A)
                                                     : A
-                                                    ? A.toString()
-                                                    : Object.prototype.toString.call(A);
+                                                      ? A.toString()
+                                                      : Object.prototype.toString.call(A);
                                             })(E) +
                                             (E && E.stack ? '\n' + E.stack : ''),
                                     );
@@ -12698,14 +12698,14 @@
                                         return !Er && 'object' == typeof E && E
                                             ? !!E.capture
                                             : Er && x
-                                            ? 'boolean' == typeof E
-                                                ? { capture: E, passive: !0 }
-                                                : E
-                                                ? 'object' == typeof E && !1 !== E.passive
-                                                    ? { ...E, passive: !0 }
-                                                    : E
-                                                : { passive: !0 }
-                                            : E;
+                                              ? 'boolean' == typeof E
+                                                  ? { capture: E, passive: !0 }
+                                                  : E
+                                                    ? 'object' == typeof E && !1 !== E.passive
+                                                        ? { ...E, passive: !0 }
+                                                        : E
+                                                    : { passive: !0 }
+                                              : E;
                                     })(arguments[2], $n);
                                 if (Ce)
                                     for (let nr = 0; nr < Ce.length; nr++)
