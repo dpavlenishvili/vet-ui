@@ -23,7 +23,8 @@
             "@vet/ui/dropdown": ["frontend/libs/ui/dropdown/src/index.ts"],
             "@vet/ui/form-item": ["frontend/libs/ui/form-item/src/index.ts"],
             "@vet/ui/input": ["frontend/libs/ui/input/src/index.ts"],
-            "@vet/ui/radio-button": ["frontend/libs/ui/radio-button/src/index.ts"]
+            "@vet/ui/radio-button": ["frontend/libs/ui/radio-button/src/index.ts"],
+            "@vet/ui/wizard": ["frontend/libs/ui/wizard/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

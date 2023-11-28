@@ -57,7 +57,10 @@
                     "frontend/libs/ui/form-item/**/*.ts",
                     "frontend/libs/ui/form-item/**/*.html",
                     "frontend/libs/ui/checkbox/**/*.ts",
-                    "frontend/libs/ui/checkbox/**/*.html"
+                    "frontend/libs/ui/checkbox/**/*.html",
+                    "frontend/libs/ui/form-item/**/*.html",
+                    "frontend/libs/ui/wizard/**/*.ts",
+                    "frontend/libs/ui/wizard/**/*.html"
                 ]
             }
         }
