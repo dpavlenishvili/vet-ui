@@ -1,0 +1,18 @@
+<input
+    #checkboxInput
+    type="checkbox"
+    class="checkbox-input"
+    [attr.checked]="checked || null"
+    [indeterminate]="checked === null"
+    [attr.id]="id"
+    (change)="checkChange(checkboxInput.checked)"
+/>
+<label [attr.for]="id" class="checkbox-label">
+    <div class="checkbox" aria-hidden="true">
+        <svg-icon src="assets/icons/check.svg" [svgStyle]="{ 'width.px': 90 }"></svg-icon>
+        <div class="indeterminate-state"></div>
+    </div>
+    <span class="checkbox-label-text">
+        <ng-content></ng-content>
+    </span>
+</label>

@@ -44,3 +44,20 @@
         <button>Submit</button>
     </form>
 </ng-container>
+
+<form [formGroup]="checkboxForm">
+    <v-ui-checkbox formControlName="checkbox">
+        <span>საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე</span>
+    </v-ui-checkbox>
+</form>
+
+<form [formGroup]="multipleCheckboxesForm">
+    <v-ui-checkbox-group formControlName="checkboxes">
+        <v-ui-checkbox [value]="1">
+            <span>საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე</span>
+        </v-ui-checkbox>
+        <v-ui-checkbox [value]="2">
+            <span>სხვა</span>
+        </v-ui-checkbox>
+    </v-ui-checkbox-group>
+</form>

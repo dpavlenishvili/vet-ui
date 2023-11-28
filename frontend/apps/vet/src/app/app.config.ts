@@ -3,6 +3,7 @@ import { ApplicationConfig, isDevMode } from '@angular/core';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@ngneat/transloco';
 import { provideHttpClient } from '@angular/common/http';
+import { provideAngularSvgIcon } from 'angular-svg-icon';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -23,5 +24,6 @@ export const appConfig: ApplicationConfig = {
             },
             loader: TranslocoHttpLoader,
         }),
+        provideAngularSvgIcon(),
     ],
 };

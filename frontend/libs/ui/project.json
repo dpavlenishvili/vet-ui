@@ -55,7 +55,9 @@
                     "frontend/libs/ui/radio-button/**/*.ts",
                     "frontend/libs/ui/radio-button/**/*.html",
                     "frontend/libs/ui/form-item/**/*.ts",
-                    "frontend/libs/ui/form-item/**/*.html"
+                    "frontend/libs/ui/form-item/**/*.html",
+                    "frontend/libs/ui/checkbox/**/*.ts",
+                    "frontend/libs/ui/checkbox/**/*.html"
                 ]
             }
         }
