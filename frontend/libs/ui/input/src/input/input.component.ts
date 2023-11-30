@@ -34,5 +34,5 @@ export class InputComponent extends FormControlProvider {
     isDisabled = false;
     value = '';
 
-    ngControl = inject(NgControl);
+    ngControl = inject(NgControl, { optional: true });
 }

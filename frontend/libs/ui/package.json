@@ -9,7 +9,8 @@
         "angular-svg-icon": "^16.0.0",
         "@angular/forms": "~16.2.0",
         "@angular/cdk": "^16.2.12",
-        "jest-preset-angular": "~13.1.0"
+        "jest-preset-angular": "~13.1.0",
+        "ngx-bootstrap": "^11.0.2"
     },
     "dependencies": {},
     "sideEffects": false

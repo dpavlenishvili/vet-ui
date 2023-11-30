@@ -15,6 +15,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ErrorStateMatcher } from '../default-error-state-matcher';
 import { FormGroupDirective, NgForm } from '@angular/forms';
 import { FormLabelDirective } from '../form-label.directive';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
     selector: 'v-ui-form-item',
@@ -51,8 +52,8 @@ import { FormLabelDirective } from '../form-label.directive';
     encapsulation: ViewEncapsulation.None,
 })
 export class FormItemComponent implements AfterViewInit {
-    @Input() borderless = false;
-    @Input() clearBtn = false;
+    @Input({ transform: coerceBooleanProperty }) borderless: BooleanInput = false;
+    @Input({ transform: coerceBooleanProperty }) clearBtn: BooleanInput = false;
 
     @ContentChild(FormControlProvider)
     controlProvider!: FormControlProvider;

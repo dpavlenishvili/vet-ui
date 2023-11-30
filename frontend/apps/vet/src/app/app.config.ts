@@ -1,50 +1,21 @@
-import { APP_INITIALIZER, ApplicationConfig, isDevMode } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
-import { TranslocoHttpLoader } from './transloco-loader';
-import { provideTransloco } from '@ngneat/transloco';
-import { MainLayoutComponent } from './main-layout.component';
+import { initializeTransolco } from './initialize-transloco';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
-import { setTheme } from 'ngx-bootstrap/utils';
-import { provideAnimations } from "@angular/platform-browser/animations";
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideDatepicker } from '@vet/ui/datepicker';
+import { useBs5Theme } from './use-bs5-theme';
+import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
-        provideRouter([
-            {
-                path: '',
-                component: MainLayoutComponent,
-                children: [
-                    {
-                        // Temporary redirect to registration page
-                        path: '',
-                        redirectTo: 'registration',
-                        pathMatch: 'full',
-                    },
-                    {
-                        path: 'registration',
-                        loadChildren: () => import('@vet/features/registration'),
-                    },
-                ],
-            },
-        ]),
+        provideRouter(appRoutes),
         provideHttpClient(),
-        provideTransloco({
-            config: {
-                availableLangs: ['ka', 'en'],
-                defaultLang: 'ka',
-                // Remove this option if your application doesn't support changing language in runtime.
-                reRenderOnLangChange: true,
-                prodMode: !isDevMode(),
-            },
-            loader: TranslocoHttpLoader,
-        }),
+        initializeTransolco(),
         provideAngularSvgIcon(),
-        {
-            provide: APP_INITIALIZER,
-            useFactory: () => () => setTheme('bs5'),
-            multi: true,
-        },
+        useBs5Theme(),
+        provideDatepicker(),
     ],
 };

@@ -9,7 +9,7 @@ import { InputComponent } from '@vet/ui/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ValidationErrorPipe } from '@vet/ui/input';
 import { CheckboxComponent, CheckboxGroupComponent } from '@vet/ui/checkbox';
-import { DatepickerComponent } from "../../../../../ui/datepicker/src/datepicker/datepicker.component";
+import { DatepickerComponent } from '@vet/ui/datepicker';
 
 @Component({
     selector: 'lib-features-registration',
@@ -48,6 +48,7 @@ export class FeaturesRegistrationComponent implements OnInit {
     multipleCheckboxesForm = new FormGroup({
         checkboxes: new FormControl([2]),
     });
+    dt = new Date();
 
     ngOnInit() {
         this.registrationForm.get('radioButtons')?.valueChanges.subscribe((res) => {
