@@ -1,10 +1,11 @@
-import { ApplicationConfig, isDevMode } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, isDevMode } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@ngneat/transloco';
 import { MainLayoutComponent } from './main-layout.component';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
+import { setTheme } from 'ngx-bootstrap/utils';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -38,5 +39,10 @@ export const appConfig: ApplicationConfig = {
             loader: TranslocoHttpLoader,
         }),
         provideAngularSvgIcon(),
+        {
+            provide: APP_INITIALIZER,
+            useFactory: () => () => setTheme('bs5'),
+            multi: true,
+        },
     ],
 };
