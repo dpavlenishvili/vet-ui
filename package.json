@@ -8,6 +8,7 @@
         "commit": "git-cz",
         "postinstall": "husky install"
     },
+    "packageManager": "yarn@4.0.2",
     "engines": {
         "node": ">=18.0.0",
         "yarn": ">=4.0.2",
@@ -100,6 +101,5 @@
     },
     "workspaces": [
         "frontend/libs/theming"
-    ],
-    "packageManager": "yarn@4.0.2"
+    ]
 }

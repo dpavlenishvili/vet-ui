@@ -18,6 +18,9 @@
 </div>
 <ng-container *transloco="let t">
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" style="padding: 3rem">
+        <v-ui-form-item>
+            <v-ui-datepicker></v-ui-datepicker>
+        </v-ui-form-item>
         <v-ui-form-item [borderless]="true">
             <v-ui-radio-button-group formControlName="radioButtons">
                 <v-ui-radio-button value="1">

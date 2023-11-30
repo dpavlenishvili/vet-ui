@@ -9,6 +9,7 @@ import { InputComponent } from '@vet/ui/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ValidationErrorPipe } from '@vet/ui/input';
 import { CheckboxComponent, CheckboxGroupComponent } from '@vet/ui/checkbox';
+import { DatepickerComponent } from "../../../../../ui/datepicker/src/datepicker/datepicker.component";
 
 @Component({
     selector: 'lib-features-registration',
@@ -28,6 +29,7 @@ import { CheckboxComponent, CheckboxGroupComponent } from '@vet/ui/checkbox';
         ButtonComponent,
         CheckboxComponent,
         CheckboxGroupComponent,
+        DatepickerComponent,
     ],
     templateUrl: './features-registration.component.html',
     styleUrls: ['./features-registration.component.scss'],

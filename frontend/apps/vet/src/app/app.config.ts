@@ -6,9 +6,11 @@ import { provideTransloco } from '@ngneat/transloco';
 import { MainLayoutComponent } from './main-layout.component';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 import { setTheme } from 'ngx-bootstrap/utils';
+import { provideAnimations } from "@angular/platform-browser/animations";
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideAnimations(),
         provideRouter([
             {
                 path: '',

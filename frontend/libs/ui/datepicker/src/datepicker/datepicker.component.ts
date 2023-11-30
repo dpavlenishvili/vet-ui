@@ -1,6 +1,7 @@
 import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
 import { FormControlProvider } from '@vet/ui/form-item';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 
 let qty = 0;
 
@@ -16,6 +17,9 @@ let qty = 0;
         },
     ],
     encapsulation: ViewEncapsulation.None,
+    imports: [
+        BsDatepickerModule
+    ]
 })
 export class DatepickerComponent extends FormControlProvider implements ControlValueAccessor {
     @Input() id = `v-ui-datepicker-${++qty}`;
