@@ -1,0 +1,10 @@
+{
+    "name": "@vet/theming",
+    "version": "0.0.1",
+    "peerDependencies": {
+        "@angular/core": "^16.2.0",
+        "@vet/shared": "*"
+    },
+    "dependencies": {},
+    "sideEffects": false
+}

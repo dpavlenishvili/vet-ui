@@ -1,16 +1,29 @@
-import { provideRouter } from '@angular/router';
 import { ApplicationConfig, isDevMode } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@ngneat/transloco';
-import { provideHttpClient } from '@angular/common/http';
+import { MainLayoutComponent } from './main-layout.component';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideRouter([
             {
-                path: 'registration',
-                loadChildren: () => import('@vet/features/registration'),
+                path: '',
+                component: MainLayoutComponent,
+                children: [
+                    {
+                        // Temporary redirect to registration page
+                        path: '',
+                        redirectTo: 'registration',
+                        pathMatch: 'full',
+                    },
+                    {
+                        path: 'registration',
+                        loadChildren: () => import('@vet/features/registration'),
+                    },
+                ],
             },
         ]),
         provideHttpClient(),
