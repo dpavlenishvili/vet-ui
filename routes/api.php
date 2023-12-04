@@ -20,6 +20,9 @@ Route::group([
     'namespace' => 'App\Http\Controllers\api\v1',
     'middleware' => ['api'],
 ], function () {
+    Route::get('pages', 'PageApiController@index');
+    Route::get('menus', 'PageApiController@menus');
+    Route::get('collection/{collection}', 'PageApiController@collectionItem');
     Route::get('register/validate', 'UserApiController@validatePerson');
     Route::post('register', 'UserApiController@register');
     Route::get('sms/send', 'UserApiController@sendSms');
