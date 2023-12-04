@@ -549,8 +549,8 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Unauthenticated",
+                    "400": {
+                        "description": "Invalid credentials",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -750,6 +750,70 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pages": {
+            "get": {
+                "tags": ["Pages"],
+                "summary": "Get list of pages",
+                "description": "Returns list of pages",
+                "operationId": "getPagesList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PagesRes"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/menus": {
+            "post": {
+                "tags": ["Pages"],
+                "summary": "List of menus",
+                "description": "Returns list of menus data",
+                "operationId": "menus",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/collection/{id}": {
+            "get": {
+                "tags": ["Pages"],
+                "summary": "Get collection items",
+                "description": "Returns items of page colections",
+                "operationId": "Collections Items",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Collection id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CollectionItemsRes"
                                 }
                             }
                         }
@@ -1253,6 +1317,165 @@
     },
     "components": {
         "schemas": {
+            "CollectionItem": {
+                "title": "Collection Item",
+                "description": "Collection Item",
+                "properties": {
+                    "slug": {
+                        "title": "Slug",
+                        "description": "Slug",
+                        "type": "string",
+                        "example": "contact-us"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "description": "Item title",
+                        "type": "string",
+                        "example": "naxes ucxo moyme vinme"
+                    },
+                    "meta_title": {
+                        "title": "Meta title",
+                        "description": "Page meta title",
+                        "type": "string",
+                        "example": "naxes ucxo moyme vinme"
+                    },
+                    "content": {
+                        "title": "Content",
+                        "description": "Page content",
+                        "type": "string",
+                        "example": "<p>Hello world</p>"
+                    },
+                    "meta_description": {
+                        "title": "Meta description",
+                        "description": "Page meta description",
+                        "type": "string",
+                        "example": "Hello world"
+                    },
+                    "image": {
+                        "title": "Image",
+                        "description": "MPage main banner/poster",
+                        "type": "string",
+                        "example": "http://..."
+                    },
+                    "created_at": {
+                        "title": "Create at",
+                        "description": "Page creation date time",
+                        "type": "string",
+                        "example": "2024-12-30 13:00:00"
+                    },
+                    "pin": {
+                        "title": "Pin",
+                        "description": "Pinned items",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Collection item"
+                }
+            },
+            "Page": {
+                "title": "Page",
+                "description": "Page model",
+                "properties": {
+                    "slug": {
+                        "title": "Slug",
+                        "description": "Slug",
+                        "type": "string",
+                        "example": "contact-us"
+                    },
+                    "type": {
+                        "title": "Type",
+                        "description": "Page type",
+                        "type": "string",
+                        "example": "default static page"
+                    },
+                    "collection_id": {
+                        "title": "Collection ID",
+                        "description": "Attached collection",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "description": "Page title",
+                        "type": "string",
+                        "example": "Contact us"
+                    },
+                    "meta_title": {
+                        "title": "Meta title",
+                        "description": "Page meta title",
+                        "type": "string",
+                        "example": "Contact us"
+                    },
+                    "content": {
+                        "title": "Content",
+                        "description": "Page content",
+                        "type": "string",
+                        "example": "<p>Hello world</p>"
+                    },
+                    "meta_description": {
+                        "title": "Meta description",
+                        "description": "Page meta description",
+                        "type": "string",
+                        "example": "Hello world"
+                    },
+                    "image": {
+                        "title": "Image",
+                        "description": "MPage main banner/poster",
+                        "type": "string",
+                        "example": "http://..."
+                    },
+                    "position": {
+                        "title": "Position",
+                        "description": "Page index for ordering purposes",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "parent_id": {
+                        "title": "Parent ID",
+                        "description": "Parent page ID",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "created_at": {
+                        "title": "Create at",
+                        "description": "Page creation date time",
+                        "type": "string",
+                        "example": "2024-12-30 13:00:00"
+                    },
+                    "menus": {
+                        "title": "Menus",
+                        "description": "Relations of menus",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Top menu"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "children": {
+                        "title": "Children",
+                        "description": "Children pages",
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Page"
+                }
+            },
             "User": {
                 "title": "User",
                 "description": "User model",
@@ -1377,6 +1600,42 @@
                     "name": "User"
                 }
             },
+            "CollectionItemsRes": {
+                "title": "collectionItemResource",
+                "description": "Collection items resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CollectionItem"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "collectionItemsResource"
+                }
+            },
+            "PagesRes": {
+                "title": "pagesResource",
+                "description": "Page resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Page"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PageResource"
+                }
+            },
             "UserRes": {
                 "title": "UserResource",
                 "description": "User resource",
@@ -1499,11 +1758,17 @@
                         "type": "[null, string]",
                         "example": "password"
                     },
-                    "password_confirmation": {
+                    "photo": {
                         "title": "Password confirmation",
                         "description": "Password confirmation",
                         "type": "[null, string]",
                         "example": "password"
+                    },
+                    "password_confirmation": {
+                        "title": "Photo",
+                        "description": "Photo of the user",
+                        "type": "[null, string]",
+                        "example": "base64 string"
                     }
                 },
                 "type": "object"

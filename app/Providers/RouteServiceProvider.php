@@ -49,7 +49,7 @@ class RouteServiceProvider extends ServiceProvider
                 App::setLocale('ka');
                 break;
             default:
-                throw new RuntimeException('Accept-Language header must be set');
+                throw new \RuntimeException('Accept-Language header must be set');
         }
     }
 }

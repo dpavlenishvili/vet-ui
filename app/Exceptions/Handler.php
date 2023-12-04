@@ -33,7 +33,7 @@ class Handler extends ExceptionHandler
     {
         if ($request->is('api/*') || $request->expectsJson()) {
             return response()->json([
-                'errors' => $exception->getMessage(),
+                'errors' => $exception->getMessage().' '.$exception->getFile(),
                 'status' => 'false',
                 'msg' => 'Forbidden',
             ])->setStatusCode($exception instanceof AuthenticationException ? 403 : 500);

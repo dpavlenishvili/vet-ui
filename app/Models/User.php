@@ -37,6 +37,7 @@ class User extends Authenticatable implements JWTSubject
         'is_active',
         'block_reason',
         'password',
+        'is_admin',
     ];
 
     /**
