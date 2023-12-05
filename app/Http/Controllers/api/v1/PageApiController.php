@@ -32,7 +32,7 @@ class PageApiController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Get(
      *      path="/menus",
      *      operationId="menus",
      *      tags={"Pages"},
