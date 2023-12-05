@@ -22,10 +22,10 @@
                               t(a, r, l[r]);
                           })
                         : Object.getOwnPropertyDescriptors
-                        ? Object.defineProperties(a, Object.getOwnPropertyDescriptors(l))
-                        : e(Object(l)).forEach(function (r) {
-                              Object.defineProperty(a, r, Object.getOwnPropertyDescriptor(l, r));
-                          });
+                          ? Object.defineProperties(a, Object.getOwnPropertyDescriptors(l))
+                          : e(Object(l)).forEach(function (r) {
+                                Object.defineProperty(a, r, Object.getOwnPropertyDescriptor(l, r));
+                            });
                 }
                 return a;
             }
@@ -44,7 +44,7 @@
                     3 === r.length && (r = `${r[0]}${r[0]}${r[1]}${r[1]}${r[2]}${r[2]}`);
                     return `${parseInt(r.substring(0, 2), 16)}, ${parseInt(r.substring(2, 4), 16)}, ${parseInt(
                         r.substring(4, 6),
-                        16
+                        16,
                     )}`;
                 },
                 s = c(o(o({ primary: v.sky }, v), {}, { gray: v.slate }), [
@@ -61,9 +61,9 @@
                             .map(([a, r]) =>
                                 'string' == typeof r
                                     ? [[`--colors-${a}`, r]]
-                                    : Object.entries(r).map(([r, l]) => [`--colors-${a}-${r}`, u(l)])
+                                    : Object.entries(r).map(([r, l]) => [`--colors-${a}-${r}`, u(l)]),
                             )
-                            .flat(1)
+                            .flat(1),
                     );
                 },
                 generateTailwindColors: function () {
@@ -77,10 +77,10 @@
                                           Object.entries(r).map(([r, l]) => [
                                               `${r}`,
                                               `rgba(var(--colors-${a}-${r}), <alpha-value>)`,
-                                          ])
+                                          ]),
                                       ),
-                                  ]
-                        )
+                                  ],
+                        ),
                     );
                 },
             };
@@ -108,7 +108,7 @@
                             800: 'rgba(var(--colors-primary-800), <alpha-value>)',
                             900: 'rgba(var(--colors-primary-900), <alpha-value>)',
                         },
-                    })
+                    }),
                 );
             });
             const o = {
@@ -191,7 +191,7 @@
                             '--colors-primary-700': '3, 105, 161',
                             '--colors-primary-800': '7, 89, 133',
                             '--colors-primary-900': '12, 74, 110',
-                        })
+                        }),
                     );
                 });
         },

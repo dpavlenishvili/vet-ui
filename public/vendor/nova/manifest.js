@@ -53,7 +53,8 @@
                 enumerable: !0,
                 set: () => {
                     throw new Error(
-                        'ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + e.id
+                        'ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' +
+                            e.id,
                     );
                 },
             }),

@@ -14,8 +14,21 @@
 html {
     -webkit-text-size-adjust: 100%;
     font-feature-settings: normal;
-    font-family: Nunito Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-        Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+    font-family:
+        Nunito Sans,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Roboto,
+        Helvetica Neue,
+        Arial,
+        Noto Sans,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji,
+        Segoe UI Symbol,
         Noto Color Emoji;
     font-variation-settings: normal;
     line-height: 1.5;
@@ -57,7 +70,15 @@ code,
 kbd,
 pre,
 samp {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        Liberation Mono,
+        Courier New,
+        monospace;
     font-size: 1em;
 }
 small {
@@ -704,7 +725,7 @@ button[disabled] {
     font-weight: 500;
     margin-bottom: 1.6em;
     margin-top: 1.6em;
-    quotes: '\201C''\201D''\2018''\2019';
+    quotes: '\201C' '\201D' '\2018' '\2019';
 }
 [dir='ltr'] .prose :where(blockquote):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     border-left-color: var(--tw-prose-quote-borders);
@@ -780,7 +801,9 @@ button[disabled] {
 }
 .prose :where(kbd):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     border-radius: 0.3125rem;
-    box-shadow: 0 0 0 1px rgb(var(--tw-prose-kbd-shadows) / 10%), 0 3px 0 rgb(var(--tw-prose-kbd-shadows) / 10%);
+    box-shadow:
+        0 0 0 1px rgb(var(--tw-prose-kbd-shadows) / 10%),
+        0 3px 0 rgb(var(--tw-prose-kbd-shadows) / 10%);
     color: var(--tw-prose-kbd);
     font-family: inherit;
     font-size: 0.875em;
@@ -2615,8 +2638,17 @@ span.CodeMirror-selectedtext {
     background: #253540;
 }
 .cm-s-darcula {
-    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
-        Courier New, monospace, serif;
+    font-family:
+        Consolas,
+        Menlo,
+        Monaco,
+        Lucida Console,
+        Liberation Mono,
+        DejaVu Sans Mono,
+        Bitstream Vera Sans Mono,
+        Courier New,
+        monospace,
+        serif;
 }
 .cm-s-darcula.CodeMirror {
     background: #2b2b2b;
@@ -2728,7 +2760,12 @@ span.CodeMirror-selectedtext {
 .CodeMirror-hints.darcula {
     background-color: #3b3e3f !important;
     color: #9c9e9e;
-    font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+    font-family:
+        Menlo,
+        Monaco,
+        Consolas,
+        Courier New,
+        monospace;
 }
 .CodeMirror-hints.darcula .CodeMirror-hint-active {
     background-color: #494d4e !important;
@@ -3471,8 +3508,17 @@ span.cm-atom {
     color: #cc7;
 }
 .cm-s-idea {
-    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono,
-        Courier New, monospace, serif;
+    font-family:
+        Consolas,
+        Menlo,
+        Monaco,
+        Lucida Console,
+        Liberation Mono,
+        DejaVu Sans Mono,
+        Bitstream Vera Sans Mono,
+        Courier New,
+        monospace,
+        serif;
 }
 .cm-s-idea .CodeMirror-matchingbracket {
     color: #000 !important;
@@ -3481,7 +3527,12 @@ span.cm-atom {
 .CodeMirror-hints.idea {
     background-color: #ebf3fd !important;
     color: #616569;
-    font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+    font-family:
+        Menlo,
+        Monaco,
+        Consolas,
+        Courier New,
+        monospace;
 }
 .CodeMirror-hints.idea .CodeMirror-hint-active {
     background-color: #a2b8c9 !important;
@@ -4631,7 +4682,14 @@ div.cm-s-mdn-like span.CodeMirror-matchingbracket {
 .cm-s-panda-syntax {
     background: #292a2b;
     color: #e6e6e6;
-    font-family: Operator Mono, Source Code Pro, Menlo, Monaco, Consolas, Courier New, monospace;
+    font-family:
+        Operator Mono,
+        Source Code Pro,
+        Menlo,
+        Monaco,
+        Consolas,
+        Courier New,
+        monospace;
     line-height: 1.5;
 }
 .cm-s-panda-syntax .CodeMirror-cursor {
@@ -6889,7 +6947,9 @@ input.form-input[type='color']:not(:disabled) {
 .toasted.material {
     background-color: #353535;
     border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 1px 2px rgba(0, 0, 0, 0.24);
     color: #fff;
     font-size: 100%;
     font-weight: 300;
@@ -7404,8 +7464,21 @@ input.form-input[type='color']:not(:disabled) {
     border-radius: 0.25rem !important;
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
     color: rgba(var(--colors-primary-500)) !important;
-    font-family: Nunito Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-        Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+    font-family:
+        Nunito Sans,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Roboto,
+        Helvetica Neue,
+        Arial,
+        Noto Sans,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji,
+        Segoe UI Symbol,
         Noto Color Emoji !important;
 }
 :is(.dark .chartist-tooltip) {
@@ -7579,7 +7652,12 @@ trix-editor.disabled {
     box-sizing: border-box;
     color: #fff !important;
     color: rgba(var(--colors-gray-500)) !important;
-    font: 14px/1.5 Menlo, Consolas, Monaco, Andale Mono, monospace;
+    font:
+        14px/1.5 Menlo,
+        Consolas,
+        Monaco,
+        Andale Mono,
+        monospace;
     height: auto;
     margin: auto;
     min-height: 50px;
@@ -9942,11 +10020,32 @@ trix-editor.disabled {
     vertical-align: middle;
 }
 .font-mono {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        Liberation Mono,
+        Courier New,
+        monospace;
 }
 .font-sans {
-    font-family: Nunito Sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-        Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+    font-family:
+        Nunito Sans,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Roboto,
+        Helvetica Neue,
+        Arial,
+        Noto Sans,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji,
+        Segoe UI Symbol,
         Noto Color Emoji;
 }
 .text-2xl {
@@ -10192,12 +10291,33 @@ trix-editor.disabled {
 }
 .transition {
     transition-duration: 0.15s;
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
-        transform, filter, -webkit-backdrop-filter;
+    transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        -webkit-backdrop-filter;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
         transform, filter, backdrop-filter;
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
-        transform, filter, backdrop-filter, -webkit-backdrop-filter;
+    transition-property:
+        color,
+        background-color,
+        border-color,
+        text-decoration-color,
+        fill,
+        stroke,
+        opacity,
+        box-shadow,
+        transform,
+        filter,
+        backdrop-filter,
+        -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 .transition-colors {
