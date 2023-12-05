@@ -2,6 +2,7 @@ $block: '.v-ui-form-item';
 $label: $block + '__label';
 $controlContainer: $block + '__control-container';
 $clearBtn: $block + '__clear-btn';
+$hideClearBtn: $block + '__hide-clear-btn';
 
 #{$block} {
     display: flex;
@@ -9,12 +10,18 @@ $clearBtn: $block + '__clear-btn';
     padding-bottom: 2rem;
     position: relative;
 
+    #{$hideClearBtn} {
+        opacity: 0;
+        pointer-events: none;
+    }
+
     #{$clearBtn} {
         border: none;
         outline: none;
         background-color: transparent;
         display: inline-flex;
         align-items: center;
+        cursor: pointer;
 
         &:focus {
             outline: 0.1rem solid var(--controlContainerBorderColor);

@@ -76,6 +76,13 @@ $compressed: $block + '__compressed';
                 align-items: center;
                 justify-content: space-around;
                 border-radius: 50%;
+
+                &-active {
+                    width: 3rem;
+                    height: 3rem;
+
+                    margin-left: -0.25rem;
+                }
             }
 
             &--active ~ #{$listItem} {

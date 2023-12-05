@@ -6,6 +6,7 @@ $step_name: $block + '__step-name';
 $background_active: $block + '__background-active';
 $border_active: $block + '__border-active';
 $color_active: $block + '__color-active';
+$step-footer: $block + '__footer';
 
 #{$step_container} {
     overflow: hidden;

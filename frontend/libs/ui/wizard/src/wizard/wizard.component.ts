@@ -30,7 +30,11 @@ import { map, startWith } from 'rxjs';
                     (click)="activateItem(step.id)"
                 >
                     <ng-container *ngIf="step.title">
-                        <span class="v-ui-wizard__list-item-index" role="presentation">
+                        <span
+                            class="v-ui-wizard__list-item-index"
+                            [class.v-ui-wizard__list-item-index-active]="step === activeStep()"
+                            role="presentation"
+                        >
                             {{ index + 1 }}
                         </span>
                         {{ step.title }}
@@ -113,11 +117,24 @@ export class WizardComponent implements AfterViewInit {
 
     activateItem(stepId: WizardStepId) {
         const currentActiveStep = this.activeStep();
-        const step = this.steps.find(({ id }) => id === stepId);
-        if (step && step.isValid() && !step.disabled) {
+        const currentStepIndex = this.steps.toArray().findIndex(({ id }) => id === currentActiveStep?.id);
+        const requestedStepIndex = this.steps.toArray().findIndex(({ id }) => id === stepId);
+        const isNextNavigation = requestedStepIndex > currentStepIndex;
+        const step = this.steps.get(requestedStepIndex) as WizardStep;
+        let navigationAllowed: boolean;
+        if (!currentActiveStep) {
+            navigationAllowed = true;
+        } else if (isNextNavigation) {
+            navigationAllowed = currentActiveStep.isValid();
+        } else {
+            navigationAllowed = step && !step.disabled && step.isValid();
+        }
+
+        if (navigationAllowed) {
             this.steps.forEach((s) => (s.active = false));
             step.active = true;
             this.activeStep.set(step);
+
             if (currentActiveStep) {
                 currentActiveStep.deactivated.emit();
             }
@@ -127,7 +144,8 @@ export class WizardComponent implements AfterViewInit {
 
     next() {
         const index = this.steps.toArray().findIndex(({ id }) => id === this.activeStep()?.id);
-        if (index !== -1) {
+
+        if (index !== -1 && this.activeStep()?.isValid()) {
             const nextStep = this.steps.toArray()[index + 1];
             nextStep && this.activateItem(nextStep.id);
         }
