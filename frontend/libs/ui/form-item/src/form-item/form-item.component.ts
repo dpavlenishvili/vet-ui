@@ -11,7 +11,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { FormControlProvider } from '../form-control-provider';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { ErrorStateMatcher } from '../default-error-state-matcher';
 import { FormGroupDirective, NgForm } from '@angular/forms';
 import { FormLabelDirective } from '../form-label.directive';
@@ -30,20 +30,21 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
             [class.v-ui-form-item__control-container--borderless]="borderless"
         >
             <ng-content></ng-content>
-            <ng-container *ngIf="clearBtn && controlProvider.ngControl?.control?.value">
-                <button
-                    class="v-ui-form-item__clear-btn"
-                    (click)="$event.stopPropagation(); controlProvider.ngControl?.control?.reset(null)"
-                >
-                    <i class="v-ui-icon cross"></i>
-                </button>
-            </ng-container>
+            <button
+                type="button"
+                class="v-ui-form-item__clear-btn"
+                [attr.aria-hidden]="!clearBtn || !controlProvider.ngControl?.control?.value || null"
+                [class.v-ui-form-item__hide-clear-btn]="!clearBtn || !controlProvider.ngControl?.control?.value"
+                (click)="$event.stopPropagation(); controlProvider.ngControl?.control?.reset(null)"
+            >
+                <i class="v-ui-icon cross"></i>
+            </button>
         </div>
         <ng-container *ngIf="showError">
             <ng-content select="v-ui-form-error"></ng-content>
         </ng-container>
     `,
-    imports: [NgIf, AsyncPipe],
+    imports: [NgIf, AsyncPipe, NgClass],
     styleUrls: ['form-item.component.scss'],
     host: {
         '[class.v-ui-form-item]': 'true',

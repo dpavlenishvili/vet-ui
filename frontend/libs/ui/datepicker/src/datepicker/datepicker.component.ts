@@ -1,5 +1,6 @@
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     EventEmitter,
     inject,
@@ -74,6 +75,7 @@ export class DatepickerComponent extends FormControlProvider implements ControlV
     protected disabled = false;
     protected _minDate?: Date;
     protected _maxDate?: Date;
+    protected _changeDetectorRef = inject(ChangeDetectorRef);
 
     constructor() {
         super();
@@ -81,11 +83,14 @@ export class DatepickerComponent extends FormControlProvider implements ControlV
             this.ngControl.valueAccessor = this;
         }
     }
+
     onChange = (v?: Date) => this.valueChange.emit(v);
     onTouched = Function.prototype;
 
     writeValue(obj: Date | undefined): void {
+        console.log({ obj });
         this.value = obj;
+        this._changeDetectorRef.detectChanges();
     }
 
     registerOnChange(fn: (v?: Date) => void): void {

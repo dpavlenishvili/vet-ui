@@ -20,21 +20,21 @@ import {
 } from '../wizard-step.class';
 import { WizardStepContentDirective } from '../wizard-step-content.directive';
 import { WizardStepFooterDirective } from '../wizard-step-footer.directive';
+import { ButtonComponent } from '@vet/ui/button';
 
 @Component({
     selector: 'v-ui-wizard-step',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, ButtonComponent],
     template: `
         <ng-template #contentTemplate>
             <ng-content></ng-content>
         </ng-template>
-        <ng-template #footerTemplate let-next="next">
-            <ng-container *ngIf="isValid()">
-                <div>
-                    <button (click)="next()">Go to next step</button>
-                </div>
-            </ng-container>
+        <ng-template #footerTemplate let-next="next" let-previous="previous">
+            <div class="v-ui-wizard-step__footer">
+                <button v-ui-button color="secondary" (click)="previous()">{{ secondaryButtonTitle }}</button>
+                <button v-ui-button (click)="next()">{{ primaryButtonTitle }}</button>
+            </div>
         </ng-template>
     `,
     providers: [
@@ -52,6 +52,8 @@ export class WizardStepComponent extends WizardStep {
     @Input() active = false;
     @Input() disabled = false;
     @Input() title = '';
+    @Input() primaryButtonTitle = 'Next';
+    @Input() secondaryButtonTitle = 'Previous';
     @Output()
     activated = new EventEmitter<void>();
     @Output()
