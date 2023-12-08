@@ -1,0 +1,8 @@
+{
+    "errors": {
+        "required": "Field is required",
+        "minlength": "Minimum length should be {{requiredLength}}",
+        "personalNumber": "Personal number is not correct",
+        "mobileNumber": "Format should be 5XXXXXXXX"
+    }
+}
