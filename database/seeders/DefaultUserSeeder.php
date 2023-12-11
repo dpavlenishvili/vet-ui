@@ -17,7 +17,7 @@ class DefaultUserSeeder extends Seeder
             'first_name' => 'Super',
             'last_name' => 'admin',
             'gender' => 'male',
-            'birth_date' => '1993-23-08',
+            //            'birth_date' => '1993-23-08',
             'residential' => 'GE',
             'region' => 'Tbilisi',
             'city' => 'Tbilisi',
