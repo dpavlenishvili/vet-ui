@@ -26,51 +26,12 @@
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "frontend/libs/ui/jest.config.ts",
-                "passWithNoTests": true
-            },
-            "configurations": {
-                "ci": {
-                    "ci": true,
-                    "codeCoverage": true
-                }
+                "jestConfig": "frontend/libs/ui/jest.config.ts"
             }
         },
         "lint": {
-            "executor": "@nx/linter:eslint",
-            "outputs": ["{options.outputFile}"],
-            "options": {
-                "lintFilePatterns": [
-                    "frontend/libs/ui/**/*.ts",
-                    "frontend/libs/ui/**/*.html",
-                    "frontend/libs/ui/package.json",
-                    "frontend/libs/ui/card/**/*.ts",
-                    "frontend/libs/ui/card/**/*.html",
-                    "frontend/libs/ui/button/**/*.ts",
-                    "frontend/libs/ui/button/**/*.html",
-                    "frontend/libs/ui/input/**/*.ts",
-                    "frontend/libs/ui/input/**/*.html",
-                    "frontend/libs/ui/dropdown/**/*.ts",
-                    "frontend/libs/ui/dropdown/**/*.html",
-                    "frontend/libs/ui/radio-button/**/*.ts",
-                    "frontend/libs/ui/radio-button/**/*.html",
-                    "frontend/libs/ui/form-item/**/*.ts",
-                    "frontend/libs/ui/form-item/**/*.html",
-                    "frontend/libs/ui/checkbox/**/*.ts",
-                    "frontend/libs/ui/checkbox/**/*.html",
-                    "frontend/libs/ui/form-item/**/*.html",
-                    "frontend/libs/ui/wizard/**/*.ts",
-                    "frontend/libs/ui/wizard/**/*.html",
-                    "frontend/libs/ui/form-item/**/*.html",
-                    "frontend/libs/ui/dropdown/**/*.html",
-                    "frontend/libs/ui/theming/**/*.ts",
-                    "frontend/libs/ui/theming/**/*.html",
-                    "frontend/libs/ui/navbar/**/*.ts",
-                    "frontend/libs/ui/navbar/**/*.html",
-                    "frontend/libs/ui/datepicker/**/*.ts",
-                    "frontend/libs/ui/datepicker/**/*.html"
-                ]
-            }
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"]
         }
     }
 }
