@@ -44,7 +44,7 @@ Backend Deploy:
 Webserver Setup:
     stage: webserver-setup
     tags:
-        - oc
+      - oc
     only:
       - master
     needs:
