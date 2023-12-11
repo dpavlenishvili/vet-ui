@@ -18,6 +18,8 @@ Development Dev Server:
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan db:seed --force"
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan config:cache"
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan cache:clear"
+        - ssh $REMOTE_SSH "sudo cp $REMOTE_DIR/.config/vet-seit.emis.ge.conf /etc/nginx/conf.d/vet-seit.emis.ge.conf"
+        - ssh $REMOTE_SSH "sudo systemctl restart nginx"
         - ssh $REMOTE_SSH "chmod -R  777 $REMOTE_DIR/storage/"
         # - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan storage:link"
         # - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan view:clear"
