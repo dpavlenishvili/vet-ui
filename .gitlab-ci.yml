@@ -44,13 +44,13 @@ Backend Deploy:
 Webserver Setup:
     stage: webserver-setup
     tags:
-      - oc
+        - oc
     only:
-      - master
+        - master
     needs:
-      - node-ssr-build
+        - node-ssr-build
     allow_failure: false
     before_script:
-      - scp -r ./.config/nginx.conf "$REMOTE_SSH":"$REMOTE_DIR/nginx.conf"
-      - ssh $REMOTE_SSH "sudo cp $REMOTE_DIR/nginx.conf /etc/nginx/conf.d/vet-seit.emis.ge.conf"
-      - ssh $REMOTE_SSH "sudo systemctl restart nginx"
+        - scp -r ./.config/nginx.conf "$REMOTE_SSH":"$REMOTE_DIR/nginx.conf"
+        - ssh $REMOTE_SSH "sudo cp $REMOTE_DIR/nginx.conf /etc/nginx/conf.d/vet-seit.emis.ge.conf"
+        - ssh $REMOTE_SSH "sudo systemctl restart nginx"
