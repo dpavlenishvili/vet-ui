@@ -48,9 +48,10 @@ Webserver Setup:
     only:
         - master
     needs:
-        - node-ssr-build
+        - job: Node SSR Build
+          artifacts: true
     allow_failure: false
-    before_script:
+    script:
         - scp -r ./.config/nginx.conf "$REMOTE_SSH":"$REMOTE_DIR/nginx.conf"
         - ssh $REMOTE_SSH "sudo cp $REMOTE_DIR/nginx.conf /etc/nginx/conf.d/vet-seit.emis.ge.conf"
         - ssh $REMOTE_SSH "sudo systemctl restart nginx"
