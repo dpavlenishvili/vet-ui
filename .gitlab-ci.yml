@@ -1,5 +1,6 @@
 stages:
     - Development
+    - ssr
 variables:
     REMOTE_DIR: '/var/www/vet-seit.emis.ge'
     REMOTE_SSH: 'www@192.168.202.56'
@@ -25,13 +26,13 @@ Development Dev Server:
         # - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan view:clear"
 
 Front SSR Server:
-    stage: Development
+    stage: ssr
     tags:
-        - oc
+      - docker
     only:
         - master
     allow_failure: false
-    image: node:18.17.1
+    image: node:18-alpine
     before_script:
       - npm install -g yarn
       - yarn install
