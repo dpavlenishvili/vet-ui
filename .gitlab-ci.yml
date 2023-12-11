@@ -23,3 +23,19 @@ Development Dev Server:
         - ssh $REMOTE_SSH "chmod -R  777 $REMOTE_DIR/storage/"
         # - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan storage:link"
         # - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan view:clear"
+
+Front SSR Server:
+    stage: Development
+    tags:
+        - oc
+    only:
+        - master
+    allow_failure: false
+    image: node:18.17.1
+    before_script:
+      - npm install -g yarn
+      - yarn install
+    script:
+        - yarn build:ssr
+    after_script:
+        - scp -r ./dist "$REMOTE_SSH":"$REMOTE_DIR"
