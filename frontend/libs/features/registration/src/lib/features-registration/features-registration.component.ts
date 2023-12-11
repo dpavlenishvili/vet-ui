@@ -154,6 +154,7 @@ export class FeaturesRegistrationComponent implements OnInit {
 // TODO Move custom pattern validator to validators library
 function customPatternValidator(pattern: string, error: { [key: string]: boolean }): ValidatorFn {
     const regex = new RegExp(pattern);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (control: AbstractControl): { [key: string]: any } | null => {
         return regex.test(control.value) ? null : error;
     };

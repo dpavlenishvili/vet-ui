@@ -10,7 +10,7 @@
             "executor": "@angular-devkit/build-angular:browser",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/frontend/apps/vet",
+                "outputPath": "dist/frontend/apps/vet/browser",
                 "index": "frontend/apps/vet/src/index.html",
                 "main": "frontend/apps/vet/src/main.ts",
                 "polyfills": ["zone.js"],
@@ -63,6 +63,57 @@
             "options": {
                 "jestConfig": "frontend/apps/vet/jest.config.ts"
             }
+        },
+        "server": {
+            "executor": "@angular-devkit/build-angular:server",
+            "options": {
+                "outputPath": "dist/frontend/apps/vet/server",
+                "main": "frontend/apps/vet/server.ts",
+                "tsConfig": "frontend/apps/vet/tsconfig.server.json"
+            },
+            "configurations": {
+                "production": {
+                    "outputHashing": "media"
+                },
+                "development": {
+                    "buildOptimizer": false,
+                    "optimization": false,
+                    "sourceMap": true,
+                    "extractLicenses": false
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+            "executor": "@angular-devkit/build-angular:ssr-dev-server",
+            "configurations": {
+                "development": {
+                    "browserTarget": "vet:build:development",
+                    "serverTarget": "vet:server:development"
+                },
+                "production": {
+                    "browserTarget": "vet:build:production",
+                    "serverTarget": "vet:server:production"
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "prerender": {
+            "executor": "@angular-devkit/build-angular:prerender",
+            "options": {
+                "routes": ["/"]
+            },
+            "configurations": {
+                "production": {
+                    "browserTarget": "vet:build:production",
+                    "serverTarget": "vet:server:production"
+                },
+                "development": {
+                    "browserTarget": "vet:build:development",
+                    "serverTarget": "vet:server:development"
+                }
+            },
+            "defaultConfiguration": "production"
         }
     }
 }
