@@ -6,22 +6,21 @@ variables:
     REMOTE_DIR: '/var/www/vet-seit.emis.ge'
     REMOTE_SSH: 'www@192.168.202.56'
 
-
 Node SSR Build:
-  stage: node-ssr-build
-  tags:
-    - docker
-  only:
-    - master
-  artifacts:
-    paths:
-      - dist/
-  allow_failure: false
-  image: node:18-alpine
-  before_script:
-    - yarn install
-  script:
-    - yarn build:ssr
+    stage: node-ssr-build
+    tags:
+        - docker
+    only:
+        - master
+    artifacts:
+        paths:
+            - dist/
+    allow_failure: false
+    image: node:18-alpine
+    before_script:
+        - yarn install
+    script:
+        - yarn build:ssr
 
 Backend Deploy:
     stage: backend
@@ -52,6 +51,8 @@ Webserver Setup:
           artifacts: true
     allow_failure: false
     script:
-        - scp -r ./.config/nginx.conf "$REMOTE_SSH":"$REMOTE_DIR/nginx.conf"
-        - ssh $REMOTE_SSH "sudo cp $REMOTE_DIR/nginx.conf /etc/nginx/conf.d/vet-seit.emis.ge.conf"
-        - ssh $REMOTE_SSH "sudo systemctl restart nginx"
+        #        - scp -r ./.config/nginx.conf "$REMOTE_SSH":"$REMOTE_DIR/nginx.conf"
+        #        - ssh $REMOTE_SSH "sudo cp $REMOTE_DIR/nginx.conf /etc/nginx/conf.d/vet-seit.emis.ge.conf"
+        #        - ssh $REMOTE_SSH "sudo systemctl restart nginx"
+        - scp -r ./dist "$REMOTE_SSH":"$REMOTE_DIR/dist"
+        - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 restart ng-ssr"
