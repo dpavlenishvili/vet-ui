@@ -336,7 +336,10 @@ class UserApiController extends Controller
      */
     public function validatePerson()
     {
-        $request = (new Identity(request()->get('pid'), request()->get('last_name')))->get();
+        $inputs = request()->all();
+        $inputs['pid'] = $inputs['pid'] ?? $inputs['\pid'];
+
+        $request = (new Identity($inputs['pid'], $inputs['last_name']))->get();
 
         if (! $request || ! $request->json('firstName')) {
             return response()->json(['status' => false, 'error' => [
