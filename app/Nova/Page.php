@@ -59,7 +59,7 @@ class Page extends Resource
         $fields = [
             ID::make()->sortable()->hideFromIndex(),
             SelectPlus::make('Menus', 'menus', Menu::class),
-            BelongsTo::make('Parent Page', 'parent', self::class)->default(0),
+            BelongsTo::make('Parent Page', 'parent', self::class)->default(0)->nullable(),
             Slug::make('Slug', 'slug')
                 ->required()
                 ->from('title_'.config('vet.languages')[0])
