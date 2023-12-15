@@ -93,7 +93,6 @@ export class FeaturesRegistrationComponent implements OnInit {
         }),
     });
 
-    dt = new Date();
     citizenshipValue: null | undefined | string = null;
 
     // TODO remove after integration
