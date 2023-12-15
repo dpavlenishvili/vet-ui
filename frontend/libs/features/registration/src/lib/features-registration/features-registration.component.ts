@@ -19,6 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatepickerComponent } from '@vet/ui/datepicker';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { RegistrationPageErrorStateMatcher } from './registration-page-error-state-matcher';
+import { VerificationComponent } from '@vet/ui/verification';
 
 @Component({
     selector: 'lib-features-registration',
@@ -44,6 +45,7 @@ import { RegistrationPageErrorStateMatcher } from './registration-page-error-sta
         WizardStepFooterDirective,
         DatepickerComponent,
         SvgIconComponent,
+        VerificationComponent,
     ],
     templateUrl: './features-registration.component.html',
     styleUrls: ['./features-registration.component.scss'],
@@ -83,6 +85,7 @@ export class FeaturesRegistrationComponent implements OnInit {
                 Validators.required,
                 customPatternValidator('^5\\d{8}$', { mobileNumber: true }),
             ]),
+            verificationNumber: new FormControl(null, [Validators.required]),
         }),
         passwords: new FormGroup({
             password: new FormControl(null, [Validators.required]),

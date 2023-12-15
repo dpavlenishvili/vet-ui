@@ -179,7 +179,16 @@
                         </v-ui-form-item>
 
                         <!-- Mobile number verification -->
-                        <div class="flex-fill"></div>
+                        <v-ui-form-item class="flex-fill" borderless>
+                            <v-ui-form-item-label>ვერიფიკაცია</v-ui-form-item-label>
+                            <v-ui-verification formControlName="verificationNumber" />
+                            <v-ui-form-error>
+                                <span>{{
+                                    registrationForm.get('mobile')?.get('verificationNumber')?.errors
+                                        | validationErrorPipe
+                                }}</span>
+                            </v-ui-form-error>
+                        </v-ui-form-item>
                     </form>
                 </ng-template>
                 <ng-template vUiWizardStepFooter let-next="next" let-previous="previous">
