@@ -54,7 +54,7 @@ Webserver Setup:
         #        - scp -r ./.config/nginx.conf "$REMOTE_SSH":"$REMOTE_DIR/nginx.conf"
         #        - ssh $REMOTE_SSH "sudo cp $REMOTE_DIR/nginx.conf /etc/nginx/conf.d/vet-seit.emis.ge.conf"
         #        - ssh $REMOTE_SSH "sudo systemctl restart nginx"
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 kill ng-ssr"
+        - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 kill"
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; rm -rf dist"
         - scp -r ./dist "$REMOTE_SSH":"$REMOTE_DIR/dist"
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 start pm2.config.js"
