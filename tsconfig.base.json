@@ -17,6 +17,7 @@
         "paths": {
             "@vet/features/registration": ["frontend/libs/features/registration/src/index.ts"],
             "@vet/shared": ["frontend/libs/shared/src/index.ts"],
+            "@vet/shared/services": ["frontend/libs/shared/services/src/index.ts"],
             "@vet/theming": ["frontend/libs/theming/src/index.ts"],
             "@vet/ui": ["frontend/libs/ui/src/index.ts"],
             "@vet/ui/button": ["frontend/libs/ui/button/src/index.ts"],

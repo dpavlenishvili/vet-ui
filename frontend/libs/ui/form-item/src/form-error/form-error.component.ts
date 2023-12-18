@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-host-metadata-property */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
     selector: 'v-ui-form-error',
@@ -9,6 +9,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     styleUrls: ['form-error.component.scss'],
     host: {
         '[class.error-message]': 'true',
+        '[class.start-0]': 'messageAlignedAtStart',
+        '[class.end-0]': '!messageAlignedAtStart',
     },
 })
-export class FormErrorComponent {}
+export class FormErrorComponent {
+    @Input() messageAlignedAtStart = true;
+}

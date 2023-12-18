@@ -8,6 +8,8 @@ import { provideDatepicker } from '@vet/ui/datepicker';
 import { useBs5Theme } from './use-bs5-theme';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
+import { provideBaseUrl } from '@vet/shared';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -19,5 +21,6 @@ export const appConfig: ApplicationConfig = {
         useBs5Theme(),
         provideDatepicker(),
         provideClientHydration(),
+        provideBaseUrl(environment.apiBaseUrl),
     ],
 };

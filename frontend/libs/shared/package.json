@@ -4,7 +4,8 @@
     "peerDependencies": {
         "@ng-web-apis/common": "^3.0.5",
         "@angular/core": "17.0.6",
-        "jest-preset-angular": "~13.1.0"
+        "jest-preset-angular": "~13.1.0",
+        "@angular/common": "17.0.6"
     },
     "dependencies": {},
     "sideEffects": false

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '@vet/ui/button';
 import { RadioButtonComponent, RadioButtonGroupComponent } from '@vet/ui/radio-button';
@@ -19,7 +19,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatepickerComponent } from '@vet/ui/datepicker';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { RegistrationPageErrorStateMatcher } from './registration-page-error-state-matcher';
+import { RegistrationService } from '@vet/shared/services';
 import { VerificationComponent } from '@vet/ui/verification';
+import { interval, Subscription } from 'rxjs';
+import { EXCLAMATION_POINT_ICON } from '@vet/shared';
 
 @Component({
     selector: 'lib-features-registration',
@@ -58,50 +61,57 @@ import { VerificationComponent } from '@vet/ui/verification';
     ],
 })
 export class FeaturesRegistrationComponent implements OnInit {
-    private destroyRef$ = inject(DestroyRef);
-    private cdr = inject(ChangeDetectorRef);
-
+    chooseCitizenshipForm = new FormGroup({
+        citizenship: new FormControl(null, [Validators.required]),
+    });
+    checkIdentityForm = new FormGroup({
+        lastname: new FormControl<null | string>(null, [Validators.required]),
+        personalNumber: new FormControl<null | string>(null, [
+            Validators.required,
+            customPatternValidator('^[0-9]{11}$', { personalNumber: true }),
+        ]),
+        firstname: new FormControl<null | string>(null, [Validators.required]),
+        dateOfBirth: new FormControl<null | Date>(null, [Validators.required]),
+    });
+    checkIdentityForeignerForm = new FormGroup({
+        firstname: new FormControl(null, [Validators.required]),
+        lastname: new FormControl(null, [Validators.required]),
+        personalNumber: new FormControl(null, [Validators.required]),
+        dateOfBirth: new FormControl(null),
+    });
+    mobileForm = new FormGroup({
+        mobileNumber: new FormControl(null, [
+            Validators.required,
+            customPatternValidator('^5\\d{8}$', { mobileNumber: true }),
+        ]),
+        verificationNumber: new FormControl<null | string>(null, [Validators.required]),
+    });
+    passwordsForm = new FormGroup({
+        password: new FormControl(null, [Validators.required]),
+        confirmPassword: new FormControl(null, [Validators.required]),
+    });
+    termsAndConditionsForm = new FormGroup({
+        accepted: new FormControl(null, [Validators.required]),
+    });
     registrationForm = new FormGroup({
-        chooseCitizenship: new FormGroup({
-            citizenship: new FormControl(null, [Validators.required]),
-        }),
-        checkIdentity: new FormGroup({
-            lastname: new FormControl(null, [Validators.required]),
-            personalNumber: new FormControl(null, [
-                Validators.required,
-                customPatternValidator('^[0-9]{11}$', { personalNumber: true }),
-            ]),
-            firstname: new FormControl(null, [Validators.required]),
-            dateOfBirth: new FormControl(null, [Validators.required]),
-        }),
-        checkIdentityForeigner: new FormGroup({
-            firstname: new FormControl(null, [Validators.required]),
-            lastname: new FormControl(null, [Validators.required]),
-            personalNumber: new FormControl(null, [Validators.required]),
-            dateOfBirth: new FormControl(null),
-        }),
-        mobile: new FormGroup({
-            mobileNumber: new FormControl(null, [
-                Validators.required,
-                customPatternValidator('^5\\d{8}$', { mobileNumber: true }),
-            ]),
-            verificationNumber: new FormControl(null, [Validators.required]),
-        }),
-        passwords: new FormGroup({
-            password: new FormControl(null, [Validators.required]),
-            repeatPassword: new FormControl(null, [Validators.required]),
-        }),
-        termsAndConditions: new FormGroup({
-            accepted: new FormControl(null, [Validators.required]),
-        }),
+        chooseCitizenship: this.chooseCitizenshipForm,
+        checkIdentity: this.checkIdentityForm,
+        checkIdentityForeigner: this.checkIdentityForeignerForm,
+        mobile: this.mobileForm,
+        passwords: this.passwordsForm,
+        termsAndConditions: this.termsAndConditionsForm,
     });
 
     citizenshipValue: null | undefined | string = null;
+    userCheckedSuccessfully = signal<boolean>(false);
+    smsSent = signal<boolean>(false);
 
-    // TODO remove after integration
-    checking = false;
-    checkedSuccessfully = false;
-    mobileNumberCheckedSuccessfully = false;
+    timer = signal<string>('02:00');
+    timerSubscription: Subscription | null = null;
+
+    private destroyRef$ = inject(DestroyRef);
+    private registrationService: RegistrationService = inject(RegistrationService);
+    exclamationPointIcon = EXCLAMATION_POINT_ICON;
 
     ngOnInit() {
         this.registrationForm
@@ -110,42 +120,99 @@ export class FeaturesRegistrationComponent implements OnInit {
             .subscribe((res) => {
                 this.citizenshipValue = res.citizenship;
             });
+
+        this.registrationForm
+            .get('mobile')
+            ?.get('verificationNumber')
+            ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$))
+            .subscribe({
+                next: (smsCode) => {
+                    const mobileNumber = this.registrationForm.get('mobile')?.get('mobileNumber')?.value;
+
+                    if (smsCode && smsCode.length === 4 && mobileNumber) {
+                        this.validateMobileNumber(smsCode, mobileNumber);
+                    }
+                },
+            });
     }
 
-    // TODO remove after integration
     checkUser() {
-        const personalNumberControl = this.registrationForm.get('checkIdentity')?.get('personalNumber');
-        const lastnameControl = this.registrationForm.get('checkIdentity')?.get('lastname');
+        const personalNumberControl = this.checkIdentityForm.get('personalNumber');
+        const lastnameControl = this.checkIdentityForm.get('lastname');
+        const firstnameControl = this.checkIdentityForm.get('firstname');
+        const dateOfBirthControl = this.checkIdentityForm.get('dateOfBirth');
 
-        if (personalNumberControl?.valid && lastnameControl?.valid) {
-            this.checking = true;
+        if (
+            personalNumberControl?.valid &&
+            lastnameControl?.valid &&
+            personalNumberControl.value &&
+            lastnameControl.value
+        ) {
+            this.registrationService
+                .checkUser({
+                    personalNumber: personalNumberControl.value,
+                    lastName: lastnameControl.value,
+                })
+                .subscribe({
+                    next: (res) => {
+                        firstnameControl?.setValue(res.firstName);
+                        dateOfBirthControl?.setValue(new Date(res.birthDate));
 
-            setTimeout(() => {
-                this.checking = false;
-                this.checkedSuccessfully = true;
-                this.cdr.markForCheck();
-            }, 1000);
+                        this.userCheckedSuccessfully.set(true);
+                    },
+                });
         } else {
             personalNumberControl?.markAsTouched();
             lastnameControl?.markAsTouched();
         }
     }
 
-    // TODO remove after integration
-    checkMobile() {
-        const mobileNumberControl = this.registrationForm.get('mobile')?.get('mobileNumber');
+    sendSMS() {
+        const mobileNumberControl = this.mobileForm.get('mobileNumber');
 
         if (mobileNumberControl?.valid) {
-            this.checking = true;
+            this.timerSubscription?.unsubscribe();
+            this.startTimer();
 
-            setTimeout(() => {
-                this.checking = false;
-                this.mobileNumberCheckedSuccessfully = true;
-                this.cdr.markForCheck();
-            }, 1000);
+            if (mobileNumberControl.value) {
+                this.registrationService.sendSMS(mobileNumberControl.value).subscribe({
+                    next: (res) => {
+                        res.status && this.smsSent.set(true);
+                    },
+                });
+            }
         } else {
             mobileNumberControl?.markAsTouched();
         }
+    }
+
+    startTimer() {
+        let timer = 120;
+        let minutes;
+        let seconds;
+
+        this.timerSubscription = interval(1000).subscribe(() => {
+            minutes = Math.floor(timer / 60);
+            seconds = Math.floor(timer % 60);
+
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            this.timer.set(minutes + ':' + seconds);
+
+            --timer;
+            if (timer < 0) {
+                this.timerSubscription?.unsubscribe();
+            }
+        });
+    }
+
+    validateMobileNumber(verificationCode: string, mobileNumber: string) {
+        this.registrationService.validateMobile(verificationCode, mobileNumber).subscribe({
+            next: (res) => {
+                console.log(res);
+            },
+        });
     }
 
     onSubmit() {

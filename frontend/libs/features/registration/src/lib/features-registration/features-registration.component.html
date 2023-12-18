@@ -2,7 +2,7 @@
     <form [formGroup]="registrationForm">
         <v-ui-wizard [horizontal]="true" #wizardComponent>
             <v-ui-wizard-step id="1" title="მოქალაქეობის არჩევა">
-                <ng-template vUiWizardStepContent let-isValid="isValid">
+                <ng-template vUiWizardStepContent>
                     <h1 style="margin-bottom: 3rem">აირჩიეთ მოქალაქეობა</h1>
                     <form formGroupName="chooseCitizenship" vUiWizardStepControlContent>
                         <v-ui-form-item [borderless]="true">
@@ -15,7 +15,7 @@
                                 </v-ui-radio-button>
                             </v-ui-radio-button-group>
                             <v-ui-form-error>
-                                <svg-icon src="assets/icons/exclamation-point.svg"></svg-icon>
+                                <svg-icon [src]="exclamationPointIcon"></svg-icon>
                                 <span>გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა</span>
                             </v-ui-form-error>
                         </v-ui-form-item>
@@ -23,12 +23,7 @@
                 </ng-template>
                 <ng-template vUiWizardStepFooter let-next="next">
                     <div class="d-flex justify-content-end mt-2">
-                        <button
-                            v-ui-button
-                            (click)="
-                                next(); registrationForm.get('chooseCitizenship')?.get('citizenship')?.markAsTouched()
-                            "
-                        >
+                        <button v-ui-button (click)="next(); chooseCitizenshipForm.get('citizenship')?.markAsTouched()">
                             გაგრძელება
                         </button>
                     </div>
@@ -46,8 +41,7 @@
                                     <input v-ui-input formControlName="personalNumber" />
                                     <v-ui-form-error>
                                         <span>{{
-                                            registrationForm.get('checkIdentity')?.get('personalNumber')?.errors
-                                                | validationErrorPipe
+                                            checkIdentityForm.get('personalNumber')?.errors | validationErrorPipe
                                         }}</span>
                                     </v-ui-form-error>
                                 </v-ui-form-item>
@@ -57,36 +51,33 @@
                                     <input v-ui-input formControlName="lastname" />
                                     <v-ui-form-error>
                                         <span>{{
-                                            registrationForm.get('checkIdentity')?.get('lastname')?.errors
-                                                | validationErrorPipe
+                                            checkIdentityForm.get('lastname')?.errors | validationErrorPipe
                                         }}</span>
                                     </v-ui-form-error>
                                 </v-ui-form-item>
                             </div>
 
-                            <div *ngIf="checkedSuccessfully" class="d-flex gap-4">
+                            <div *ngIf="userCheckedSuccessfully()" class="d-flex gap-4">
                                 <v-ui-form-item class="flex-fill" [clearBtn]="true">
                                     <v-ui-form-item-label>სახელი</v-ui-form-item-label>
                                     <input v-ui-input formControlName="firstname" />
                                     <v-ui-form-error>
                                         <span>{{
-                                            registrationForm.get('checkIdentity')?.get('firstname')?.errors
-                                                | validationErrorPipe
+                                            checkIdentityForm.get('firstname')?.errors | validationErrorPipe
                                         }}</span>
                                     </v-ui-form-error>
                                 </v-ui-form-item>
 
-                                <v-ui-form-item class="flex-fill" [clearBtn]="true">
+                                <v-ui-form-item class="flex-fill" [calendarIcon]="true">
                                     <v-ui-form-item-label>დაბადების თარიღი</v-ui-form-item-label>
                                     <v-ui-datepicker
                                         formControlName="dateOfBirth"
-                                        minDate="25/05/1997"
-                                        maxDate="25/05/2000"
+                                        minDate="25/05/1930"
+                                        maxDate="25/05/2010"
                                     ></v-ui-datepicker>
                                     <v-ui-form-error>
                                         <span>{{
-                                            registrationForm.get('checkIdentity')?.get('dateOfBirth')?.errors
-                                                | validationErrorPipe
+                                            checkIdentityForm.get('dateOfBirth')?.errors | validationErrorPipe
                                         }}</span>
                                     </v-ui-form-error>
                                 </v-ui-form-item>
@@ -96,8 +87,10 @@
                     <ng-template vUiWizardStepFooter let-next="next" let-previous="previous">
                         <div class="d-flex justify-content-between mt-2">
                             <button v-ui-button (click)="previous()" color="secondary">უკან დაბრუნება</button>
-                            <button *ngIf="!checkedSuccessfully" v-ui-button (click)="checkUser()">შემოწმება</button>
-                            <button *ngIf="checkedSuccessfully" v-ui-button (click)="next()">გაგრძელება</button>
+                            <button *ngIf="!userCheckedSuccessfully()" v-ui-button (click)="checkUser()">
+                                შემოწმება
+                            </button>
+                            <button *ngIf="userCheckedSuccessfully()" v-ui-button (click)="next()">გაგრძელება</button>
                         </div>
                     </ng-template>
                 </ng-container>
@@ -112,8 +105,8 @@
                                     <input v-ui-input formControlName="personalNumber" />
                                     <v-ui-form-error>
                                         <span>{{
-                                            registrationForm.get('checkIdentityForeigner')?.get('personalNumber')
-                                                ?.errors | validationErrorPipe
+                                            checkIdentityForeignerForm.get('personalNumber')?.errors
+                                                | validationErrorPipe
                                         }}</span>
                                     </v-ui-form-error>
                                 </v-ui-form-item>
@@ -123,8 +116,7 @@
                                     <input v-ui-input formControlName="lastname" />
                                     <v-ui-form-error>
                                         <span>{{
-                                            registrationForm.get('checkIdentityForeigner')?.get('lastname')?.errors
-                                                | validationErrorPipe
+                                            checkIdentityForeignerForm.get('lastname')?.errors | validationErrorPipe
                                         }}</span>
                                     </v-ui-form-error>
                                 </v-ui-form-item>
@@ -136,35 +128,32 @@
                                     <input v-ui-input formControlName="firstname" />
                                     <v-ui-form-error>
                                         <span>{{
-                                            registrationForm.get('checkIdentityForeigner')?.get('firstname')?.errors
-                                                | validationErrorPipe
+                                            checkIdentityForeignerForm.get('firstname')?.errors | validationErrorPipe
                                         }}</span>
                                     </v-ui-form-error>
                                 </v-ui-form-item>
 
-                                <v-ui-form-item [clearBtn]="true">
+                                <v-ui-form-item>
                                     <v-ui-form-item-label>დაბადების თარიღი</v-ui-form-item-label>
                                     <v-ui-datepicker
                                         formControlName="dateOfBirth"
-                                        minDate="25/05/1997"
-                                        maxDate="25/05/2000"
+                                        minDate="25/05/1930"
+                                        maxDate="25/05/2010"
                                     ></v-ui-datepicker>
                                     <v-ui-form-error>
                                         <span>{{
-                                            registrationForm.get('checkIdentityForeigner')?.get('dateOfBirth')?.errors
-                                                | validationErrorPipe
+                                            checkIdentityForeignerForm.get('dateOfBirth')?.errors | validationErrorPipe
                                         }}</span>
                                     </v-ui-form-error>
                                 </v-ui-form-item>
                             </div>
                         </form>
-                        {{ isValid() ? 'valid' : 'invalid' }}
                     </ng-template>
                 </ng-container>
             </v-ui-wizard-step>
 
             <v-ui-wizard-step id="3" title="მობილურის დადასტურება">
-                <ng-template vUiWizardStepContent let-isValid="isValid">
+                <ng-template vUiWizardStepContent>
                     <h1 style="margin-bottom: 3rem">ჩაწერეთ მობილურის ნომერი</h1>
 
                     <form class="d-flex" formGroupName="mobile" vUiWizardStepControlContent>
@@ -172,32 +161,34 @@
                             <v-ui-form-item-label>მობილურის ნომერი</v-ui-form-item-label>
                             <input v-ui-input formControlName="mobileNumber" />
                             <v-ui-form-error>
-                                <span>{{
-                                    registrationForm.get('mobile')?.get('mobileNumber')?.errors | validationErrorPipe
-                                }}</span>
+                                <span>{{ mobileForm.get('mobileNumber')?.errors | validationErrorPipe }}</span>
                             </v-ui-form-error>
                         </v-ui-form-item>
 
                         <!-- Mobile number verification -->
-                        <v-ui-form-item class="flex-fill" borderless>
-                            <v-ui-form-item-label>ვერიფიკაცია</v-ui-form-item-label>
-                            <v-ui-verification formControlName="verificationNumber" />
-                            <v-ui-form-error>
-                                <span>{{
-                                    registrationForm.get('mobile')?.get('verificationNumber')?.errors
-                                        | validationErrorPipe
-                                }}</span>
-                            </v-ui-form-error>
-                        </v-ui-form-item>
+                        <div class="flex-fill">
+                            <ng-container *ngIf="smsSent()">
+                                <v-ui-form-item borderless>
+                                    <v-ui-verification formControlName="verificationNumber" />
+                                    <v-ui-form-error [messageAlignedAtStart]="false">
+                                        <span>{{
+                                            mobileForm.get('verificationNumber')?.errors | validationErrorPipe
+                                        }}</span>
+                                    </v-ui-form-error>
+                                </v-ui-form-item>
+                                <div class="d-flex justify-content-end align-items-center gap-4 mb-5">
+                                    <span>{{ timer() }}</span>
+                                    <a (click)="sendSMS()" class="resend-code">კოდის ხელახლა მიღება</a>
+                                </div>
+                            </ng-container>
+                        </div>
                     </form>
                 </ng-template>
                 <ng-template vUiWizardStepFooter let-next="next" let-previous="previous">
                     <div class="d-flex justify-content-between mt-2">
                         <button v-ui-button (click)="previous()" color="secondary">უკან დაბრუნება</button>
-                        <button *ngIf="!mobileNumberCheckedSuccessfully" v-ui-button (click)="checkMobile()">
-                            შემოწმება
-                        </button>
-                        <button *ngIf="mobileNumberCheckedSuccessfully" v-ui-button (click)="next()">გაგრძელება</button>
+                        <button *ngIf="!smsSent()" v-ui-button (click)="sendSMS()">შემოწმება</button>
+                        <button *ngIf="smsSent()" v-ui-button (click)="next()">გაგრძელება</button>
                     </div>
                 </ng-template>
             </v-ui-wizard-step>
@@ -211,20 +202,15 @@
                             <v-ui-form-item-label>პაროლი</v-ui-form-item-label>
                             <input v-ui-input formControlName="password" type="password" />
                             <v-ui-form-error>
-                                <span>{{
-                                    registrationForm.get('passwords')?.get('password')?.errors | validationErrorPipe
-                                }}</span>
+                                <span>{{ passwordsForm.get('password')?.errors | validationErrorPipe }}</span>
                             </v-ui-form-error>
                         </v-ui-form-item>
 
                         <v-ui-form-item class="flex-fill" [clearBtn]="true">
                             <v-ui-form-item-label>გაიმეორეთ პაროლი</v-ui-form-item-label>
-                            <input v-ui-input formControlName="repeatPassword" type="password" />
+                            <input v-ui-input formControlName="confirmPassword" type="password" />
                             <v-ui-form-error>
-                                <span>{{
-                                    registrationForm.get('passwords')?.get('repeatPassword')?.errors
-                                        | validationErrorPipe
-                                }}</span>
+                                <span>{{ passwordsForm.get('confirmPassword')?.errors | validationErrorPipe }}</span>
                             </v-ui-form-error>
                         </v-ui-form-item>
                     </form>

@@ -88,7 +88,6 @@ export class DatepickerComponent extends FormControlProvider implements ControlV
     onTouched = Function.prototype;
 
     writeValue(obj: Date | undefined): void {
-        console.log({ obj });
         this.value = obj;
         this._changeDetectorRef.detectChanges();
     }

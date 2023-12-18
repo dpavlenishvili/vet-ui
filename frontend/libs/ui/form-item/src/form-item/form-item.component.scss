@@ -3,6 +3,8 @@ $label: $block + '__label';
 $controlContainer: $block + '__control-container';
 $clearBtn: $block + '__clear-btn';
 $hideClearBtn: $block + '__hide-clear-btn';
+$calendarIcon: $block + '__calendar-icon';
+$hideCalendarIcon: $block + '__hide-calendar-icon';
 
 #{$block} {
     display: flex;
@@ -28,6 +30,26 @@ $hideClearBtn: $block + '__hide-clear-btn';
         }
     }
 
+    #{$calendarIcon} {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        top: 0;
+        right: 0;
+        padding: 0 1.2rem;
+        border-left: solid 0.1rem #e0e0e0;
+
+        svg-icon {
+            height: 1.35rem;
+        }
+    }
+
+    #{$hideCalendarIcon} {
+        opacity: 0;
+        pointer-events: none;
+    }
+
     #{$label} {
         margin-bottom: 1.2rem;
         font-size: 1.4rem;
@@ -37,6 +59,7 @@ $hideClearBtn: $block + '__hide-clear-btn';
 
     #{$controlContainer} {
         --controlContainerBorderColor: #c8c8c8;
+        position: relative;
         display: flex;
         flex-direction: row;
         width: 100%;
@@ -76,7 +99,6 @@ $hideClearBtn: $block + '__hide-clear-btn';
                 display: inline-flex;
                 position: absolute;
                 bottom: 0.4rem;
-                left: 0;
             }
         }
     }

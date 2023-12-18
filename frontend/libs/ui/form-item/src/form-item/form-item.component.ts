@@ -16,6 +16,8 @@ import { ErrorStateMatcher } from '../default-error-state-matcher';
 import { FormGroupDirective, NgForm } from '@angular/forms';
 import { FormLabelDirective } from '../form-label.directive';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { SvgIconComponent } from 'angular-svg-icon';
+import { CALENDAR_ICON } from '@vet/shared';
 
 @Component({
     selector: 'v-ui-form-item',
@@ -39,12 +41,15 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
             >
                 <i class="v-ui-icon cross"></i>
             </button>
+            <div *ngIf="calendarIcon" class="v-ui-form-item__calendar-icon">
+                <svg-icon [src]="calendarIconSrc"></svg-icon>
+            </div>
         </div>
         <ng-container *ngIf="showError">
             <ng-content select="v-ui-form-error"></ng-content>
         </ng-container>
     `,
-    imports: [NgIf, AsyncPipe, NgClass],
+    imports: [NgIf, AsyncPipe, NgClass, SvgIconComponent],
     styleUrls: ['form-item.component.scss'],
     host: {
         '[class.v-ui-form-item]': 'true',
@@ -55,6 +60,7 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 export class FormItemComponent implements AfterViewInit {
     @Input({ transform: coerceBooleanProperty }) borderless: BooleanInput = false;
     @Input({ transform: coerceBooleanProperty }) clearBtn: BooleanInput = false;
+    @Input({ transform: coerceBooleanProperty }) calendarIcon: BooleanInput = false;
 
     @ContentChild(FormControlProvider)
     controlProvider!: FormControlProvider;
@@ -66,6 +72,8 @@ export class FormItemComponent implements AfterViewInit {
     formGroupDirective = inject(FormGroupDirective, { optional: true });
     ngForm = inject(NgForm, { optional: true });
     changeDetectorRef = inject(ChangeDetectorRef);
+
+    public calendarIconSrc = CALENDAR_ICON;
 
     get disabled() {
         return !!this.controlProvider.ngControl?.disabled;
