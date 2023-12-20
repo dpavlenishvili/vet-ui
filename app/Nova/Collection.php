@@ -57,7 +57,6 @@ class Collection extends Resource
 
             Select::make('type')->required()->options(config('vet.collection_types')),
             HasMany::make('CollectionItem', 'collectionItem', CollectionItem::class),
-            BelongsTo::make('Page', 'page', Page::class),
         ];
     }
 
