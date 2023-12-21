@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,16 @@ Route::get('login', function () {
     echo 'login';
 })->name('login');
 
-Route::get('/{any}', function () {
-    return view('welcome');
+Route::get('/{any}', function (Request $request) {
+    $newDomain = env('FRONT_URL');
+    $path = $request->path();
+    $query = $request->query();
+
+    $newUrl = $newDomain.'/'.$path;
+
+    if (! empty($query)) {
+        $newUrl .= '?'.http_build_query($query);
+    }
+
+    return redirect($newUrl);
 })->where('any', '^(?!nova|api).*$');
