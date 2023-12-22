@@ -103,7 +103,7 @@ export class DatepickerComponent extends FormControlProvider implements ControlV
         this.onTouched = fn;
     }
 
-    setDisabledState?(isDisabled: boolean): void {
+    setDisabledState(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }
 

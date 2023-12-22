@@ -70,14 +70,14 @@ export class FeaturesRegistrationComponent implements OnInit {
             Validators.required,
             customPatternValidator('^[0-9]{11}$', { personalNumber: true }),
         ]),
-        firstname: new FormControl<null | string>(null, [Validators.required]),
-        dateOfBirth: new FormControl<null | Date>(null, [Validators.required]),
+        firstname: new FormControl<null | string>({ value: null, disabled: true }, [Validators.required]),
+        dateOfBirth: new FormControl<null | Date>({ value: null, disabled: true }, [Validators.required]),
     });
     checkIdentityForeignerForm = new FormGroup({
-        firstname: new FormControl(null, [Validators.required]),
         lastname: new FormControl(null, [Validators.required]),
         personalNumber: new FormControl(null, [Validators.required]),
-        dateOfBirth: new FormControl(null),
+        firstname: new FormControl({ value: null, disabled: true }, [Validators.required]),
+        dateOfBirth: new FormControl({ value: null, disabled: true }),
     });
     mobileForm = new FormGroup({
         mobileNumber: new FormControl(null, [
@@ -132,6 +132,28 @@ export class FeaturesRegistrationComponent implements OnInit {
                     if (smsCode && smsCode.length === 4 && mobileNumber) {
                         this.validateMobileNumber(smsCode, mobileNumber);
                     }
+                },
+            });
+
+        this.listenToCheckIdentityFields();
+    }
+
+    listenToCheckIdentityFields() {
+        this.checkIdentityForm
+            ?.get('personalNumber')
+            ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$))
+            .subscribe({
+                next: () => {
+                    this.userCheckedSuccessfully.set(false);
+                },
+            });
+
+        this.checkIdentityForm
+            ?.get('lastname')
+            ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$))
+            .subscribe({
+                next: () => {
+                    this.userCheckedSuccessfully.set(false);
                 },
             });
     }

@@ -35,8 +35,10 @@ import { CALENDAR_ICON } from '@vet/shared';
             <button
                 type="button"
                 class="v-ui-form-item__clear-btn"
-                [attr.aria-hidden]="!clearBtn || !controlProvider.ngControl?.control?.value || null"
-                [class.v-ui-form-item__hide-clear-btn]="!clearBtn || !controlProvider.ngControl?.control?.value"
+                [attr.aria-hidden]="!clearBtn || !controlProvider.ngControl?.control?.value || disabled || null"
+                [class.v-ui-form-item__hide-clear-btn]="
+                    !clearBtn || !controlProvider.ngControl?.control?.value || disabled
+                "
                 (click)="$event.stopPropagation(); controlProvider.ngControl?.control?.reset(null)"
             >
                 <i class="v-ui-icon cross"></i>

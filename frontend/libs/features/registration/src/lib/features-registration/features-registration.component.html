@@ -60,7 +60,7 @@
                             <div *ngIf="userCheckedSuccessfully()" class="d-flex gap-4">
                                 <v-ui-form-item class="flex-fill" [clearBtn]="true">
                                     <v-ui-form-item-label>სახელი</v-ui-form-item-label>
-                                    <input v-ui-input formControlName="firstname" />
+                                    <input v-ui-input formControlName="firstname" [isDisabled]="true" />
                                     <v-ui-form-error>
                                         <span>{{
                                             checkIdentityForm.get('firstname')?.errors | validationErrorPipe

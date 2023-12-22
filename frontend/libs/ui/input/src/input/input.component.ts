@@ -30,8 +30,8 @@ export class InputComponent extends FormControlProvider {
     @Input() id = `v-ui-input-${++quantity}`;
     @Input() placeholder = '';
     @Input() type: 'text' | 'number' | 'password' = 'text';
+    @Input() isDisabled = false;
 
-    isDisabled = false;
     value = '';
 
     ngControl = inject(NgControl, { optional: true });
