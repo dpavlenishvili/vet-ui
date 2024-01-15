@@ -3356,6 +3356,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ng-select/ng-select@npm:^12.0.6":
+  version: 12.0.6
+  resolution: "@ng-select/ng-select@npm:12.0.6"
+  dependencies:
+    tslib: ^2.3.1
+  peerDependencies:
+    "@angular/common": ^17.0.0-rc.0
+    "@angular/core": ^17.0.0-rc.0
+    "@angular/forms": ^17.0.0-rc.0
+  checksum: 6dbe4305667deffb916f738187b981edaa60f0c5e16b736c8d02fe074b4c0334ceceebb363bc4b27d12af4225d859471c3d3154a48c111ff306bca6985f25e75
+  languageName: node
+  linkType: hard
+
 "@ng-web-apis/common@npm:^3.0.5":
   version: 3.0.6
   resolution: "@ng-web-apis/common@npm:3.0.6"
@@ -15871,6 +15884,7 @@ __metadata:
     "@commitlint/cli": ^17.8.0
     "@commitlint/config-conventional": ^17.8.0
     "@commitlint/cz-commitlint": ^17.8.0
+    "@ng-select/ng-select": ^12.0.6
     "@ng-web-apis/common": ^3.0.5
     "@ng-web-apis/universal": ^3.0.6
     "@ngneat/transloco": ^6.0.0
