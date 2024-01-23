@@ -19,7 +19,7 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        $userId = $this->route('user')->id ?? null;
+        $userId = $this->route('user')->id ?? 0;
 
         return [
             'pid' => ['required', 'unique:users,pid,'.$userId],
