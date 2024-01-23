@@ -543,7 +543,9 @@ class UserApiController extends Controller
 
         $inputs = $request->all();
         $inputs['password'] = Hash::make($inputs['password']);
-        $user = User::create($inputs);
+        $user = new User();
+        $user->fill($inputs);
+        $user->save();
 
         if ($sms) {
             $sms->delete();
