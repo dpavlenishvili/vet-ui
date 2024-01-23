@@ -7,6 +7,7 @@ use App\Nova\CollectionItem;
 use App\Nova\Dashboards\Main;
 use App\Nova\Menu;
 use App\Nova\Page;
+use App\Nova\Role;
 use App\Nova\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
@@ -15,6 +16,7 @@ use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Sereny\NovaPermissions\Nova\Permission;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -77,7 +79,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            \Sereny\NovaPermissions\NovaPermissions::make()
+                ->roleResource(Role::class)
+                ->permissionResource(Permission::class)
+                ->resolveGuardsUsing(function ($request) {
+                    return ['api', 'web'];
+                }),
+        ];
     }
 
     /**
@@ -103,12 +112,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('collection')->collapsable()->collapsedByDefault(),
 
                 MenuSection::resource(User::class)->icon('users'),
-
-                //                MenuSection::make('Menus', [
-                //                    MenuSection::resource(Menu::class)->icon('menu-alt-4'),
-
-                //                    MenuItem::resource(Release::class),
-                //                ])->icon('menu')->collapsable(),
+                MenuSection::resource(Role::class)->icon('badge-check'),
             ];
         });
     }

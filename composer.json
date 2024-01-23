@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "64robots/nova-fields": "^0.22.0",
         "darkaonline/l5-swagger": "^8.5",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.10",
@@ -17,6 +18,8 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "outl1ne/nova-sortable": "^3.4",
+        "sereny/nova-permissions": "^1.4",
+        "spatie/laravel-permission": "^6.2",
         "tymon/jwt-auth": "^2.0",
         "ziffmedia/nova-select-plus": "^2.0"
     },
@@ -34,6 +37,18 @@
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/PermissionTool"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/PermissionTool"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/PermissionTool"
         }
     ],
     "autoload": {

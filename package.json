@@ -10,7 +10,9 @@
         "dev:ssr": "nx run vet:serve-ssr",
         "serve:ssr": "node dist/frontend/apps/vet/server/main.js",
         "build:ssr": "nx build && nx run vet:server",
-        "prerender": "nx run vet:prerender"
+        "prerender": "nx run vet:prerender",
+        "build-PermissionTool": "cd nova-components/PermissionTool && npm run dev",
+        "build-PermissionTool-prod": "cd nova-components/PermissionTool && npm run prod"
     },
     "packageManager": "yarn@3.6.4",
     "engines": {
@@ -94,7 +96,7 @@
         "typescript": "5.2.2"
     },
     "nx": {
-        "targets": {}
+        "targets": []
     },
     "config": {
         "commitizen": {

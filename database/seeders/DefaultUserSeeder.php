@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DefaultUserSeeder extends Seeder
 {
@@ -17,7 +18,6 @@ class DefaultUserSeeder extends Seeder
             'first_name' => 'Super',
             'last_name' => 'admin',
             'gender' => 'male',
-            //            'birth_date' => '1993-23-08',
             'residential' => 'GE',
             'region' => 'Tbilisi',
             'city' => 'Tbilisi',
@@ -26,5 +26,9 @@ class DefaultUserSeeder extends Seeder
             'phone' => '555555555',
             '2fa' => false,
         ]);
+
+        if (Role::where('name', 'Super Admin')->exists()) {
+            $superAdmin->assignRole('Super Admin');
+        }
     }
 }
