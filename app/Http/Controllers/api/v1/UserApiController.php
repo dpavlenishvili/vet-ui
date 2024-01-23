@@ -11,6 +11,7 @@ use App\Models\Sms;
 use App\Models\User;
 use App\Virtual\UserReq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -540,8 +541,13 @@ class UserApiController extends Controller
             ]])->setStatusCode(400);
         }
 
-        $user = User::create($request->all());
-        $sms->delete();
+        $inputs = $request->all();
+        $inputs['password'] = Hash::make($inputs['password']);
+        $user = User::create($inputs);
+
+        if ($sms) {
+            $sms->delete();
+        }
 
         return (new UserResource($user))
             ->response()

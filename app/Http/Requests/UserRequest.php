@@ -50,10 +50,6 @@ class UserRequest extends FormRequest
             $input['photo'] = $this->saveUserPhotoAndGetUrl($input['photo'], $input['pid']);
         }
 
-        if (isset($input['password']) && $input['password'] != '') {
-            $input['password'] = Hash::make($input['password']);
-        }
-
         return $input;
     }
 
@@ -65,15 +61,17 @@ class UserRequest extends FormRequest
             return null;
         }
 
-        $path = 'users/photos/';
-        $filename = md5($pid).'.jpg';
+//        $path = 'users/photos/';
+//        $filename = md5($pid).'.jpg';
+//
+//        try {
+//            file_put_contents($path.$filename, $imageContent);
+//        } catch (Exception $exception) {
+//            return null;
+//        }
+//
+//        return sprintf('/%s%s', $path, $filename);
 
-        try {
-            file_put_contents($path.$filename, $imageContent);
-        } catch (Exception $exception) {
-            return null;
-        }
-
-        return sprintf('/%s%s', $path, $filename);
+        return null;
     }
 }
