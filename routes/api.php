@@ -29,9 +29,9 @@ Route::group([
     Route::post('sms/validate', 'UserApiController@validatePhone');
     Route::get('general/countries', 'GeneralApiController@countries');
 
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::apiResource('users', 'UserApiController');
-    });
+//    Route::group(['middleware' => 'auth:api'], function () {
+    Route::apiResource('users', 'UserApiController');
+//    });
 
     Route::group([
         'prefix' => 'auth',
