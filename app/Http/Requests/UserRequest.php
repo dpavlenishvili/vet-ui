@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
             'first_name' => ['required', 'min:2', 'max:32'],
             'last_name' => ['required', 'min:2', 'max:32'],
             'gender' => ['required', Rule::in(['male', 'female'])],
-            'birth_date' => ['required', 'date_format:yyyy-MM-dd'],
+            'birth_date' => ['required', 'date_format:yyyy-mm-dd'],
             'residential' => ['required', 'min:2', 'max:2', Rule::in(DB::table('countries')->pluck('code')->toArray())],
             'alt_phone' => ['sometimes', 'min:6', 'max:6'],
             'sms_code' => ['required', 'min:4', 'max:4'],
