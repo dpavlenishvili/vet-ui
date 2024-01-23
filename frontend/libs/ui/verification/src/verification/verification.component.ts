@@ -63,6 +63,7 @@ export class VerificationComponent extends FormControlProvider implements FormCo
 
     @Input() id = `v-ui-verification-${++quantity}`;
     @Input() orientation: Orientation.HORIZONTAL | Orientation.VERTICAL = Orientation.HORIZONTAL;
+    @Input() verified = false;
 
     @Input() set codeLength(value: number) {
         if (value) {
@@ -86,6 +87,11 @@ export class VerificationComponent extends FormControlProvider implements FormCo
         }
 
         return false;
+    }
+
+    @HostBinding('class.v-ui-verification--success')
+    get isVerified() {
+        return this.verified;
     }
 
     codeSegments: number[] = new Array(4);

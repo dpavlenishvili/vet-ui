@@ -1,6 +1,7 @@
 .v-ui-verification {
     --listItemBorderColor: #b8b8b8;
     --listItemInputColor: inherit;
+    --listitemBorderColorSuccess: #1d9f70;
 
     display: flex;
     flex-direction: column;
@@ -32,6 +33,11 @@
                 background-color: transparent;
             }
         }
+    }
+
+    &--success {
+        --listItemBorderColor: var(--listitemBorderColorSuccess);
+        --listItemInputColor: var(--listitemBorderColorSuccess);
     }
 
     &--error {

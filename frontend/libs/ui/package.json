@@ -11,7 +11,8 @@
         "jest-preset-angular": "~13.1.0",
         "ngx-bootstrap": "^12.0.0",
         "angular-svg-icon": "^17.0.0",
-        "@vet/shared": "*"
+        "@vet/shared": "*",
+        "@ng-select/ng-select": "^12.0.6"
     },
     "dependencies": {},
     "sideEffects": false

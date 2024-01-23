@@ -9,6 +9,11 @@ export interface User {
     birthDate: Date;
 }
 
+export interface Country {
+    name: string;
+    code: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class RegistrationService {
     private http = inject(HttpClient);
@@ -36,5 +41,9 @@ export class RegistrationService {
             phone: mobileNumber,
             sms_code: smsCode,
         });
+    }
+
+    getCountries() {
+        return this.http.get<{ data: Country[] }>(`${this.baseUrl}/general/countries`);
     }
 }

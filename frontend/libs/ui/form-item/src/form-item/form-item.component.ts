@@ -33,11 +33,12 @@ import { CALENDAR_ICON } from '@vet/shared';
         >
             <ng-content></ng-content>
             <button
+                *ngIf="!removeClearBtn"
                 type="button"
                 class="v-ui-form-item__clear-btn"
-                [attr.aria-hidden]="!clearBtn || !controlProvider.ngControl?.control?.value || disabled || null"
+                [attr.aria-hidden]="!hideClearBtn || !controlProvider.ngControl?.control?.value || disabled || null"
                 [class.v-ui-form-item__hide-clear-btn]="
-                    !clearBtn || !controlProvider.ngControl?.control?.value || disabled
+                    !hideClearBtn || !controlProvider.ngControl?.control?.value || disabled
                 "
                 (click)="$event.stopPropagation(); controlProvider.ngControl?.control?.reset(null)"
             >
@@ -61,7 +62,8 @@ import { CALENDAR_ICON } from '@vet/shared';
 })
 export class FormItemComponent implements AfterViewInit {
     @Input({ transform: coerceBooleanProperty }) borderless: BooleanInput = false;
-    @Input({ transform: coerceBooleanProperty }) clearBtn: BooleanInput = false;
+    @Input({ transform: coerceBooleanProperty }) hideClearBtn: BooleanInput = false;
+    @Input({ transform: coerceBooleanProperty }) removeClearBtn: BooleanInput = false;
     @Input({ transform: coerceBooleanProperty }) calendarIcon: BooleanInput = false;
 
     @ContentChild(FormControlProvider)

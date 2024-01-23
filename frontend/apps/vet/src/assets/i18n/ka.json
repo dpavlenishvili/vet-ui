@@ -3,6 +3,8 @@
         "required": "ველის შევსება სავალდებულოა",
         "minlength": "სავალდებულოა მინიმუმ {{requiredLength}} სიმბოლო",
         "personalNumber": "ველი უნდა შედგებოდეს  11 ციფრისგან",
-        "mobileNumber": "შეავსეთ ფორმატით 5XXXXXXXX"
+        "mobileNumber": "შეავსეთ ფორმატით 5XXXXXXXX",
+        "verificationNumber": "ვერიფიკაციის კოდის ვადა გასულია, ხელახლა გაგზავნეთ",
+        "passwordsDoNotMatch": "პაროლების არ ემთხვევა ერთმანეთს"
     }
 }

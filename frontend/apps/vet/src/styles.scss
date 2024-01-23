@@ -32,21 +32,3 @@ html {
 body {
     font-size: 1.4rem;
 }
-
-.ng-select-container {
-    border-radius: 1rem !important;
-}
-
-.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
-    border-color: #4caee8 !important;
-    box-shadow: none !important;
-}
-
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-    color: #626262 !important;
-}
-
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
-    background-color: #f4f5fa !important;
-    color: #626262 !important;
-}

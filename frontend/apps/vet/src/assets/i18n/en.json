@@ -3,6 +3,8 @@
         "required": "Field is required",
         "minlength": "Minimum length should be {{requiredLength}}",
         "personalNumber": "Personal number is not correct",
-        "mobileNumber": "Format should be 5XXXXXXXX"
+        "mobileNumber": "Format should be 5XXXXXXXX",
+        "verificationNumber": "Verification number is not correct",
+        "passwordsDoNotMatch": "Passwords do not match"
     }
 }
