@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
                 ->mixedCase()
                 ->numbers()
                 ->symbols()],
-            'password_confirmation' => ['sometimes', 'same:password'],
+            'password_confirmation' => ['sometimes', 'required_with:password', 'same:password'],
         ];
     }
 
