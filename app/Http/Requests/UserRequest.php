@@ -31,11 +31,12 @@ class UserRequest extends FormRequest
             'residential' => ['required', 'min:2', 'max:2', Rule::in(DB::table('countries')->pluck('code')->toArray())],
             'alt_phone' => ['sometimes', 'min:6', 'max:6'],
             'sms_code' => ['required', 'min:4', 'max:4'],
-            'password' => ['sometimes', 'string', 'min:8', 'same:password_confirmation', Password::min(8)
+            'password' => ['sometimes', 'string', 'min:8', Password::min(8)
                 ->letters()
                 ->mixedCase()
                 ->numbers()
                 ->symbols()],
+            'password_confirmation' => ['sometimes', 'same:password'],
         ];
     }
 
