@@ -12,7 +12,8 @@
         "ngx-bootstrap": "^12.0.0",
         "angular-svg-icon": "^17.0.0",
         "@vet/shared": "*",
-        "@ng-select/ng-select": "^12.0.6"
+        "@ng-select/ng-select": "^12.0.6",
+        "lodash": "4.17.21"
     },
     "dependencies": {},
     "sideEffects": false

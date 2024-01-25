@@ -26,6 +26,7 @@ import { EXCLAMATION_POINT_ICON } from '@vet/shared';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DropdownComponent } from '@vet/ui/dropdown';
 import { countries, genders } from '@vet/shared/constants';
+import { CreateUser } from '@vet/shared/interfaces';
 
 @Component({
     selector: 'lib-features-registration',
@@ -70,38 +71,49 @@ export class FeaturesRegistrationComponent implements OnInit {
     private registrationService: RegistrationService = inject(RegistrationService);
 
     chooseCitizenshipForm = new FormGroup({
-        citizenship: new FormControl<null | string>(null, [Validators.required]),
+        citizenship: new FormControl<string>('', [Validators.required]),
     });
     checkIdentityForm = new FormGroup({
-        lastname: new FormControl<null | string>(null, [Validators.required]),
-        personalNumber: new FormControl<null | string>(null, [
+        lastname: new FormControl<string>('', [Validators.required]),
+        personalNumber: new FormControl<string>('', [
             Validators.required,
             customPatternValidator('^[0-9]{11}$', { personalNumber: true }),
         ]),
-        firstname: new FormControl<null | string>({ value: null, disabled: true }, [Validators.required]),
+        firstname: new FormControl<string>({ value: '', disabled: true }, [Validators.required]),
         dateOfBirth: new FormControl<null | Date>({ value: null, disabled: true }, [Validators.required]),
+        gender: new FormControl<string>('', [Validators.required]),
     });
     checkIdentityForeignerForm = new FormGroup({
-        citizenship: new FormControl(null, [Validators.required]),
-        lastname: new FormControl(null, [Validators.required]),
-        personalNumber: new FormControl(null, [Validators.required]),
-        firstname: new FormControl(null, [Validators.required]),
-        dateOfBirth: new FormControl(null),
-        gender: new FormControl(null, [Validators.required]),
+        citizenship: new FormControl<string>('', [Validators.required]),
+        lastname: new FormControl<string>('', [Validators.required]),
+        personalNumber: new FormControl<string>('', [Validators.required]),
+        firstname: new FormControl<string>('', [Validators.required]),
+        dateOfBirth: new FormControl<null | Date>(null),
+        gender: new FormControl<string>('', [Validators.required]),
     });
     mobileForm = new FormGroup({
-        mobileNumber: new FormControl(null, [
+        mobileNumber: new FormControl<string>('', [
             Validators.required,
             customPatternValidator('^5\\d{8}$', { mobileNumber: true }),
         ]),
-        verificationNumber: new FormControl<null | string>(null, [Validators.required]),
+        verificationNumber: new FormControl<string>('', [Validators.required]),
     });
     passwordsForm = new FormGroup({
-        password: new FormControl(null, [Validators.required]),
-        confirmPassword: new FormControl(null, [Validators.required]),
+        password: new FormControl<string>('', [
+            Validators.required,
+            customPatternValidator('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$', {
+                passwordPattern: true,
+            }),
+        ]),
+        confirmPassword: new FormControl<string>('', [
+            Validators.required,
+            customPatternValidator('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$', {
+                passwordPattern: true,
+            }),
+        ]),
     });
     termsAndConditionsForm = new FormGroup({
-        accepted: new FormControl(null, [Validators.required]),
+        accepted: new FormControl<boolean>(false, [Validators.required]),
     });
     registrationForm = new FormGroup({
         chooseCitizenship: this.chooseCitizenshipForm,
@@ -175,6 +187,7 @@ export class FeaturesRegistrationComponent implements OnInit {
         const lastnameControl = this.checkIdentityForm.get('lastname');
         const firstnameControl = this.checkIdentityForm.get('firstname');
         const dateOfBirthControl = this.checkIdentityForm.get('dateOfBirth');
+        const genderControl = this.checkIdentityForm.get('gender');
 
         if (
             personalNumberControl?.valid &&
@@ -191,6 +204,7 @@ export class FeaturesRegistrationComponent implements OnInit {
                     next: (res) => {
                         firstnameControl?.setValue(res.firstName);
                         dateOfBirthControl?.setValue(new Date(res.birthDate));
+                        genderControl?.setValue(res.gender);
 
                         this.userCheckedSuccessfully.set(true);
                     },
@@ -204,6 +218,7 @@ export class FeaturesRegistrationComponent implements OnInit {
     checkForeignUser(next: () => void) {
         // Foreigner controls
         const foreignerPersonalNumberControl = this.checkIdentityForeignerForm.get('personalNumber');
+        const foreignerFirstnameControl = this.checkIdentityForeignerForm.get('firstname');
         const foreignerLastnameControl = this.checkIdentityForeignerForm.get('lastname');
 
         // Georgian citizen controls
@@ -212,6 +227,10 @@ export class FeaturesRegistrationComponent implements OnInit {
         const lastnameControl = this.checkIdentityForm.get('lastname');
         const firstnameControl = this.checkIdentityForm.get('firstname');
         const dateOfBirthControl = this.checkIdentityForm.get('dateOfBirth');
+
+        foreignerPersonalNumberControl?.markAsTouched();
+        foreignerFirstnameControl?.markAsTouched();
+        foreignerLastnameControl?.markAsTouched();
 
         if (
             foreignerPersonalNumberControl?.valid &&
@@ -318,7 +337,41 @@ export class FeaturesRegistrationComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log(this.registrationForm.getRawValue());
+        const termsAndConditionsAcceptedControl = this.termsAndConditionsForm.get('accepted');
+
+        if (termsAndConditionsAcceptedControl?.value && this.registrationForm.valid) {
+            const user: CreateUser = {
+                pid:
+                    this.checkIdentityForm.get('personalNumber')?.value ||
+                    this.checkIdentityForeignerForm.get('personalNumber')?.value ||
+                    '',
+                phone: this.mobileForm.get('mobileNumber')?.value || '',
+                first_name:
+                    this.checkIdentityForm.get('firstname')?.value ||
+                    this.checkIdentityForeignerForm.get('firstname')?.value ||
+                    '',
+                last_name:
+                    this.checkIdentityForm.get('lastname')?.value ||
+                    this.checkIdentityForeignerForm.get('lastname')?.value ||
+                    '',
+                gender:
+                    this.checkIdentityForm.get('gender')?.value ||
+                    this.checkIdentityForeignerForm.get('gender')?.value ||
+                    '',
+                birth_date:
+                    this.checkIdentityForm.get('dateOfBirth')?.value?.toISOString().split('T')[0] ||
+                    this.checkIdentityForeignerForm.get('dateOfBirth')?.value?.toISOString().split('T')[0] ||
+                    '',
+                residential: this.citizenshipValue === '1' ? 'GE' : 'US',
+                sms_code: this.mobileForm.get('verificationNumber')?.value || '',
+                password: this.passwordsForm.get('password')?.value || '',
+                password_confirmation: this.passwordsForm.get('confirmPassword')?.value || '',
+            };
+
+            this.registrationService.registerUser(user).subscribe();
+        } else {
+            termsAndConditionsAcceptedControl?.markAsTouched();
+        }
     }
 }
 

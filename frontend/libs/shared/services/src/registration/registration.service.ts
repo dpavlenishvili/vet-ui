@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { baseUrl } from '../../../src/lib/base-url.token';
+import { CreateUser } from '@vet/shared/interfaces';
 
 export interface User {
     firstName: string;
@@ -18,6 +19,10 @@ export interface Country {
 export class RegistrationService {
     private http = inject(HttpClient);
     private baseUrl = baseUrl();
+
+    registerUser(obj: CreateUser) {
+        return this.http.post(`${this.baseUrl}/register`, obj);
+    }
 
     checkUser(data: { personalNumber: string; lastName: string }) {
         return this.http.get<User>(`${this.baseUrl}/register/validate`, {
@@ -41,9 +46,5 @@ export class RegistrationService {
             phone: mobileNumber,
             sms_code: smsCode,
         });
-    }
-
-    getCountries() {
-        return this.http.get<{ data: Country[] }>(`${this.baseUrl}/general/countries`);
     }
 }

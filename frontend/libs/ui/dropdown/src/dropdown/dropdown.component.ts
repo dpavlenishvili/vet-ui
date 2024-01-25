@@ -13,6 +13,7 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormControlProvider } from '@vet/ui/form-item';
 import { NgSelectModule } from '@ng-select/ng-select';
+import * as _ from 'lodash';
 
 let quantity = 0;
 
@@ -46,7 +47,7 @@ export class DropdownComponent<DropdownItem> extends FormControlProvider impleme
     @Input() value?: DropdownItem | DropdownItem[];
     @Input() dropdownItems!: DropdownItem[];
     @Input() bindLabel = 'name';
-    @Input() bindValue = 'id';
+    @Input() bindValue = '';
     @Output() valueChange = new EventEmitter<DropdownItem | DropdownItem[] | undefined>();
 
     ngControl = inject(NgControl, { optional: true });
@@ -85,8 +86,20 @@ export class DropdownComponent<DropdownItem> extends FormControlProvider impleme
     }
 
     onDropdownValueChange(value: DropdownItem | DropdownItem[]) {
-        this.value = value;
-        this.onChange(value);
+        if (this.bindValue) {
+            if (Array.isArray(value)) {
+                const modifiedValue = [];
+
+                value.forEach((item) => {
+                    modifiedValue.push(_.get(item, this.bindValue));
+                });
+            } else {
+                this.value = _.get(value, this.bindValue);
+            }
+        } else {
+            this.value = value;
+        }
+        this.onChange(this.value);
         this.onTouched();
     }
 }

@@ -21,6 +21,7 @@
         svg-icon {
             display: none;
         }
+
         .indeterminate-state {
             display: none;
             width: 1rem;
@@ -34,11 +35,6 @@
     position: absolute;
     opacity: 0;
     z-index: -1;
-
-    &:focus + .checkbox-label .checkbox {
-        background-color: black;
-        outline: 0.1rem solid #4caee8;
-    }
 
     &:checked + .checkbox-label .checkbox svg-icon {
         display: initial;

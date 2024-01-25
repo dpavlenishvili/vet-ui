@@ -240,7 +240,7 @@
                     <h1 style="margin-bottom: 3rem">შეიყვანეთ პაროლი</h1>
 
                     <form formGroupName="passwords" class="d-flex gap-4" vUiWizardStepControlContent>
-                        <v-ui-form-item class="w-50" [hideClearBtn]="true">
+                        <v-ui-form-item class="w-50" [hideClearBtn]="true" [ngStyleInput]="{ 'margin-bottom.rem': 1 }">
                             <v-ui-form-item-label>პაროლი</v-ui-form-item-label>
                             <input v-ui-input formControlName="password" type="password" />
                             <v-ui-form-error>
@@ -271,8 +271,8 @@
 
                     <form formGroupName="termsAndConditions" vUiWizardStepControlContent>
                         <v-ui-form-item [borderless]="true">
-                            <div class="flex flex-column">
-                                <span class="terms-and-conditions"
+                            <div class="flex flex-column terms-and-conditions">
+                                <span
                                     >თქვენს მიერ პროფესიული განათლების მიღების მსურველთა სარეგისტრაციო ვებ-გვერდზე
                                     (vet.emis.ge) განთავსებული ინფორმაცია „პერსონალურ მონაცემთა დაცვის შესახებ“
                                     საქართველოს კანონის თანახმად, შეიცავს პერსონალურ მონაცემებს, მათ შორის, შესაძლოა
@@ -283,6 +283,11 @@
                                 <v-ui-checkbox formControlName="accepted">
                                     გავეცანი და ვეთანხმები წესებს
                                 </v-ui-checkbox>
+                                <v-ui-form-error>
+                                    <span>{{
+                                        termsAndConditionsForm.get('accepted')?.errors | validationErrorPipe
+                                    }}</span>
+                                </v-ui-form-error>
                             </div>
                         </v-ui-form-item>
                     </form>
@@ -297,4 +302,3 @@
         </v-ui-wizard>
     </form>
 </ng-container>
-<button (click)="onSubmit()">Submit button</button>

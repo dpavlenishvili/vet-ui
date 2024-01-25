@@ -11,7 +11,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { FormControlProvider } from '../form-control-provider';
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf, NgStyle } from '@angular/common';
 import { ErrorStateMatcher } from '../default-error-state-matcher';
 import { FormGroupDirective, NgForm } from '@angular/forms';
 import { FormLabelDirective } from '../form-label.directive';
@@ -30,6 +30,7 @@ import { CALENDAR_ICON } from '@vet/shared';
         <div
             class="v-ui-form-item__control-container"
             [class.v-ui-form-item__control-container--borderless]="borderless"
+            [ngStyle]="ngStyleInput"
         >
             <ng-content></ng-content>
             <button
@@ -52,7 +53,7 @@ import { CALENDAR_ICON } from '@vet/shared';
             <ng-content select="v-ui-form-error"></ng-content>
         </ng-container>
     `,
-    imports: [NgIf, AsyncPipe, NgClass, SvgIconComponent],
+    imports: [NgIf, AsyncPipe, NgClass, SvgIconComponent, NgStyle],
     styleUrls: ['form-item.component.scss'],
     host: {
         '[class.v-ui-form-item]': 'true',
@@ -65,6 +66,7 @@ export class FormItemComponent implements AfterViewInit {
     @Input({ transform: coerceBooleanProperty }) hideClearBtn: BooleanInput = false;
     @Input({ transform: coerceBooleanProperty }) removeClearBtn: BooleanInput = false;
     @Input({ transform: coerceBooleanProperty }) calendarIcon: BooleanInput = false;
+    @Input() ngStyleInput!: { [klass: string]: string | number };
 
     @ContentChild(FormControlProvider)
     controlProvider!: FormControlProvider;
