@@ -7,6 +7,8 @@
         "verificationNumber": "Verification number is not correct",
         "verificationNumberTimeLimit": "Verification code has expired, please resend",
         "passwordsDoNotMatch": "Passwords do not match",
-        "passwordPattern": "Password should contain min 8 symbols (lowercase, uppercase, digit, special symbol)"
+        "passwordPattern": "Password should contain min 8 symbols (lowercase, uppercase, digit, special symbol)",
+        "personCouldNotBeIdentified": "Person could not be identified",
+        "georgianLetters": "Please user Georgian alphabet"
     }
 }

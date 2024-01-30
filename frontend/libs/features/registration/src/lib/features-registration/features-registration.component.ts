@@ -162,6 +162,24 @@ export class FeaturesRegistrationComponent implements OnInit {
                 },
             });
 
+        this.checkIdentityForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe({
+            next: () => {
+                const personalNumberControl = this.checkIdentityForm.get('personalNumber');
+                const lastnameControl = this.checkIdentityForm.get('lastname');
+
+                if (
+                    personalNumberControl?.hasError('personCouldNotBeIdentified') ||
+                    lastnameControl?.hasError('personCouldNotBeIdentified')
+                ) {
+                    personalNumberControl?.setErrors({ personCouldNotBeIdentified: false });
+                    lastnameControl?.setErrors({ personCouldNotBeIdentified: false });
+
+                    personalNumberControl?.updateValueAndValidity();
+                    lastnameControl?.updateValueAndValidity();
+                }
+            },
+        });
+
         this.listenToCheckIdentityFields();
     }
 
@@ -210,6 +228,12 @@ export class FeaturesRegistrationComponent implements OnInit {
                         genderControl?.setValue(res.gender);
 
                         this.userCheckedSuccessfully.set(true);
+                    },
+                    error: (err) => {
+                        if (err.error.error.code === 1008) {
+                            personalNumberControl.setErrors({ personCouldNotBeIdentified: true });
+                            lastnameControl.setErrors({ personCouldNotBeIdentified: true });
+                        }
                     },
                 });
         } else {
