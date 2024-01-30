@@ -473,13 +473,20 @@ class UserApiController extends Controller
      */
     public function validatePhone(Request $request)
     {
-        $status = Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
+        $sms = Sms::where('phone', $request->get('phone'))->where('code', $request->get('sms_code'))->first();
 
-        if (! $status) {
+        if (! $sms) {
             return response()->json(['status' => false, 'error' => [
                 'code' => 1004,
                 'message' => __('error-codes.1004'),
             ]])->setStatusCode(400);
+        }
+
+        if (strtotime($sms->created_at) > strtotime('-2 minutes')) {
+            return response()->json(['status' => false, 'msg' => 'SMS code is expired', 'error' => [
+                'code' => 1005,
+                'message' => __('error-codes.1005'),
+            ]], 408);
         }
 
         return response()->json(['status' => true])->setStatusCode(200);
