@@ -5,7 +5,8 @@
         "personalNumber": "Personal number is not correct",
         "mobileNumber": "Format should be 5XXXXXXXX",
         "verificationNumber": "Verification number is not correct",
+        "verificationNumberTimeLimit": "Verification code has expired, please resend",
         "passwordsDoNotMatch": "Passwords do not match",
-        "passwordPattern": "ველი უნდა შედგებოდეს 8 სიმბოლოსგან, მინიმუმ ერთი პატარა ასოს, დიდის ასოს, ციფრის, პუნქტუაციის ნიშნისა და სპეციალური სიმბოლოსგან"
+        "passwordPattern": "Password should contain min 8 symbols (lowercase, uppercase, digit, special symbol)"
     }
 }

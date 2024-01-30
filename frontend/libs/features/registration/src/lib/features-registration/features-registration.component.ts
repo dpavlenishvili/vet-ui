@@ -75,10 +75,7 @@ export class FeaturesRegistrationComponent implements OnInit {
     });
     checkIdentityForm = new FormGroup({
         lastname: new FormControl<string>('', [Validators.required]),
-        personalNumber: new FormControl<string>('', [
-            Validators.required,
-            customPatternValidator('^[0-9]{11}$', { personalNumber: true }),
-        ]),
+        personalNumber: new FormControl<string>('', [customPatternValidator('^[0-9]{11}$', { personalNumber: true })]),
         firstname: new FormControl<string>({ value: '', disabled: true }, [Validators.required]),
         dateOfBirth: new FormControl<null | Date>({ value: null, disabled: true }, [Validators.required]),
         gender: new FormControl<string>('', [Validators.required]),
@@ -96,7 +93,11 @@ export class FeaturesRegistrationComponent implements OnInit {
             Validators.required,
             customPatternValidator('^5\\d{8}$', { mobileNumber: true }),
         ]),
-        verificationNumber: new FormControl<string>('', [Validators.required]),
+        verificationNumber: new FormControl<string>('', [
+            customPatternValidator('^.{4}$', {
+                required: true,
+            }),
+        ]),
     });
     passwordsForm = new FormGroup({
         password: new FormControl<string>('', [
@@ -156,6 +157,8 @@ export class FeaturesRegistrationComponent implements OnInit {
                     if (smsCode && smsCode.length === 4 && mobileNumber) {
                         this.validateMobileNumber(smsCode, mobileNumber);
                     }
+
+                    this.mobileVerified.set(false);
                 },
             });
 
@@ -293,6 +296,8 @@ export class FeaturesRegistrationComponent implements OnInit {
             error: (err) => {
                 if (err.error.error.code === 1004) {
                     this.mobileForm.get('verificationNumber')?.setErrors({ verificationNumber: true });
+                } else if (err.error.error.code === 1005) {
+                    this.mobileForm.get('verificationNumber')?.setErrors({ verificationNumberTimeLimit: true });
                 }
             },
         });
