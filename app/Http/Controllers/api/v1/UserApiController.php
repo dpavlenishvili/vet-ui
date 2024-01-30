@@ -482,7 +482,7 @@ class UserApiController extends Controller
             ]])->setStatusCode(400);
         }
 
-        if (strtotime($sms->created_at) > strtotime('-2 minutes')) {
+        if (strtotime($sms->created_at) < strtotime('-2 minutes')) {
             return response()->json(['status' => false, 'msg' => 'SMS code is expired', 'error' => [
                 'code' => 1005,
                 'message' => __('error-codes.1005'),
