@@ -74,7 +74,10 @@ export class FeaturesRegistrationComponent implements OnInit {
         citizenship: new FormControl<string>('', [Validators.required]),
     });
     checkIdentityForm = new FormGroup({
-        lastname: new FormControl<string>('', [Validators.required]),
+        lastname: new FormControl<string>('', [
+            Validators.required,
+            customPatternValidator('^[\u10A0-\u10FF]+$', { georgianLetters: true }),
+        ]),
         personalNumber: new FormControl<string>('', [customPatternValidator('^[0-9]{11}$', { personalNumber: true })]),
         firstname: new FormControl<string>({ value: '', disabled: true }, [Validators.required]),
         dateOfBirth: new FormControl<null | Date>({ value: null, disabled: true }, [Validators.required]),
@@ -82,7 +85,10 @@ export class FeaturesRegistrationComponent implements OnInit {
     });
     checkIdentityForeignerForm = new FormGroup({
         citizenship: new FormControl<string>('', [Validators.required]),
-        lastname: new FormControl<string>('', [Validators.required]),
+        lastname: new FormControl<string>('', [
+            Validators.required,
+            customPatternValidator('^[\u10A0-\u10FF]+$', { georgianLetters: true }),
+        ]),
         personalNumber: new FormControl<string>('', [Validators.required]),
         firstname: new FormControl<string>('', [Validators.required]),
         dateOfBirth: new FormControl<null | Date>(null),
@@ -102,13 +108,13 @@ export class FeaturesRegistrationComponent implements OnInit {
     passwordsForm = new FormGroup({
         password: new FormControl<string>('', [
             Validators.required,
-            customPatternValidator('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$', {
+            customPatternValidator('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&,.])[A-Za-z\\d@$!%*?&,.]{8,}$', {
                 passwordPattern: true,
             }),
         ]),
         confirmPassword: new FormControl<string>('', [
             Validators.required,
-            customPatternValidator('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$', {
+            customPatternValidator('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&,.])[A-Za-z\\d@$!%*?&,.]{8,}$', {
                 passwordPattern: true,
             }),
         ]),
