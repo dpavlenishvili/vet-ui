@@ -8,6 +8,7 @@ ng-select {
 }
 
 .ng-select-container {
+    border: none !important;
     border-radius: 1rem !important;
 }
 
@@ -27,4 +28,7 @@ ng-select {
 
 .ng-select.ng-select-single .ng-select-container {
     height: 4rem !important;
+}
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+    top: 30%;
 }

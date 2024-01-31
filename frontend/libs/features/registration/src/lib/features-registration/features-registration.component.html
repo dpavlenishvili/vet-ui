@@ -100,7 +100,11 @@
                         <h1 style="margin-bottom: 3rem">მიუთითეთ პირადი ინფორმაცია</h1>
                         <form formGroupName="checkIdentityForeigner" vUiWizardStepControlContent>
                             <div class="d-flex gap-4">
-                                <v-ui-form-item class="w-50" [borderless]="true" [removeClearBtn]="true">
+                                <v-ui-form-item
+                                    class="w-50"
+                                    [removeClearBtn]="true"
+                                    [ngStyleInput]="{ 'padding.rem': 0 }"
+                                >
                                     <v-ui-form-item-label>მოქალაქეობა</v-ui-form-item-label>
                                     <v-ui-dropdown
                                         [dropdownItems]="countries"
@@ -164,7 +168,11 @@
                                     </v-ui-form-error>
                                 </v-ui-form-item>
 
-                                <v-ui-form-item class="w-50" [borderless]="true" [removeClearBtn]="true">
+                                <v-ui-form-item
+                                    class="w-50"
+                                    [removeClearBtn]="true"
+                                    [ngStyleInput]="{ 'padding.rem': 0 }"
+                                >
                                     <v-ui-form-item-label>სქესი</v-ui-form-item-label>
                                     <v-ui-dropdown
                                         [dropdownItems]="genders"

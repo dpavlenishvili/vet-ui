@@ -91,7 +91,7 @@ export class FeaturesRegistrationComponent implements OnInit {
         ]),
         personalNumber: new FormControl<string>('', [Validators.required]),
         firstname: new FormControl<string>('', [Validators.required]),
-        dateOfBirth: new FormControl<null | Date>(null),
+        dateOfBirth: new FormControl<null | Date>(null, [Validators.required]),
         gender: new FormControl<string>('', [Validators.required]),
     });
     mobileForm = new FormGroup({
@@ -253,6 +253,9 @@ export class FeaturesRegistrationComponent implements OnInit {
         const foreignerPersonalNumberControl = this.checkIdentityForeignerForm.get('personalNumber');
         const foreignerFirstnameControl = this.checkIdentityForeignerForm.get('firstname');
         const foreignerLastnameControl = this.checkIdentityForeignerForm.get('lastname');
+        const foreignerDateOfBirthControl = this.checkIdentityForeignerForm.get('dateOfBirth');
+        const foreignerCitizenshipControl = this.checkIdentityForeignerForm.get('citizenship');
+        const foreignerGenderControl = this.checkIdentityForeignerForm.get('gender');
 
         // Georgian citizen controls
         const citizenshipControl = this.chooseCitizenshipForm.get('citizenship');
@@ -264,6 +267,9 @@ export class FeaturesRegistrationComponent implements OnInit {
         foreignerPersonalNumberControl?.markAsTouched();
         foreignerFirstnameControl?.markAsTouched();
         foreignerLastnameControl?.markAsTouched();
+        foreignerDateOfBirthControl?.markAsTouched();
+        foreignerCitizenshipControl?.markAsTouched();
+        foreignerGenderControl?.markAsTouched();
 
         if (
             foreignerPersonalNumberControl?.valid &&
