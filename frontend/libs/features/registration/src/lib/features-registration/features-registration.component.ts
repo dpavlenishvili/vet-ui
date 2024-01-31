@@ -27,6 +27,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DropdownComponent } from '@vet/ui/dropdown';
 import { countries, genders } from '@vet/shared/constants';
 import { CreateUser } from '@vet/shared/interfaces';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'lib-features-registration',
@@ -69,6 +70,7 @@ import { CreateUser } from '@vet/shared/interfaces';
 export class FeaturesRegistrationComponent implements OnInit {
     private destroyRef$ = inject(DestroyRef);
     private registrationService: RegistrationService = inject(RegistrationService);
+    private router = inject(Router);
 
     chooseCitizenshipForm = new FormGroup({
         citizenship: new FormControl<string>('', [Validators.required]),
@@ -380,7 +382,7 @@ export class FeaturesRegistrationComponent implements OnInit {
     onSubmit() {
         const termsAndConditionsAcceptedControl = this.termsAndConditionsForm.get('accepted');
 
-        if (termsAndConditionsAcceptedControl?.value && this.registrationForm.valid) {
+        if (termsAndConditionsAcceptedControl?.value) {
             const user: CreateUser = {
                 pid:
                     this.checkIdentityForm.get('personalNumber')?.value ||
@@ -409,7 +411,12 @@ export class FeaturesRegistrationComponent implements OnInit {
                 password_confirmation: this.passwordsForm.get('confirmPassword')?.value || '',
             };
 
-            this.registrationService.registerUser(user).subscribe();
+            this.registrationService.registerUser(user).subscribe({
+                next: () => {
+                    // TODO remove after homepage implemented
+                    window.location.reload();
+                },
+            });
         } else {
             termsAndConditionsAcceptedControl?.markAsTouched();
         }

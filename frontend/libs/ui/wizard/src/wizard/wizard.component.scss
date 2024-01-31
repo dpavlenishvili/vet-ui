@@ -35,6 +35,7 @@ $compressed: $block + '__compressed';
 
     #{$list} {
         display: flex;
+        min-width: 26rem;
         flex-direction: column;
         list-style: none;
         padding: 1.7rem;

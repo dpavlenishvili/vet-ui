@@ -12,5 +12,7 @@
 }
 
 .terms-and-conditions {
-    max-width: 117.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }

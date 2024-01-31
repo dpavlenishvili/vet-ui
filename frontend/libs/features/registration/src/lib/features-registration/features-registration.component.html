@@ -278,16 +278,16 @@
                     <h1 style="margin-bottom: 3rem">წესები და პირობები</h1>
 
                     <form formGroupName="termsAndConditions" vUiWizardStepControlContent>
-                        <v-ui-form-item [borderless]="true">
-                            <div class="flex flex-column terms-and-conditions">
-                                <span
-                                    >თქვენს მიერ პროფესიული განათლების მიღების მსურველთა სარეგისტრაციო ვებ-გვერდზე
+                        <v-ui-form-item>
+                            <div class="terms-and-conditions">
+                                <p>
+                                    თქვენს მიერ პროფესიული განათლების მიღების მსურველთა სარეგისტრაციო ვებ-გვერდზე
                                     (vet.emis.ge) განთავსებული ინფორმაცია „პერსონალურ მონაცემთა დაცვის შესახებ“
                                     საქართველოს კანონის თანახმად, შეიცავს პერსონალურ მონაცემებს, მათ შორის, შესაძლოა
                                     შეიცავდეს განსაკუთრებული კატეგორიის მონაცემებსაც. გთხოვთ, გაითვალისწინოთ, რო თქვენი
                                     პერსონალური მონაცემები შესაძლოა დამუშავდეს კანონმდებლობით გათვალისწინებულ მოთხოვნათა
-                                    შესაბამისად.</span
-                                >
+                                    შესაბამისად.
+                                </p>
                                 <v-ui-checkbox formControlName="accepted">
                                     გავეცანი და ვეთანხმები წესებს
                                 </v-ui-checkbox>
@@ -303,7 +303,13 @@
                 <ng-template vUiWizardStepFooter let-previous="previous">
                     <div class="d-flex justify-content-between mt-2">
                         <button v-ui-button (click)="previous()" color="secondary">უკან დაბრუნება</button>
-                        <button v-ui-button (click)="onSubmit()">დასრულება</button>
+                        <button
+                            v-ui-button
+                            [disabled]="!termsAndConditionsForm.get('accepted')?.value"
+                            (click)="onSubmit()"
+                        >
+                            დასრულება
+                        </button>
                     </div>
                 </ng-template>
             </v-ui-wizard-step>
