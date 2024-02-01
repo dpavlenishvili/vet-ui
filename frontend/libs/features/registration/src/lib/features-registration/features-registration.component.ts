@@ -92,7 +92,10 @@ export class FeaturesRegistrationComponent implements OnInit {
             customPatternValidator('^[\u10A0-\u10FF]+$', { georgianLetters: true }),
         ]),
         personalNumber: new FormControl<string>('', [Validators.required]),
-        firstname: new FormControl<string>('', [Validators.required]),
+        firstname: new FormControl<string>('', [
+            Validators.required,
+            customPatternValidator('^[\u10A0-\u10FF]+$', { georgianLetters: true }),
+        ]),
         dateOfBirth: new FormControl<null | Date>(null, [Validators.required]),
         gender: new FormControl<string>('', [Validators.required]),
     });
