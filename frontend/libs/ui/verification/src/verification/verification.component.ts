@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function,@angular-eslint/no-host-metadata-property */
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -58,7 +59,10 @@ let quantity = 0;
     imports: [NgForOf, NgIf],
     encapsulation: ViewEncapsulation.None,
 })
-export class VerificationComponent extends FormControlProvider implements FormControlProvider, ControlValueAccessor {
+export class VerificationComponent
+    extends FormControlProvider
+    implements FormControlProvider, ControlValueAccessor, AfterViewInit
+{
     @ViewChildren('verificationInput') verificationInputFields!: QueryList<ElementRef>;
 
     @Input() id = `v-ui-verification-${++quantity}`;
@@ -72,6 +76,8 @@ export class VerificationComponent extends FormControlProvider implements FormCo
             this.codeSegments = new Array(4);
         }
     }
+
+    verificationNumber!: string;
 
     @HostBinding('class.v-ui-verification--error')
     get isErrorState() {
@@ -108,6 +114,14 @@ export class VerificationComponent extends FormControlProvider implements FormCo
         this.ngControl.valueAccessor = this;
     }
 
+    ngAfterViewInit() {
+        if (this.verificationNumber) {
+            this.verificationInputFields?.toArray().forEach((input, index) => {
+                input.nativeElement.value = this.verificationNumber[index];
+            });
+        }
+    }
+
     onChange: (value: string) => void = () => {};
     onTouched: () => void = () => {};
 
@@ -124,11 +138,30 @@ export class VerificationComponent extends FormControlProvider implements FormCo
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    writeValue(value: string): void {}
+    writeValue(value: string): void {
+        if (value) {
+            this.verificationNumber = value;
+            this.setValue();
+        } else {
+            this.verificationNumber = '';
+            this.setValue();
+        }
+    }
+
+    setValue() {
+        if (this.verificationInputFields) {
+            this.verificationInputFields.toArray().forEach((input, index) => {
+                if (this.verificationNumber) {
+                    input.nativeElement.value = this.verificationNumber[index];
+                } else {
+                    input.nativeElement.value = '';
+                }
+            });
+        }
+    }
 
     onInputValueChange(event: Event, clickedElementIndex: number) {
-        let verificationNumber = '';
-
+        this.verificationNumber = '';
         // Allow only numeric characters
         const sanitizedValue = (event.target as HTMLInputElement).value.replace(/[^0-9]/g, '');
 
@@ -148,10 +181,10 @@ export class VerificationComponent extends FormControlProvider implements FormCo
                 }
             }
 
-            verificationNumber += input.nativeElement.value;
+            this.verificationNumber += input.nativeElement.value;
         });
 
-        this.onChange(verificationNumber);
+        this.onChange(this.verificationNumber);
         this.onTouched();
     }
 }

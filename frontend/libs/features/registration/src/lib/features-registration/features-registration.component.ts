@@ -27,7 +27,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DropdownComponent } from '@vet/ui/dropdown';
 import { countries, genders } from '@vet/shared/constants';
 import { CreateUser } from '@vet/shared/interfaces';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'lib-features-registration',
@@ -70,7 +69,6 @@ import { Router } from '@angular/router';
 export class FeaturesRegistrationComponent implements OnInit {
     private destroyRef$ = inject(DestroyRef);
     private registrationService: RegistrationService = inject(RegistrationService);
-    private router = inject(Router);
 
     chooseCitizenshipForm = new FormGroup({
         citizenship: new FormControl<string>('', [Validators.required]),
@@ -140,7 +138,7 @@ export class FeaturesRegistrationComponent implements OnInit {
     userCheckedSuccessfully = signal<boolean>(false);
     smsSent = signal<boolean>(false);
     mobileVerified = signal<boolean>(false);
-
+    enableResendSMS = signal<boolean>(false);
     timer = signal<string>('02:00');
     timerSubscription: Subscription | null = null;
 
@@ -310,6 +308,11 @@ export class FeaturesRegistrationComponent implements OnInit {
 
     sendSMS() {
         const mobileNumberControl = this.mobileForm.get('mobileNumber');
+        const verificationNumberControl = this.mobileForm.get('verificationNumber');
+
+        verificationNumberControl?.setValue('');
+        verificationNumberControl?.setErrors(null);
+        verificationNumberControl?.markAsPristine();
 
         if (mobileNumberControl?.valid) {
             this.timerSubscription?.unsubscribe();
@@ -355,6 +358,12 @@ export class FeaturesRegistrationComponent implements OnInit {
 
             minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            if (minutes > '00') {
+                this.enableResendSMS.set(false);
+            } else {
+                this.enableResendSMS.set(true);
+            }
 
             this.timer.set(minutes + ':' + seconds);
 

@@ -4,11 +4,22 @@
 }
 
 .resend-code {
+    background-color: transparent;
     text-decoration: underline;
     text-underline: #4caee8;
     font-size: 1.3rem;
     color: #4caee8;
     cursor: pointer;
+    border: none;
+    outline: none;
+
+    &__disabled {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        text-underline: #e0e0e0;
+        color: #e0e0e0;
+    }
 }
 
 .terms-and-conditions {

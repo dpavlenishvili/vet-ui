@@ -228,7 +228,14 @@
                                 </v-ui-form-item>
                                 <div class="d-flex justify-content-end align-items-center gap-4 mb-5 mt-2">
                                     <span>{{ timer() }}</span>
-                                    <a (click)="sendSMS()" class="resend-code">კოდის ხელახლა მიღება</a>
+                                    <button
+                                        type="button"
+                                        (click)="sendSMS()"
+                                        [disabled]="!enableResendSMS()"
+                                        [ngClass]="enableResendSMS() ? 'resend-code' : 'resend-code__disabled'"
+                                    >
+                                        კოდის ხელახლა მიღება
+                                    </button>
                                 </div>
                             </ng-container>
                         </div>
