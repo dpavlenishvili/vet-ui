@@ -5024,7 +5024,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@vet/theming@workspace:frontend/libs/theming"
   peerDependencies:
-    "@angular/core": 17.0.6
+    "@angular/core": 17.1.2
     "@vet/shared": "*"
     jest-preset-angular: ~13.1.0
   languageName: unknown
