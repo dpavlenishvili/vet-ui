@@ -84,7 +84,7 @@ export class FeaturesRegistrationComponent implements OnInit {
 
     protected citizenshipTypeEnum = CitizenshipType;
 
-    protected citizenshipControl = new FormControl<CitizenshipType>(CitizenshipType.Georgian, [Validators.required]);
+    protected citizenshipControl = new FormControl<CitizenshipType | null>(null, [Validators.required]);
 
     // Georgian User Controls
     protected georgianCitizenLastnameControl = new FormControl<string>('', [
