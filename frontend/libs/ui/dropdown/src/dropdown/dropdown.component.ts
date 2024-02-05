@@ -1,5 +1,6 @@
 /* eslint-disable @angular-eslint/no-host-metadata-property */
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -10,8 +11,8 @@ import {
     Output,
     ViewEncapsulation,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { FormControlProvider } from '@vet/ui/form-item';
+import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
+import { FormControlProvider, FormItemComponent } from '@vet/ui/form-item';
 import { NgSelectModule } from '@ng-select/ng-select';
 import * as _ from 'lodash';
 
@@ -27,6 +28,7 @@ let quantity = 0;
             [bindLabel]="bindLabel"
             [bindValue]="bindValue"
             (change)="onDropdownValueChange($event)"
+            [(ngModel)]="value"
         >
         </ng-select>
     `,
@@ -39,9 +41,12 @@ let quantity = 0;
         },
     ],
     encapsulation: ViewEncapsulation.None,
-    imports: [NgSelectModule],
+    imports: [NgSelectModule, FormsModule],
 })
-export class DropdownComponent<DropdownItem> extends FormControlProvider implements ControlValueAccessor {
+export class DropdownComponent<DropdownItem>
+    extends FormControlProvider
+    implements ControlValueAccessor, AfterViewInit
+{
     @Input() id = `v-ui-dropdown-${++quantity}`;
     @Input() placeholder?: string;
     @Input() value?: DropdownItem | DropdownItem[];
@@ -51,6 +56,7 @@ export class DropdownComponent<DropdownItem> extends FormControlProvider impleme
     @Output() valueChange = new EventEmitter<DropdownItem | DropdownItem[] | undefined>();
 
     ngControl = inject(NgControl, { optional: true });
+    private formItem = inject(FormItemComponent, { optional: true });
 
     protected disabled = false;
     protected _changeDetectorRef = inject(ChangeDetectorRef);
@@ -64,6 +70,12 @@ export class DropdownComponent<DropdownItem> extends FormControlProvider impleme
 
     onChange = (v?: DropdownItem | DropdownItem[]) => this.valueChange.emit(v);
     onTouched = Function.prototype;
+
+    ngAfterViewInit() {
+        if (this.formItem) {
+            this.formItem.paddingless = true;
+        }
+    }
 
     writeValue(obj: DropdownItem | DropdownItem[] | undefined): void {
         this.value = obj;

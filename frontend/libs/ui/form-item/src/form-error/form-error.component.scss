@@ -1,6 +1,7 @@
 :host(.error-message) {
     display: flex;
     gap: 0.5rem;
+    max-height: 1.5rem;
 
     font-size: 1rem;
     color: #ee4f64;

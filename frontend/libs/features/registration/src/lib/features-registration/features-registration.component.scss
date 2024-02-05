@@ -3,6 +3,13 @@
     color: black;
 }
 
+.wizard-step-header {
+    font-size: 1.6rem;
+    color: #636363;
+
+    margin-bottom: 3rem;
+}
+
 .resend-code {
     background-color: transparent;
     text-decoration: underline;
@@ -26,4 +33,8 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+}
+
+.visibility-hidden {
+    visibility: hidden;
 }

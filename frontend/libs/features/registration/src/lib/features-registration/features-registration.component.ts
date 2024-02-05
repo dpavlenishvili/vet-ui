@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ButtonComponent } from '@vet/ui/button';
 import { RadioButtonComponent, RadioButtonGroupComponent } from '@vet/ui/radio-button';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ErrorStateMatcher, FormErrorComponent, FormItemComponent, FormLabelDirective } from '@vet/ui/form-item';
 import { InputComponent } from '@vet/ui/input';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -27,12 +27,23 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DropdownComponent } from '@vet/ui/dropdown';
 import { countries, genders } from '@vet/shared/constants';
 import { CreateUser } from '@vet/shared/interfaces';
+import {
+    customPatternValidator,
+    georgianLettersValidator,
+    mobileNumberValidator,
+    passwordPatternValidator,
+    personalNumberValidator,
+} from '@vet/shared/forms';
+
+enum CitizenshipType {
+    Georgian = '1',
+    Foreigner = '2',
+}
 
 @Component({
     selector: 'lib-features-registration',
     standalone: true,
     imports: [
-        CommonModule,
         RadioButtonComponent,
         RadioButtonGroupComponent,
         ReactiveFormsModule,
@@ -55,6 +66,7 @@ import { CreateUser } from '@vet/shared/interfaces';
         VerificationComponent,
         NgSelectModule,
         DropdownComponent,
+        NgClass,
     ],
     templateUrl: './features-registration.component.html',
     styleUrls: ['./features-registration.component.scss'],
@@ -70,61 +82,82 @@ export class FeaturesRegistrationComponent implements OnInit {
     private destroyRef$ = inject(DestroyRef);
     private registrationService: RegistrationService = inject(RegistrationService);
 
+    protected citizenshipTypeEnum = CitizenshipType;
+
+    protected citizenshipControl = new FormControl<CitizenshipType>(CitizenshipType.Georgian, [Validators.required]);
+
+    // Georgian User Controls
+    protected georgianCitizenLastnameControl = new FormControl<string>('', [
+        Validators.required,
+        georgianLettersValidator,
+    ]);
+    protected georgianCitizenPersonalNumberControl = new FormControl<string>('', [
+        Validators.required,
+        personalNumberValidator,
+    ]);
+    protected georgianCitizenFirstnameControl = new FormControl<string>({ value: '', disabled: true }, [
+        Validators.required,
+    ]);
+    protected georgianCitizenDateOfBirthControl = new FormControl<null | Date>({ value: null, disabled: true }, [
+        Validators.required,
+    ]);
+    protected georgianCitizenGenderControl = new FormControl<string>('', [Validators.required]);
+
+    // Foreigner User Controls
+    protected foreignerCitizenshipControl = new FormControl<string>('', [Validators.required]);
+    protected foreignerLastnameControl = new FormControl<string>('', [Validators.required, georgianLettersValidator]);
+    protected foreignerPersonalNumberControl = new FormControl<string>('', [Validators.required]);
+    protected foreignerFirstnameControl = new FormControl<string>('', [Validators.required, georgianLettersValidator]);
+    protected foreignerDateOfBirthControl = new FormControl<null | Date>(null, [Validators.required]);
+    protected foreignerGenderControl = new FormControl<string>('', [Validators.required]);
+    protected foreignerCheckedControl = new FormControl<boolean | null>(null, [Validators.required]);
+
+    // Mobile Number Controls
+    protected mobileNumberControl = new FormControl<string>('', [Validators.required, mobileNumberValidator]);
+    protected verificationNumberControl = new FormControl<string>('', [
+        customPatternValidator('^.{4}$', {
+            required: true,
+        }),
+    ]);
+
+    // Password Controls
+    protected passwordControl = new FormControl<string>('', [Validators.required, passwordPatternValidator]);
+    protected confirmPasswordControl = new FormControl<string>('', [Validators.required, passwordPatternValidator]);
+
+    // Terms and Conditions Controls
+    protected termsAndConditionsAcceptedControl = new FormControl<boolean>(false, [Validators.required]);
+
     chooseCitizenshipForm = new FormGroup({
-        citizenship: new FormControl<string>('', [Validators.required]),
+        citizenship: this.citizenshipControl,
     });
     checkIdentityForm = new FormGroup({
-        lastname: new FormControl<string>('', [
-            Validators.required,
-            customPatternValidator('^[\u10A0-\u10FF]+$', { georgianLetters: true }),
-        ]),
-        personalNumber: new FormControl<string>('', [customPatternValidator('^[0-9]{11}$', { personalNumber: true })]),
-        firstname: new FormControl<string>({ value: '', disabled: true }, [Validators.required]),
-        dateOfBirth: new FormControl<null | Date>({ value: null, disabled: true }, [Validators.required]),
-        gender: new FormControl<string>('', [Validators.required]),
+        lastname: this.georgianCitizenLastnameControl,
+        personalNumber: this.georgianCitizenPersonalNumberControl,
+        firstname: this.georgianCitizenFirstnameControl,
+        dateOfBirth: this.georgianCitizenDateOfBirthControl,
+        gender: this.georgianCitizenGenderControl,
     });
     checkIdentityForeignerForm = new FormGroup({
-        citizenship: new FormControl<string>('', [Validators.required]),
-        lastname: new FormControl<string>('', [
-            Validators.required,
-            customPatternValidator('^[\u10A0-\u10FF]+$', { georgianLetters: true }),
-        ]),
-        personalNumber: new FormControl<string>('', [Validators.required]),
-        firstname: new FormControl<string>('', [
-            Validators.required,
-            customPatternValidator('^[\u10A0-\u10FF]+$', { georgianLetters: true }),
-        ]),
-        dateOfBirth: new FormControl<null | Date>(null, [Validators.required]),
-        gender: new FormControl<string>('', [Validators.required]),
+        citizenship: this.foreignerCitizenshipControl,
+        lastname: this.foreignerLastnameControl,
+        personalNumber: this.foreignerPersonalNumberControl,
+        firstname: this.foreignerFirstnameControl,
+        dateOfBirth: this.foreignerDateOfBirthControl,
+        gender: this.foreignerGenderControl,
+        checked: this.foreignerCheckedControl,
     });
     mobileForm = new FormGroup({
-        mobileNumber: new FormControl<string>('', [
-            Validators.required,
-            customPatternValidator('^5\\d{8}$', { mobileNumber: true }),
-        ]),
-        verificationNumber: new FormControl<string>('', [
-            customPatternValidator('^.{4}$', {
-                required: true,
-            }),
-        ]),
+        mobileNumber: this.mobileNumberControl,
+        verificationNumber: this.verificationNumberControl,
     });
     passwordsForm = new FormGroup({
-        password: new FormControl<string>('', [
-            Validators.required,
-            customPatternValidator('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&,.])[A-Za-z\\d@$!%*?&,.]{8,}$', {
-                passwordPattern: true,
-            }),
-        ]),
-        confirmPassword: new FormControl<string>('', [
-            Validators.required,
-            customPatternValidator('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&,.])[A-Za-z\\d@$!%*?&,.]{8,}$', {
-                passwordPattern: true,
-            }),
-        ]),
+        password: this.passwordControl,
+        confirmPassword: this.confirmPasswordControl,
     });
     termsAndConditionsForm = new FormGroup({
-        accepted: new FormControl<boolean>(false, [Validators.required]),
+        accepted: this.termsAndConditionsAcceptedControl,
     });
+
     registrationForm = new FormGroup({
         chooseCitizenship: this.chooseCitizenshipForm,
         checkIdentity: this.checkIdentityForm,
@@ -133,7 +166,7 @@ export class FeaturesRegistrationComponent implements OnInit {
         passwords: this.passwordsForm,
         termsAndConditions: this.termsAndConditionsForm,
     });
-    citizenshipValue: null | undefined | string = null;
+    citizenshipValue: null | undefined | CitizenshipType = null;
 
     userCheckedSuccessfully = signal<boolean>(false);
     smsSent = signal<boolean>(false);
@@ -148,150 +181,180 @@ export class FeaturesRegistrationComponent implements OnInit {
     exclamationPointIcon = EXCLAMATION_POINT_ICON;
 
     ngOnInit() {
-        this.registrationForm
-            .get('chooseCitizenship')
-            ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$))
-            .subscribe((res) => {
-                this.citizenshipValue = res.citizenship;
-            });
-
-        this.registrationForm
-            .get('mobile')
-            ?.get('verificationNumber')
-            ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$))
-            .subscribe({
-                next: (smsCode) => {
-                    const mobileNumber = this.registrationForm.get('mobile')?.get('mobileNumber')?.value;
-
-                    if (smsCode && smsCode.length === 4 && mobileNumber) {
-                        this.validateMobileNumber(smsCode, mobileNumber);
-                    }
-
-                    this.mobileVerified.set(false);
-                },
-            });
-
-        this.checkIdentityForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe({
-            next: () => {
-                const personalNumberControl = this.checkIdentityForm.get('personalNumber');
-                const lastnameControl = this.checkIdentityForm.get('lastname');
-
-                if (
-                    personalNumberControl?.hasError('personCouldNotBeIdentified') ||
-                    lastnameControl?.hasError('personCouldNotBeIdentified')
-                ) {
-                    personalNumberControl?.setErrors({ personCouldNotBeIdentified: false });
-                    lastnameControl?.setErrors({ personCouldNotBeIdentified: false });
-
-                    personalNumberControl?.updateValueAndValidity();
-                    lastnameControl?.updateValueAndValidity();
-                }
-            },
+        this.citizenshipControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((res) => {
+            this.citizenshipValue = res;
         });
+
+        this.verificationNumberControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((smsCode) => {
+            const mobileNumber = this.mobileNumberControl.value;
+
+            if (smsCode && smsCode.length === 4 && mobileNumber) {
+                this.validateMobileNumber(smsCode, mobileNumber);
+            }
+
+            this.mobileVerified.set(false);
+        });
+
+        this.checkIdentityForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+            if (
+                this.georgianCitizenPersonalNumberControl.hasError('personCouldNotBeIdentified') ||
+                this.georgianCitizenLastnameControl.hasError('personCouldNotBeIdentified')
+            ) {
+                this.georgianCitizenPersonalNumberControl.setErrors({ personCouldNotBeIdentified: false });
+                this.georgianCitizenLastnameControl.setErrors({ personCouldNotBeIdentified: false });
+
+                this.georgianCitizenPersonalNumberControl.updateValueAndValidity();
+                this.georgianCitizenLastnameControl.updateValueAndValidity();
+            }
+        });
+
+        this.resetFormsIfPreviousValuesChanged();
 
         this.listenToCheckIdentityFields();
     }
 
-    listenToCheckIdentityFields() {
-        this.checkIdentityForm
-            ?.get('personalNumber')
-            ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$))
-            .subscribe({
-                next: () => {
-                    this.userCheckedSuccessfully.set(false);
-                },
+    resetFormsIfPreviousValuesChanged() {
+        this.citizenshipControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+            this.checkIdentityForm.reset();
+            this.checkIdentityForeignerForm.reset();
+        });
+
+        this.georgianCitizenPersonalNumberControl.valueChanges
+            .pipe(takeUntilDestroyed(this.destroyRef$))
+            .subscribe(() => {
+                if (this.mobileNumberControl.valid || this.verificationNumberControl.valid) {
+                    this.georgianCitizenFirstnameControl.reset();
+                    this.georgianCitizenDateOfBirthControl.reset();
+                    this.georgianCitizenGenderControl.reset();
+
+                    this.mobileForm.reset();
+
+                    this.smsSent.set(false);
+                    this.mobileVerified.set(false);
+                }
             });
 
-        this.checkIdentityForm
-            ?.get('lastname')
-            ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$))
-            .subscribe({
-                next: () => {
-                    this.userCheckedSuccessfully.set(false);
-                },
+        this.georgianCitizenLastnameControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+            if (this.mobileNumberControl.valid || this.verificationNumberControl.valid) {
+                this.georgianCitizenFirstnameControl.reset();
+                this.georgianCitizenDateOfBirthControl.reset();
+                this.georgianCitizenGenderControl.reset();
+
+                this.mobileForm.reset();
+
+                this.smsSent.set(false);
+                this.mobileVerified.set(false);
+            }
+        });
+
+        this.foreignerLastnameControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+            if (this.mobileNumberControl.valid || this.verificationNumberControl.valid) {
+                this.foreignerCheckedControl.setValue(null);
+                this.mobileForm.reset();
+
+                this.smsSent.set(false);
+                this.mobileVerified.set(false);
+            }
+        });
+
+        this.foreignerPersonalNumberControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+            if (this.mobileNumberControl.valid || this.verificationNumberControl.valid) {
+                this.foreignerCheckedControl.setValue(null);
+                this.mobileForm.reset();
+
+                this.smsSent.set(false);
+                this.mobileVerified.set(false);
+            }
+        });
+
+        this.mobileNumberControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+            if (this.passwordControl.valid || this.confirmPasswordControl.valid) {
+                this.verificationNumberControl.setValue('');
+                this.verificationNumberControl.markAsUntouched();
+                this.mobileVerified.set(false);
+
+                // Reset password fields
+                this.passwordControl.reset();
+                this.confirmPasswordControl.reset();
+
+                // Reset terms and conditions
+                this.termsAndConditionsAcceptedControl.setValue(false);
+            }
+        });
+    }
+
+    listenToCheckIdentityFields() {
+        this.georgianCitizenPersonalNumberControl.valueChanges
+            .pipe(takeUntilDestroyed(this.destroyRef$))
+            .subscribe(() => {
+                this.userCheckedSuccessfully.set(false);
             });
+
+        this.georgianCitizenLastnameControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+            this.userCheckedSuccessfully.set(false);
+        });
     }
 
     checkGeorgianUser() {
-        const personalNumberControl = this.checkIdentityForm.get('personalNumber');
-        const lastnameControl = this.checkIdentityForm.get('lastname');
-        const firstnameControl = this.checkIdentityForm.get('firstname');
-        const dateOfBirthControl = this.checkIdentityForm.get('dateOfBirth');
-        const genderControl = this.checkIdentityForm.get('gender');
-
         if (
-            personalNumberControl?.valid &&
-            lastnameControl?.valid &&
-            personalNumberControl.value &&
-            lastnameControl.value
+            this.georgianCitizenPersonalNumberControl.valid &&
+            this.georgianCitizenLastnameControl.valid &&
+            this.georgianCitizenPersonalNumberControl.value &&
+            this.georgianCitizenLastnameControl.value
         ) {
             this.registrationService
                 .checkUser({
-                    personalNumber: personalNumberControl.value,
-                    lastName: lastnameControl.value,
+                    personalNumber: this.georgianCitizenPersonalNumberControl.value,
+                    lastName: this.georgianCitizenLastnameControl.value,
                 })
                 .subscribe({
                     next: (res) => {
-                        firstnameControl?.setValue(res.firstName);
-                        dateOfBirthControl?.setValue(new Date(res.birthDate));
-                        genderControl?.setValue(res.gender);
+                        this.georgianCitizenFirstnameControl.setValue(res.firstName);
+                        this.georgianCitizenDateOfBirthControl.setValue(new Date(res.birthDate));
+                        this.georgianCitizenGenderControl.setValue(res.gender);
 
                         this.userCheckedSuccessfully.set(true);
                     },
                     error: (err) => {
                         if (err.error.error.code === 1008) {
-                            personalNumberControl.setErrors({ personCouldNotBeIdentified: true });
-                            lastnameControl.setErrors({ personCouldNotBeIdentified: true });
+                            this.georgianCitizenPersonalNumberControl.setErrors({ personCouldNotBeIdentified: true });
+                            this.georgianCitizenLastnameControl.setErrors({ personCouldNotBeIdentified: true });
                         }
                     },
                 });
         } else {
-            personalNumberControl?.markAsTouched();
-            lastnameControl?.markAsTouched();
+            this.georgianCitizenPersonalNumberControl.markAsTouched();
+            this.georgianCitizenLastnameControl.markAsTouched();
         }
     }
 
     checkForeignUser(next: () => void) {
-        // Foreigner controls
-        const foreignerPersonalNumberControl = this.checkIdentityForeignerForm.get('personalNumber');
-        const foreignerFirstnameControl = this.checkIdentityForeignerForm.get('firstname');
-        const foreignerLastnameControl = this.checkIdentityForeignerForm.get('lastname');
-        const foreignerDateOfBirthControl = this.checkIdentityForeignerForm.get('dateOfBirth');
-        const foreignerCitizenshipControl = this.checkIdentityForeignerForm.get('citizenship');
-        const foreignerGenderControl = this.checkIdentityForeignerForm.get('gender');
-
-        // Georgian citizen controls
-        const citizenshipControl = this.chooseCitizenshipForm.get('citizenship');
-        const personalNumberControl = this.checkIdentityForm.get('personalNumber');
-        const lastnameControl = this.checkIdentityForm.get('lastname');
-        const firstnameControl = this.checkIdentityForm.get('firstname');
-        const dateOfBirthControl = this.checkIdentityForm.get('dateOfBirth');
-
-        foreignerPersonalNumberControl?.markAsTouched();
-        foreignerFirstnameControl?.markAsTouched();
-        foreignerLastnameControl?.markAsTouched();
-        foreignerDateOfBirthControl?.markAsTouched();
-        foreignerCitizenshipControl?.markAsTouched();
-        foreignerGenderControl?.markAsTouched();
+        this.foreignerPersonalNumberControl.markAsTouched();
+        this.foreignerFirstnameControl.markAsTouched();
+        this.foreignerLastnameControl.markAsTouched();
+        this.foreignerDateOfBirthControl.markAsTouched();
+        this.foreignerCitizenshipControl.markAsTouched();
+        this.foreignerGenderControl.markAsTouched();
 
         if (
-            foreignerPersonalNumberControl?.valid &&
-            foreignerLastnameControl?.valid &&
-            foreignerPersonalNumberControl.value &&
-            foreignerLastnameControl.value
+            this.foreignerPersonalNumberControl.valid &&
+            this.foreignerLastnameControl.valid &&
+            this.foreignerPersonalNumberControl.value &&
+            this.foreignerLastnameControl.value
         ) {
             this.registrationService
                 .checkUser({
-                    personalNumber: foreignerPersonalNumberControl.value,
-                    lastName: foreignerLastnameControl.value,
+                    personalNumber: this.foreignerPersonalNumberControl.value,
+                    lastName: this.foreignerLastnameControl.value,
                 })
                 .subscribe({
                     next: (res) => {
-                        citizenshipControl?.setValue('1');
-                        personalNumberControl?.setValue(foreignerPersonalNumberControl?.value);
-                        lastnameControl?.setValue(foreignerLastnameControl?.value);
-                        firstnameControl?.setValue(res.firstName);
-                        dateOfBirthControl?.setValue(new Date(res.birthDate));
+                        this.citizenshipControl.setValue(CitizenshipType.Georgian);
+                        this.georgianCitizenPersonalNumberControl.setValue(this.foreignerPersonalNumberControl.value);
+                        this.georgianCitizenLastnameControl.setValue(this.foreignerLastnameControl.value);
+                        this.georgianCitizenFirstnameControl.setValue(res.firstName);
+                        this.georgianCitizenDateOfBirthControl.setValue(new Date(res.birthDate));
+                        this.foreignerCheckedControl.setValue(true);
 
                         next();
 
@@ -299,6 +362,7 @@ export class FeaturesRegistrationComponent implements OnInit {
                     },
                     error: (err) => {
                         if (err.error.error.code === 1008) {
+                            this.foreignerCheckedControl.setValue(true);
                             next();
                         }
                     },
@@ -307,26 +371,22 @@ export class FeaturesRegistrationComponent implements OnInit {
     }
 
     sendSMS() {
-        const mobileNumberControl = this.mobileForm.get('mobileNumber');
-        const verificationNumberControl = this.mobileForm.get('verificationNumber');
+        this.verificationNumberControl.setValue('');
+        this.verificationNumberControl.markAsUntouched();
 
-        verificationNumberControl?.setValue('');
-        verificationNumberControl?.setErrors(null);
-        verificationNumberControl?.markAsPristine();
-
-        if (mobileNumberControl?.valid) {
+        if (this.mobileNumberControl.valid) {
             this.timerSubscription?.unsubscribe();
             this.startTimer();
 
-            if (mobileNumberControl.value) {
-                this.registrationService.sendSMS(mobileNumberControl.value).subscribe({
+            if (this.mobileNumberControl.value) {
+                this.registrationService.sendSMS(this.mobileNumberControl.value).subscribe({
                     next: (res) => {
                         res.status && this.smsSent.set(true);
                     },
                 });
             }
         } else {
-            mobileNumberControl?.markAsTouched();
+            this.mobileNumberControl.markAsTouched();
         }
     }
 
@@ -339,9 +399,9 @@ export class FeaturesRegistrationComponent implements OnInit {
             },
             error: (err) => {
                 if (err.error.error.code === 1004) {
-                    this.mobileForm.get('verificationNumber')?.setErrors({ verificationNumber: true });
+                    this.verificationNumberControl.setErrors({ verificationNumber: true });
                 } else if (err.error.error.code === 1005) {
-                    this.mobileForm.get('verificationNumber')?.setErrors({ verificationNumberTimeLimit: true });
+                    this.verificationNumberControl.setErrors({ verificationNumberTimeLimit: true });
                 }
             },
         });
@@ -375,16 +435,13 @@ export class FeaturesRegistrationComponent implements OnInit {
     }
 
     confirmPassword(next: () => void) {
-        const password = this.passwordsForm.get('password');
-        const confirmPassword = this.passwordsForm.get('confirmPassword');
-
-        if (!password?.value || !confirmPassword?.value) {
-            password?.markAsTouched();
-            confirmPassword?.markAsTouched();
+        if (!this.passwordControl.value || !this.confirmPasswordControl.value) {
+            this.passwordControl.markAsTouched();
+            this.confirmPasswordControl.markAsTouched();
 
             return;
-        } else if (password?.value !== confirmPassword?.value) {
-            confirmPassword.setErrors({ passwordsDoNotMatch: true });
+        } else if (this.passwordControl.value !== this.confirmPasswordControl.value) {
+            this.confirmPasswordControl.setErrors({ passwordsDoNotMatch: true });
             return;
         }
 
@@ -392,35 +449,24 @@ export class FeaturesRegistrationComponent implements OnInit {
     }
 
     onSubmit() {
-        const termsAndConditionsAcceptedControl = this.termsAndConditionsForm.get('accepted');
-
-        if (termsAndConditionsAcceptedControl?.value) {
+        if (this.termsAndConditionsAcceptedControl.value) {
             const user: CreateUser = {
-                pid:
-                    this.checkIdentityForm.get('personalNumber')?.value ||
-                    this.checkIdentityForeignerForm.get('personalNumber')?.value ||
-                    '',
-                phone: this.mobileForm.get('mobileNumber')?.value || '',
-                first_name:
-                    this.checkIdentityForm.get('firstname')?.value ||
-                    this.checkIdentityForeignerForm.get('firstname')?.value ||
-                    '',
-                last_name:
-                    this.checkIdentityForm.get('lastname')?.value ||
-                    this.checkIdentityForeignerForm.get('lastname')?.value ||
-                    '',
-                gender:
-                    this.checkIdentityForm.get('gender')?.value ||
-                    this.checkIdentityForeignerForm.get('gender')?.value ||
-                    '',
+                pid: this.georgianCitizenPersonalNumberControl.value || this.foreignerPersonalNumberControl.value || '',
+                phone: this.mobileNumberControl.value || '',
+                first_name: this.georgianCitizenFirstnameControl.value || this.foreignerFirstnameControl.value || '',
+                last_name: this.georgianCitizenLastnameControl.value || this.foreignerLastnameControl.value || '',
+                gender: this.georgianCitizenGenderControl.value || this.foreignerGenderControl.value || '',
                 birth_date:
-                    this.checkIdentityForm.get('dateOfBirth')?.value?.toISOString().split('T')[0] ||
-                    this.checkIdentityForeignerForm.get('dateOfBirth')?.value?.toISOString().split('T')[0] ||
+                    this.georgianCitizenDateOfBirthControl.value?.toISOString().split('T')[0] ||
+                    this.foreignerDateOfBirthControl.value?.toISOString().split('T')[0] ||
                     '',
-                residential: this.citizenshipValue === '1' ? 'GE' : 'US',
-                sms_code: this.mobileForm.get('verificationNumber')?.value || '',
-                password: this.passwordsForm.get('password')?.value || '',
-                password_confirmation: this.passwordsForm.get('confirmPassword')?.value || '',
+                residential:
+                    this.citizenshipValue === CitizenshipType.Georgian
+                        ? 'GE'
+                        : this.foreignerCitizenshipControl.value || '',
+                sms_code: this.verificationNumberControl.value || '',
+                password: this.passwordControl.value || '',
+                password_confirmation: this.confirmPasswordControl.value || '',
             };
 
             this.registrationService.registerUser(user).subscribe({
@@ -430,16 +476,7 @@ export class FeaturesRegistrationComponent implements OnInit {
                 },
             });
         } else {
-            termsAndConditionsAcceptedControl?.markAsTouched();
+            this.termsAndConditionsAcceptedControl.markAsTouched();
         }
     }
-}
-
-// TODO Move custom pattern validator to validators library
-function customPatternValidator(pattern: string, error: { [key: string]: boolean }): ValidatorFn {
-    const regex = new RegExp(pattern);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (control: AbstractControl): { [key: string]: any } | null => {
-        return regex.test(control.value) ? null : error;
-    };
 }

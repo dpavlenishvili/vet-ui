@@ -3,7 +3,9 @@
 
     <div class="radio-button" aria-hidden="true">
         <div class="radio-button-white-circle">
-            <div *ngIf="checked" class="radio-button-blue-circle"></div>
+            @if (_checked$()) {
+                <div class="radio-button-blue-circle"></div>
+            }
         </div>
     </div>
 

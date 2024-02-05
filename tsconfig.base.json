@@ -18,6 +18,7 @@
             "@vet/features/registration": ["frontend/libs/features/registration/src/index.ts"],
             "@vet/shared": ["frontend/libs/shared/src/index.ts"],
             "@vet/shared/constants": ["frontend/libs/shared/constants/src/index.ts"],
+            "@vet/shared/forms": ["frontend/libs/shared/forms/src/index.ts"],
             "@vet/shared/interfaces": ["frontend/libs/shared/interfaces/src/index.ts"],
             "@vet/shared/services": ["frontend/libs/shared/services/src/index.ts"],
             "@vet/theming": ["frontend/libs/theming/src/index.ts"],

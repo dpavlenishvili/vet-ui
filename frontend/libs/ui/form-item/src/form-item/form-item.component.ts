@@ -30,7 +30,8 @@ import { CALENDAR_ICON } from '@vet/shared';
         <div
             class="v-ui-form-item__control-container"
             [class.v-ui-form-item__control-container--borderless]="borderless"
-            [ngStyle]="ngStyleInput"
+            [class.p-0]="paddingless"
+            [class.mb-3]="marginBottom"
         >
             <ng-content></ng-content>
             <button
@@ -66,7 +67,8 @@ export class FormItemComponent implements AfterViewInit {
     @Input({ transform: coerceBooleanProperty }) hideClearBtn: BooleanInput = false;
     @Input({ transform: coerceBooleanProperty }) removeClearBtn: BooleanInput = false;
     @Input({ transform: coerceBooleanProperty }) calendarIcon: BooleanInput = false;
-    @Input() ngStyleInput!: { [klass: string]: string | number };
+    @Input() paddingless = false;
+    @Input() marginBottom = false;
 
     @ContentChild(FormControlProvider)
     controlProvider!: FormControlProvider;

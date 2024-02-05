@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function,@angular-eslint/no-host-metadata-property */
-import { ChangeDetectionStrategy, Component, forwardRef, inject, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, forwardRef, inject, Input, signal } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { RadioButtonService, RadioButtonValue } from '../radio-button.service';
-import { FormControlProvider } from '@vet/ui/form-item';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControlProvider, FormItemComponent } from '@vet/ui/form-item';
+import { RadioButtonGroup } from '../radio-button-group.class';
+import { RadioButtonValue } from '../radio-button.value';
 
 enum RadioOrientation {
     HORIZONTAL = 'horizontal',
@@ -23,34 +23,47 @@ let quantity = 0;
         '[class.radio-button-wrapper-flex-column]': 'radioOrientation === "vertical"',
     },
     providers: [
-        RadioButtonService,
+        { provide: RadioButtonGroup, useExisting: RadioButtonGroupComponent },
         {
             provide: FormControlProvider,
             useExisting: forwardRef(() => RadioButtonGroupComponent),
         },
     ],
 })
-export class RadioButtonGroupComponent extends FormControlProvider implements ControlValueAccessor {
+export class RadioButtonGroupComponent
+    extends FormControlProvider
+    implements ControlValueAccessor, AfterViewInit, RadioButtonGroup
+{
     @Input() id = `v-ui-radio-button-group-${++quantity}`;
     @Input() radioOrientation: RadioOrientation.HORIZONTAL | RadioOrientation.VERTICAL = RadioOrientation.HORIZONTAL;
 
-    isDisabled = false;
+    disabled$ = signal(false);
+    value$ = signal<RadioButtonValue | null>(null);
+
     ngControl = inject(NgControl);
 
-    protected _radioButtonService = inject(RadioButtonService);
+    private formItem = inject(FormItemComponent, { optional: true });
 
     constructor() {
         super();
         this.ngControl.valueAccessor = this;
-        this._radioButtonService.selected$.pipe(takeUntilDestroyed()).subscribe((value) => {
-            this.onChange(value);
-        });
     }
 
-    onChange: (value: RadioButtonValue) => void = () => {};
+    setValue(value: RadioButtonValue | null): void {
+        this.value$.set(value);
+        this.onChange(value);
+    }
+
+    ngAfterViewInit() {
+        if (this.formItem) {
+            this.formItem.marginBottom = true;
+        }
+    }
+
+    onChange: (value: RadioButtonValue | null) => void = () => {};
     onTouched: () => void = () => {};
 
-    registerOnChange(fn: (value: RadioButtonValue) => void): void {
+    registerOnChange(fn: (value: RadioButtonValue | null) => void): void {
         this.onChange = fn;
     }
 
@@ -59,11 +72,10 @@ export class RadioButtonGroupComponent extends FormControlProvider implements Co
     }
 
     setDisabledState(isDisabled: boolean): void {
-        this.isDisabled = isDisabled;
-        this._radioButtonService.setIsDisabled(this.isDisabled);
+        this.disabled$.set(isDisabled);
     }
 
     writeValue(value: RadioButtonValue): void {
-        value && this._radioButtonService.selected$.next(value);
+        value && this.value$.set(value);
     }
 }
