@@ -10,4 +10,5 @@ return [
     '1006' => 'Passwords do not match each other.',
     '1007' => 'Can\'n find any user.',
     '1008' => 'The person could not be identified.',
+    '1009' => 'The person already registered.',
 ];

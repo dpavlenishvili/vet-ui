@@ -332,6 +332,19 @@ class UserApiController extends Controller
      *                    property="status"
      *                )
      *            )
+     *      ),
+     *      @OA\Response(
+     *          response=409,
+     *          description="Conflict",
+     *          @OA\JsonContent(
+     *                type="object",
+     *                @OA\Property(
+     *                    type="boolean",
+     *                    default=false,
+     *                    description="Person already registered",
+     *                    property="status"
+     *                )
+     *            )
      *      )
      * )
      */
@@ -339,6 +352,13 @@ class UserApiController extends Controller
     {
         $inputs = request()->all();
         $inputs['pid'] = $inputs['pid'] ?? $inputs['\pid'];
+
+        if (User::where('pid', $inputs['pid'])->exists()) {
+            return response()->json(['status' => false, 'error' => [
+                'code' => 1009,
+                'message' => __('error-codes.1009'),
+            ]])->setStatusCode(409);
+        }
 
         $request = (new Identity($inputs['pid'], $inputs['last_name']))->get();
 
