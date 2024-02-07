@@ -670,9 +670,9 @@ class AuthApiController extends Controller
         $smsCode = mt_rand(1000, 9999);
         (new SmsFacade())->set('phone', $user->phone)->set('text', sprintf(
             'momxmareblis sakheli: %s, verifikaciis ertjeradi kodi: %s',
-            strMask($user->pid, 3, 2),
+            strMask($user->pid, 3, -2),
             $smsCode,
-        ));
+        ))->send();
 
         Sms::create([
             'phone' => $user->phone,
