@@ -11,4 +11,5 @@ return [
     '1007' => 'Can\'n find any user.',
     '1008' => 'The person could not be identified.',
     '1009' => 'The person already registered.',
+    '1010' => 'exceeded the limit of authentication attempts',
 ];

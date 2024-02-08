@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\Sms;
 use App\Models\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +17,8 @@ use OpenApi\Annotations as OA;
 
 class AuthApiController extends Controller
 {
+    use AuthenticatesUsers;
+
     /**
      * Create a new AuthController instance.
      *
@@ -165,9 +168,20 @@ class AuthApiController extends Controller
      */
     public function login(): JsonResponse
     {
-        $credentials = request(['pid', 'password']);
+        if ($this->hasTooManyLoginAttempts(request())) {
+            return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
+                'code' => 1010,
+                'message' => __('error-codes.1010'),
+                'block_expire_in' => $this->limiter()->availableIn($this->throttleKey(request())),
+            ]], 401);
+        }
 
-        if (! $token = auth()->attempt($credentials)) {
+        $credentials = request(['pid', 'password']);
+        $token = auth()->attempt($credentials);
+
+        if (! $token) {
+            $this->incrementLoginAttempts(request());
+
             return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
                 'code' => 1001,
                 'message' => __('error-codes.1001'),
