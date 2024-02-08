@@ -19,6 +19,10 @@ class AuthApiController extends Controller
 {
     use AuthenticatesUsers;
 
+    protected int $maxAttempts = 3;
+
+    protected int $decayMinutes = 5;
+
     /**
      * Create a new AuthController instance.
      *
@@ -169,7 +173,7 @@ class AuthApiController extends Controller
     public function login(): JsonResponse
     {
         if ($this->hasTooManyLoginAttempts(request())) {
-            return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
+            return response()->json(['status' => false, 'msg' => 'Too many attempt', 'error' => [
                 'code' => 1010,
                 'message' => __('error-codes.1010'),
                 'block_expire_in' => $this->limiter()->availableIn($this->throttleKey(request())),
