@@ -1,0 +1,55 @@
+$block: '.v-ui-message-card';
+$icon: $block + '__icon-container';
+
+#{$block} {
+    width: 100%;
+    padding: 1.3rem 1.2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+
+    border-radius: 1rem;
+
+    #{$icon} {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        height: 3rem;
+
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+        }
+    }
+
+    &__success {
+        border: 0.05rem solid #3fd29f;
+    }
+
+    &__info {
+        border: 0.05rem solid #23d0e8;
+    }
+
+    &__warning {
+        border: 0.05rem solid #fec03f;
+    }
+
+    &__error {
+        border: 0.05rem solid #ee4f64;
+    }
+}
+
+.success-icon-color {
+    background-color: #3fd29f;
+}
+
+.error-icon-color {
+    background-color: #ee4f64;
+}

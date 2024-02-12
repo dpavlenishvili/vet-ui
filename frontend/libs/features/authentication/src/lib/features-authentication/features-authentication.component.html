@@ -1,0 +1,63 @@
+<ng-container *transloco="let t">
+    <section class="v-ui-authentication">
+        <h1 class="v-ui-authentication__header">ავტორიზაცია</h1>
+
+        <form class="v-ui-authentication__form" [formGroup]="authenticationForm">
+            @if (!showMobileVerification()) {
+                <div class="d-flex flex-column gap-3">
+                    <v-ui-form-item>
+                        <v-ui-form-item-label>პირადი ნომერი ან პასპორტის ნომერი</v-ui-form-item-label>
+                        <input v-ui-input formControlName="personalNumber" />
+                        <v-ui-form-error>
+                            {{ personalNumberControl.errors | validationErrorPipe }}
+                        </v-ui-form-error>
+                    </v-ui-form-item>
+
+                    <v-ui-form-item>
+                        <v-ui-form-item-label>პაროლი</v-ui-form-item-label>
+                        <input v-ui-input type="password" formControlName="password" />
+                        <a routerLink="reset-password" class="v-ui-authentication__password-link">დაგავიწყდა პაროლი?</a>
+                        <v-ui-form-error>
+                            {{ passwordControl.errors | validationErrorPipe }}
+                        </v-ui-form-error>
+                    </v-ui-form-item>
+                </div>
+
+                <v-ui-form-item [borderless]="true">
+                    <v-ui-checkbox formControlName="remember"> დამახსოვრება </v-ui-checkbox>
+                </v-ui-form-item>
+            } @else {
+                <h2 class="text-center mb-4">შეიყვანეთ ვერიფიკაციის კოდი</h2>
+
+                <v-ui-message-card messageCardType="info">
+                    <p>
+                        ვერიფიკაციის ერთჯერადი კოდი გამოგზავნილია მობილურის ნომერზე:
+                        {{ twoStepAuthentication.phone_mask }}
+                    </p>
+                </v-ui-message-card>
+
+                <div class="d-flex flex-column align-items-center mt-5">
+                    <v-ui-form-item borderless [removeClearBtn]="true">
+                        <v-ui-verification formControlName="verificationNumber" />
+                        <v-ui-form-error [messageAlignedAtStart]="false">
+                            {{ verificationNumberControl.errors | validationErrorPipe }}
+                        </v-ui-form-error>
+                    </v-ui-form-item>
+                    <v-ui-timer (resendBtnClicked)="signIn()"></v-ui-timer>
+                </div>
+            }
+
+            <div class="v-ui-authentication__button-container">
+                <button
+                    type="button"
+                    (click)="showMobileVerification() ? verifyMobile() : signIn()"
+                    class="v-ui-authentication__sign-in-btn"
+                    v-ui-button
+                >
+                    შესვლა
+                </button>
+                <a class="v-ui-authentication__registration-btn" routerLink="/registration">რეგისტრაცია</a>
+            </div>
+        </form>
+    </section>
+</ng-container>

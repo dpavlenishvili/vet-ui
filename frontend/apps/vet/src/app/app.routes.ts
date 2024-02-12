@@ -9,8 +9,12 @@ export const appRoutes: Routes = [
             {
                 // Temporary redirect to registration page
                 path: '',
-                redirectTo: 'registration',
+                redirectTo: 'authentication',
                 pathMatch: 'full',
+            },
+            {
+                path: 'authentication',
+                loadChildren: () => import('@vet/features/authentication'),
             },
             {
                 path: 'registration',

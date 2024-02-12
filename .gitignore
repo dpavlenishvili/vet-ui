@@ -28,3 +28,4 @@ dist
 .php-cs-fixer.cache
 .nx/cache
 .yarn/cache
+.yarn/install-state.gz

@@ -1,0 +1,76 @@
+$block: '.v-ui-authentication';
+$form: $block + '__form';
+$header: $block + '__header';
+$forgotPasswordLink: $block + '__password-link';
+$buttonContainer: $block + '__button-container';
+$signInButton: $block + '__sign-in-btn';
+$registrationButton: $block + '__registration-btn';
+
+#{$block} {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 7.7rem;
+    padding: 0 0.5rem;
+
+    #{$form} {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 3rem 5rem;
+        background-color: white;
+
+        border-radius: 2rem;
+    }
+
+    #{$header} {
+        font-size: 3rem;
+        color: #4caee8;
+
+        margin-bottom: 3rem;
+    }
+
+    #{$forgotPasswordLink} {
+        color: #4caee8;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    #{$buttonContainer} {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        margin-top: 4rem;
+    }
+
+    #{$signInButton} {
+        width: 80%;
+        align-self: center;
+    }
+
+    #{$registrationButton} {
+        text-decoration: underline;
+        color: #4caee8;
+
+        cursor: pointer;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    #{$block} {
+        #{$form} {
+            width: 70%;
+        }
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #{$block} {
+        #{$form} {
+            width: 36%;
+        }
+    }
+}

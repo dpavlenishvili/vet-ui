@@ -1,0 +1,18 @@
+.resend-btn {
+    background-color: transparent;
+    text-decoration: underline;
+    text-decoration: underline;
+    font-size: 1.3rem;
+    color: #4caee8;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+    &__disabled {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        text-decoration: underline;
+        color: #e0e0e0;
+    }
+}

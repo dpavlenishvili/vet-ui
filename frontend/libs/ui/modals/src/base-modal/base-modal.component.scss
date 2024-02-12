@@ -1,0 +1,73 @@
+$block: '.v-ui-base-modal';
+$iconContainer: $block + '__icon-container';
+$message: $block + '__message';
+$closeBtn: $block + '__close-btn';
+$closeBtnContainer: $block + '__close-btn-container';
+
+#{$block} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1.4rem;
+}
+
+#{$iconContainer} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 2rem;
+    border-radius: 50%;
+
+    background-color: #1d9f70;
+
+    &__error {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 2rem;
+        border-radius: 50%;
+
+        background-color: #ee4f64;
+    }
+}
+
+#{$message} {
+    font-size: 1.4rem;
+    color: black;
+    margin-bottom: 4rem;
+    text-align: center;
+
+    a {
+        text-decoration: underline;
+        color: #4682b4;
+    }
+}
+
+#{$closeBtnContainer} {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+
+    #{$closeBtn} {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 2.8rem;
+        height: 2.8rem;
+
+        background-color: #f2f3f6;
+
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+}

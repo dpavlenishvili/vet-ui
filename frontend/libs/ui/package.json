@@ -13,7 +13,8 @@
         "angular-svg-icon": "^17.0.0",
         "@vet/shared": "*",
         "@ng-select/ng-select": "^12.0.6",
-        "lodash": "4.17.21"
+        "lodash": "4.17.21",
+        "@angular/router": "17.1.2"
     },
     "dependencies": {},
     "sideEffects": false

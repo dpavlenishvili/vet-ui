@@ -10,7 +10,7 @@ $block: '.v-ui-button';
     background-color: var(--btnBgColor);
     cursor: pointer;
     padding: var(--btnVerticalSpacing) var(--btnHorizontalSpacing);
-    height: fit-content;
+    height: 5rem;
 
     &:focus {
         --btnBorderRadius: 0.8rem;

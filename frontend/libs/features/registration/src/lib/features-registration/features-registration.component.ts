@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    DestroyRef,
+    inject,
+    OnInit,
+    signal,
+    TemplateRef,
+    ViewChild,
+} from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ButtonComponent } from '@vet/ui/button';
 import { RadioButtonComponent, RadioButtonGroupComponent } from '@vet/ui/radio-button';
@@ -20,13 +29,12 @@ import { DatepickerComponent } from '@vet/ui/datepicker';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { RegistrationPageErrorStateMatcher } from './registration-page-error-state-matcher';
 import { RegistrationService } from '@vet/shared/services';
-import { VerificationComponent } from '@vet/ui/verification';
-import { interval, Subscription } from 'rxjs';
+import { VerificationComponent, TimerComponent } from '@vet/ui/verification';
 import { EXCLAMATION_POINT_ICON } from '@vet/shared';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DropdownComponent } from '@vet/ui/dropdown';
 import { countries, genders } from '@vet/shared/constants';
-import { CreateUser } from '@vet/shared/interfaces';
+import { CreateUser, ErrorCodesEnum } from '@vet/shared/interfaces';
 import {
     customPatternValidator,
     georgianLettersValidator,
@@ -34,6 +42,8 @@ import {
     passwordPatternValidator,
     personalNumberValidator,
 } from '@vet/shared/forms';
+import { Router, RouterLink } from '@angular/router';
+import { BaseModalService, BaseModalTypesEnum } from '@vet/ui/modals';
 
 enum CitizenshipType {
     Georgian = '1',
@@ -67,6 +77,8 @@ enum CitizenshipType {
         NgSelectModule,
         DropdownComponent,
         NgClass,
+        TimerComponent,
+        RouterLink,
     ],
     templateUrl: './features-registration.component.html',
     styleUrls: ['./features-registration.component.scss'],
@@ -79,8 +91,12 @@ enum CitizenshipType {
     ],
 })
 export class FeaturesRegistrationComponent implements OnInit {
+    @ViewChild('userAlreadyRegisteredErrorTemplate') userAlreadyRegisteredErrorTemplateRef?: TemplateRef<void>;
+
     private destroyRef$ = inject(DestroyRef);
-    private registrationService: RegistrationService = inject(RegistrationService);
+    private router = inject(Router);
+    private registrationService = inject(RegistrationService);
+    private baseModalService = inject(BaseModalService);
 
     protected citizenshipTypeEnum = CitizenshipType;
 
@@ -171,9 +187,6 @@ export class FeaturesRegistrationComponent implements OnInit {
     userCheckedSuccessfully = signal<boolean>(false);
     smsSent = signal<boolean>(false);
     mobileVerified = signal<boolean>(false);
-    enableResendSMS = signal<boolean>(false);
-    timer = signal<string>('02:00');
-    timerSubscription: Subscription | null = null;
 
     countries = countries;
     genders = genders;
@@ -316,9 +329,15 @@ export class FeaturesRegistrationComponent implements OnInit {
                         this.userCheckedSuccessfully.set(true);
                     },
                     error: (err) => {
-                        if (err.error.error.code === 1008) {
+                        if (err.error.error.code === ErrorCodesEnum.PERSON_COULD_NOT_BE_IDENTIFIED) {
                             this.georgianCitizenPersonalNumberControl.setErrors({ personCouldNotBeIdentified: true });
                             this.georgianCitizenLastnameControl.setErrors({ personCouldNotBeIdentified: true });
+                        }
+
+                        if (err.error.error.code === ErrorCodesEnum.PERSON_ALREADY_REGISTERED) {
+                            this.baseModalService.showErrorModal(
+                                this.userAlreadyRegisteredErrorTemplateRef as TemplateRef<void>,
+                            );
                         }
                     },
                 });
@@ -361,9 +380,15 @@ export class FeaturesRegistrationComponent implements OnInit {
                         this.checkIdentityForeignerForm.reset();
                     },
                     error: (err) => {
-                        if (err.error.error.code === 1008) {
+                        if (err.error.error.code === ErrorCodesEnum.PERSON_COULD_NOT_BE_IDENTIFIED) {
                             this.foreignerCheckedControl.setValue(true);
                             next();
+                        }
+
+                        if (err.error.error.code === ErrorCodesEnum.PERSON_ALREADY_REGISTERED) {
+                            this.baseModalService.showErrorModal(
+                                this.userAlreadyRegisteredErrorTemplateRef as TemplateRef<void>,
+                            );
                         }
                     },
                 });
@@ -374,17 +399,12 @@ export class FeaturesRegistrationComponent implements OnInit {
         this.verificationNumberControl.setValue('');
         this.verificationNumberControl.markAsUntouched();
 
-        if (this.mobileNumberControl.valid) {
-            this.timerSubscription?.unsubscribe();
-            this.startTimer();
-
-            if (this.mobileNumberControl.value) {
-                this.registrationService.sendSMS(this.mobileNumberControl.value).subscribe({
-                    next: (res) => {
-                        res.status && this.smsSent.set(true);
-                    },
-                });
-            }
+        if (this.mobileNumberControl.valid && this.mobileNumberControl.value) {
+            this.registrationService.sendSMS(this.mobileNumberControl.value).subscribe({
+                next: (res) => {
+                    res.status && this.smsSent.set(true);
+                },
+            });
         } else {
             this.mobileNumberControl.markAsTouched();
         }
@@ -398,39 +418,12 @@ export class FeaturesRegistrationComponent implements OnInit {
                 }
             },
             error: (err) => {
-                if (err.error.error.code === 1004) {
+                if (err.error.error.code === ErrorCodesEnum.INVALID_SMS_CODE) {
                     this.verificationNumberControl.setErrors({ verificationNumber: true });
-                } else if (err.error.error.code === 1005) {
+                } else if (err.error.error.code === ErrorCodesEnum.SMS_CODE_HAS_EXPIRED) {
                     this.verificationNumberControl.setErrors({ verificationNumberTimeLimit: true });
                 }
             },
-        });
-    }
-
-    startTimer() {
-        let timer = 120;
-        let minutes;
-        let seconds;
-
-        this.timerSubscription = interval(1000).subscribe(() => {
-            minutes = Math.floor(timer / 60);
-            seconds = Math.floor(timer % 60);
-
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-
-            if (minutes > '00') {
-                this.enableResendSMS.set(false);
-            } else {
-                this.enableResendSMS.set(true);
-            }
-
-            this.timer.set(minutes + ':' + seconds);
-
-            --timer;
-            if (timer < 0) {
-                this.timerSubscription?.unsubscribe();
-            }
         });
     }
 
@@ -471,8 +464,12 @@ export class FeaturesRegistrationComponent implements OnInit {
 
             this.registrationService.registerUser(user).subscribe({
                 next: () => {
-                    // TODO remove after homepage implemented
-                    window.location.reload();
+                    this.router.navigate(['/authentication']).then(() => {
+                        this.baseModalService.showModal(
+                            BaseModalTypesEnum.SUCCESS,
+                            'პორტალზე წარმატებით გაიარეთ რეგისტრაცია და გააქტიურეთ მომხმარებელი. გაიარეთ ავტორიზაცია და გააგრძელეთ პროგრამა/პროგრამებზე რეგისტრაცია. გისურვებთ წარმატებას !',
+                        );
+                    });
                 },
             });
         } else {

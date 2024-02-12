@@ -17,7 +17,7 @@
                             </v-ui-radio-button-group>
                             <v-ui-form-error>
                                 <svg-icon [src]="exclamationPointIcon"></svg-icon>
-                                <span>გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა</span>
+                                გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა
                             </v-ui-form-error>
                         </v-ui-form-item>
                     </form>
@@ -50,7 +50,7 @@
                                     <v-ui-form-item-label>გვარი</v-ui-form-item-label>
                                     <input v-ui-input formControlName="lastname" />
                                     <v-ui-form-error>
-                                        <span>{{ georgianCitizenLastnameControl.errors | validationErrorPipe }}</span>
+                                        {{ georgianCitizenLastnameControl.errors | validationErrorPipe }}
                                     </v-ui-form-error>
                                 </v-ui-form-item>
                             </div>
@@ -60,9 +60,7 @@
                                         <v-ui-form-item-label>სახელი</v-ui-form-item-label>
                                         <input v-ui-input formControlName="firstname" [isDisabled]="true" />
                                         <v-ui-form-error>
-                                            <span>{{
-                                                georgianCitizenFirstnameControl.errors | validationErrorPipe
-                                            }}</span>
+                                            {{ georgianCitizenFirstnameControl.errors | validationErrorPipe }}
                                         </v-ui-form-error>
                                     </v-ui-form-item>
 
@@ -74,9 +72,7 @@
                                             maxDate="25/05/2010"
                                         ></v-ui-datepicker>
                                         <v-ui-form-error>
-                                            <span>{{
-                                                georgianCitizenDateOfBirthControl.errors | validationErrorPipe
-                                            }}</span>
+                                            {{ georgianCitizenDateOfBirthControl.errors | validationErrorPipe }}
                                         </v-ui-form-error>
                                     </v-ui-form-item>
                                 </div>
@@ -108,7 +104,7 @@
                                         formControlName="citizenship"
                                     ></v-ui-dropdown>
                                     <v-ui-form-error>
-                                        <span>{{ foreignerCitizenshipControl.errors | validationErrorPipe }}</span>
+                                        {{ foreignerCitizenshipControl.errors | validationErrorPipe }}
                                     </v-ui-form-error>
                                 </v-ui-form-item>
 
@@ -116,7 +112,7 @@
                                     <v-ui-form-item-label>პირადი ნომერი ან პასპორტის ნომერი</v-ui-form-item-label>
                                     <input v-ui-input formControlName="personalNumber" />
                                     <v-ui-form-error>
-                                        <span>{{ foreignerPersonalNumberControl.errors | validationErrorPipe }}</span>
+                                        {{ foreignerPersonalNumberControl.errors | validationErrorPipe }}
                                     </v-ui-form-error>
                                 </v-ui-form-item>
                             </div>
@@ -126,7 +122,7 @@
                                     <v-ui-form-item-label>სახელი</v-ui-form-item-label>
                                     <input v-ui-input formControlName="firstname" />
                                     <v-ui-form-error>
-                                        <span>{{ foreignerFirstnameControl.errors | validationErrorPipe }}</span>
+                                        {{ foreignerFirstnameControl.errors | validationErrorPipe }}
                                     </v-ui-form-error>
                                 </v-ui-form-item>
 
@@ -134,7 +130,7 @@
                                     <v-ui-form-item-label>გვარი</v-ui-form-item-label>
                                     <input v-ui-input formControlName="lastname" />
                                     <v-ui-form-error>
-                                        <span>{{ foreignerLastnameControl.errors | validationErrorPipe }}</span>
+                                        {{ foreignerLastnameControl.errors | validationErrorPipe }}
                                     </v-ui-form-error>
                                 </v-ui-form-item>
                             </div>
@@ -148,7 +144,7 @@
                                         maxDate="25/05/2010"
                                     ></v-ui-datepicker>
                                     <v-ui-form-error>
-                                        <span>{{ foreignerDateOfBirthControl.errors | validationErrorPipe }}</span>
+                                        {{ foreignerDateOfBirthControl.errors | validationErrorPipe }}
                                     </v-ui-form-error>
                                 </v-ui-form-item>
 
@@ -161,7 +157,7 @@
                                         formControlName="gender"
                                     ></v-ui-dropdown>
                                     <v-ui-form-error>
-                                        <span>{{ foreignerGenderControl.errors | validationErrorPipe }}</span>
+                                        {{ foreignerGenderControl.errors | validationErrorPipe }}
                                     </v-ui-form-error>
                                 </v-ui-form-item>
                             </div>
@@ -185,7 +181,7 @@
                             <v-ui-form-item-label>მობილურის ნომერი</v-ui-form-item-label>
                             <input v-ui-input formControlName="mobileNumber" />
                             <v-ui-form-error>
-                                <span>{{ mobileNumberControl.errors | validationErrorPipe }}</span>
+                                {{ mobileNumberControl.errors | validationErrorPipe }}
                             </v-ui-form-error>
                         </v-ui-form-item>
 
@@ -198,20 +194,10 @@
                                         formControlName="verificationNumber"
                                     />
                                     <v-ui-form-error [messageAlignedAtStart]="false">
-                                        <span>{{ verificationNumberControl.errors | validationErrorPipe }}</span>
+                                        {{ verificationNumberControl.errors | validationErrorPipe }}
                                     </v-ui-form-error>
                                 </v-ui-form-item>
-                                <div class="d-flex justify-content-end align-items-center gap-4">
-                                    <span>{{ timer() }}</span>
-                                    <button
-                                        type="button"
-                                        (click)="sendSMS()"
-                                        [disabled]="!enableResendSMS()"
-                                        [ngClass]="enableResendSMS() ? 'resend-code' : 'resend-code__disabled'"
-                                    >
-                                        კოდის ხელახლა მიღება
-                                    </button>
-                                </div>
+                                <v-ui-timer (resendBtnClicked)="sendSMS()"></v-ui-timer>
                             }
                         </div>
                     </form>
@@ -237,7 +223,7 @@
                             <v-ui-form-item-label>პაროლი</v-ui-form-item-label>
                             <input v-ui-input formControlName="password" type="password" />
                             <v-ui-form-error>
-                                <span>{{ passwordControl.errors | validationErrorPipe }}</span>
+                                {{ passwordControl.errors | validationErrorPipe }}
                             </v-ui-form-error>
                         </v-ui-form-item>
 
@@ -245,7 +231,7 @@
                             <v-ui-form-item-label>გაიმეორეთ პაროლი</v-ui-form-item-label>
                             <input v-ui-input formControlName="confirmPassword" type="password" />
                             <v-ui-form-error>
-                                <span>{{ confirmPasswordControl.errors | validationErrorPipe }}</span>
+                                {{ confirmPasswordControl.errors | validationErrorPipe }}
                             </v-ui-form-error>
                         </v-ui-form-item>
                     </form>
@@ -277,7 +263,7 @@
                                     გავეცანი და ვეთანხმები წესებს
                                 </v-ui-checkbox>
                                 <v-ui-form-error>
-                                    <span>{{ termsAndConditionsAcceptedControl.errors | validationErrorPipe }}</span>
+                                    {{ termsAndConditionsAcceptedControl.errors | validationErrorPipe }}
                                 </v-ui-form-error>
                             </div>
                         </v-ui-form-item>
@@ -295,3 +281,7 @@
         </v-ui-wizard>
     </form>
 </ng-container>
+
+<ng-template #userAlreadyRegisteredErrorTemplate>
+    მომხმარებელი უკვე რესგიტრირებულია, გთხოვთ <a routerLink="/authentication">გაიაროთ ავტორიზაცია</a>
+</ng-template>

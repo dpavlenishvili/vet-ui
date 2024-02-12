@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { initializeTransolco } from './initialize-transloco';
@@ -10,6 +10,7 @@ import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideBaseUrl } from '@vet/shared';
 import { environment } from '../environments/environment';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
         provideDatepicker(),
         provideClientHydration(),
         provideBaseUrl(environment.apiBaseUrl),
+        importProvidersFrom(ModalModule.forRoot()),
     ],
 };

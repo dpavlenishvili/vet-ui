@@ -15,6 +15,7 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
+            "@vet/features/authentication": ["frontend/libs/features/authentication/src/index.ts"],
             "@vet/features/registration": ["frontend/libs/features/registration/src/index.ts"],
             "@vet/shared": ["frontend/libs/shared/src/index.ts"],
             "@vet/shared/constants": ["frontend/libs/shared/constants/src/index.ts"],
@@ -30,6 +31,8 @@
             "@vet/ui/dropdown": ["frontend/libs/ui/dropdown/src/index.ts"],
             "@vet/ui/form-item": ["frontend/libs/ui/form-item/src/index.ts"],
             "@vet/ui/input": ["frontend/libs/ui/input/src/index.ts"],
+            "@vet/ui/message-card": ["frontend/libs/ui/message-card/src/index.ts"],
+            "@vet/ui/modals": ["frontend/libs/ui/modals/src/index.ts"],
             "@vet/ui/navbar": ["frontend/libs/ui/navbar/src/index.ts"],
             "@vet/ui/radio-button": ["frontend/libs/ui/radio-button/src/index.ts"],
             "@vet/ui/verification": ["frontend/libs/ui/verification/src/index.ts"],
