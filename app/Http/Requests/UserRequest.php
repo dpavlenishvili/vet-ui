@@ -23,7 +23,7 @@ class UserRequest extends FormRequest
 
         return [
             'pid' => ['required', 'unique:users,pid,'.$userId],
-            'phone' => ['required', 'min:9', 'max:9', 'unique:users,phone,'.$userId],
+            'phone' => ['required', 'min:9', 'max:9'],
             'first_name' => ['required', 'min:2', 'max:32'],
             'last_name' => ['required', 'min:2', 'max:32'],
             'gender' => ['required', Rule::in(['male', 'female'])],
