@@ -193,7 +193,7 @@ class AuthApiController extends Controller
             $user = auth()->user();
         }
 
-        if (! $token || $user) {
+        if (! $token || ! $user) {
             $this->incrementLoginAttempts(request());
 
             return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
