@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Classes\EvetFacade;
+use App\Classes\KeyCloack;
 use App\Classes\SmsFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use OpenApi\Annotations as OA;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthApiController extends Controller
 {
@@ -182,8 +185,15 @@ class AuthApiController extends Controller
 
         $credentials = request(['pid', 'password']);
         $token = auth()->attempt($credentials);
+        $user = null;
 
         if (! $token) {
+            [$token, $user] = $this->attempLoginByAd($credentials);
+        } else {
+            $user = auth()->user();
+        }
+
+        if (! $token || $user) {
             $this->incrementLoginAttempts(request());
 
             return response()->json(['status' => false, 'msg' => 'Invalid credentials', 'error' => [
@@ -191,12 +201,11 @@ class AuthApiController extends Controller
                 'message' => __('error-codes.1001'),
             ]], 401);
         }
-
-        if (! auth()->user()->{'2fa'}) {
+        if (! $user->{'2fa'}) {
             return $this->respondWithToken($token);
         }
 
-        $response = $this->generateAndSendSMSCode(auth()->user());
+        $response = $this->generateAndSendSMSCode($user);
 
         if ($response == -1) {
             return response()->json(['status' => false, 'msg' => 'Already accepted', 'error' => [
@@ -215,7 +224,7 @@ class AuthApiController extends Controller
         return response()->json([
             'status' => true,
             'msg' => 'Waiting 2fa code on: '.route('api.2fa.login'),
-            'phone_mask' => strMask(auth()->user()->phone, 3, -2),
+            'phone_mask' => strMask($user->phone, 3, -2),
         ], 202);
     }
 
@@ -918,5 +927,41 @@ class AuthApiController extends Controller
         ]);
 
         return 1;
+    }
+
+    private function attempLoginByAd(array $credentials): ?array
+    {
+        $response = (new KeyCloack($credentials['pid'], $credentials['password']))->auth();
+
+        if (! $response) {
+            return null;
+        }
+
+        $adUser = $response->userInfo();
+
+        $userData = (new EvetFacade($adUser['person_id']))->get();
+
+        if (! $userData) {
+            return null;
+        }
+
+        $user = User::updateOrCreate(
+            [
+                'pid' => $adUser['person_id'],
+            ],
+            [
+                'first_name' => $userData['firstName'],
+                'last_name' => $userData['lastName'],
+                'name' => $userData['firstName'].' '.$userData['lastName'],
+                'gender' => $userData['gender'] === 'მდედრობითი' ? 'female' : 'male',
+                'birth_date' => $userData['birthDate'],
+                'phone' => $userData['mobile'],
+                'residential' => 'GE',
+                'password' => 'null',
+                '2fa' => true,
+            ]
+        );
+
+        return [JWTAuth::fromUser($user), $user];
     }
 }

@@ -42,4 +42,15 @@ return [
         'name' => env('IDENTITY_PERSONAL_APP_NAME', 'ChildrenChecker'),
         'key' => env('IDENTITY_PERSONAL_APP_KEY'),
     ],
+
+    'key_cloack' => [
+        'client_id' => env('KEYCLOAK_CLIENT_ID', 'evet-main'),
+        'secret' => env('KEYCLOAK_CLIENT_SECRET'),
+        'base_url' => env('KEYCLOAK_BASE_URL', 'https://accounts.emis.ge/auth/realms/emis/protocol/openid-connect/'),
+        'realm' => env('KEYCLOAK_REALM', 60),
+    ],
+
+    'evet' => [
+        'base_url' => env('EVET_BASE_URL', 'http://192.168.202.13:8090/staff/personInfo/'),
+    ],
 ];
