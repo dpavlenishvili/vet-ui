@@ -369,11 +369,9 @@ class UserApiController extends Controller
             ]])->setStatusCode(400);
         }
 
-        $timeStamp = $request->json('birthDate') / 1000;
-
         return [
             'firstName' => $request->json('firstName'),
-            'birthDate' => date('Y-m-d', $timeStamp),
+            'birthDate' => date('Y-m-d', strtotime('+4 hours', $request->json('birthDate') / 1000)),
             'gender' => $request->json('gender') === 1 ? 'male' : 'female',
             'photo' => $request->json('photos.base64Binary.0'),
         ];
