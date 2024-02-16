@@ -194,10 +194,6 @@ export class FeaturesRegistrationComponent implements OnInit {
     exclamationPointIcon = EXCLAMATION_POINT_ICON;
 
     ngOnInit() {
-        this.citizenshipControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((res) => {
-            this.citizenshipValue = res;
-        });
-
         this.verificationNumberControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((smsCode) => {
             const mobileNumber = this.mobileNumberControl.value;
 
@@ -227,7 +223,8 @@ export class FeaturesRegistrationComponent implements OnInit {
     }
 
     resetFormsIfPreviousValuesChanged() {
-        this.citizenshipControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+        this.citizenshipControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((res) => {
+            this.citizenshipValue = res;
             this.checkIdentityForm.reset();
             this.checkIdentityForeignerForm.reset();
         });
@@ -368,12 +365,13 @@ export class FeaturesRegistrationComponent implements OnInit {
                 })
                 .subscribe({
                     next: (res) => {
-                        this.citizenshipControl.setValue(CitizenshipType.Georgian);
+                        this.foreignerCheckedControl.setValue(true);
                         this.georgianCitizenPersonalNumberControl.setValue(this.foreignerPersonalNumberControl.value);
                         this.georgianCitizenLastnameControl.setValue(this.foreignerLastnameControl.value);
                         this.georgianCitizenFirstnameControl.setValue(res.firstName);
+                        this.georgianCitizenGenderControl.setValue(this.foreignerGenderControl.value);
                         this.georgianCitizenDateOfBirthControl.setValue(new Date(res.birthDate));
-                        this.foreignerCheckedControl.setValue(true);
+                        this.citizenshipValue = CitizenshipType.Georgian;
 
                         next();
 

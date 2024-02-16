@@ -29,21 +29,23 @@ let quantity = 0;
     standalone: true,
     template: `
         <ul class="v-ui-verification__list">
-            <li
-                *ngFor="let digit of codeSegments; let i = index; let first = first"
-                class="v-ui-verification__list-item"
-            >
-                <input
-                    #verificationInput
-                    type="text"
-                    [id]="first ? id : null"
-                    (input)="onInputValueChange($event, i)"
-                />
-            </li>
+            @for (digit of codeSegments; track digit; let idx = $index; let first = $first) {
+                <li class="v-ui-verification__list-item">
+                    <input
+                        #verificationInput
+                        type="text"
+                        [id]="first ? id : null"
+                        (input)="onInputValueChange($event, idx)"
+                        autocomplete="off"
+                    />
+                </li>
+            }
         </ul>
-        <div *ngIf="isErrorState">
-            <ng-content select="v-ui-form-error"></ng-content>
-        </div>
+        @if (isErrorState) {
+            <div class="v-ui-verification__error">
+                <ng-content select="v-ui-form-error"></ng-content>
+            </div>
+        }
     `,
     styleUrls: ['verification.component.scss'],
     host: {

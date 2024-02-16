@@ -1,16 +1,19 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { CHECK_ICON, ERROR_ICON, INFO_ICON, WARNING_ICON } from '@vet/shared';
 import { SvgIconComponent } from 'angular-svg-icon';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
     selector: 'v-ui-message-card',
     standalone: true,
     template: `
-        <div class="v-ui-message-card__icon-container">
-            <div [class.success-icon-color]="icon === checkIcon" [class.error-icon-color]="icon === errorIcon">
-                <svg-icon [src]="icon"></svg-icon>
-            </div>
+        <div
+            [tooltip]="tooltip"
+            [class.success-icon-color]="icon === checkIcon"
+            [class.error-icon-color]="icon === errorIcon"
+        >
+            <svg-icon [src]="icon"></svg-icon>
         </div>
         <ng-content></ng-content>
     `,
@@ -24,10 +27,11 @@ import { SvgIconComponent } from 'angular-svg-icon';
         '[class.v-ui-message-card__error]': 'messageCardType === "error"',
     },
     encapsulation: ViewEncapsulation.None,
-    imports: [SvgIconComponent],
+    imports: [SvgIconComponent, TooltipModule],
 })
 export class MessageCardComponent {
     @Input() messageCardType: 'success' | 'info' | 'warning' | 'error' = 'success';
+    @Input() tooltip!: string;
 
     checkIcon = CHECK_ICON;
     infoIcon = INFO_ICON;

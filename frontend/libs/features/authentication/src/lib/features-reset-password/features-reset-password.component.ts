@@ -77,9 +77,8 @@ export class FeaturesResetPasswordComponent {
             };
 
             this.resetPasswordService.resetPassword(data).subscribe({
-                next: (res) => {
+                next: () => {
                     this.showMobileVerification.set(true);
-                    console.log(res);
                 },
                 error: (err) => {
                     if (err.error.error.code === ErrorCodesEnum.CAN_NOT_FIND_ANY_USER) {
@@ -120,6 +119,9 @@ export class FeaturesResetPasswordComponent {
                 error: (err) => {
                     if (err.error.error.code === ErrorCodesEnum.SMS_CODE_HAS_EXPIRED) {
                         this.verificationNumberControl.setErrors({ verificationNumberTimeLimit: true });
+                    }
+                    if (err.error.error.code === ErrorCodesEnum.INVALID_SMS_CODE) {
+                        this.verificationNumberControl.setErrors({ verificationNumber: true });
                     }
                 },
             });

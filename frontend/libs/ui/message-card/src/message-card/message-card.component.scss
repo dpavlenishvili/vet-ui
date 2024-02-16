@@ -1,6 +1,13 @@
 $block: '.v-ui-message-card';
 $icon: $block + '__icon-container';
 
+.tooltip-inner {
+    max-width: 50rem;
+    font-size: 1rem;
+    padding: 1.4rem;
+    text-align: start;
+}
+
 #{$block} {
     width: 100%;
     padding: 1.3rem 1.2rem;
@@ -13,12 +20,6 @@ $icon: $block + '__icon-container';
     border-radius: 1rem;
 
     #{$icon} {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 3rem;
-        height: 3rem;
-
         div {
             display: flex;
             justify-content: center;
