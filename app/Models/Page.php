@@ -49,7 +49,7 @@ class Page extends Model implements Sortable
         return static::buildTree($pages);
     }
 
-    protected static function buildTree(Collection $pages, int $parentId = null, string $slug = null): array
+    protected static function buildTree($pages, int $parentId = null, string $slug = null): array
     {
         $tree = [];
 
