@@ -17,7 +17,7 @@ class CollectionResource extends JsonResource
             'meta_description' => $this->{'meta_description_'.app()->getLocale()},
             'image' => $this->image,
             'keywords' => $this->keywords,
-            'ping' => $this->pin,
+            'pin' => $this->pin,
             'createdAt' => $this->created_at,
         ];
     }
