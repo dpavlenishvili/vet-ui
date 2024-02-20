@@ -9,45 +9,33 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Sms;
 use App\Models\User;
+use App\Virtual\Models\User as UserDto;
+use App\Virtual\Res\DataResponse;
 use App\Virtual\UserReq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserApiController extends Controller
 {
-    /**
-     * @OA\Get(
-     *      path="/users",
-     *      operationId="getUserList",
-     *      tags={"Users"},
-     *      summary="Get list of users",
-     *      description="Returns list of users",
-     *      @OA\Parameter(
-     *           name="Authorization",
-     *           in="header",
-     *           description="Bearer token",
-     *           required=true,
-     *           @OA\Schema(
-     *               type="string"
-     *           )
-     *       ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/UsersRes")
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *     )
-     */
+    #[OAT\Get(
+        path: '/users',
+        operationId: 'getUserList',
+        description: 'Returns list of users',
+        summary: 'Get list of users',
+        tags: ['Users']
+    )]
+    #[OAT\SecurityScheme(
+        securityScheme: 'bearerAuth',
+        type: 'http',
+        bearerFormat: 'JWT',
+        scheme: 'bearer'
+    )]
+    #[DataResponse(UserDto::class, response: 200, description: 'Successful operation')]
+    #[OAT\Response(response: 401, description: 'Unauthenticated')]
+    #[OAT\Response(response: 403, description: 'Forbidden')]
     public function index()
     {
         $users = User::get();

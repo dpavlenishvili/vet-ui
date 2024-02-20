@@ -2,24 +2,18 @@
 
 namespace App\Virtual\Res;
 
+use App\Virtual\Models\Page;
+use OpenApi\Attributes as OAT;
+
 /**
- * @OA\Schema(
- *     title="pagesResource",
- *     description="Page resource",
- *     @OA\Xml(
- *         name="PageResource"
- *     )
- * )
+ * Page Resource
  */
+#[OAT\Schema]
 class PagesRes
 {
     /**
-     * @OA\Property(
-     *     title="Data",
-     *     description="Data wrapper"
-     * )
-     *
-     * @var \App\Virtual\Models\Page[]
+     * @var Page[]
      */
-    private $data;
+    #[OAT\Property]
+    private array $data;
 }

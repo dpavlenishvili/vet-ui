@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\Sms;
 use App\Models\User;
+use App\Virtual\Req\LoginRequestBody;
+use App\Virtual\Res\UserLogin2FaResponseBody;
+use App\Virtual\Res\UserLoginResponseBody;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +19,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthApiController extends Controller
@@ -42,137 +46,62 @@ class AuthApiController extends Controller
         ]]);
     }
 
-    /**
-     * @OA\Post(
-     *      path="/auth/login",
-     *      operationId="Login User",
-     *      tags={"Auth"},
-     *      summary="User authentication",
-     *      @OA\RequestBody(
-     *           required=true,
-     *           @OA\JsonContent(
-     *               @OA\Property(
-     *                   type="string",
-     *                   default="010000000000",
-     *                   description="Personal ID",
-     *                   property="pid"
-     *               ),
-     *               @OA\Property(
-     *                   type="string",
-     *                   default="password",
-     *                   description="Password",
-     *                   property="password"
-     *               )
-     *           )
-     *       ),
-     *       @OA\Response(
-     *           response=200,
-     *           description="Successful operation",
-     *           @OA\JsonContent(
-     *                @OA\Property(
-     *                     type="string",
-     *                     default="qwertyuio...",
-     *                     description="Access token",
-     *                     property="access_token"
-     *                ),
-     *                @OA\Property(
-     *                    type="string",
-     *                    default="bearer",
-     *                    description="Token Type",
-     *                    property="token_type"
-     *                ),
-     *                @OA\Property(
-     *                    type="integer",
-     *                    default="3600",
-     *                    description="Token expiration time",
-     *                    property="expires_in"
-     *                )
-     *           )
-     *       ),
-     *       @OA\Response(
-     *           response=202,
-     *           description="Successful operation but need 2fa code",
-     *           @OA\JsonContent(
-     *                @OA\Property(
-     *                      type="boolean",
-     *                      default="true",
-     *                      description="Status",
-     *                      property="status"
-     *                 ),
-     *                 @OA\Property(
-     *                      type="string",
-     *                      default="Waiting 2fa code",
-     *                      description="Waiting 2fa code",
-     *                      property="msg"
-     *                  ),
-     *                 @OA\Property(
-     *                      type="string",
-     *                      default="555****56",
-     *                      description="Phone Mask",
-     *                      property="phone_mask"
-     *                  )
-     *           )
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *                @OA\Property(
-     *                     type="boolean",
-     *                     default="false",
-     *                     description="Status",
-     *                     property="status"
-     *                ),
-     *                @OA\Property(
-     *                    type="string",
-     *                    default="Invalid credentials",
-     *                    description="Message",
-     *                    property="msg"
-     *                )
-     *           )
-     *      ),
-     *       @OA\Response(
-     *            response=406,
-     *            description="Already accepted, 2fa code still active",
-     *            @OA\JsonContent(
-     *                  @OA\Property(
-     *                       type="boolean",
-     *                       default="false",
-     *                       description="Status",
-     *                       property="status"
-     *                  ),
-     *                  @OA\Property(
-     *                      type="string",
-     *                      default="Already accepted",
-     *                      description="Message",
-     *                      property="msg"
-     *                  )
-     *             )
-     *        ),
-     *       @OA\Response(
-     *            response=500,
-     *            description="Can't send message",
-     *            @OA\JsonContent(
-     *                  @OA\Property(
-     *                       type="boolean",
-     *                       default="false",
-     *                       description="Status",
-     *                       property="status"
-     *                  ),
-     *                  @OA\Property(
-     *                      type="string",
-     *                      default="Can't send 2fa Code",
-     *                      description="Message",
-     *                      property="msg"
-     *                  )
-     *             )
-     *       )
-     * )
-     *
-     * Get a JWT via given credentials.
-     *
-     * @return JsonResponse
-     */
+    #[OAT\Post(
+        path: '/auth/login',
+        operationId: 'Login User',
+        summary: 'User authentication',
+        requestBody: new OAT\RequestBody(
+            required: true,
+            content: new OAT\JsonContent(
+                ref: LoginRequestBody::class,
+            ),
+        ),
+        tags: ['Auth']
+    )]
+    #[OAT\Response(
+        response: 200,
+        description: 'Successful operation',
+        content: new OAT\JsonContent(
+            ref: UserLoginResponseBody::class,
+        )
+    )]
+    #[OAT\Response(
+        response: 202,
+        description: 'Successful operation but need 2fa code',
+        content: new OAT\JsonContent(
+            ref: UserLogin2FaResponseBody::class,
+        ),
+    )]
+    #[OAT\Response(
+        response: 401,
+        description: 'Unauthenticated',
+        content: new OAT\JsonContent(
+            properties: [
+                new OAT\Property(property: 'status', description: 'Status', type: 'boolean', default: 'false'),
+                new OAT\Property(property: 'msg', description: 'Invalid credentials', type: 'string', default: 'Invalid credentials'),
+            ],
+        ),
+    )]
+    #[OAT\Response(
+        response: 406,
+        description: 'Already accepted, 2fa code still active',
+        content: new OAT\JsonContent(
+            properties: [
+                new OAT\Property(property: 'status', description: 'Status', type: 'boolean', default: 'false'),
+                new OAT\Property(property: 'msg', description: 'Already accepted', type: 'string', default: 'Already accepted'),
+            ],
+        ),
+    )]
+    #[OAT\Response(
+        response: 500,
+        description: "Can't send message",
+        content: new OAT\JsonContent(
+            properties: [
+                new OAT\Property(property: 'status', description: 'Status', type: 'boolean', default: 'false'),
+                new OAT\Property(property: 'msg', description: "Can't send 2fa Code", type: 'string', default: "Can't send 2fa Code"),
+            ],
+        ),
+    )]
     public function login(): JsonResponse
     {
         if ($this->hasTooManyLoginAttempts(request())) {

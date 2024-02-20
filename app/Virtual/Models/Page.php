@@ -2,186 +2,87 @@
 
 namespace App\Virtual\Models;
 
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OAT;
 
-/**
- * @OA\Schema(
- *     title="Page",
- *     description="Page model",
- *     @OA\Xml(
- *         name="Page"
- *     )
- * )
- */
+#[OAT\Schema]
 class Page
 {
     /**
-     * @OA\Property(
-     *     title="Slug",
-     *     description="Slug",
-     *     example="contact-us",
-     *     type="string",
-     * )
-     *
      * @var string
      */
+    #[OAT\Property]
     public string $slug;
 
-    /**
-     * @OA\Property(
-     *      title="Type",
-     *      description="Page type",
-     *      example="default static page",
-     *      type="string"
-     * )
-     *
-     * @var string
-     */
+    #[OAT\Property]
+    #[OAT\Examples('default | static | page', summary: 'Page type')]
     public string $type;
 
     /**
-     * @OA\Property(
-     *      title="Collection ID",
-     *      description="Attached collection",
-     *      example="1",
-     *      type="int"
-     * )
-     *
-     * @var ['null', int]
+     * Attached collection
      */
-    public $collection_id;
+    #[OAT\Property]
+    public int $collection_id;
 
     /**
-     * @OA\Property(
-     *      title="Title",
-     *      description="Page title",
-     *      example="Contact us",
-     *      type="string"
-     * )
-     *
-     * @var string
+     * Page title
+     * @example Contact us
      */
+    #[OAT\Property]
     public string $title;
 
     /**
-     * @OA\Property(
-     *      title="Meta title",
-     *      description="Page meta title",
-     *      example="Contact us",
-     *      type="string"
-     * )
-     *
-     * @var string
+     * Page meta title
+     * @example Contact us
      */
+    #[OAT\Property]
     public string $meta_title;
 
-    /**
-     * @OA\Property(
-     *      title="Content",
-     *      description="Page content",
-     *      example="<p>Hello world</p>",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
+    #[OAT\Property]
     public string $content;
 
     /**
-     * @OA\Property(
-     *      title="Meta description",
-     *      description="Page meta description",
-     *      example="Hello world",
-     *      type="string"
-     * )
-     *
-     * @var string
+     * Page meta description
      */
+    #[OAT\Property]
     public string $meta_description;
 
     /**
-     * @OA\Property(
-     *      title="Image",
-     *      description="MPage main banner/poster",
-     *      example="http://...",
-     *      type="string"
-     * )
-     *
-     * @var string
+     * MPage main banner/poster
      */
+    #[OAT\Property]
     public string $image;
 
     /**
-     * @OA\Property(
-     *      title="Position",
-     *      description="Page index for ordering purposes",
-     *      example="1",
-     *      type="int"
-     * )
-     *
-     * @var int
+     * Page index for ordering purposes
      */
+    #[OAT\Property]
     public int $position;
 
     /**
-     * @OA\Property(
-     *      title="Parent ID",
-     *      description="Parent page ID",
-     *      example="1",
-     *      type="int"
-     * )
-     *
-     * @var int
+     * Parent page ID
      */
+    #[OAT\Property]
     public int $parent_id;
 
     /**
-     * @OA\Property(
-     *      title="Create at",
-     *      description="Page creation date time",
-     *      example="2024-12-30 13:00:00",
-     *      type="string"
-     * )
-     *
-     * @var string
+     * Page creation date time
      */
+    #[OAT\Property]
+    #[OAT\Examples('2024-12-30 13:00:00', summary: 'Page creation date time')]
     public string $created_at;
 
     /**
-     * @OA\Property(
-     *      title="Menus",
-     *      description="Relations of menus",
-     *      type="array",
-     *      @OA\Items(
-     *          @OA\Property(
-     *               property="id",
-     *               type="int",
-     *               example="1"
-     *           ),
-     *           @OA\Property(
-     *               property="name",
-     *               type="string",
-     *               example="Top menu"
-     *           ),
-     *      )
-     * )
-     *
-     * @var array
+     * @var MenuItem[]
      */
+    #[OAt\Property(
+        title: 'Menus',
+        description: 'Relations of menus'
+    )]
     public array $menus;
 
     /**
-     * @OA\Property(
-     *      title="Children",
-     *      description="Children pages",
-     *      type="array",
-     *      property="children",
-     *      @OA\Items(
-     *          type="object",
-     *      )
-     * )
-     *
-     * @var array
+     * @var Page[]
      */
+    #[OAT\Property]
     public array $children;
 }

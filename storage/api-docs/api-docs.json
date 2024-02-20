@@ -10,16 +10,14 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000/api/v1",
+            "url": "",
             "description": "VET API Server"
         }
     ],
     "paths": {
         "/auth/login": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "User authentication",
                 "operationId": "Login User",
                 "requestBody": {
@@ -27,19 +25,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "properties": {
-                                    "pid": {
-                                        "description": "Personal ID",
-                                        "type": "string",
-                                        "default": "010000000000"
-                                    },
-                                    "password": {
-                                        "description": "Password",
-                                        "type": "string",
-                                        "default": "password"
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/components/schemas/LoginRequestBody"
                             }
                         }
                     }
@@ -50,24 +36,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "access_token": {
-                                            "description": "Access token",
-                                            "type": "string",
-                                            "default": "qwertyuio..."
-                                        },
-                                        "token_type": {
-                                            "description": "Token Type",
-                                            "type": "string",
-                                            "default": "bearer"
-                                        },
-                                        "expires_in": {
-                                            "description": "Token expiration time",
-                                            "type": "integer",
-                                            "default": "3600"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/UserLoginResponseBody"
                                 }
                             }
                         }
@@ -77,24 +46,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "description": "Status",
-                                            "type": "boolean",
-                                            "default": "true"
-                                        },
-                                        "msg": {
-                                            "description": "Waiting 2fa code",
-                                            "type": "string",
-                                            "default": "Waiting 2fa code"
-                                        },
-                                        "phone_mask": {
-                                            "description": "Phone Mask",
-                                            "type": "string",
-                                            "default": "555****56"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/UserLogin2FaResponseBody"
                                 }
                             }
                         }
@@ -111,7 +63,7 @@
                                             "default": "false"
                                         },
                                         "msg": {
-                                            "description": "Message",
+                                            "description": "Invalid credentials",
                                             "type": "string",
                                             "default": "Invalid credentials"
                                         }
@@ -133,7 +85,7 @@
                                             "default": "false"
                                         },
                                         "msg": {
-                                            "description": "Message",
+                                            "description": "Already accepted",
                                             "type": "string",
                                             "default": "Already accepted"
                                         }
@@ -155,7 +107,7 @@
                                             "default": "false"
                                         },
                                         "msg": {
-                                            "description": "Message",
+                                            "description": "Can't send 2fa Code",
                                             "type": "string",
                                             "default": "Can't send 2fa Code"
                                         }
@@ -170,9 +122,7 @@
         },
         "/auth/login/2fa": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "User authentication with 2fa code",
                 "operationId": "Validate 2fa code",
                 "requestBody": {
@@ -279,9 +229,7 @@
         },
         "/auth/me": {
             "get": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Get user info",
                 "operationId": "Get user",
                 "parameters": [
@@ -311,9 +259,7 @@
         },
         "/auth/logout": {
             "delete": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Logout user",
                 "operationId": "Logout user",
                 "parameters": [
@@ -355,9 +301,7 @@
         },
         "/auth/refresh": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Refresh token",
                 "operationId": "Refresh token",
                 "parameters": [
@@ -404,9 +348,7 @@
         },
         "/auth/password": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Change password for user",
                 "operationId": "Change password",
                 "requestBody": {
@@ -513,9 +455,7 @@
         },
         "/auth/reset": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Init forget password for user",
                 "operationId": "Init forget password",
                 "requestBody": {
@@ -590,9 +530,7 @@
         },
         "/auth/reset/save": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "Reset password for user",
                 "operationId": "Reset password",
                 "requestBody": {
@@ -735,9 +673,7 @@
         },
         "/general/countries": {
             "get": {
-                "tags": [
-                    "Generals"
-                ],
+                "tags": ["Generals"],
                 "summary": "Get list of countries",
                 "description": "Returns list of countries",
                 "operationId": "GetCountriesList",
@@ -777,9 +713,7 @@
         },
         "/pages": {
             "get": {
-                "tags": [
-                    "Pages"
-                ],
+                "tags": ["Pages"],
                 "summary": "Get list of pages",
                 "description": "Returns list of pages",
                 "operationId": "getPagesList",
@@ -799,9 +733,7 @@
         },
         "/menus": {
             "get": {
-                "tags": [
-                    "Pages"
-                ],
+                "tags": ["Pages"],
                 "summary": "List of menus",
                 "description": "Returns list of menus data",
                 "operationId": "menus",
@@ -814,9 +746,7 @@
         },
         "/collection/{id}": {
             "get": {
-                "tags": [
-                    "Pages"
-                ],
+                "tags": ["Pages"],
                 "summary": "Get collection items",
                 "description": "Returns items of page colections",
                 "operationId": "Collections Items",
@@ -847,30 +777,25 @@
         },
         "/users": {
             "get": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Get list of users",
                 "description": "Returns list of users",
                 "operationId": "getUserList",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer token",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UsersRes"
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -884,9 +809,7 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Store new user",
                 "description": "Returns user data",
                 "operationId": "storeUser",
@@ -936,9 +859,7 @@
         },
         "/users/{id}": {
             "get": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Get user information",
                 "description": "Returns user data",
                 "operationId": "getUserById",
@@ -985,9 +906,7 @@
                 }
             },
             "put": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Update existing user",
                 "description": "Returns updated user data",
                 "operationId": "updateUser",
@@ -1047,9 +966,7 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Delete existing user",
                 "description": "Deletes a record and returns no content",
                 "operationId": "deleteUser",
@@ -1096,9 +1013,7 @@
         },
         "/register/validate": {
             "get": {
-                "tags": [
-                    "Register"
-                ],
+                "tags": ["Register"],
                 "summary": "Validate Person",
                 "description": "Validate person by Personal Id and Last name",
                 "operationId": "ValidatePerson",
@@ -1190,9 +1105,7 @@
         },
         "/sms/send": {
             "get": {
-                "tags": [
-                    "SMS"
-                ],
+                "tags": ["SMS"],
                 "summary": "Send one time code",
                 "description": "Send one time code to validate phone number",
                 "operationId": "Send Sms code",
@@ -1245,9 +1158,7 @@
         },
         "/sms/validate": {
             "post": {
-                "tags": [
-                    "SMS"
-                ],
+                "tags": ["SMS"],
                 "summary": "Validate SMS code",
                 "description": "Validate SMS code",
                 "operationId": "validate Sms",
@@ -1257,10 +1168,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "phone",
-                                    "sms_code"
-                                ],
+                                "required": ["phone", "sms_code"],
                                 "properties": {
                                     "phone": {
                                         "description": "Phone number",
@@ -1318,9 +1226,7 @@
         },
         "/register": {
             "post": {
-                "tags": [
-                    "Register"
-                ],
+                "tags": ["Register"],
                 "summary": "Register user",
                 "description": "Returns user data",
                 "operationId": "Register",
@@ -1436,107 +1342,81 @@
                     "name": "Collection item"
                 }
             },
-            "Page": {
-                "title": "Page",
-                "description": "Page model",
+            "MenuItem": {
+                "required": ["id", "name"],
                 "properties": {
-                    "slug": {
-                        "title": "Slug",
-                        "description": "Slug",
-                        "type": "string",
-                        "example": "contact-us"
-                    },
-                    "type": {
-                        "title": "Type",
-                        "description": "Page type",
-                        "type": "string",
-                        "example": "default static page"
-                    },
-                    "collection_id": {
-                        "title": "Collection ID",
-                        "description": "Attached collection",
+                    "id": {
                         "type": "integer",
                         "example": "1"
                     },
+                    "name": {
+                        "type": "string",
+                        "example": "Top menu"
+                    }
+                },
+                "type": "object"
+            },
+            "Page": {
+                "properties": {
+                    "slug": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "collection_id": {
+                        "description": "Attached collection",
+                        "type": "integer"
+                    },
                     "title": {
-                        "title": "Title",
                         "description": "Page title",
                         "type": "string",
                         "example": "Contact us"
                     },
                     "meta_title": {
-                        "title": "Meta title",
                         "description": "Page meta title",
                         "type": "string",
                         "example": "Contact us"
                     },
                     "content": {
-                        "title": "Content",
-                        "description": "Page content",
-                        "type": "string",
-                        "example": "<p>Hello world</p>"
+                        "type": "string"
                     },
                     "meta_description": {
-                        "title": "Meta description",
                         "description": "Page meta description",
-                        "type": "string",
-                        "example": "Hello world"
+                        "type": "string"
                     },
                     "image": {
-                        "title": "Image",
                         "description": "MPage main banner/poster",
-                        "type": "string",
-                        "example": "http://..."
+                        "type": "string"
                     },
                     "position": {
-                        "title": "Position",
                         "description": "Page index for ordering purposes",
-                        "type": "integer",
-                        "example": "1"
+                        "type": "integer"
                     },
                     "parent_id": {
-                        "title": "Parent ID",
                         "description": "Parent page ID",
-                        "type": "integer",
-                        "example": "1"
+                        "type": "integer"
                     },
                     "created_at": {
-                        "title": "Create at",
                         "description": "Page creation date time",
-                        "type": "string",
-                        "example": "2024-12-30 13:00:00"
+                        "type": "string"
                     },
                     "menus": {
                         "title": "Menus",
                         "description": "Relations of menus",
                         "type": "array",
                         "items": {
-                            "properties": {
-                                "id": {
-                                    "type": "integer",
-                                    "example": "1"
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "example": "Top menu"
-                                }
-                            },
-                            "type": "object"
+                            "$ref": "#/components/schemas/MenuItem"
                         }
                     },
                     "children": {
-                        "title": "Children",
-                        "description": "Children pages",
                         "type": "array",
                         "items": {
-                            "type": "object"
+                            "$ref": "#/components/schemas/Page"
                         }
                     }
                 },
-                "type": "object",
-                "xml": {
-                    "name": "Page"
-                }
+                "type": "object"
             },
             "User": {
                 "title": "User",
@@ -1595,39 +1475,92 @@
                     "region": {
                         "title": "Region",
                         "description": "Region of the user",
-                        "type": "['null', string]",
-                        "example": "Tbilisi"
+                        "type": "string",
+                        "example": "Tbilisi",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "city": {
                         "title": "City",
                         "description": "City of the user",
-                        "type": "['null', string]",
-                        "example": "Tbilisi"
+                        "type": "string",
+                        "example": "Tbilisi",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "address": {
                         "title": "Address",
                         "description": "Address of the user",
-                        "type": "['null', string]",
-                        "example": "Robert Robertson, 1234"
+                        "type": "string",
+                        "example": "Robert Robertson, 1234",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "altPhone": {
                         "title": "Alternative phone",
                         "description": "Alternative phone of the user",
-                        "type": "['null', string]",
-                        "example": "555123456"
+                        "type": "string",
+                        "example": "555123456",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "email": {
                         "title": "Email",
                         "description": "Email of the user",
-                        "type": "['null', string]",
+                        "type": "string",
                         "format": "email",
-                        "example": "example@example.com"
+                        "example": "example@example.com",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "photo": {
                         "title": "Photo",
                         "description": "Photo of the user",
-                        "type": "['null', string]",
-                        "example": "/users/photos/qwertyuio.jpg"
+                        "type": "string",
+                        "example": "/users/photos/qwertyuio.jpg",
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "isActive": {
                         "title": "Is active",
@@ -1639,8 +1572,17 @@
                     "blockReason": {
                         "title": "Block reason",
                         "description": "Block reason of user",
-                        "type": "['null', string]",
-                        "example": "Some reason"
+                        "type": "string",
+                        "example": "Some reason",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "createdAt": {
                         "title": "Created at",
@@ -1652,15 +1594,36 @@
                     "deletedAt": {
                         "title": "Deleted at",
                         "description": "Deleted at",
-                        "type": "['null', string]",
+                        "type": "string",
                         "format": "datetime",
-                        "example": "null"
+                        "example": "null",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     }
                 },
                 "type": "object",
                 "xml": {
                     "name": "User"
                 }
+            },
+            "LoginRequestBody": {
+                "required": ["pid", "password"],
+                "properties": {
+                    "pid": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
             },
             "CollectionItemsRes": {
                 "title": "collectionItemResource",
@@ -1681,22 +1644,44 @@
                 }
             },
             "PagesRes": {
-                "title": "pagesResource",
-                "description": "Page resource",
+                "description": "Page Resource",
                 "properties": {
                     "data": {
-                        "title": "Data",
-                        "description": "Data wrapper",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Page"
                         }
                     }
                 },
-                "type": "object",
-                "xml": {
-                    "name": "PageResource"
-                }
+                "type": "object"
+            },
+            "UserLogin2FaResponseBody": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "msg": {
+                        "type": "string"
+                    },
+                    "phone_mask": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserLoginResponseBody": {
+                "properties": {
+                    "access_token": {
+                        "type": "string"
+                    },
+                    "token_type": {
+                        "type": "string"
+                    },
+                    "expires_in": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
             },
             "UserRes": {
                 "title": "UserResource",
@@ -1732,15 +1717,7 @@
             "UserReq": {
                 "title": "User request",
                 "description": "User request body data",
-                "required": [
-                    "pid",
-                    "phone",
-                    "first_name",
-                    "last_name",
-                    "gender",
-                    "birth_date",
-                    "residential"
-                ],
+                "required": ["pid", "phone", "first_name", "last_name", "gender", "birth_date", "residential"],
                 "properties": {
                     "pid": {
                         "title": "Personal Id",
@@ -1769,8 +1746,16 @@
                     "gender": {
                         "title": "Gender",
                         "description": "gender of the user",
-                        "type": "[null, string]",
-                        "example": "male"
+                        "type": "string",
+                        "example": "male",
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "birth_date": {
                         "title": "Birth date",
@@ -1788,60 +1773,153 @@
                     "region": {
                         "title": "Region",
                         "description": "Region of the user",
-                        "type": "[null, string]",
-                        "example": "Tbilisi"
+                        "type": "string",
+                        "example": "Tbilisi",
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "city": {
                         "title": "City",
                         "description": "City of the user",
-                        "type": "[null, string]",
-                        "example": "Tbilisi"
+                        "type": "string",
+                        "example": "Tbilisi",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "address": {
                         "title": "Address",
                         "description": "Address of the user",
-                        "type": "[null, string]",
-                        "example": "Robert Robertson, 1234"
+                        "type": "string",
+                        "example": "Robert Robertson, 1234",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "alt_phone": {
                         "title": "Alternative phone",
                         "description": "Alternative phone of the user",
-                        "type": "[null, string]",
-                        "example": "555123456"
+                        "type": "string",
+                        "example": "555123456",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "email": {
                         "title": "Email",
                         "description": "Email of the user",
-                        "type": "[null, string]",
+                        "type": "string",
                         "format": "email",
-                        "example": "example@example.com"
+                        "example": "example@example.com",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "sms_code": {
                         "title": "Sms code",
                         "description": "2fa code of the user",
-                        "type": "[null, string]",
-                        "example": "1234"
+                        "type": "string",
+                        "example": "1234",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "password": {
                         "title": "Password",
                         "description": "Password of the user",
-                        "type": "[null, string]",
-                        "example": "password"
+                        "type": "string",
+                        "example": "password",
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "photo": {
                         "title": "Password confirmation",
                         "description": "Password confirmation",
-                        "type": "[null, string]",
-                        "example": "password"
+                        "type": "string",
+                        "example": "password",
+                        "nullable": true,
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "password_confirmation": {
                         "title": "Photo",
                         "description": "Photo of the user",
-                        "type": "[null, string]",
-                        "example": "base64 string"
+                        "type": "string",
+                        "example": "base64 string",
+                        "oneOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     }
                 },
                 "type": "object"
+            }
+        },
+        "examples": {
+            "default | static | page": {
+                "summary": "Page type"
+            },
+            "2024-12-30 13:00:00": {
+                "summary": "Page creation date time"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },

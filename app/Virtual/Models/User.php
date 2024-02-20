@@ -118,7 +118,7 @@ class User
      *      title="Region",
      *      description="Region of the user",
      *      example="Tbilisi",
-     *      type="['null', string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -130,7 +130,7 @@ class User
      *      title="City",
      *      description="City of the user",
      *      example="Tbilisi",
-     *      type="['null', string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -142,7 +142,7 @@ class User
      *      title="Address",
      *      description="Address of the user",
      *      example="Robert Robertson, 1234",
-     *      type="['null', string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -154,7 +154,7 @@ class User
      *      title="Alternative phone",
      *      description="Alternative phone of the user",
      *      example="555123456",
-     *      type="['null', string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -167,7 +167,7 @@ class User
      *      description="Email of the user",
      *      format="email",
      *      example="example@example.com",
-     *      type="['null', string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -179,7 +179,7 @@ class User
      *      title="Photo",
      *      description="Photo of the user",
      *      example="/users/photos/qwertyuio.jpg",
-     *      type="['null', string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -204,7 +204,7 @@ class User
      *      title="Block reason",
      *      description="Block reason of user",
      *      example="Some reason",
-     *      type="['null', string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -230,7 +230,7 @@ class User
      *     description="Deleted at",
      *     example="null",
      *     format="datetime",
-     *     type="['null', string]"
+     *     oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null

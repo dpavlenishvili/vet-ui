@@ -67,7 +67,7 @@ class UserReq
      *      title="Gender",
      *      description="gender of the user",
      *      example="male",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string
@@ -104,7 +104,7 @@ class UserReq
      *      title="Region",
      *      description="Region of the user",
      *      example="Tbilisi",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -116,7 +116,7 @@ class UserReq
      *      title="City",
      *      description="City of the user",
      *      example="Tbilisi",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -128,7 +128,7 @@ class UserReq
      *      title="Address",
      *      description="Address of the user",
      *      example="Robert Robertson, 1234",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -140,7 +140,7 @@ class UserReq
      *      title="Alternative phone",
      *      description="Alternative phone of the user",
      *      example="555123456",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -153,7 +153,7 @@ class UserReq
      *      description="Email of the user",
      *      format="email",
      *      example="example@example.com",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -165,7 +165,7 @@ class UserReq
      *      title="Sms code",
      *      description="2fa code of the user",
      *      example="1234",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string | null
@@ -177,7 +177,7 @@ class UserReq
      *      title="Password",
      *      description="Password of the user",
      *      example="password",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string
@@ -189,7 +189,7 @@ class UserReq
      *      title="Password confirmation",
      *      description="Password confirmation",
      *      example="password",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string
@@ -201,7 +201,7 @@ class UserReq
      *      title="Photo",
      *      description="Photo of the user",
      *      example="base64 string",
-     *      type="[null, string]"
+     *      oneOf={@OA\Schema(type="null"), @OA\Schema(type="string")}
      * )
      *
      * @var string
