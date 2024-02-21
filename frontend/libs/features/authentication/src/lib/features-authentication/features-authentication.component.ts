@@ -6,7 +6,7 @@ import { CheckboxComponent } from '@vet/ui/checkbox';
 import { ButtonComponent } from '@vet/ui/button';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { TwoStepAuthentication, AuthenticationService } from '@vet/shared/services';
+import { AuthService, UserLogin2FaResponseBody } from '@vet/backend';
 import { customPatternValidator } from '@vet/shared/forms';
 import { TimerComponent, VerificationComponent } from '@vet/ui/verification';
 import { MessageCardComponent } from '@vet/ui/message-card';
@@ -38,7 +38,7 @@ import { BaseModalService } from '@vet/ui/modals';
     styleUrl: './features-authentication.component.scss',
 })
 export class FeaturesAuthenticationComponent {
-    protected personalNumberControl = new FormControl<string>('', [Validators.required]);
+    protected pidControl = new FormControl<string>('', [Validators.required]);
     protected passwordControl = new FormControl<string>('', [Validators.required]);
     protected rememberControl = new FormControl<boolean>(false);
     protected verificationNumberControl = new FormControl<string>('', [
@@ -48,30 +48,30 @@ export class FeaturesAuthenticationComponent {
     ]);
 
     authenticationForm = new FormGroup({
-        personalNumber: this.personalNumberControl,
+        pid: this.pidControl,
         password: this.passwordControl,
         remember: this.rememberControl,
         verificationNumber: this.verificationNumberControl,
     });
 
-    private authenticationService = inject(AuthenticationService);
+    private authenticationService = inject(AuthService);
     private baseModalService = inject(BaseModalService);
     showMobileVerification = signal<boolean>(false);
-    twoStepAuthentication!: TwoStepAuthentication;
+    twoStepAuthentication!: UserLogin2FaResponseBody;
 
     signIn() {
-        if (this.personalNumberControl.valid && this.passwordControl.valid) {
+        if (this.pidControl.valid && this.passwordControl.valid) {
             const credentials = {
-                personalNumber: this.personalNumberControl.value || '',
+                pid: this.pidControl.value || '',
                 password: this.passwordControl.value || '',
                 code: this.verificationNumberControl.value || '',
             };
 
-            this.authenticationService.authenticate(credentials).subscribe({
+            this.authenticationService.loginUser(credentials).subscribe({
                 next: (res) => {
-                    if ((res as TwoStepAuthentication).phone_mask) {
+                    if ((res as UserLogin2FaResponseBody).phone_mask) {
                         this.showMobileVerification.set(true);
-                        this.twoStepAuthentication = res as TwoStepAuthentication;
+                        this.twoStepAuthentication = res as UserLogin2FaResponseBody;
                     }
                 },
                 error: (err) => {
@@ -87,37 +87,37 @@ export class FeaturesAuthenticationComponent {
                 },
             });
         } else {
-            this.personalNumberControl.markAsTouched();
+            this.pidControl.markAsTouched();
             this.passwordControl.markAsTouched();
         }
     }
 
     verifyMobile() {
         if (
-            this.personalNumberControl.valid &&
+            this.pidControl.valid &&
             this.passwordControl.valid &&
             this.verificationNumberControl.valid &&
             this.showMobileVerification()
         ) {
-            const credentials = {
-                personalNumber: this.personalNumberControl.value || '',
-                password: this.passwordControl.value || '',
-                code: this.verificationNumberControl.value || '',
-            };
-
-            this.authenticationService.verifyMobile(credentials).subscribe({
-                next: (res) => {
-                    // TODO redirect to homepage if authentication is successful
-                    console.log(res);
-                },
-                error: (err) => {
-                    if (err.error.error.code === ErrorCodesEnum.INVALID_SMS_CODE) {
-                        this.verificationNumberControl.setErrors({ verificationNumber: true });
-                    } else if (err.error.error.code === ErrorCodesEnum.SMS_CODE_HAS_EXPIRED) {
-                        this.verificationNumberControl.setErrors({ verificationNumberTimeLimit: true });
-                    }
-                },
-            });
+            this.authenticationService
+                .validate2FaCode({
+                    pid: this.pidControl.value || '',
+                    password: this.passwordControl.value || '',
+                    code: this.verificationNumberControl.value || '',
+                })
+                .subscribe({
+                    next: (res) => {
+                        // TODO redirect to homepage if authentication is successful
+                        console.log(res);
+                    },
+                    error: (err) => {
+                        if (err.error.error.code === ErrorCodesEnum.INVALID_SMS_CODE) {
+                            this.verificationNumberControl.setErrors({ verificationNumber: true });
+                        } else if (err.error.error.code === ErrorCodesEnum.SMS_CODE_HAS_EXPIRED) {
+                            this.verificationNumberControl.setErrors({ verificationNumberTimeLimit: true });
+                        }
+                    },
+                });
         } else {
             this.verificationNumberControl.markAsTouched();
         }

@@ -19,6 +19,7 @@
     },
     "targetDefaults": {
         "build": {
+            "dependsOn": ["^generate"],
             "cache": true
         },
         "@nx/jest:jest": {
@@ -42,6 +43,16 @@
                 "{workspaceRoot}/eslint.config.js"
             ],
             "cache": true
+        },
+        "@nx/angular:ng-packagr-lite": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["default", "^default"]
+        },
+        "@nx/js:tsc": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["default", "^default"]
         }
     },
     "workspaceLayout": {

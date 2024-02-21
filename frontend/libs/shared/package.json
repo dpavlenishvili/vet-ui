@@ -5,7 +5,6 @@
         "@ng-web-apis/common": "^3.0.5",
         "@angular/core": "17.1.2",
         "jest-preset-angular": "~13.1.0",
-        "@angular/common": "17.1.2",
         "@angular/forms": "17.1.2"
     },
     "dependencies": {},

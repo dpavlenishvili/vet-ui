@@ -7,9 +7,9 @@
                 <div class="d-flex flex-column gap-3">
                     <v-ui-form-item>
                         <v-ui-form-item-label>პირადი ნომერი ან პასპორტის ნომერი</v-ui-form-item-label>
-                        <input v-ui-input formControlName="personalNumber" autocomplete="off" />
+                        <input v-ui-input formControlName="pid" autocomplete="off" />
                         <v-ui-form-error>
-                            {{ personalNumberControl.errors | validationErrorPipe }}
+                            {{ pidControl.errors | validationErrorPipe }}
                         </v-ui-form-error>
                     </v-ui-form-item>
 

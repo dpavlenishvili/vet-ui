@@ -1,0 +1,78 @@
+<%
+const { utils, route, config } = it;
+const { requestBodyInfo, responseBodyInfo, specificArgNameResolver } = route;
+const { _, getInlineParseContent, getParseContent, parseSchema, getComponentByRef, require } = utils;
+const { parameters, path, method, payload, query, formData, security, requestParams } = route.request;
+const { type, errorType, contentTypes } = route.response;
+const { HTTP_CLIENT, RESERVED_REQ_PARAMS_ARG_NAMES } = config.constants;
+const routeDocs = includeFile("@base/route-docs", { config, route, utils });
+const queryName = (query && query.name) || "query";
+const pathParams = _.values(parameters);
+const pathParamsNames = _.map(pathParams, "name");
+const getSuccessResponseTypes = () => {
+    const successResponses = responseBodyInfo.responses.filter(response => response.isSuccess);
+
+    return config.Ts.UnionType(successResponses.map((response) => response.type)) || this.config.Ts.Keyword.Any;
+}
+
+const argToTmpl = ({ name, optional, type, defaultValue }) => `${name}${!defaultValue && optional ? '?' : ''}: ${type}${defaultValue ? ` = ${defaultValue}` : ''}`;
+
+const rawWrapperArgs = config.extractRequestParams ?
+    _.compact([
+        requestParams && {
+          name: pathParams.length ? `{ ${_.join(pathParamsNames, ", ")}, ...${queryName} }` : queryName,
+          optional: false,
+          type: getInlineParseContent(requestParams)
+        },
+        ...(!requestParams ? pathParams : []),
+        payload
+    ]) :
+    _.compact([
+        ...pathParams,
+        query,
+        payload
+    ])
+
+const wrapperArgs = _
+    // Sort by optionality
+    .sortBy(rawWrapperArgs, [o => o.optional])
+    .map(argToTmpl)
+    .join(', ')
+
+// RequestParams["type"]
+const requestContentKind = {
+    "JSON": "ContentType.Json",
+    "URL_ENCODED": "ContentType.UrlEncoded",
+    "FORM_DATA": "ContentType.FormData",
+    "TEXT": "ContentType.Text",
+}
+
+const bodyTmpl = _.get(payload, "name") || null;
+const queryTmpl = (query != null && queryName) || null;
+const bodyContentKindTmpl = requestContentKind[requestBodyInfo.contentKind] || null;
+
+const describeReturnType = () => {
+    if (!config.toJS) return "";
+    return `Observable<${getSuccessResponseTypes()}>`;
+}
+
+%>
+/**
+<%~ routeDocs.description %>
+
+ *<% /* Here you can add some other JSDoc tags */ %>
+
+<%~ routeDocs.lines %>
+
+ */
+<%~ route.routeName.usage %> = (<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
+    <% if (_.lowerCase(method) === 'get') { %>
+    this.httpClient.get<<%~ getSuccessResponseTypes() %>>(`${this.baseUrl}<%~ path %>`, <%~ queryTmpl ? `{ params: ${queryTmpl} as unknown as Record<string, string> }` : '' %>)
+    <% } %>
+    <% if (_.lowerCase(method) === 'post' || _.lowerCase(method) === 'put' || _.lowerCase(method) === 'patch') { %>
+    this.httpClient.<%~ _.lowerCase(method) %><<%~ getSuccessResponseTypes() %>>(`${this.baseUrl}<%~ path %>`, <%~ bodyTmpl ? bodyTmpl : 'null'  %>, { <%~ queryTmpl ? `params: ${queryTmpl} as unknown as Record<string, string>` : '' %> } )
+    <% } %>
+    <% if (_.lowerCase(method) === 'delete') { %>
+    this.httpClient.delete<<%~ getSuccessResponseTypes() %>>(`${this.baseUrl}<%~ path %>`, { <%~ queryTmpl ? `params: ${queryTmpl} as unknown as Record<string, string>` : '' %> } )
+    <% } %>
+

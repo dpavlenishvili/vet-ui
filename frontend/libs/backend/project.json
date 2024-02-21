@@ -1,0 +1,27 @@
+{
+    "name": "backend",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "frontend/libs/backend/src",
+    "prefix": "lib",
+    "tags": [],
+    "projectType": "library",
+    "targets": {
+        "generate": {
+            "executor": "@vet/backend:sync",
+            "options": {
+                "openApiFilePath": "{workspaceRoot}/storage/api-docs/api-docs.json",
+                "outputDir": "{projectRoot}/src/lib"
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "frontend/libs/backend/jest.config.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
+    }
+}

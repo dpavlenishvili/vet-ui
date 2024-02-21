@@ -1,0 +1,18 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "version": 2,
+    "title": "Sync executor",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "openApiFilePath": {
+            "type": "string",
+            "description": "Path to the OpenAPI file"
+        },
+        "outputDir": {
+            "type": "string",
+            "description": "Output directory"
+        }
+    },
+    "required": []
+}

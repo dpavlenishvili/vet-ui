@@ -28,13 +28,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatepickerComponent } from '@vet/ui/datepicker';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { RegistrationPageErrorStateMatcher } from './registration-page-error-state-matcher';
-import { RegistrationService } from '@vet/shared/services';
 import { VerificationComponent, TimerComponent } from '@vet/ui/verification';
 import { EXCLAMATION_POINT_ICON } from '@vet/shared';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DropdownComponent } from '@vet/ui/dropdown';
 import { countries, genders } from '@vet/shared/constants';
-import { CreateUser, ErrorCodesEnum } from '@vet/shared/interfaces';
+import { ErrorCodesEnum } from '@vet/shared/interfaces';
 import {
     customPatternValidator,
     georgianLettersValidator,
@@ -44,6 +43,7 @@ import {
 } from '@vet/shared/forms';
 import { Router, RouterLink } from '@angular/router';
 import { BaseModalService, BaseModalTypesEnum } from '@vet/ui/modals';
+import { RegisterService, SmsService, UserReq } from '@vet/backend';
 
 enum CitizenshipType {
     Georgian = '1',
@@ -95,7 +95,8 @@ export class FeaturesRegistrationComponent implements OnInit {
 
     private destroyRef$ = inject(DestroyRef);
     private router = inject(Router);
-    private registrationService = inject(RegistrationService);
+    private registrationService = inject(RegisterService);
+    private smsService = inject(SmsService);
     private baseModalService = inject(BaseModalService);
 
     protected citizenshipTypeEnum = CitizenshipType;
@@ -313,15 +314,15 @@ export class FeaturesRegistrationComponent implements OnInit {
             this.georgianCitizenLastnameControl.value
         ) {
             this.registrationService
-                .checkUser({
-                    personalNumber: this.georgianCitizenPersonalNumberControl.value,
-                    lastName: this.georgianCitizenLastnameControl.value,
+                .validatePerson({
+                    pid: this.georgianCitizenPersonalNumberControl.value,
+                    last_name: this.georgianCitizenLastnameControl.value,
                 })
                 .subscribe({
                     next: (res) => {
-                        this.georgianCitizenFirstnameControl.setValue(res.firstName);
-                        this.georgianCitizenDateOfBirthControl.setValue(new Date(res.birthDate));
-                        this.georgianCitizenGenderControl.setValue(res.gender);
+                        this.georgianCitizenFirstnameControl.setValue(res.firstName || null);
+                        this.georgianCitizenDateOfBirthControl.setValue(res.birthDate ? new Date(res.birthDate) : null);
+                        this.georgianCitizenGenderControl.setValue(res.gender || null);
 
                         this.userCheckedSuccessfully.set(true);
                     },
@@ -359,18 +360,18 @@ export class FeaturesRegistrationComponent implements OnInit {
             this.foreignerLastnameControl.value
         ) {
             this.registrationService
-                .checkUser({
-                    personalNumber: this.foreignerPersonalNumberControl.value,
-                    lastName: this.foreignerLastnameControl.value,
+                .validatePerson({
+                    pid: this.foreignerPersonalNumberControl.value,
+                    last_name: this.foreignerLastnameControl.value,
                 })
                 .subscribe({
                     next: (res) => {
                         this.foreignerCheckedControl.setValue(true);
                         this.georgianCitizenPersonalNumberControl.setValue(this.foreignerPersonalNumberControl.value);
                         this.georgianCitizenLastnameControl.setValue(this.foreignerLastnameControl.value);
-                        this.georgianCitizenFirstnameControl.setValue(res.firstName);
+                        this.georgianCitizenFirstnameControl.setValue(res.firstName || null);
                         this.georgianCitizenGenderControl.setValue(this.foreignerGenderControl.value);
-                        this.georgianCitizenDateOfBirthControl.setValue(new Date(res.birthDate));
+                        this.georgianCitizenDateOfBirthControl.setValue(res.birthDate ? new Date(res.birthDate) : null);
                         this.citizenshipValue = CitizenshipType.Georgian;
 
                         next();
@@ -398,7 +399,7 @@ export class FeaturesRegistrationComponent implements OnInit {
         this.verificationNumberControl.markAsUntouched();
 
         if (this.mobileNumberControl.valid && this.mobileNumberControl.value) {
-            this.registrationService.sendSMS(this.mobileNumberControl.value).subscribe({
+            this.smsService.sendSmsCode({ phone: this.mobileNumberControl.value }).subscribe({
                 next: (res) => {
                     res.status && this.smsSent.set(true);
                 },
@@ -408,8 +409,8 @@ export class FeaturesRegistrationComponent implements OnInit {
         }
     }
 
-    validateMobileNumber(verificationCode: string, mobileNumber: string) {
-        this.registrationService.validateMobile(verificationCode, mobileNumber).subscribe({
+    validateMobileNumber(sms_code: string, phone: string) {
+        this.smsService.validateSms({ phone, sms_code }).subscribe({
             next: (res) => {
                 if (res.status) {
                     this.mobileVerified.set(true);
@@ -441,7 +442,7 @@ export class FeaturesRegistrationComponent implements OnInit {
 
     onSubmit() {
         if (this.termsAndConditionsAcceptedControl.value) {
-            const user: CreateUser = {
+            const user: UserReq = {
                 pid: this.georgianCitizenPersonalNumberControl.value || this.foreignerPersonalNumberControl.value || '',
                 phone: this.mobileNumberControl.value || '',
                 first_name: this.georgianCitizenFirstnameControl.value || this.foreignerFirstnameControl.value || '',
@@ -460,7 +461,7 @@ export class FeaturesRegistrationComponent implements OnInit {
                 password_confirmation: this.confirmPasswordControl.value || '',
             };
 
-            this.registrationService.registerUser(user).subscribe({
+            this.registrationService.register(user).subscribe({
                 next: () => {
                     this.router.navigate(['/authentication']).then(() => {
                         this.baseModalService.showModal(

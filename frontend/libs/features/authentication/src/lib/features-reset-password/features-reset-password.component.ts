@@ -9,7 +9,7 @@ import { TimerComponent, VerificationComponent } from '@vet/ui/verification';
 import { RouterLink } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ButtonComponent } from '@vet/ui/button';
-import { ResetPasswordService } from '@vet/shared/services';
+import { AuthService } from '@vet/backend';
 import { customPatternValidator, mobileNumberValidator, passwordPatternValidator } from '@vet/shared/forms';
 import { AuthenticationPageErrorStateMatcher } from '../authentication-page-error-state-matcher';
 import { BaseModalComponent, BaseModalService } from '@vet/ui/modals';
@@ -64,7 +64,7 @@ export class FeaturesResetPasswordComponent {
         confirmPassword: this.confirmPasswordControl,
     });
 
-    private resetPasswordService = inject(ResetPasswordService);
+    private authService = inject(AuthService);
     private baseModalService = inject(BaseModalService);
 
     showMobileVerification = signal<boolean>(false);
@@ -72,11 +72,11 @@ export class FeaturesResetPasswordComponent {
     resetPassword() {
         if (this.personalNumberControl.valid && this.mobileNumberControl.valid) {
             const data = {
-                personalNumber: this.personalNumberControl.value || '',
-                mobileNumber: this.mobileNumberControl.value || '',
+                pid: this.personalNumberControl.value || '',
+                phone: this.mobileNumberControl.value || '',
             };
 
-            this.resetPasswordService.resetPassword(data).subscribe({
+            this.authService.initForgetPassword(data).subscribe({
                 next: () => {
                     this.showMobileVerification.set(true);
                 },
@@ -105,26 +105,28 @@ export class FeaturesResetPasswordComponent {
         }
 
         if (this.resetPasswordForm.valid) {
-            const data = {
-                personalNumber: this.personalNumberControl.value || '',
-                mobileNumber: this.mobileNumberControl.value || '',
-                code: this.verificationNumberControl.value || '',
-                password: this.passwordControl.value || '',
-            };
-
-            this.resetPasswordService.saveNewPassword(data).subscribe({
-                next: () => {
-                    this.baseModalService.showSuccessModal(this.passwordChangedMessageTemplateRef as TemplateRef<void>);
-                },
-                error: (err) => {
-                    if (err.error.error.code === ErrorCodesEnum.SMS_CODE_HAS_EXPIRED) {
-                        this.verificationNumberControl.setErrors({ verificationNumberTimeLimit: true });
-                    }
-                    if (err.error.error.code === ErrorCodesEnum.INVALID_SMS_CODE) {
-                        this.verificationNumberControl.setErrors({ verificationNumber: true });
-                    }
-                },
-            });
+            this.authService
+                .resetPassword({
+                    pid: this.personalNumberControl.value || '',
+                    phone: this.mobileNumberControl.value || '',
+                    code: this.verificationNumberControl.value || '',
+                    password: this.passwordControl.value || '',
+                })
+                .subscribe({
+                    next: () => {
+                        this.baseModalService.showSuccessModal(
+                            this.passwordChangedMessageTemplateRef as TemplateRef<void>,
+                        );
+                    },
+                    error: (err) => {
+                        if (err.error.error.code === ErrorCodesEnum.SMS_CODE_HAS_EXPIRED) {
+                            this.verificationNumberControl.setErrors({ verificationNumberTimeLimit: true });
+                        }
+                        if (err.error.error.code === ErrorCodesEnum.INVALID_SMS_CODE) {
+                            this.verificationNumberControl.setErrors({ verificationNumber: true });
+                        }
+                    },
+                });
         }
     }
 }
