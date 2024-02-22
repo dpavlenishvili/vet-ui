@@ -240,10 +240,6 @@ export const countries = [
         name: 'დიდი ბრიტანეთი',
     },
     {
-        code: 'GEO',
-        name: 'საქართველო',
-    },
-    {
         code: 'GHA',
         name: 'განა',
     },

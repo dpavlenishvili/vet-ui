@@ -454,7 +454,7 @@ export class FeaturesRegistrationComponent implements OnInit {
                     '',
                 residential:
                     this.citizenshipValue === CitizenshipType.Georgian
-                        ? 'GE'
+                        ? 'GEO'
                         : this.foreignerCitizenshipControl.value || '',
                 sms_code: this.verificationNumberControl.value || '',
                 password: this.passwordControl.value || '',
