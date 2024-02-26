@@ -67,12 +67,12 @@ class CollectionItem extends Resource
 
         foreach (config('vet.languages') as $language) {
             $fields[] = Text::make('Title ('.$language.')', 'title_'.$language)
-                ->rules('max:255', 'min:3')->sortable()
+                ->rules($language  === 'ka' ? 'max:255' : '', $language  === 'ka' ? 'min:3': '')->sortable()
                 ->required($language === config('vet.default_language'));
             $fields[] = Markdown::make('Content ('.$language.')', 'description_'.$language)
                 ->hideFromIndex()->required($language === config('vet.default_language'));
             $fields[] = Text::make('Short title ('.$language.')', 'meta_title_'.$language)
-                ->rules('max:255', 'min:3')->sortable()
+                ->rules($language  === 'ka' ? 'max:255' : '', $language  === 'ka' ? 'min:3': '')->sortable()
                 ->hideFromIndex()->required($language === config('vet.default_language'));
             $fields[] = Textarea::make('Short description ('.$language.')', 'meta_description_'.$language)
                 ->hideFromIndex()->required($language === config('vet.default_language'));

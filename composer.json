@@ -20,6 +20,7 @@
         "outl1ne/nova-sortable": "^3.4",
         "sereny/nova-permissions": "^1.4",
         "spatie/laravel-permission": "^6.2",
+        "spatie/laravel-query-builder": "^5.7",
         "tymon/jwt-auth": "^2.0",
         "ziffmedia/nova-select-plus": "^2.0"
     },

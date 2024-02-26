@@ -9,6 +9,8 @@ use App\Models\collection;
 use App\Models\Menu;
 use App\Models\Page;
 use OpenApi\Annotations as OA;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PageApiController extends Controller
 {
@@ -84,11 +86,14 @@ class PageApiController extends Controller
      */
     public function collectionItem(collection $collection)
     {
+        $query = $collection->collectionItem()
+            ->where('status', true)
+            ->orderBy('created_at', 'desc');
+        $query = QueryBuilder::for($query)
+            ->allowedFilters(AllowedFilter::exact('pin'));
+
         return CollectionResource::collection(
-            $collection->collectionItem()
-                ->where('status', true)
-                ->orderBy('created_at', 'desc')
-                ->get()
+            $query->get()
         );
     }
 }
