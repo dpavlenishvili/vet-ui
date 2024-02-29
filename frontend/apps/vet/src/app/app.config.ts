@@ -1,6 +1,6 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { initializeTransolco } from './initialize-transloco';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -11,11 +11,12 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideBaseUrl } from '@vet/shared';
 import { environment } from '../environments/environment';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { initAppPages } from './init-app-pages';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
-        provideRouter(appRoutes),
+        provideRouter(appRoutes, withComponentInputBinding()),
         provideHttpClient(withFetch()),
         initializeTransolco(),
         provideAngularSvgIcon(),
@@ -24,5 +25,6 @@ export const appConfig: ApplicationConfig = {
         provideClientHydration(),
         provideBaseUrl(environment.apiBaseUrl),
         importProvidersFrom(ModalModule.forRoot()),
+        initAppPages,
     ],
 };

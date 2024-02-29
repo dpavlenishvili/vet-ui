@@ -22,4 +22,9 @@ export const appRoutes: Routes = [
             },
         ],
     },
+    {
+        path: 'pages',
+        component: MainLayoutComponent,
+        children: [],
+    },
 ];

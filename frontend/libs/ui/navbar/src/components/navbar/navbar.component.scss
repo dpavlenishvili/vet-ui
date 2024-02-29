@@ -4,10 +4,21 @@
     --navbarBgColor: #4682b4;
 }
 
+$block: '.v-ui-navbar';
+
 nav[v-ui-navbar] {
     background-color: var(--navbarBgColor);
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     height: 8rem;
+    color: white;
+}
+
+#{$block} {
+    &__nav-item-list {
+        display: flex;
+        gap: 1.8rem;
+        list-style: none;
+    }
 }

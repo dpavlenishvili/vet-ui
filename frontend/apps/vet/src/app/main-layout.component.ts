@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavbarComponent, NavbarLogoDirective } from '@vet/ui/navbar';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { ApplicationPagesService } from './application-pages.service';
 
 @Component({
     standalone: true,
     imports: [NavbarComponent, RouterOutlet, RouterLink, NavbarLogoDirective],
     template: `
         <header>
-            <nav v-ui-navbar>
+            <nav v-ui-navbar [pages]="pages$()">
                 <a routerLink="/" *vUiNavbarLogo>
                     <img src="assets/evet-logo.svg" alt="Evet Logo" />
                 </a>
@@ -27,4 +28,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
         `,
     ],
 })
-export class MainLayoutComponent {}
+export class MainLayoutComponent {
+    pages$ = inject(ApplicationPagesService).headerMenuPages$;
+}
