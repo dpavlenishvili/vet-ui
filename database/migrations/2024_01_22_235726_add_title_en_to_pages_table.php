@@ -16,10 +16,10 @@ return new class extends Migration {
                     continue;
                 }
 
-                $table->string('title_' . $language, 255)->nullable()->default('')->change();
-                $table->string('meta_title_' . $language, 255)->nullable()->default('')->change();
-                $table->longText('description_' . $language, 255)->nullable()->default('')->change();
-                $table->string('meta_description_' . $language, 255)->nullable()->default('')->change();
+                $table->string('title_'.$language, 255)->nullable()->default('')->change();
+                $table->string('meta_title_'.$language, 255)->nullable()->default('')->change();
+                $table->longText('description_'.$language, 255)->nullable()->default('')->change();
+                $table->string('meta_description_'.$language, 255)->nullable()->default('')->change();
             }
         });
     }

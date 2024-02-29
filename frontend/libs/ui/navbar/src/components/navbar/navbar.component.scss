@@ -16,9 +16,16 @@ nav[v-ui-navbar] {
 }
 
 #{$block} {
-    &__nav-item-list {
-        display: flex;
-        gap: 1.8rem;
-        list-style: none;
+    &__link {
+        color: white;
+        text-decoration: none;
+    }
+
+    &__link-blue {
+        color: #4682b4;
+    }
+
+    &__svg-icon {
+        margin-top: 0.6rem;
     }
 }

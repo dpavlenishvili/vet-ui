@@ -1,9 +1,10 @@
 import { Component, ContentChild, Input, ViewEncapsulation } from '@angular/core';
 import { NavbarLogoDirective } from '../../directives/navbar-logo.directive';
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { Page } from '@vet/backend';
+import { NavbarMenuComponent, NavbarMenuItemType } from '@vet/ui/navbar-menu';
+import { SvgIconComponent } from 'angular-svg-icon';
+import { ButtonComponent } from '@vet/ui/button';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -11,36 +12,32 @@ import { Page } from '@vet/backend';
     standalone: true,
     template: `
         <section class="container justify-content-between align-items-center d-flex">
-            <div class="d-flex justify-content-around w-100">
-                <div class="branding-container">
-                    <div class="logo-container">
-                        <ng-container *ngTemplateOutlet="logo.templateRef"></ng-container>
-                    </div>
+            <div class="branding-container">
+                <div class="logo-container">
+                    <ng-container *ngTemplateOutlet="logo.templateRef"></ng-container>
                 </div>
+            </div>
 
-                <ul class="v-ui-navbar__nav-item-list">
-                    @for (headerItem of pages; track headerItem) {
-                        <li>
-                            <a [routerLink]="headerItem.slug">{{ headerItem.title }}</a>
-                        </li>
-                    }
-                </ul>
+            <v-ui-navbar-menu [navbarMenuItems]="pages"></v-ui-navbar-menu>
 
-                <div>
-                    <a>ავტორიზაცია</a>
-                    <a>რეგისტრაცია</a>
-                </div>
+            <div class="d-flex align-items-center justify-content-between gap-4">
+                <svg-icon class="v-ui-navbar__svg-icon" src="assets/icons/search.svg"></svg-icon>
+                <svg-icon class="v-ui-navbar__svg-icon" src="assets/icons/globe.svg"></svg-icon>
+
+                <a class="v-ui-navbar__link" routerLink="authentication">ავტორიზაცია</a>
+                <button v-ui-button color="secondary">
+                    <a class="v-ui-navbar__link v-ui-navbar__link-blue" routerLink="registration">რეგისტრაცია</a>
+                </button>
             </div>
         </section>
     `,
     styleUrls: ['./navbar.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    imports: [NgTemplateOutlet, AsyncPipe, RouterLink],
+    imports: [NgTemplateOutlet, NgIf, RouterLink, NavbarMenuComponent, SvgIconComponent, ButtonComponent],
 })
 export class NavbarComponent {
     @ContentChild(NavbarLogoDirective)
     logo!: NavbarLogoDirective;
 
-    @Input()
-    pages: Page[] = [];
+    @Input() pages!: NavbarMenuItemType[];
 }

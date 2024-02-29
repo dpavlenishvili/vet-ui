@@ -1,7 +1,7 @@
 {
-    "name": "theming",
+    "name": "dynamic-pages",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "frontend/libs/theming/src",
+    "sourceRoot": "frontend/libs/dynamic-pages/src",
     "prefix": "lib",
     "tags": [],
     "projectType": "library",
@@ -10,12 +10,11 @@
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "frontend/libs/theming/jest.config.ts"
+                "jestConfig": "{projectRoot}/jest.config.ts"
             }
         },
         "lint": {
-            "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"]
+            "executor": "@nx/eslint:lint"
         }
     }
 }

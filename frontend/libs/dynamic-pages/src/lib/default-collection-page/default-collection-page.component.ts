@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Page } from '@vet/backend';
+import { ApplicationPage } from '../application-pages.service';
 
 @Component({
-    selector: 'app-collection-page',
+    selector: 'vet-collection-page',
     template: ``,
     standalone: true,
 })
 export class DefaultCollectionPageComponent implements OnInit {
-    @Input({ required: true }) page!: Page;
+    @Input({ required: true }) page!: ApplicationPage;
 
     ngOnInit() {
         console.log(this.page);

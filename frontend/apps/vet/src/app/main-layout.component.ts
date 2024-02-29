@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NavbarComponent, NavbarLogoDirective } from '@vet/ui/navbar';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { ApplicationPagesService } from './application-pages.service';
+import { ApplicationPagesService } from '@vet/dynamic-pages';
 
 @Component({
     standalone: true,

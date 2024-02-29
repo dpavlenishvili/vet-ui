@@ -84,12 +84,12 @@ class Page extends Resource
 
         foreach (config('vet.languages') as $language) {
             $fields[] = Text::make('Title ('.$language.')', 'title_'.$language)
-                ->rules($language  === 'ka' ? 'max:255' : '', $language  === 'ka' ? 'min:3': '')->sortable()
+                ->rules($language === 'ka' ? 'max:255' : '', $language === 'ka' ? 'min:3' : '')->sortable()
                 ->required($language === config('vet.default_language'));
             $fields[] = Markdown::make('Content ('.$language.')', 'description_'.$language)
                 ->hideFromIndex()->required($language === config('vet.default_language'))->rules('max:99999999');
             $fields[] = Text::make('Short title ('.$language.')', 'meta_title_'.$language)
-                ->hideFromIndex()->rules($language  === 'ka' ? 'max:255' : '', $language  === 'ka' ? 'min:3': '')->sortable()
+                ->hideFromIndex()->rules($language === 'ka' ? 'max:255' : '', $language === 'ka' ? 'min:3' : '')->sortable()
                 ->required($language === config('vet.default_language'));
             $fields[] = Textarea::make('Short description ('.$language.')', 'meta_description_'.$language)
                 ->hideFromIndex()->required($language === config('vet.default_language'));

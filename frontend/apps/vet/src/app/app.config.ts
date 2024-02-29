@@ -11,7 +11,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideBaseUrl } from '@vet/shared';
 import { environment } from '../environments/environment';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { initAppPages } from './init-app-pages';
+import { initAppPages } from '@vet/dynamic-pages';
 
 export const appConfig: ApplicationConfig = {
     providers: [

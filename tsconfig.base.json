@@ -16,6 +16,7 @@
         "baseUrl": ".",
         "paths": {
             "@vet/backend": ["frontend/libs/backend/src/index.ts"],
+            "@vet/dynamic-pages": ["frontend/libs/dynamic-pages/src/index.ts"],
             "@vet/features/authentication": ["frontend/libs/features/authentication/src/index.ts"],
             "@vet/features/registration": ["frontend/libs/features/registration/src/index.ts"],
             "@vet/shared": ["frontend/libs/shared/src/index.ts"],
@@ -34,6 +35,7 @@
             "@vet/ui/message-card": ["frontend/libs/ui/message-card/src/index.ts"],
             "@vet/ui/modals": ["frontend/libs/ui/modals/src/index.ts"],
             "@vet/ui/navbar": ["frontend/libs/ui/navbar/src/index.ts"],
+            "@vet/ui/navbar-menu": ["frontend/libs/ui/navbar-menu/src/index.ts"],
             "@vet/ui/radio-button": ["frontend/libs/ui/radio-button/src/index.ts"],
             "@vet/ui/verification": ["frontend/libs/ui/verification/src/index.ts"],
             "@vet/ui/wizard": ["frontend/libs/ui/wizard/src/index.ts"]
