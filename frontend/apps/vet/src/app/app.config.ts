@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { initializeTransolco } from './initialize-transloco';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
@@ -12,12 +12,13 @@ import { provideBaseUrl } from '@vet/shared';
 import { environment } from '../environments/environment';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { initAppPages } from '@vet/dynamic-pages';
+import { acceptLanguageInterceptor } from './accept-language.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
         provideRouter(appRoutes, withComponentInputBinding()),
-        provideHttpClient(withFetch()),
+        provideHttpClient(withFetch(), withInterceptors([acceptLanguageInterceptor])),
         initializeTransolco(),
         provideAngularSvgIcon(),
         useBs5Theme(),
