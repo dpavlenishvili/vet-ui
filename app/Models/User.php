@@ -101,4 +101,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return 'pid';
     }
+
+    public function cancelPasswordReset(): void
+    {
+        $this->init_password_reset = false;
+        $this->password_reset_at = null;
+        $this->password_reset_token = null;
+        $this->save();
+    }
 }

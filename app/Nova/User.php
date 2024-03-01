@@ -3,11 +3,15 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -33,7 +37,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'pid', 'name', 'phone',
     ];
 
     /**
@@ -47,22 +51,44 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
-
-            Text::make('Name')
+            Text::make('Personal ID', 'pid')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:13')->withMeta(['extraAttributes' => [
+                    'readonly' => true,
+                ]]),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+            Text::make('Full name', 'name')
+                ->sortable(),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+            Text::make('Phone', 'phone')
+                ->rules('required', 'max:9'),
+
+            Text::make('E-mail', 'email')
+                ->rules('email'),
+
+            Select::make('Gender', 'gender')
+                ->options(['male' => 'მამრობითი', 'female' => 'მდედრობითი'])
+                ->withMeta(['extraAttributes' => [
+                    'readonly' => true,
+                ]]),
+
+            Text::make('Birth date', 'birth_date')
+                ->withMeta(['extraAttributes' => [
+                    'readonly' => true,
+                ]])->hideFromIndex(),
+            Select::make('Residential', 'residential')->hideFromIndex()
+                ->options(DB::table('countries')->pluck('name', 'code')->toArray()),
+
+
+            Text::make('Region', 'region')->hideFromIndex(),
+            Text::make('City', 'city')->hideFromIndex(),
+            Text::make('Address', 'address')->hideFromIndex(),
+            Text::make('Alternative phone', 'alt_phone')->hideFromIndex(),
+            Text::make('E-mail', 'email'),
+            Boolean::make('2 Factor auth', '2fa')->hideFromIndex(),
+            Boolean::make('Active', 'is_active'),
+            Text::make('Block reason', 'block_reason')->hideFromIndex(),
+            Boolean::make('Reset password?', 'init_password_reset')->hideFromIndex(),
 
             MorphToMany::make('Roles', 'roles', \Sereny\NovaPermissions\Nova\Role::class),
             MorphToMany::make('Permissions', 'permissions', \Sereny\NovaPermissions\Nova\Permission::class),

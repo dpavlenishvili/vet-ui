@@ -43,6 +43,8 @@ class AuthApiController extends Controller
             'changePassword',
             'initForgetPassword',
             'resetPassword',
+            'validateToken',
+            'changeByTokenPassword'
         ]]);
     }
 
@@ -810,6 +812,66 @@ class AuthApiController extends Controller
         }
 
         $user->password = Hash::make(request()->get('password'));
+        $user->save();
+
+        return response()->json(['status' => true, 'msg' => 'Password updated']);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/auth/password/change",
+     *      operationId="Reset password by token",
+     *      tags={"Auth"},
+     *      summary="Reset password by token for user",
+     *      @OA\RequestBody(
+     *            required=true,
+     *            @OA\JsonContent(
+     *                @OA\Property(
+     *                    type="string",
+     *                    default="qwertyuiopasdfdsgfdhgfjhgkj...",
+     *                    description="Token",
+     *                    property="token"
+     *                ),
+     *                @OA\Property(
+     *                     type="string",
+     *                     default="password",
+     *                     description="New Password",
+     *                     property="password"
+     *                 )
+     *            )
+     *       ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(
+     *                 @OA\Property(
+     *                       type="boolean",
+     *                       default="true",
+     *                       description="Status",
+     *                       property="status"
+     *                  ),
+     *                  @OA\Property(
+     *                      type="string",
+     *                      default="Password updated",
+     *                      description="Password updated",
+     *                      property="msg",
+     *                  ),
+     *            )
+     *      )
+     * )
+     *
+     * Reset password
+     *
+     * @return JsonResponse
+     */
+    public function changeByTokenPassword()
+    {
+        $user = User::where('password_reset_token', request()->get('token'))->where('password_reset_at', '>', date('Y-m-d H:i:s', strtotime('-1 day')))->firstOrFail();
+
+        $user->password = Hash::make(request()->get('password'));
+        $user->init_password_reset = false;
+        $user->password_reset_token = null;
+        $user->password_reset_at = null;
         $user->save();
 
         return response()->json(['status' => true, 'msg' => 'Password updated']);
