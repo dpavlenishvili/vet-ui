@@ -79,6 +79,8 @@ export class FeaturesResetPasswordComponent {
             this.authService.initForgetPassword(data).subscribe({
                 next: () => {
                     this.showMobileVerification.set(true);
+                    this.verificationNumberControl.setValue('');
+                    this.verificationNumberControl.markAsUntouched();
                 },
                 error: (err) => {
                     if (err.error.error.code === ErrorCodesEnum.CAN_NOT_FIND_ANY_USER) {
@@ -93,9 +95,14 @@ export class FeaturesResetPasswordComponent {
     }
 
     saveNewPassword() {
-        if (!this.passwordControl.value || !this.confirmPasswordControl.value) {
+        if (
+            !this.passwordControl.value ||
+            !this.confirmPasswordControl.value ||
+            !this.verificationNumberControl.value
+        ) {
             this.passwordControl.markAsTouched();
             this.confirmPasswordControl.markAsTouched();
+            this.verificationNumberControl.markAsTouched();
 
             return;
         } else if (this.passwordControl.value !== this.confirmPasswordControl.value) {
