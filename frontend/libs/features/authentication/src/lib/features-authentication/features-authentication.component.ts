@@ -60,6 +60,9 @@ export class FeaturesAuthenticationComponent {
     twoStepAuthentication!: UserLogin2FaResponseBody;
 
     signIn() {
+        this.verificationNumberControl.setValue('');
+        this.verificationNumberControl.markAsUntouched();
+
         if (this.pidControl.valid && this.passwordControl.valid) {
             const credentials = {
                 pid: this.pidControl.value || '',
