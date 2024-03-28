@@ -1,0 +1,34 @@
+<v-ui-slider
+    #sliderComponent
+    [ngClass]="'main-slider'"
+    [loop]="true"
+    [maxVisibleItems]="1"
+    (visibleItemChange)="currentActiveElementIndex = $event"
+>
+    @for (post of posts; track post.title) {
+        <v-ui-main-slider-item [post]="post"></v-ui-main-slider-item>
+    }
+    <div class="main-slider__dot-container">
+        @for (post of posts; track post; let i = $index) {
+            <button
+                class="main-slider__dot"
+                [class.main-slider__dot--active]="i === currentActiveElementIndex"
+                (click)="sliderComponent.goToIndex(i)"
+            ></button>
+        }
+    </div>
+    <button
+        class="main-slider__switcher main-slider__switcher--prev"
+        type="button"
+        (click)="sliderComponent.goToPrev()"
+    >
+        <svg-icon src="assets/icons/slider-left-arrow.svg"></svg-icon>
+    </button>
+    <button
+        class="main-slider__switcher main-slider__switcher--next"
+        type="button"
+        (click)="sliderComponent.goToNext()"
+    >
+        <svg-icon src="assets/icons/slider-right-arrow.svg"></svg-icon>
+    </button>
+</v-ui-slider>

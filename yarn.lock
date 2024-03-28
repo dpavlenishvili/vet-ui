@@ -11479,6 +11479,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"keen-slider@npm:^6.8.6":
+  version: 6.8.6
+  resolution: "keen-slider@npm:6.8.6"
+  checksum: f87e65d72e3b2e73cbd52b1908c1458b253ec5a2a2d3e1e34bd1a831172d18568649188cf3e4ad679c7988568929195ae91d4b7a1c0bd3d6da592a453be3723a
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.0.0, keyv@npm:^4.5.3":
   version: 4.5.4
   resolution: "keyv@npm:4.5.4"
@@ -17148,6 +17155,7 @@ __metadata:
     jest-environment-jsdom: ^29.4.1
     jest-preset-angular: 13.1.4
     jsonc-eslint-parser: ^2.1.0
+    keen-slider: ^6.8.6
     lint-staged: ^15.0.1
     ng-packagr: 17.1.2
     ngx-bootstrap: ^12.0.0

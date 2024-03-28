@@ -1,0 +1,15 @@
+<section class="v-ui-homepage">
+    <v-ui-main-slider [posts]="posts"></v-ui-main-slider>
+
+    <div>
+        <h2 class="v-ui-homepage__service-title">სერვისები</h2>
+        <div class="v-ui-homepage__service-card-wrapper">
+            @for (serviceCard of serviceCards; track serviceCard.title) {
+                <v-ui-services-card [routerLink]="serviceCard.link" [cardColor]="serviceCard.color">
+                    <svg-icon [src]="serviceCard.icon"></svg-icon>
+                    პროფესიული პროგრამები
+                </v-ui-services-card>
+            }
+        </div>
+    </div>
+</section>

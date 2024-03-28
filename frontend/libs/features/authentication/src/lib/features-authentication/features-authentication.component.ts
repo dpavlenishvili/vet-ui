@@ -9,10 +9,10 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { AuthService, UserLogin2FaResponseBody } from '@vet/backend';
 import { customPatternValidator } from '@vet/shared/forms';
 import { TimerComponent, VerificationComponent } from '@vet/ui/verification';
-import { MessageCardComponent } from '@vet/ui/message-card';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { ErrorCodesEnum } from '@vet/shared/interfaces';
 import { BaseModalService } from '@vet/ui/modals';
+import { MessageCardComponent } from '@vet/ui/card';
 
 @Component({
     selector: 'lib-features-authentication',

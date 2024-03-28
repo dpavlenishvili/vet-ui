@@ -79,7 +79,6 @@ class User extends Resource
             Select::make('Residential', 'residential')->hideFromIndex()
                 ->options(DB::table('countries')->pluck('name', 'code')->toArray()),
 
-
             Text::make('Region', 'region')->hideFromIndex(),
             Text::make('City', 'city')->hideFromIndex(),
             Text::make('Address', 'address')->hideFromIndex(),

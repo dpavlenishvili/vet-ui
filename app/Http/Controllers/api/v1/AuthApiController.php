@@ -44,7 +44,7 @@ class AuthApiController extends Controller
             'initForgetPassword',
             'resetPassword',
             'validateToken',
-            'changeByTokenPassword'
+            'changeByTokenPassword',
         ]]);
     }
 

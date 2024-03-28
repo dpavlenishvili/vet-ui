@@ -4,7 +4,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ErrorStateMatcher, FormErrorComponent, FormItemComponent, FormLabelDirective } from '@vet/ui/form-item';
 import { InputComponent, ValidationErrorPipe } from '@vet/ui/input';
 import { CheckboxComponent } from '@vet/ui/checkbox';
-import { MessageCardComponent } from '@vet/ui/message-card';
 import { TimerComponent, VerificationComponent } from '@vet/ui/verification';
 import { RouterLink } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -14,6 +13,7 @@ import { customPatternValidator, mobileNumberValidator, passwordPatternValidator
 import { AuthenticationPageErrorStateMatcher } from '../authentication-page-error-state-matcher';
 import { BaseModalComponent, BaseModalService } from '@vet/ui/modals';
 import { ErrorCodesEnum } from '@vet/shared/interfaces';
+import { MessageCardComponent } from '@vet/ui/card';
 
 @Component({
     selector: 'lib-features-reset-password',

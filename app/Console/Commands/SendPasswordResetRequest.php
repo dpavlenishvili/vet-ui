@@ -47,7 +47,7 @@ class SendPasswordResetRequest extends Command
                 continue;
             }
 
-            $user->password_reset_token = md5($user->pid . $user->init_password_reset);
+            $user->password_reset_token = md5($user->pid.$user->init_password_reset);
             $user->password_reset_at = date('Y-m-d H:i:s');
             $user->save();
 
@@ -57,7 +57,7 @@ class SendPasswordResetRequest extends Command
                 //it's ok
             }
 
-            $smsText = 'parolis adgdgenistvis gtkhovt gadadit bmulze da mihyevit instruqcias: ' . env('FRONT_URL') . '/authentication/reset-password/' . $user->password_reset_token;
+            $smsText = 'parolis adgdgenistvis gtkhovt gadadit bmulze da mihyevit instruqcias: '.env('FRONT_URL').'/authentication/reset-password/'.$user->password_reset_token;
             (new SmsFacade())->set('phone', $user->phone)->set('text', $smsText)->send();
         }
 
