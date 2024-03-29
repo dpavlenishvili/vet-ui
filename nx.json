@@ -60,6 +60,5 @@
         "appsDir": "frontend/apps",
         "libsDir": "frontend/libs"
     },
-    "defaultProject": "frontend",
-    "nxCloudAccessToken": "ZDZmY2EzMmMtZjliNi00ZjIxLWFjNDktMzQ2NGViMDFkZjczfHJlYWQtd3JpdGU="
+    "defaultProject": "frontend"
 }
