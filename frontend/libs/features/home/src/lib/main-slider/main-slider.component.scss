@@ -145,6 +145,7 @@
             width: 100%;
             height: 283px;
             border-radius: 1rem;
+            object-fit: cover;
         }
 
         &-wrapper {
@@ -166,6 +167,11 @@
                 font-size: 1.4rem;
                 line-height: 2.2rem;
                 color: #626262;
+                overflow: hidden; /* Hide any overflowing text */
+                display: -webkit-box; /* Set as flexible box */
+                -webkit-line-clamp: 9; /* Number of lines to show */
+                -webkit-box-orient: vertical; /* Set box orientation as vertical */
+                text-overflow: ellipsis; /* Add ellipsis for overflowed text */
             }
 
             @include media-breakpoint-down(lg) {

@@ -18,6 +18,10 @@ import { MainSliderComponent } from '../main-slider/main-slider.component';
 import { CollectionItem, CollectionService } from '@vet/backend';
 import { map } from 'rxjs';
 
+export interface TemporaryInterface extends CollectionItem {
+    createdAt: string;
+}
+
 @Component({
     selector: 'lib-features-home',
     standalone: true,
@@ -37,7 +41,7 @@ import { map } from 'rxjs';
 export class FeaturesHomeComponent implements OnInit {
     private collectionService = inject(CollectionService);
 
-    posts: CollectionItem[] | undefined = [];
+    posts: TemporaryInterface[] | undefined = [];
 
     serviceCards = [
         {
@@ -97,7 +101,7 @@ export class FeaturesHomeComponent implements OnInit {
                 }),
             )
             .subscribe((res) => {
-                this.posts = res.data;
+                this.posts = res.data as TemporaryInterface[];
             });
     }
 }

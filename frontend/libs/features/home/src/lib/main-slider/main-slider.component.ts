@@ -5,6 +5,7 @@ import { SvgIconComponent } from 'angular-svg-icon';
 import { MainSliderItemComponent } from './main-slider-item/main-slider-item.component';
 import { SliderComponent } from '@vet/ui/slider';
 import { CollectionItem } from '@vet/backend';
+import { TemporaryInterface } from '../features-home/features-home.component';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -16,6 +17,6 @@ import { CollectionItem } from '@vet/backend';
     encapsulation: ViewEncapsulation.None,
 })
 export class MainSliderComponent {
-    @Input() posts: CollectionItem[] | undefined = [];
+    @Input() posts: TemporaryInterface[] | undefined = [];
     currentActiveElementIndex = 0;
 }

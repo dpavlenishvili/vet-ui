@@ -1,8 +1,8 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgOptimizedImage } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { AbstractSliderItem } from '@vet/ui/slider';
-import { CollectionItem } from '@vet/backend';
+import { TemporaryInterface } from '../../features-home/features-home.component';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -19,8 +19,8 @@ import { CollectionItem } from '@vet/backend';
         '[class.keen-slider__slide]': 'true',
     },
     standalone: true,
-    imports: [RouterLink, NgOptimizedImage],
+    imports: [RouterLink, NgOptimizedImage, DatePipe],
 })
 export class MainSliderItemComponent extends AbstractSliderItem {
-    @Input() post!: CollectionItem;
+    @Input() post!: TemporaryInterface;
 }
