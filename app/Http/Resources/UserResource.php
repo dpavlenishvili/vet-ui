@@ -27,8 +27,8 @@ class UserResource extends JsonResource
             'photo' => $this->photo,
             'isActive' => $this->is_active,
             'blockReason' => $this->block_reason,
-            'createdAt' => $this->created_at,
-            'deletedAt' => $this->deleted_at,
+            'created_at' => $this->created_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }

@@ -222,7 +222,7 @@ class User
      *
      * @var string
      */
-    public string $createdAt;
+    public string $created_at;
 
     /**
      * @OA\Property(

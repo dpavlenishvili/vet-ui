@@ -20,7 +20,7 @@ class PageResource extends JsonResource
             'image' => $this->image,
             'position' => $this->position,
             'parent_id' => $this->parent_id,
-            'createdAt' => $this->created_at,
+            'created_at' => $this->created_at,
             'menus' => collect($this->menus)->map(function ($menu) {
                 return [
                     'id' => $menu['id'],

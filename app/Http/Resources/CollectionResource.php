@@ -18,7 +18,7 @@ class CollectionResource extends JsonResource
             'image' => $this->image,
             'keywords' => $this->keywords,
             'pin' => $this->pin,
-            'createdAt' => $this->created_at,
+            'created_at' => $this->created_at,
         ];
     }
 }

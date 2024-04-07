@@ -813,6 +813,7 @@ class AuthApiController extends Controller
 
         $user->password = Hash::make(request()->get('password'));
         $user->save();
+        $sms->delete();
 
         return response()->json(['status' => true, 'msg' => 'Password updated']);
     }
