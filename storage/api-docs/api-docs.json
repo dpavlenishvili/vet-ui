@@ -10,14 +10,16 @@
     },
     "servers": [
         {
-            "url": "",
+            "url": "http://localhost:8000/api/v1",
             "description": "VET API Server"
         }
     ],
     "paths": {
         "/auth/login": {
             "post": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "User authentication",
                 "operationId": "Login User",
                 "requestBody": {
@@ -122,7 +124,9 @@
         },
         "/auth/login/2fa": {
             "post": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "User authentication with 2fa code",
                 "operationId": "Validate 2fa code",
                 "requestBody": {
@@ -229,7 +233,9 @@
         },
         "/auth/me": {
             "get": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Get user info",
                 "operationId": "Get user",
                 "parameters": [
@@ -259,7 +265,9 @@
         },
         "/auth/logout": {
             "delete": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Logout user",
                 "operationId": "Logout user",
                 "parameters": [
@@ -301,7 +309,9 @@
         },
         "/auth/refresh": {
             "post": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Refresh token",
                 "operationId": "Refresh token",
                 "parameters": [
@@ -348,7 +358,9 @@
         },
         "/auth/password": {
             "post": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Change password for user",
                 "operationId": "Change password",
                 "requestBody": {
@@ -455,7 +467,9 @@
         },
         "/auth/reset": {
             "post": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Init forget password for user",
                 "operationId": "Init forget password",
                 "requestBody": {
@@ -530,7 +544,9 @@
         },
         "/auth/reset/save": {
             "post": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Reset password for user",
                 "operationId": "Reset password",
                 "requestBody": {
@@ -671,9 +687,66 @@
                 }
             }
         },
+        "/auth/password/change": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Reset password by token for user",
+                "operationId": "Reset password by token",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "description": "Token",
+                                        "type": "string",
+                                        "default": "qwertyuiopasdfdsgfdhgfjhgkj..."
+                                    },
+                                    "password": {
+                                        "description": "New Password",
+                                        "type": "string",
+                                        "default": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Status",
+                                            "type": "boolean",
+                                            "default": "true"
+                                        },
+                                        "msg": {
+                                            "description": "Password updated",
+                                            "type": "string",
+                                            "default": "Password updated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/general/countries": {
             "get": {
-                "tags": ["Generals"],
+                "tags": [
+                    "Generals"
+                ],
                 "summary": "Get list of countries",
                 "description": "Returns list of countries",
                 "operationId": "GetCountriesList",
@@ -713,7 +786,9 @@
         },
         "/pages": {
             "get": {
-                "tags": ["Pages"],
+                "tags": [
+                    "Pages"
+                ],
                 "summary": "Get list of pages",
                 "description": "Returns list of pages",
                 "operationId": "getPagesList",
@@ -733,7 +808,9 @@
         },
         "/menus": {
             "get": {
-                "tags": ["Pages"],
+                "tags": [
+                    "Pages"
+                ],
                 "summary": "List of menus",
                 "description": "Returns list of menus data",
                 "operationId": "menus",
@@ -746,7 +823,9 @@
         },
         "/collection/{id}": {
             "get": {
-                "tags": ["Pages"],
+                "tags": [
+                    "Pages"
+                ],
                 "summary": "Get collection items",
                 "description": "Returns items of page colections",
                 "operationId": "Collections Items",
@@ -777,7 +856,9 @@
         },
         "/users": {
             "get": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Get list of users",
                 "description": "Returns list of users",
                 "operationId": "getUserList",
@@ -809,7 +890,9 @@
                 }
             },
             "post": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Store new user",
                 "description": "Returns user data",
                 "operationId": "storeUser",
@@ -859,7 +942,9 @@
         },
         "/users/{id}": {
             "get": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Get user information",
                 "description": "Returns user data",
                 "operationId": "getUserById",
@@ -906,7 +991,9 @@
                 }
             },
             "put": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Update existing user",
                 "description": "Returns updated user data",
                 "operationId": "updateUser",
@@ -966,7 +1053,9 @@
                 }
             },
             "delete": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Delete existing user",
                 "description": "Deletes a record and returns no content",
                 "operationId": "deleteUser",
@@ -1013,7 +1102,9 @@
         },
         "/register/validate": {
             "get": {
-                "tags": ["Register"],
+                "tags": [
+                    "Register"
+                ],
                 "summary": "Validate Person",
                 "description": "Validate person by Personal Id and Last name",
                 "operationId": "ValidatePerson",
@@ -1105,7 +1196,9 @@
         },
         "/sms/send": {
             "get": {
-                "tags": ["SMS"],
+                "tags": [
+                    "SMS"
+                ],
                 "summary": "Send one time code",
                 "description": "Send one time code to validate phone number",
                 "operationId": "Send Sms code",
@@ -1158,7 +1251,9 @@
         },
         "/sms/validate": {
             "post": {
-                "tags": ["SMS"],
+                "tags": [
+                    "SMS"
+                ],
                 "summary": "Validate SMS code",
                 "description": "Validate SMS code",
                 "operationId": "validate Sms",
@@ -1168,7 +1263,10 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": ["phone", "sms_code"],
+                                "required": [
+                                    "phone",
+                                    "sms_code"
+                                ],
                                 "properties": {
                                     "phone": {
                                         "description": "Phone number",
@@ -1226,7 +1324,9 @@
         },
         "/register": {
             "post": {
-                "tags": ["Register"],
+                "tags": [
+                    "Register"
+                ],
                 "summary": "Register user",
                 "description": "Returns user data",
                 "operationId": "Register",
@@ -1342,8 +1442,40 @@
                     "name": "Collection item"
                 }
             },
+            "MediaItem": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "example": "/uploads/1/sample-Document.pdf\","
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Sample Document.pdf"
+                    },
+                    "mime_type": {
+                        "type": "string",
+                        "example": "application/pdf"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "example": "1000"
+                    },
+                    "order_column": {
+                        "type": "integer",
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
             "MenuItem": {
-                "required": ["id", "name"],
+                "required": [
+                    "id",
+                    "name"
+                ],
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -1407,6 +1539,14 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/MenuItem"
+                        }
+                    },
+                    "media": {
+                        "title": "Medias",
+                        "description": "Relations of attachments",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MediaItem"
                         }
                     },
                     "children": {
@@ -1584,7 +1724,7 @@
                             }
                         ]
                     },
-                    "createdAt": {
+                    "created_at": {
                         "title": "Created at",
                         "description": "Created at",
                         "type": "string",
@@ -1614,7 +1754,10 @@
                 }
             },
             "LoginRequestBody": {
-                "required": ["pid", "password"],
+                "required": [
+                    "pid",
+                    "password"
+                ],
                 "properties": {
                     "pid": {
                         "type": "string"
@@ -1717,7 +1860,15 @@
             "UserReq": {
                 "title": "User request",
                 "description": "User request body data",
-                "required": ["pid", "phone", "first_name", "last_name", "gender", "birth_date", "residential"],
+                "required": [
+                    "pid",
+                    "phone",
+                    "first_name",
+                    "last_name",
+                    "gender",
+                    "birth_date",
+                    "residential"
+                ],
                 "properties": {
                     "pid": {
                         "title": "Personal Id",

@@ -27,6 +27,15 @@ class PageResource extends JsonResource
                     'name' => $menu['name'],
                 ];
             }),
+            'media' => collect($this->media)->map(function ($att) {
+                return [
+                    'url' => '/uploads/'.$att->id.'/'.$att->file_name,
+                    'name' => $att->file_name,
+                    'mime_type' => $att->mime_type,
+                    'size' => $att->size,
+                    'order_column' => $att->order_column,
+                ];
+            }),
             'children' => self::collection($this->children),
         ];
     }

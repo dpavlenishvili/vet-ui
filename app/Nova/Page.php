@@ -4,10 +4,12 @@ namespace App\Nova;
 
 use Aiman\NestTool\NestTool;
 use App\Models\PageLanguage;
+use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
@@ -80,6 +82,8 @@ class Page extends Resource
                     }
                 }
             )->nullable(),
+            Files::make('Attachments', 'attachments'),
+
         ];
 
         foreach (config('vet.languages') as $language) {

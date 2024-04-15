@@ -9,11 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Page extends Model implements Sortable
+class Page extends Model implements Sortable, HasMedia
 {
     use HasFactory;
     use SortableTrait;
+    use InteractsWithMedia;
 
     public $sortable = [
         'order_column_name' => 'position',
@@ -44,7 +48,7 @@ class Page extends Model implements Sortable
     {
         $pages = self::where('status', true)->orderBy('position', 'asc')->with(['menus' => function ($query) {
             $query->select('menus.id', 'menus.name');
-        }])->get();
+        }, 'media'])->get();
 
         return static::buildTree($pages);
     }
@@ -70,5 +74,10 @@ class Page extends Model implements Sortable
         }
 
         return $tree;
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('attachments');
     }
 }

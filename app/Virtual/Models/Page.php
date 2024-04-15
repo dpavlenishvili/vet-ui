@@ -81,6 +81,15 @@ class Page
     public array $menus;
 
     /**
+     * @var MediaItem[]
+     */
+    #[OAt\Property(
+        title: 'Medias',
+        description: 'Relations of attachments'
+    )]
+    public array $media;
+
+    /**
      * @var Page[]
      */
     #[OAT\Property]
