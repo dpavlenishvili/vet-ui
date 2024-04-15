@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use NumaxLab\NovaCKEditor5Classic\Jobs\PruneStaleAttachments;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,6 +14,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('password-reset')->everyMinute();
+        $schedule->call(function () {
+            (new PruneStaleAttachments)();
+        })->daily();
     }
 
     /**

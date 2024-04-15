@@ -5,6 +5,7 @@ namespace App\Nova;
 use Aiman\NestTool\NestTool;
 use App\Models\PageLanguage;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
+use Emilianotisato\NovaTinyMCE\NovaTinyMCE;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -20,6 +21,7 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use NumaxLab\NovaCKEditor5Classic\CKEditor5Classic;
 use Outl1ne\NovaSortable\Traits\HasSortableRows;
 use ZiffMedia\NovaSelectPlus\SelectPlus;
 
@@ -90,7 +92,7 @@ class Page extends Resource
             $fields[] = Text::make('Title ('.$language.')', 'title_'.$language)
                 ->rules($language === 'ka' ? 'max:255' : '', $language === 'ka' ? 'min:3' : '')->sortable()
                 ->required($language === config('vet.default_language'));
-            $fields[] = Markdown::make('Content ('.$language.')', 'description_'.$language)
+            $fields[] = NovaTinyMCE::make('Content ('.$language.')', 'description_'.$language)
                 ->hideFromIndex()->required($language === config('vet.default_language'))->rules('max:99999999');
             $fields[] = Text::make('Short title ('.$language.')', 'meta_title_'.$language)
                 ->hideFromIndex()->rules($language === 'ka' ? 'max:255' : '', $language === 'ka' ? 'min:3' : '')->sortable()
