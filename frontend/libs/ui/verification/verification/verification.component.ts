@@ -14,8 +14,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '../../form-item/form-item/form-item.component';
-import { FormControlProvider } from '../../form-item/form-control-provider';
+import { ErrorStateMatcher, FormControlProvider } from '../../form-item';
 import { NgForOf, NgIf } from '@angular/common';
 
 enum Orientation {
