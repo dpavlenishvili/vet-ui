@@ -5343,9 +5343,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vet/theming@workspace:frontend/libs/theming":
+"@vet/theming@workspace:libs/theming":
   version: 0.0.0-use.local
-  resolution: "@vet/theming@workspace:frontend/libs/theming"
+  resolution: "@vet/theming@workspace:libs/theming"
   peerDependencies:
     "@angular/core": 17.1.2
     "@vet/shared": "*"

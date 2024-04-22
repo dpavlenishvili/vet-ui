@@ -15,17 +15,17 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@vet/backend": ["frontend/libs/backend/src/index.ts"],
-            "@vet/dynamic-pages": ["frontend/libs/dynamic-pages/src/index.ts"],
-            "@vet/features/authentication": ["frontend/libs/features/authentication/src/index.ts"],
-            "@vet/features/home": ["frontend/libs/features/home/src/index.ts"],
-            "@vet/features/registration": ["frontend/libs/features/registration/src/index.ts"],
-            "@vet/shared": ["frontend/libs/shared/src/index.ts"],
-            "@vet/shared/constants": ["frontend/libs/shared/constants/src/index.ts"],
-            "@vet/shared/forms": ["frontend/libs/shared/forms/src/index.ts"],
-            "@vet/shared/interfaces": ["frontend/libs/shared/interfaces/src/index.ts"],
-            "@vet/theming": ["frontend/libs/theming/src/index.ts"],
-            "@vet/ui/*": ["frontend/libs/ui/*/index.ts"]
+            "@vet/backend": ["libs/backend/src/index.ts"],
+            "@vet/dynamic-pages": ["libs/dynamic-pages/src/index.ts"],
+            "@vet/features/authentication": ["libs/features/authentication/src/index.ts"],
+            "@vet/features/home": ["libs/features/home/src/index.ts"],
+            "@vet/features/registration": ["libs/features/registration/src/index.ts"],
+            "@vet/shared": ["libs/shared/src/index.ts"],
+            "@vet/shared/constants": ["libs/shared/constants/src/index.ts"],
+            "@vet/shared/forms": ["libs/shared/forms/src/index.ts"],
+            "@vet/shared/interfaces": ["libs/shared/interfaces/src/index.ts"],
+            "@vet/theming": ["libs/theming/src/index.ts"],
+            "@vet/ui/*": ["libs/ui/*/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

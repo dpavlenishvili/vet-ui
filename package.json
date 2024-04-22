@@ -8,7 +8,7 @@
         "commit": "git-cz",
         "postinstall": "husky install",
         "dev:ssr": "nx run vet:serve-ssr",
-        "serve:ssr": "node dist/frontend/apps/vet/server/main.js",
+        "serve:ssr": "node dist/apps/vet/server/main.js",
         "build:ssr": "nx build && nx run vet:server",
         "prerender": "nx run vet:prerender",
         "build-PermissionTool": "cd nova-components/PermissionTool && npm run dev",
@@ -121,6 +121,6 @@
         "*.php": "php ./vendor/bin/php-cs-fixer fix --config php-cs-fixer"
     },
     "workspaces": [
-        "frontend/libs/theming"
+        "libs/theming"
     ]
 }
