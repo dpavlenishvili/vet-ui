@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { baseUrl } from '@vet/shared';
 
 @Injectable({ providedIn: 'root' })
-export class GeneralService {
+export class GeneralsService {
     private httpClient = inject(HttpClient);
     private baseUrl = baseUrl();
     /**

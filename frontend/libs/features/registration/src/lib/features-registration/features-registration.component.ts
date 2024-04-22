@@ -138,8 +138,8 @@ export class FeaturesRegistrationComponent implements OnInit {
     ]);
 
     // Password Controls
-    protected passwordControl = new FormControl<string>('', [Validators.required, passwordPatternValidator]);
-    protected confirmPasswordControl = new FormControl<string>('', [Validators.required, passwordPatternValidator]);
+    protected passwordControl = new FormControl<string>('', [Validators.required]);
+    protected confirmPasswordControl = new FormControl<string>('', [Validators.required]);
 
     // Terms and Conditions Controls
     protected termsAndConditionsAcceptedControl = new FormControl<boolean>(false, [Validators.required]);

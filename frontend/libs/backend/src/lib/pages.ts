@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { baseUrl } from '@vet/shared';
 
-import { PagesRes } from './data-contracts';
+import { CollectionItemsRes, PagesRes } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class PagesService {
@@ -17,4 +17,24 @@ export class PagesService {
      * @request GET:/pages
      */
     getPagesList = () => this.httpClient.get<PagesRes>(`${this.baseUrl}/pages`);
+
+    /**
+     * @description Returns list of menus data
+     *
+     * @tags Pages
+     * @name Menus
+     * @summary List of menus
+     * @request GET:/menus
+     */
+    menus = () => this.httpClient.get<void>(`${this.baseUrl}/menus`);
+
+    /**
+     * @description Returns items of page colections
+     *
+     * @tags Pages
+     * @name CollectionsItems
+     * @summary Get collection items
+     * @request GET:/collection/{id}
+     */
+    collectionsItems = (id: number) => this.httpClient.get<CollectionItemsRes>(`${this.baseUrl}/collection/${id}`);
 }

@@ -9,7 +9,7 @@
         "generate": {
             "executor": "@vet/backend:sync",
             "options": {
-                "openApiFilePath": "{workspaceRoot}/storage/api-docs/api-docs.json",
+                "openApiFilePath": "https://dev-api-vet.emis.ge/docs/api-docs.json",
                 "outputDir": "{projectRoot}/src/lib"
             }
         },

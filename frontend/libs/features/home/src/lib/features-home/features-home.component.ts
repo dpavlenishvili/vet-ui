@@ -15,7 +15,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { MainSliderItemComponent } from '../main-slider/main-slider-item/main-slider-item.component';
 import { MainSliderComponent } from '../main-slider/main-slider.component';
-import { CollectionItem, CollectionService } from '@vet/backend';
+import { CollectionItem, PagesService } from '@vet/backend';
 import { map } from 'rxjs';
 
 export interface TemporaryInterface extends CollectionItem {
@@ -39,7 +39,7 @@ export interface TemporaryInterface extends CollectionItem {
     encapsulation: ViewEncapsulation.None,
 })
 export class FeaturesHomeComponent implements OnInit {
-    private collectionService = inject(CollectionService);
+    private pagesService = inject(PagesService);
 
     posts: TemporaryInterface[] | undefined = [];
 
@@ -89,7 +89,7 @@ export class FeaturesHomeComponent implements OnInit {
     ];
 
     ngOnInit() {
-        this.collectionService
+        this.pagesService
             .collectionsItems(6)
             .pipe(
                 map((res) => {

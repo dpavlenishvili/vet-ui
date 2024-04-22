@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { MainSliderItemComponent } from './main-slider-item/main-slider-item.component';
 import { SliderComponent } from '@vet/ui/slider';
-import { CollectionItem } from '@vet/backend';
 import { TemporaryInterface } from '../features-home/features-home.component';
 
 @Component({

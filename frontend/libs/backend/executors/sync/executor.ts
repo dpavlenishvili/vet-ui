@@ -3,17 +3,15 @@ import { generateApi } from 'swagger-typescript-api';
 import { Operation, Parameter, Spec as SwaggerSchema } from 'swagger-schema-official';
 import { SyncExecutorSchema } from './schema';
 import { flushChanges, FsTree, printChanges } from 'nx/src/generators/tree';
+import { join } from 'path';
+import { getSwaggerJson } from './get-swagger-json';
 
 const paramRegex = /{\s*([^{}\s]*)\s*}/g;
 const ignoredPaths = [/^\/error/, /^\/attachments(.*)/];
 
 export default async function (options: SyncExecutorSchema, executorContext: ExecutorContext) {
     const tree = new FsTree(executorContext.root, executorContext.isVerbose);
-    const content = tree.read(options.openApiFilePath, 'utf-8');
-    if (!content) {
-        throw new Error(`Content was not found`);
-    }
-    const swaggerJson = JSON.parse(content) as SwaggerSchema;
+    const swaggerJson = await getSwaggerJson(tree, options.openApiFilePath);
     swaggerJson.paths = Object.keys(swaggerJson.paths).reduce((acc: SwaggerSchema['paths'], path: string) => {
         const pathContent = swaggerJson.paths[path];
         if (ignoredPaths.some((p) => p.test(path))) {
@@ -46,7 +44,8 @@ export default async function (options: SyncExecutorSchema, executorContext: Exe
         spec: swaggerJson,
         modular: true,
         singleHttpClient: true,
-        templates: './frontend/libs/backend/executors/sync/templates',
+        moduleNameFirstTag: true,
+        templates: join(__dirname, 'templates'),
         hooks: {
             onCreateRouteName: (nameInfo) => {
                 if (!nameInfo.duplicate) {
