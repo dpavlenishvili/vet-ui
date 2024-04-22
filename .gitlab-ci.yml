@@ -1,5 +1,4 @@
 stages:
-    - backend
     - node-ssr-build
     - webserver-setup
 variables:
@@ -22,24 +21,6 @@ Node SSR Build:
     script:
         - yarn build:ssr
 
-Backend Deploy:
-    stage: backend
-    tags:
-        - oc
-    only:
-        - master
-    allow_failure: true
-    script:
-        - scp -r ./* "$REMOTE_SSH":"$REMOTE_DIR"
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; composer install --optimize-autoloader"
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan migrate --force"
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan db:seed --force"
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan config:cache"
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan cache:clear"
-        - ssh $REMOTE_SSH "chmod -R  777 $REMOTE_DIR/storage/"
-        # - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan storage:link"
-        # - ssh $REMOTE_SSH "cd $REMOTE_DIR; php artisan view:clear"
-
 Webserver Setup:
     stage: webserver-setup
     tags:
@@ -51,9 +32,6 @@ Webserver Setup:
           artifacts: true
     allow_failure: false
     script:
-        #        - scp -r ./.config/nginx.conf "$REMOTE_SSH":"$REMOTE_DIR/nginx.conf"
-        #        - ssh $REMOTE_SSH "sudo cp $REMOTE_DIR/nginx.conf /etc/nginx/conf.d/vet-seit.emis.ge.conf"
-        #        - ssh $REMOTE_SSH "sudo systemctl restart nginx"
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 kill"
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; rm -rf dist"
         - scp -r ./dist "$REMOTE_SSH":"$REMOTE_DIR/dist"
