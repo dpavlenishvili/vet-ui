@@ -239,4 +239,37 @@ export class AuthService {
              */
             msg?: string;
         }>(`${this.baseUrl}/auth/reset/save`, data, {});
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name ResetPasswordByToken
+     * @summary Reset password by token for user
+     * @request POST:/auth/password/change
+     */
+    resetPasswordByToken = (data: {
+        /**
+         * Token
+         * @default "qwertyuiopasdfdsgfdhgfjhgkj..."
+         */
+        token?: string;
+        /**
+         * New Password
+         * @default "password"
+         */
+        password?: string;
+    }) =>
+        this.httpClient.post<{
+            /**
+             * Status
+             * @default "true"
+             */
+            status?: boolean;
+            /**
+             * Password updated
+             * @default "Password updated"
+             */
+            msg?: string;
+        }>(`${this.baseUrl}/auth/password/change`, data, {});
 }

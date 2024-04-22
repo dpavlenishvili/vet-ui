@@ -52,6 +52,19 @@ export interface CollectionItem {
     pin?: boolean;
 }
 
+export interface MediaItem {
+    /** @example "/uploads/1/sample-Document.pdf"," */
+    url?: string;
+    /** @example "Sample Document.pdf" */
+    name: string;
+    /** @example "application/pdf" */
+    mime_type?: string;
+    /** @example "1000" */
+    size?: number;
+    /** @example "1" */
+    order_column?: number;
+}
+
 export interface MenuItem {
     /** @example "1" */
     id: number;
@@ -90,6 +103,11 @@ export interface Page {
      * Relations of menus
      */
     menus?: MenuItem[];
+    /**
+     * Medias
+     * Relations of attachments
+     */
+    media?: MediaItem[];
     children?: Page[];
 }
 
@@ -204,7 +222,7 @@ export interface User {
      * @format datetime
      * @example "2024-01-27 17:50:45"
      */
-    createdAt?: string;
+    created_at?: string;
     /**
      * Deleted at
      * Deleted at
