@@ -35,4 +35,5 @@ Webserver Setup:
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 kill"
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; rm -rf dist"
         - scp -r ./dist "$REMOTE_SSH":"$REMOTE_DIR/dist"
+        - scp -r ./pm2.config.js "$REMOTE_SSH":"$REMOTE_DIR/pm2.config.js"
         - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 start pm2.config.js"
