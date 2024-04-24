@@ -76,24 +76,7 @@ export class AuthService {
      * @summary Refresh token
      * @request POST:/auth/refresh
      */
-    refreshToken = () =>
-        this.httpClient.post<{
-            /**
-             * Access token
-             * @default "qwertyuio..."
-             */
-            access_token?: string;
-            /**
-             * Token Type
-             * @default "bearer"
-             */
-            token_type?: string;
-            /**
-             * Token expiration time
-             * @default "3600"
-             */
-            expires_in?: number;
-        }>(`${this.baseUrl}/auth/refresh`, null, {});
+    refreshToken = () => this.httpClient.post<UserLoginResponseBody>(`${this.baseUrl}/auth/refresh`, null, {});
 
     /**
      * No description

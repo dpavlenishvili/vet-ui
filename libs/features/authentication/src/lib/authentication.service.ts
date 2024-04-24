@@ -2,7 +2,7 @@ import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize, map, Observable, of, tap, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { AuthService, User, UserLoginResponseBody, UserRes } from '@vet/backend';
+import { AuthService, User, UserLoginResponseBody } from '@vet/backend';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 interface TokenResponse extends UserLoginResponseBody {
