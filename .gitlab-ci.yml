@@ -19,7 +19,7 @@ Node SSR Build:
     before_script:
         - yarn install --immutable
     script:
-        - yarn build
+        - yarn build:ssr
 
 Webserver Setup:
     stage: webserver-setup
