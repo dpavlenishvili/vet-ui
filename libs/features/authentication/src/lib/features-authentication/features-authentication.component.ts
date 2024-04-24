@@ -6,13 +6,14 @@ import { CheckboxComponent } from '@vet/ui/checkbox';
 import { ButtonComponent } from '@vet/ui/button';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { AuthService, UserLogin2FaResponseBody } from '@vet/backend';
+import { UserLogin2FaResponseBody } from '@vet/backend';
 import { customPatternValidator } from '@vet/shared/forms';
 import { TimerComponent, VerificationComponent } from '@vet/ui/verification';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { ErrorCodesEnum } from '@vet/shared/interfaces';
 import { BaseModalService } from '@vet/ui/modals';
 import { MessageCardComponent } from '@vet/ui/card';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
     selector: 'lib-features-authentication',
@@ -54,7 +55,7 @@ export class FeaturesAuthenticationComponent {
         verificationNumber: this.verificationNumberControl,
     });
 
-    private authenticationService = inject(AuthService);
+    private authenticationService = inject(AuthenticationService);
     private baseModalService = inject(BaseModalService);
     showMobileVerification = signal<boolean>(false);
     twoStepAuthentication!: UserLogin2FaResponseBody;
@@ -70,7 +71,7 @@ export class FeaturesAuthenticationComponent {
                 code: this.verificationNumberControl.value || '',
             };
 
-            this.authenticationService.loginUser(credentials).subscribe({
+            this.authenticationService.login(credentials.pid, credentials.password).subscribe({
                 next: (res) => {
                     if ((res as UserLogin2FaResponseBody).phone_mask) {
                         this.showMobileVerification.set(true);
@@ -103,11 +104,11 @@ export class FeaturesAuthenticationComponent {
             this.showMobileVerification()
         ) {
             this.authenticationService
-                .validate2FaCode({
-                    pid: this.pidControl.value || '',
-                    password: this.passwordControl.value || '',
-                    code: this.verificationNumberControl.value || '',
-                })
+                .validate2FaCode(
+                    this.pidControl.value || '',
+                    this.passwordControl.value || '',
+                    this.verificationNumberControl.value || '',
+                )
                 .subscribe({
                     next: (res) => {
                         // TODO redirect to homepage if authentication is successful

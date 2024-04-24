@@ -13,12 +13,13 @@ import { environment } from '../environments/environment';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { initAppPages } from '@vet/dynamic-pages';
 import { acceptLanguageInterceptor } from './accept-language.interceptor';
+import { authenticationInterceptor } from '@vet/features/authentication';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
         provideRouter(appRoutes, withComponentInputBinding()),
-        provideHttpClient(withFetch(), withInterceptors([acceptLanguageInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([acceptLanguageInterceptor, authenticationInterceptor])),
         initializeTransolco(),
         provideAngularSvgIcon(),
         useBs5Theme(),

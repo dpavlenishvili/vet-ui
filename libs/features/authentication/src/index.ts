@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-const routes: Routes = [
+export const authenticationRoutes: Routes = [
     {
         path: '',
         loadComponent: () =>
@@ -17,4 +17,5 @@ const routes: Routes = [
     },
 ];
 
-export default routes;
+export * from './lib/authentication.service';
+export * from './lib/authentication.interceptor';

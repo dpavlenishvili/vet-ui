@@ -237,6 +237,12 @@ export interface LoginRequestBody {
     password: string;
 }
 
+export interface ValidateCodeRequestBody {
+    pid: string;
+    password: string;
+    code: string;
+}
+
 /**
  * collectionItemResource
  * Collection items resource
@@ -255,15 +261,15 @@ export interface PagesRes {
 }
 
 export interface UserLogin2FaResponseBody {
-    status?: boolean;
-    msg?: string;
-    phone_mask?: string;
+    status: boolean;
+    msg: string;
+    phone_mask: string;
 }
 
 export interface UserLoginResponseBody {
-    access_token?: string;
-    token_type?: string;
-    expires_in?: number;
+    access_token: string;
+    token_type: string;
+    expires_in: number;
 }
 
 /**

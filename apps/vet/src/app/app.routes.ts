@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './main-layout.component';
+import { authenticationRoutes } from '@vet/features/authentication';
 
 export const appRoutes: Routes = [
     {
@@ -18,7 +19,7 @@ export const appRoutes: Routes = [
             },
             {
                 path: 'authentication',
-                loadChildren: () => import('@vet/features/authentication'),
+                children: authenticationRoutes,
             },
             {
                 path: 'registration',

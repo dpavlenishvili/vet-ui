@@ -2,7 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { baseUrl } from '@vet/shared';
 
-import { LoginRequestBody, UserLogin2FaResponseBody, UserLoginResponseBody, UserRes } from './data-contracts';
+import {
+    LoginRequestBody,
+    UserLogin2FaResponseBody,
+    UserLoginResponseBody,
+    UserRes,
+    ValidateCodeRequestBody,
+} from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -27,40 +33,8 @@ export class AuthService {
      * @summary User authentication with 2fa code
      * @request POST:/auth/login/2fa
      */
-    validate2FaCode = (data: {
-        /**
-         * Personal ID
-         * @default "010000000000"
-         */
-        pid?: string;
-        /**
-         * Password
-         * @default "password"
-         */
-        password?: string;
-        /**
-         * 2fa code
-         * @default "1234"
-         */
-        code?: string;
-    }) =>
-        this.httpClient.post<{
-            /**
-             * Access token
-             * @default "qwertyuio..."
-             */
-            access_token?: string;
-            /**
-             * Token Type
-             * @default "bearer"
-             */
-            token_type?: string;
-            /**
-             * Token expiration time
-             * @default "3600"
-             */
-            expires_in?: number;
-        }>(`${this.baseUrl}/auth/login/2fa`, data, {});
+    validate2FaCode = (data: ValidateCodeRequestBody) =>
+        this.httpClient.post<UserLoginResponseBody>(`${this.baseUrl}/auth/login/2fa`, data, {});
 
     /**
      * No description
