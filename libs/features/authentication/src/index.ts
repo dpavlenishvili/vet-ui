@@ -16,6 +16,3 @@ export const authenticationRoutes: Routes = [
             ),
     },
 ];
-
-export * from './lib/authentication.service';
-export * from './lib/authentication.interceptor';

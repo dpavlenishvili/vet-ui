@@ -18,8 +18,35 @@
                         "allow": [],
                         "depConstraints": [
                             {
-                                "sourceTag": "*",
-                                "onlyDependOnLibsWithTags": ["*"]
+                                "sourceTag": "type:lib",
+                                "onlyDependOnLibsWithTags": ["type:lib"]
+                            },
+                            {
+                                "sourceTag": "type:app",
+                                "onlyDependOnLibsWithTags": ["type:lib"]
+                            },
+                            {
+                                "sourceTag": "scope:feature",
+                                "onlyDependOnLibsWithTags": [
+                                    "type:lib",
+                                    "scope:authorization",
+                                    "scope:authentication",
+                                    "scope:shared",
+                                    "scope:ui"
+                                ]
+                            },
+                            {
+                                "sourceTag": "scope:ui",
+                                "onlyDependOnLibsWithTags": [
+                                    "scope:theming",
+                                    "scope:shared",
+                                    "scope:authorization",
+                                    "scope:authentication"
+                                ]
+                            },
+                            {
+                                "sourceTag": "scope:theming",
+                                "onlyDependOnLibsWithTags": ["scope:shared"]
                             }
                         ]
                     }

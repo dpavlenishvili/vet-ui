@@ -3,7 +3,7 @@
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/src",
     "prefix": "v-ui",
-    "tags": [],
+    "tags": ["type:lib", "scope:ui"],
     "projectType": "library",
     "targets": {
         "test": {

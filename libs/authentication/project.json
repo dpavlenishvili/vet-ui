@@ -1,21 +1,20 @@
 {
-    "name": "theming",
+    "name": "authentication",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "libs/theming/src",
+    "sourceRoot": "libs/authentication/src",
     "prefix": "lib",
-    "tags": ["type:lib", "scope:theming"],
     "projectType": "library",
+    "tags": ["type:lib", "scope:authentication"],
     "targets": {
         "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "libs/theming/jest.config.ts"
+                "jestConfig": "libs/authentication/jest.config.ts"
             }
         },
         "lint": {
-            "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"]
+            "executor": "@nx/eslint:lint"
         }
     }
 }

@@ -32,7 +32,7 @@ export const authenticationInterceptor: HttpInterceptorFn = (
     const authenticationService = inject(AuthenticationService);
     return handleRequest(req, next, authenticationService).pipe(
         catchError((err: HttpErrorResponse) => {
-            if (err.status === 401) {
+            if (err.status === 401 || err.status === 403) {
                 if (!_refreshing$.getValue()) {
                     _refreshing$.next(true);
                     return authenticationService.refresh().pipe(

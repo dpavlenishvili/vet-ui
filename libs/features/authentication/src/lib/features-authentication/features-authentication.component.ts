@@ -13,7 +13,7 @@ import { SvgIconComponent } from 'angular-svg-icon';
 import { ErrorCodesEnum } from '@vet/shared/interfaces';
 import { BaseModalService } from '@vet/ui/modals';
 import { MessageCardComponent } from '@vet/ui/card';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '@vet/authentication';
 
 @Component({
     selector: 'lib-features-authentication',

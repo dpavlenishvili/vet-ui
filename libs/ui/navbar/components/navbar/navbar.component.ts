@@ -1,4 +1,4 @@
-import { Component, ContentChild, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ContentChild, inject, Input, ViewEncapsulation } from '@angular/core';
 import { NavbarLogoDirective } from '../../directives/navbar-logo.directive';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -6,6 +6,8 @@ import { NavbarMenuComponent } from '../../../navbar-menu/navbar-menu/navbar-men
 import { NavbarMenuItemType } from '../../../navbar-menu/navbar-menu-item/navbar-menu-item.type';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { ButtonComponent } from '../../../button/button/button.component';
+import { AuthenticatedDirective } from '@vet/authorization';
+import { AuthenticationService } from '@vet/authentication';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -25,20 +27,35 @@ import { ButtonComponent } from '../../../button/button/button.component';
                 <svg-icon class="v-ui-navbar__svg-icon" src="assets/icons/search.svg"></svg-icon>
                 <svg-icon class="v-ui-navbar__svg-icon" src="assets/icons/globe.svg"></svg-icon>
 
-                <a class="v-ui-navbar__link" routerLink="authentication">ავტორიზაცია</a>
-                <button v-ui-button color="secondary">
-                    <a class="v-ui-navbar__link v-ui-navbar__link-blue" routerLink="registration">რეგისტრაცია</a>
-                </button>
+                <ng-template vetAuthenticated [vetAuthenticatedElse]="notAuthenticated">
+                    {{ tokenUser$()?.name }}
+                </ng-template>
+                <ng-template #notAuthenticated>
+                    <a class="v-ui-navbar__link" routerLink="authentication">ავტორიზაცია</a>
+                    <button v-ui-button color="secondary">
+                        <a class="v-ui-navbar__link v-ui-navbar__link-blue" routerLink="registration">რეგისტრაცია</a>
+                    </button>
+                </ng-template>
             </div>
         </section>
     `,
     styleUrls: ['./navbar.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    imports: [NgTemplateOutlet, NgIf, RouterLink, NavbarMenuComponent, SvgIconComponent, ButtonComponent],
+    imports: [
+        NgTemplateOutlet,
+        NgIf,
+        RouterLink,
+        NavbarMenuComponent,
+        SvgIconComponent,
+        ButtonComponent,
+        AuthenticatedDirective,
+    ],
 })
 export class NavbarComponent {
     @ContentChild(NavbarLogoDirective)
     logo!: NavbarLogoDirective;
 
     @Input() pages!: NavbarMenuItemType[];
+
+    tokenUser$ = inject(AuthenticationService).tokenUser$;
 }

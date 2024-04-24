@@ -1,32 +1,29 @@
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize, map, Observable, of, tap, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { AuthService, User, UserLoginResponseBody } from '@vet/backend';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
-interface TokenResponse extends UserLoginResponseBody {
-    creation_timestamp: number;
-}
+const _storageKeyName = '__user_tokens__';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthenticationService {
     accessToken$: Signal<string | null>;
-    // refreshToken$: Signal<string | null>;
     tokenUser$: Signal<User | null>;
+    authenticated$ = computed(() => !!this.tokenUser$());
+
     protected _tokenUser$ = signal<User | null>(null);
 
-    private readonly _storageKeyName = '__user_tokens__';
-    private readonly localStorage = inject(LOCAL_STORAGE);
+    private readonly cookieService = inject(SsrCookieService);
 
-    private readonly _storedTokens = this.localStorage.getItem(this._storageKeyName);
-    private _tokens$ = signal(this._storedTokens ? (JSON.parse(this._storedTokens) as TokenResponse) : null);
+    private _accessToken$ = signal(this.cookieService.get(_storageKeyName) || null);
     private authService = inject(AuthService);
 
     constructor() {
-        this.accessToken$ = computed(() => this._tokens$()?.access_token || null);
+        this.accessToken$ = this._accessToken$.asReadonly();
         this.tokenUser$ = this._tokenUser$.asReadonly();
         toObservable(this.accessToken$)
             .pipe(
@@ -36,19 +33,10 @@ export class AuthenticationService {
                     }
                     return this.authService.getUser().pipe(map((userResponse) => userResponse.data as User));
                 }),
+                catchError(() => of(null)),
                 takeUntilDestroyed(),
             )
             .subscribe((r) => this._tokenUser$.set(r));
-    }
-
-    isAuthenticated(): boolean {
-        const tokens = this._tokens$();
-        if (!tokens) {
-            return false;
-        }
-
-        const expiresAt = new Date(tokens.creation_timestamp + tokens.expires_in * 1000);
-        return expiresAt > new Date();
     }
 
     login(pid: string, password: string) {
@@ -71,8 +59,8 @@ export class AuthenticationService {
         return this.authService.refreshToken().pipe(
             tap((data) => this.handleSuccessfulAuthorization(data)),
             catchError((err) => {
-                this.localStorage.removeItem(this._storageKeyName);
-                this._tokens$.set(null);
+                this.cookieService.delete(_storageKeyName);
+                this._accessToken$.set(null);
                 return throwError(() => err);
             }),
         );
@@ -81,17 +69,16 @@ export class AuthenticationService {
     logout(): Observable<void> {
         return this.authService.logoutUser().pipe(
             finalize(() => {
-                this.localStorage.removeItem(this._storageKeyName);
-                this._tokens$.set(null);
+                this.cookieService.delete(_storageKeyName);
+                this._accessToken$.set(null);
             }),
             map(() => undefined),
         );
     }
 
     private handleSuccessfulAuthorization(data: UserLoginResponseBody) {
-        const creationDate = Date.now();
-        const tokens = { ...data, creation_timestamp: creationDate };
-        this.localStorage.setItem(this._storageKeyName, JSON.stringify(tokens));
-        this._tokens$.set(tokens);
+        const expirationDate = new Date(data.expires_in * 1000 + Date.now());
+        this.cookieService.set(_storageKeyName, data.access_token, expirationDate);
+        this._accessToken$.set(data.access_token);
     }
 }

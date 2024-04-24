@@ -3,7 +3,7 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/features/registration/src",
     "prefix": "lib",
-    "tags": [],
+    "tags": ["type:lib", "scope:feature"],
     "projectType": "library",
     "targets": {
         "test": {

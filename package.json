@@ -5,7 +5,12 @@
         "serve": "npx nx run vet:serve",
         "build": "npx nx run vet:build",
         "prepare": "husky install",
-        "commit": "git-cz"
+        "commit": "git-cz",
+        "postinstall": "husky install",
+        "dev:ssr": "nx run vet:serve-ssr",
+        "serve:ssr": "node dist/apps/vet/server/main.js",
+        "build:ssr": "nx run vet:build && nx run vet:server",
+        "prerender": "nx run vet:prerender"
     },
     "packageManager": "yarn@3.6.4",
     "engines": {
@@ -37,6 +42,7 @@
         "jwt-decode": "^4.0.0",
         "keen-slider": "^6.8.6",
         "ngx-bootstrap": "^12.0.0",
+        "ngx-cookie-service-ssr": "^17.1.0",
         "prettier": "^3.0.3",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
@@ -108,7 +114,7 @@
         }
     },
     "lint-staged": {
-        "**/*{js,json,css,scss,md,ts,html}": [
+        "**/*{js,json,css,scss,ts,html}": [
             "prettier --write",
             "eslint"
         ]
