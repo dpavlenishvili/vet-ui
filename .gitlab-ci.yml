@@ -17,9 +17,9 @@ Node SSR Build:
     allow_failure: false
     image: node:18-alpine
     before_script:
-        - yarn install
+        - yarn install --immutable
     script:
-        - yarn build:ssr
+        - yarn build
 
 Webserver Setup:
     stage: webserver-setup

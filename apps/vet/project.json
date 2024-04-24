@@ -7,16 +7,20 @@
     "tags": [],
     "targets": {
         "build": {
-            "executor": "@angular-devkit/build-angular:browser",
+            "executor": "@angular-devkit/build-angular:application",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/apps/vet/browser",
-                "index": "apps/vet/src/index.html",
-                "main": "apps/vet/src/main.ts",
+                "outputPath": "{workspaceRoot}/dist/{projectRoot}",
+                "index": "{projectRoot}/src/index.html",
+                "browser": "{projectRoot}/src/main.ts",
+                "server": "{projectRoot}/src/main.server.ts",
+                "ssr": {
+                    "entry": "{projectRoot}/server.ts"
+                },
                 "polyfills": ["zone.js"],
-                "tsConfig": "apps/vet/tsconfig.app.json",
-                "assets": ["apps/vet/src/favicon.ico", "apps/vet/src/assets"],
-                "styles": ["apps/vet/src/styles.scss", "apps/vet/src/assets/icons.scss"],
+                "tsConfig": "{projectRoot}/tsconfig.app.json",
+                "assets": ["{projectRoot}/src/favicon.ico", "{projectRoot}/src/assets"],
+                "styles": ["{projectRoot}/src/styles.scss", "{projectRoot}/src/assets/icons.scss"],
                 "scripts": [],
                 "allowedCommonJsDependencies": ["lodash"]
             },
@@ -25,7 +29,6 @@
                     "outputHashing": "all"
                 },
                 "development": {
-                    "buildOptimizer": false,
                     "optimization": false,
                     "extractLicenses": false,
                     "sourceMap": true
@@ -48,12 +51,6 @@
             },
             "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-            "executor": "@angular-devkit/build-angular:extract-i18n",
-            "options": {
-                "buildTarget": "vet:build"
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"]
@@ -64,57 +61,6 @@
             "options": {
                 "jestConfig": "apps/vet/jest.config.ts"
             }
-        },
-        "server": {
-            "executor": "@angular-devkit/build-angular:server",
-            "options": {
-                "outputPath": "dist/apps/vet/server",
-                "main": "apps/vet/server.ts",
-                "tsConfig": "apps/vet/tsconfig.server.json"
-            },
-            "configurations": {
-                "production": {
-                    "outputHashing": "media"
-                },
-                "development": {
-                    "buildOptimizer": false,
-                    "optimization": false,
-                    "sourceMap": true,
-                    "extractLicenses": false
-                }
-            },
-            "defaultConfiguration": "production"
-        },
-        "serve-ssr": {
-            "executor": "@angular-devkit/build-angular:ssr-dev-server",
-            "configurations": {
-                "development": {
-                    "browserTarget": "vet:build:development",
-                    "serverTarget": "vet:server:development"
-                },
-                "production": {
-                    "browserTarget": "vet:build:production",
-                    "serverTarget": "vet:server:production"
-                }
-            },
-            "defaultConfiguration": "development"
-        },
-        "prerender": {
-            "executor": "@angular-devkit/build-angular:prerender",
-            "options": {
-                "routes": ["/"]
-            },
-            "configurations": {
-                "production": {
-                    "browserTarget": "vet:build:production",
-                    "serverTarget": "vet:server:production"
-                },
-                "development": {
-                    "browserTarget": "vet:build:development",
-                    "serverTarget": "vet:server:development"
-                }
-            },
-            "defaultConfiguration": "production"
         }
     }
 }

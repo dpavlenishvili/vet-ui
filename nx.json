@@ -60,5 +60,5 @@
         "appsDir": "apps",
         "libsDir": "libs"
     },
-    "defaultProject": "frontend"
+    "defaultProject": "vet"
 }

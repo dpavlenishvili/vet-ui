@@ -1,18 +1,11 @@
 {
     "private": true,
-    "name": "vet-workspace",
+    "name": "vet-ui",
     "scripts": {
         "serve": "npx nx run vet:serve",
         "build": "npx nx run vet:build",
         "prepare": "husky install",
-        "commit": "git-cz",
-        "postinstall": "husky install",
-        "dev:ssr": "nx run vet:serve-ssr",
-        "serve:ssr": "node dist/apps/vet/server/main.js",
-        "build:ssr": "nx build && nx run vet:server",
-        "prerender": "nx run vet:prerender",
-        "build-PermissionTool": "cd nova-components/PermissionTool && npm run dev",
-        "build-PermissionTool-prod": "cd nova-components/PermissionTool && npm run prod"
+        "commit": "git-cz"
     },
     "packageManager": "yarn@3.6.4",
     "engines": {
