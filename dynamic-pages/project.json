@@ -1,0 +1,13 @@
+{
+  "name": "dynamic-pages",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "dynamic-pages/src",
+  "prefix": "vet",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

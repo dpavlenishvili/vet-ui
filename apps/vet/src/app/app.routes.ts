@@ -1,35 +1,30 @@
 import { Routes } from '@angular/router';
+
+import { dynamicUrlPrefix } from '@vet/dynamic-pages';
+import { homeRoutes } from '@vet/home';
+
 import { MainLayoutComponent } from './main-layout.component';
-import { authenticationRoutes } from '@vet/features/authentication';
 
 export const appRoutes: Routes = [
-    {
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      {
+        // Temporary redirect to registration page
         path: '',
-        component: MainLayoutComponent,
-        children: [
-            {
-                // Temporary redirect to registration page
-                path: '',
-                redirectTo: 'home',
-                pathMatch: 'full',
-            },
-            {
-                path: 'home',
-                loadChildren: () => import('@vet/features/home'),
-            },
-            {
-                path: 'authentication',
-                children: authenticationRoutes,
-            },
-            {
-                path: 'registration',
-                loadChildren: () => import('@vet/features/registration'),
-            },
-        ],
-    },
-    {
-        path: 'pages',
-        component: MainLayoutComponent,
-        children: [],
-    },
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+      {
+        path: 'home',
+        children: homeRoutes,
+      },
+    ],
+  },
+  {
+    path: dynamicUrlPrefix,
+    component: MainLayoutComponent,
+    children: [],
+  },
 ];

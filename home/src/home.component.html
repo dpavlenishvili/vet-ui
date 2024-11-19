@@ -1,0 +1,55 @@
+<div class="k-d-flex k-justify-content-between k-gap-4">
+    <div class="stepper-container">
+        <kendo-stepper
+            [(currentStep)]="currentStep"
+            [steps]="steps"
+            [stepType]="'full'"
+            [orientation]="'vertical'"
+            (activate)="onStepChange($event)"
+        >
+        </kendo-stepper>
+    </div>
+    <div class="step-content-container">
+        <div [ngSwitch]="currentStep">
+            <ng-container *ngSwitchCase="0">
+                <form [formGroup]="chooseCitizenshipForm">
+                    <h1>აირჩიეთ მოქალაქეობა</h1>
+                    <label>
+                        <input type="radio" formControlName="citizenship" value="Georgian" />
+                        საქართველოს მოქალაქე
+                    </label>
+                    <label>
+                        <input type="radio" formControlName="citizenship" value="Foreigner" />
+                        სხვა
+                    </label>
+                    <div *ngIf="chooseCitizenshipForm.invalid && !chooseCitizenshipForm.untouched">
+                        გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა
+                    </div>
+                    <button (click)="goToNextStep()">გაგრძელება</button>
+                </form>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="1">
+                <form [formGroup]="checkIdentityForm">
+                    <h1>პიროვნების გადამოწმება</h1>
+                    <label>
+                        პირადი ნომერი
+                        <input formControlName="personalNumber" />
+                    </label>
+                    <label>
+                        გვარი
+                        <input formControlName="lastname" />
+                    </label>
+                    <button (click)="goToPreviousStep()">უკან დაბრუნება</button>
+                    <button (click)="goToNextStep()">გაგრძელება</button>
+                </form>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="2">
+                <h1>მობილურის დადასტურება</h1>
+                <!-- სხვა ველები -->
+                <button (click)="goToPreviousStep()">უკან დაბრუნება</button>
+            </ng-container>
+        </div>
+    </div>
+</div>

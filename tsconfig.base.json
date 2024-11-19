@@ -1,34 +1,26 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "rootDir": ".",
-        "sourceMap": true,
-        "declaration": false,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "importHelpers": true,
-        "target": "es2015",
-        "module": "esnext",
-        "lib": ["es2020", "dom"],
-        "skipLibCheck": true,
-        "skipDefaultLibCheck": true,
-        "baseUrl": ".",
-        "paths": {
-            "@vet/authentication": ["libs/authentication/src/index.ts"],
-            "@vet/authorization": ["libs/authorization/src/index.ts"],
-            "@vet/backend": ["libs/backend/src/index.ts"],
-            "@vet/dynamic-pages": ["libs/dynamic-pages/src/index.ts"],
-            "@vet/features/authentication": ["libs/features/authentication/src/index.ts"],
-            "@vet/features/home": ["libs/features/home/src/index.ts"],
-            "@vet/features/registration": ["libs/features/registration/src/index.ts"],
-            "@vet/shared": ["libs/shared/src/index.ts"],
-            "@vet/shared/constants": ["libs/shared/constants/src/index.ts"],
-            "@vet/shared/forms": ["libs/shared/forms/src/index.ts"],
-            "@vet/shared/interfaces": ["libs/shared/interfaces/src/index.ts"],
-            "@vet/theming": ["libs/theming/src/index.ts"],
-            "@vet/ui/*": ["libs/ui/*/index.ts"]
-        }
-    },
-    "exclude": ["node_modules", "tmp"]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@vet/auth": ["auth/src/index.ts"],
+      "@vet/backend": ["backend/src/index.ts"],
+      "@vet/dynamic-pages": ["dynamic-pages/src/index.ts"],
+      "@vet/home": ["home/src/index.ts"],
+      "@vet/shared": ["shared/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
 }
