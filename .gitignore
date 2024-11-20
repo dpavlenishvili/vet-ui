@@ -9,6 +9,6 @@ yarn-error.log
 .angular
 dist
 .php-cs-fixer.cache
-.nx/cache
+.nx/
 .yarn/cache
 .yarn/install-state.gz

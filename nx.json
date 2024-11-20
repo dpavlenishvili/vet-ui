@@ -1,76 +1,71 @@
 {
-  "affected": {
-    "defaultBase": "master"
-  },
-  "generators": {
-    "@nx/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "playwright"
+    "affected": {
+        "defaultBase": "master"
     },
-    "@nx/angular:library": {
-      "linter": "eslint",
-      "unitTestRunner": "none",
-      "style": "scss",
-      "skipTests": true,
-      "prefix": "vet",
-      "buildable": false,
-      "routing": "true",
-      "changeDetection": "OnPush",
-      "flat": "true",
-      "directory": "@"
-    },
-    "@nx/angular:component": {
-      "style": "scss",
-      "changeDetection": "OnPush",
-      "displayBlock": "true",
-      "prefix": "vet",
-      "skipTests": "true"
-    }
-  },
-  "targetDefaults": {
-    "build": {
-      "dependsOn": ["^generate"],
-      "cache": true
-    },
-    "@nx/jest:jest": {
-      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
-      "cache": true,
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
+    "generators": {
+        "@nx/angular:application": {
+            "style": "scss",
+            "linter": "eslint",
+            "unitTestRunner": "jest",
+            "e2eTestRunner": "playwright"
+        },
+        "@nx/angular:library": {
+            "linter": "eslint",
+            "unitTestRunner": "none",
+            "style": "scss",
+            "skipTests": true,
+            "prefix": "vet",
+            "buildable": false,
+            "routing": "true",
+            "changeDetection": "OnPush",
+            "flat": "true",
+            "directory": "@"
+        },
+        "@nx/angular:component": {
+            "style": "scss",
+            "changeDetection": "OnPush",
+            "displayBlock": "true",
+            "prefix": "vet",
+            "skipTests": "true"
         }
-      }
     },
-    "@nx/eslint:lint": {
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js"
-      ],
-      "cache": true
+    "targetDefaults": {
+        "build": {
+            "dependsOn": ["^generate"],
+            "cache": true
+        },
+        "@nx/jest:jest": {
+            "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
+            "cache": true,
+            "options": {
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
+        },
+        "@nx/eslint:lint": {
+            "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.js"
+            ],
+            "cache": true
+        },
+        "@nx/angular:ng-packagr-lite": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["default", "^default"]
+        },
+        "@nx/js:tsc": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["default", "^default"]
+        }
     },
-    "@nx/angular:ng-packagr-lite": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
-    },
-    "@nx/js:tsc": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
-    }
-  },
-  "workspaceLayout": {
-    "projectNameAndRootFormat": "derived",
-    "appsDir": "apps",
-    "libsDir": "libs"
-  },
-  "defaultProject": "vet"
+    "defaultProject": "vet"
 }
