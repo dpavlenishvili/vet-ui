@@ -10,6 +10,7 @@
         </kendo-stepper>
     </div>
     <div class="step-content-container">
+        {{ currentStep }}
         <div [ngSwitch]="currentStep">
             <!-- Step 1 -->
             <ng-container *ngSwitchCase="0">
@@ -55,6 +56,13 @@
                     <h1>პიროვნების გადამოწმება (უცხოელი)</h1>
                     <!-- Similar structure for foreigner -->
                 </form>
+            </ng-container>
+
+            <!-- Step 3 -->
+            <ng-container *ngSwitchCase="2">
+                <vet-registration-phone
+
+                ></vet-registration-phone>
             </ng-container>
         </div>
     </div>
