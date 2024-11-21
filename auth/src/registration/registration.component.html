@@ -1,66 +1,51 @@
 <div class="k-d-flex k-justify-content-between k-gap-4">
     <div class="stepper-container">
         <kendo-stepper
-            [(currentStep)]="currentStep"
+            [(currentStep)]="currentStepIndex"
             [steps]="steps"
             [stepType]="'full'"
             [orientation]="'vertical'"
             (activate)="onStepChange($event)"
         >
+            <ng-template kendoStepperLabelTemplate let-step>
+                {{ step.label | transloco }}
+            </ng-template>
         </kendo-stepper>
     </div>
     <div class="step-content-container">
-        {{ currentStep }}
-        <div [ngSwitch]="currentStep">
-            <!-- Step 1 -->
-            <ng-container *ngSwitchCase="0">
-                <vet-registration-citizenship
-                    [formGroup]="chooseCitizenshipForm"
-                    (next)="goToNextStep()"
-                ></vet-registration-citizenship>
-            </ng-container>
+        <div class="k-display-flex k-gap-10 k-flex-column">
+            @if (steps[currentStepIndex]; as currentStep) {
+                <h2>{{ currentStep.title | transloco }}</h2>
 
-            <!-- Step 2 -->
-            <ng-container *ngSwitchCase="1">
-                <!-- <form
-                    [formGroup]="checkIdentityForm"
-                    *ngIf="citizenshipTypeEnum.Georgian === chooseCitizenshipForm.get('citizenship')?.value"
-                >
-                    <h1>პიროვნების გადამოწმება</h1>
-                    <label>
-                        პირადი ნომერი:
-                        <input formControlName="personalNumber" />
-                    </label>
-                    <label>
-                        გვარი:
-                        <input formControlName="lastname" />
-                    </label>
-                    <button (click)="goToPreviousStep()">უკან დაბრუნება</button>
-                    <button (click)="goToNextStep()">გაგრძელება</button>
-                </form>
-                <form
-                    [formGroup]="checkIdentityForeignerForm"
-                    *ngIf="citizenshipTypeEnum.Foreigner === chooseCitizenshipForm.get('citizenship')?.value"
-                >
-                    <h1>პიროვნების გადამოწმება (უცხოელი)</h1>
-                    Similar structure for foreigner
-                </form> -->
-                <vet-registration-identity
-                    [citizenship]="chooseCitizenshipForm.get('citizenship')?.getRawValue()"
-                    [formGroup]="
-                        chooseCitizenshipForm.get('citizenship')?.getRawValue() === citizenshipTypeEnum.Georgian
-                            ? checkIdentityForm
-                            : checkIdentityForeignerForm
-                    "
-                ></vet-registration-identity>
-            </ng-container>
+                <div [ngSwitch]="currentStepIndex">
+                    <ng-container *ngSwitchCase="0">
+                        <vet-registration-citizenship
+                            [form]="formGroup.controls.chooseCitizenship"
+                            (nextClick)="onNextClick()"
+                        ></vet-registration-citizenship>
+                    </ng-container>
 
-            <!-- Step 3 -->
-            <ng-container *ngSwitchCase="2">
-                <vet-registration-phone
+                    <ng-container *ngSwitchCase="1">
+                        @switch (citizenship) {
+                            @case (CitizenshipType.Georgian) {
+                                <vet-registration-identity-citizen
+                                    [form]="formGroup.controls.checkIdentity"
+                                    (previousClick)="onPreviousClick()"
+                                    (nextClick)="onNextClick()"
+                                ></vet-registration-identity-citizen>
+                            }
+                        }
+                    </ng-container>
 
-                ></vet-registration-phone>
-            </ng-container>
+                    <ng-container *ngSwitchCase="2">
+                        <vet-registration-phone
+                            [form]="formGroup.controls.phone"
+                            (previousClick)="onPreviousClick()"
+                            (nextClick)="onNextClick()"
+                        ></vet-registration-phone>
+                    </ng-container>
+                </div>
+            }
         </div>
     </div>
 </div>

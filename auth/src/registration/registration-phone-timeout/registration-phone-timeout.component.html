@@ -1,0 +1,11 @@
+<div class="k-display-flex k-justify-content-end k-gap-4">
+    <div>
+        {{ countdown$ | async }}
+    </div>
+
+    <div>
+        <a [routerLink]="[]" (click)="onResendClick()">
+            {{ 'auth.resend_code' | transloco }}
+        </a>
+    </div>
+</div>

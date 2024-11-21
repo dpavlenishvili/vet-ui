@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { baseApiUrl } from 'shared/src';
+import { useBaseApiUrl } from 'shared/src';
 
 import {
     LoginRequestBody,
@@ -14,7 +14,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private httpClient = inject(HttpClient);
-    private baseUrl = baseApiUrl();
+    private baseUrl = useBaseApiUrl();
     /**
      * No description
      *

@@ -1,1 +1,50 @@
-<p>registration-phone works!</p>
+@if (form(); as formGroup) {
+    <form [formGroup]="formGroup">
+        <div class="k-display-flex k-flex-column k-gap-10">
+            <div class="k-display-flex k-gap-10">
+                <div class="k-flex-1">
+                    <kendo-label [text]="'auth.phone_number' | transloco">
+                        <kendo-textbox
+                            [clearButton]="true"
+                            [size]="'large'"
+                            [rounded]="'large'"
+                            formControlName="phoneNumber"
+                            [style.marginTop.rem]="1"
+                        ></kendo-textbox>
+                    </kendo-label>
+                </div>
+
+                <div class="k-flex-1">
+                    @if (phase() !== 'initial' && formGroup.controls.phoneNumber.valid) {
+                        <vet-registration-phone-verification
+                            formControlName="verificationNumber"
+                            (reload)="onSend()"
+                        ></vet-registration-phone-verification>
+                    }
+                </div>
+            </div>
+
+            <div class="k-display-flex k-justify-content-between">
+                <button
+                    kendoButton
+                    themeColor="secondary"
+                    look="default"
+                    (click)="onPreviousClick()"
+                >
+                    {{ 'auth.back' | transloco }}
+                </button>
+
+                <button
+                    kendoButton
+                    themeColor="primary"
+                    [disabled]="formGroup.controls.phoneNumber.invalid"
+                    (click)="onNextClick()"
+                >
+                    {{ phase() === 'initial'
+                        ? ('auth.check' | transloco)
+                        : ('auth.next' | transloco) }}
+                </button>
+            </div>
+        </div>
+    </form>
+}

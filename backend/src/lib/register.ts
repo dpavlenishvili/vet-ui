@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { baseApiUrl } from 'shared/src';
+import { useBaseApiUrl } from 'shared/src';
 
 import { UserReq, UserRes } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class RegisterService {
     private httpClient = inject(HttpClient);
-    private baseUrl = baseApiUrl();
+    private baseUrl = useBaseApiUrl();
     /**
      * @description Validate person by Personal Id and Last name
      *

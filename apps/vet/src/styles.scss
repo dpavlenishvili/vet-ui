@@ -55,27 +55,12 @@ a {
     }
 }
 
-.vet-custom-button {
-    font-size: 0.9rem;
-    padding: 1rem 1rem 1rem 1.1rem;
-    border-radius: 0.625rem;
-    border: none;
-    color: white;
-    cursor: pointer;
-}
-
-.vet-custom-button-primary {
-    background-color: #4caee8;
-}
-
-.vet-custom-button-primary:hover {
-    background-color: #2ba2e7;
-}
-
-.vet-custom-button-secondary {
-    background-color: #e0e0e0;
-}
-
-.vet-custom-button-secondary:hover {
-    background-color: #cbc9c9;
+.k-button {
+    font-size: 0.9rem !important;
+    padding: 1rem 1rem 1rem 1.1rem !important;
+    border-radius: 0.625rem !important;
+    font-weight: normal !important;
+    border: none !important;
+    color: white !important;
+    cursor: pointer !important;
 }

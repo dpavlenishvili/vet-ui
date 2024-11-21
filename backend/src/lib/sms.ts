@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { baseApiUrl } from 'shared/src';
+import { useBaseApiUrl } from 'shared/src';
 
 @Injectable({ providedIn: 'root' })
 export class SmsService {
     private httpClient = inject(HttpClient);
-    private baseUrl = baseApiUrl();
+    private baseUrl = useBaseApiUrl();
     /**
      * @description Send one time code to validate phone number
      *

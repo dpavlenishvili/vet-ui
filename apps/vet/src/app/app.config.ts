@@ -6,24 +6,44 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 
 import { dynamicPagesInitializer } from '@vet/dynamic-pages';
-import { authenticationInterceptor, provideBaseApiUrl, provideBaseUrl } from '@vet/shared';
+import {
+    authenticationInterceptor,
+    provideBaseApiUrl,
+    provideBaseUrl, provideDefaultDateFallback,
+    provideDefaultDateFormat, provideDefaultDateTimeFallback,
+    provideDefaultDateTimeFormat,
+    provideDefaultDisplayDateFormat,
+    provideDefaultDisplayDateTimeFormat,
+    provideEnvironment, provideKendoDatePickerFormat, provideKendoDateTimePickerFormat
+} from '@vet/shared';
 
 import { environment } from '../environments/environment';
 
 import { acceptLanguageInterceptor } from './accept-language.interceptor';
 import { appRoutes } from './app.routes';
 import { initializeTransolco } from './initialize-transloco';
+import { provideAuthEnvironment } from '@vet/auth';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
         provideRouter(appRoutes, withComponentInputBinding()),
         provideHttpClient(withFetch(), withInterceptors([acceptLanguageInterceptor, authenticationInterceptor])),
+        provideEnvironment(environment),
         initializeTransolco(),
         provideAngularSvgIcon(),
         provideClientHydration(),
         provideBaseApiUrl(environment.apiBaseUrl),
         provideBaseUrl(environment.baseUrl),
+        provideDefaultDateFormat(environment.defaultDateFormat),
+        provideDefaultDateTimeFormat(environment.defaultDateTimeFormat),
+        provideDefaultDisplayDateFormat(environment.defaultDisplayDateFormat),
+        provideDefaultDisplayDateTimeFormat(environment.defaultDisplayDateTimeFormat),
+        provideDefaultDateFallback(environment.defaultDateFallback),
+        provideDefaultDateTimeFallback(environment.defaultDateTimeFallback),
+        provideKendoDatePickerFormat(environment.kendoDatePickerFormat),
+        provideKendoDateTimePickerFormat(environment.kendoDateTimePickerFormat),
+        provideAuthEnvironment(environment.modules.auth),
         dynamicPagesInitializer(),
     ],
 };
