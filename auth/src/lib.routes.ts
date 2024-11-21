@@ -1,5 +1,13 @@
 import { Route } from '@angular/router';
 
-import { AuthComponent } from './auth.component';
-
-export const authRoutes: Route[] = [{ path: '', component: AuthComponent }];
+export const authRoutes: Route[] = [
+    {
+        path: 'authorization',
+        loadComponent: () => import('./authorization/authorization.component').then((m) => m.AuthorizationComponent),
+    },
+    {
+        path: 'registration',
+        loadComponent: () => import('./registration/registration.component').then((m) => m.RegistrationComponent),
+    },
+    { path: '**', redirectTo: 'authorization' },
+];

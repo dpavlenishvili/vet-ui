@@ -1,27 +1,27 @@
 {
-  "name": "backend",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "backend/src",
-  "prefix": "lib",
-  "tags": [],
-  "projectType": "library",
-  "targets": {
-    "generate": {
-      "executor": "@vet/backend:sync",
-      "options": {
-        "openApiFilePath": "https://dev-api-vet.emis.ge/docs/api-docs.json",
-        "outputDir": "{projectRoot}/src/lib"
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "backend/jest.config.ts"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
+    "name": "backend",
+    "$schema": "../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "backend/src",
+    "prefix": "lib",
+    "tags": [],
+    "projectType": "library",
+    "targets": {
+        "generate": {
+            "executor": "@vet/backend:sync",
+            "options": {
+                "openApiFilePath": "https://dev-api-vet.emis.ge/docs/api-docs.json",
+                "outputDir": "{projectRoot}/src/lib"
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "backend/jest.config.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
     }
-  }
 }

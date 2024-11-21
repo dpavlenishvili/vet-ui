@@ -20,7 +20,7 @@
         }
     ],
     "extends": "../tsconfig.base.json",
-  "angularCompilerOptions": {
+    "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,

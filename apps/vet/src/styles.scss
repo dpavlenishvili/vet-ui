@@ -1,19 +1,62 @@
 @import '@progress/kendo-theme-fluent/dist/all';
+@import 'helvetica-neue-font';
 
+// Theme Variables
+:root {
+    --main-bg: #f5f7f8;
+    --secondary-color: #4682b4;
+    --text-color: grey;
+    --link-color: #4682b4;
+    --font-size: 16px;
+}
+
+.theme-v1 {
+    --main-bg: #ffff54;
+    --secondary-color: #000000;
+    --text-color: #ffffff;
+    --link-color: #000000;
+}
+
+.theme-v2 {
+    --main-bg: #000000;
+    --secondary-color: #ffff54;
+    --text-color: #ffffff;
+    --link-color: #ffff54;
+}
+
+.theme-v3 {
+    --main-bg: #ffffff;
+    --secondary-color: #000000;
+    --text-color: #000000;
+    --link-color: #0000f5;
+}
+
+// Base Styling
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    font-family: 'HelveticaNeue', Arial, sans-serif;
 }
 
 html,
 body {
     min-height: 100%;
     height: 100%;
-    background-color: #F5F7F8;
+    background-color: var(--main-bg);
+    color: var(--text-color);
+    font-size: var(--font-size);
 }
 
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
 
+// Kendo Stepper Customizations
 .k-stepper .k-step-label .k-step-text {
     max-width: 100%;
 }

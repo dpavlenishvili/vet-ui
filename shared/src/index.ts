@@ -5,4 +5,8 @@ export { passwordPatternValidator } from './validators/password-pattern-validato
 export { personalNumberValidator } from './validators/personal-number-validator';
 export * from './shared.injectors';
 export * from './shared.tokens';
+export * from './ui/navbar/navbar-logo.directive';
+export * from './ui/navbar/navbar.component';
 export * from './pipes/uploaded-file-uri.pipe';
+export * from './authentication.interceptor';
+export * from './theme.service';

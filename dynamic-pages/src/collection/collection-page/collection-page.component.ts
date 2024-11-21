@@ -8,35 +8,33 @@ import { CollectionItemComponent } from '../collection-item/collection-item.comp
 import { CollectionItem, Page, PagesService } from '@vet/backend';
 
 @Component({
-  selector: 'vet-collection-page',
-  standalone: true,
-  imports: [CommonModule, CollectionItemComponent],
-  templateUrl: './collection-page.component.html',
-  styleUrl: './collection-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'vet-collection-page',
+    standalone: true,
+    imports: [CommonModule, CollectionItemComponent],
+    templateUrl: './collection-page.component.html',
+    styleUrl: './collection-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionPageComponent {
-  page = input.required<Page>();
-  collectionItems$: Observable<CollectionItem[]>;
-  private pagesService = inject(PagesService);
+    page = input.required<Page>();
+    collectionItems$: Observable<CollectionItem[]>;
+    private pagesService = inject(PagesService);
 
-  constructor(meta: Meta) {
-    effect(() => {
-      meta.updateTag({
-        name: 'og-title',
-        content: this.page().meta_title!,
-      });
-      meta.updateTag({
-        name: 'og-description',
-        content: this.page().meta_description!,
-      });
-    });
-    this.collectionItems$ = toObservable(this.page).pipe(
-      switchMap((page) =>
-        this.pagesService.collectionsItems(page.collection_id!)
-      ),
-      map((response) => response.data!),
-      first()
-    );
-  }
+    constructor(meta: Meta) {
+        effect(() => {
+            meta.updateTag({
+                name: 'og-title',
+                content: this.page().meta_title!,
+            });
+            meta.updateTag({
+                name: 'og-description',
+                content: this.page().meta_description!,
+            });
+        });
+        this.collectionItems$ = toObservable(this.page).pipe(
+            switchMap((page) => this.pagesService.collectionsItems(page.collection_id!)),
+            map((response) => response.data!),
+            first(),
+        );
+    }
 }

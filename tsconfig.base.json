@@ -1,26 +1,26 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@vet/auth": ["auth/src/index.ts"],
-      "@vet/backend": ["backend/src/index.ts"],
-      "@vet/dynamic-pages": ["dynamic-pages/src/index.ts"],
-      "@vet/home": ["home/src/index.ts"],
-      "@vet/shared": ["shared/src/index.ts"]
-    }
-  },
-  "exclude": ["node_modules", "tmp"]
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "target": "es2015",
+        "module": "esnext",
+        "lib": ["es2020", "dom"],
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@vet/auth": ["auth/src/index.ts"],
+            "@vet/backend": ["backend/src/index.ts"],
+            "@vet/dynamic-pages": ["dynamic-pages/src/index.ts"],
+            "@vet/home": ["home/src/index.ts"],
+            "@vet/shared": ["shared/src/index.ts"]
+        }
+    },
+    "exclude": ["node_modules", "tmp"]
 }
