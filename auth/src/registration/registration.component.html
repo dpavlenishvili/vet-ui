@@ -10,6 +10,7 @@
         </kendo-stepper>
     </div>
     <div class="step-content-container">
+        {{ currentStep }}
         <div [ngSwitch]="currentStep">
             <!-- Step 1 -->
             <ng-container *ngSwitchCase="0">
@@ -52,6 +53,13 @@
                             : checkIdentityForeignerForm
                     "
                 ></vet-registration-identity>
+            </ng-container>
+
+            <!-- Step 3 -->
+            <ng-container *ngSwitchCase="2">
+                <vet-registration-phone
+
+                ></vet-registration-phone>
             </ng-container>
         </div>
     </div>

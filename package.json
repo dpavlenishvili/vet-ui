@@ -75,7 +75,7 @@
         "@types/lodash": "^4.14.202",
         "angular-svg-icon": "^18.0.1",
         "express": "^4.19.2",
-        "jwt-decode": "^4.0.0",
+        "jwt-decode":  "^4.0.0",
         "keen-slider": "^6.8.6",
         "ngx-cookie-service-ssr": "^18.0.0",
         "prettier": "^3.3.3",

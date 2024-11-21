@@ -8,6 +8,7 @@ import { KENDO_LABELS } from '@progress/kendo-angular-label';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
 import { RegistrationCitizenshipComponent } from './registration-citizenship/registration-citizenship.component';
 import { RegistrationIdentityComponent } from './registration-identity/registration-identity.component';
+import { RegistrationPhoneComponent } from './registration-phone/registration-phone.component';
 
 enum CitizenshipType {
     Georgian = '1',
@@ -28,6 +29,7 @@ enum CitizenshipType {
         KENDO_LABELS,
         RegistrationCitizenshipComponent,
         RegistrationIdentityComponent,
+        RegistrationPhoneComponent
     ],
     templateUrl: './registration.component.html',
     styleUrl: './registration.component.scss',
@@ -35,27 +37,44 @@ enum CitizenshipType {
 })
 export class RegistrationComponent {
     currentStep = 0;
-    registrationForm: FormGroup;
+    registrationForm = this.createFormGroup();
     steps = [
-        { label: 'მოქალაქეობის არჩევა' },
-        { label: 'პიროვნების გადამოწმება' },
-        { label: 'მობილურის დადასტურება' },
-        { label: 'პაროლის შექმნა' },
-        { label: 'წესები და პირობები' },
+        {
+            label: 'მოქალაქეობის არჩევა',
+            form: () => this.registrationForm.get('chooseCitizenship'),
+        },
+        {
+            label: 'პიროვნების გადამოწმება',
+            form: () => this.citizenshipTypeEnum.Georgian === this.chooseCitizenshipForm.value.citizenship
+                ? this.registrationForm.get('checkIdentity')
+                : this.registrationForm.get('checkIdentityForeigner'),
+        },
+        {
+            label: 'მობილურის დადასტურება',
+            form: () => this.registrationForm.get('mobile'),
+        },
+        {
+            label: 'პაროლის შექმნა',
+            form: () => this.registrationForm.get('passwords'),
+        },
+        {
+            label: 'წესები და პირობები',
+            form: () => this.registrationForm.get('termsAndConditions'),
+        }
     ];
     citizenshipTypeEnum = CitizenshipType;
 
-    constructor() {
-        this.registrationForm = new FormGroup({
+    createFormGroup() {
+        return new FormGroup({
             chooseCitizenship: new FormGroup({
-                citizenship: new FormControl(null, Validators.required),
+                citizenship: new FormControl(null, Validators.required)
             }),
             checkIdentity: new FormGroup({
                 personalNumber: new FormControl('', Validators.required),
                 lastname: new FormControl('', Validators.required),
                 firstname: new FormControl({ value: '', disabled: true }, Validators.required),
                 dateOfBirth: new FormControl({ value: null, disabled: true }, Validators.required),
-                gender: new FormControl('', Validators.required),
+                gender: new FormControl('', Validators.required)
             }),
             checkIdentityForeigner: new FormGroup({
                 citizenship: new FormControl('', Validators.required),
@@ -63,19 +82,19 @@ export class RegistrationComponent {
                 personalNumber: new FormControl('', Validators.required),
                 firstname: new FormControl('', Validators.required),
                 dateOfBirth: new FormControl(null, Validators.required),
-                gender: new FormControl('', Validators.required),
+                gender: new FormControl('', Validators.required)
             }),
             mobile: new FormGroup({
                 mobileNumber: new FormControl('', Validators.required),
-                verificationNumber: new FormControl('', Validators.required),
+                verificationNumber: new FormControl('', Validators.required)
             }),
             passwords: new FormGroup({
                 password: new FormControl('', Validators.required),
-                confirmPassword: new FormControl('', Validators.required),
+                confirmPassword: new FormControl('', Validators.required)
             }),
             termsAndConditions: new FormGroup({
-                accepted: new FormControl(false, Validators.requiredTrue),
-            }),
+                accepted: new FormControl(false, Validators.requiredTrue)
+            })
         });
     }
 
@@ -113,25 +132,11 @@ export class RegistrationComponent {
         this.currentStep--;
     }
 
-    isStepValid(step: number): boolean {
-        switch (step) {
-            case 0:
-                return this.chooseCitizenshipForm.valid;
-            case 1:
-                if (this.citizenshipTypeEnum.Georgian === this.chooseCitizenshipForm.value.citizenship) {
-                    return this.checkIdentityForm.valid;
-                } else {
-                    return this.checkIdentityForeignerForm.valid;
-                }
-            case 2:
-                return this.mobileForm.valid;
-            case 3:
-                return this.passwordsForm.valid;
-            case 4:
-                return this.termsAndConditionsForm.valid;
-            default:
-                return false;
-        }
+    isStepValid(stepIndex: number): boolean {
+        const step = this.steps[stepIndex];
+        const previousStep = this.steps[stepIndex - 1];
+
+        return step && (!previousStep || !!previousStep.form()?.valid);
     }
 
     onStepChange(event: StepperActivateEvent) {
