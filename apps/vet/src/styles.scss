@@ -1,5 +1,4 @@
-@import '@progress/kendo-theme-fluent/dist/all';
-@import 'helvetica-neue-font';
+@import 'styles/index';
 
 // Theme Variables
 :root {
@@ -54,17 +53,4 @@ a {
     &:hover {
         text-decoration: underline;
     }
-}
-
-// Kendo Stepper Customizations
-.k-stepper .k-step-label .k-step-text {
-    max-width: 100%;
-}
-
-.k-step-list-vertical .k-step {
-    min-height: auto;
-}
-
-.k-stepper .k-step-list {
-    row-gap: 3rem;
 }

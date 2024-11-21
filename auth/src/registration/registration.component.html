@@ -11,15 +11,16 @@
     </div>
     <div class="step-content-container">
         <div [ngSwitch]="currentStep">
+            <!-- Step 1 -->
             <ng-container *ngSwitchCase="0">
                 <form [formGroup]="chooseCitizenshipForm">
                     <h1>აირჩიეთ მოქალაქეობა</h1>
                     <label>
-                        <input type="radio" formControlName="citizenship" value="Georgian" />
+                        <input type="radio" formControlName="citizenship" [value]="citizenshipTypeEnum.Georgian" />
                         საქართველოს მოქალაქე
                     </label>
                     <label>
-                        <input type="radio" formControlName="citizenship" value="Foreigner" />
+                        <input type="radio" formControlName="citizenship" [value]="citizenshipTypeEnum.Foreigner" />
                         სხვა
                     </label>
                     <div *ngIf="chooseCitizenshipForm.invalid && !chooseCitizenshipForm.untouched">
@@ -29,26 +30,31 @@
                 </form>
             </ng-container>
 
+            <!-- Step 2 -->
             <ng-container *ngSwitchCase="1">
-                <form [formGroup]="checkIdentityForm">
+                <form
+                    [formGroup]="checkIdentityForm"
+                    *ngIf="citizenshipTypeEnum.Georgian === chooseCitizenshipForm.get('citizenship')?.value"
+                >
                     <h1>პიროვნების გადამოწმება</h1>
                     <label>
-                        პირადი ნომერი
+                        პირადი ნომერი:
                         <input formControlName="personalNumber" />
                     </label>
                     <label>
-                        გვარი
+                        გვარი:
                         <input formControlName="lastname" />
                     </label>
                     <button (click)="goToPreviousStep()">უკან დაბრუნება</button>
                     <button (click)="goToNextStep()">გაგრძელება</button>
                 </form>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="2">
-                <h1>მობილურის დადასტურება</h1>
-                <!-- სხვა ველები -->
-                <button (click)="goToPreviousStep()">უკან დაბრუნება</button>
+                <form
+                    [formGroup]="checkIdentityForeignerForm"
+                    *ngIf="citizenshipTypeEnum.Foreigner === chooseCitizenshipForm.get('citizenship')?.value"
+                >
+                    <h1>პიროვნების გადამოწმება (უცხოელი)</h1>
+                    <!-- Similar structure for foreigner -->
+                </form>
             </ng-container>
         </div>
     </div>
