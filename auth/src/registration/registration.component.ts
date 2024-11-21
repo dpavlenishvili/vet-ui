@@ -6,6 +6,8 @@ import { KENDO_BUTTONS } from '@progress/kendo-angular-buttons';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { KENDO_LABELS } from '@progress/kendo-angular-label';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
+import { RegistrationCitizenshipComponent } from './registration-citizenship/registration-citizenship.component';
+import { RegistrationIdentityComponent } from './registration-identity/registration-identity.component';
 
 enum CitizenshipType {
     Georgian = '1',
@@ -24,6 +26,8 @@ enum CitizenshipType {
         NgSwitchCase,
         KENDO_INPUTS,
         KENDO_LABELS,
+        RegistrationCitizenshipComponent,
+        RegistrationIdentityComponent,
     ],
     templateUrl: './registration.component.html',
     styleUrl: './registration.component.scss',

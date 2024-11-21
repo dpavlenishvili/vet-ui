@@ -1,0 +1,24 @@
+@if (formGroup(); as form) {
+    <div class="k-display-flex k-gap-10 k-flex-column">
+        <h2>{{ 'auth.choose_citizenship' | transloco }}</h2>
+        <div>
+            <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
+                <div class="k-display-flex k-gap-10">
+                    <div class="k-display-flex k-align-items-center k-gap-3">
+                        <kendo-radiobutton #georgian formControlName="citizenship" value="1"></kendo-radiobutton>
+                        <kendo-label for="georgian" [text]="'auth.georgian_citizen' | transloco"></kendo-label>
+                    </div>
+
+                    <div class="k-display-flex k-align-items-center k-gap-3">
+                        <kendo-radiobutton #foreigner formControlName="citizenship" value="2"></kendo-radiobutton>
+                        <kendo-label for="foreigner" [text]="'auth.other_citizen' | transloco"></kendo-label>
+                    </div>
+                </div>
+
+                <button (click)="handleNext()" class="k-align-self-end vet-custom-button vet-custom-button-primary">
+                    {{ 'auth.next' | transloco }}
+                </button>
+            </form>
+        </div>
+    </div>
+}

@@ -13,26 +13,15 @@
         <div [ngSwitch]="currentStep">
             <!-- Step 1 -->
             <ng-container *ngSwitchCase="0">
-                <form [formGroup]="chooseCitizenshipForm">
-                    <h1>აირჩიეთ მოქალაქეობა</h1>
-                    <label>
-                        <input type="radio" formControlName="citizenship" [value]="citizenshipTypeEnum.Georgian" />
-                        საქართველოს მოქალაქე
-                    </label>
-                    <label>
-                        <input type="radio" formControlName="citizenship" [value]="citizenshipTypeEnum.Foreigner" />
-                        სხვა
-                    </label>
-                    <div *ngIf="chooseCitizenshipForm.invalid && !chooseCitizenshipForm.untouched">
-                        გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა
-                    </div>
-                    <button (click)="goToNextStep()">გაგრძელება</button>
-                </form>
+                <vet-registration-citizenship
+                    [formGroup]="chooseCitizenshipForm"
+                    (next)="goToNextStep()"
+                ></vet-registration-citizenship>
             </ng-container>
 
             <!-- Step 2 -->
             <ng-container *ngSwitchCase="1">
-                <form
+                <!-- <form
                     [formGroup]="checkIdentityForm"
                     *ngIf="citizenshipTypeEnum.Georgian === chooseCitizenshipForm.get('citizenship')?.value"
                 >
@@ -53,8 +42,16 @@
                     *ngIf="citizenshipTypeEnum.Foreigner === chooseCitizenshipForm.get('citizenship')?.value"
                 >
                     <h1>პიროვნების გადამოწმება (უცხოელი)</h1>
-                    <!-- Similar structure for foreigner -->
-                </form>
+                    Similar structure for foreigner
+                </form> -->
+                <vet-registration-identity
+                    [citizenship]="chooseCitizenshipForm.get('citizenship')?.getRawValue()"
+                    [formGroup]="
+                        chooseCitizenshipForm.get('citizenship')?.getRawValue() === citizenshipTypeEnum.Georgian
+                            ? checkIdentityForm
+                            : checkIdentityForeignerForm
+                    "
+                ></vet-registration-identity>
             </ng-container>
         </div>
     </div>
