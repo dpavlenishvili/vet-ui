@@ -38,7 +38,7 @@ enum CitizenshipType {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationComponent {
-    currentStepIndex = 2;
+    currentStepIndex = 0;
     formGroup = this.createFormGroup();
     steps = [
         {
