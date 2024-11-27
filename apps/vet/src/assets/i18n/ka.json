@@ -10,5 +10,27 @@
         "passwordPattern": "ველი უნდა შედგებოდეს მინ. 8 სიმბოლოსგან, მინ. ერთი პატარა და დიდი ლათინური ასოს, პუნქტუაციის ნიშნისა და სპეციალური სიმბოლოსგან",
         "personCouldNotBeIdentified": "მონაცემები არასწორია",
         "georgianLetters": "შეავსეთ მონაცემი ქართულად"
+    },
+
+    "auth": {
+        "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
+        "other_citizen": "სხვა",
+        "next": "გაგრძელება",
+        "id_number": "პირადი ნომერი",
+        "last_name": "გვარი",
+        "check": "შემოწმება",
+        "back": "უკან დაბრუნება",
+        "citizenship_selection": "მოქალაქეობის არჩევა",
+        "id_verification": "პიროვნების გადამოწმება",
+        "phone_verification": "მობილურის დადასტურება",
+        "password_creation": "პაროლის შექმნა",
+        "terms_and_conditions": "წესები და პირობები",
+        "phone_number": "მობილურის ნომერი",
+        "resend_code": "კოდის ხელახლა მიღება",
+        "choose_citizenship": "აირჩიეთ მოქალაქეობა",
+        "fill_in_personal_info": "მიუთითეთ პირადი ინფორმაცია",
+        "enter_phone_number": "ჩაწერეთ მობილურის ნომერი",
+        "enter_password": "ჩაწერეთ პაროლი",
+        "invalid_verification_code": "ვერიფიკაცია დასრულდა წარუმატებლად"
     }
 }

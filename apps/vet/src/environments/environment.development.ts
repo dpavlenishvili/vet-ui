@@ -1,7 +1,7 @@
 import { AuthEnvironment } from '@vet/auth';
 
 export const environment = {
-    production: true,
+    production: false,
     baseUrl: 'https://dev-api-vet.emis.ge',
     apiBaseUrl: 'https://dev-api-vet.emis.ge/api/v1',
     defaultDateFormat: 'YYYY-MM-DD',
@@ -17,5 +17,5 @@ export const environment = {
             phoneVerificationNumberLength: 6,
             phoneVerificationNumberTimeoutSeconds: 180,
         }
-    },
+    }
 };

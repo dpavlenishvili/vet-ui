@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpReq
 import { inject } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
-import { AuthenticationService } from '@vet/auth';
+import { AuthService } from '@vet/auth';
 
 const _refreshing$ = new BehaviorSubject(false);
 const _refreshSuccess$ = new BehaviorSubject(false);
@@ -10,7 +10,7 @@ const _refreshSuccess$ = new BehaviorSubject(false);
 function handleRequest(
     req: HttpRequest<unknown>,
     next: HttpHandlerFn,
-    authenticationService: AuthenticationService,
+    authenticationService: AuthService,
 ): Observable<HttpEvent<unknown>> {
     const accessToken = authenticationService.accessToken$();
     if (!accessToken) {
@@ -29,7 +29,7 @@ export const authenticationInterceptor: HttpInterceptorFn = (
     req: HttpRequest<unknown>,
     next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
-    const authenticationService = inject(AuthenticationService);
+    const authenticationService = inject(AuthService);
     return handleRequest(req, next, authenticationService).pipe(
         catchError((err: HttpErrorResponse) => {
             if (err.status === 401 || err.status === 403) {

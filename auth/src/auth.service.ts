@@ -3,14 +3,14 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { finalize, map, Observable, of, tap, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { AuthService, User, UserLoginResponseBody } from '@vet/backend';
+import { AuthService as AuthApiService, User, UserLoginResponseBody } from '@vet/backend';
 
 const _storageKeyName = '__user_tokens__';
 
 @Injectable({
     providedIn: 'root',
 })
-export class AuthenticationService {
+export class AuthService {
     accessToken$: Signal<string | null>;
     tokenUser$: Signal<User | null>;
     authenticated$ = computed(() => !!this.tokenUser$());
@@ -20,7 +20,7 @@ export class AuthenticationService {
     private readonly cookieService = inject(SsrCookieService);
 
     private _accessToken$ = signal(this.cookieService.get(_storageKeyName) || null);
-    private authService = inject(AuthService);
+    private authService = inject(AuthApiService);
 
     constructor() {
         this.accessToken$ = this._accessToken$.asReadonly();

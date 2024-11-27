@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { baseUrl } from '../shared.injectors';
+import { useBaseUrl } from '../shared.injectors';
 
 @Pipe({
     name: 'vetUploadedFileUri',
     standalone: true,
 })
 export class UploadedFileUriPipe implements PipeTransform {
-    baseUrl = `${baseUrl()}/uploads`;
+    baseUrl = `${useBaseUrl()}/uploads`;
 
     transform(value?: string): string {
         if (!value || value.startsWith('http')) {
