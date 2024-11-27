@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '@vet/shared';
-import { AuthenticationService } from '@vet/auth';
+import { AuthService } from '@vet/auth';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
 
 @Component({
@@ -64,5 +64,5 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
 })
 export class MainLayoutComponent {
     pages$ = inject(ApplicationPagesService).headerMenuPages$;
-    tokenUser$ = inject(AuthenticationService).tokenUser$;
+    tokenUser$ = inject(AuthService).tokenUser$;
 }

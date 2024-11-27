@@ -6,7 +6,10 @@ import { KENDO_BUTTONS } from '@progress/kendo-angular-buttons';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { KENDO_LABELS } from '@progress/kendo-angular-label';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
+import { RegistrationCitizenshipComponent } from './registration-citizenship/registration-citizenship.component';
+import { RegistrationIdentityCitizenComponent } from './registration-identity-citizen/registration-identity-citizen.component';
 import { RegistrationPhoneComponent } from './registration-phone/registration-phone.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 enum CitizenshipType {
     Georgian = '1',
@@ -25,51 +28,59 @@ enum CitizenshipType {
         NgSwitchCase,
         KENDO_INPUTS,
         KENDO_LABELS,
-        RegistrationPhoneComponent
+        RegistrationCitizenshipComponent,
+        RegistrationIdentityCitizenComponent,
+        RegistrationPhoneComponent,
+        TranslocoPipe
     ],
     templateUrl: './registration.component.html',
     styleUrl: './registration.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationComponent {
-    currentStep = 0;
-    registrationForm = this.createFormGroup();
+    currentStepIndex = 0;
+    formGroup = this.createFormGroup();
     steps = [
         {
-            label: 'მოქალაქეობის არჩევა',
-            form: () => this.registrationForm.get('chooseCitizenship'),
+            label: 'auth.citizenship_selection',
+            title: 'auth.choose_citizenship',
+            form: () => this.formGroup.controls.chooseCitizenship,
         },
         {
-            label: 'პიროვნების გადამოწმება',
-            form: () => this.citizenshipTypeEnum.Georgian === this.chooseCitizenshipForm.value.citizenship
-                ? this.registrationForm.get('checkIdentity')
-                : this.registrationForm.get('checkIdentityForeigner'),
+            label: 'auth.id_verification',
+            title: 'auth.fill_in_personal_info',
+            form: () => this.citizenship === this.CitizenshipType.Georgian
+                ? this.formGroup.controls.checkIdentity
+                : this.formGroup.controls.checkIdentityForeigner,
         },
         {
-            label: 'მობილურის დადასტურება',
-            form: () => this.registrationForm.get('mobile'),
+            label: 'auth.phone_verification',
+            title: 'auth.enter_phone_number',
+            form: () => this.formGroup.controls.phone,
         },
         {
-            label: 'პაროლის შექმნა',
-            form: () => this.registrationForm.get('passwords'),
+            label: 'auth.password_creation',
+            title: 'auth.enter_password',
+            form: () => this.formGroup.controls.passwords,
         },
         {
-            label: 'წესები და პირობები',
-            form: () => this.registrationForm.get('termsAndConditions'),
+            label: 'auth.terms_and_conditions',
+            title: 'auth.terms_and_conditions',
+            form: () => this.formGroup.controls.termsAndConditions,
         }
     ];
-    citizenshipTypeEnum = CitizenshipType;
+    CitizenshipType = CitizenshipType;
 
     createFormGroup() {
         return new FormGroup({
             chooseCitizenship: new FormGroup({
-                citizenship: new FormControl(null, Validators.required)
+                citizenship: new FormControl<string | null>(null, Validators.required)
             }),
             checkIdentity: new FormGroup({
                 personalNumber: new FormControl('', Validators.required),
                 lastname: new FormControl('', Validators.required),
                 firstname: new FormControl({ value: '', disabled: true }, Validators.required),
-                dateOfBirth: new FormControl({ value: null, disabled: true }, Validators.required),
+                dateOfBirth: new FormControl<string | null>({ value: null, disabled: true }, Validators.required),
                 gender: new FormControl('', Validators.required)
             }),
             checkIdentityForeigner: new FormGroup({
@@ -80,8 +91,8 @@ export class RegistrationComponent {
                 dateOfBirth: new FormControl(null, Validators.required),
                 gender: new FormControl('', Validators.required)
             }),
-            mobile: new FormGroup({
-                mobileNumber: new FormControl('', Validators.required),
+            phone: new FormGroup({
+                phoneNumber: new FormControl('', Validators.required),
                 verificationNumber: new FormControl('', Validators.required)
             }),
             passwords: new FormGroup({
@@ -94,52 +105,34 @@ export class RegistrationComponent {
         });
     }
 
-    get chooseCitizenshipForm() {
-        return this.registrationForm.get('chooseCitizenship') as FormGroup;
-    }
-
-    get checkIdentityForm() {
-        return this.registrationForm.get('checkIdentity') as FormGroup;
-    }
-
-    get checkIdentityForeignerForm() {
-        return this.registrationForm.get('checkIdentityForeigner') as FormGroup;
-    }
-
-    get mobileForm() {
-        return this.registrationForm.get('mobile') as FormGroup;
-    }
-
-    get passwordsForm() {
-        return this.registrationForm.get('passwords') as FormGroup;
-    }
-
-    get termsAndConditionsForm() {
-        return this.registrationForm.get('termsAndConditions') as FormGroup;
-    }
-
-    goToNextStep() {
-        if (this.isStepValid(this.currentStep)) {
-            this.currentStep++;
-        }
-    }
-
-    goToPreviousStep() {
-        this.currentStep--;
+    get citizenship() {
+        return this.formGroup.controls.chooseCitizenship.controls.citizenship.value;
     }
 
     isStepValid(stepIndex: number): boolean {
         const step = this.steps[stepIndex];
-        const previousStep = this.steps[stepIndex - 1];
 
-        return step && (!previousStep || !!previousStep.form()?.valid);
+        return step && !!step.form()?.valid;
     }
 
     onStepChange(event: StepperActivateEvent) {
-        if (this.isStepValid(this.currentStep) || event.index < this.currentStep) {
-            this.currentStep = event.index;
+        if (this.isStepValid(this.currentStepIndex) || event.index < this.currentStepIndex) {
+            this.currentStepIndex = event.index;
         } else {
             event.preventDefault();
+        }
+    }
+
+    onPreviousClick() {
+        if (this.currentStepIndex > 0) {
+            this.currentStepIndex--;
+        }
+    }
+
+    onNextClick() {
+        console.log('next', this.isStepValid(this.currentStepIndex), this.formGroup.controls.phone.value);
+        if (this.isStepValid(this.currentStepIndex)) {
+            this.currentStepIndex++;
         }
     }
 }

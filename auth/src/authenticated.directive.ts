@@ -1,5 +1,5 @@
 import { Directive, effect, EmbeddedViewRef, inject, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { AuthenticationService } from './authentication.service';
+import { AuthService } from './auth.service';
 
 /**
  * Directive to show or hide elements based on the authentication state of the user.
@@ -17,7 +17,7 @@ export class AuthenticatedDirective {
         optional: true,
     });
     protected viewContainerRef = inject(ViewContainerRef);
-    protected authenticationService = inject(AuthenticationService);
+    protected authenticationService = inject(AuthService);
     protected embeddedView?: EmbeddedViewRef<unknown>;
     protected elseViewRef?: EmbeddedViewRef<unknown>;
 
