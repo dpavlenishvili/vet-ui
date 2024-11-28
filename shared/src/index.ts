@@ -1,3 +1,5 @@
+export * from './components/breadcrumb/breadcrumb.component';
+
 export * from './pipes/format-date.pipe';
 export * from './pipes/format-date-time.pipe';
 export * from './pipes/uploaded-file-uri.pipe';

@@ -12,6 +12,10 @@
         "georgianLetters": "შეავსეთ მონაცემი ქართულად"
     },
 
+    "shared": {
+        "home": "მთავარი"
+    },
+
     "auth": {
         "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
         "other_citizen": "სხვა",
@@ -31,6 +35,8 @@
         "fill_in_personal_info": "მიუთითეთ პირადი ინფორმაცია",
         "enter_phone_number": "ჩაწერეთ მობილურის ნომერი",
         "enter_password": "ჩაწერეთ პაროლი",
-        "invalid_verification_code": "ვერიფიკაცია დასრულდა წარუმატებლად"
+        "invalid_verification_code": "ვერიფიკაცია დასრულდა წარუმატებლად",
+        "password_recovery": "პაროლის აღდგენა",
+        "registration": "რეგისტრაცია"
     }
 }

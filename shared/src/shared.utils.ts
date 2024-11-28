@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { DictionaryType, Option, QueryParams } from './shared.types';
+import { AppBreadCrumbItem, DictionaryType, Option, QueryParams } from './shared.types';
 import { map, Observable } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -209,4 +209,11 @@ export function compareObjects<T>(obj1: T, obj2: T) {
   }
 
   return difference;
+}
+
+
+export function breadcrumb(items: AppBreadCrumbItem[]) {
+    return {
+        breadcrumb: items,
+    };
 }

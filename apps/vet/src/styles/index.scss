@@ -1,3 +1,21 @@
-@import '@progress/kendo-theme-fluent/dist/all';
+//@import '@progress/kendo-theme-fluent/dist/all';
+//@import 'helvetica-neue-font';
+//@import 'custom-kendo-overides';
+
+@import 'tokens';
+
+@import '@progress/kendo-theme-default/dist/all';
+
+@import 'overrides';
+
+@import 'general';
+
+.k-button-outline {
+    border-color: $kendo-button-border;
+}
+
+@include kendo-theme--styles();
+
 @import 'helvetica-neue-font';
 @import 'custom-kendo-overides';
+

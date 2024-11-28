@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '@vet/shared';
+import { BreadcrumbComponent, NavbarComponent } from '@vet/shared';
 import { AuthService } from '@vet/auth';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
 
 @Component({
     standalone: true,
     selector: 'vet-main-layout',
-    imports: [RouterOutlet, NavbarComponent, RouterLink],
+    imports: [RouterOutlet, NavbarComponent, RouterLink, BreadcrumbComponent],
     template: `
         <header>
             <v-ui-navbar [pages]="pages$()">
@@ -29,7 +29,13 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
             </v-ui-navbar>
         </header>
         <main class="main-container">
-            <router-outlet></router-outlet>
+            <div class="breadcrumb">
+                <vet-breadcrumb></vet-breadcrumb>
+            </div>
+
+            <div class="router-container">
+                <router-outlet></router-outlet>
+            </div>
         </main>
         <footer class="footer">
             <p>&copy; 2024 Your Company. All rights reserved.</p>
@@ -49,6 +55,17 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
                 margin: 0 auto;
                 max-width: 1440px;
                 width: 100%;
+            }
+
+            .breadcrumb {
+                height: 3.5rem;
+                display: flex;
+                align-items: center;
+            }
+
+            .router-container {
+                height: 100%;
+                padding: 1rem;
             }
 
             .footer {

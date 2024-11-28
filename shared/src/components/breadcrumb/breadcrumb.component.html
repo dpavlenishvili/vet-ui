@@ -1,0 +1,33 @@
+<div>
+  @if (breadcrumbItems$ | async; as breadcrumbItems) {
+  <kendo-breadcrumb class="!k-bg-transparent" [items]="breadcrumbItems">
+    <ng-template kendoBreadCrumbItemTemplate let-item let-index="index">
+      @if (index < (breadcrumbItems.length - 1)) { @if (item.text.length > showTooltipTextSizeThreshold) {
+      <a
+        kendoTooltip
+        [title]="item.text | transloco"
+        [routerLink]="item.path"
+        queryParamsHandling="merge"
+        class="k-breadcrumb-item k-breadcrumb-link k-text-no-underline"
+      >
+        {{ item.text | transloco }}
+      </a>
+      } @else {
+      <a
+        [routerLink]="item.path"
+        queryParamsHandling="merge"
+        class="k-breadcrumb-item k-breadcrumb-link k-text-no-underline"
+      >
+        {{ item.text | transloco }}
+      </a>
+      } } @else { @if (item.text.length > showTooltipTextSizeThreshold) {
+      <div kendoTooltip [title]="item.text" class="k-breadcrumb-item">
+        {{ item.text | transloco }}
+      </div>
+      } @else {
+      <div class="k-breadcrumb-item">{{ item.text | transloco }}</div>
+      } }
+    </ng-template>
+  </kendo-breadcrumb>
+  }
+</div>

@@ -1,4 +1,6 @@
 import { Observable } from 'rxjs';
+import { BreadCrumbItem } from '@progress/kendo-angular-navigation';
+import { ActivatedRouteSnapshot } from '@angular/router';
 
 export interface QueryParams {
     [key: string]: any; // Allow any value type
@@ -30,4 +32,14 @@ export interface ConfirmationDialogParams {
     dismissButtonText?: string;
     onConfirm: () => void | Observable<unknown>;
     onDismiss?: () => void | Observable<unknown>;
+}
+
+export interface AppBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
+    path: string;
+    text: string | ((routeSnapshot: ActivatedRouteSnapshot) => string);
+}
+
+export interface ResolvedBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
+    path: string[];
+    text: string | ((routeSnapshot: ActivatedRouteSnapshot) => string);
 }
