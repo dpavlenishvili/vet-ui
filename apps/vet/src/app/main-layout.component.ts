@@ -53,7 +53,6 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
                 flex: 1;
                 margin-left: 5rem;
                 margin-top: 1.25rem;
-                max-width: 1440px;
                 width: 100%;
             }
 
