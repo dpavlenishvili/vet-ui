@@ -31,8 +31,8 @@ export const authRoutes: Route[] = [
         ]),
     },
     {
-        path: 'password/recovery',
-        loadComponent: () => import('./password-recovery/password-recovery.component').then((m) => m.PasswordRecoveryComponent),
+        path: 'password/reset',
+        loadComponent: () => import('./password-reset/password-reset.component').then((m) => m.PasswordResetComponent),
         data: breadcrumb([
             ...baseBreadcrumbItems,
             { path: '/authorization', text: 'auth.password_recovery' },

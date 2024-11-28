@@ -41,6 +41,13 @@
         "password_recovery": "პაროლის აღდგენა",
         "recover_password": "პაროლის აღდგენა",
         "change_phone_number": "შეცვალე მობილური",
-        "id_or_passport_number": "პირადი ნომერი ან პასპორტის ნომერი"
+        "id_or_passport_number": "პირადი ნომერი ან პასპორტის ნომერი",
+        "failed_to_recover_password": "პაროლის აღდგენა დასრულდა წარუმატებლად",
+        "password_successfully_changed": "პაროლი წარმატებით შეიცვალა",
+        "change_password": "პაროლის შეცვლა",
+        "verification_code": "ვერიფიკაციის კოდი",
+        "new_password": "ახალი პაროლი",
+        "repeat_password": "გაიმეორეთ პაროლი",
+        "passwords_do_not_match": "პაროლები არ ემთხვევა ერთმანეთს"
     }
 }
