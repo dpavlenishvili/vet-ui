@@ -11,7 +11,7 @@ export const authRoutes: Route[] = [
         loadComponent: () => import('./authorization/authorization.component').then((m) => m.AuthorizationComponent),
         data: breadcrumb([
             ...baseBreadcrumbItems,
-            { path: '/authorization', text: 'shared.password_recovery' },
+            { path: '/authorization', text: 'auth.password_recovery' },
         ]),
     },
     {
@@ -19,7 +19,7 @@ export const authRoutes: Route[] = [
         loadComponent: () => import('./registration/registration.component').then((m) => m.RegistrationComponent),
         data: breadcrumb([
             ...baseBreadcrumbItems,
-            { path: '/authorization', text: 'shared.registration' },
+            { path: '/authorization', text: 'auth.registration' },
         ]),
     },
     { path: '**', redirectTo: 'authorization' },

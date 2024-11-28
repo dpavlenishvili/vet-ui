@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
+import { dynamicUrlPrefix } from '@vet/dynamic-pages';
+import { breadcrumb } from '@vet/shared';
 
 import { MainLayoutComponent } from './main-layout.component';
-import { dynamicUrlPrefix } from '@vet/dynamic-pages';
 
 export const appRoutes: Routes = [
     {
@@ -21,6 +22,7 @@ export const appRoutes: Routes = [
             {
                 path: '',
                 loadChildren: () => import('@vet/auth').then((r) => r.authRoutes),
+                data: breadcrumb([]),
             },
         ],
     },
