@@ -36,7 +36,9 @@
         "enter_phone_number": "ჩაწერეთ მობილურის ნომერი",
         "enter_password": "ჩაწერეთ პაროლი",
         "invalid_verification_code": "ვერიფიკაცია დასრულდა წარუმატებლად",
+        "authorization": "ავტორიზაცია",
+        "registration": "რეგისტრაცია",
         "password_recovery": "პაროლის აღდგენა",
-        "registration": "რეგისტრაცია"
+        "recover_password": "პაროლის აღდგენა"
     }
 }
