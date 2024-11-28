@@ -51,14 +51,13 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
 
             .main-container {
                 flex: 1;
-                padding: 20px 80px;
-                margin: 0 auto;
+                margin-left: 5rem;
+                margin-top: 1.25rem;
                 max-width: 1440px;
                 width: 100%;
             }
 
             .breadcrumb {
-                height: 3.5rem;
                 display: flex;
                 align-items: center;
             }
