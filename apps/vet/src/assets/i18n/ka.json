@@ -39,6 +39,8 @@
         "authorization": "ავტორიზაცია",
         "registration": "რეგისტრაცია",
         "password_recovery": "პაროლის აღდგენა",
-        "recover_password": "პაროლის აღდგენა"
+        "recover_password": "პაროლის აღდგენა",
+        "change_phone_number": "შეცვალე მობილური",
+        "id_or_passport_number": "პირადი ნომერი ან პასპორტის ნომერი"
     }
 }

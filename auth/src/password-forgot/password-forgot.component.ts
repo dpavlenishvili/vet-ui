@@ -5,11 +5,12 @@ import { TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'vet-password-forgot',
     standalone: true,
-    imports: [CommonModule, LabelComponent, TextBoxComponent, TranslocoPipe, ReactiveFormsModule, ButtonComponent],
+    imports: [CommonModule, LabelComponent, TextBoxComponent, TranslocoPipe, ReactiveFormsModule, ButtonComponent, RouterLink],
     templateUrl: './password-forgot.component.html',
     styleUrl: './password-forgot.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
