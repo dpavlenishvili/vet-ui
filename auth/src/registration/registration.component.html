@@ -51,6 +51,24 @@
                             (nextClick)="onNextClick()"
                         ></vet-registration-phone>
                     </ng-container>
+
+                    <ng-container *ngSwitchCase="3">
+                        <vet-registration-password-create
+                            [form]="formGroup.controls.passwords"
+                            (previousClick)="onPreviousClick()"
+                            (nextClick)="onNextClick()"
+                        >
+                        </vet-registration-password-create>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="4">
+                        <vet-registration-terms-and-conditions
+                            [form]="formGroup.controls.termsAndConditions"
+                            (previousClick)="onPreviousClick()"
+                            (nextClick)="onNextClick()"
+                        >
+                        </vet-registration-terms-and-conditions>
+                    </ng-container>
                 </div>
             }
         </div>

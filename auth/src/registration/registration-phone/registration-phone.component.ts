@@ -57,8 +57,9 @@ export class RegistrationPhoneComponent implements OnInit {
                 .pipe(
                     tap(() => this.phase.set('initial')),
                     tap(() => form.controls.verificationNumber.setValue('')),
-                    takeUntilDestroyed(this.destroyRef)
-                ).subscribe()
+                    takeUntilDestroyed(this.destroyRef),
+                )
+                .subscribe();
         });
     }
 
@@ -71,7 +72,7 @@ export class RegistrationPhoneComponent implements OnInit {
                 }
 
                 return this.smsService.sendSmsCode({
-                    phone: form.value.phoneNumber ?? ''
+                    phone: form.value.phoneNumber ?? '',
                 });
             })
             .pipe(takeUntilDestroyed(this.destroyRef))
@@ -109,13 +110,13 @@ export class RegistrationPhoneComponent implements OnInit {
                 this.smsService
                     .validateSms({
                         phone: phoneNumber ?? '',
-                        sms_code: verificationNumber ?? ''
+                        sms_code: verificationNumber ?? '',
                     })
                     .pipe(
                         tap({
                             next: () => this.nextClick.emit(),
-                            error: () => this.toastService.error('auth.invalid_verification_code')
-                        })
+                            error: () => this.toastService.error('auth.invalid_verification_code'),
+                        }),
                     )
                     .subscribe();
                 break;

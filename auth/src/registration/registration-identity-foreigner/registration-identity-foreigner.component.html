@@ -4,33 +4,21 @@
             <div class="k-display-flex k-flex-column k-gap-10">
                 <div class="k-display-flex k-gap-5">
                     <kendo-label [text]="'auth.citizenship' | transloco">
-                        <kendo-textbox formControlName="citizenship" ></kendo-textbox>
+                        <kendo-textbox formControlName="citizenship"></kendo-textbox>
                     </kendo-label>
 
                     <kendo-label [text]="'auth.id_or_passport_number' | transloco">
-                        <kendo-textbox
-                            [clearButton]="true"
-                            formControlName="personalNumber"
-
-                        ></kendo-textbox>
+                        <kendo-textbox [clearButton]="true" formControlName="personalNumber"></kendo-textbox>
                     </kendo-label>
                 </div>
 
                 <div class="k-display-flex k-gap-5">
                     <kendo-label [text]="'auth.name' | transloco">
-                        <kendo-textbox
-                            [clearButton]="true"
-                            formControlName="firstname"
-
-                        ></kendo-textbox>
+                        <kendo-textbox [clearButton]="true" formControlName="firstname"></kendo-textbox>
                     </kendo-label>
 
                     <kendo-label [text]="'auth.last_name' | transloco">
-                        <kendo-textbox
-                            [clearButton]="true"
-                            formControlName="lastname"
-
-                        ></kendo-textbox>
+                        <kendo-textbox [clearButton]="true" formControlName="lastname"></kendo-textbox>
                     </kendo-label>
                 </div>
 
@@ -40,12 +28,11 @@
                             [clearButton]="true"
                             [size]="'small'"
                             formControlName="dateOfBirth"
-
                         ></kendo-datepicker>
                     </kendo-label>
 
                     <kendo-label [text]="'auth.gender' | transloco">
-                        <kendo-dropdownlist [data]="gender" formControlName="gender" >
+                        <kendo-dropdownlist [data]="gender" formControlName="gender">
                             <ng-template kendoDropDownListItemTemplate let-item>
                                 {{ 'auth.' + item | transloco }}
                             </ng-template>

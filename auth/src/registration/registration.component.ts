@@ -7,14 +7,12 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { KENDO_LABELS } from '@progress/kendo-angular-label';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
 import { RegistrationCitizenshipComponent } from './registration-citizenship/registration-citizenship.component';
-import {
-    RegistrationIdentityCitizenComponent
-} from './registration-identity-citizen/registration-identity-citizen.component';
+import { RegistrationIdentityCitizenComponent } from './registration-identity-citizen/registration-identity-citizen.component';
 import { RegistrationPhoneComponent } from './registration-phone/registration-phone.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import {
-    RegistrationIdentityForeignerComponent
-} from './registration-identity-foreigner/registration-identity-foreigner.component';
+import { RegistrationIdentityForeignerComponent } from './registration-identity-foreigner/registration-identity-foreigner.component';
+import { RegistrationPasswordCreateComponent } from './registration-password-create/registration-password-create.component';
+import { RegistrationTermsAndConditionsComponent } from './registration-terms-and-conditions/registration-terms-and-conditions.component';
 
 enum CitizenshipType {
     Georgian = '1',
@@ -37,6 +35,8 @@ enum CitizenshipType {
         RegistrationIdentityForeignerComponent,
         RegistrationPhoneComponent,
         TranslocoPipe,
+        RegistrationPasswordCreateComponent,
+        RegistrationTermsAndConditionsComponent,
     ],
     templateUrl: './registration.component.html',
     styleUrl: './registration.component.scss',
@@ -99,14 +99,14 @@ export class RegistrationComponent {
             }),
             phone: new FormGroup({
                 phoneNumber: new FormControl('', Validators.required),
-                verificationNumber: new FormControl('', Validators.required)
+                verificationNumber: new FormControl('', Validators.required),
             }),
             passwords: new FormGroup({
                 password: new FormControl('', Validators.required),
-                confirmPassword: new FormControl('', Validators.required)
+                confirmPassword: new FormControl('', Validators.required),
             }),
             termsAndConditions: new FormGroup({
-                accepted: new FormControl(false, Validators.requiredTrue)
+                accepted: new FormControl(false, Validators.requiredTrue),
             }),
         });
     }

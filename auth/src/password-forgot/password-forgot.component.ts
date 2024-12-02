@@ -13,10 +13,19 @@ import { tap } from 'rxjs';
 @Component({
     selector: 'vet-password-forgot',
     standalone: true,
-    imports: [CommonModule, LabelComponent, TextBoxComponent, TranslocoPipe, ReactiveFormsModule, ButtonComponent, RouterLink, ToastModule],
+    imports: [
+        CommonModule,
+        LabelComponent,
+        TextBoxComponent,
+        TranslocoPipe,
+        ReactiveFormsModule,
+        ButtonComponent,
+        RouterLink,
+        ToastModule,
+    ],
     templateUrl: './password-forgot.component.html',
     styleUrl: './password-forgot.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordForgotComponent {
     formGroup = this.createFormGroup();
@@ -25,14 +34,13 @@ export class PasswordForgotComponent {
         private destroyRef: DestroyRef,
         private toastService: ToastService,
         private authService: AuthService,
-        private router: Router
-    ) {
-    }
+        private router: Router,
+    ) {}
 
     createFormGroup() {
         return new FormGroup({
             pid: new FormControl('', Validators.required),
-            phone: new FormControl('', Validators.required)
+            phone: new FormControl('', Validators.required),
         });
     }
 
@@ -42,19 +50,24 @@ export class PasswordForgotComponent {
         }
 
         const { pid, phone } = this.formGroup.value;
-        this.authService.initForgetPassword({
-            pid: pid?.toString() ?? '',
-            phone: phone?.toString() ?? ''
-        }).pipe(
-            tap({
-                next: () => this.router.navigate(['password/reset'], {
-                    queryParams: {
-                        pid,
-                        phone,
-                    },
-                }),
-                error: (error) => this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password')
+        this.authService
+            .initForgetPassword({
+                pid: pid?.toString() ?? '',
+                phone: phone?.toString() ?? '',
             })
-        ).subscribe();
+            .pipe(
+                tap({
+                    next: () =>
+                        this.router.navigate(['password/reset'], {
+                            queryParams: {
+                                pid,
+                                phone,
+                            },
+                        }),
+                    error: (error) =>
+                        this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password'),
+                }),
+            )
+            .subscribe();
     }
 }

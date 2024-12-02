@@ -4,30 +4,18 @@
             <div class="k-display-flex k-flex-column k-gap-10">
                 <div class="k-display-flex k-gap-5">
                     <kendo-label [text]="'auth.id_number' | transloco">
-                        <kendo-textbox
-                            [clearButton]="true"
-                            formControlName="personalNumber"
-
-                        ></kendo-textbox>
+                        <kendo-textbox [clearButton]="true" formControlName="personalNumber"></kendo-textbox>
                     </kendo-label>
 
                     <kendo-label [text]="'auth.last_name' | transloco">
-                        <kendo-textbox
-                            [clearButton]="true"
-                            formControlName="lastname"
-
-                        ></kendo-textbox>
+                        <kendo-textbox [clearButton]="true" formControlName="lastname"></kendo-textbox>
                     </kendo-label>
                 </div>
 
                 @if (isPersonVerified()) {
                     <div class="k-display-flex k-gap-5">
                         <kendo-label [text]="'auth.name' | transloco">
-                            <kendo-textbox
-                                [clearButton]="true"
-                                formControlName="firstname"
-
-                            ></kendo-textbox>
+                            <kendo-textbox [clearButton]="true" formControlName="firstname"></kendo-textbox>
                         </kendo-label>
 
                         <kendo-label [text]="'auth.date_of_birth' | transloco">
@@ -35,7 +23,6 @@
                                 [clearButton]="true"
                                 [size]="'small'"
                                 formControlName="dateOfBirth"
-
                             ></kendo-datepicker>
                         </kendo-label>
                     </div>
