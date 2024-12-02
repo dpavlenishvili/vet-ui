@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
@@ -16,16 +16,19 @@ import { TranslocoModule } from '@jsverse/transloco';
         RadioButtonModule,
         ButtonModule,
         LabelModule,
-        TranslocoModule
+        TranslocoModule,
     ],
     templateUrl: './registration-citizenship.component.html',
     styleUrl: './registration-citizenship.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.Default,
 })
 export class RegistrationCitizenshipComponent {
-    form = input<FormGroup<{
-        citizenship: FormControl<string | null>;
-    }>>();
+    form = input<
+        FormGroup<{
+            citizenship: FormControl<string | null>;
+        }>
+    >();
+
     nextClick = output();
 
     onNextClick() {

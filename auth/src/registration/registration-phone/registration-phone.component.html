@@ -6,10 +6,8 @@
                     <kendo-label [text]="'auth.phone_number' | transloco">
                         <kendo-textbox
                             [clearButton]="true"
-                            [size]="'large'"
-                            [rounded]="'large'"
                             formControlName="phoneNumber"
-                            [style.marginTop.rem]="1"
+
                         ></kendo-textbox>
                     </kendo-label>
                 </div>
@@ -25,12 +23,7 @@
             </div>
 
             <div class="k-display-flex k-justify-content-between">
-                <button
-                    kendoButton
-                    themeColor="secondary"
-                    look="default"
-                    (click)="onPreviousClick()"
-                >
+                <button kendoButton themeColor="secondary" look="default" (click)="onPreviousClick()">
                     {{ 'auth.back' | transloco }}
                 </button>
 
@@ -40,9 +33,7 @@
                     [disabled]="formGroup.controls.phoneNumber.invalid"
                     (click)="onNextClick()"
                 >
-                    {{ phase() === 'initial'
-                        ? ('auth.check' | transloco)
-                        : ('auth.next' | transloco) }}
+                    {{ phase() === 'initial' ? ('auth.check' | transloco) : ('auth.next' | transloco) }}
                 </button>
             </div>
         </div>

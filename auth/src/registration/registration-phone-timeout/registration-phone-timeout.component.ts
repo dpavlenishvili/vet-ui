@@ -17,7 +17,7 @@ dayjs.extend(duration);
     imports: [CommonModule, TranslocoPipe, RouterLink],
     templateUrl: './registration-phone-timeout.component.html',
     styleUrl: './registration-phone-timeout.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationPhoneTimeoutComponent {
     resend = output();
@@ -30,13 +30,9 @@ export class RegistrationPhoneTimeoutComponent {
         return this.verificationCodeReloader.reloadable(() => {
             return interval(1000).pipe(
                 take(this.timeoutSeconds + 1),
-                map(elapsed => this.timeoutSeconds - elapsed - 1),
-                map(remaining =>
-                    dayjs.duration(remaining, 'seconds').format('mm:ss')
-                ),
-                startWith(
-                    dayjs.duration(this.timeoutSeconds, 'seconds').format('mm:ss')
-                )
+                map((elapsed) => this.timeoutSeconds - elapsed - 1),
+                map((remaining) => dayjs.duration(remaining, 'seconds').format('mm:ss')),
+                startWith(dayjs.duration(this.timeoutSeconds, 'seconds').format('mm:ss')),
             );
         });
     }

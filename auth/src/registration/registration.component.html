@@ -34,6 +34,13 @@
                                     (nextClick)="onNextClick()"
                                 ></vet-registration-identity-citizen>
                             }
+                            @case (CitizenshipType.Foreigner) {
+                                <vet-registration-identity-foreigner
+                                    [form]="formGroup.controls.checkIdentityForeigner"
+                                    (previousClick)="onPreviousClick()"
+                                    (nextClick)="onNextClick()"
+                                ></vet-registration-identity-foreigner>
+                            }
                         }
                     </ng-container>
 

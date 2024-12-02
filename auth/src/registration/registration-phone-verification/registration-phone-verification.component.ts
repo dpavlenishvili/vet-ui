@@ -7,29 +7,29 @@ import { RegistrationPhoneTimeoutComponent } from '../registration-phone-timeout
 @Component({
     selector: 'vet-registration-phone-verification',
     standalone: true,
-    imports: [
-        TextBoxComponent,
-        FormsModule,
-        NumericTextBoxComponent,
-        RegistrationPhoneTimeoutComponent
-    ],
+    imports: [TextBoxComponent, FormsModule, NumericTextBoxComponent, RegistrationPhoneTimeoutComponent],
     templateUrl: './registration-phone-verification.component.html',
     styleUrl: './registration-phone-verification.component.scss',
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => RegistrationPhoneVerificationComponent),
-        multi: true
-    }]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => RegistrationPhoneVerificationComponent),
+            multi: true,
+        },
+    ],
 })
 export class RegistrationPhoneVerificationComponent implements ControlValueAccessor {
     reload = output();
 
     length = useAuthEnvironment().phoneVerificationNumberLength;
     digits = signal(this.getDigitsArray());
-    input = computed(() => this.digits().map(c => c ?? '').join(''));
+    input = computed(() =>
+        this.digits()
+            .map((c) => c ?? '')
+            .join(''),
+    );
 
-    private onChange: (value: string) => void = () => {
-    };
+    private onChange: (value: string) => void = () => {};
 
     @ViewChildren(NumericTextBoxComponent)
     set inputs(inputs: QueryList<NumericTextBoxComponent>) {
@@ -48,7 +48,7 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
             nextElement.focus();
         }
 
-        this.digits.update(digits => {
+        this.digits.update((digits) => {
             return digits.map((digit, i) => {
                 return i === index ? value : digit;
             });
@@ -67,14 +67,15 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: any): void {
-    }
+    registerOnTouched(fn: any): void {}
 
-    setDisabledState(isDisabled: boolean): void {
-    }
+    setDisabledState(isDisabled: boolean): void {}
 
     writeValue(value: string): void {
-        const digits = value.slice(0, 4).split('').map(c => parseInt(c));
+        const digits = value
+            .slice(0, 4)
+            .split('')
+            .map((c) => parseInt(c));
         this.digits.set(this.getDigitsArray().map((_, i) => digits[i] ?? null));
     }
 

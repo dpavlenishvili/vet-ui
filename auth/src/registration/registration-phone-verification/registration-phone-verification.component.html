@@ -4,8 +4,6 @@
             <kendo-numerictextbox
                 #input
                 type="number"
-                [size]="'large'"
-                [rounded]="'large'"
                 [maxlength]="1"
                 [selectOnFocus]="true"
                 [spinners]="false"
@@ -19,8 +17,6 @@
     </div>
 
     <div>
-        <vet-registration-phone-timeout
-            (resend)="onSend()"
-        ></vet-registration-phone-timeout>
+        <vet-registration-phone-timeout (resend)="onSend()"></vet-registration-phone-timeout>
     </div>
 </div>

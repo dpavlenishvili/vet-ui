@@ -48,6 +48,12 @@
         "verification_code": "ვერიფიკაციის კოდი",
         "new_password": "ახალი პაროლი",
         "repeat_password": "გაიმეორეთ პაროლი",
-        "passwords_do_not_match": "პაროლები არ ემთხვევა ერთმანეთს"
+        "passwords_do_not_match": "პაროლები არ ემთხვევა ერთმანეთს",
+        "name": "სახელი",
+        "date_of_birth": "დაბადების თარიღი",
+        "gender": "სქესი",
+        "male": "მამრობითი",
+        "female": "მდედრობითი",
+        "citizenship": "მოქალაქეობა"
     }
 }

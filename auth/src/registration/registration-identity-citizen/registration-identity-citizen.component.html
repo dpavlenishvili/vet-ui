@@ -1,50 +1,60 @@
 @if (form(); as form) {
     <div class="k-display-flex k-gap-10 k-flex-column">
-        <h2>{{ 'auth.fill_in_personal_info' | transloco }}</h2>
-        <div>
-            <form [formGroup]="form">
-                <div class="k-display-flex k-flex-column k-gap-10">
-                    <div class="k-display-flex k-gap-5">
-                        <kendo-label [text]="'auth.idNumber' | transloco">
-                            <kendo-textbox
-                                [clearButton]="true"
-                                [size]="'large'"
-                                [rounded]="'large'"
-                                formControlName="personalNumber"
-                                [style.marginTop.rem]="1"
-                            ></kendo-textbox>
-                        </kendo-label>
+        <form [formGroup]="form">
+            <div class="k-display-flex k-flex-column k-gap-10">
+                <div class="k-display-flex k-gap-5">
+                    <kendo-label [text]="'auth.id_number' | transloco">
+                        <kendo-textbox
+                            [clearButton]="true"
+                            formControlName="personalNumber"
 
-                        <kendo-label [text]="'auth.last_name' | transloco">
-                            <kendo-textbox
-                                [clearButton]="true"
-                                [size]="'large'"
-                                [rounded]="'large'"
-                                formControlName="lastname"
-                                [style.marginTop.rem]="1"
-                            ></kendo-textbox>
-                        </kendo-label>
-                    </div>
+                        ></kendo-textbox>
+                    </kendo-label>
 
-                    <div class="k-display-flex k-justify-content-between">
-                        <button
-                            kendoButton
-                            themeColor="secondary"
-                            (click)="onPreviousClick()"
-                        >
-                            {{ 'auth.back' | transloco }}
-                        </button>
+                    <kendo-label [text]="'auth.last_name' | transloco">
+                        <kendo-textbox
+                            [clearButton]="true"
+                            formControlName="lastname"
 
-                        <button
-                            kendoButton
-                            themeColor="primary"
-                            (click)="onNextClick()"
-                        >
-                            {{ 'auth.check' | transloco }}
-                        </button>
-                    </div>
+                        ></kendo-textbox>
+                    </kendo-label>
                 </div>
-            </form>
-        </div>
+
+                @if (isPersonVerified()) {
+                    <div class="k-display-flex k-gap-5">
+                        <kendo-label [text]="'auth.name' | transloco">
+                            <kendo-textbox
+                                [clearButton]="true"
+                                formControlName="firstname"
+
+                            ></kendo-textbox>
+                        </kendo-label>
+
+                        <kendo-label [text]="'auth.date_of_birth' | transloco">
+                            <kendo-datepicker
+                                [clearButton]="true"
+                                [size]="'small'"
+                                formControlName="dateOfBirth"
+
+                            ></kendo-datepicker>
+                        </kendo-label>
+                    </div>
+                }
+
+                <div class="k-display-flex k-justify-content-between">
+                    <button kendoButton themeColor="secondary" (click)="onPreviousClick()">
+                        {{ 'auth.back' | transloco }}
+                    </button>
+
+                    <button
+                        kendoButton
+                        themeColor="primary"
+                        (click)="isPersonVerified() ? onNextClick() : onCheckClick()"
+                    >
+                        {{ isPersonVerified() ? ('auth.next' | transloco) : ('auth.check' | transloco) }}
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 }
