@@ -13,7 +13,30 @@
     },
 
     "shared": {
-        "home": "მთავარი"
+        "home": "მთავარი",
+        "professional_programs": "პროფესიული პროგრამები",
+        "training_retraining_programs": "მომზადება/გადამზადების პროგრამები",
+        "recognition_of_non_formal_education": "არაფორმალური განათლების აღიარება",
+        "orientation_service": "საორიენტაციო სერვისი",
+        "state_language_preparation_programs": "სახელმწიფო ენის მომზადების პროგრამები",
+        "graduated_employment": "კურსდამთავრებულთა დასაქმება",
+        "teacher_retraining_programs": "მასწავლებელთა გადამზადების პროგრამები",
+        "college_employment": "კოლეჯში დასაქმება",
+        "professional_education": "პროფესიული განათლება",
+        "education_system": "განათლების სისტემა",
+        "professional_education_system": "პროფესიული განათლების სისტემა",
+        "enrollment": "ჩარიცხვა",
+        "financing": "დაფინანსება",
+        "providers": "პროვიდერები",
+        "management_and_policy_documents": "მმართველობა და პოლიტიკის დოკუმენტები",
+        "responsible_agencies": "პასუხისმგებელი უწყებები",
+        "strategy_and_concept_documents": "სტრატეგია და კონცეპტუალური დოკუმენტები",
+        "public_consultations": "საჯარო კონსულტაციები",
+        "legal_acts_law_on_professional_educations": "სამართლებრივი აქტები, კანონი პროფესიული განათლების შესახებ",
+        "institutions": "დაწესებულებები",
+        "statistics": "სტატისტიკა",
+        "gis_map": "GIS რუკა",
+        "services": "სერვისები"
     },
 
     "auth": {
@@ -59,6 +82,16 @@
         "finish": "დასრულება",
         "read_and_understand_rules": "გავეცანი და ვეთანხმები წესებს",
         "terms_and_conditions_information": "თქვენს მიერ პროფესიული განათლების მიღების მსურველთა სარეგისტრაციო ვებ-გვერდზე (vet.emis.ge) განთავსებული ინფორმაცია „პერსონალურ მონაცემთა დაცვის შესახებ“ საქართველოს კანონის თანახმად, შეიცავს პერსონალურ მონაცემებს, მათ შორის, შესაძლოა შეიცავდეს განსაკუთრებული კატეგორიის მონაცემებსაც. გთხოვთ, გაითვალისწინოთ, რო თქვენი პერსონალური მონაცემები შესაძლოა დამუშავდეს კანონმდებლობით გათვალისწინებულ მოთხოვნათა შესაბამისად."
+    },
+
+    "contact": {
+        "title": "დაგვიკავშირდით",
+        "address": "1 გურამ ფანჯიკიძის ქუჩა, თბილისი",
+        "phone": "032 2 200 220",
+        "email": "info@emis.ge"
+    },
+    "copyright": {
+        "emis": "სსიპ განათლების მართვის საინფორმაციო სისტემა"
     },
 
     "home": {

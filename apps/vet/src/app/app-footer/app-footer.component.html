@@ -1,0 +1,64 @@
+<div class="vet-app-footer">
+  <div class="vet-app-footer-links k-display-flex k-gap-70 k-justify-content-between">
+    <div class="k-display-flex k-gap-17">
+      <div class="vet-app-footer-link-section">
+        <h6>{{ 'shared.services' | transloco }}</h6>
+        <a href="#">{{ 'shared.professional_programs' | transloco }}</a>
+        <a href="#">{{ 'shared.training_retraining_programs' | transloco }}</a>
+        <a href="#">{{ 'shared.recognition_of_non_formal_education' | transloco }}</a>
+        <a href="#">{{ 'shared.orientation_service' | transloco }}</a>
+        <a href="#">{{ 'shared.state_language_preparation_programs' | transloco }}</a>
+        <a href="#">{{ 'shared.graduated_employment' | transloco }}</a>
+        <a href="#">{{ 'shared.teacher_retraining_programs' | transloco }}</a>
+        <a href="#">{{ 'shared.college_employment' | transloco }}</a>
+      </div>
+
+      <div class="vet-app-footer-link-section">
+        <h6>{{ 'shared.professional_education' | transloco }}</h6>
+          <a href="#">{{ 'shared.education_system' | transloco }}</a>
+          <a href="#"><li>{{ 'shared.professional_education_system' | transloco }}</li></a>
+          <a href="#"><li>{{ 'shared.enrollment' | transloco }}</li></a>
+          <a href="#"><li>{{ 'shared.financing' | transloco }}</li></a>
+          <a href="#"><li>{{ 'shared.providers' | transloco }}</li></a>
+          <a href="#">{{ 'shared.management_and_policy_documents' | transloco }}</a>
+          <a href="#"><li>{{ 'shared.responsible_agencies' | transloco }}</li></a>
+          <a href="#"><li>{{ 'shared.public_consultations' | transloco }}</li></a>
+          <a href="#"><li>{{ 'shared.legal_acts_law_on_professional_educations' | transloco }}</li></a>
+      </div>
+
+      <div class="vet-app-footer-link-section">
+        <h6>{{ 'shared.institutions' | transloco }}</h6>
+        <a href="#">{{ 'shared.institutions' | transloco }}</a>
+        <a href="#">{{ 'shared.statistics' | transloco }}</a>
+        <a href="#">{{ 'shared.gis_map' | transloco }}</a>
+      </div>
+    </div>
+
+    <div class="vet-app-footer-link-section">
+      <h6>{{ 'contact.title' | transloco }}</h6>
+      <a href="#">
+        <kendo-svg-icon [icon]="vetIcons.location"></kendo-svg-icon>
+        <span>{{ 'contact.address' | transloco }}</span>
+      </a>
+      <a href="#">
+        <kendo-svg-icon [icon]="vetIcons.phone"></kendo-svg-icon>
+        <span>{{ 'contact.phone' | transloco }}</span>
+      </a>
+      <a href="#">
+        <kendo-svg-icon [icon]="vetIcons.mail"></kendo-svg-icon>
+        <span>{{ 'contact.email' | transloco }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="vet-app-footer-divider"></div>
+
+  <div class="k-display-flex k-gap-10 k-py-3 k-px-20 k-justify-content-between">
+    <img src="/assets/images/edu-logo.svg" alt="Ministry Logo"/>
+    <img src="/assets/images/copyright-emis.svg" alt="Copyright EMIS"/>
+  </div>
+
+  <div class="vet-app-footer-copyright-line">
+    &copy; {{ 'copyright.emis' | transloco }}
+  </div>
+</div>

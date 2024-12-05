@@ -19,6 +19,7 @@ export * from './shared.types';
 export * from './shared.utils';
 export * from './shared.constants';
 export * from './toast.module';
+export * from './shared.icons';
 
 export { mobileNumberValidator } from './validators/mobile-number-validator';
 export { customPatternValidator } from './validators/custom-pattern-validator';
