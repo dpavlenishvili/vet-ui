@@ -47,7 +47,9 @@ export class RegistrationPasswordCreateComponent {
             return;
         }
 
-        this.nextClick.emit();
+        if (this.form()?.valid) {
+            this.nextClick.emit();
+        }
     }
 
     togglePasswordVisibility(passwordTextBox: TextBoxComponent) {

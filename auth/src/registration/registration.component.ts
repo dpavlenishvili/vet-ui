@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgSwitch, NgSwitchCase } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
@@ -7,12 +7,29 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { KENDO_LABELS } from '@progress/kendo-angular-label';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
 import { RegistrationCitizenshipComponent } from './registration-citizenship/registration-citizenship.component';
-import { RegistrationIdentityCitizenComponent } from './registration-identity-citizen/registration-identity-citizen.component';
+import {
+    RegistrationIdentityCitizenComponent
+} from './registration-identity-citizen/registration-identity-citizen.component';
 import { RegistrationPhoneComponent } from './registration-phone/registration-phone.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { RegistrationIdentityForeignerComponent } from './registration-identity-foreigner/registration-identity-foreigner.component';
-import { RegistrationPasswordCreateComponent } from './registration-password-create/registration-password-create.component';
-import { RegistrationTermsAndConditionsComponent } from './registration-terms-and-conditions/registration-terms-and-conditions.component';
+import {
+    RegistrationIdentityForeignerComponent
+} from './registration-identity-foreigner/registration-identity-foreigner.component';
+import {
+    RegistrationPasswordCreateComponent
+} from './registration-password-create/registration-password-create.component';
+import {
+    RegistrationTermsAndConditionsComponent
+} from './registration-terms-and-conditions/registration-terms-and-conditions.component';
+import {
+    georgianLettersValidator,
+    mobileNumberValidator,
+    passwordPatternValidator,
+    personalNumberValidator
+} from '@vet/shared';
+import { passwordMatchValidator } from '../../../shared/src/validators/password-pattern-validator';
+import { RegisterService, UserReq } from '@vet/backend';
+import { Router } from '@angular/router';
 
 enum CitizenshipType {
     Georgian = '1',
@@ -77,38 +94,69 @@ export class RegistrationComponent {
     ];
     CitizenshipType = CitizenshipType;
 
+    private router = inject(Router);
+    private registrationService = inject(RegisterService);
+
     createFormGroup() {
         return new FormGroup({
             chooseCitizenship: new FormGroup({
                 citizenship: new FormControl<string | null>(null, Validators.required),
             }),
             checkIdentity: new FormGroup({
-                personalNumber: new FormControl('', Validators.required),
-                lastname: new FormControl('', Validators.required),
-                firstname: new FormControl('', Validators.required),
-                dateOfBirth: new FormControl<Date | null>(null, Validators.required),
-                gender: new FormControl('', Validators.required),
+                lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
+                firstname: new FormControl(''),
+                personalNumber: new FormControl('', [Validators.required, personalNumberValidator]),
+                dateOfBirth: new FormControl<Date | null>(null),
+                gender: new FormControl('')
             }),
             checkIdentityForeigner: new FormGroup({
                 citizenship: new FormControl('', Validators.required),
-                lastname: new FormControl('', Validators.required),
-                personalNumber: new FormControl('', Validators.required),
-                firstname: new FormControl('', Validators.required),
-                dateOfBirth: new FormControl<Date | null>(null, Validators.required),
-                gender: new FormControl('', Validators.required),
+                lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
+                firstname: new FormControl(''),
+                personalNumber: new FormControl('', [Validators.required, personalNumberValidator]),
+                dateOfBirth: new FormControl<Date | null>(null),
+                gender: new FormControl('')
             }),
             phone: new FormGroup({
-                phoneNumber: new FormControl('', Validators.required),
+                phoneNumber: new FormControl('', [Validators.required, mobileNumberValidator]),
                 verificationNumber: new FormControl('', Validators.required),
             }),
-            passwords: new FormGroup({
-                password: new FormControl('', Validators.required),
-                confirmPassword: new FormControl('', Validators.required),
-            }),
+            passwords: new FormGroup(
+                {
+                    password: new FormControl('', [Validators.required, passwordPatternValidator]),
+                    confirmPassword: new FormControl('', [Validators.required, passwordPatternValidator])
+                },
+                { validators: passwordMatchValidator }
+            ),
             termsAndConditions: new FormGroup({
                 accepted: new FormControl(false, Validators.requiredTrue),
             }),
         });
+    }
+
+    getUserReq(): UserReq {
+        const chooseCitizenship = this.formGroup.get('chooseCitizenship') as FormGroup;
+        const checkIdentity = this.formGroup.get('checkIdentity') as FormGroup;
+        const checkIdentityForeigner = this.formGroup.get('checkIdentityForeigner') as FormGroup;
+        const phone = this.formGroup.get('phone') as FormGroup;
+        const passwords = this.formGroup.get('passwords') as FormGroup;
+
+        const isForeigner = chooseCitizenship.get('citizenship')?.value === 'Foreigner';
+
+        const identityGroup = isForeigner ? checkIdentityForeigner : checkIdentity;
+
+        return {
+            pid: identityGroup.get('personalNumber')?.value,
+            phone: phone.get('phoneNumber')?.value,
+            sms_code: phone.get('verificationNumber')?.value,
+            first_name: identityGroup.get('firstname')?.value,
+            last_name: identityGroup.get('lastname')?.value,
+            gender: identityGroup.get('gender')?.value,
+            birth_date: identityGroup.get('dateOfBirth')?.value?.toISOString().split('T')[0],
+            residential: chooseCitizenship.get('citizenship')?.value,
+            password: passwords.get('password')?.value,
+            password_confirmation: passwords.get('confirmPassword')?.value
+        };
     }
 
     get citizenship() {
@@ -138,7 +186,16 @@ export class RegistrationComponent {
     onNextClick() {
         console.log('next', this.isStepValid(this.currentStepIndex), this.formGroup.controls.phone.value);
         if (this.isStepValid(this.currentStepIndex)) {
-            this.currentStepIndex++;
+            if (this.currentStepIndex === this.steps.length - 1) {
+                const user = this.getUserReq();
+                this.registrationService.register(user).subscribe({
+                    next: () => {
+                        this.router.navigate(['/authorization'])
+                    }
+                });
+            } else {
+                this.currentStepIndex++;
+            }
         }
     }
 }

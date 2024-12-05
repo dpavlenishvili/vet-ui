@@ -5,12 +5,28 @@
                 <div class="k-display-flex k-gap-10">
                     <div class="k-display-flex k-align-items-center k-gap-3">
                         <kendo-radiobutton #georgian formControlName="citizenship" value="1"></kendo-radiobutton>
-                        <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco"></kendo-label>
+                        <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco">
+                            @if (form.controls['citizenship']; as control) {
+                                @if (!control.untouched) {
+                                    @if (control.errors?.['required']) {
+                                        <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                                    }
+                                }
+                            }
+                        </kendo-label>
                     </div>
 
                     <div class="k-display-flex k-align-items-center k-gap-3">
                         <kendo-radiobutton #foreigner formControlName="citizenship" value="2"></kendo-radiobutton>
-                        <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco"></kendo-label>
+                        <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco">
+                            @if (form.controls['citizenship']; as control) {
+                                @if (!control.untouched) {
+                                    @if (control.errors?.['required']) {
+                                        <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                                    }
+                                }
+                            }
+                        </kendo-label>
                     </div>
                 </div>
 

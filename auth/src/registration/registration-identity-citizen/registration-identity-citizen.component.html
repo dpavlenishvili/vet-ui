@@ -5,23 +5,44 @@
                 <div class="k-display-flex k-gap-5">
                     <kendo-label [text]="'auth.id_number' | transloco">
                         <kendo-textbox [clearButton]="true" formControlName="personalNumber"></kendo-textbox>
+                        @if (form.controls['personalNumber']; as control) {
+                            @if (!control.untouched) {
+                                @if (control.errors?.['required']) {
+                                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                                }
+                                @if (control.errors?.['personalNumberError']) {
+                                    <kendo-formerror>{{ 'shared.invalidPersonalNumber' | transloco }}</kendo-formerror>
+                                }
+                            }
+                        }
                     </kendo-label>
 
                     <kendo-label [text]="'auth.last_name' | transloco">
                         <kendo-textbox [clearButton]="true" formControlName="lastname"></kendo-textbox>
+                        @if (form.controls['lastname']; as control) {
+                            @if (!control.untouched) {
+                                @if (control.errors?.['required']) {
+                                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                                }
+                                @if (control.errors?.['georgianLettersError']) {
+                                    <kendo-formerror>{{ 'shared.invalidGeorgianLetters' | transloco }}</kendo-formerror>
+                                }
+                            }
+                        }
                     </kendo-label>
                 </div>
 
                 @if (isPersonVerified()) {
                     <div class="k-display-flex k-gap-5">
                         <kendo-label [text]="'auth.name' | transloco">
-                            <kendo-textbox [clearButton]="true" formControlName="firstname"></kendo-textbox>
+                            <kendo-textbox [clearButton]="true" [readonly]="true"
+                                           formControlName="firstname"></kendo-textbox>
                         </kendo-label>
 
                         <kendo-label [text]="'auth.date_of_birth' | transloco">
                             <kendo-datepicker
                                 [clearButton]="true"
-                                [size]="'small'"
+                                [readonly]="true"
                                 formControlName="dateOfBirth"
                             ></kendo-datepicker>
                         </kendo-label>

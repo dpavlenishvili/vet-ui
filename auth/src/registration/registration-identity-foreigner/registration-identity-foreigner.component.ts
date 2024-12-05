@@ -7,6 +7,7 @@ import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
 import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
+import { countries, genders } from '@vet/shared';
 
 @Component({
     selector: 'vet-registration-identity-foreigner',
@@ -37,7 +38,8 @@ export class RegistrationIdentityForeignerComponent {
             gender: FormControl<string | null>;
         }>
     >();
-    gender = ['male', 'female'];
+    countries = countries;
+    genders = genders;
     previousClick = output();
     nextClick = output();
 
@@ -46,6 +48,8 @@ export class RegistrationIdentityForeignerComponent {
     }
 
     onNextClick() {
-        this.nextClick.emit();
+        if (this.form()?.valid) {
+            this.nextClick.emit();
+        }
     }
 }

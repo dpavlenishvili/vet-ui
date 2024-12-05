@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { DialogContainerDirective } from '@progress/kendo-angular-dialog';
 
 @Component({
     standalone: true,
-    imports: [RouterOutlet],
+    imports: [RouterOutlet, DialogContainerDirective],
     selector: 'vet-root',
-    template: ` <router-outlet></router-outlet> `,
+    template: ` <router-outlet></router-outlet>
+        <div kendoDialogContainer></div>`,
     styles: [
         `
             :host {

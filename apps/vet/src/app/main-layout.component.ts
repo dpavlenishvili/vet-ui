@@ -3,11 +3,12 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { BreadcrumbComponent, NavbarComponent } from '@vet/shared';
 import { AuthService } from '@vet/auth';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
+import { DialogContainerDirective } from '@progress/kendo-angular-dialog';
 
 @Component({
     standalone: true,
     selector: 'vet-main-layout',
-    imports: [RouterOutlet, NavbarComponent, RouterLink, BreadcrumbComponent],
+    imports: [RouterOutlet, NavbarComponent, RouterLink, BreadcrumbComponent, DialogContainerDirective],
     template: `
         <header>
             <v-ui-navbar [pages]="pages$()">

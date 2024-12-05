@@ -115,7 +115,6 @@ export class RegistrationPhoneComponent implements OnInit {
                     .pipe(
                         tap({
                             next: () => this.nextClick.emit(),
-                            error: () => this.toastService.error('auth.invalid_verification_code'),
                         }),
                     )
                     .subscribe();

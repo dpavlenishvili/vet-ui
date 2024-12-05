@@ -44,6 +44,8 @@ export class RegistrationTermsAndConditionsComponent {
             return;
         }
 
-        this.nextClick.emit();
+        if (this.form()?.valid) {
+            this.nextClick.emit();
+        }
     }
 }

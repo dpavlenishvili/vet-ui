@@ -23,12 +23,13 @@ import { acceptLanguageInterceptor } from './accept-language.interceptor';
 import { appRoutes } from './app.routes';
 import { initializeTransolco } from './initialize-transloco';
 import { provideAuthEnvironment } from '@vet/auth';
+import { errorInterceptor } from '../../../../shared/src/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
         provideRouter(appRoutes, withComponentInputBinding()),
-        provideHttpClient(withFetch(), withInterceptors([acceptLanguageInterceptor, authenticationInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([acceptLanguageInterceptor, authenticationInterceptor, errorInterceptor])),
         provideEnvironment(environment),
         initializeTransolco(),
         provideAngularSvgIcon(),

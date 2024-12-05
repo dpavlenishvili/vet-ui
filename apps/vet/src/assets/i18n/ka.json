@@ -13,7 +13,13 @@
     },
 
     "shared": {
-        "home": "მთავარი"
+        "home": "მთავარი",
+        "errorOccurred": "დაფიქსირდა შეცდომა",
+        "fieldIsRequired": "ველი სავალდებულოა",
+        "invalidPersonalNumber": "პირადი ნომერი არასოწრია",
+        "invalidGeorgianLetters": "შეავსეთ მონაცემი ქართულად",
+        "invalidPasswordPattern": "პაროლი უნდა შეიცავდეს...",
+        "passwordsDoNotMatch": "პაროლი არ ემთხვევა"
     },
 
     "auth": {

@@ -52,6 +52,12 @@ export class RegistrationIdentityCitizenComponent {
     onCheckClick() {
         const form = this.form()?.value;
 
+        console.log(this.form());
+        if (this.form()?.invalid) {
+            this.form()?.markAllAsTouched();
+            return;
+        }
+
         this.registerService
             .validatePerson({ pid: form?.personalNumber, last_name: form?.lastname })
             .pipe(
