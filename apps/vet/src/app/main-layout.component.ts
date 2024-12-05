@@ -51,7 +51,6 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
 
             .main-container {
                 flex: 1;
-                max-width: 1440px;
                 width: 100%;
                 padding: 0 80px;
             }
