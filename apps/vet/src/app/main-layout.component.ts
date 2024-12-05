@@ -52,6 +52,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
             .main-container {
                 flex: 1;
                 max-width: 1440px;
+                margin: 0 auto;
                 width: 100%;
                 padding: 0 80px;
             }
