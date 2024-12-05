@@ -1,0 +1,13 @@
+@if (services$ | async; as services) {
+    <p class="services-title">{{ 'home.services' | transloco }}</p>
+    <div class="home-services-items-container">
+        @for (service of services; track $index) {
+            <div class="service-card" [ngClass]="getColumnClass($index)">
+                <div class="icon">
+                    <kendo-svg-icon [size]="'xxxlarge'" [icon]="getColumnIcon($index)"></kendo-svg-icon>
+                </div>
+                <p>{{ service.slug }}</p>
+            </div>
+        }
+    </div>
+}

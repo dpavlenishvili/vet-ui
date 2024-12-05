@@ -3,12 +3,12 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { BreadcrumbComponent, NavbarComponent } from '@vet/shared';
 import { AuthService } from '@vet/auth';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
-import { DialogContainerDirective } from '@progress/kendo-angular-dialog';
+import { AppFooterComponent } from './app-footer/app-footer.component';
 
 @Component({
     standalone: true,
     selector: 'vet-main-layout',
-    imports: [RouterOutlet, NavbarComponent, RouterLink, BreadcrumbComponent, DialogContainerDirective],
+    imports: [RouterOutlet, NavbarComponent, RouterLink, BreadcrumbComponent, AppFooterComponent],
     template: `
         <header>
             <v-ui-navbar [pages]="pages$()">
@@ -38,9 +38,8 @@ import { DialogContainerDirective } from '@progress/kendo-angular-dialog';
                 <router-outlet></router-outlet>
             </div>
         </main>
-        <footer class="footer">
-            <p>&copy; 2024 Your Company. All rights reserved.</p>
-        </footer>
+
+        <vet-app-footer/>
     `,
     styles: [
         `

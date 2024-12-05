@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  margin-top: 200px;
+}
+
+.vet-app-footer {
+  background: #FFFFFF;
+}
+
+.vet-app-footer-links {
+  padding: 25px 80px;
+}
+
+.vet-app-footer-link-section {
+  display: flex;
+  flex-direction: column;
+  width: 296px;
+
+  h6 {
+    color: #0E2B43;
+    font-family: Helvetica Neue;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17.09px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-bottom: 14px;
+  }
+
+  a {
+    display: flex;
+    gap: 18px;
+    color: #333333;
+    font-family: Helvetica Neue;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.32px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    text-decoration: none;
+
+    &:not(:first-of-type) {
+      margin-top: 16px;
+    }
+  }
+}
+
+.vet-app-footer-divider {
+  border-top: 1px solid #E8EAF3;
+}
+
+.vet-app-footer-copyright-line {
+  padding: 8px;
+  text-align: center;
+  background: #036AA2;
+  color: #FFFFFF;
+  font-family: Helvetica Neue;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14.32px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
