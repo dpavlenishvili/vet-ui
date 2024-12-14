@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { useBaseApiUrl } from 'shared/src';
+import { useBaseApiUrl } from '@vet/shared';
 
 import {
     LoginRequestBody,

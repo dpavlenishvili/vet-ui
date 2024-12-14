@@ -27,7 +27,7 @@ import {
     passwordPatternValidator,
     personalNumberValidator
 } from '@vet/shared';
-import { passwordMatchValidator } from '../../../shared/src/validators/password-pattern-validator';
+import { passwordMatchValidator } from '@vet/shared';
 import { RegisterService, UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
 

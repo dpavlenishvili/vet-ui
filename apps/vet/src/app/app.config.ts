@@ -23,7 +23,7 @@ import { acceptLanguageInterceptor } from './accept-language.interceptor';
 import { appRoutes } from './app.routes';
 import { initializeTransolco } from './initialize-transloco';
 import { provideAuthEnvironment } from '@vet/auth';
-import { errorInterceptor } from '../../../../shared/src/error.interceptor';
+import { errorInterceptor } from '@vet/shared';
 
 export const appConfig: ApplicationConfig = {
     providers: [

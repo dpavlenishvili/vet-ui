@@ -9,9 +9,9 @@ import {
     viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { UploadedFileUriPipe } from '@vet/shared';
 
 import { CollectionItem } from 'backend';
-import { UploadedFileUriPipe } from 'shared/src';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
