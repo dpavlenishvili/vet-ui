@@ -1,3 +1,5 @@
+export * from './interceptors/authentication.interceptor';
+
 export * from './auth.routes';
 
 export * from './auth.service';

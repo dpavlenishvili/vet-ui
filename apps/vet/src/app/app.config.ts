@@ -9,12 +9,16 @@ import { dynamicPagesInitializer } from '@vet/dynamic-pages';
 import {
     authenticationInterceptor,
     provideBaseApiUrl,
-    provideBaseUrl, provideDefaultDateFallback,
-    provideDefaultDateFormat, provideDefaultDateTimeFallback,
+    provideBaseUrl,
+    provideDefaultDateFallback,
+    provideDefaultDateFormat,
+    provideDefaultDateTimeFallback,
     provideDefaultDateTimeFormat,
     provideDefaultDisplayDateFormat,
     provideDefaultDisplayDateTimeFormat,
-    provideEnvironment, provideKendoDatePickerFormat, provideKendoDateTimePickerFormat
+    provideEnvironment,
+    provideKendoDatePickerFormat,
+    provideKendoDateTimePickerFormat,
 } from '@vet/shared';
 
 import { environment } from '../environments/environment';
@@ -29,7 +33,11 @@ export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
         provideRouter(appRoutes, withComponentInputBinding()),
-        provideHttpClient(withFetch(), withInterceptors([acceptLanguageInterceptor, authenticationInterceptor, errorInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([
+            acceptLanguageInterceptor,
+            authenticationInterceptor,
+            errorInterceptor,
+        ])),
         provideEnvironment(environment),
         initializeTransolco(),
         provideAngularSvgIcon(),
