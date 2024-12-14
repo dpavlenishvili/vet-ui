@@ -10,7 +10,7 @@ Node SSR Build:
     tags:
         - docker
     only:
-        - master
+        - main
     artifacts:
         paths:
             - dist/
@@ -26,7 +26,7 @@ Webserver Setup:
     tags:
         - oc
     only:
-        - master
+        - main
     needs:
         - job: Node SSR Build
           artifacts: true
