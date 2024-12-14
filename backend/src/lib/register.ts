@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-
+import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
 import { UserReq, UserRes } from './data-contracts';
@@ -50,9 +49,7 @@ export class RegisterService {
              * @default "base64 string"
              */
             photo?: string;
-        }>(`${this.baseUrl}/register/validate`, {
-            params: query as unknown as Record<string, string>,
-        });
+        }>(`${this.baseUrl}/register/validate`, { params: query as unknown as Record<string, string> });
 
     /**
      * @description Returns user data

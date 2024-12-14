@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-
+import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
 @Injectable({ providedIn: 'root' })
@@ -28,9 +27,7 @@ export class SmsService {
              * @default true
              */
             status?: boolean;
-        }>(`${this.baseUrl}/sms/send`, {
-            params: query as unknown as Record<string, string>,
-        });
+        }>(`${this.baseUrl}/sms/send`, { params: query as unknown as Record<string, string> });
 
     /**
      * @description Validate SMS code

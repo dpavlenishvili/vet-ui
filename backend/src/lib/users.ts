@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
 import { User, UserReq, UserRes } from './data-contracts';

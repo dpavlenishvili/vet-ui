@@ -1,3 +1,26 @@
+export interface Admission {
+    admission_id?: number;
+    min_allowed_education_level_id?: number;
+    min_allowed_age?: string;
+    program_fee?: string;
+    student_fee?: string;
+    has_college_exam?: boolean;
+    financing_type_id?: number;
+    registration_start_date?: string;
+    registration_end_date?: string;
+    study_start_date?: number;
+    study_end_date?: string;
+    students_limit?: number;
+    inclusive_students_limit?: number;
+    exam_language_id?: number;
+    is_universal?: boolean;
+    /**
+     * Selection
+     * Relations of selection
+     */
+    selection?: Selection[];
+}
+
 /**
  * Collection Item
  * Collection Item
@@ -58,6 +81,36 @@ export interface CollectionItem {
     pin?: boolean;
 }
 
+export interface LongTerm {
+    id?: number;
+    path?: string;
+    program_name?: string;
+    type?: string;
+    program_id?: number;
+    specialization_code?: string;
+    specialization_name?: string;
+    qualification_name?: string;
+    program_code?: string;
+    program_kind?: number;
+    address?: string;
+    credits_count?: string;
+    credits_count_non_geo?: string;
+    education_level?: number;
+    language_id?: number;
+    is_integrated?: boolean;
+    region_id?: number;
+    district_id?: number;
+    program_duration?: string;
+    program_duration_non_geo?: string;
+    description?: string;
+    organisation?: object;
+    /**
+     * Admission
+     * Relations of admission
+     */
+    admission?: Admission[];
+}
+
 export interface MediaItem {
     /** @example "/uploads/1/sample-Document.pdf"," */
     url?: string;
@@ -115,6 +168,14 @@ export interface Page {
      */
     media?: MediaItem[];
     children?: Page[];
+}
+
+export interface Selection {
+    method?: number;
+    max_evaluation_score?: number;
+    min_competence_threshold?: number;
+    passing_score?: number;
+    scoring_percentage?: number;
 }
 
 /**
@@ -259,6 +320,11 @@ export interface CollectionItemsRes {
      * Data wrapper
      */
     data?: CollectionItem[];
+}
+
+/** Page Resource */
+export interface LongTermRes {
+    data?: LongTerm[];
 }
 
 /** Page Resource */
