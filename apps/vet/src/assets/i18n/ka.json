@@ -129,6 +129,22 @@
         "tuition_fee": "სწავლის საფასური",
         "grant_status": "ფინანსდება",
         "listener_fee": "მსმენლის გადასახდელი",
-        "admission_authorize": "გაიარეთ <a href=\"{{link}}\" class=\"k-color-primary\">ავტორიზაცია</a> და აირჩიეთ სასურველი პროგრამა"
+        "admission_authorize": "გაიარეთ <a href=\"{{link}}\" class=\"k-color-primary\">ავტორიზაცია</a> და აირჩიეთ სასურველი პროგრამა",
+        "yes": "დიახ",
+        "no": "არა",
+        "search": "ძიება",
+        "institution_name": "დაწესებულების დასახელება",
+        "form": "განხორციელების ფორმა",
+        "integrated": "ინტეგრირებული",
+        "education_level": "დონე: {{value}}",
+        "see_in_detail": "იხილეთ სრულად",
+        "addmission_announced": "გამოცხადებულია მიღება",
+        "financing": "დაფინანსება",
+        "partner_economy_sector": "პარტნიორის ეკონომიკური სექტორი",
+        "partner_organization_size": "პარტნიორი ორგანიზაციის ზომა",
+        "region": "რეგიონი",
+        "district": "რაიონი",
+        "filter": "ფილტრაცია",
+        "clear_filters": "ფილტრის გასუფთავება"
     }
 }

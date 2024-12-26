@@ -1,0 +1,79 @@
+<kendo-dialog [width]="661" [height]="661" [title]="'programs.filter' | transloco" (close)="handleClose()">
+    <form>
+        <div>
+            <div class="k-display-flex k-flex-column">
+                <kendo-label [text]="'programs.addmission_announced' | transloco">
+                    <kendo-switch
+                        [onLabel]="'programs.yes' | transloco"
+                        [offLabel]="'programs.no' | transloco"
+                    ></kendo-switch>
+                </kendo-label>
+
+                <kendo-floatinglabel [text]="'programs.search' | transloco">
+                    <kendo-textbox>
+                        <ng-template kendoTextBoxSuffixTemplate>
+                            <kendo-svg-icon [icon]="kendoIcons.searchIcon"></kendo-svg-icon>
+                        </ng-template>
+                    </kendo-textbox>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.institution_name' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+            </div>
+
+            <div class="programs-filters-container">
+                <kendo-floatinglabel [text]="'programs.program_code' | transloco">
+                    <kendo-textbox></kendo-textbox>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.form' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.program_duration' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.integrated' | transloco">
+                    <kendo-textbox></kendo-textbox>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.financing' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.partner_organizations' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.partner_economy_sector' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.partner_organization_size' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.region' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+
+                <kendo-floatinglabel [text]="'programs.district' | transloco">
+                    <kendo-dropdownlist></kendo-dropdownlist>
+                </kendo-floatinglabel>
+            </div>
+        </div>
+    </form>
+    <kendo-dialog-actions>
+        <div class="k-display-flex k-justify-content-between">
+            <button kendoButton [svgIcon]="kendoIcons.xIcon" fillMode="flat" themeColor="error" (click)="handleSave()">
+                {{ 'programs.clear_filters' | transloco }}
+            </button>
+
+            <button kendoButton [svgIcon]="kendoIcons.saveIcon" themeColor="primary" (click)="handleSave()">
+                {{ 'programs.search' | transloco }}
+            </button>
+        </div>
+    </kendo-dialog-actions>
+</kendo-dialog>
