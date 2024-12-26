@@ -42,7 +42,9 @@
         "invalidPersonalNumber": "პირადი ნომერი არასოწრია",
         "invalidGeorgianLetters": "შეავსეთ მონაცემი ქართულად",
         "invalidPasswordPattern": "პაროლი უნდა შეიცავდეს...",
-        "passwordsDoNotMatch": "პაროლი არ ემთხვევა"
+        "passwordsDoNotMatch": "პაროლი არ ემთხვევა",
+        "programs": "პროგრამები",
+        "program": "პროგრამა"
     },
 
     "auth": {
@@ -102,5 +104,31 @@
 
     "home": {
         "services": "სერვისები"
+    },
+    "programs": {
+        "field": "სფერო",
+        "program_code": "პროგრამის კოდი",
+        "level": "დონე",
+        "program_kind": "პროგრამის სახე",
+        "program_duration": "პროგრამის ხანგრძლივობა",
+        "employment_field": "დასაქმების სფერო",
+        "applicant_selection_method": "აპლიკანტთა შერჩევის ფორმა",
+        "admission_prerequisite": "დაშვების წინაპირობა",
+        "implementation_location": "განხორციელების ადგილი",
+        "no_admission": "მიღება არ არის გამოცხადებული",
+        "loading": "იტვირთება...",
+        "partner_organizations": "პარტნიორი ორგანიზაციები",
+        "partner_organization": "პარტნიორი ორგანიზაცია",
+        "organization_size": "ორგანიზაციის ზომა",
+        "economic_sector": "ეკონომიკური სექტორი",
+        "program_description": "პროგრამის აღწერა",
+        "admission_open": "გამოცხადებულია მიღება",
+        "registration_period": "რეგისტრაციის პერიოდი",
+        "tuition_start_date": "სწავლის დაწყების თარიღი",
+        "number_of_vacant_positions": "მისაღები ადგილების რაოდენობა",
+        "tuition_fee": "სწავლის საფასური",
+        "grant_status": "ფინანსდება",
+        "listener_fee": "მსმენლის გადასახდელი",
+        "admission_authorize": "გაიარეთ <a href=\"{{link}}\" class=\"k-color-primary\">ავტორიზაცია</a> და აირჩიეთ სასურველი პროგრამა"
     }
 }

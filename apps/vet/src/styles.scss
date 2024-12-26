@@ -4,7 +4,9 @@
 :root {
     --main-bg: #f5f7f8;
     --secondary-color: #4682b4;
-    --text-color: grey;
+    //--text-color: grey;
+    --text-color: #444444;
+    --text-secondary-color: #444444;
     --link-color: #4682b4;
     --font-size: 16px;
 }
@@ -52,6 +54,103 @@ a {
     text-decoration: none;
     &:hover {
         text-decoration: underline;
+    }
+}
+
+.vet-text-base {
+    font-family: HelveticaNeue;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+    &.strong, strong, b {
+        font-weight: 500;
+        font-family: HelveticaNeueMedium;
+    }
+}
+
+.vet-text-sm {
+    font-family: HelveticaNeue;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+    &.strong, strong, b {
+        font-weight: 500;
+        font-family: HelveticaNeueMedium;
+    }
+}
+
+.vet-text-h2 {
+    font-family: HelveticaNeueMedium;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+.vet-bg-pink {
+    background-color: #E3C7C9;
+}
+
+.vet-bg-blue {
+    background-color: #EAF0FF;
+}
+
+.vet-grid-table {
+    display: grid;
+    border: 1px solid var(--kendo-color-border);
+
+    .vet-grid-cell {
+        padding: 1rem;
+        border-style: solid;
+        border-color: var(--kendo-color-border);
+        border-width: 0;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        font-family: HelveticaNeue;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+
+        &.vet-grid-header {
+            font-family: HelveticaNeueMedium;
+            font-weight: 500;
+            line-height: 14.65px;
+        }
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    &.vet-grid-dense {
+        .vet-grid-cell {
+            padding: 0.625rem;
+        }
+    }
+
+    @for $i from 1 through 20 {
+        &.vet-grid-size-#{$i} {
+            grid-template-columns: repeat(#{$i}, 1fr);
+
+            .vet-grid-cell {
+                &:nth-child(#{$i}n) {
+                    border-right: none;
+                }
+
+                &:nth-last-child(-n+#{$i}) {
+                    border-bottom: none;
+                }
+            }
+        }
     }
 }
 

@@ -20,6 +20,11 @@ export const appRoutes: Routes = [
                 loadChildren: () => import('@vet/home').then((r) => r.homeRoutes),
             },
             {
+                path: 'programs',
+                loadChildren: () => import('@vet/programs').then((r) => r.programsRoutes),
+                data: breadcrumb([]),
+            },
+            {
                 path: '',
                 loadChildren: () => import('@vet/auth').then((r) => r.authRoutes),
                 data: breadcrumb([]),
