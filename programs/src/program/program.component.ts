@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { useRouteParam, vetIcons } from '@vet/shared';
-import { LongTerm, ProgramsService } from '@vet/backend';
-import { map, switchMap } from 'rxjs';
+import { ProgramsService } from '@vet/backend';
+import { map } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
