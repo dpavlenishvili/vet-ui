@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { KENDO_SCROLLVIEW } from '@progress/kendo-angular-scrollview';
-import { NgStyle } from '@angular/common';
 
 export interface Item {
   date: string;
@@ -31,7 +30,7 @@ export const data = [
 @Component({
   selector: 'vet-posts',
   standalone: true,
-  imports: [KENDO_SCROLLVIEW, NgStyle],
+  imports: [KENDO_SCROLLVIEW],
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'], // plural "styles" is typical in Angular
   changeDetection: ChangeDetectionStrategy.OnPush,
