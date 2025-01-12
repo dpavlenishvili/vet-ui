@@ -17,7 +17,7 @@
         "ssr": {
           "entry": "{projectRoot}/server.ts"
         },
-        "polyfills": ["zone.js"],
+        "polyfills": ["zone.js", "@angular/localize/init"],
         "tsConfig": "{projectRoot}/tsconfig.app.json",
         "assets": ["{projectRoot}/src/favicon.ico", "{projectRoot}/src/assets"],
         "styles": ["{projectRoot}/src/styles.scss"],

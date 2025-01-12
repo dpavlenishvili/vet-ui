@@ -4,7 +4,8 @@
     "outDir": "../../dist/out-tsc",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["@angular/localize"]
   },
   "files": ["src/main.ts", "src/main.server.ts", "server.ts", "src/environments/environment.development.ts"],
   "include": ["src/**/*.d.ts"],
