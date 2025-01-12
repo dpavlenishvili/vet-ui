@@ -1,39 +1,39 @@
 stages:
-    - node-ssr-build
-    - webserver-setup
+  - node-ssr-build
+  - webserver-setup
 variables:
-    REMOTE_DIR: '/var/www/vet-seit.emis.ge'
-    REMOTE_SSH: 'www@192.168.202.56'
+  REMOTE_DIR: '/var/www/vet-seit.emis.ge'
+  REMOTE_SSH: 'www@192.168.202.56'
 
 Node SSR Build:
-    stage: node-ssr-build
-    tags:
-        - docker
-    only:
-        - main
-    artifacts:
-        paths:
-            - dist/
-    allow_failure: false
-    image: node:18-alpine
-    before_script:
-        - yarn install --immutable
-    script:
-        - yarn build:ssr
+  stage: node-ssr-build
+  tags:
+    - docker
+  only:
+    - main
+  artifacts:
+    paths:
+      - dist/
+  allow_failure: false
+  image: node:18-alpine
+  before_script:
+    - yarn install --immutable
+  script:
+    - yarn build
 
 Webserver Setup:
-    stage: webserver-setup
-    tags:
-        - oc
-    only:
-        - main
-    needs:
-        - job: Node SSR Build
-          artifacts: true
-    allow_failure: false
-    script:
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 kill"
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; rm -rf dist"
-        - scp -r ./dist "$REMOTE_SSH":"$REMOTE_DIR/dist"
-        - scp -r ./pm2.config.js "$REMOTE_SSH":"$REMOTE_DIR/pm2.config.js"
-        - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 start pm2.config.js"
+  stage: webserver-setup
+  tags:
+    - oc
+  only:
+    - main
+  needs:
+    - job: Node SSR Build
+      artifacts: true
+  allow_failure: false
+  script:
+    - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 kill"
+    - ssh $REMOTE_SSH "cd $REMOTE_DIR; rm -rf dist"
+    - scp -r ./dist "$REMOTE_SSH":"$REMOTE_DIR/dist"
+    - scp -r ./pm2.config.js "$REMOTE_SSH":"$REMOTE_DIR/pm2.config.js"
+    - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 start pm2.config.js"

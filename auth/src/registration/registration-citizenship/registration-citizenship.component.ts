@@ -7,34 +7,33 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
-    selector: 'vet-registration-citizenship',
-    standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputsModule,
-        RadioButtonModule,
-        ButtonModule,
-        LabelModule,
-        TranslocoModule,
-    ],
-    templateUrl: './registration-citizenship.component.html',
-    styleUrl: './registration-citizenship.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'vet-registration-citizenship',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputsModule,
+    RadioButtonModule,
+    ButtonModule,
+    LabelModule,
+    TranslocoModule,
+  ],
+  templateUrl: './registration-citizenship.component.html',
+  styleUrl: './registration-citizenship.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationCitizenshipComponent {
-    form = input<
-        FormGroup<{
-            citizenship: FormControl<string | null>;
-        }>
-    >();
+  form = input<
+    FormGroup<{
+      citizenship: FormControl<string | null>;
+    }>
+  >();
 
-    nextClick = output();
+  nextClick = output();
 
-    onNextClick() {
-        this.form()?.markAllAsTouched();
-        if (this.form()?.valid) {
-            this.nextClick.emit();
-        }
+  onNextClick() {
+    this.form()?.markAllAsTouched();
+    if (this.form()?.valid) {
+      this.nextClick.emit();
     }
+  }
 }

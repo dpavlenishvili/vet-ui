@@ -5,24 +5,23 @@ import { Observable, switchMap } from 'rxjs';
 import { CollectionItem, PagesService } from '@vet/backend';
 
 @Component({
-    selector: 'vet-collection-item-page',
-    standalone: true,
-    imports: [CommonModule],
-    templateUrl: './collection-item-page.component.html',
-    styleUrl: './collection-item-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'vet-collection-item-page',
+  imports: [CommonModule],
+  templateUrl: './collection-item-page.component.html',
+  styleUrl: './collection-item-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionItemPageComponent {
-    itemSlug = input.required<`${string}---${number}`>();
-    collectionId = computed(() => parseInt(this.itemSlug().split('---')[1]));
+  itemSlug = input.required<`${string}---${number}`>();
+  collectionId = computed(() => parseInt(this.itemSlug().split('---')[1]));
 
-    protected collectionItem$: Observable<CollectionItem>;
+  protected collectionItem$: Observable<CollectionItem>;
 
-    private pagesService = inject(PagesService);
+  private pagesService = inject(PagesService);
 
-    constructor() {
-        this.collectionItem$ = toObservable(this.collectionId).pipe(
-            switchMap((collectionId) => this.pagesService.getSingleCollectionItem(collectionId)),
-        );
-    }
+  constructor() {
+    this.collectionItem$ = toObservable(this.collectionId).pipe(
+      switchMap((collectionId) => this.pagesService.getSingleCollectionItem(collectionId)),
+    );
+  }
 }

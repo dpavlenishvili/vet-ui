@@ -10,7 +10,6 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-breadcrumb',
-  standalone: true,
   imports: [AsyncPipe, BreadCrumbModule, RouterLink, TranslocoPipe, TooltipModule],
   templateUrl: './breadcrumb.component.html',
   styleUrl: './breadcrumb.component.scss',
@@ -20,7 +19,10 @@ export class BreadcrumbComponent {
   showTooltipTextSizeThreshold = 34;
   breadcrumbItems$: Observable<ResolvedBreadCrumbItem[]>;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+  ) {
     this.breadcrumbItems$ = this.router.events.pipe(
       filter((event) => event instanceof ActivationEnd || event instanceof NavigationEnd),
       startWith(null),
@@ -28,15 +30,19 @@ export class BreadcrumbComponent {
       map((items: Array<AppBreadCrumbItem>) => {
         const params = collectParams(this.activatedRoute);
 
-        return items.map((item) => ({
-          path: item['path']
-            ?.split('/')
-            .map((segment) => (segment.startsWith(':') ? params[segment.slice(1)] ?? '' : segment)),
-          text: typeof item['text'] === 'function'
-              ? (item['text'] as Function)(this.activatedRoute.snapshot)
-              : item['text'],
-        }) as ResolvedBreadCrumbItem);
-      })
+        return items.map(
+          (item) =>
+            ({
+              path: item['path']
+                ?.split('/')
+                .map((segment) => (segment.startsWith(':') ? (params[segment.slice(1)] ?? '') : segment)),
+              text:
+                typeof item['text'] === 'function'
+                  ? (item['text'] as Function)(this.activatedRoute.snapshot)
+                  : item['text'],
+            }) as ResolvedBreadCrumbItem,
+        );
+      }),
     );
   }
 }

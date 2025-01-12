@@ -4,12 +4,10 @@ import { ProgramsFiltersComponent } from './programs-filters/programs-filters.co
 import { ProgramsListComponent } from './programs-list/programs-list.component';
 
 @Component({
-    selector: 'vet-programs',
-    standalone: true,
-    imports: [CommonModule, ProgramsFiltersComponent, ProgramsListComponent],
-    templateUrl: './programs.component.html',
-    styleUrl: './programs.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'vet-programs',
+  imports: [CommonModule, ProgramsFiltersComponent, ProgramsListComponent],
+  templateUrl: './programs.component.html',
+  styleUrl: './programs.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProgramsComponent {
-}
+export class ProgramsComponent {}

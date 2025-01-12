@@ -12,36 +12,35 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 
 @Component({
-    selector: 'vet-programs-filters-dialog',
-    standalone: true,
-    imports: [
-        CommonModule,
-        TranslocoPipe,
-        DialogModule,
-        ReactiveFormsModule,
-        DropDownListModule,
-        TextBoxModule,
-        ButtonModule,
-        ToastModule,
-        TextAreaModule,
-        LabelModule,
-        InputsModule,
-        SVGIconModule
-    ],
-    templateUrl: './programs-filters-dialog.component.html',
-    styleUrl: './programs-filters-dialog.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'vet-programs-filters-dialog',
+  imports: [
+    CommonModule,
+    TranslocoPipe,
+    DialogModule,
+    ReactiveFormsModule,
+    DropDownListModule,
+    TextBoxModule,
+    ButtonModule,
+    ToastModule,
+    TextAreaModule,
+    LabelModule,
+    InputsModule,
+    SVGIconModule,
+  ],
+  templateUrl: './programs-filters-dialog.component.html',
+  styleUrl: './programs-filters-dialog.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramsFiltersDialogComponent {
-    kendoIcons = kendoIcons;
+  kendoIcons = kendoIcons;
 
-    dialogClose = output();
+  dialogClose = output();
 
-    handleSave() {
-        console.log('hey');
-    }
+  handleSave() {
+    console.log('hey');
+  }
 
-    handleClose() {
-        this.dialogClose.emit();
-    }
+  handleClose() {
+    this.dialogClose.emit();
+  }
 }

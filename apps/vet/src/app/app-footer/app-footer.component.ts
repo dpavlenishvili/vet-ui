@@ -6,7 +6,6 @@ import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'vet-app-footer',
-  standalone: true,
   imports: [CommonModule, SVGIconComponent, TranslocoPipe],
   templateUrl: './app-footer.component.html',
   styleUrl: './app-footer.component.scss',
