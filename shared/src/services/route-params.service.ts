@@ -6,8 +6,10 @@ import { parseNestedObjects, stringifyNestedObjects, withoutEmptyProperties } fr
 
 @Injectable({ providedIn: 'root' })
 export class RouteParamsService {
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-  }
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   get<T extends Params>(): Observable<T> {
     return this.activatedRoute.queryParams.pipe(map((queryParams) => parseNestedObjects(queryParams) as T));

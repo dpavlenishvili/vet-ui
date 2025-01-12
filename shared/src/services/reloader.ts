@@ -11,7 +11,7 @@ export class Reloader {
   reloadable<T>(callback: () => Observable<T>): Observable<T> {
     return this.shouldReload$.pipe(
       switchMap(() => callback()),
-      tap(() => this.reloadDone$.next())
+      tap(() => this.reloadDone$.next()),
     );
   }
 

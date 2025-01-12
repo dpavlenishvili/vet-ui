@@ -399,7 +399,7 @@ $tb-kendo-color-gradient-draghandle-focus-shadow: #000000;
 $tb-kendo-color-gradient-draghandle-hover-shadow: #000000;
 $tb-kendo-color-primary: #3d8b96;
 $tb-kendo-color-primary-contrast: white;
-$tb-kendo-color-secondary: #B1B7BB;
+$tb-kendo-color-secondary: #b1b7bb;
 $tb-kendo-color-tertiary: #03a9f4;
 $tb-kendo-color-info: #0058e9;
 $tb-kendo-color-success: #37b400;
@@ -694,16 +694,36 @@ $tb-kendo-window-border: $tb-kendo-component-border;
 $tb-kendo-window-titlebar-bg: $tb-kendo-component-header-bg;
 $tb-kendo-window-titlebar-text: $tb-kendo-component-header-text;
 
-$tb-kendo-appbar-box-shadow: 0px 8px 10px 0 rgba(0, 0, 0, 0.12), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-bottom-nav-shadow: 0px 8px 10px 0 rgba(0, 0, 0, 0.12), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-color-gradient-focus-shadow: 0px 6px 8px 0 rgba(0, 0, 0, 0.08), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-fab-shadow: 0px 10px 12px 0 rgba(0, 0, 0, 0.16), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-fab-disabled-shadow: 0px 10px 12px 0 rgba(0, 0, 0, 0.16), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-list-header-shadow: 0px 4px 6px 0 rgba(0, 0, 0, 0.06), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-popup-shadow: 0px 8px 10px 0 rgba(0, 0, 0, 0.12), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-tooltip-shadow: 0px 4px 6px 0 rgba(0, 0, 0, 0.06), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-window-shadow: 0px 16px 18px 0 rgba(0, 0, 0, 0.28), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
-$tb-kendo-window-focus-shadow: 0px 32px 34px 0 rgba(0, 0, 0, 0.32), 0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-appbar-box-shadow:
+  0px 8px 10px 0 rgba(0, 0, 0, 0.12),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-bottom-nav-shadow:
+  0px 8px 10px 0 rgba(0, 0, 0, 0.12),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-color-gradient-focus-shadow:
+  0px 6px 8px 0 rgba(0, 0, 0, 0.08),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-fab-shadow:
+  0px 10px 12px 0 rgba(0, 0, 0, 0.16),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-fab-disabled-shadow:
+  0px 10px 12px 0 rgba(0, 0, 0, 0.16),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-list-header-shadow:
+  0px 4px 6px 0 rgba(0, 0, 0, 0.06),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-popup-shadow:
+  0px 8px 10px 0 rgba(0, 0, 0, 0.12),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-tooltip-shadow:
+  0px 4px 6px 0 rgba(0, 0, 0, 0.06),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-window-shadow:
+  0px 16px 18px 0 rgba(0, 0, 0, 0.28),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+$tb-kendo-window-focus-shadow:
+  0px 32px 34px 0 rgba(0, 0, 0, 0.32),
+  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
 
 $kendo-is-dark-theme: $tb-kendo-is-dark-theme;
 $kendo-icon-size: $tb-kendo-icon-size;

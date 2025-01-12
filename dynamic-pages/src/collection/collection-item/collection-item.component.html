@@ -1,5 +1,5 @@
 <div class="collection-item-image-wrapper">
-    <img [ngSrc]="collectionItem().image | vetUploadedFileUri" fill [attr.alt]="collectionItem().slug" />
+  <img [ngSrc]="collectionItem().image | vetUploadedFileUri" fill [attr.alt]="collectionItem().slug" />
 </div>
 <span class="collection-item-created-at">{{ collectionItem().created_at | date: 'short' }}</span>
 <header class="collection-item-title">{{ collectionItem().title }}</header>

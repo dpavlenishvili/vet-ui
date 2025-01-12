@@ -36,10 +36,7 @@ export class BreadcrumbComponent {
               path: item['path']
                 ?.split('/')
                 .map((segment) => (segment.startsWith(':') ? (params[segment.slice(1)] ?? '') : segment)),
-              text:
-                typeof item['text'] === 'function'
-                  ? item['text'](this.activatedRoute.snapshot)
-                  : item['text'],
+              text: typeof item['text'] === 'function' ? item['text'](this.activatedRoute.snapshot) : item['text'],
             }) as ResolvedBreadCrumbItem,
         );
       }),

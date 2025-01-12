@@ -1,76 +1,76 @@
 <div class="k-d-flex k-justify-content-between k-gap-4 k-color-secondary">
-    <div class="stepper-container">
-        <kendo-stepper
-            [(currentStep)]="currentStepIndex"
-            [steps]="steps"
-            [stepType]="'full'"
-            [orientation]="'vertical'"
-            (activate)="onStepChange($event)"
-        >
-            <ng-template kendoStepperLabelTemplate let-step>
-                {{ step.label | transloco }}
-            </ng-template>
-        </kendo-stepper>
-    </div>
-    <div class="step-content-container">
-        <div class="k-display-flex k-gap-10 k-flex-column">
-            @if (steps[currentStepIndex]; as currentStep) {
-                <h2>{{ currentStep.title | transloco }}</h2>
+  <div class="stepper-container">
+    <kendo-stepper
+      [(currentStep)]="currentStepIndex"
+      [steps]="steps"
+      [stepType]="'full'"
+      [orientation]="'vertical'"
+      (activate)="onStepChange($event)"
+    >
+      <ng-template kendoStepperLabelTemplate let-step>
+        {{ step.label | transloco }}
+      </ng-template>
+    </kendo-stepper>
+  </div>
+  <div class="step-content-container">
+    <div class="k-display-flex k-gap-10 k-flex-column">
+      @if (steps[currentStepIndex]; as currentStep) {
+        <h2>{{ currentStep.title | transloco }}</h2>
 
-                <div [ngSwitch]="currentStepIndex">
-                    <ng-container *ngSwitchCase="0">
-                        <vet-registration-citizenship
-                            [form]="formGroup.controls.chooseCitizenship"
-                            (nextClick)="onNextClick()"
-                        ></vet-registration-citizenship>
-                    </ng-container>
+        <div [ngSwitch]="currentStepIndex">
+          <ng-container *ngSwitchCase="0">
+            <vet-registration-citizenship
+              [form]="formGroup.controls.chooseCitizenship"
+              (nextClick)="onNextClick()"
+            ></vet-registration-citizenship>
+          </ng-container>
 
-                    <ng-container *ngSwitchCase="1">
-                        @switch (citizenship) {
-                            @case (CitizenshipType.Georgian) {
-                                <vet-registration-identity-citizen
-                                    [form]="formGroup.controls.checkIdentity"
-                                    (previousClick)="onPreviousClick()"
-                                    (nextClick)="onNextClick()"
-                                ></vet-registration-identity-citizen>
-                            }
-                            @case (CitizenshipType.Foreigner) {
-                                <vet-registration-identity-foreigner
-                                    [form]="formGroup.controls.checkIdentityForeigner"
-                                    (previousClick)="onPreviousClick()"
-                                    (nextClick)="onNextClick()"
-                                ></vet-registration-identity-foreigner>
-                            }
-                        }
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="2">
-                        <vet-registration-phone
-                            [form]="formGroup.controls.phone"
-                            (previousClick)="onPreviousClick()"
-                            (nextClick)="onNextClick()"
-                        ></vet-registration-phone>
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="3">
-                        <vet-registration-password-create
-                            [form]="formGroup.controls.passwords"
-                            (previousClick)="onPreviousClick()"
-                            (nextClick)="onNextClick()"
-                        >
-                        </vet-registration-password-create>
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="4">
-                        <vet-registration-terms-and-conditions
-                            [form]="formGroup.controls.termsAndConditions"
-                            (previousClick)="onPreviousClick()"
-                            (nextClick)="onNextClick()"
-                        >
-                        </vet-registration-terms-and-conditions>
-                    </ng-container>
-                </div>
+          <ng-container *ngSwitchCase="1">
+            @switch (citizenship) {
+              @case (CitizenshipType.Georgian) {
+                <vet-registration-identity-citizen
+                  [form]="formGroup.controls.checkIdentity"
+                  (previousClick)="onPreviousClick()"
+                  (nextClick)="onNextClick()"
+                ></vet-registration-identity-citizen>
+              }
+              @case (CitizenshipType.Foreigner) {
+                <vet-registration-identity-foreigner
+                  [form]="formGroup.controls.checkIdentityForeigner"
+                  (previousClick)="onPreviousClick()"
+                  (nextClick)="onNextClick()"
+                ></vet-registration-identity-foreigner>
+              }
             }
+          </ng-container>
+
+          <ng-container *ngSwitchCase="2">
+            <vet-registration-phone
+              [form]="formGroup.controls.phone"
+              (previousClick)="onPreviousClick()"
+              (nextClick)="onNextClick()"
+            ></vet-registration-phone>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="3">
+            <vet-registration-password-create
+              [form]="formGroup.controls.passwords"
+              (previousClick)="onPreviousClick()"
+              (nextClick)="onNextClick()"
+            >
+            </vet-registration-password-create>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="4">
+            <vet-registration-terms-and-conditions
+              [form]="formGroup.controls.termsAndConditions"
+              (previousClick)="onPreviousClick()"
+              (nextClick)="onNextClick()"
+            >
+            </vet-registration-terms-and-conditions>
+          </ng-container>
         </div>
+      }
     </div>
+  </div>
 </div>

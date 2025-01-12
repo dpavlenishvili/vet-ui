@@ -8,20 +8,20 @@ const translations = {
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
-    getTranslation(lang: 'ka' | 'en') {
-        return translations[lang]();
-    }
+  getTranslation(lang: 'ka' | 'en') {
+    return translations[lang]();
+  }
 }
 
 export function initializeTransolco() {
-    return provideTransloco({
-        config: {
-            availableLangs: ['ka', 'en'],
-            defaultLang: 'ka',
-            // Remove this option if your application doesn't support changing language in runtime.
-            reRenderOnLangChange: true,
-            prodMode: !isDevMode(),
-        },
-        loader: TranslocoHttpLoader,
-    });
+  return provideTransloco({
+    config: {
+      availableLangs: ['ka', 'en'],
+      defaultLang: 'ka',
+      // Remove this option if your application doesn't support changing language in runtime.
+      reRenderOnLangChange: true,
+      prodMode: !isDevMode(),
+    },
+    loader: TranslocoHttpLoader,
+  });
 }

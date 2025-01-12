@@ -7,14 +7,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'vet-registration-citizenship',
-  imports: [
-    ReactiveFormsModule,
-    InputsModule,
-    RadioButtonModule,
-    ButtonModule,
-    LabelModule,
-    TranslocoModule,
-  ],
+  imports: [ReactiveFormsModule, InputsModule, RadioButtonModule, ButtonModule, LabelModule, TranslocoModule],
   templateUrl: './registration-citizenship.component.html',
   styleUrl: './registration-citizenship.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

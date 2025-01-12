@@ -4,7 +4,7 @@ import { useRouteParam, vetIcons } from '@vet/shared';
 import { ProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'vet-program',

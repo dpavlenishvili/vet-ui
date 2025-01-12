@@ -11,11 +11,10 @@
 @import 'general';
 
 .k-button-outline {
-    border-color: $kendo-button-border;
+  border-color: $kendo-button-border;
 }
 
 @include kendo-theme--styles();
 
 @import 'helvetica-neue-font';
 @import 'custom-kendo-overides';
-

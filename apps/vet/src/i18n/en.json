@@ -1,14 +1,14 @@
 {
-    "errors": {
-        "required": "Field is required",
-        "minlength": "Minimum length should be {{requiredLength}}",
-        "personalNumber": "Personal number is not correct",
-        "mobileNumber": "Format should be 5XXXXXXXX",
-        "verificationNumber": "Verification number is not correct",
-        "verificationNumberTimeLimit": "Verification code has expired, please resend",
-        "passwordsDoNotMatch": "Passwords do not match",
-        "passwordPattern": "Password should contain min 8 symbols (lowercase, uppercase, digit, special symbol)",
-        "personCouldNotBeIdentified": "Person could not be identified",
-        "georgianLetters": "Please user Georgian alphabet"
-    }
+  "errors": {
+    "required": "Field is required",
+    "minlength": "Minimum length should be {{requiredLength}}",
+    "personalNumber": "Personal number is not correct",
+    "mobileNumber": "Format should be 5XXXXXXXX",
+    "verificationNumber": "Verification number is not correct",
+    "verificationNumberTimeLimit": "Verification code has expired, please resend",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordPattern": "Password should contain min 8 symbols (lowercase, uppercase, digit, special symbol)",
+    "personCouldNotBeIdentified": "Person could not be identified",
+    "georgianLetters": "Please user Georgian alphabet"
+  }
 }

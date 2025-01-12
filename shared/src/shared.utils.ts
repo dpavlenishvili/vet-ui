@@ -13,7 +13,7 @@ export function withoutEmptyProperties(params: Params) {
       continue;
     }
 
-    filteredParams[key] = value && typeof value === 'object' ? withoutEmptyProperties(value):value;
+    filteredParams[key] = value && typeof value === 'object' ? withoutEmptyProperties(value) : value;
   }
 
   return filteredParams;
@@ -30,22 +30,22 @@ export const flattenQueryParams = (obj: QueryParams, prefix?: string): Record<st
   R.pipe(
     R.toPairs,
     R.reduce((red, [key, value]) => {
-      const nestedKey = prefix ? `${prefix}[${key.toString()}]`:key.toString();
+      const nestedKey = prefix ? `${prefix}[${key.toString()}]` : key.toString();
 
       if (!R.is(Object, value)) {
         return value === undefined
           ? red
-          :{
-            ...red,
-            [nestedKey]: value as string,
-          };
+          : {
+              ...red,
+              [nestedKey]: value as string,
+            };
       }
 
       return {
         ...red,
         ...flattenQueryParams(value as QueryParams, nestedKey),
       };
-    }, {})
+    }, {}),
   )(obj) as unknown as Record<string, string>;
 
 /**
@@ -56,7 +56,7 @@ export const stringifyNestedObjects = (params: Params): Record<string, string> =
   const encodedParams: Record<string, string> = {};
 
   for (const [key, value] of Object.entries(params)) {
-    encodedParams[key] = value && typeof value === 'object' ? JSON.stringify(value):value;
+    encodedParams[key] = value && typeof value === 'object' ? JSON.stringify(value) : value;
   }
 
   return encodedParams;
@@ -70,7 +70,7 @@ export const parseNestedObjects = (params: Params): Params => {
   const decodedParams: Params = {};
 
   for (const [key, value] of Object.entries(params)) {
-    decodedParams[key] = isJsonEncodedObject(value) ? JSON.parse(value):value;
+    decodedParams[key] = isJsonEncodedObject(value) ? JSON.parse(value) : value;
   }
 
   return decodedParams;
@@ -85,7 +85,7 @@ export const toQueryString = (obj: QueryParams): string =>
     flattenQueryParams,
     R.toPairs,
     R.map(([key, value]) => `${encodeURIComponent(key.toString())}=${encodeURIComponent(value.toString())}`),
-    R.join('&')
+    R.join('&'),
   )(obj);
 
 export function extractData<T extends { data: unknown }>(): (source: Observable<T>) => Observable<T['data']> {
@@ -104,18 +104,18 @@ export function getRouteParam(activatedRoute: ActivatedRoute, key: string, fallb
 export function getRouteParam(
   activatedRoute: ActivatedRoute,
   key: string,
-  fallback: string | null = null
+  fallback: string | null = null,
 ): Observable<string | null> {
   return activatedRoute.paramMap.pipe(
     map((params) => params.get(key)),
-    map((value) => value ?? fallback)
+    map((value) => value ?? fallback),
   );
 }
 
 export function getRouteNumberParam(activatedRoute: ActivatedRoute, key: string): Observable<number>;
 export function getRouteNumberParam(activatedRoute: ActivatedRoute, key: string, fallback: number): Observable<number>;
 export function getRouteNumberParam(activatedRoute: ActivatedRoute, key: string, fallback = NaN): Observable<number> {
-  return getRouteParam(activatedRoute, key).pipe(map((value) => (value !== null ? Number(value):fallback)));
+  return getRouteParam(activatedRoute, key).pipe(map((value) => (value !== null ? Number(value) : fallback)));
 }
 
 export function getRouteParamSnapshot(activatedRoute: ActivatedRoute, key: string): string | null;
@@ -123,7 +123,7 @@ export function getRouteParamSnapshot(activatedRoute: ActivatedRoute, key: strin
 export function getRouteParamSnapshot(
   activatedRoute: ActivatedRoute,
   key: string,
-  fallback: string | null = null
+  fallback: string | null = null,
 ): string | null {
   return activatedRoute.snapshot.paramMap.get(key) ?? fallback;
 }
@@ -133,7 +133,7 @@ export function getRouteNumberParamSnapshot(activatedRoute: ActivatedRoute, key:
 export function getRouteNumberParamSnapshot(activatedRoute: ActivatedRoute, key: string, fallback = NaN): number {
   const value = getRouteParamSnapshot(activatedRoute, key);
 
-  return value !== null ? Number(value):fallback;
+  return value !== null ? Number(value) : fallback;
 }
 
 export function getLastRoute(activatedRoute: ActivatedRoute) {
@@ -198,10 +198,7 @@ export function compareObjects<T>(obj1: T, obj2: T) {
   const difference: Partial<T> = {} as unknown as Partial<T>;
 
   for (const key in obj1) {
-    if (
-      Object.prototype.hasOwnProperty.call(obj1, key) &&
-      Object.prototype.hasOwnProperty.call(obj2, key)
-    ) {
+    if (Object.prototype.hasOwnProperty.call(obj1, key) && Object.prototype.hasOwnProperty.call(obj2, key)) {
       if (obj1[key] !== obj2[key]) {
         difference[key] = obj2[key];
       }
@@ -211,9 +208,8 @@ export function compareObjects<T>(obj1: T, obj2: T) {
   return difference;
 }
 
-
 export function breadcrumb(items: AppBreadCrumbItem[]) {
-    return {
-        breadcrumb: items,
-    };
+  return {
+    breadcrumb: items,
+  };
 }

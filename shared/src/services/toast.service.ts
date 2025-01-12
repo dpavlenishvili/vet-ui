@@ -9,7 +9,10 @@ export interface ToastParams {
 
 @Injectable({ providedIn: ToastModule })
 export class ToastService {
-  constructor(private notificationService: NotificationService, private translocoService: TranslocoService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private translocoService: TranslocoService,
+  ) {}
 
   success(message: string, params?: ToastParams) {
     this.show('success', message, params);

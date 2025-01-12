@@ -1,4 +1,4 @@
 export interface AuthEnvironment {
-    phoneVerificationNumberLength: number;
-    phoneVerificationNumberTimeoutSeconds: number;
+  phoneVerificationNumberLength: number;
+  phoneVerificationNumberTimeoutSeconds: number;
 }

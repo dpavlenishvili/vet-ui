@@ -11,7 +11,7 @@ export class ReloadService {
       const reloadSubject = new BehaviorSubject<void>(undefined);
       const institution$ = reloadSubject.pipe(
         switchMap(() => loadFresh()),
-        shareReplay()
+        shareReplay(),
       );
       this.reloadSubjects.set(key, reloadSubject);
       this.sharedObservables.set(key, institution$);

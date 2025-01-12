@@ -1,24 +1,24 @@
 :host {
-    display: block;
+  display: block;
 
-    --container-bg-color: #ffffff;
-    --container-border-radius: 20px;
-    --container-padding: 20px;
+  --container-bg-color: #ffffff;
+  --container-border-radius: 20px;
+  --container-padding: 20px;
 
-    .stepper-container,
-    .step-content-container {
-        width: 100%;
-        height: 100%;
-        padding: var(--container-padding);
-        border-radius: var(--container-border-radius);
-        background-color: var(--container-bg-color);
-    }
+  .stepper-container,
+  .step-content-container {
+    width: 100%;
+    height: 100%;
+    padding: var(--container-padding);
+    border-radius: var(--container-border-radius);
+    background-color: var(--container-bg-color);
+  }
 
-    .stepper-container {
-        max-width: 305px;
-    }
+  .stepper-container {
+    max-width: 305px;
+  }
 
-    .step-content-container {
-        max-width: 955px;
-    }
+  .step-content-container {
+    max-width: 955px;
+  }
 }

@@ -7,7 +7,7 @@ import { useAuthEnvironment } from '../../auth.injectors';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { Reloader } from '@vet/shared';
 import { RouterLink } from '@angular/router';
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe } from '@angular/common';
 
 dayjs.extend(duration);
 

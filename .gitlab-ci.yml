@@ -10,18 +10,18 @@ variables:
 Install dependencies:
   stage: install-dependencies
   tags:
-      - docker
+    - docker
   rules:
-      - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-      - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   allow_failure: false
   image: node:18-alpine
   artifacts:
     paths:
       - node_modules/
   script:
-      - yarn install --immutable
+    - yarn install --immutable
 
 Build:
   needs:
@@ -54,7 +54,7 @@ Lint Libraries:
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
   image: node:18-alpine
   script:
-#    - yarn nx affected -t lint --base $CI_DEFAULT_BRANCH
+    #    - yarn nx affected -t lint --base $CI_DEFAULT_BRANCH
     - yarn nx run-many --target=lint --all
 
 Webserver Setup:

@@ -5,7 +5,7 @@ import { first, map, Observable, switchMap } from 'rxjs';
 
 import { CollectionItemComponent } from '../collection-item/collection-item.component';
 import { CollectionItem, Page, PagesService } from '@vet/backend';
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'vet-collection-page',

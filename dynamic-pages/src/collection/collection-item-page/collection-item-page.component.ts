@@ -2,17 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable, switchMap } from 'rxjs';
 import { CollectionItem, PagesService } from '@vet/backend';
-import { AsyncPipe, JsonPipe } from "@angular/common";
+import { AsyncPipe, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'vet-collection-item-page',
   templateUrl: './collection-item-page.component.html',
   styleUrl: './collection-item-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AsyncPipe,
-    JsonPipe
-  ]
+  imports: [AsyncPipe, JsonPipe],
 })
 export class CollectionItemPageComponent {
   itemSlug = input.required<`${string}---${number}`>();

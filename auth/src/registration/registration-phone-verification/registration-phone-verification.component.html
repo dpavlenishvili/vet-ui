@@ -1,23 +1,23 @@
 <div class="k-display-flex k-flex-column k-gap-5">
-    <div class="k-display-flex k-justify-content-end k-gap-5">
-        @for (digit of digits(); track $index) {
-            <kendo-numerictextbox
-                #input
-                type="number"
-                [disabled]="disabled()"
-                [maxlength]="1"
-                [selectOnFocus]="true"
-                [spinners]="false"
-                [format]="'#'"
-                [ngModel]="digit"
-                [style.width.rem]="3.5"
-                [style.height.rem]="3.5"
-                (ngModelChange)="onDigitChange($index, $event, input)"
-            ></kendo-numerictextbox>
-        }
-    </div>
+  <div class="k-display-flex k-justify-content-end k-gap-5">
+    @for (digit of digits(); track $index) {
+      <kendo-numerictextbox
+        #input
+        type="number"
+        [disabled]="disabled()"
+        [maxlength]="1"
+        [selectOnFocus]="true"
+        [spinners]="false"
+        [format]="'#'"
+        [ngModel]="digit"
+        [style.width.rem]="3.5"
+        [style.height.rem]="3.5"
+        (ngModelChange)="onDigitChange($index, $event, input)"
+      ></kendo-numerictextbox>
+    }
+  </div>
 
-    <div>
-        <vet-registration-phone-timeout (resend)="onSend()"></vet-registration-phone-timeout>
-    </div>
+  <div>
+    <vet-registration-phone-timeout (resend)="onSend()"></vet-registration-phone-timeout>
+  </div>
 </div>

@@ -4,7 +4,7 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { concatMap, map, Observable, of } from 'rxjs';
 import { Page, PagesService } from '@vet/backend';
 import { TranslocoModule } from '@jsverse/transloco';
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'vet-home-services',

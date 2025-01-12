@@ -1,114 +1,139 @@
 @if (program$ | async; as program) {
-    <div class="k-p-5 k-rounded-xl k-bg-white">
-        <h1 class="vet-text-base k-text-center">სსიპ - კოლეჯი „გლდანის პროფესიული მომზადების ცენტრი“</h1>
-        <h2 class="vet-text-h2 k-text-center k-mt-4">ხის მხატვრული დამუშავება</h2>
+  <div class="k-p-5 k-rounded-xl k-bg-white">
+    <h1 class="vet-text-base k-text-center">სსიპ - კოლეჯი „გლდანის პროფესიული მომზადების ცენტრი“</h1>
+    <h2 class="vet-text-h2 k-text-center k-mt-4">ხის მხატვრული დამუშავება</h2>
 
-        <div class="k-mt-10 k-display-flex k-gap-5">
-            <div class="k-display-flex k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-secondary">
-                <div class="vet-text-base k-display-flex k-flex-column k-gap-3.5">
-                    <div>{{ 'programs.field' | transloco }}: <strong>{{ program.program_name }}</strong></div>
-                    <div>{{ 'programs.program_code' | transloco }}: <strong>{{ program.program_code }}</strong></div>
-                    <div>{{ 'programs.level' | transloco }}: <strong>{{ program.education_level }}</strong></div>
-                    <div>{{ 'programs.program_kind' | transloco }}: <strong>{{ program.program_kind }}</strong></div>
-                    <div>{{ 'programs.program_duration' | transloco }}: <strong>{{ program.program_duration }}</strong></div>
-                    <div>{{ 'programs.employment_field' | transloco }}: <strong>{{ program.specialization_name }}</strong></div>
-                    <div>{{ 'programs.applicant_selection_method' | transloco }}: <strong>{{ program.type }}</strong></div>
-                    <div>{{ 'programs.admission_prerequisite' | transloco }}: <strong>{{ program.description }}</strong></div>
-                    <div>{{ 'programs.implementation_location' | transloco }}: <strong>{{ program.address }}</strong></div>
-                </div>
+    <div class="k-mt-10 k-display-flex k-gap-5">
+      <div class="k-display-flex k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-secondary">
+        <div class="vet-text-base k-display-flex k-flex-column k-gap-3.5">
+          <div>
+            {{ 'programs.field' | transloco }}: <strong>{{ program.program_name }}</strong>
+          </div>
+          <div>
+            {{ 'programs.program_code' | transloco }}: <strong>{{ program.program_code }}</strong>
+          </div>
+          <div>
+            {{ 'programs.level' | transloco }}: <strong>{{ program.education_level }}</strong>
+          </div>
+          <div>
+            {{ 'programs.program_kind' | transloco }}: <strong>{{ program.program_kind }}</strong>
+          </div>
+          <div>
+            {{ 'programs.program_duration' | transloco }}: <strong>{{ program.program_duration }}</strong>
+          </div>
+          <div>
+            {{ 'programs.employment_field' | transloco }}: <strong>{{ program.specialization_name }}</strong>
+          </div>
+          <div>
+            {{ 'programs.applicant_selection_method' | transloco }}: <strong>{{ program.type }}</strong>
+          </div>
+          <div>
+            {{ 'programs.admission_prerequisite' | transloco }}: <strong>{{ program.description }}</strong>
+          </div>
+          <div>
+            {{ 'programs.implementation_location' | transloco }}: <strong>{{ program.address }}</strong>
+          </div>
+        </div>
 
-                <div>
-                    <div class="vet-bg-pink k-rounded-lg k-p-4.5">
-                        <kendo-svg-icon [icon]="vetIcons.palette"/>
-                    </div>
-                </div>
-            </div>
+        <div>
+          <div class="vet-bg-pink k-rounded-lg k-p-4.5">
+            <kendo-svg-icon [icon]="vetIcons.palette" />
+          </div>
+        </div>
+      </div>
 
-            @if (admission) {
-                <div class="k-pos-relative k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-primary">
-                    <div class="k-pos-absolute k-top-0 k-left-17 k-mt--4 k-ml-0.5 k-bg-white k-px-5 k-py-1 vet-text-sm">
-                        <strong class="k-color-primary">{{ 'programs.admission_open' | transloco }}</strong>
-                    </div>
+      @if (admission) {
+        <div class="k-pos-relative k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-primary">
+          <div class="k-pos-absolute k-top-0 k-left-17 k-mt--4 k-ml-0.5 k-bg-white k-px-5 k-py-1 vet-text-sm">
+            <strong class="k-color-primary">{{ 'programs.admission_open' | transloco }}</strong>
+          </div>
 
-                    <div class="vet-admission-table vet-grid-table vet-grid-size-6 vet-grid-dense k-mt-10">
-                        <div class="vet-grid-cell vet-grid-header">{{ 'programs.registration_period' | transloco }}</div>
-                        <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_start_date' | transloco }}</div>
-                        <div class="vet-grid-cell vet-grid-header">{{ 'programs.number_of_vacant_positions' | transloco }}</div>
-                        <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_fee' | transloco }}</div>
-                        <div class="vet-grid-cell vet-grid-header">{{ 'programs.grant_status' | transloco }}</div>
-                        <div class="vet-grid-cell vet-grid-header">{{ 'programs.listener_fee' | transloco }}</div>
+          <div class="vet-admission-table vet-grid-table vet-grid-size-6 vet-grid-dense k-mt-10">
+            <div class="vet-grid-cell vet-grid-header">{{ 'programs.registration_period' | transloco }}</div>
+            <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_start_date' | transloco }}</div>
+            <div class="vet-grid-cell vet-grid-header">{{ 'programs.number_of_vacant_positions' | transloco }}</div>
+            <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_fee' | transloco }}</div>
+            <div class="vet-grid-cell vet-grid-header">{{ 'programs.grant_status' | transloco }}</div>
+            <div class="vet-grid-cell vet-grid-header">{{ 'programs.listener_fee' | transloco }}</div>
 
-                        @for (admission of program.admission; track admission.id) {
-                            <div class="vet-grid-cell">
-                                {{ admission.registrationStart }} / {{ admission.registrationEnd}}
-                            </div>
-                            <div class="vet-grid-cell">{{ admission.tuitionStartDate }}</div>
-                            <div class="vet-grid-cell">{{ admission.numberOfVacantPositions }}</div>
-                            <div class="vet-grid-cell">{{ admission.tuitionFee }}</div>
-                            <div class="vet-grid-cell">{{ admission.grantStatus }}</div>
-                            <div class="vet-grid-cell">{{ admission.listenerFee }}</div>
-                        }
-                    </div>
-
-                    <div class="vet-text-base k-mt-7">
-                        <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
-                    </div>
-                </div>
-            } @else {
-                <div class="k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-secondary">
-                    <div class="k-display-flex k-flex-column k-justify-content-center k-align-items-center k-h-full k-gap-3.5">
-                        <div class="vet-bg-blue k-rounded-lg k-p-3 k-color-primary">
-                            <kendo-svg-icon [icon]="vetIcons.search"/>
-                        </div>
-                        <div class="vet-text-sm k-color-primary">
-                            {{ 'programs.no_admission' | transloco }}
-                        </div>
-                    </div>
-                </div>
+            @for (admission of program.admission; track admission.id) {
+              <div class="vet-grid-cell">{{ admission.registrationStart }} / {{ admission.registrationEnd }}</div>
+              <div class="vet-grid-cell">{{ admission.tuitionStartDate }}</div>
+              <div class="vet-grid-cell">{{ admission.numberOfVacantPositions }}</div>
+              <div class="vet-grid-cell">{{ admission.tuitionFee }}</div>
+              <div class="vet-grid-cell">{{ admission.grantStatus }}</div>
+              <div class="vet-grid-cell">{{ admission.listenerFee }}</div>
             }
+          </div>
+
+          <div class="vet-text-base k-mt-7">
+            <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
+          </div>
         </div>
-
-        <div class="k-pos-relative k-mt-15 k-border-solid k-border-secondary k-p-5 k-pt-8">
-            <div class="k-pos-absolute k-top-0 k-left-14 k-mt--7.5 k-ml-14 k-bg-white k-p-5 vet-text-sm">
-                <strong>{{ 'programs.partner_organizations' | transloco }}</strong>
+      } @else {
+        <div class="k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-secondary">
+          <div class="k-display-flex k-flex-column k-justify-content-center k-align-items-center k-h-full k-gap-3.5">
+            <div class="vet-bg-blue k-rounded-lg k-p-3 k-color-primary">
+              <kendo-svg-icon [icon]="vetIcons.search" />
             </div>
-
-            <div class="vet-grid-table vet-grid-size-3">
-                <div class="vet-grid-cell vet-grid-header">{{ 'programs.partner_organization' | transloco }}</div>
-                <div class="vet-grid-cell vet-grid-header">{{ 'programs.organization_size' | transloco }}</div>
-                <div class="vet-grid-cell vet-grid-header">{{ 'programs.economic_sector' | transloco }}</div>
-
-                @for (partner of program.partners; track partner.id) {
-                    <div class="vet-grid-cell">{{ partner.name }}</div>
-                    <div class="vet-grid-cell">
-                        <kendo-svg-icon [icon]="vetIcons.info"/>
-                        <span class="k-ml-2">{{ partner.size }}</span>
-                    </div>
-                    <div class="vet-grid-cell">{{ partner.sector }}</div>
-                }
+            <div class="vet-text-sm k-color-primary">
+              {{ 'programs.no_admission' | transloco }}
             </div>
+          </div>
         </div>
-
-        <div class="k-mt-8">
-            <div class="vet-text-h2">
-                {{ 'programs.program_description' | transloco }}
-            </div>
-
-            <div class="k-mt-4.5 vet-text-base">
-                {{ program.summary }}
-            </div>
-        </div>
-
-        <div class="k-mt-8 k-px-24 k-pb-15">
-            <div class="k-px-2">
-                <div class="k-p-7 k-rounded-card k-elevation-1">
-                    <iframe width="100%" height="395" src="https://www.youtube.com/embed/K4TOrB7at0Y?si=hMGKZX4YENQqIyVm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
+      }
     </div>
+
+    <div class="k-pos-relative k-mt-15 k-border-solid k-border-secondary k-p-5 k-pt-8">
+      <div class="k-pos-absolute k-top-0 k-left-14 k-mt--7.5 k-ml-14 k-bg-white k-p-5 vet-text-sm">
+        <strong>{{ 'programs.partner_organizations' | transloco }}</strong>
+      </div>
+
+      <div class="vet-grid-table vet-grid-size-3">
+        <div class="vet-grid-cell vet-grid-header">{{ 'programs.partner_organization' | transloco }}</div>
+        <div class="vet-grid-cell vet-grid-header">{{ 'programs.organization_size' | transloco }}</div>
+        <div class="vet-grid-cell vet-grid-header">{{ 'programs.economic_sector' | transloco }}</div>
+
+        @for (partner of program.partners; track partner.id) {
+          <div class="vet-grid-cell">{{ partner.name }}</div>
+          <div class="vet-grid-cell">
+            <kendo-svg-icon [icon]="vetIcons.info" />
+            <span class="k-ml-2">{{ partner.size }}</span>
+          </div>
+          <div class="vet-grid-cell">{{ partner.sector }}</div>
+        }
+      </div>
+    </div>
+
+    <div class="k-mt-8">
+      <div class="vet-text-h2">
+        {{ 'programs.program_description' | transloco }}
+      </div>
+
+      <div class="k-mt-4.5 vet-text-base">
+        {{ program.summary }}
+      </div>
+    </div>
+
+    <div class="k-mt-8 k-px-24 k-pb-15">
+      <div class="k-px-2">
+        <div class="k-p-7 k-rounded-card k-elevation-1">
+          <iframe
+            width="100%"
+            height="395"
+            src="https://www.youtube.com/embed/K4TOrB7at0Y?si=hMGKZX4YENQqIyVm"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
 } @else {
-    <div class="k-p-5 k-rounded-xl k-bg-white">
-        {{ 'programs.loading' | transloco }}
-    </div>
+  <div class="k-p-5 k-rounded-xl k-bg-white">
+    {{ 'programs.loading' | transloco }}
+  </div>
 }

@@ -1,76 +1,72 @@
 <div class="k-display-flex k-align-items-center k-flex-column">
-    <h1 class="k-color-primary">{{ 'auth.authorization' | transloco }}</h1>
+  <h1 class="k-color-primary">{{ 'auth.authorization' | transloco }}</h1>
 
-    <form [formGroup]="loginForm">
-        <div class="auth-container k-display-flex k-flex-column k-gap-13 k-px-14 k-py-8 k-bg-white">
-            @if (!isUserLoggedIn()) {
-                <kendo-label [text]="'auth.id_or_passport_number' | transloco">
-                    <kendo-textbox
-                        [clearButton]="true"
-                        formControlName="pid"
-                    ></kendo-textbox>
-                    @if (loginForm.controls['pid']; as control) {
-                        @if (!control.untouched) {
-                            @if (control.errors?.['required']) {
-                                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                            }
-                            @if (control.errors?.['personalNumberError']) {
-                                <kendo-formerror>{{ 'shared.invalidPersonalNumber' | transloco }}</kendo-formerror>
-                            }
-                        }
-                    }
-                </kendo-label>
-    
-                <div class="k-display-flex k-flex-column k-gap-2">
-                    <kendo-label [text]="'auth.password' | transloco">
-                        <kendo-textbox
-                            [clearButton]="true"
-                            formControlName="password"
-                            type="password"
-                        >
-                            <ng-template kendoTextBoxSuffixTemplate>
-                                <a class="k-cursor-pointer k-mr-2 k-color-primary" [routerLink]="['/password/forgot']">{{'auth.forgot_password' | transloco}}</a>
-                            </ng-template>
-                        </kendo-textbox>
-                        @if (loginForm.controls['password']; as control) {
-                            @if (!control.untouched) {
-                                @if (control.errors?.['required']) {
-                                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                                }
-                                @if (control.errors?.['passwordError']) {
-                                    <kendo-formerror>{{ 'shared.invalidPersonalNumber' | transloco }}</kendo-formerror>
-                                }
-                            }
-                        }
-                    </kendo-label>
-    
-                    <div>
-                        <input type="checkbox" />
-                        <kendo-label [text]="'auth.remember' | transloco"></kendo-label>
-                    </div>
-                </div>
-            } @else {
-                <div class="k-display-flex k-justify-content-center">
-                    <vet-registration-phone-verification formControlName="code"></vet-registration-phone-verification>        
-                </div>
-
+  <form [formGroup]="loginForm">
+    <div class="auth-container k-display-flex k-flex-column k-gap-13 k-px-14 k-py-8 k-bg-white">
+      @if (!isUserLoggedIn()) {
+        <kendo-label [text]="'auth.id_or_passport_number' | transloco">
+          <kendo-textbox [clearButton]="true" formControlName="pid"></kendo-textbox>
+          @if (loginForm.controls['pid']; as control) {
+            @if (!control.untouched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+              }
+              @if (control.errors?.['personalNumberError']) {
+                <kendo-formerror>{{ 'shared.invalidPersonalNumber' | transloco }}</kendo-formerror>
+              }
             }
+          }
+        </kendo-label>
 
-            <div class="k-display-flex k-flex-column k-align-items-center k-gap-5">
-                <div class="k-w-full k-px-16">
-                    <button 
-                        kendoButton 
-                        themeColor="primary" 
-                        class="k-w-full" 
-                        look="default" 
-                        (click)="isUserLoggedIn() ? onSubmit() : onNextStep()"
-                    >
-                        {{ 'auth.login' | transloco }}
-                    </button>
-                </div>
+        <div class="k-display-flex k-flex-column k-gap-2">
+          <kendo-label [text]="'auth.password' | transloco">
+            <kendo-textbox [clearButton]="true" formControlName="password" type="password">
+              <ng-template kendoTextBoxSuffixTemplate>
+                <a class="k-cursor-pointer k-mr-2 k-color-primary" [routerLink]="['/password/forgot']">{{
+                  'auth.forgot_password' | transloco
+                }}</a>
+              </ng-template>
+            </kendo-textbox>
+            @if (loginForm.controls['password']; as control) {
+              @if (!control.untouched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+                @if (control.errors?.['passwordError']) {
+                  <kendo-formerror>{{ 'shared.invalidPersonalNumber' | transloco }}</kendo-formerror>
+                }
+              }
+            }
+          </kendo-label>
 
-                <a class="k-cursor-pointer k-mr-2 k-color-primary" [routerLink]="['/registration']">{{ 'auth.registration' | transloco }}</a>
-            </div>
+          <div>
+            <input type="checkbox" />
+            <kendo-label [text]="'auth.remember' | transloco"></kendo-label>
+          </div>
         </div>
-    </form>
+      } @else {
+        <div class="k-display-flex k-justify-content-center">
+          <vet-registration-phone-verification formControlName="code"></vet-registration-phone-verification>
+        </div>
+      }
+
+      <div class="k-display-flex k-flex-column k-align-items-center k-gap-5">
+        <div class="k-w-full k-px-16">
+          <button
+            kendoButton
+            themeColor="primary"
+            class="k-w-full"
+            look="default"
+            (click)="isUserLoggedIn() ? onSubmit() : onNextStep()"
+          >
+            {{ 'auth.login' | transloco }}
+          </button>
+        </div>
+
+        <a class="k-cursor-pointer k-mr-2 k-color-primary" [routerLink]="['/registration']">{{
+          'auth.registration' | transloco
+        }}</a>
+      </div>
+    </div>
+  </form>
 </div>

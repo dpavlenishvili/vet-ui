@@ -7,14 +7,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'vet-registration-terms-and-conditions',
-  imports: [
-    ButtonComponent,
-    FormsModule,
-    LabelComponent,
-    ReactiveFormsModule,
-    TranslocoPipe,
-    KENDO_CHECKBOX,
-  ],
+  imports: [ButtonComponent, FormsModule, LabelComponent, ReactiveFormsModule, TranslocoPipe, KENDO_CHECKBOX],
   templateUrl: './registration-terms-and-conditions.component.html',
   styleUrl: './registration-terms-and-conditions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,59 +1,59 @@
 :host {
-    display: block;
-    .home-services-items-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        margin-top: 2rem;
-        @media (max-width: 1300px) {
-            grid-template-columns: repeat(3, 1fr);
-        }
-        @media (max-width: 800px) {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        @media screen and (max-width: 600px) {
-            grid-template-columns: 1fr;
-        }
+  display: block;
+  .home-services-items-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 2rem;
+    @media (max-width: 1300px) {
+      grid-template-columns: repeat(3, 1fr);
     }
+    @media (max-width: 800px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
 
-    .service-card {
-        display: flex;
-        width: 19.063rem;
-        height: 10.5rem;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        border-radius: 1.25rem;
-        margin: 1.5rem 0.5rem;
-        cursor: pointer;
+  .service-card {
+    display: flex;
+    width: 19.063rem;
+    height: 10.5rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 1.25rem;
+    margin: 1.5rem 0.5rem;
+    cursor: pointer;
 
-        transition:
-            transform 0.3s ease,
-            box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
 
-        &:hover {
-            transform: scale(1.05);
-        }
+    &:hover {
+      transform: scale(1.05);
     }
+  }
 
-    .services-title {
-        font-size: 1.5rem;
-        font-weight: 500;
-    }
+  .services-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
 
-    .service-card p {
-        text-align: center;
-    }
+  .service-card p {
+    text-align: center;
+  }
 
-    .yellow-card {
-        background-color: #fff1d1;
-    }
-    .blue-card {
-        background-color: #dbebfe;
-    }
-    .red-card {
-        background-color: #fce4ec;
-    }
-    .green-card {
-        background-color: #e5ffed;
-    }
+  .yellow-card {
+    background-color: #fff1d1;
+  }
+  .blue-card {
+    background-color: #dbebfe;
+  }
+  .red-card {
+    background-color: #fce4ec;
+  }
+  .green-card {
+    background-color: #e5ffed;
+  }
 }
