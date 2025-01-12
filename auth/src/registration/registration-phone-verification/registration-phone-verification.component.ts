@@ -3,7 +3,7 @@ import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { useAuthEnvironment } from '../../auth.injectors';
 import { RegistrationPhoneTimeoutComponent } from '../registration-phone-timeout/registration-phone-timeout.component';
-import { noop } from 'lodash';
+import noop from 'lodash-es/noop';
 
 @Component({
   selector: 'vet-registration-phone-verification',

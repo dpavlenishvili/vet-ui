@@ -8584,10 +8584,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.202":
-  version: 4.14.202
-  resolution: "@types/lodash@npm:4.14.202"
-  checksum: a91acf3564a568c6f199912f3eb2c76c99c5a0d7e219394294213b3f2d54f672619f0fde4da22b29dc5d4c31457cd799acc2e5cb6bd90f9af04a1578483b6ff7
+"@types/lodash-es@npm:^4.17.12":
+  version: 4.17.12
+  resolution: "@types/lodash-es@npm:4.17.12"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 990a99e2243bebe9505cb5ad19fbc172beb4a8e00f9075c99fc06c46c2801ffdb40bc2867271cf580d5f48994fc9fb076ec92cd60a20e621603bf22114e5b077
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.17.14
+  resolution: "@types/lodash@npm:4.17.14"
+  checksum: 2dbeaff92b31cb523f6bc4bb99a3d8c88fbb001d54f2367a888add85784fb213744a9b1600e1e98b6790ab191fdb6ec839eb0e3d63fcf6fb6cf1ebe4c3d21149
   languageName: node
   linkType: hard
 
@@ -16428,6 +16437,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash-es@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
+  languageName: node
+  linkType: hard
+
 "lodash.camelcase@npm:^4.3.0":
   version: 4.3.0
   resolution: "lodash.camelcase@npm:4.3.0"
@@ -22979,7 +22995,7 @@ __metadata:
     "@swc/helpers": 0.5.13
     "@types/express": ^4.17.17
     "@types/jest": 29.5.12
-    "@types/lodash": ^4.14.202
+    "@types/lodash-es": ^4.17.12
     "@types/node": ^18.16.9
     "@types/ramda": ^0.30.2
     "@typescript-eslint/eslint-plugin": 7.18.0
@@ -23004,6 +23020,7 @@ __metadata:
     jwt-decode: ^4.0.0
     keen-slider: ^6.8.6
     lint-staged: ^15.0.1
+    lodash-es: ^4.17.21
     ng-packagr: 19.0.1
     ngx-cookie-service-ssr: ^18.0.0
     nx: 20.3.1

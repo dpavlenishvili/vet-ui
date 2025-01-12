@@ -21,8 +21,7 @@
         "tsConfig": "{projectRoot}/tsconfig.app.json",
         "assets": ["{projectRoot}/src/favicon.ico", "{projectRoot}/src/assets"],
         "styles": ["{projectRoot}/src/styles.scss"],
-        "scripts": [],
-        "allowedCommonJsDependencies": ["lodash"]
+        "scripts": []
       },
       "configurations": {
         "production": {
