@@ -1,6 +1,5 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgForOf } from '@angular/common';
 import { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 
@@ -14,11 +13,13 @@ import { KENDO_ICONS } from '@progress/kendo-angular-icons';
         </div>
 
         <ul class="v-ui-navbar__menu">
-          <li class="v-ui-navbar__menu-item" *ngFor="let item of pages">
-            <a [routerLink]="item.url" class="v-ui-navbar__menu-link">
-              {{ item.title }}
-            </a>
-          </li>
+          @for (item of pages(); track item.url) {
+            <li class="v-ui-navbar__menu-item">
+              <a [routerLink]="item.url" class="v-ui-navbar__menu-link">
+                {{ item.title }}
+              </a>
+            </li>
+          }
         </ul>
 
         <div class="v-ui-navbar__actions">
@@ -31,8 +32,8 @@ import { KENDO_ICONS } from '@progress/kendo-angular-icons';
   `,
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, NgForOf, KENDO_ICONS],
+  imports: [RouterLink, KENDO_ICONS],
 })
 export class NavbarComponent {
-  @Input() pages!: NavbarMenuItemType[];
+  pages = input<NavbarMenuItemType[]>([]);
 }

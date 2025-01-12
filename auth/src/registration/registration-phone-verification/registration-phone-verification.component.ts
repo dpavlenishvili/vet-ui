@@ -1,4 +1,4 @@
-import { Component, computed, forwardRef, output, QueryList, signal, ViewChildren } from '@angular/core';
+import { Component, computed, effect, forwardRef, output, signal, viewChildren } from '@angular/core';
 import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { useAuthEnvironment } from '../../auth.injectors';
@@ -33,13 +33,15 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   private onChange: (value: string) => void = noop;
   private onTouched: () => void = noop;
 
-  @ViewChildren(NumericTextBoxComponent)
-  set inputs(inputs: QueryList<NumericTextBoxComponent>) {
-    const inputList = inputs.toArray();
+  protected readonly inputs = viewChildren(NumericTextBoxComponent);
+  constructor() {
+    effect(() => {
+      const inputList = this.inputs();
 
-    if (inputList.length > 0) {
-      inputList[0].hostElement.nativeElement.querySelector('input').focus();
-    }
+      if (inputList.length > 0) {
+        inputList[0].hostElement.nativeElement.querySelector('input').focus();
+      }
+    });
   }
 
   onDigitChange(index: number, value: number, input: NumericTextBoxComponent) {

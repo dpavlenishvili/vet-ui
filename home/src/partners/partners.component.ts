@@ -3,7 +3,7 @@ import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { Observable, of } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe } from '@angular/common';
 
 export interface SliderItem {
   imageUrl: string;

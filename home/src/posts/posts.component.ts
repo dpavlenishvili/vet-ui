@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { KENDO_SCROLLVIEW } from '@progress/kendo-angular-scrollview';
 
 export interface Item {
@@ -9,7 +9,7 @@ export interface Item {
 }
 
 // Example data; use real data or move to separate file
-export const data = [
+export const data: Item[] = [
   {
     date: '18.04.2023',
     title: 'პროფესიულ საგანმანათლებლო პროგრამებზე რეგისტრაციის მეორე ეტაპი დაიწყო',
@@ -36,7 +36,7 @@ export const data = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsComponent {
-  @Input() items: Item[] = data; // Optionally accept items via Input
-  public width = '100%';
-  public height = '370px';
+  readonly items = input<Item[]>(data); // Optionally accept items via Input
+  protected readonly width = '100%';
+  protected readonly height = '370px';
 }

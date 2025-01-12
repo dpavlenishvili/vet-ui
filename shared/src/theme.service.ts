@@ -1,5 +1,5 @@
 import { inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { WA_LOCAL_STORAGE, WA_WINDOW } from "@ng-web-apis/common";
+import { WA_LOCAL_STORAGE, WA_WINDOW } from '@ng-web-apis/common';
 
 @Injectable({
   providedIn: 'root',

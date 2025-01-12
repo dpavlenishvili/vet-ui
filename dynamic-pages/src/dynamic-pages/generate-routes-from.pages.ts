@@ -16,7 +16,7 @@ export function generateRoutesFromPages(pages: ApplicationPage[], routes: Routes
         loadComponent: resolvePageComponent(page),
         title: page.title,
         data: {
-          page, // This will be passed to the component as an @Input
+          page, // This will be passed to the component as an input
         },
       },
     ];

@@ -1,4 +1,4 @@
-import { Directive, effect, EmbeddedViewRef, inject, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, effect, EmbeddedViewRef, inject, input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { AuthService } from './auth.service';
 
 /**
@@ -9,8 +9,7 @@ import { AuthService } from './auth.service';
   standalone: true,
 })
 export class AuthenticatedDirective {
-  @Input()
-  vetAuthenticatedElse: TemplateRef<unknown> | undefined = undefined;
+  vetAuthenticatedElse = input<TemplateRef<unknown>>();
 
   // Inject TemplateRef optionally (use `null` if no template is present)
   protected templateRef: TemplateRef<unknown> | null = inject(TemplateRef, {
@@ -43,8 +42,9 @@ export class AuthenticatedDirective {
     this.viewContainerRef.clear();
     this.embeddedView?.destroy();
     this.embeddedView = undefined;
-    if (this.vetAuthenticatedElse) {
-      this.elseViewRef = this.viewContainerRef.createEmbeddedView(this.vetAuthenticatedElse);
+    const elseViewRef = this.vetAuthenticatedElse();
+    if (elseViewRef) {
+      this.elseViewRef = this.viewContainerRef.createEmbeddedView(elseViewRef);
     }
   }
 }

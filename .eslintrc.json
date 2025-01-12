@@ -16,6 +16,30 @@
           {
             "selector": "ImportDeclaration[source.value='@angular/common'] > ImportSpecifier[imported.name='CommonModule']",
             "message": "Do not import and use 'CommonModule' from '@angular/common', instead use other standalone alternatives"
+          },
+          {
+            "selector": "ImportDeclaration[source.value='@angular/core'] > ImportSpecifier[imported.name='Input']",
+            "message": "Do not import and use '@Input' from '@angular/core', instead use signal inputs"
+          },
+          {
+            "selector": "ImportDeclaration[source.value='@angular/core'] > ImportSpecifier[imported.name='Output']",
+            "message": "Do not import and use '@Output' from '@angular/core', instead use functional outputs"
+          },
+          {
+            "selector": "ImportDeclaration[source.value='@angular/core'] > ImportSpecifier[imported.name='ViewChild']",
+            "message": "Do not import and use '@ViewChild' from '@angular/core', instead use signal based viewChild"
+          },
+          {
+            "selector": "ImportDeclaration[source.value='@angular/core'] > ImportSpecifier[imported.name='ViewChildren']",
+            "message": "Do not import and use '@ViewChildren' from '@angular/core', instead use signal based viewChildren"
+          },
+          {
+            "selector": "ImportDeclaration[source.value='@angular/core'] > ImportSpecifier[imported.name='ContentChild']",
+            "message": "Do not import and use '@ContentChild' from '@angular/core', instead use signal based contentChild"
+          },
+          {
+            "selector": "ImportDeclaration[source.value='@angular/core'] > ImportSpecifier[imported.name='ContentChildren']",
+            "message": "Do not import and use '@ContentChildren' from '@angular/core', instead use signal based contentChildren"
           }
         ],
         "no-restricted-globals": [
