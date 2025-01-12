@@ -7,8 +7,9 @@ import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs'
 import { LabelModule } from '@progress/kendo-angular-label';
 import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
 import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
-import { RegisterService } from '@vet/backend';
+import { RegisterService, User } from '@vet/backend';
 import { tap } from 'rxjs';
+import { ToastService, ToastModule } from '@vet/shared';
 
 @Component({
     selector: 'vet-registration-identity-citizen',
@@ -23,6 +24,7 @@ import { tap } from 'rxjs';
         TranslocoModule,
         KENDO_DATEINPUTS,
         KENDO_DROPDOWNS,
+        ToastModule,
     ],
     templateUrl: './registration-identity-citizen.component.html',
     styleUrl: './registration-identity-citizen.component.scss',
@@ -43,13 +45,18 @@ export class RegistrationIdentityCitizenComponent {
     previousClick = output();
     nextClick = output();
 
-    constructor(private registerService: RegisterService) {}
+    constructor(
+        private registerService: RegisterService,
+        private toastService: ToastService,
+    ) {}
 
     onPreviousClick() {
         this.previousClick.emit();
     }
 
     onCheckClick() {
+        this.form()?.markAllAsTouched();
+
         const form = this.form()?.value;
 
         console.log(this.form());
@@ -61,14 +68,19 @@ export class RegistrationIdentityCitizenComponent {
         this.registerService
             .validatePerson({ pid: form?.personalNumber, last_name: form?.lastname })
             .pipe(
-                tap((personalInfo) => {
-                    this.isPersonVerified.set(true);
-                    this.form()?.controls.firstname.setValue(personalInfo.firstName ?? null);
-                    this.form()?.controls.dateOfBirth.setValue(
-                        personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
-                    );
-                    this.form()?.controls.firstname.setValue(personalInfo.firstName ?? null);
-                    this.form()?.controls.gender.setValue(personalInfo.gender ?? null);
+                tap({
+                    next: (personalInfo: User) => {
+                        this.isPersonVerified.set(true);
+                        this.form()?.controls.firstname.setValue(personalInfo.firstName ?? null);
+                        this.form()?.controls.dateOfBirth.setValue(
+                            personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
+                        );
+                        this.form()?.controls.firstname.setValue(personalInfo.firstName ?? null);
+                        this.form()?.controls.gender.setValue(personalInfo.gender ?? null);
+                    },
+                    error: (error) => {
+                        this.toastService.error(error?.error?.error?.message);
+                    },
                 }),
             )
             .subscribe();
