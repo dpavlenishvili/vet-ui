@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "files": ["src/main.ts", "src/main.server.ts", "server.ts"],
+  "files": ["src/main.ts", "src/main.server.ts", "server.ts", "src/environments/environment.development.ts"],
   "include": ["src/**/*.d.ts"],
   "exclude": ["src/**/*.spec.ts"]
 }
