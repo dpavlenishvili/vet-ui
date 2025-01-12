@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { useDefaultDateFallback, useDefaultDisplayDateFormat } from '../shared.injectors';
 
 @Pipe({
@@ -16,7 +16,7 @@ export class FormatDatePipe implements PipeTransform {
     params: {
       format?: string;
       fallback?: string;
-    } = {}
+    } = {},
   ): string {
     const format = params.format ?? this.defaultDisplayDateFormat;
     const fallback = params.fallback ?? this.defaultDateFallback;

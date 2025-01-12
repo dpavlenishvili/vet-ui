@@ -11,63 +11,61 @@ import { ToastModule, ToastService } from '@vet/shared';
 import { tap } from 'rxjs';
 
 @Component({
-    selector: 'vet-password-forgot',
-    standalone: true,
-    imports: [
-        CommonModule,
-        LabelComponent,
-        TextBoxComponent,
-        TranslocoPipe,
-        ReactiveFormsModule,
-        ButtonComponent,
-        RouterLink,
-        ToastModule,
-    ],
-    templateUrl: './password-forgot.component.html',
-    styleUrl: './password-forgot.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'vet-password-forgot',
+  imports: [
+    CommonModule,
+    LabelComponent,
+    TextBoxComponent,
+    TranslocoPipe,
+    ReactiveFormsModule,
+    ButtonComponent,
+    RouterLink,
+    ToastModule,
+  ],
+  templateUrl: './password-forgot.component.html',
+  styleUrl: './password-forgot.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordForgotComponent {
-    formGroup = this.createFormGroup();
+  formGroup = this.createFormGroup();
 
-    constructor(
-        private destroyRef: DestroyRef,
-        private toastService: ToastService,
-        private authService: AuthService,
-        private router: Router,
-    ) {}
+  constructor(
+    private destroyRef: DestroyRef,
+    private toastService: ToastService,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
-    createFormGroup() {
-        return new FormGroup({
-            pid: new FormControl('', Validators.required),
-            phone: new FormControl('', Validators.required),
-        });
+  createFormGroup() {
+    return new FormGroup({
+      pid: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+    });
+  }
+
+  onSubmit() {
+    if (this.formGroup.invalid) {
+      return;
     }
 
-    onSubmit() {
-        if (this.formGroup.invalid) {
-            return;
-        }
-
-        const { pid, phone } = this.formGroup.value;
-        this.authService
-            .initForgetPassword({
-                pid: pid?.toString() ?? '',
-                phone: phone?.toString() ?? '',
-            })
-            .pipe(
-                tap({
-                    next: () =>
-                        this.router.navigate(['password/reset'], {
-                            queryParams: {
-                                pid,
-                                phone,
-                            },
-                        }),
-                    error: (error) =>
-                        this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password'),
-                }),
-            )
-            .subscribe();
-    }
+    const { pid, phone } = this.formGroup.value;
+    this.authService
+      .initForgetPassword({
+        pid: pid?.toString() ?? '',
+        phone: phone?.toString() ?? '',
+      })
+      .pipe(
+        tap({
+          next: () =>
+            this.router.navigate(['password/reset'], {
+              queryParams: {
+                pid,
+                phone,
+              },
+            }),
+          error: (error) => this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password'),
+        }),
+      )
+      .subscribe();
+  }
 }

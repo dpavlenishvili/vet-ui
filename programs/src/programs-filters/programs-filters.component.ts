@@ -12,55 +12,54 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 
 @Component({
-    selector: 'vet-programs-filters',
-    standalone: true,
-    imports: [
-        CommonModule,
-        InputsModule,
-        ButtonModule,
-        ReactiveFormsModule,
-        CardModule,
-        LabelModule,
-        TranslocoModule,
-        ProgramsFiltersDialogComponent,
-        DropDownsModule,
-        SVGIconModule
-    ],
-    templateUrl: './programs-filters.component.html',
-    styleUrl: './programs-filters.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'vet-programs-filters',
+  imports: [
+    CommonModule,
+    InputsModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    CardModule,
+    LabelModule,
+    TranslocoModule,
+    ProgramsFiltersDialogComponent,
+    DropDownsModule,
+    SVGIconModule,
+  ],
+  templateUrl: './programs-filters.component.html',
+  styleUrl: './programs-filters.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramsFiltersComponent {
-    filterForm = this.createFormGroup();
-    kendoIcons = kendoIcons;
-    isFilterExpanded = false;
-    isFilterDialogOpen = false;
+  filterForm = this.createFormGroup();
+  kendoIcons = kendoIcons;
+  isFilterExpanded = false;
+  isFilterDialogOpen = false;
 
-    createFormGroup() {
-        return new FormGroup({
-            name: new FormControl(),
-            size: new FormControl(),
-            sector: new FormControl(),
-        });
-    }
+  createFormGroup() {
+    return new FormGroup({
+      name: new FormControl(),
+      size: new FormControl(),
+      sector: new FormControl(),
+    });
+  }
 
-    clearFilters() {
-        this.filterForm.reset();
-    }
+  clearFilters() {
+    this.filterForm.reset();
+  }
 
-    onFilterExpandClick() {
-        this.isFilterExpanded = !this.isFilterExpanded;
-    }
+  onFilterExpandClick() {
+    this.isFilterExpanded = !this.isFilterExpanded;
+  }
 
-    onSubmit() {
-        console.log(this.filterForm.value);
-    }
+  onSubmit() {
+    console.log(this.filterForm.value);
+  }
 
-    openDialog() {
-        this.isFilterDialogOpen = true;
-    }
+  openDialog() {
+    this.isFilterDialogOpen = true;
+  }
 
-    closeDialog() {
-        this.isFilterDialogOpen = false;
-    }
+  closeDialog() {
+    this.isFilterDialogOpen = false;
+  }
 }

@@ -10,46 +10,45 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { countries, genders } from '@vet/shared';
 
 @Component({
-    selector: 'vet-registration-identity-foreigner',
-    standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputsModule,
-        RadioButtonModule,
-        ButtonModule,
-        LabelModule,
-        TranslocoModule,
-        KENDO_DATEINPUTS,
-        KENDO_DROPDOWNS,
-    ],
-    templateUrl: './registration-identity-foreigner.component.html',
-    styleUrl: './registration-identity-foreigner.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'vet-registration-identity-foreigner',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputsModule,
+    RadioButtonModule,
+    ButtonModule,
+    LabelModule,
+    TranslocoModule,
+    KENDO_DATEINPUTS,
+    KENDO_DROPDOWNS,
+  ],
+  templateUrl: './registration-identity-foreigner.component.html',
+  styleUrl: './registration-identity-foreigner.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationIdentityForeignerComponent {
-    form = input<
-        FormGroup<{
-            citizenship: FormControl<string | null>;
-            lastname: FormControl<string | null>;
-            personalNumber: FormControl<string | null>;
-            firstname: FormControl<string | null>;
-            dateOfBirth: FormControl<Date | null>;
-            gender: FormControl<string | null>;
-        }>
-    >();
-    countries = countries;
-    genders = genders;
-    previousClick = output();
-    nextClick = output();
+  form = input<
+    FormGroup<{
+      citizenship: FormControl<string | null>;
+      lastname: FormControl<string | null>;
+      personalNumber: FormControl<string | null>;
+      firstname: FormControl<string | null>;
+      dateOfBirth: FormControl<Date | null>;
+      gender: FormControl<string | null>;
+    }>
+  >();
+  countries = countries;
+  genders = genders;
+  previousClick = output();
+  nextClick = output();
 
-    onPreviousClick() {
-        this.previousClick.emit();
-    }
+  onPreviousClick() {
+    this.previousClick.emit();
+  }
 
-    onNextClick() {
-        if (this.form()?.valid) {
-            this.nextClick.emit();
-        }
+  onNextClick() {
+    if (this.form()?.valid) {
+      this.nextClick.emit();
     }
+  }
 }
