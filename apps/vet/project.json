@@ -21,7 +21,8 @@
         "tsConfig": "{projectRoot}/tsconfig.app.json",
         "assets": ["{projectRoot}/src/favicon.ico", "{projectRoot}/src/assets"],
         "styles": ["{projectRoot}/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": ["dayjs"]
       },
       "configurations": {
         "production": {
