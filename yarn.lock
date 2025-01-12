@@ -7115,6 +7115,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@progress/kendo-angular-schematics@npm:17.1.1":
+  version: 17.1.1
+  resolution: "@progress/kendo-angular-schematics@npm:17.1.1"
+  dependencies:
+    "@progress/kendo-angular-schematics": 17.1.1
+    "@types/semver": ^7.5.0
+    semver: ^7.5.3
+  peerDependencies:
+    "@angular-devkit/core": 16 - 19
+    "@angular-devkit/schematics": 16 - 19
+    "@angular/core": 16 - 19
+    "@schematics/angular": 16 - 19
+    rxjs: ^6.5.3 || ^7.0.0
+  checksum: b5aa69aee56f19e5bbc0319a6e7bd91f9581c54724f51860d7bd756cbe2abfb96682282d6c2b6bd076c79388b9b55619673fe52a6debe551454be2b782bfa50a
+  languageName: node
+  linkType: hard
+
+"@progress/kendo-angular-scrollview@npm:^17.1.1":
+  version: 17.1.1
+  resolution: "@progress/kendo-angular-scrollview@npm:17.1.1"
+  dependencies:
+    "@progress/kendo-angular-schematics": 17.1.1
+    tslib: ^2.3.1
+  peerDependencies:
+    "@angular/animations": 16 - 19
+    "@angular/common": 16 - 19
+    "@angular/core": 16 - 19
+    "@angular/platform-browser": 16 - 19
+    "@progress/kendo-angular-common": 17.1.1
+    "@progress/kendo-angular-icons": 17.1.1
+    "@progress/kendo-angular-l10n": 17.1.1
+    "@progress/kendo-licensing": ^1.0.2
+    rxjs: ^6.5.3 || ^7.0.0
+  checksum: 5c51daf3c0e9b8ddd46dfd6b621447b2d7455da0be4aa31e9152aa2c9395b727c8a9f572f827cc8c55e092d902608b0f30efa4e3cd8ecba3df1efbcaed35ca03
+  languageName: node
+  linkType: hard
+
 "@progress/kendo-angular-toolbar@npm:^17.1.0":
   version: 17.1.0
   resolution: "@progress/kendo-angular-toolbar@npm:17.1.0"
@@ -22923,6 +22960,7 @@ __metadata:
     "@progress/kendo-angular-pdf-export": ^17.1.0
     "@progress/kendo-angular-popup": ^17.1.0
     "@progress/kendo-angular-progressbar": ^17.1.0
+    "@progress/kendo-angular-scrollview": ^17.1.1
     "@progress/kendo-angular-toolbar": ^17.1.0
     "@progress/kendo-angular-tooltip": ^17.1.0
     "@progress/kendo-angular-treelist": ^17.1.0

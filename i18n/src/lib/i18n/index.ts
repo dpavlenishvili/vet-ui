@@ -1,1 +1,1 @@
-export {loadTranslations} from './load-translations';
+export { loadTranslations } from './load-translations';

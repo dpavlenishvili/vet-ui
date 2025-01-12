@@ -44,7 +44,8 @@
     "invalidPasswordPattern": "Password must include...",
     "passwordsDoNotMatch": "Passwords do not match",
     "programs": "Programs",
-    "program": "Program"
+    "program": "Program",
+    "seeAll": "See All"
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",
@@ -103,7 +104,8 @@
     "emis": "LEPL Education Management Information System"
   },
   "home": {
-    "services": "Services"
+    "services": "Services",
+    "partners": "Partners"
   },
   "programs": {
     "field": "Field",

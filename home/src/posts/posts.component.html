@@ -1,0 +1,22 @@
+<kendo-scrollview
+  class="posts"
+  [data]="items"
+  [width]="width"
+  [height]="height"
+  [animate]="true"
+  [arrows]="true"
+  [pageable]="true"
+>
+  <ng-template let-item="item">
+    <div class="posts__item">
+      <div class="posts__item-image">
+        <img [src]="item.imageUrl" alt="Post Image" class="posts__item-image-img" />
+      </div>
+      <div class="posts__item-content">
+        <small class="posts__item-content-date">{{ item.date }}</small>
+        <h3 class="posts__item-content-title">{{ item.title }}</h3>
+        <p class="posts__item-content-description">{{ item.description }}</p>
+      </div>
+    </div>
+  </ng-template>
+</kendo-scrollview>

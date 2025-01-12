@@ -1,0 +1,31 @@
+<div class="partners">
+  <div class="partners__header">
+    <h2>{{ 'home.partners' | transloco }}</h2>
+
+    <div class="partners__controls">
+      <button class="partners__controls--view-all">{{ 'shared.seeAll' | transloco }}</button>
+
+      <div class="k-separator"></div>
+
+      <div class="partners__controls--nav">
+        <button class="nav-button" (click)="scrollLeft(slider)">
+          <kendo-svg-icon [size]="'small'" [icon]="kendoIcons.arrowLeftIcon"></kendo-svg-icon>
+        </button>
+        <button class="nav-button" (click)="scrollRight(slider)">
+          <kendo-svg-icon [size]="'small'" [icon]="kendoIcons.arrowRightIcon"></kendo-svg-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div #slider class="partners__slider">
+    @for (item of sliderData$ | async; track item) {
+      <div class="partners__slider-item">
+        <div class="partners__slider-item-img">
+          <img [src]="item.imageUrl" [alt]="item.title" />
+        </div>
+        <p class="partners__slider-item-subtitle">{{ item.subtitle }}</p>
+      </div>
+    }
+  </div>
+</div>

@@ -1,38 +1,54 @@
 @import 'styles/index';
 
-// Theme Variables
+/* Default Theme (applies to :root) */
 :root {
-  --main-bg: #f5f7f8;
+  --main-bg: #ffffff;
   --secondary-color: #4682b4;
-  //--text-color: grey;
-  --text-color: #444444;
+  --text-color: #000000;
+  --secondary-text-color: #626262;
+  // --text-color: #444444;
   --text-secondary-color: #444444;
   --link-color: #4682b4;
-  --font-size: 16px;
+  --nav-link-color: #ffffff;
+  --nav-bg-color: #4682b4;
+  --border-none: transparent;
+  --font-size: 1rem;
 }
 
 .theme-v1 {
   --main-bg: #ffff54;
   --secondary-color: #000000;
-  --text-color: #ffffff;
+  --text-color: #000000;
+  --secondary-text-color: #000000;
   --link-color: #000000;
+  --nav-link-color: #ffff54;
+  --nav-bg-color: #000000;
+  --border-none: #000000;
 }
 
 .theme-v2 {
   --main-bg: #000000;
   --secondary-color: #ffff54;
-  --text-color: #ffffff;
+  --text-color: #ffff54;
+  --secondary-text-color: #ffff54;
   --link-color: #ffff54;
+  --nav-link-color: #000000;
+  --nav-bg-color: #ffff54;
+  --border-none: #ffff54;
 }
 
 .theme-v3 {
   --main-bg: #ffffff;
-  --secondary-color: #000000;
-  --text-color: #000000;
+  --secondary-color: #0000f5;
+  --text-color: #0000f5;
+  --secondary-text-color: #0000f5;
   --link-color: #0000f5;
+  --nav-link-color: #ffffff;
+  --nav-bg-color: #0000f5;
+  --border-none: #0000f5;
 }
 
-// Base Styling
+/* Base Styling */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -52,6 +68,7 @@ body {
 a {
   color: var(--link-color);
   text-decoration: none;
+
   &:hover {
     text-decoration: underline;
   }

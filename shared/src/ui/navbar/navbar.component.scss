@@ -1,14 +1,14 @@
 .v-ui-navbar {
-  background-color: #4682b4;
-  height: 80px;
+  background-color: var(--nav-bg-color);
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 
   &__container {
-    max-width: 1440px;
+    max-width: 90rem;
     width: 100%;
-    padding: 0 80px;
+    padding: 0 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -18,25 +18,26 @@
     a {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 0.625rem;
       text-decoration: none;
 
-      img {
-        width: 60px;
-        height: 26px;
+      svg {
+        width: 3.75rem;
+        height: 1.625rem;
+        color: var(--main-bg);
       }
 
       div:nth-child(2) {
-        border-radius: 20px;
-        width: 2px;
-        height: 23px;
-        background-color: #ffffff;
+        border-radius: 1.25rem;
+        width: 0.125rem;
+        height: 1.438rem;
+        background-color: var(--nav-link-color);
       }
 
       div:nth-child(3) {
-        width: 180px;
-        font-size: 14px;
-        color: #ffffff;
+        width: 11.25rem;
+        font-size: 0.875rem;
+        color: var(--nav-link-color);
       }
     }
   }
@@ -49,13 +50,14 @@
     margin: 0;
 
     &-item {
-      margin: 0 20px;
+      margin: 0 1.25rem;
     }
 
     &-link {
-      font-size: 14px;
+      /* 14px → 14/16 = 0.875rem */
+      font-size: 0.875rem;
       font-weight: 400;
-      color: #ffffff;
+      color: var(--nav-link-color);
       text-transform: uppercase;
       text-decoration: none;
 
@@ -73,22 +75,71 @@
   &__actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
 
     .v-ui-navbar__icon {
-      font-size: 20px; // Adjust as needed
-      color: #ffffff;
+      font-size: 1.25rem;
+      color: var(--nav-link-color);
     }
 
     .v-ui-navbar__link {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 400;
-      color: #ffffff;
+      color: var(--nav-link-color);
       text-transform: uppercase;
       text-decoration: none;
 
       &:hover {
         text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .v-ui-navbar {
+    height: auto;
+    padding: 1rem 0;
+
+    &__container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+
+    &__logo {
+      a {
+        img {
+          width: 3rem;
+          height: auto;
+        }
+
+        div:nth-child(3) {
+          width: auto;
+          font-size: 0.75rem;
+        }
+      }
+    }
+
+    &__menu {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      margin: 0;
+
+      &-item {
+        margin: 0 0 1rem 0;
+      }
+    }
+
+    &__actions {
+      gap: 1rem;
+      width: 100%;
+      justify-content: flex-start;
+
+      .v-ui-navbar__link {
+        font-size: 0.75rem;
       }
     }
   }

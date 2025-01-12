@@ -44,7 +44,8 @@
     "invalidPasswordPattern": "პაროლი უნდა შეიცავდეს...",
     "passwordsDoNotMatch": "პაროლი არ ემთხვევა",
     "programs": "პროგრამები",
-    "program": "პროგრამა"
+    "program": "პროგრამა",
+    "seeAll": "ყველას ნახვა"
   },
 
   "auth": {
@@ -106,7 +107,8 @@
   },
 
   "home": {
-    "services": "სერვისები"
+    "services": "სერვისები",
+    "partners": "პარტნიორები"
   },
   "programs": {
     "field": "სფერო",

@@ -58,6 +58,7 @@
     "@progress/kendo-angular-pdf-export": "^17.1.0",
     "@progress/kendo-angular-popup": "^17.1.0",
     "@progress/kendo-angular-progressbar": "^17.1.0",
+    "@progress/kendo-angular-scrollview": "^17.1.1",
     "@progress/kendo-angular-toolbar": "^17.1.0",
     "@progress/kendo-angular-tooltip": "^17.1.0",
     "@progress/kendo-angular-treelist": "^17.1.0",

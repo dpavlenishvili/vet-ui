@@ -1,4 +1,4 @@
-import { loadTranslations } from "./load-translations";
+import { loadTranslations } from './load-translations';
 
 const availableLanguages = ['ka', 'en'] as const;
 
@@ -20,12 +20,13 @@ describe('loadTranslations', () => {
   it('should have equal keys', async () => {
     const translations = await Promise.all(availableLanguages.map(loadTranslations));
     const translationKeys = translations.reduce(
-      (acc: Partial<Record<typeof availableLanguages[number], string[]>>, t, index) => {
+      (acc: Partial<Record<(typeof availableLanguages)[number], string[]>>, t, index) => {
         const flatObj = flattenObject(t);
         const lang = availableLanguages[index];
         acc[lang] = Object.keys(flatObj);
         return acc;
-      }, {}
+      },
+      {},
     );
     // Compare every language keys with the every other language keys and expect them to exist in both
     for (const lang of availableLanguages) {
