@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { LabelComponent } from '@progress/kendo-angular-label';
@@ -9,7 +8,6 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'vet-registration-terms-and-conditions',
   imports: [
-    CommonModule,
     ButtonComponent,
     FormsModule,
     LabelComponent,

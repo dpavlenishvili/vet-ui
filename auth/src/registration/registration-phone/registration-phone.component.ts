@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, effect, input, OnInit, output, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LabelComponent } from '@progress/kendo-angular-label';
 import { TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -14,7 +13,6 @@ import { Reloader, ToastModule, ToastService } from '@vet/shared';
 @Component({
   selector: 'vet-registration-phone',
   imports: [
-    CommonModule,
     ToastModule,
     LabelComponent,
     TextBoxComponent,
@@ -93,6 +91,27 @@ export class RegistrationPhoneComponent implements OnInit {
       return;
     }
 
+    // @todo @tsomaia name this function properly and move it somewhere
+    const defaultBehavior = () => {
+      if (!form.valid) {
+        return;
+      }
+
+      const { phoneNumber, verificationNumber } = form.value;
+
+      this.smsService
+        .validateSms({
+          phone: phoneNumber ?? '',
+          sms_code: verificationNumber ?? '',
+        })
+        .pipe(
+          tap({
+            next: () => this.nextClick.emit(),
+          }),
+        )
+        .subscribe();
+    };
+
     switch (this.phase()) {
       case 'initial':
         this.phase.set('verifying');
@@ -100,23 +119,7 @@ export class RegistrationPhoneComponent implements OnInit {
         break;
 
       default:
-        if (!form.valid) {
-          return;
-        }
-
-        const { phoneNumber, verificationNumber } = form.value;
-
-        this.smsService
-          .validateSms({
-            phone: phoneNumber ?? '',
-            sms_code: verificationNumber ?? '',
-          })
-          .pipe(
-            tap({
-              next: () => this.nextClick.emit(),
-            }),
-          )
-          .subscribe();
+        defaultBehavior();
         break;
     }
   }

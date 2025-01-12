@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { useRouteParam, vetIcons } from '@vet/shared';
 import { ProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { AsyncPipe } from "@angular/common";
 
 @Component({
   selector: 'vet-program',
-  imports: [CommonModule, KENDO_ICONS, TranslocoPipe],
+  imports: [KENDO_ICONS, TranslocoPipe, AsyncPipe],
   templateUrl: './program.component.html',
   styleUrl: './program.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

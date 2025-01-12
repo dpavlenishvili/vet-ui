@@ -1,4 +1,4 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,7 +16,7 @@ import { CollectionItem } from 'backend';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'article[vet-ui-collection-item]',
-  imports: [CommonModule, RouterLink, NgOptimizedImage, UploadedFileUriPipe],
+  imports: [RouterLink, NgOptimizedImage, UploadedFileUriPipe, DatePipe],
   templateUrl: './collection-item.component.html',
   styleUrl: './collection-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

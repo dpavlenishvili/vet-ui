@@ -3,6 +3,7 @@ import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { useAuthEnvironment } from '../../auth.injectors';
 import { RegistrationPhoneTimeoutComponent } from '../registration-phone-timeout/registration-phone-timeout.component';
+import { noop } from "lodash";
 
 @Component({
   selector: 'vet-registration-phone-verification',
@@ -21,6 +22,7 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   reload = output();
 
   length = useAuthEnvironment().phoneVerificationNumberLength;
+  disabled = signal(false);
   digits = signal(this.getDigitsArray());
   input = computed(() =>
     this.digits()
@@ -28,7 +30,8 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
       .join(''),
   );
 
-  private onChange: (value: string) => void = () => {};
+  private onChange: (value: string) => void = noop;
+  private onTouched: () => void = noop;
 
   @ViewChildren(NumericTextBoxComponent)
   set inputs(inputs: QueryList<NumericTextBoxComponent>) {
@@ -66,9 +69,13 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
 
-  setDisabledState(isDisabled: boolean): void {}
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled.set(isDisabled);
+  }
 
   writeValue(value: string): void {
     const digits = value

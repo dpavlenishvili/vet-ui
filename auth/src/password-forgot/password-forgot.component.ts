@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LabelComponent } from '@progress/kendo-angular-label';
 import { TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -13,7 +12,6 @@ import { tap } from 'rxjs';
 @Component({
   selector: 'vet-password-forgot',
   imports: [
-    CommonModule,
     LabelComponent,
     TextBoxComponent,
     TranslocoPipe,

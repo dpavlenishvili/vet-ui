@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -12,7 +11,6 @@ import { countries, genders } from '@vet/shared';
 @Component({
   selector: 'vet-registration-identity-foreigner',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     InputsModule,
     RadioButtonModule,

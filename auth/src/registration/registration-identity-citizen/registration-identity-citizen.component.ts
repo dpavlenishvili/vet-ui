@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
-import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
 import { RegisterService, User } from '@vet/backend';
 import { tap } from 'rxjs';
 import { ToastService, ToastModule } from '@vet/shared';
@@ -14,7 +12,6 @@ import { ToastService, ToastModule } from '@vet/shared';
 @Component({
   selector: 'vet-registration-identity-citizen',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     InputsModule,
     RadioButtonModule,
@@ -22,7 +19,6 @@ import { ToastService, ToastModule } from '@vet/shared';
     LabelModule,
     TranslocoModule,
     KENDO_DATEINPUTS,
-    KENDO_DROPDOWNS,
     ToastModule,
   ],
   templateUrl: './registration-identity-citizen.component.html',

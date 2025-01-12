@@ -38,7 +38,7 @@ export class BreadcrumbComponent {
                 .map((segment) => (segment.startsWith(':') ? (params[segment.slice(1)] ?? '') : segment)),
               text:
                 typeof item['text'] === 'function'
-                  ? (item['text'] as Function)(this.activatedRoute.snapshot)
+                  ? item['text'](this.activatedRoute.snapshot)
                   : item['text'],
             }) as ResolvedBreadCrumbItem,
         );

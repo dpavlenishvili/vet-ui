@@ -1,6 +1,5 @@
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { CardModule } from '@progress/kendo-angular-layout';
@@ -14,7 +13,6 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
 @Component({
   selector: 'vet-programs-filters',
   imports: [
-    CommonModule,
     InputsModule,
     ButtonModule,
     ReactiveFormsModule,

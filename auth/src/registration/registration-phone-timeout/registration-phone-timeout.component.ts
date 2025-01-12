@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { interval, map, startWith, take } from 'rxjs';
 import * as dayjs from 'dayjs';
 import { default as duration } from 'dayjs/plugin/duration';
@@ -8,12 +7,13 @@ import { useAuthEnvironment } from '../../auth.injectors';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { Reloader } from '@vet/shared';
 import { RouterLink } from '@angular/router';
+import { AsyncPipe } from "@angular/common";
 
 dayjs.extend(duration);
 
 @Component({
   selector: 'vet-registration-phone-timeout',
-  imports: [CommonModule, TranslocoPipe, RouterLink],
+  imports: [TranslocoPipe, RouterLink, AsyncPipe],
   templateUrl: './registration-phone-timeout.component.html',
   styleUrl: './registration-phone-timeout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

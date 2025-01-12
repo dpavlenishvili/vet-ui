@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -8,14 +7,13 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { CardModule } from '@progress/kendo-angular-layout';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { LongTerm, ProgramsService } from '@vet/backend';
-import { Observable, pipe, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'vet-programs-list',
   imports: [
-    CommonModule,
     InputsModule,
     ButtonModule,
     ReactiveFormsModule,

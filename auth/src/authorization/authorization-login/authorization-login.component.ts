@@ -1,6 +1,5 @@
 import { RegistrationPhoneVerificationComponent } from './../../registration/registration-phone-verification/registration-phone-verification.component';
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { CardModule } from '@progress/kendo-angular-layout';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -10,7 +9,7 @@ import { AuthService } from '@vet/backend';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
-import { catchError, of, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { ToastModule, ToastService } from '@vet/shared';
 import { personalNumberValidator } from '@vet/shared';
 
@@ -18,7 +17,6 @@ import { personalNumberValidator } from '@vet/shared';
     selector: 'vet-authorization-login',
     standalone: true,
     imports: [
-        CommonModule,
         InputsModule,
         CardModule,
         ButtonModule,

@@ -1,25 +1,61 @@
 stages:
+  - install-dependencies
   - node-ssr-build
+  - lint-libraries
   - webserver-setup
 variables:
   REMOTE_DIR: '/var/www/vet-seit.emis.ge'
   REMOTE_SSH: 'www@192.168.202.56'
 
-Node SSR Build:
+Install dependencies:
+  stage: install-dependencies
+  tags:
+      - docker
+  rules:
+      - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+      - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: false
+  image: node:18-alpine
+  artifacts:
+    paths:
+      - node_modules/
+  script:
+      - yarn install --immutable
+
+Build:
+  needs:
+    - job: Install dependencies
+      artifacts: true
   stage: node-ssr-build
   tags:
     - docker
-  only:
-    - main
   artifacts:
     paths:
       - dist/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   allow_failure: false
   image: node:18-alpine
-  before_script:
-    - yarn install --immutable
   script:
     - yarn build
+
+Lint Libraries:
+  stage: lint-libraries
+  needs:
+    - job: Install dependencies
+      artifacts: true
+  tags:
+    - docker
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+  image: node:18-alpine
+  script:
+#    - yarn nx affected -t lint --base $CI_DEFAULT_BRANCH
+    - yarn nx run-many --target=lint --all
 
 Webserver Setup:
   stage: webserver-setup
@@ -28,7 +64,7 @@ Webserver Setup:
   only:
     - main
   needs:
-    - job: Node SSR Build
+    - job: Build
       artifacts: true
   allow_failure: false
   script:

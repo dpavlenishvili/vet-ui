@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
-import { TextBoxModule, TextAreaModule, InputsModule } from '@progress/kendo-angular-inputs';
+import { InputsModule, TextAreaModule, TextBoxModule } from '@progress/kendo-angular-inputs';
 import { ToastModule } from '@vet/shared';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { LabelModule } from '@progress/kendo-angular-label';
@@ -14,7 +13,6 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
 @Component({
   selector: 'vet-programs-filters-dialog',
   imports: [
-    CommonModule,
     TranslocoPipe,
     DialogModule,
     ReactiveFormsModule,

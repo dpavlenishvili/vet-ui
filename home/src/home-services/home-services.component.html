@@ -2,7 +2,8 @@
     <p class="services-title">{{ 'home.services' | transloco }}</p>
     <div class="home-services-items-container">
         @for (service of services; track $index) {
-            <div class="service-card" [ngClass]="getColumnClass($index)">
+            @let columnClass = getColumnClass($index);
+            <div class="service-card" [class]="columnClass">
                 <div class="icon">
                     <kendo-svg-icon [size]="'xxxlarge'" [icon]="getColumnIcon($index)"></kendo-svg-icon>
                 </div>

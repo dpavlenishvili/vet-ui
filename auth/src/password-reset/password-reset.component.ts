@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { LabelComponent } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,7 +12,6 @@ import { tap } from 'rxjs';
 @Component({
   selector: 'vet-password-reset',
   imports: [
-    CommonModule,
     ButtonComponent,
     LabelComponent,
     ReactiveFormsModule,
