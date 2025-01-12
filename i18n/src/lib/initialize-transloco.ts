@@ -1,15 +1,11 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { provideTransloco, Translation, TranslocoLoader } from '@jsverse/transloco';
-
-const translations = {
-  ka: () => import('../i18n/ka.json').then((m) => m.default) as Promise<Translation>,
-  en: () => import('../i18n/en.json').then((m) => m.default) as Promise<Translation>,
-};
+import { provideTransloco, TranslocoLoader } from '@jsverse/transloco';
+import { loadTranslations } from "./i18n";
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
   getTranslation(lang: 'ka' | 'en') {
-    return translations[lang]();
+    return loadTranslations(lang);
   }
 }
 

@@ -25,7 +25,7 @@ import { environment } from '../environments/environment';
 
 import { acceptLanguageInterceptor } from './accept-language.interceptor';
 import { appRoutes } from './app.routes';
-import { initializeTransolco } from './initialize-transloco';
+import { initializeTransolco } from '@vet/i18n';
 import { provideAuthEnvironment } from '@vet/auth';
 import { errorInterceptor } from '@vet/shared';
 
