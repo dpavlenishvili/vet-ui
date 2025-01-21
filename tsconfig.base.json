@@ -21,7 +21,8 @@
       "@vet/home": ["home/src/index.ts"],
       "@vet/i18n": ["i18n/src/index.ts"],
       "@vet/programs": ["programs/src/index.ts"],
-      "@vet/shared": ["shared/src/index.ts"]
+      "@vet/shared": ["shared/src/index.ts"],
+      "@vet/user-profile": ["user-profile/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

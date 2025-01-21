@@ -80,7 +80,7 @@
             class="v-ui-navbar__profile-card"
             (click)="$event.stopPropagation()"
           >
-            <div class="profile-card__header">
+            <div class="profile-card__header" [routerLink]="'user-profile'">
               @if (user.photo) {
                 <img [src]="user.photo" alt="Avatar" class="profile-card__avatar" />
               } @else {

@@ -25,6 +25,10 @@ export const appRoutes: Routes = [
         data: breadcrumb([]),
       },
       {
+        path: 'user-profile',
+        loadChildren: () => import('@vet/user-profile').then((r) => r.userProfileRoutes),
+      },
+      {
         path: '',
         loadChildren: () => import('@vet/auth').then((r) => r.authRoutes),
         data: breadcrumb([]),

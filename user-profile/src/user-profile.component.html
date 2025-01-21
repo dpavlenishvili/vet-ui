@@ -1,0 +1,35 @@
+<div class="wrapper">
+    <div class="menu">
+        @for (item of menuItems; track $index) {
+            <div
+                class="menu-item"
+                (click)="changeSelectedItemIndex($index)"
+                [ngClass]="selectedIndex === $index ? 'selected-menu-item' : ''"
+            >
+                <!-- <kendo-svg-icon [icon]="kendoIcons.menuIcon"></kendo-svg-icon> -->
+                <img
+                    [ngClass]="selectedIndex === $index ? 'selected-menu-item-icon' : ''"
+                    [src]="item.icon"
+                    alt="Bell Icon"
+                />
+                <p [ngClass]="selectedIndex === $index ? 'selected-menu-item-text' : ''" class="menu-item-text">
+                    {{ 'profile.' + item.text | transloco }}
+                </p>
+            </div>
+        }
+    </div>
+
+    @if (userForm(); as userForm) {
+        @if (selectedIndex === 0) {
+            <vet-user-overview
+                [form]="userForm.controls.userOverview"
+                (onSave)="saveUserOverview()"
+            ></vet-user-overview>
+        } @else if (selectedIndex === 1) {
+            <vet-user-password-change
+                [form]="userForm.controls.passwordChange"
+                (onSave)="savePassword()"
+            ></vet-user-password-change>
+        }
+    }
+</div>
