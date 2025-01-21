@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { BreadcrumbComponent, NavbarComponent } from '@vet/shared';
-import { AuthService } from '@vet/auth';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 
@@ -43,14 +42,6 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
             <div>პროფესიული განათლების პორტალი</div>
           </a>
         </ng-container>
-        <ng-container auth-content>
-          @if (tokenUser$()) {
-            <span>{{ tokenUser$()?.name }}</span>
-          } @else {
-            <a routerLink="/authorization" class="v-ui-navbar__link">ავტორიზაცია</a>
-            <a routerLink="/registration" class="v-ui-navbar__link v-ui-navbar__button">რეგისტრაცია</a>
-          }
-        </ng-container>
       </vet-ui-navbar>
     </header>
     <main class="main-container">
@@ -91,15 +82,6 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
         height: 100%;
       }
 
-      .footer {
-        background-color: #f8f9fa;
-        text-align: center;
-        padding: 16px;
-        border-top: 1px solid #ddd;
-        font-size: 14px;
-        color: #666;
-      }
-
       @media (max-width: 768px) {
         .main-container {
           padding: 14px 30px 150px 30px;
@@ -111,5 +93,4 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
 })
 export class MainLayoutComponent {
   pages$ = inject(ApplicationPagesService).headerMenuPages$;
-  tokenUser$ = inject(AuthService).tokenUser$;
 }

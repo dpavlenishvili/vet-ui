@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { interval, map, startWith, take } from 'rxjs';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { default as duration } from 'dayjs/plugin/duration';
 
 import { useAuthEnvironment } from '../../auth.injectors';

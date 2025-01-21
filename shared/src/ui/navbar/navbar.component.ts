@@ -1,40 +1,59 @@
-import { Component, input, ViewEncapsulation } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { NgForOf } from '@angular/common';
 import { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
+import { CustomAuthService } from '@vet/auth';
+import { RolesService } from '@vet/backend';
+import * as kendoIcons from '@progress/kendo-svg-icons';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'vet-ui-navbar',
-  template: `
-    <nav class="v-ui-navbar">
-      <div class="v-ui-navbar__container">
-        <div class="v-ui-navbar__logo">
-          <ng-content select="[navbar-logo]"></ng-content>
-        </div>
-
-        <ul class="v-ui-navbar__menu">
-          @for (item of pages(); track item.url) {
-            <li class="v-ui-navbar__menu-item">
-              <a [routerLink]="item.url" class="v-ui-navbar__menu-link">
-                {{ item.title }}
-              </a>
-            </li>
-          }
-        </ul>
-
-        <div class="v-ui-navbar__actions">
-          <kendo-icon name="search"></kendo-icon>
-          <a class="v-ui-navbar__link">ENG</a>
-          <ng-content select="[auth-content]"></ng-content>
-        </div>
-      </div>
-    </nav>
-  `,
+  standalone: true,
+  templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, KENDO_ICONS],
-  standalone: true
+  imports: [RouterLink, NgForOf, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
 })
 export class NavbarComponent {
-  pages = input<NavbarMenuItemType[]>([]);
+  @Input() pages!: NavbarMenuItemType[];
+  @Input() avatarUrl: string | null = null;
+
+  customAuthService = inject(CustomAuthService);
+  rolesService = inject(RolesService);
+  router = inject(Router);
+
+  tokenUser$ = inject(CustomAuthService).tokenUser$;
+
+  kendoIcons = kendoIcons;
+
+  isProfileCardOpen = false;
+
+  private transloco = inject(TranslocoService);
+
+  get currentLangLabel(): string {
+    const activeLang = this.transloco.getActiveLang();
+    return activeLang === 'ka' ? 'GEO' : 'ENG';
+  }
+
+  toggleProfileCard(): void {
+    this.isProfileCardOpen = !this.isProfileCardOpen;
+  }
+
+  navigateTo(direction: string) {
+    this.router.navigate([`/${direction}`]).then();
+  }
+
+  switchLang(): void {
+    const activeLang = this.transloco.getActiveLang();
+    const newLang = activeLang === 'ka' ? 'en' : 'ka';
+    this.transloco.setActiveLang(newLang);
+  }
+
+  logout(): void {
+    this.isProfileCardOpen = false;
+    this.customAuthService.logout().subscribe();
+  }
 }

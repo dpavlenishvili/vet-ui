@@ -1,0 +1,111 @@
+<nav class="v-ui-navbar">
+  <div class="v-ui-navbar__container">
+    <div class="v-ui-navbar__logo">
+      <ng-content select="[navbar-logo]"></ng-content>
+    </div>
+
+    @if (!tokenUser$()) {
+      <ul class="v-ui-navbar__menu">
+        @for (item of pages; track item; let i = $index) {
+          <li class="v-ui-navbar__menu-item">
+            <a [routerLink]="item.url" class="v-ui-navbar__menu-link">
+              {{ item.title }}
+            </a>
+          </li>
+          @if (i !== pages.length - 1) {
+            <div class="k-separator"></div>
+          }
+        }
+      </ul>
+      <div class="v-ui-navbar__actions">
+        <kendo-icon name="search"></kendo-icon>
+        <button kendoButton fillMode="flat" themeColor="light" (click)="switchLang()">
+          {{ currentLangLabel }}
+        </button>
+        <button
+          class="authorization"
+          kendoButton
+          themeColor="light"
+          fillMode="outline"
+          (click)="navigateTo('authorization')"
+        >
+          {{ 'auth.authorization' | transloco }}
+        </button>
+        <button
+          class="registration"
+          kendoButton
+          themeColor="light"
+          fillMode="outline"
+          (click)="navigateTo('registration')"
+        >
+          {{ 'auth.registration' | transloco }}
+        </button>
+      </div>
+    }
+
+    @if (tokenUser$(); as user) {
+      <div class="v-ui-navbar__actions">
+        <button kendoButton [fillMode]="'outline'" themeColor="light">
+          <kendo-svg-icon [icon]="kendoIcons.bellIcon"></kendo-svg-icon>
+        </button>
+
+        <button kendoButton fillMode="flat" themeColor="light" (click)="switchLang()">
+          {{ currentLangLabel }}
+        </button>
+
+        <div class="v-ui-navbar__profile" (click)="toggleProfileCard()">
+          @if (user?.photo) {
+            <img [src]="user.photo" alt="User Avatar" class="v-ui-navbar__profile-avatar" />
+          } @else {
+            <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon"></kendo-svg-icon>
+          }
+
+          <span class="v-ui-navbar__profile-name">
+                                {{ tokenUser$()?.name }}
+                            </span>
+
+          @if (isProfileCardOpen) {
+            <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowUpIcon"></kendo-svg-icon>
+          } @else {
+            <kendo-svg-icon
+              [themeColor]="'light'"
+              [icon]="kendoIcons.arrowDownIcon"
+            ></kendo-svg-icon>
+          }
+        </div>
+
+        <!-- Profile Card (dropdown) -->
+        @if (isProfileCardOpen) {
+          <div
+            class="v-ui-navbar__profile-card"
+            (click)="$event.stopPropagation()"
+          >
+            <div class="profile-card__header">
+              @if (user.photo) {
+                <img [src]="user.photo" alt="Avatar" class="profile-card__avatar" />
+              } @else {
+                <kendo-svg-icon [icon]="kendoIcons.userIcon"></kendo-svg-icon>
+              }
+              <span class="profile-card__username">{{ tokenUser$()?.name }}</span>
+            </div>
+
+            <div class="profile-card__item">
+              <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon"></kendo-svg-icon>
+              განათლების მართვის საინფორმაციო სისტემა
+            </div>
+
+            <div class="profile-card__item">
+              <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon"></kendo-svg-icon>
+              დაწესებულების დასახელება 2
+            </div>
+
+            <div class="profile-card__item profile-card__logout" (click)="logout()">
+              <kendo-svg-icon [icon]="kendoIcons.loginIcon"></kendo-svg-icon>
+              გასვლა
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</nav>
