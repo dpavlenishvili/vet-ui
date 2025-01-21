@@ -8,5 +8,6 @@ import { ProgramsListComponent } from './programs-list/programs-list.component';
   templateUrl: './programs.component.html',
   styleUrl: './programs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class ProgramsComponent {}

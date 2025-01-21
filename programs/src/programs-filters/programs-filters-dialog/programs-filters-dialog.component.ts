@@ -28,6 +28,7 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
   templateUrl: './programs-filters-dialog.component.html',
   styleUrl: './programs-filters-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class ProgramsFiltersDialogComponent {
   kendoIcons = kendoIcons;

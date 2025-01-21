@@ -11,6 +11,7 @@ import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-password-reset',
+  standalone: true,
   imports: [
     ButtonComponent,
     LabelComponent,

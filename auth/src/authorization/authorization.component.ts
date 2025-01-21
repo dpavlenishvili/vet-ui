@@ -7,5 +7,6 @@ import { AuthorizationLoginComponent } from './authorization-login/authorization
   templateUrl: './authorization.component.html',
   styleUrl: './authorization.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class AuthorizationComponent {}

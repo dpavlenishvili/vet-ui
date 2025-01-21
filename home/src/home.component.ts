@@ -9,5 +9,6 @@ import { PartnersComponent } from './partners/partners.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class HomeComponent {}

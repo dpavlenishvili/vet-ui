@@ -12,6 +12,7 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './home-services.component.html',
   styleUrl: './home-services.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class HomeServicesComponent {
   kendoIcons = kendoIcons;

@@ -107,6 +107,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
       }
     `,
   ],
+  standalone: true,
 })
 export class MainLayoutComponent {
   pages$ = inject(ApplicationPagesService).headerMenuPages$;

@@ -10,6 +10,7 @@ import { AsyncPipe, JsonPipe } from '@angular/common';
   styleUrl: './collection-item-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe, JsonPipe],
+  standalone: true
 })
 export class CollectionItemPageComponent {
   itemSlug = input.required<`${string}---${number}`>();

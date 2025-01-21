@@ -8,6 +8,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
   imports: [SVGIconComponent, TranslocoPipe],
   templateUrl: './app-footer.component.html',
   styleUrl: './app-footer.component.scss',
+  standalone: true
 })
 export class AppFooterComponent {
   vetIcons = vetIcons;

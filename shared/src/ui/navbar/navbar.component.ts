@@ -33,6 +33,7 @@ import { KENDO_ICONS } from '@progress/kendo-angular-icons';
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None,
   imports: [RouterLink, KENDO_ICONS],
+  standalone: true
 })
 export class NavbarComponent {
   pages = input<NavbarMenuItemType[]>([]);

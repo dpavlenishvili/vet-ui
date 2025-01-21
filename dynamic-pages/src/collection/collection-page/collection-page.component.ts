@@ -13,6 +13,7 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './collection-page.component.html',
   styleUrl: './collection-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class CollectionPageComponent {
   page = input.required<Page>();

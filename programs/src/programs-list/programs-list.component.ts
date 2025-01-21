@@ -26,6 +26,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './programs-list.component.html',
   styleUrl: './programs-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class ProgramsListComponent {
   kendoIcons = kendoIcons;

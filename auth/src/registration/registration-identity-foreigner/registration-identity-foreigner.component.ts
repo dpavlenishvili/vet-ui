@@ -10,6 +10,7 @@ import { countries, genders } from '@vet/shared';
 
 @Component({
   selector: 'vet-registration-identity-foreigner',
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     InputsModule,

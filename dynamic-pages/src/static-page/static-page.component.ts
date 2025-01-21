@@ -7,6 +7,7 @@ import { Page } from 'backend';
   templateUrl: './static-page.component.html',
   styleUrl: './static-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class StaticPageComponent {
   page = input.required<Page>();

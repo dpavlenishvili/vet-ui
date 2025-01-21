@@ -26,6 +26,7 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
   templateUrl: './programs-filters.component.html',
   styleUrl: './programs-filters.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class ProgramsFiltersComponent {
   filterForm = this.createFormGroup();

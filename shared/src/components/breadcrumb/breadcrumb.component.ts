@@ -14,6 +14,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
   templateUrl: './breadcrumb.component.html',
   styleUrl: './breadcrumb.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class BreadcrumbComponent {
   showTooltipTextSizeThreshold = 34;

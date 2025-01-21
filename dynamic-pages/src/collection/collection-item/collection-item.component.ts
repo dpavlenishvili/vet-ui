@@ -20,6 +20,7 @@ import { CollectionItem } from 'backend';
   templateUrl: './collection-item.component.html',
   styleUrl: './collection-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class CollectionItemComponent {
   collectionItem = input.required<CollectionItem>();

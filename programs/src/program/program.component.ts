@@ -12,6 +12,7 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './program.component.html',
   styleUrl: './program.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class ProgramComponent {
   programsService = inject(ProgramsService);

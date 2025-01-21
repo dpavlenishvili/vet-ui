@@ -23,6 +23,7 @@ import { tap } from 'rxjs';
   templateUrl: './password-forgot.component.html',
   styleUrl: './password-forgot.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class PasswordForgotComponent {
   formGroup = this.createFormGroup();
