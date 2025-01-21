@@ -16,6 +16,7 @@ enum Citizenship {
   templateUrl: './registration-citizenship.component.html',
   styleUrl: './registration-citizenship.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class RegistrationCitizenshipComponent {
   form = input<

@@ -11,6 +11,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
   templateUrl: './registration-terms-and-conditions.component.html',
   styleUrl: './registration-terms-and-conditions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class RegistrationTermsAndConditionsComponent {
   form = input<

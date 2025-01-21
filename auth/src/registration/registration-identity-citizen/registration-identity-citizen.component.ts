@@ -24,6 +24,7 @@ import { ToastService, ToastModule } from '@vet/shared';
   templateUrl: './registration-identity-citizen.component.html',
   styleUrl: './registration-identity-citizen.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class RegistrationIdentityCitizenComponent {
   form = input<

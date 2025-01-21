@@ -17,6 +17,7 @@ dayjs.extend(duration);
   templateUrl: './registration-phone-timeout.component.html',
   styleUrl: './registration-phone-timeout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class RegistrationPhoneTimeoutComponent {
   resend = output();

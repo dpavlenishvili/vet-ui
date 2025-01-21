@@ -23,6 +23,7 @@ import { countries, genders } from '@vet/shared';
   templateUrl: './registration-identity-foreigner.component.html',
   styleUrl: './registration-identity-foreigner.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class RegistrationIdentityForeignerComponent {
   form = input<

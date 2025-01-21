@@ -1,17 +1,20 @@
-import { RegistrationPhoneVerificationComponent } from './../../registration/registration-phone-verification/registration-phone-verification.component';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { CardModule } from '@progress/kendo-angular-layout';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { TranslocoModule } from '@jsverse/transloco';
 import { LabelModule } from '@progress/kendo-angular-label';
-import { AuthService } from '@vet/backend';
+import { AuthService, UserLoginResponseBody } from '@vet/backend';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { ToastModule, ToastService } from '@vet/shared';
 import { personalNumberValidator } from '@vet/shared';
+import { CustomAuthService } from '@vet/auth';
+import {
+  RegistrationPhoneVerificationComponent
+} from '../../registration/registration-phone-verification/registration-phone-verification.component';
 
 @Component({
   selector: 'vet-authorization-login',
@@ -36,6 +39,7 @@ export class AuthorizationLoginComponent {
   phoneForm = this.createPhoneForm();
 
   isUserLoggedIn = signal(false);
+  customAuthService = inject(CustomAuthService);
 
   constructor(
     private authService: AuthService,
@@ -89,21 +93,11 @@ export class AuthorizationLoginComponent {
 
     const value = this.loginForm.value;
 
-    this.authService
-      .validate2FaCode({
-        pid: String(value.pid),
-        password: String(value.password),
-        code: String(value.code),
-      })
+    this.customAuthService.validate2FaCode(String(value.pid), String(value.password), String(value.code))
       .pipe(
-        tap({
-          next: () => {
-            this.router.navigate(['/home']);
-          },
-          error: () => {
-            this.toastService.error('auth.failed_to_login');
-          },
-        }),
+        tap(() => {
+          this.router.navigate(['/home']);
+        })
       )
       .subscribe();
   }

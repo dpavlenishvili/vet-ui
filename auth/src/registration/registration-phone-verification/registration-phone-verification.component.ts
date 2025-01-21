@@ -17,6 +17,7 @@ import noop from 'lodash-es/noop';
       multi: true,
     },
   ],
+  standalone: true
 })
 export class RegistrationPhoneVerificationComponent implements ControlValueAccessor {
   reload = output();

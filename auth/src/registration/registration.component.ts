@@ -16,10 +16,10 @@ import { RegistrationTermsAndConditionsComponent } from './registration-terms-an
 import {
   georgianLettersValidator,
   mobileNumberValidator,
+  passwordMatchValidator,
   passwordPatternValidator,
   personalNumberValidator,
 } from '@vet/shared';
-import { passwordMatchValidator } from '@vet/shared';
 import { RegisterService, UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
 
@@ -49,6 +49,7 @@ enum CitizenshipType {
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class RegistrationComponent {
   currentStepIndex = 0;

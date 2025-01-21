@@ -24,6 +24,7 @@ import { Reloader, ToastModule, ToastService } from '@vet/shared';
   templateUrl: './registration-phone.component.html',
   styleUrl: './registration-phone.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class RegistrationPhoneComponent implements OnInit {
   form = input<

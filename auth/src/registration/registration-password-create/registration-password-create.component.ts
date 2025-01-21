@@ -12,6 +12,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
   templateUrl: './registration-password-create.component.html',
   styleUrl: './registration-password-create.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class RegistrationPasswordCreateComponent {
   form = input<
