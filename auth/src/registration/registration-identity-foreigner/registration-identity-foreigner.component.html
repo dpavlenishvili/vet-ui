@@ -25,34 +25,33 @@
           </kendo-label>
 
           <kendo-label [text]="'auth.last_name' | transloco">
-            <kendo-textbox [clearButton]="true" [readonly]="true" formControlName="lastname"></kendo-textbox>
+            <kendo-textbox [clearButton]="true" formControlName="lastname"></kendo-textbox>
           </kendo-label>
         </div>
 
         <div class="k-display-flex k-gap-5">
           <kendo-label [text]="'auth.date_of_birth' | transloco">
-            <kendo-datepicker [clearButton]="true" [readonly]="true" formControlName="dateOfBirth"></kendo-datepicker>
+            <kendo-datepicker [clearButton]="true" formControlName="dateOfBirth"></kendo-datepicker>
           </kendo-label>
 
           <kendo-label [text]="'auth.gender' | transloco">
-            <kendo-dropdownlist [data]="genders" formControlName="gender">
-              <ng-template kendoDropDownListItemTemplate let-item>
-                {{ 'auth.' + item | transloco }}
-              </ng-template>
-
-              <ng-template kendoDropDownListValueTemplate let-item>
-                {{ item ? ('auth.' + item | transloco) : '' }}
-              </ng-template>
+            <kendo-dropdownlist
+              [data]="genders"
+              formControlName="gender"
+              [valuePrimitive]="true"
+              valueField="code"
+              textField="name"
+            >
             </kendo-dropdownlist>
           </kendo-label>
         </div>
 
         <div class="k-display-flex k-justify-content-between">
-          <button kendoButton themeColor="secondary" (click)="onPreviousClick()">
+          <button kendoButton type="button" themeColor="secondary" (click)="onPreviousClick()">
             {{ 'auth.back' | transloco }}
           </button>
 
-          <button kendoButton themeColor="primary" (click)="onNextClick()">
+          <button kendoButton type="button" themeColor="primary" (click)="onNextClick()">
             {{ 'auth.next' | transloco }}
           </button>
         </div>

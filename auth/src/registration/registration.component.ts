@@ -24,8 +24,8 @@ import { RegisterService, UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
 
 enum CitizenshipType {
-  Georgian = '1',
-  Foreigner = '2',
+  Georgian = 'GEO',
+  Foreigner = 'Foreigner',
 }
 
 @Component({

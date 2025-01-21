@@ -45,11 +45,11 @@
         }
 
         <div class="k-display-flex k-justify-content-between">
-          <button kendoButton themeColor="secondary" (click)="onPreviousClick()">
+          <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
             {{ 'auth.back' | transloco }}
           </button>
 
-          <button kendoButton themeColor="primary" (click)="isPersonVerified() ? onNextClick() : onCheckClick()">
+          <button kendoButton themeColor="primary" type="button" (click)="isPersonVerified() ? onNextClick() : onCheckClick()">
             {{ isPersonVerified() ? ('auth.next' | transloco) : ('auth.check' | transloco) }}
           </button>
         </div>

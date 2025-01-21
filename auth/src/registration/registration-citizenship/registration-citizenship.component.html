@@ -4,7 +4,7 @@
       <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
         <div class="k-display-flex k-gap-10">
           <div class="k-display-flex k-align-items-center k-gap-3">
-            <kendo-radiobutton #georgian formControlName="citizenship" value="1"></kendo-radiobutton>
+            <kendo-radiobutton #georgian formControlName="citizenship" [value]="citizenship.Georgian"></kendo-radiobutton>
             <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco">
               @if (form.controls['citizenship']; as control) {
                 @if (!control.untouched) {
@@ -17,7 +17,7 @@
           </div>
 
           <div class="k-display-flex k-align-items-center k-gap-3">
-            <kendo-radiobutton #foreigner formControlName="citizenship" value="2"></kendo-radiobutton>
+            <kendo-radiobutton #foreigner formControlName="citizenship" [value]="citizenship.Foreigner"></kendo-radiobutton>
             <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco">
               @if (form.controls['citizenship']; as control) {
                 @if (!control.untouched) {

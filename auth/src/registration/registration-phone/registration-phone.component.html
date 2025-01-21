@@ -4,7 +4,11 @@
       <div class="k-display-flex k-gap-10">
         <div class="k-flex-1">
           <kendo-label [text]="'auth.phone_number' | transloco">
-            <kendo-textbox [clearButton]="true" formControlName="phoneNumber"></kendo-textbox>
+            <kendo-textbox [clearButton]="true" formControlName="phoneNumber">
+              <ng-template kendoTextBoxPrefixTemplate>
+                <p class="k-ml-2 k-color-black">{{ 'auth.georgian_code' | transloco }}</p>
+              </ng-template>
+            </kendo-textbox>
           </kendo-label>
         </div>
 
@@ -19,7 +23,7 @@
       </div>
 
       <div class="k-display-flex k-justify-content-between">
-        <button kendoButton themeColor="secondary" look="default" (click)="onPreviousClick()">
+        <button kendoButton themeColor="secondary" look="default" type="button" (click)="onPreviousClick()">
           {{ 'auth.back' | transloco }}
         </button>
 
@@ -27,6 +31,7 @@
           kendoButton
           themeColor="primary"
           [disabled]="formGroup.controls.phoneNumber.invalid"
+          type="button"
           (click)="onNextClick()"
         >
           {{ phase() === 'initial' ? ('auth.check' | transloco) : ('auth.next' | transloco) }}

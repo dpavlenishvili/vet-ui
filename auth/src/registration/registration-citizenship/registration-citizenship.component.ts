@@ -5,6 +5,11 @@ import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { TranslocoModule } from '@jsverse/transloco';
 
+enum Citizenship {
+  Georgian = 'GEO',
+  Foreigner = 'Foreigner',
+}
+
 @Component({
   selector: 'vet-registration-citizenship',
   imports: [ReactiveFormsModule, InputsModule, RadioButtonModule, ButtonModule, LabelModule, TranslocoModule],
@@ -18,6 +23,8 @@ export class RegistrationCitizenshipComponent {
       citizenship: FormControl<string | null>;
     }>
   >();
+
+  citizenship = Citizenship
 
   nextClick = output();
 

@@ -24,6 +24,8 @@ export class RegistrationPasswordCreateComponent {
   nextClick = output();
   eyeIcon = kendoIcons.eyeIcon;
 
+  allowedKeys = new Set(['backspace', 'delete', 'arrowleft', 'arrowright', 'tab', 'enter']);
+
   onPreviousClick() {
     this.previousClick.emit();
   }
@@ -37,6 +39,21 @@ export class RegistrationPasswordCreateComponent {
 
     if (this.form()?.valid) {
       this.nextClick.emit();
+    }
+  }
+
+  restrictInput(event: KeyboardEvent) {
+    const key = event.key.toLowerCase();
+
+    const unicodeLetter = /[\p{L}]/u;
+    const englishLetter = /^[a-zA-Z]$/;
+
+    if (this.allowedKeys.has(key)) {
+      return;
+    }
+
+    if (unicodeLetter.test(key) && !englishLetter.test(key)) {
+      event.preventDefault();
     }
   }
 
