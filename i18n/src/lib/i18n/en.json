@@ -149,5 +149,27 @@
     "district": "District",
     "filter": "Filter",
     "clear_filters": "Clear Filter"
+  },
+
+  "profile": {
+    "actual_address": "Actual address",
+    "contact_info": "Contact details",
+    "my_profile": "My profile",
+    "password": "password",
+    "interest_areas": "Areas of interest",
+    "terms_conditions": "Terms and conditions",
+    "my_messages": "My messages",
+    "region": "Region",
+    "district": "District",
+    "address": "Address",
+    "email": "eMail",
+    "phone": "Phone",
+    "new_password": "New password",
+    "current_password": "Current password",
+    "password_confirmation": "Confirm password",
+    "password_change": "Change password",
+    "save": "Save",
+    "user_update_success": "User updated successfully",
+    "user_update_failed": "User update failed"
   }
 }

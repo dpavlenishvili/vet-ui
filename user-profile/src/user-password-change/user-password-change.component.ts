@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -13,7 +12,6 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
     selector: 'vet-user-password-change',
     standalone: true,
     imports: [
-        CommonModule,
         CardModule,
         ButtonModule,
         InputsModule,
@@ -28,7 +26,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 })
 export class UserPasswordChangeComponent {
     kendoIcons = kendoIcons;
-    onSave = output();
+    save = output();
 
     form = input<
         FormGroup<{
@@ -39,6 +37,6 @@ export class UserPasswordChangeComponent {
     >();
 
     handleSave() {
-        this.onSave.emit();
+        this.save.emit();
     }
 }

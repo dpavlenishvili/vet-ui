@@ -111,6 +111,7 @@
     "services": "სერვისები",
     "partners": "პარტნიორები"
   },
+
   "programs": {
     "field": "სფერო",
     "program_code": "პროგრამის კოდი",
@@ -152,5 +153,27 @@
     "district": "რაიონი",
     "filter": "ფილტრაცია",
     "clear_filters": "ფილტრის გასუფთავება"
+  },
+
+  "profile": {
+    "actual_address": "ფაქტობრივი მისამართი",
+    "contact_info": "საკონტაქტო მონაცემები",
+    "my_profile": "ჩემი პროფილი",
+    "password": "პაროლი",
+    "interest_areas": "ინტერესის სფეროები",
+    "terms_conditions": "წესები და პირობები",
+    "my_messages": "ჩემი წერილები",
+    "region": "რეგიონი",
+    "district": "რაიონი",
+    "address": "მისამართი",
+    "email": "ელ. ფოსტა",
+    "phone": "ტელეფონი",
+    "new_password": "ახალი პაროლი",
+    "current_password": "მიმდინარე პაროლი",
+    "password_confirmation": "გაიმეორეთ პაროლი",
+    "password_change": "პაროლის შეცვლა",
+    "save": "შენახვა",
+    "user_update_success": "მომხმარებლის განახლება წარმატებით დასრულდა",
+    "user_update_failed": "მომხმარებლის განახლება დასრულდა წარუმატებლად"
   }
 }

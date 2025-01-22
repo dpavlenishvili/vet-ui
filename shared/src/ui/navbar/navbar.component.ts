@@ -1,6 +1,5 @@
 import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { NgForOf } from '@angular/common';
 import { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { CustomAuthService } from '@vet/auth';
@@ -15,7 +14,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, NgForOf, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
+  imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
 })
 export class NavbarComponent {
   @Input() pages!: NavbarMenuItemType[];

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { UserOverviewComponent } from './user-overview/user-overview.component';
 import { AuthService, UserReq, UserRes, UsersService } from '@vet/backend';
 import { Observable, tap } from 'rxjs';
@@ -10,12 +9,13 @@ import { UserPasswordChangeComponent } from './user-password-change/user-passwor
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoModule } from '@jsverse/transloco';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'vet-user-profile',
     standalone: true,
     imports: [
-        CommonModule,
+        NgClass,
         UserOverviewComponent,
         UserPasswordChangeComponent,
         SVGIconModule,
@@ -35,11 +35,11 @@ export class UserProfileComponent implements OnInit {
     currentUserId: number | null | undefined = null;
 
     menuItems = [
-        { text: 'my_profile', icon: '/assets/images/myProfile.svg' },
+        { text: 'my_profile', icon: '/assets/images/my-profile.svg' },
         { text: 'password', icon: '/assets/images/password.svg' },
-        { text: 'interest_areas', icon: '/assets/images/interestAreas.svg' },
+        { text: 'interest_areas', icon: '/assets/images/interest-areas.svg' },
         { text: 'terms_conditions', icon: '/assets/images/termsAndConditions.svg' },
-        { text: 'my_messages', icon: '/assets/images/bellIcon.svg' },
+        { text: 'my_messages', icon: '/assets/images/bell-icon.svg' },
     ];
 
     constructor(

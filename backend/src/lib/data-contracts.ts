@@ -14,6 +14,8 @@ export interface Admission {
   inclusive_students_limit?: number;
   exam_language_id?: number;
   is_universal?: boolean;
+  other_requirements?: string;
+  step?: string;
   /**
    * Selection
    * Relations of selection
@@ -103,6 +105,7 @@ export interface LongTerm {
   program_duration?: string;
   program_duration_non_geo?: string;
   description?: string;
+  partner?: string;
   organisation?: object;
   /**
    * Admission

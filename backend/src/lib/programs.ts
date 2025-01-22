@@ -17,4 +17,14 @@ export class ProgramsService {
    * @request GET:/programs/long-term
    */
   longTerm = () => this.httpClient.get<LongTerm>(`${this.baseUrl}/programs/long-term`);
+
+  /**
+   * @description Returns list of short-term programs
+   *
+   * @tags Programs
+   * @name ShortTerm
+   * @summary List of short-term programs
+   * @request GET:/programs/short-term
+   */
+  shortTerm = () => this.httpClient.get<LongTerm>(`${this.baseUrl}/programs/short-term`);
 }

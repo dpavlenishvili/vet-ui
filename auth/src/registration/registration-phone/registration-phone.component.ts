@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, effect, input, OnInit, output, signal } from '@angular/core';
 import { LabelComponent } from '@progress/kendo-angular-label';
-import { TextBoxComponent } from '@progress/kendo-angular-inputs';
+import { KENDO_INPUTS, TextBoxComponent, TextBoxModule } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationPhoneVerificationComponent } from '../registration-phone-verification/registration-phone-verification.component';
@@ -20,6 +20,7 @@ import { Reloader, ToastModule, ToastService } from '@vet/shared';
     ReactiveFormsModule,
     RegistrationPhoneVerificationComponent,
     ButtonComponent,
+    KENDO_INPUTS,
   ],
   templateUrl: './registration-phone.component.html',
   styleUrl: './registration-phone.component.scss',

@@ -23,12 +23,12 @@
         @if (selectedIndex === 0) {
             <vet-user-overview
                 [form]="userForm.controls.userOverview"
-                (onSave)="saveUserOverview()"
+                (save)="saveUserOverview()"
             ></vet-user-overview>
         } @else if (selectedIndex === 1) {
             <vet-user-password-change
                 [form]="userForm.controls.passwordChange"
-                (onSave)="savePassword()"
+                (save)="savePassword()"
             ></vet-user-password-change>
         }
     }

@@ -4,7 +4,6 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { CardModule } from '@progress/kendo-angular-layout';
 import { ChangeDetectionStrategy, Component, input, output, DestroyRef, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -18,7 +17,6 @@ import { tap } from 'rxjs';
     selector: 'vet-user-overview',
     standalone: true,
     imports: [
-        CommonModule,
         CardModule,
         ButtonModule,
         InputsModule,
@@ -39,7 +37,7 @@ export class UserOverviewComponent {
     isContactInfoExpanded = false;
     isSmsCodeSent = signal(false);
 
-    onSave = output();
+    save = output();
 
     form = input<
         FormGroup<{
@@ -96,7 +94,8 @@ export class UserOverviewComponent {
             .pipe(
                 takeUntilDestroyed(this.destroyRef),
                 tap(() => {
-                    this.onSave.emit();
+                    this.save.emit();
+                    this.isSmsCodeSent.set(false)
                 }),
             )
             .subscribe();
