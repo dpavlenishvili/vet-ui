@@ -1,104 +1,103 @@
 @if (form(); as form) {
-    <form [formGroup]="form">
-        <div class="overview-container">
-            <div class="k-display-flex k-align-items-center k-gap-9">
-                <img
-                    [src]="
-                        'https://png.pngtree.com/png-clipart/20220720/original/pngtree-handsome-boy-for-profile-picture-png-image_8390953.png'
-                    "
-                    alt="user"
-                    class="profile-picture"
-                />
-                <p>{{ form.controls.name.value }}</p>
+  <form [formGroup]="form">
+    <div class="overview-container">
+      <div class="k-display-flex k-align-items-center k-gap-9">
+        <img
+          [src]="
+            'https://png.pngtree.com/png-clipart/20220720/original/pngtree-handsome-boy-for-profile-picture-png-image_8390953.png'
+          "
+          alt="user"
+          class="profile-picture"
+        />
+        <p>{{ form.controls.name.value }}</p>
+      </div>
+
+      <div class="k-display-flex k-flex-column k-gap-5">
+        <div class="user-info">
+          <div
+            class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
+            (click)="onAdressExpandClick()"
+          >
+            <p>{{ 'profile.actual_address' | transloco }}</p>
+            <kendo-svg-icon [icon]="isAddressExpanded ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
+          </div>
+
+          @if (isAddressExpanded) {
+            <div class="form-fields-container">
+              <kendo-label [text]="'profile.region' | transloco">
+                <kendo-textbox formControlName="region">
+                  <ng-template kendoTextBoxSuffixTemplate>
+                    <img src="/assets/images/edit.svg" alt="edit icon" />
+                  </ng-template>
+                </kendo-textbox>
+              </kendo-label>
+
+              <kendo-label [text]="'profile.district' | transloco">
+                <kendo-textbox formControlName="district">
+                  <ng-template kendoTextBoxSuffixTemplate>
+                    <img src="/assets/images/edit.svg" alt="edit icon" />
+                  </ng-template>
+                </kendo-textbox>
+              </kendo-label>
+
+              <kendo-label [text]="'profile.address' | transloco">
+                <kendo-textbox formControlName="address">
+                  <ng-template kendoTextBoxSuffixTemplate>
+                    <img src="/assets/images/edit.svg" alt="edit icon" />
+                  </ng-template>
+                </kendo-textbox>
+              </kendo-label>
             </div>
-
-            <div class="k-display-flex k-flex-column k-gap-5">
-                <div class="user-info">
-                    <div
-                        class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
-                        (click)="onAdressExpandClick()"
-                    >
-                        <p>{{ 'profile.actual_address' | transloco }}</p>
-                        <kendo-svg-icon
-                            [icon]="isAddressExpanded ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon"
-                        ></kendo-svg-icon>
-                    </div>
-
-                    @if (isAddressExpanded) {
-                        <div class="form-fields-container">
-                            <kendo-label [text]="'profile.region' | transloco">
-                                <kendo-textbox formControlName="region">
-                                    <ng-template kendoTextBoxSuffixTemplate>
-                                        <img src="/assets/images/edit.svg" alt="edit icon" />
-                                    </ng-template>
-                                </kendo-textbox>
-                            </kendo-label>
-
-                            <kendo-label [text]="'profile.district' | transloco">
-                                <kendo-textbox formControlName="district">
-                                    <ng-template kendoTextBoxSuffixTemplate>
-                                        <img src="/assets/images/edit.svg" alt="edit icon" />
-                                    </ng-template>
-                                </kendo-textbox>
-                            </kendo-label>
-
-                            <kendo-label [text]="'profile.address' | transloco">
-                                <kendo-textbox formControlName="address">
-                                    <ng-template kendoTextBoxSuffixTemplate>
-                                        <img src="/assets/images/edit.svg" alt="edit icon" />
-                                    </ng-template>
-                                </kendo-textbox>
-                            </kendo-label>
-                        </div>
-                    }
-                </div>
-
-                <div class="user-info">
-                    <div
-                        class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
-                        (click)="onContactInfoExpandClick()"
-                    >
-                        <p>{{ 'profile.contact_info' | transloco }}</p>
-                        <kendo-svg-icon
-                            [icon]="isContactInfoExpanded ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon"
-                        ></kendo-svg-icon>
-                    </div>
-
-                    @if (isContactInfoExpanded) {
-                        <div class="form-fields-container">
-                            <kendo-label [text]="'profile.email' | transloco">
-                                <kendo-textbox formControlName="email">
-                                    <ng-template kendoTextBoxSuffixTemplate>
-                                        <img src="/assets/images/edit.svg" alt="edit icon" />
-                                    </ng-template>
-                                </kendo-textbox>
-                            </kendo-label>
-
-                            <kendo-label [text]="'profile.phone' | transloco">
-                                <kendo-textbox formControlName="phone">
-                                    <ng-template kendoTextBoxSuffixTemplate>
-                                        <img src="/assets/images/edit.svg" alt="edit icon" />
-                                    </ng-template>
-                                </kendo-textbox>
-                            </kendo-label>
-                        </div>
-
-                        @if (isSmsCodeSent()) {
-                            <div class="k-display-flex k-justify-content-end k-mt-5">
-                                <vet-registration-phone-verification
-                                    formControlName="sms_code"
-                                ></vet-registration-phone-verification>
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-
-            <div class="k-display-flex k-align-self-end">
-                <button kendoButton themeColor="primary" look="default" (click)="!isSmsCodeSent() ? verifyPhone() : handleSave()">
-                    {{ 'profile.save' | transloco }}
-                </button>
-            </div>
+          }
         </div>
-    </form>
+
+        <div class="user-info">
+          <div
+            class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
+            (click)="onContactInfoExpandClick()"
+          >
+            <p>{{ 'profile.contact_info' | transloco }}</p>
+            <kendo-svg-icon [icon]="isContactInfoExpanded ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
+          </div>
+
+          @if (isContactInfoExpanded) {
+            <div class="form-fields-container">
+              <kendo-label [text]="'profile.email' | transloco">
+                <kendo-textbox formControlName="email">
+                  <ng-template kendoTextBoxSuffixTemplate>
+                    <img src="/assets/images/edit.svg" alt="edit icon" />
+                  </ng-template>
+                </kendo-textbox>
+              </kendo-label>
+
+              <kendo-label [text]="'profile.phone' | transloco">
+                <kendo-textbox formControlName="phone">
+                  <ng-template kendoTextBoxSuffixTemplate>
+                    <img src="/assets/images/edit.svg" alt="edit icon" />
+                  </ng-template>
+                </kendo-textbox>
+              </kendo-label>
+            </div>
+
+            @if (isSmsCodeSent()) {
+              <div class="k-display-flex k-justify-content-end k-mt-5">
+                <vet-registration-phone-verification formControlName="sms_code" />
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="k-display-flex k-align-self-end">
+        <button
+          kendoButton
+          themeColor="primary"
+          look="default"
+          (click)="!isSmsCodeSent() ? verifyPhone() : handleSave()"
+        >
+          {{ 'profile.save' | transloco }}
+        </button>
+      </div>
+    </div>
+  </form>
 }

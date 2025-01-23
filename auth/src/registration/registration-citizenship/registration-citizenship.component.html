@@ -5,7 +5,7 @@
         <div>
           <div class="k-display-flex k-gap-10">
             <div class="k-display-flex k-align-items-center k-gap-3">
-              <kendo-radiobutton #georgian formControlName="citizenship" [value]="citizenship.Georgian"></kendo-radiobutton>
+              <kendo-radiobutton #georgian formControlName="citizenship" [value]="citizenship.Georgian" />
               <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco">
                 @if (form.controls['citizenship']; as control) {
                   @if (!control.untouched) {
@@ -18,7 +18,7 @@
             </div>
 
             <div class="k-display-flex k-align-items-center k-gap-3">
-              <kendo-radiobutton #foreigner formControlName="citizenship" [value]="citizenship.Foreigner"></kendo-radiobutton>
+              <kendo-radiobutton #foreigner formControlName="citizenship" [value]="citizenship.Foreigner" />
               <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco">
                 @if (form.controls['citizenship']; as control) {
                   @if (!control.untouched) {
@@ -31,13 +31,10 @@
             </div>
           </div>
 
-          @if(!form.value.citizenship) {
+          @if (!form.value.citizenship) {
             <div class="k-text-error k-display-flex k-gap-2 k-font-size-sm k-mt-2">
-              <kendo-svg-icon 
-                [icon]="kendoIcons.warningCircleIcon"
-                [size]="'small'"
-              ></kendo-svg-icon>
-              <p>{{'auth.choose_one' | transloco}}</p>
+              <kendo-svg-icon [icon]="kendoIcons.warningCircleIcon" [size]="'small'" />
+              <p>{{ 'auth.choose_one' | transloco }}</p>
             </div>
           }
         </div>

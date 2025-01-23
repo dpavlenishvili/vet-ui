@@ -1,10 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { NgSwitch, NgSwitchCase } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
-import { KENDO_BUTTONS } from '@progress/kendo-angular-buttons';
-import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
-import { KENDO_LABELS } from '@progress/kendo-angular-label';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
 import { RegistrationCitizenshipComponent } from './registration-citizenship/registration-citizenship.component';
 import { RegistrationIdentityCitizenComponent } from './registration-identity-citizen/registration-identity-citizen.component';
@@ -32,13 +28,8 @@ enum CitizenshipType {
 @Component({
   selector: 'vet-registration',
   imports: [
-    KENDO_BUTTONS,
     KENDO_LAYOUT,
     ReactiveFormsModule,
-    NgSwitch,
-    NgSwitchCase,
-    KENDO_INPUTS,
-    KENDO_LABELS,
     RegistrationCitizenshipComponent,
     RegistrationIdentityCitizenComponent,
     RegistrationIdentityForeignerComponent,
@@ -221,7 +212,7 @@ export class RegistrationComponent implements OnInit {
     citizenshipControl?.valueChanges
       .pipe(
         tap(() => {
-          this.formGroup.controls.passwords.reset()
+          this.formGroup.controls.passwords.reset();
         }),
       )
       .subscribe();

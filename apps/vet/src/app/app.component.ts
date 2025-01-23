@@ -25,9 +25,9 @@ import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
       </svg>
     </button>
 
-    <vet-theme-sidebar [open]="isOpen()"></vet-theme-sidebar>
+    <vet-theme-sidebar [open]="isOpen()" />
 
-    <router-outlet></router-outlet>
+    <router-outlet />
     <div kendoDialogContainer></div>
   `,
   styles: [

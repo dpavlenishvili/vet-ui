@@ -14,10 +14,7 @@
 
         <div class="k-flex-1">
           @if (phase() !== 'initial' && formGroup.controls.phoneNumber.valid) {
-            <vet-registration-phone-verification
-              formControlName="verificationNumber"
-              (reload)="onSend()"
-            ></vet-registration-phone-verification>
+            <vet-registration-phone-verification formControlName="verificationNumber" (reload)="onSend()" />
           }
         </div>
       </div>

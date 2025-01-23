@@ -101,6 +101,14 @@
         "jest": true
       },
       "rules": {}
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@nx/angular-template"],
+      "rules": {
+        "@angular-eslint/template/prefer-control-flow": "error",
+        "@angular-eslint/template/prefer-self-closing-tags": "error"
+      }
     }
   ]
 }

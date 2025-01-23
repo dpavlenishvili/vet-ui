@@ -6,12 +6,12 @@
           {{ 'auth.terms_and_conditions_information' | transloco }}
 
           <div>
-            <kendo-checkbox #chekbox formControlName="accepted"></kendo-checkbox>
+            <kendo-checkbox #chekbox formControlName="accepted" />
             <kendo-label
               class="k-checkbox-label"
               [for]="chekbox"
               [text]="'auth.read_and_understand_rules' | transloco"
-            ></kendo-label>
+            />
           </div>
         </div>
 

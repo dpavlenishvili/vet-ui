@@ -13,11 +13,11 @@
         [style.width.rem]="3.5"
         [style.height.rem]="3.5"
         (ngModelChange)="onDigitChange($index, $event, input)"
-      ></kendo-numerictextbox>
+      />
     }
   </div>
 
   <div>
-    <vet-registration-phone-timeout (resend)="onSend()"></vet-registration-phone-timeout>
+    <vet-registration-phone-timeout (resend)="onSend()" />
   </div>
 </div>

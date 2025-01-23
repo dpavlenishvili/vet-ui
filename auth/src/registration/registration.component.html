@@ -17,59 +17,50 @@
       @if (steps[currentStepIndex]; as currentStep) {
         <h2>{{ currentStep.title | transloco }}</h2>
 
-        <div [ngSwitch]="currentStepIndex">
-          <ng-container *ngSwitchCase="0">
-            <vet-registration-citizenship
-              [form]="formGroup.controls.chooseCitizenship"
-              (nextClick)="onNextClick()"
-            ></vet-registration-citizenship>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="1">
+        @switch (currentStepIndex) {
+          @case (0) {
+            <vet-registration-citizenship [form]="formGroup.controls.chooseCitizenship" (nextClick)="onNextClick()" />
+          }
+          @case (1) {
             @switch (citizenship) {
               @case (CitizenshipType.Georgian) {
                 <vet-registration-identity-citizen
                   [form]="formGroup.controls.checkIdentity"
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
-                ></vet-registration-identity-citizen>
+                />
               }
               @case (CitizenshipType.Foreigner) {
                 <vet-registration-identity-foreigner
                   [form]="formGroup.controls.checkIdentityForeigner"
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
-                ></vet-registration-identity-foreigner>
+                />
               }
             }
-          </ng-container>
-
-          <ng-container *ngSwitchCase="2">
+          }
+          @case (2) {
             <vet-registration-phone
               [form]="formGroup.controls.phone"
               (previousClick)="onPreviousClick()"
               (nextClick)="onNextClick()"
-            ></vet-registration-phone>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="3">
+            />
+          }
+          @case (3) {
             <vet-registration-password-create
               [form]="formGroup.controls.passwords"
               (previousClick)="onPreviousClick()"
               (nextClick)="onNextClick()"
-            >
-            </vet-registration-password-create>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="4">
+            />
+          }
+          @case (4) {
             <vet-registration-terms-and-conditions
               [form]="formGroup.controls.termsAndConditions"
               (previousClick)="onPreviousClick()"
               (nextClick)="onNextClick()"
-            >
-            </vet-registration-terms-and-conditions>
-          </ng-container>
-        </div>
+            />
+          }
+        }
       }
     </div>
   </div>

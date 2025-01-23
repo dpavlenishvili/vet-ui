@@ -2,12 +2,12 @@
   <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
     <div class="programs-filters-container k-pb-5 k-px-5">
       <kendo-floatinglabel [text]="'programs.search' | transloco">
-        <kendo-textbox></kendo-textbox>
+        <kendo-textbox />
       </kendo-floatinglabel>
 
       @if (isFilterExpanded) {
         <kendo-floatinglabel [text]="'programs.institution_name' | transloco">
-          <kendo-dropdownlist></kendo-dropdownlist>
+          <kendo-dropdownlist />
         </kendo-floatinglabel>
       }
     </div>
@@ -15,19 +15,19 @@
     @if (isFilterExpanded) {
       <div class="programs-additional-filters-container k-pb-5 k-px-5">
         <kendo-floatinglabel [text]="'programs.program_code' | transloco">
-          <kendo-textbox></kendo-textbox>
+          <kendo-textbox />
         </kendo-floatinglabel>
 
         <kendo-floatinglabel [text]="'programs.form' | transloco">
-          <kendo-dropdownlist></kendo-dropdownlist>
+          <kendo-dropdownlist />
         </kendo-floatinglabel>
 
         <kendo-floatinglabel [text]="'programs.program_duration' | transloco">
-          <kendo-dropdownlist></kendo-dropdownlist>
+          <kendo-dropdownlist />
         </kendo-floatinglabel>
 
         <kendo-floatinglabel [text]="'programs.integrated' | transloco">
-          <kendo-textbox></kendo-textbox>
+          <kendo-textbox />
         </kendo-floatinglabel>
       </div>
     }
@@ -36,7 +36,7 @@
       <div class="k-pb-5 k-px-5">
         @if (isFilterExpanded) {
           <kendo-label [text]="'programs.addmission_announced' | transloco">
-            <kendo-switch [onLabel]="'programs.yes' | transloco" [offLabel]="'programs.no' | transloco"></kendo-switch>
+            <kendo-switch [onLabel]="'programs.yes' | transloco" [offLabel]="'programs.no' | transloco" />
           </kendo-label>
         }
       </div>
@@ -75,5 +75,5 @@
 </kendo-card>
 
 @if (isFilterDialogOpen) {
-  <vet-programs-filters-dialog (dialogClose)="closeDialog()"></vet-programs-filters-dialog>
+  <vet-programs-filters-dialog (dialogClose)="closeDialog()" />
 }

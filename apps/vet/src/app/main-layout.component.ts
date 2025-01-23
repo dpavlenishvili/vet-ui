@@ -46,11 +46,11 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
     </header>
     <main class="main-container">
       <div class="breadcrumb">
-        <vet-breadcrumb></vet-breadcrumb>
+        <vet-breadcrumb />
       </div>
 
       <div class="router-container">
-        <router-outlet></router-outlet>
+        <router-outlet />
       </div>
     </main>
 
