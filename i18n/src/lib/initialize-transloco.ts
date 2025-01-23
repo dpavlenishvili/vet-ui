@@ -1,5 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { provideTransloco, TranslocoLoader } from '@jsverse/transloco';
+import { provideTransloco, type TranslocoLoader } from '@jsverse/transloco';
 import { loadTranslations } from './i18n';
 
 @Injectable({ providedIn: 'root' })

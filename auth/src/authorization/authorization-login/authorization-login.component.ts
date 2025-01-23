@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { CardModule } from '@progress/kendo-angular-layout';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { LabelModule } from '@progress/kendo-angular-label';
-import { AuthService, UserLoginResponseBody } from '@vet/backend';
+import { AuthService } from '@vet/backend';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
@@ -12,9 +12,7 @@ import { tap } from 'rxjs';
 import { ToastModule, ToastService } from '@vet/shared';
 import { personalNumberValidator } from '@vet/shared';
 import { CustomAuthService } from '@vet/auth';
-import {
-  RegistrationPhoneVerificationComponent
-} from '../../registration/registration-phone-verification/registration-phone-verification.component';
+import { RegistrationPhoneVerificationComponent } from '../../registration/registration-phone-verification/registration-phone-verification.component';
 
 @Component({
   selector: 'vet-authorization-login',
@@ -23,7 +21,7 @@ import {
     InputsModule,
     CardModule,
     ButtonModule,
-    TranslocoModule,
+    TranslocoPipe,
     LabelModule,
     ReactiveFormsModule,
     RouterLink,
@@ -93,11 +91,12 @@ export class AuthorizationLoginComponent {
 
     const value = this.loginForm.value;
 
-    this.customAuthService.validate2FaCode(String(value.pid), String(value.password), String(value.code))
+    this.customAuthService
+      .validate2FaCode(String(value.pid), String(value.password), String(value.code))
       .pipe(
         tap(() => {
           this.router.navigate(['/home']);
-        })
+        }),
       )
       .subscribe();
   }

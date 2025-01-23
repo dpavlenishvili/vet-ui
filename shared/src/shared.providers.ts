@@ -1,4 +1,4 @@
-import { Provider, ValueProvider } from '@angular/core';
+import type { Provider, ValueProvider } from '@angular/core';
 import {
   BASE_API_URL,
   BASE_URL,

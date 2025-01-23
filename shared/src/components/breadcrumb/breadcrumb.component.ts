@@ -3,11 +3,11 @@ import { AsyncPipe } from '@angular/common';
 import { BreadCrumbModule } from '@progress/kendo-angular-navigation';
 import { ActivatedRoute, ActivationEnd, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map, Observable, startWith } from 'rxjs';
-import { AppBreadCrumbItem, ResolvedBreadCrumbItem } from '../../shared.types';
+import type { AppBreadCrumbItem, ResolvedBreadCrumbItem } from '../../shared.types';
 import { collectParams, getLastRoute } from '../../shared.utils';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
-import * as kendoIcons from '@progress/kendo-svg-icons'
+import * as kendoIcons from '@progress/kendo-svg-icons';
 
 @Component({
   selector: 'vet-breadcrumb',
@@ -15,12 +15,12 @@ import * as kendoIcons from '@progress/kendo-svg-icons'
   templateUrl: './breadcrumb.component.html',
   styleUrl: './breadcrumb.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class BreadcrumbComponent {
   showTooltipTextSizeThreshold = 34;
   breadcrumbItems$: Observable<ResolvedBreadCrumbItem[]>;
-  kendoIcons = kendoIcons
+  kendoIcons = kendoIcons;
 
   constructor(
     private activatedRoute: ActivatedRoute,

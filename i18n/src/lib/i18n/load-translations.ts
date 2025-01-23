@@ -1,4 +1,4 @@
-import { Translation } from '@jsverse/transloco';
+import type { Translation } from '@jsverse/transloco';
 
 const translations: Record<'ka' | 'en', () => Promise<Translation>> = {
   ka: () => import('./ka.json') as Promise<Translation>,

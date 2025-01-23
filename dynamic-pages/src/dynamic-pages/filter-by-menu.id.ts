@@ -1,4 +1,4 @@
-import { ApplicationPage } from './application.page.type';
+import type { ApplicationPage } from './application.page.type';
 
 export function filterByMenuId(pages: ApplicationPage[], menuId: number): ApplicationPage[] {
   return pages.reduce((acc: ApplicationPage[], page) => {

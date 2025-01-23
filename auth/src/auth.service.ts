@@ -1,9 +1,9 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, inject, Injectable, type Signal, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { finalize, map, Observable, of, tap, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { AuthService as AuthApiService, User, UserLoginResponseBody } from '@vet/backend';
+import { AuthService as AuthApiService, type User, type UserLoginResponseBody } from '@vet/backend';
 
 const _storageKeyName = '__user_tokens__';
 

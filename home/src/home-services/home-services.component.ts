@@ -2,17 +2,17 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { concatMap, map, Observable, of } from 'rxjs';
-import { Page, PagesService } from '@vet/backend';
-import { TranslocoModule } from '@jsverse/transloco';
+import { type Page, PagesService } from '@vet/backend';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'vet-home-services',
-  imports: [SVGIconModule, TranslocoModule, AsyncPipe],
+  imports: [SVGIconModule, TranslocoPipe, AsyncPipe],
   templateUrl: './home-services.component.html',
   styleUrl: './home-services.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class HomeServicesComponent {
   kendoIcons = kendoIcons;

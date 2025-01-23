@@ -470,11 +470,11 @@ export interface UserReq {
    * Password confirmation
    * @example "password"
    */
-  photo?: null | string;
+  password_confirmation?: null | string;
   /**
    * Photo
    * Photo of the user
    * @example "base64 string"
    */
-  password_confirmation?: null | string;
+  photo?: null | string;
 }

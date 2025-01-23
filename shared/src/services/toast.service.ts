@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NotificationService, Type } from '@progress/kendo-angular-notification';
+import { NotificationService, type Type } from '@progress/kendo-angular-notification';
 import { TranslocoService } from '@jsverse/transloco';
 import { ToastModule } from '../toast.module';
 

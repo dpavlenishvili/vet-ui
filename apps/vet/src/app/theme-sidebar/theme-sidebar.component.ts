@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
-import { ThemeName, ThemeService } from '@vet/shared';
-import { KENDO_ICONS } from '@progress/kendo-angular-icons';
+import { ChangeDetectionStrategy, Component, input, type OnInit } from '@angular/core';
+import { type ThemeName, ThemeService } from '@vet/shared';
 
 @Component({
   selector: 'vet-theme-sidebar',
   standalone: true,
-  imports: [KENDO_ICONS],
   templateUrl: './theme-sidebar.component.html',
   styleUrl: './theme-sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

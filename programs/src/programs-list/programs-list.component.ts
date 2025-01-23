@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { CardModule } from '@progress/kendo-angular-layout';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { LongTerm, ProgramsService } from '@vet/backend';
+import { type LongTerm, ProgramsService } from '@vet/backend';
 import { Observable } from 'rxjs';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { RouterLink } from '@angular/router';
@@ -19,14 +19,14 @@ import { RouterLink } from '@angular/router';
     ReactiveFormsModule,
     CardModule,
     LabelModule,
-    TranslocoModule,
+    TranslocoPipe,
     SVGIconModule,
     RouterLink,
   ],
   templateUrl: './programs-list.component.html',
   styleUrl: './programs-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class ProgramsListComponent {
   kendoIcons = kendoIcons;

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
-import { RegisterService, User } from '@vet/backend';
+import { RegisterService, type User } from '@vet/backend';
 import { tap } from 'rxjs';
 import { ToastService, ToastModule } from '@vet/shared';
 
@@ -17,14 +17,14 @@ import { ToastService, ToastModule } from '@vet/shared';
     RadioButtonModule,
     ButtonModule,
     LabelModule,
-    TranslocoModule,
+    TranslocoPipe,
     KENDO_DATEINPUTS,
     ToastModule,
   ],
   templateUrl: './registration-identity-citizen.component.html',
   styleUrl: './registration-identity-citizen.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class RegistrationIdentityCitizenComponent {
   form = input<

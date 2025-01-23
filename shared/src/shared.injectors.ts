@@ -1,4 +1,4 @@
-import { Inject, inject, InjectDecorator } from '@angular/core';
+import { Inject, inject, type InjectDecorator } from '@angular/core';
 
 import {
   BASE_API_URL,

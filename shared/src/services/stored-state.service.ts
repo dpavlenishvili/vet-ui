@@ -1,7 +1,7 @@
-import { computed, Injectable, Signal, signal } from '@angular/core';
+import { computed, Injectable, type Signal, signal } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
 import { STORED_STATE_STORAGE_KEY } from '../shared.constants';
-import { UpdateFn } from '../shared.types';
+import type { UpdateFn } from '../shared.types';
 
 @Injectable({ providedIn: 'root' })
 export class StoredStateService {

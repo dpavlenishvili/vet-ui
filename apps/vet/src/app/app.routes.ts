@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
 import { dynamicUrlPrefix } from '@vet/dynamic-pages';
 import { breadcrumb } from '@vet/shared';
 

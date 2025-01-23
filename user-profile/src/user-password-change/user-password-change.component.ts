@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
@@ -9,34 +9,26 @@ import { CardModule } from '@progress/kendo-angular-layout';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 
 @Component({
-    selector: 'vet-user-password-change',
-    standalone: true,
-    imports: [
-        CardModule,
-        ButtonModule,
-        InputsModule,
-        LabelModule,
-        SVGIconModule,
-        TranslocoModule,
-        ReactiveFormsModule,
-    ],
-    templateUrl: './user-password-change.component.html',
-    styleUrl: './user-password-change.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'vet-user-password-change',
+  standalone: true,
+  imports: [CardModule, ButtonModule, InputsModule, LabelModule, SVGIconModule, TranslocoPipe, ReactiveFormsModule],
+  templateUrl: './user-password-change.component.html',
+  styleUrl: './user-password-change.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserPasswordChangeComponent {
-    kendoIcons = kendoIcons;
-    save = output();
+  kendoIcons = kendoIcons;
+  save = output();
 
-    form = input<
-        FormGroup<{
-            password: FormControl<string | null>;
-            password_confirmation: FormControl<string | null>;
-            new_password: FormControl<string | null>;
-        }>
-    >();
+  form = input<
+    FormGroup<{
+      password: FormControl<string | null>;
+      password_confirmation: FormControl<string | null>;
+      new_password: FormControl<string | null>;
+    }>
+  >();
 
-    handleSave() {
-        this.save.emit();
-    }
+  handleSave() {
+    this.save.emit();
+  }
 }

@@ -1,6 +1,6 @@
-import { Route, Routes } from '@angular/router';
+import type { Route, Routes } from '@angular/router';
 
-import { ApplicationPage } from './application.page.type';
+import type { ApplicationPage } from './application.page.type';
 import { resolvePageComponent } from './resolve-page.component';
 
 export function generateRoutesFromPages(pages: ApplicationPage[], routes: Routes = []): Routes {

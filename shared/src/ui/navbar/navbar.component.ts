@@ -1,6 +1,6 @@
 import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { NavbarMenuItemType } from './navbar-menu-item.type';
+import type { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { CustomAuthService } from '@vet/auth';
 import { RolesService } from '@vet/backend';

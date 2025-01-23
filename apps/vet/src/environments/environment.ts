@@ -1,4 +1,4 @@
-import { AuthEnvironment } from '@vet/auth';
+import type { AuthEnvironment } from '@vet/auth';
 
 export const environment = {
   production: true,

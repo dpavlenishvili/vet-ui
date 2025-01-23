@@ -3,9 +3,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
-import * as kendoIcons from '@progress/kendo-svg-icons'
+import * as kendoIcons from '@progress/kendo-svg-icons';
 
 enum Citizenship {
   Georgian = 'GEO',
@@ -14,11 +14,19 @@ enum Citizenship {
 
 @Component({
   selector: 'vet-registration-citizenship',
-  imports: [ReactiveFormsModule, InputsModule, RadioButtonModule, ButtonModule, LabelModule, TranslocoModule, SVGIconModule],
+  imports: [
+    ReactiveFormsModule,
+    InputsModule,
+    RadioButtonModule,
+    ButtonModule,
+    LabelModule,
+    TranslocoPipe,
+    SVGIconModule,
+  ],
   templateUrl: './registration-citizenship.component.html',
   styleUrl: './registration-citizenship.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class RegistrationCitizenshipComponent {
   form = input<
@@ -27,9 +35,9 @@ export class RegistrationCitizenshipComponent {
     }>
   >();
 
-  kendoIcons = kendoIcons
+  kendoIcons = kendoIcons;
 
-  citizenship = Citizenship
+  citizenship = Citizenship;
 
   nextClick = output();
 

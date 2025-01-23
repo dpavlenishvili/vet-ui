@@ -5,7 +5,7 @@ import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { CardModule } from '@progress/kendo-angular-layout';
 import { LabelModule } from '@progress/kendo-angular-label';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { ProgramsFiltersDialogComponent } from './programs-filters-dialog/programs-filters-dialog.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
@@ -18,7 +18,7 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
     ReactiveFormsModule,
     CardModule,
     LabelModule,
-    TranslocoModule,
+    TranslocoPipe,
     ProgramsFiltersDialogComponent,
     DropDownsModule,
     SVGIconModule,
@@ -26,7 +26,7 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
   templateUrl: './programs-filters.component.html',
   styleUrl: './programs-filters.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class ProgramsFiltersComponent {
   filterForm = this.createFormGroup();

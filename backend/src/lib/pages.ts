@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
-import { CollectionItem, CollectionItemsRes, PagesRes } from './data-contracts';
+import type { CollectionItem, CollectionItemsRes, PagesRes } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class PagesService {

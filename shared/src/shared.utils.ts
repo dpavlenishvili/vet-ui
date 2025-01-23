@@ -1,7 +1,7 @@
 import * as R from 'ramda';
-import { AppBreadCrumbItem, DictionaryType, Option, QueryParams } from './shared.types';
+import type { AppBreadCrumbItem, DictionaryType, Option, QueryParams } from './shared.types';
 import { map, Observable } from 'rxjs';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, type Params } from '@angular/router';
 
 export const isEmptyOrUndefined = R.anyPass([R.isEmpty, R.isNil]);
 

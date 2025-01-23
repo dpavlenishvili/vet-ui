@@ -1,4 +1,4 @@
-import { inject, EnvironmentProviders, provideAppInitializer } from '@angular/core';
+import { inject, type EnvironmentProviders, provideAppInitializer } from '@angular/core';
 import { first } from 'rxjs';
 import { ApplicationPagesService } from './dynamic-pages/dynamic-pages.service';
 

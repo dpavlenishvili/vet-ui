@@ -40,6 +40,10 @@
           {
             "selector": "ImportDeclaration[source.value='@angular/core'] > ImportSpecifier[imported.name='ContentChildren']",
             "message": "Do not import and use '@ContentChildren' from '@angular/core', instead use signal based contentChildren"
+          },
+          {
+            "selector": "ImportDeclaration[source.value='@jsverse/transloco'] > ImportSpecifier[imported.name='TranslocoModule']",
+            "message": "Do not import entire transloco module, instead import only the things you need. e.g TranslocoPipe"
           }
         ],
         "no-restricted-globals": [

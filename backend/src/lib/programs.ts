@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
-import { LongTerm } from './data-contracts';
+import type { LongTerm } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class ProgramsService {

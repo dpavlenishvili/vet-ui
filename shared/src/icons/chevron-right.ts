@@ -1,4 +1,4 @@
-import { SVGIcon } from '@progress/kendo-svg-icons';
+import type { SVGIcon } from '@progress/kendo-svg-icons';
 
 export const chevronRight: SVGIcon = {
   name: 'chevron-right',

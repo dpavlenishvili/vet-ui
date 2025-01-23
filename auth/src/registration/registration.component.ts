@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
@@ -16,7 +16,7 @@ import {
   passwordPatternValidator,
   personalNumberValidator,
 } from '@vet/shared';
-import { RegisterService, UserReq } from '@vet/backend';
+import { RegisterService, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
 

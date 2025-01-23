@@ -11,7 +11,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { UploadedFileUriPipe } from '@vet/shared';
 
-import { CollectionItem } from 'backend';
+import type { CollectionItem } from 'backend';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -20,7 +20,7 @@ import { CollectionItem } from 'backend';
   templateUrl: './collection-item.component.html',
   styleUrl: './collection-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class CollectionItemComponent {
   collectionItem = input.required<CollectionItem>();

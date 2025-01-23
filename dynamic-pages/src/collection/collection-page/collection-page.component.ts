@@ -4,7 +4,7 @@ import { Meta } from '@angular/platform-browser';
 import { first, map, Observable, switchMap } from 'rxjs';
 
 import { CollectionItemComponent } from '../collection-item/collection-item.component';
-import { CollectionItem, Page, PagesService } from '@vet/backend';
+import { type CollectionItem, type Page, PagesService } from '@vet/backend';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -13,7 +13,7 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './collection-page.component.html',
   styleUrl: './collection-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class CollectionPageComponent {
   page = input.required<Page>();

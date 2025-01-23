@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
 import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
@@ -16,14 +16,14 @@ import { countries, genders } from '@vet/shared';
     RadioButtonModule,
     ButtonModule,
     LabelModule,
-    TranslocoModule,
+    TranslocoPipe,
     KENDO_DATEINPUTS,
     KENDO_DROPDOWNS,
   ],
   templateUrl: './registration-identity-foreigner.component.html',
   styleUrl: './registration-identity-foreigner.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class RegistrationIdentityForeignerComponent {
   form = input<

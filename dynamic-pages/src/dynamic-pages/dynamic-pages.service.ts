@@ -1,9 +1,9 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
-import { Router, Routes } from '@angular/router';
-import { from, map, MonoTypeOperatorFunction, Observable, tap } from 'rxjs';
+import { computed, inject, Injectable, type Signal, signal } from '@angular/core';
+import { Router, type Routes } from '@angular/router';
+import { from, map, type MonoTypeOperatorFunction, Observable, tap } from 'rxjs';
 
 import { addUrlPrefixToPage } from './add-url-prefix-to.page';
-import { ApplicationPage, GroupedPages } from './application.page.type';
+import type { ApplicationPage, GroupedPages } from './application.page.type';
 import { dynamicUrlPrefix } from './dynamic-url.prefix';
 import { filterByMenuId } from './filter-by-menu.id';
 import { generateRoutesFromPages } from './generate-routes-from.pages';

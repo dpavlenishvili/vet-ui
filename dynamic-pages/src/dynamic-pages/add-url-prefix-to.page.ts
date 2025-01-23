@@ -1,6 +1,6 @@
-import { Page } from 'backend';
+import type { Page } from 'backend';
 
-import { ApplicationPage } from './application.page.type';
+import type { ApplicationPage } from './application.page.type';
 import { dynamicUrlPrefix } from './dynamic-url.prefix';
 
 export function addUrlPrefixToPage(page: Page): ApplicationPage {

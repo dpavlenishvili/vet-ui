@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 
-import { Page } from 'backend';
+import type { Page } from 'backend';
 
 const PageTypeToPageComponent: Record<string, () => Promise<Type<unknown>>> = {
   collection: () =>

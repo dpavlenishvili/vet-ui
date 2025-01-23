@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
-import {
+import type {
   LoginRequestBody,
   UserLogin2FaResponseBody,
   UserLoginResponseBody,

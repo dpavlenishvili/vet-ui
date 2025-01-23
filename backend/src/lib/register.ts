@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
-import { UserReq, UserRes } from './data-contracts';
+import type { UserReq, UserRes } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class RegisterService {

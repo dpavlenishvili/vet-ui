@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { BreadCrumbItem } from '@progress/kendo-angular-navigation';
+import type { BreadCrumbItem } from '@progress/kendo-angular-navigation';
 import { ActivatedRouteSnapshot } from '@angular/router';
 
 export interface QueryParams {

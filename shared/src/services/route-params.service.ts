@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, type Params, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
-import { QueryParams } from '../shared.types';
+import type { QueryParams } from '../shared.types';
 import { parseNestedObjects, stringifyNestedObjects, withoutEmptyProperties } from '../shared.utils';
 
 @Injectable({ providedIn: 'root' })

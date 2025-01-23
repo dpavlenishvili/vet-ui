@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, type PipeTransform } from '@angular/core';
 import dayjs from 'dayjs';
 import { useDefaultDateTimeFallback, useDefaultDisplayDateTimeFormat } from '../shared.injectors';
 

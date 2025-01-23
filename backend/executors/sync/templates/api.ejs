@@ -12,7 +12,7 @@ import { Observable } from "rxjs";
 import { useBaseApiUrl } from '@vet/shared';
 
 <% if (dataContracts.length) { %>
-import { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
+import type { <%~ dataContracts.join(", ") %> } from "./<%~ config.fileNames.dataContracts %>"
 <% } %>
 
 @Injectable({ providedIn: 'root' })

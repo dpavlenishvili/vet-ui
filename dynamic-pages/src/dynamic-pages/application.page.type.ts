@@ -1,4 +1,4 @@
-import { Page } from 'backend';
+import type { Page } from 'backend';
 
 export type ApplicationPage = Page & {
   url: string[];
