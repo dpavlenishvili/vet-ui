@@ -93,7 +93,8 @@
     "remember": "Remember",
     "login": "Login",
     "forgot_password": "Forgot Password",
-    "georgian_code": "+995"
+    "georgian_code": "+995",
+    "choose_one": "Choose one of the above"
   },
   "contact": {
     "title": "Contact Us",

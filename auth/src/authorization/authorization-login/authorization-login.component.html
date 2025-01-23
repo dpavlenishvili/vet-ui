@@ -20,8 +20,8 @@
 
         <div class="k-display-flex k-flex-column k-gap-2">
           <kendo-label [text]="'auth.password' | transloco">
-            <kendo-textbox [clearButton]="true" formControlName="password" type="password">
-              <ng-template kendoTextBoxSuffixTemplate>
+            <kendo-textbox formControlName="password" type="password">
+              <ng-template kendoTextBoxSuffixTemplate class="k-bg-primary">
                 <a class="k-cursor-pointer k-mr-2 k-color-primary" [routerLink]="['/password/forgot']">{{
                   'auth.forgot_password' | transloco
                 }}</a>

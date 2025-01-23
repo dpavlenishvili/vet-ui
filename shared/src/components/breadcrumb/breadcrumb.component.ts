@@ -7,6 +7,7 @@ import { AppBreadCrumbItem, ResolvedBreadCrumbItem } from '../../shared.types';
 import { collectParams, getLastRoute } from '../../shared.utils';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import * as kendoIcons from '@progress/kendo-svg-icons'
 
 @Component({
   selector: 'vet-breadcrumb',
@@ -19,6 +20,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 export class BreadcrumbComponent {
   showTooltipTextSizeThreshold = 34;
   breadcrumbItems$: Observable<ResolvedBreadCrumbItem[]>;
+  kendoIcons = kendoIcons
 
   constructor(
     private activatedRoute: ActivatedRoute,

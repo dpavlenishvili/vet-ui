@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { NgSwitch, NgSwitchCase } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
@@ -22,6 +22,7 @@ import {
 } from '@vet/shared';
 import { RegisterService, UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
+import { BehaviorSubject, tap } from 'rxjs';
 
 enum CitizenshipType {
   Georgian = 'GEO',
@@ -51,8 +52,10 @@ enum CitizenshipType {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit {
   currentStepIndex = 0;
+  currentStepSubject = new BehaviorSubject<number>(0);
+  currentStep$ = this.currentStepSubject.asObservable();
   formGroup = this.createFormGroup();
   steps = [
     {
@@ -88,6 +91,11 @@ export class RegistrationComponent {
 
   private router = inject(Router);
   private registrationService = inject(RegisterService);
+
+  ngOnInit(): void {
+    this.clearPhoneVerificationInputs();
+    this.handleCitizenshipChange();
+  }
 
   createFormGroup() {
     return new FormGroup({
@@ -164,6 +172,7 @@ export class RegistrationComponent {
   onStepChange(event: StepperActivateEvent) {
     if (this.isStepValid(this.currentStepIndex) || event.index < this.currentStepIndex) {
       this.currentStepIndex = event.index;
+      this.currentStepSubject.next(this.currentStepIndex);
     } else {
       event.preventDefault();
     }
@@ -172,11 +181,11 @@ export class RegistrationComponent {
   onPreviousClick() {
     if (this.currentStepIndex > 0) {
       this.currentStepIndex--;
+      this.currentStepSubject.next(this.currentStepIndex);
     }
   }
 
   onNextClick() {
-    console.log('next', this.isStepValid(this.currentStepIndex), this.formGroup.controls.phone.value);
     if (this.isStepValid(this.currentStepIndex)) {
       if (this.currentStepIndex === this.steps.length - 1) {
         const user = this.getUserReq();
@@ -187,7 +196,34 @@ export class RegistrationComponent {
         });
       } else {
         this.currentStepIndex++;
+        this.currentStepSubject.next(this.currentStepIndex);
       }
     }
+  }
+
+  clearPhoneVerificationInputs() {
+    this.currentStep$
+      .pipe(
+        tap(() => {
+          if (this.currentStepIndex <= 2) {
+            const phoneGroup = this.formGroup.get('phone') as FormGroup;
+            phoneGroup.get('phoneNumber')?.reset();
+            phoneGroup.get('verificationNumber')?.reset();
+          }
+        }),
+      )
+      .subscribe();
+  }
+
+  handleCitizenshipChange() {
+    const citizenshipControl = this.formGroup.controls.chooseCitizenship.get('citizenship');
+
+    citizenshipControl?.valueChanges
+      .pipe(
+        tap(() => {
+          this.formGroup.controls.passwords.reset()
+        }),
+      )
+      .subscribe();
   }
 }

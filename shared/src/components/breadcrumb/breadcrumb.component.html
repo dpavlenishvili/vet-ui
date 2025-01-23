@@ -1,6 +1,6 @@
 <div>
   @if (breadcrumbItems$ | async; as breadcrumbItems) {
-    <kendo-breadcrumb class="!k-bg-transparent" [items]="breadcrumbItems">
+    <kendo-breadcrumb class="!k-bg-transparent" [items]="breadcrumbItems" [separatorSVGIcon]="kendoIcons.divideIcon">
       <ng-template kendoBreadCrumbItemTemplate let-item let-index="index">
         @if (index < breadcrumbItems.length - 1) {
           @if (item.text.length > showTooltipTextSizeThreshold) {
@@ -9,7 +9,7 @@
               [title]="item.text | transloco"
               [routerLink]="item.path"
               queryParamsHandling="merge"
-              class="k-breadcrumb-item k-breadcrumb-link k-text-no-underline k-color-secondary"
+              class="k-breadcrumb-item k-breadcrumb-link k-text-no-underline k-color-inherit"
             >
               {{ item.text | transloco }}
             </a>
@@ -17,18 +17,18 @@
             <a
               [routerLink]="item.path"
               queryParamsHandling="merge"
-              class="k-breadcrumb-item k-breadcrumb-link k-text-no-underline k-color-secondary"
+              class="k-breadcrumb-item k-text-no-underline k-color-inherit"
             >
               {{ item.text | transloco }}
             </a>
           }
         } @else {
           @if (item.text.length > showTooltipTextSizeThreshold) {
-            <div kendoTooltip [title]="item.text" class="k-breadcrumb-item k-color-secondary">
+            <div kendoTooltip [title]="item.text" class="k-breadcrumb-item k-color-inherit">
               {{ item.text | transloco }}
             </div>
           } @else {
-            <div class="k-breadcrumb-item k-color-secondary">{{ item.text | transloco }}</div>
+            <div class="k-breadcrumb-item k-color-primary">{{ item.text | transloco }}</div>
           }
         }
       </ng-template>
