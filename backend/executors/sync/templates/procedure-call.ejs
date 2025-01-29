@@ -72,6 +72,9 @@ const describeReturnType = () => {
     <% if (_.lowerCase(method) === 'post' || _.lowerCase(method) === 'put' || _.lowerCase(method) === 'patch') { %>
     this.httpClient.<%~ _.lowerCase(method) %><<%~ getSuccessResponseTypes() %>>(`${this.baseUrl}<%~ path %>`, <%~ bodyTmpl ? bodyTmpl : 'null'  %>, { <%~ queryTmpl ? `params: ${queryTmpl} as unknown as Record<string, string>` : '' %> } )
     <% } %>
+    <% if (_.lowerCase(method) === 'options') { %>
+    this.httpClient.<%~ _.lowerCase(method) %><<%~ getSuccessResponseTypes() %>>(`${this.baseUrl}<%~ path %>`, <%~ queryTmpl ? `{ params: ${queryTmpl} as unknown as Record<string, string> }` : '' %> )
+    <% } %>
     <% if (_.lowerCase(method) === 'delete') { %>
     this.httpClient.delete<<%~ getSuccessResponseTypes() %>>(`${this.baseUrl}<%~ path %>`, { <%~ queryTmpl ? `params: ${queryTmpl} as unknown as Record<string, string>` : '' %> } )
     <% } %>
