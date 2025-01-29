@@ -82,4 +82,14 @@ export class GeneralsService {
         name_ka?: string;
       }[];
     }>(`${this.baseUrl}/general/districts`);
+
+  /**
+   * @description Returns all configs
+   *
+   * @tags Generals
+   * @name GetAllConfigs
+   * @summary Get All configs
+   * @request GET:/general/var
+   */
+  getAllConfigs = () => this.httpClient.get<object>(`${this.baseUrl}/general/var`);
 }

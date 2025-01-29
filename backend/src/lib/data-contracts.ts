@@ -23,6 +23,31 @@ export interface Admission {
   selection?: Selection[];
 }
 
+export interface AdmissionPrograms {
+  select?: boolean;
+  status?: string;
+  program?: LongTerm;
+}
+
+export interface AdmissionReq {
+  id?: number;
+  education?: string;
+  district_id?: number;
+  language?: string;
+  doc?: string;
+  spec_edu?: string;
+  e_name?: string;
+  e_phone?: string;
+  spec_env?: string;
+  abroad_doc?: string;
+  ocu_doc?: string;
+  /**
+   * Programs
+   * Relations to programs
+   */
+  programs?: AdmissionPrograms[];
+}
+
 /**
  * Collection Item
  * Collection Item
@@ -317,6 +342,11 @@ export interface ValidateCodeRequestBody {
   pid: string;
   password: string;
   code: string;
+}
+
+/** Admission Resource */
+export interface AdmissionRes {
+  data?: AdmissionReq[];
 }
 
 /**

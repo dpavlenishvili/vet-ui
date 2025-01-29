@@ -15,7 +15,11 @@ export class RolesService {
    * @request GET:/roles
    */
   roles = () =>
-    this.httpClient.get<{
-      name?: any;
-    }>(`${this.baseUrl}/roles`);
+    this.httpClient.get<
+      {
+        name?: string;
+        role?: string;
+        organisation?: string;
+      }[]
+    >(`${this.baseUrl}/roles`);
 }
