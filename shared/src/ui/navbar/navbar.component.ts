@@ -1,4 +1,4 @@
-import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input, signal, ViewEncapsulation } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
@@ -7,6 +7,7 @@ import { RolesService } from '@vet/backend';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'vet-ui-navbar',
@@ -14,7 +15,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
+  imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe, AsyncPipe],
 })
 export class NavbarComponent {
   @Input() pages!: NavbarMenuItemType[];
@@ -23,14 +24,21 @@ export class NavbarComponent {
   customAuthService = inject(CustomAuthService);
   rolesService = inject(RolesService);
   router = inject(Router);
-
+  elementRef = inject(ElementRef);
   tokenUser$ = inject(CustomAuthService).tokenUser$;
-
+  transloco = inject(TranslocoService);
   kendoIcons = kendoIcons;
+  isProfileCardOpen = signal(false);
+  isMobileMenuOpen = signal(false);
 
-  isProfileCardOpen = false;
+  roles$ = this.rolesService.roles();
 
-  private transloco = inject(TranslocoService);
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event): void {
+    if (this.isProfileCardOpen() && !this.elementRef.nativeElement.contains(event.target)) {
+      this.isProfileCardOpen.set(false);
+    }
+  }
 
   get currentLangLabel(): string {
     const activeLang = this.transloco.getActiveLang();
@@ -38,7 +46,11 @@ export class NavbarComponent {
   }
 
   toggleProfileCard(): void {
-    this.isProfileCardOpen = !this.isProfileCardOpen;
+    this.isProfileCardOpen.set(!this.isProfileCardOpen());
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
   }
 
   navigateTo(direction: string) {
@@ -52,7 +64,7 @@ export class NavbarComponent {
   }
 
   logout(): void {
-    this.isProfileCardOpen = false;
+    this.isProfileCardOpen.set(false);
     this.customAuthService.logout().subscribe();
   }
 }

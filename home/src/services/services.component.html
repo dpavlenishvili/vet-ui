@@ -1,0 +1,13 @@
+<div class="card-list">
+  @for (card of cards; track card) {
+    <div
+      class="card-list__item"
+      [ngClass]="'card-list__item--' + card.color"
+    >
+      <div class="card-list__icon">
+        <img [src]="'assets/images/' + card.icon" [alt]="card.text" />
+      </div>
+      <p class="card-list__text">{{ card.text }}</p>
+    </div>
+  }
+</div>

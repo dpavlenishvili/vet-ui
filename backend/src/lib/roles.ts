@@ -18,8 +18,9 @@ export class RolesService {
     this.httpClient.get<
       {
         name?: string;
-        role?: string;
+        roles?: string[];
         organisation?: string;
+        permissions?: string[];
       }[]
     >(`${this.baseUrl}/roles`);
 }

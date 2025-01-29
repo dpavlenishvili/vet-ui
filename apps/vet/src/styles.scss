@@ -11,8 +11,13 @@
   --link-color: #4682b4;
   --nav-link-color: #ffffff;
   --nav-bg-color: #4682b4;
-  --border-none: transparent;
+  --border-none: #B1B7BB;
   --font-size: 1rem;
+}
+
+/* ✅ Ensure Home Page Always Has a White Background */
+html.home-page {
+  --main-bg: #FFFFFF; /* No !important, so themes can override when needed */
 }
 
 .theme-v1 {
@@ -46,6 +51,12 @@
   --nav-link-color: #ffffff;
   --nav-bg-color: #0000f5;
   --border-none: #0000f5;
+}
+
+/* Apply Background Globally */
+body {
+  background-color: var(--main-bg);
+  transition: background-color 0.3s ease-in-out;
 }
 
 /* Base Styling */

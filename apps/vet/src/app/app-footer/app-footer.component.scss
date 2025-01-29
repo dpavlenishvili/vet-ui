@@ -2,64 +2,90 @@
   display: block;
 }
 
-.vet-app-footer {
-  background: #ffffff;
-  border-top: 1px solid #b1b7bb;
-}
+.footer {
+  background: var(--main-bg);
+  border-top: 1px solid var(--border-none);
 
-.vet-app-footer-links {
-  padding: 25px 80px;
-}
-
-.vet-app-footer-link-section {
-  display: flex;
-  flex-direction: column;
-  width: 296px;
-
-  h6 {
-    color: #0e2b43;
-    font-family: Helvetica Neue;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 17.09px;
-    text-align: left;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-    margin-bottom: 14px;
+  .link-groups {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    padding: 2rem 5rem;
+    gap: 3rem;
   }
 
-  a {
+  .link-section {
     display: flex;
-    gap: 18px;
-    color: #333333;
-    font-family: Helvetica Neue;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 14.32px;
-    text-align: left;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-    text-decoration: none;
+    flex-direction: column;
+    min-width: 15rem;
+    max-width: 18.5rem;
 
-    &:not(:first-of-type) {
-      margin-top: 16px;
+    h6 {
+      color: var(--secondary-color);
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.875rem;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--text-secondary-color);
+      font-size: 0.75rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: var(--link-color);
+      }
+
+      &:not(:first-of-type) {
+        margin-top: 0.8rem;
+      }
     }
   }
-}
 
-.vet-app-footer-divider {
-  border-top: 1px solid #e8eaf3;
-}
+  .divider {
+    border-top: 1px solid var(--border-none);
+    margin-top: 1.5rem;
+  }
 
-.vet-app-footer-copyright-line {
-  padding: 8px;
-  text-align: center;
-  background: #036aa2;
-  color: #ffffff;
-  font-family: Helvetica Neue;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 14.32px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
+  .logos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5rem;
+  }
+
+  .copyright {
+    text-align: center;
+    background: var(--nav-bg-color);
+    color: var(--nav-link-color);
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  /* ✅ Responsive Design */
+  @media (max-width: 768px) {
+    .link-groups {
+      justify-content: center;
+      padding: 2rem 2rem;
+      .link-section {
+        min-width: auto;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .logos {
+      padding: 1rem 2rem;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+  }
 }

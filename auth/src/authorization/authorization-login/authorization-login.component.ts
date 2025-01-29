@@ -4,7 +4,7 @@ import { CardModule } from '@progress/kendo-angular-layout';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { LabelModule } from '@progress/kendo-angular-label';
-import { AuthService } from '@vet/backend';
+import { AuthService, UserLogin2FaResponseBody, UserLoginResponseBody } from '@vet/backend';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
@@ -60,7 +60,7 @@ export class AuthorizationLoginComponent {
     });
   }
 
-  onNextStep() {
+  onLogin() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -71,10 +71,15 @@ export class AuthorizationLoginComponent {
     this.authService
       .loginUser({ pid: String(value.pid), password: String(value.password) })
       .pipe(
-        tap({
-          next: () => {
+        tap((data: UserLoginResponseBody | UserLogin2FaResponseBody) => {
+          if ('phone_mask' in data) {
             this.isUserLoggedIn.set(true);
-          },
+          } else {
+            this.customAuthService.handleSuccessfulAuthorization(data);
+            this.router.navigate(['/home']);
+          }
+        }),
+        tap({
           error: (error) => {
             this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_login');
           },
@@ -99,5 +104,9 @@ export class AuthorizationLoginComponent {
         }),
       )
       .subscribe();
+  }
+
+  handleAuthorization() {
+    this.isUserLoggedIn() ? this.onSubmit() : this.onLogin()
   }
 }

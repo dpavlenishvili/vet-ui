@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
-import type { AdmissionRes } from './data-contracts';
+import type { AdmissionRes, LongTerm } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class AdmissionService {
@@ -90,6 +90,16 @@ export class AdmissionService {
        */
       status?: boolean;
     }>(`${this.baseUrl}/admission`, data, {});
+
+  /**
+   * @description Returns list of eligible Programs
+   *
+   * @tags Admission
+   * @name EligibleProgramsList
+   * @summary List of eligible programs
+   * @request OPTIONS:/admission
+   */
+  eligibleProgramsList = () => this.httpClient.options<LongTerm>(`${this.baseUrl}/admission`);
 
   /**
    * @description Edit User admission on programs

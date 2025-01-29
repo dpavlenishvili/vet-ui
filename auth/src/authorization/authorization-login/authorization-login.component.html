@@ -57,7 +57,7 @@
             themeColor="primary"
             class="k-w-full"
             look="default"
-            (click)="isUserLoggedIn() ? onSubmit() : onNextStep()"
+            (click)="handleAuthorization()"
           >
             {{ 'auth.login' | transloco }}
           </button>

@@ -1,13 +1,17 @@
 <div class="home-sections">
-  <section>
-    <vet-posts />
-  </section>
+  @if(!authenticated()) {
+    <section>
+      <vet-posts />
+    </section>
+  }
 
   <section>
-    <vet-home-services />
+    <vet-services />
   </section>
 
-  <section>
-    <vet-partners />
-  </section>
+  @if(!authenticated()) {
+    <section>
+      <vet-partners />
+    </section>
+  }
 </div>

@@ -1,5 +1,6 @@
 import { inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { WA_LOCAL_STORAGE, WA_WINDOW } from '@ng-web-apis/common';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ export class ThemeService {
   private readonly rootElement: HTMLElement;
   private readonly themeKey = 'preferred-theme';
   private readonly storage = inject(WA_LOCAL_STORAGE);
+  private router = inject(Router);
 
   constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -35,14 +37,35 @@ export class ThemeService {
   }
 
   /**
-   * Set or switch the theme
+   * Set or switch the theme using Renderer2
    */
   setTheme(theme: ThemeName): void {
     this.clearTheme();
     if (theme !== 'default-theme') {
       this.renderer.addClass(this.rootElement, theme);
+      this.removeHomePageStyle();
+    } else {
+      if (this.isHomePage()) {
+        this.applyHomePageStyle();
+      } else {
+        this.removeHomePageStyle();
+      }
     }
     this.storage.setItem(this.themeKey, theme);
+  }
+
+  /**
+   * Restore Home Page Background using Renderer2
+   */
+  applyHomePageStyle(): void {
+    this.renderer.addClass(this.rootElement, 'home-page');
+  }
+
+  /**
+   * Remove Home Page Styling using Renderer2
+   */
+  removeHomePageStyle(): void {
+    this.renderer.removeClass(this.rootElement, 'home-page');
   }
 
   /**
@@ -65,6 +88,14 @@ export class ThemeService {
   private clearTheme(): void {
     const themes: ThemeName[] = ['theme-v1', 'theme-v2', 'theme-v3'];
     themes.forEach((theme) => this.renderer.removeClass(this.rootElement, theme));
+  }
+
+  /**
+   * Check if the current route is Home Page
+   */
+  private isHomePage(): boolean {
+    const currentUrl = this.router.url;
+    return currentUrl === '/' || currentUrl === '/home';
   }
 }
 

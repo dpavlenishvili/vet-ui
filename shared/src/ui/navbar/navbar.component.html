@@ -64,7 +64,7 @@
                                 {{ tokenUser$()?.name }}
                             </span>
 
-          @if (isProfileCardOpen) {
+          @if (isProfileCardOpen()) {
             <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowUpIcon"></kendo-svg-icon>
           } @else {
             <kendo-svg-icon
@@ -74,34 +74,32 @@
           }
         </div>
 
-        <!-- Profile Card (dropdown) -->
-        @if (isProfileCardOpen) {
+        @if (isProfileCardOpen()) {
           <div
             class="v-ui-navbar__profile-card"
             (click)="$event.stopPropagation()"
           >
-            <div class="profile-card__header" [routerLink]="'user-profile'">
-              @if (user.photo) {
-                <img [src]="user.photo" alt="Avatar" class="profile-card__avatar" />
+            @for (role of roles$ | async; track role.name; let i = $index) {
+              @if (i === 0) {
+                <div class="profile-card__header" [routerLink]="'user-profile'">
+                  @if (user.photo) {
+                    <img [src]="user.photo" alt="Avatar" class="profile-card__avatar" />
+                  } @else {
+                    <kendo-svg-icon [icon]="kendoIcons.userIcon"></kendo-svg-icon>
+                  }
+                  <span class="profile-card__username">{{ role.name }}</span>
+                </div>
               } @else {
-                <kendo-svg-icon [icon]="kendoIcons.userIcon"></kendo-svg-icon>
+                <div class="profile-card__item">
+                  <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon"></kendo-svg-icon>
+                  {{role.name}}
+                </div>
               }
-              <span class="profile-card__username">{{ tokenUser$()?.name }}</span>
-            </div>
-
-            <div class="profile-card__item">
-              <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon"></kendo-svg-icon>
-              განათლების მართვის საინფორმაციო სისტემა
-            </div>
-
-            <div class="profile-card__item">
-              <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon"></kendo-svg-icon>
-              დაწესებულების დასახელება 2
-            </div>
+            }
 
             <div class="profile-card__item profile-card__logout" (click)="logout()">
               <kendo-svg-icon [icon]="kendoIcons.loginIcon"></kendo-svg-icon>
-              გასვლა
+              {{ 'auth.logout' | transloco }}
             </div>
           </div>
         }
