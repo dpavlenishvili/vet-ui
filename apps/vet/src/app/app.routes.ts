@@ -3,6 +3,7 @@ import { dynamicUrlPrefix } from '@vet/dynamic-pages';
 import { breadcrumb } from '@vet/shared';
 
 import { MainLayoutComponent } from './main-layout.component';
+import { programsRoutes } from '@vet/programs';
 
 export const appRoutes: Routes = [
   {
@@ -21,7 +22,7 @@ export const appRoutes: Routes = [
       },
       {
         path: 'programs',
-        loadChildren: () => import('@vet/programs').then((r) => r.programsRoutes),
+        children: programsRoutes,
         data: breadcrumb([]),
       },
       {

@@ -1,0 +1,52 @@
+<div class="k-d-flex k-justify-content-between k-gap-4">
+  <div class="stepper-container">
+    <kendo-stepper
+      [(currentStep)]="currentStepIndex"
+      [steps]="steps()"
+      [stepType]="'full'"
+      [orientation]="'vertical'"
+      (activate)="onStepChange($event)"
+    >
+      <ng-template kendoStepperLabelTemplate let-step>
+        {{ step.label | transloco }}
+      </ng-template>
+    </kendo-stepper>
+  </div>
+  <div class="step-content-container">
+    <div class="k-display-flex k-gap-10 k-flex-column">
+      @if (currentStep(); as _currentStep) {
+        <h2>{{ _currentStep.title | transloco }}</h2>
+
+        <ng-template [ngTemplateOutlet]="_currentStep.template" />
+      }
+    </div>
+  </div>
+</div>
+
+<ng-template #programGeneralInformationStepTmpl>
+  <vet-program-general-information-step [form]="formGroup.controls.general_information" (nextClick)="onNextClick()" />
+</ng-template>
+
+<ng-template #programSelectionStepTmpl>
+  <vet-program-selection-step
+    [form]="formGroup.controls.program_selection"
+    (previousClick)="onPreviousClick()"
+    (nextClick)="onNextClick()"
+  />
+</ng-template>
+
+<ng-template #programSelectedProgramsStepTmpl>
+  <vet-program-selected-programs-step
+    [form]="formGroup.controls.selected_programs"
+    (previousClick)="onPreviousClick()"
+    (nextClick)="onNextClick()"
+  />
+</ng-template>
+
+<ng-template #programConfirmationStepTmpl>
+  <vet-program-confirmation-step
+    [form]="formGroup.controls.confirmation"
+    (previousClick)="onPreviousClick()"
+    (nextClick)="onNextClick()"
+  />
+</ng-template>

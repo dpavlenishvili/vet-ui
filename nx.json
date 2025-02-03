@@ -18,15 +18,16 @@
       "buildable": false,
       "routing": "true",
       "changeDetection": "OnPush",
-      "flat": "true",
+      "flat": true,
       "directory": "@"
     },
     "@nx/angular:component": {
       "style": "scss",
       "changeDetection": "OnPush",
-      "displayBlock": "true",
+      "displayBlock": true,
       "prefix": "vet",
-      "skipTests": "true"
+      "skipTests": true,
+      "flat": false
     }
   },
   "targetDefaults": {

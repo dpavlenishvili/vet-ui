@@ -6,7 +6,7 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { CardModule } from '@progress/kendo-angular-layout';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { type LongTerm, ProgramsService } from '@vet/backend';
+import { type LongTermsRes, ProgramsService } from '@vet/backend';
 import { Observable } from 'rxjs';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { RouterLink } from '@angular/router';
@@ -30,7 +30,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ProgramsListComponent {
   kendoIcons = kendoIcons;
-  programs$: Observable<LongTerm>;
+  programs$: Observable<LongTermsRes>;
 
   longTermPrograms = [
     {
@@ -228,6 +228,6 @@ export class ProgramsListComponent {
   ];
 
   constructor(private programsService: ProgramsService) {
-    this.programs$ = programsService.longTerm();
+    this.programs$ = programsService.programs();
   }
 }

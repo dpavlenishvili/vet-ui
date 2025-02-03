@@ -154,7 +154,12 @@
     "region": "რეგიონი",
     "district": "რაიონი",
     "filter": "ფილტრაცია",
-    "clear_filters": "ფილტრის გასუფთავება"
+    "clear_filters": "ფილტრის გასუფთავება",
+    "registration": "რეგისტრაცია",
+    "general_information": "ზოგადი ინფორმაცია",
+    "program_selection": "პროგრამების არჩევა",
+    "selected_programs": "არჩეული პროგრამები",
+    "confirmation": "დადასტურება"
   },
 
   "profile": {

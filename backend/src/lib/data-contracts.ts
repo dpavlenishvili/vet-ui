@@ -131,6 +131,9 @@ export interface LongTerm {
   program_duration_non_geo?: string;
   description?: string;
   partner?: string;
+  /** | null */
+  video_url?: string | null;
+  gallery?: string[] | null;
   organisation?: object;
   /**
    * Admission
@@ -363,6 +366,11 @@ export interface CollectionItemsRes {
 
 /** Page Resource */
 export interface LongTermRes {
+  data?: LongTerm;
+}
+
+/** Page Resource */
+export interface LongTermsRes {
   data?: LongTerm[];
 }
 

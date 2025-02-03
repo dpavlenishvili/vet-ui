@@ -1,0 +1,225 @@
+@use 'tokens';
+
+$prefix: 'k';
+$kendo-color-chip: #f2f3f6;
+$kendo-color-primary-light: #59acd4;
+$kendo-color-body: #626262; // #555454
+$kendo-color-link: #2351c9;
+$kendo-color-card-border: #e8eaf3;
+
+$colors: (
+  'primary': $kendo-color-primary,
+  'primary-light': $kendo-color-primary-light,
+  'secondary': $kendo-color-secondary,
+  'tertiary': $kendo-color-tertiary,
+  'info': $kendo-color-info,
+  'chip': $kendo-color-chip,
+  'body': $kendo-color-body,
+  'link': $kendo-color-link,
+  'card-border': $kendo-color-card-border,
+);
+
+@each $name, $value in $colors {
+  .#{$prefix}-bg-#{$name} {
+    background-color: $value;
+  }
+}
+
+@each $name, $value in $colors {
+  .#{$prefix}-color-#{$name} {
+    color: $value;
+  }
+}
+
+@each $name, $value in $colors {
+  .hover\:#{$prefix}-bg-#{$name}:hover {
+    background-color: $value;
+  }
+}
+
+@each $name, $value in $colors {
+  .hover\:#{$prefix}-color-#{$name}:hover {
+    color: $value;
+  }
+}
+
+@each $name, $value in $colors {
+  .focus\:#{$prefix}-bg-#{$name}:focus {
+    background-color: $value;
+  }
+}
+
+@each $name, $value in $colors {
+  .focus\:#{$prefix}-color-#{$name}:focus {
+    color: $value;
+  }
+}
+
+.k-text-sm {
+  font-family: HelveticaNeue;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14.5px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+  &strong,
+  &b,
+  strong,
+  b {
+    font-weight: 500;
+    line-height: 20px;
+    font-family: HelveticaNeueMedium;
+  }
+}
+
+.k-text-base {
+  font-family: HelveticaNeue;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+  &strong,
+  &b,
+  strong,
+  b {
+    font-weight: 500;
+    font-family: HelveticaNeueMedium;
+  }
+}
+
+.k-text-md {
+  font-family: HelveticaNeue;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+  &strong,
+  &b,
+  strong,
+  b {
+    font-weight: 500;
+    font-family: HelveticaNeueMedium;
+  }
+}
+
+.k-text-h3 {
+  font-family: HelveticaNeueMedium;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+.k-text-h2 {
+  font-family: HelveticaNeueMedium;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+.k-text-h1 {
+  font-family: HelveticaNeueMedium;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 22px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+@function max-rows() {
+  @return 20;
+}
+
+@mixin zebra-rows($columns, $rowCount) {
+  @for $r from 1 through $rowCount {
+    @if $r == 1 {
+    } @else {
+      @if ($r % 2) == 0 {
+        @for $c from 1 through $columns {
+          .k-grid-cell:not(.k-grid-header):nth-child(#{ ($r - 1) * $columns + $c }) {
+            background-color: #f4f7f9;
+            padding-left: 2rem;
+          }
+        }
+      } @else {
+        @for $c from 1 through $columns {
+          .k-grid-cell:not(.k-grid-header):nth-child(#{ ($r - 1) * $columns + $c }) {
+            background-color: #fff;
+            padding-left: 2rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.k-grid-table {
+  display: grid;
+  //border: 1px solid var(--kendo-color-border);
+
+  .k-grid-cell {
+    padding: 0.75rem 1rem;
+    //border-style: solid;
+    //border-color: var(--kendo-color-border);
+    //border-width: 0;
+    //border-right-width: 1px;
+    //border-bottom-width: 1px;
+    font-family: HelveticaNeue;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+    &.k-grid-header {
+      background-color: #ffffff;
+      margin-bottom: 1.25rem;
+      font-family: HelveticaNeueMedium;
+      font-weight: 500;
+      line-height: 14.65px;
+      border-radius: 0.25rem;
+      border: 1px solid var(--kendo-button-border);
+
+      &:not(:first-child) {
+        margin-left: 1.25rem;
+      }
+    }
+
+    //&:last-child {
+    //  border-right: none;
+    //}
+  }
+
+  &.k-grid-dense {
+    .k-grid-cell {
+      padding: 0.625rem;
+    }
+  }
+
+  @for $i from 1 through 20 {
+    &.k-grid-size-#{$i} {
+      grid-template-columns: repeat(#{$i}, 1fr);
+
+      //.k-grid-cell {
+      //  &:nth-child(#{$i}n) {
+      //    border-right: none;
+      //  }
+      //
+      //  &:nth-last-child(-n+#{$i}) {
+      //    border-bottom: none;
+      //  }
+      //}
+
+      @include zebra-rows($i, max-rows());
+    }
+  }
+}
