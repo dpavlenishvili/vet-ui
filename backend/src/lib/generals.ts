@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
+import { GeneralData } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class GeneralsService {
@@ -91,5 +92,5 @@ export class GeneralsService {
    * @summary Get All configs
    * @request GET:/general/var
    */
-  getAllConfigs = () => this.httpClient.get<object>(`${this.baseUrl}/general/var`);
+  getAllConfigs = () => this.httpClient.get<GeneralData>(`${this.baseUrl}/general/var`);
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
-import type { AdmissionRes, LongTerm } from './data-contracts';
+import type { AdmissionRes, AdmissionsRes, LongTermsRes } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class AdmissionService {
@@ -16,7 +16,28 @@ export class AdmissionService {
    * @summary List of short-term programs
    * @request GET:/admission
    */
-  admissionList = () => this.httpClient.get<AdmissionRes>(`${this.baseUrl}/admission`);
+  admissionList = (query?: {
+    /** Admission Number */
+    number?: any;
+    /**
+     * Registraction date range
+     * @example "2025-01-01 - 2025-12-31"
+     */
+    date?: any;
+    /**
+     * Admission Status
+     * @example "draft"
+     */
+    status?: any;
+    /**
+     * Organisation code
+     * @example "1234"
+     */
+    organisation?: any;
+  }) =>
+    this.httpClient.get<AdmissionsRes>(`${this.baseUrl}/admission`, {
+      params: query as unknown as Record<string, string>,
+    });
 
   /**
    * @description User admission on programs
@@ -39,11 +60,11 @@ export class AdmissionService {
     education?: string;
     /**
      * District ID
-     * @default "1"
+     * @default 1
      */
     district_id?: number;
     /**
-     * language code
+     * Language code
      * @default "KA"
      */
     language?: string;
@@ -68,7 +89,7 @@ export class AdmissionService {
      */
     e_phone?: string;
     /**
-     * (Spec Enviroment) if checked then pass value
+     * (Spec Environment) if checked then pass value
      * @default "ლიფტი, პანდუსი"
      */
     spec_env?: string;
@@ -82,24 +103,17 @@ export class AdmissionService {
      * @default "base64://"
      */
     ocu_doc?: string;
-  }) =>
-    this.httpClient.post<{
-      /**
-       * status
-       * @default true
-       */
-      status?: boolean;
-    }>(`${this.baseUrl}/admission`, data, {});
-
-  /**
-   * @description Returns list of eligible Programs
-   *
-   * @tags Admission
-   * @name EligibleProgramsList
-   * @summary List of eligible programs
-   * @request OPTIONS:/admission
-   */
-  eligibleProgramsList = () => this.httpClient.options<LongTerm>(`${this.baseUrl}/admission`);
+    /**
+     * Wizard step number
+     * @default 1
+     */
+    step?: number;
+    /**
+     * Send 'registered' if user finishes the flow
+     * @default "registered"
+     */
+    status?: string;
+  }) => this.httpClient.post<AdmissionRes>(`${this.baseUrl}/admission`, data, {});
 
   /**
    * @description Edit User admission on programs
@@ -110,7 +124,7 @@ export class AdmissionService {
    * @request PUT:/admission/{id}
    */
   editAdmission = (
-    id: number,
+    id: string,
     data: {
       /**
        * Program IDS
@@ -124,11 +138,11 @@ export class AdmissionService {
       education?: string;
       /**
        * District ID
-       * @default "1"
+       * @default 1
        */
       district_id?: number;
       /**
-       * language code
+       * Language code
        * @default "KA"
        */
       language?: string;
@@ -153,7 +167,7 @@ export class AdmissionService {
        */
       e_phone?: string;
       /**
-       * (Spec Enviroment) if checked then pass value
+       * (Spec Environment) if checked then pass value
        * @default "ლიფტი, პანდუსი"
        */
       spec_env?: string;
@@ -168,19 +182,17 @@ export class AdmissionService {
        */
       ocu_doc?: string;
       /**
-       * Select main program_id
-       * @default "1"
+       * Wizard step number
+       * @default 1
        */
-      select?: number;
-    },
-  ) =>
-    this.httpClient.put<{
+      step?: number;
       /**
-       * status
-       * @default true
+       * Send 'registered' if user finishes the flow
+       * @default "registered"
        */
-      status?: boolean;
-    }>(`${this.baseUrl}/admission/${id}`, data, {});
+      status?: string;
+    },
+  ) => this.httpClient.put<AdmissionRes>(`${this.baseUrl}/admission/${id}`, data, {});
 
   /**
    * @description Delete User admission request
@@ -198,4 +210,14 @@ export class AdmissionService {
        */
       status?: boolean;
     }>(`${this.baseUrl}/admission/${id}`, {});
+
+  /**
+   * @description Returns list of eligible Programs
+   *
+   * @tags Admission
+   * @name EligibleProgramsList
+   * @summary List of eligible programs
+   * @request OPTIONS:/admission/{id}
+   */
+  eligibleProgramsList = (id: any) => this.httpClient.options<LongTermsRes>(`${this.baseUrl}/admission/${id}`);
 }

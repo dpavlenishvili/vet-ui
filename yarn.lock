@@ -5601,6 +5601,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@progress/kendo-angular-upload@npm:^17.1.0":
+  version: 17.2.0
+  resolution: "@progress/kendo-angular-upload@npm:17.2.0"
+  dependencies:
+    "@progress/kendo-angular-schematics": 17.2.0
+    tslib: ^2.3.1
+  peerDependencies:
+    "@angular/animations": 16 - 19
+    "@angular/common": 16 - 19
+    "@angular/core": 16 - 19
+    "@angular/forms": 16 - 19
+    "@angular/platform-browser": 16 - 19
+    "@progress/kendo-angular-buttons": 17.2.0
+    "@progress/kendo-angular-common": 17.2.0
+    "@progress/kendo-angular-icons": 17.2.0
+    "@progress/kendo-angular-l10n": 17.2.0
+    "@progress/kendo-angular-progressbar": 17.2.0
+    "@progress/kendo-licensing": ^1.0.2
+    rxjs: ^6.5.3 || ^7.0.0
+  checksum: 8c11240a6c794625605788e0532fa2987fe1c8066cbeecfe8a7c0fc0e38397fa8ec2cf65db15b3e08581b5cda0e9b4a43b5d88189aa5505062b119de3a626eb6
+  languageName: node
+  linkType: hard
+
 "@progress/kendo-angular-utils@npm:^17.1.0":
   version: 17.2.0
   resolution: "@progress/kendo-angular-utils@npm:17.2.0"
@@ -20269,6 +20292,7 @@ __metadata:
     "@progress/kendo-angular-tooltip": ^17.1.0
     "@progress/kendo-angular-treelist": ^17.1.0
     "@progress/kendo-angular-treeview": ^17.1.0
+    "@progress/kendo-angular-upload": ^17.1.0
     "@progress/kendo-angular-utils": ^17.1.0
     "@progress/kendo-data-query": ^1.7.0
     "@progress/kendo-drawing": ^1.21.2
