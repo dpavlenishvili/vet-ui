@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, signal, TemplateRef, viewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
 import { ProgramGeneralInformationStepComponent } from './program-general-information-step/program-general-information-step.component';
@@ -73,30 +73,8 @@ export class ProgramRegistrationComponent {
   private _programConfirmationStepTmpl = viewChild.required('programConfirmationStepTmpl', { read: TemplateRef });
 
   protected createFormGroup() {
-    const specEnvPattern = /^(ლიფტი|პანდუსი|საგამოცდო დროის გაზრდა|ტესტის შრიფტის გაზრდა)(,\s*(ლიფტი|პანდუსი|საგამოცდო დროის გაზრდა|ტესტის შრიფტის გაზრდა))*$/;
     return new FormGroup({
-      general_information: new FormGroup({
-        // program_ids: new FormArray([]),
-        education: new FormControl('', Validators.required),
-        district_id: new FormControl(null, Validators.required),
-        language: new FormControl('', Validators.required),
-        doc: new FormControl('', Validators.required),
-        spec_edu: new FormControl(''),
-        e_name: new FormControl('', Validators.required),
-        // e_phone: new FormControl('', [
-        //   Validators.required,
-        //   Validators.pattern(/^[0-9+\-()\s]+$/)
-        // ]),
-        spec_env: new FormGroup({
-          liftPandus: new FormControl(false),
-          extraTestTime: new FormControl(false),
-          increasedTestFont: new FormControl(false)
-        }),
-        abroad_doc: new FormControl(''),
-        ocu_doc: new FormControl(''),
-        step: new FormControl(1),
-        status: new FormControl('registered')
-      }),
+      general_information: new FormGroup({}),
       program_selection: new FormGroup({}),
       selected_programs: new FormGroup({}),
       confirmation: new FormGroup({}),

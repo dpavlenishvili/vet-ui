@@ -26,7 +26,8 @@
       "changeDetection": "OnPush",
       "displayBlock": true,
       "prefix": "vet",
-      "skipTests": true
+      "skipTests": true,
+      "flat": false
     }
   },
   "targetDefaults": {

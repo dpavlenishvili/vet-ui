@@ -41,8 +41,6 @@ export interface AdmissionReq {
   spec_env?: string;
   abroad_doc?: string;
   ocu_doc?: string;
-  step?: number;
-  number?: string;
   /**
    * Programs
    * Relations to programs
@@ -351,44 +349,7 @@ export interface ValidateCodeRequestBody {
 
 /** Admission Resource */
 export interface AdmissionRes {
-  data?: AdmissionReq;
-}
-
-/** Admissions Resource */
-export interface AdmissionsRes {
   data?: AdmissionReq[];
-  links?: {
-    /** Pagination links. */
-    first?: string | null;
-    last?: string | null;
-    prev?: string | null;
-    next?: string | null;
-  };
-  meta?: {
-    /**
-     * Pagination metadata.
-     * @example 1
-     */
-    current_page?: number;
-    /** @example 1 */
-    from?: number;
-    /** @example 1 */
-    last_page?: number;
-    links?: {
-      url?: string | null;
-      /** @example "1" */
-      label?: string;
-      /** @example true */
-      active?: boolean;
-    }[];
-    path?: string;
-    /** @example 15 */
-    per_page?: number;
-    /** @example 1 */
-    to?: number;
-    /** @example 1 */
-    total?: number;
-  };
 }
 
 /**
@@ -411,51 +372,6 @@ export interface LongTermRes {
 /** Page Resource */
 export interface LongTermsRes {
   data?: LongTerm[];
-  links?: {
-    /** Pagination links. */
-    first?: string | null;
-    last?: string | null;
-    prev?: string | null;
-    next?: string | null;
-  };
-  meta?: {
-    /**
-     * Pagination metadata.
-     * @example 1
-     */
-    current_page?: number;
-    /** @example 1 */
-    from?: number;
-    /** @example 1 */
-    last_page?: number;
-    links?: {
-      url?: string | null;
-      /** @example "1" */
-      label?: string;
-      /** @example true */
-      active?: boolean;
-    }[];
-    path?: string;
-    /** @example 15 */
-    per_page?: number;
-    /** @example 1 */
-    to?: number;
-    /** @example 1 */
-    total?: number;
-  };
-  filters?: {
-    /**
-     * Filters applied to admissions.
-     * @example "text"
-     */
-    type?: string;
-    /** @example null */
-    selected?: string | null;
-    /** @example "program_name" */
-    key?: string;
-    /** @example "*" */
-    values?: string;
-  }[];
 }
 
 /** Page Resource */
@@ -599,17 +515,4 @@ export interface UserReq {
    * @example "base64 string"
    */
   photo?: null | string;
-}
-
-
-export interface GeneralData {
-  app_languages: string[];
-  institution_types: Record<string, string>;
-  languages: string[];
-  education_levels: Record<string, string>;
-  program_types: Record<string, string>;
-  selection_methods: Record<string, string>;
-  selection_categories: Record<string, string>;
-  financing_types: Record<string, string>;
-  institution_legal_types: Record<string, string>;
 }

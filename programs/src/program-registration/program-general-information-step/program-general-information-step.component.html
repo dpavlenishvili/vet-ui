@@ -1,110 +1,17 @@
 @if (form(); as form) {
-  <div class="k-w-full">
-    <form [formGroup]="form">
-      <div class="container">
-        <div class="top-section">
-          <kendo-formfield>
-            <kendo-floatinglabel [text]="'განათლება'">
-              <kendo-dropdownlist
-                [data]="educations$ | async"
-                textField="name"
-                valueField="id"
-                formControlName="education"
-                [valuePrimitive]="true"
-              />
-            </kendo-floatinglabel>
-          </kendo-formfield>
-          <kendo-formfield>
-            <kendo-floatinglabel [text]="'საგამოცდო ქალაქი'">
-              <kendo-dropdownlist
-                [data]="cities$ | async"
-                textField="name"
-                valueField="id"
-                formControlName="district_id"
-                [valuePrimitive]="true"
-              />
-            </kendo-floatinglabel>
-          </kendo-formfield>
-          <kendo-formfield>
-            <kendo-floatinglabel [text]="'ტესტირების ენა'">
-              <kendo-dropdownlist
-                [data]="languages$ | async"
-                formControlName="language"
-              />
-            </kendo-floatinglabel>
-          </kendo-formfield>
+  <div class="k-display-flex k-gap-10 k-flex-column">
+    <div>
+      <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
+        <div>
+          <div class="k-display-flex k-gap-10">//</div>
         </div>
 
-        <div class="section">
-          <div class="title">
-            <span>ტესტირება/შერჩევის პროცესისთვის გესაჭიროებათ თუ არა ადაპტირებული გარემო ?</span>
-            <kendo-switch [onLabel]="'დიახ'" [offLabel]="'არა'" [(ngModel)]="isSpecEnvEnabled" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          @if (isSpecEnvEnabled) {
-            <div formGroupName="spec_env" class="checkbox-selection-container">
-              <div>
-                <input formControlName="liftPandus" type="checkbox" #liftPandus kendoCheckBox />
-                <kendo-label [for]="liftPandus" class="k-checkbox-label" [text]="'ლიფტი, პანდუსი'" />
-              </div>
-              <div>
-                <input formControlName="extraTestTime" type="checkbox" #extraTestTime kendoCheckBox />
-                <kendo-label [for]="extraTestTime" class="k-checkbox-label" [text]="'საგამოცდო დროის გაზრდა'" />
-              </div>
-              <div>
-                <input formControlName="increasedTestFont" type="checkbox" #increasedTestFont kendoCheckBox />
-                <kendo-label [for]="increasedTestFont" class="k-checkbox-label" [text]="'ტესტის შრიფტის გაზრდა'" />
-              </div>
-            </div>
-          }
+        <div class="k-display-flex k-justify-content-end">
+          <button kendoButton themeColor="primary" (click)="onNextClick()">
+            {{ 'auth.next' | transloco }}
+          </button>
         </div>
-
-        <div class="section">
-          <div class="title">
-            <span>
-              @if (tokenUser$()?.residential === 'GEO') {
-                დაასრულეთ თუ არა უცხო ქვეყნის ზოგადი საგანმანათლებლო დაწესებულება მიმდინარე ან წინა წელს ?
-              } @else {
-                უცხოეთში მცხოვრები თანამემამულის სტატუსის მქონე ქვეყნის მოქალაქე
-              }
-            </span>
-            <kendo-switch [onLabel]="'დიახ'" [offLabel]="'არა'" [disabled]="isOcuEnabled" [(ngModel)]="isAbroadEnabled" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          @if (isAbroadEnabled && !isOcuEnabled) {
-            <div class="warning">
-              <kendo-svg-icon [icon]="kendoIcons.infoCircleIcon" size="xxlarge" />
-              გთხოვთ არ მონიშნოთ “დიახ” თუ ასეთი სტატუსი არ გაგაჩნიათ, წინააღმდეგ შემთხვევაში დაწესებულებაში თქვენი
-              ჩარიცხვა ვერ განხორციელდება!
-            </div>
-            <vet-file-upload (fileUploaded)="handleFileUpload($event)" />
-          }
-        </div>
-
-        <div class="section">
-          <div class="title">
-            <span>
-              @if (tokenUser$()?.residential === 'GEO') {
-                დაასრულეთ თუ არა ზოგადი განათლების საშუალო საფეხური ოკუპირებულ ტერიტორიაზე მიმდინარე ან წინა წელს ?
-              } @else {
-                თავშესაფრის მაძიებელი, ლტოლვილი ან ჰუმანიტარული სტატუსის მქონე პირი
-              }
-            </span>
-            <kendo-switch [onLabel]="'დიახ'" [offLabel]="'არა'" [disabled]="isAbroadEnabled" [(ngModel)]="isOcuEnabled" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          @if (isOcuEnabled && !isAbroadEnabled) {
-            <div class="warning">
-              <kendo-svg-icon [icon]="kendoIcons.infoCircleIcon" size="xxlarge" />
-              გთხოვთ არ მონიშნოთ “დიახ” თუ ასეთი სტატუსი არ გაგაჩნიათ, წინააღმდეგ შემთხვევაში დაწესებულებაში თქვენი
-              ჩარიცხვა ვერ განხორციელდება!
-            </div>
-            <vet-file-upload (fileUploaded)="handleFileUpload($event)" />
-          }
-        </div>
-      </div>
-      <div class="k-display-flex k-justify-content-end">
-        <button kendoButton themeColor="primary" (click)="onNextClick()">
-          {{ 'auth.next' | transloco }}
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 }
