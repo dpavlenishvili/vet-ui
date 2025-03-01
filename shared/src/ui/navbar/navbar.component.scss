@@ -48,23 +48,19 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    gap: 1.3rem;
+    gap: 0.625rem;
 
     &-item {
     }
 
     .k-separator {
       border: 0.5px solid #e0e0e0;
-      height: 1.375rem;
+      height: 0.9375rem;
       align-self: center;
     }
 
     &-link {
-      font-size: 0.875rem;
-      font-weight: 400;
       color: var(--nav-link-color);
-      text-transform: uppercase;
-      text-decoration: none;
 
       &:hover {
         text-decoration: underline;
@@ -81,14 +77,6 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-
-    button {
-      border-color: var(--light-color);
-    }
-
-    button.authorization, button.registration {
-      border: none;
-    }
 
     .v-ui-navbar__icon {
       font-size: 1.25rem;

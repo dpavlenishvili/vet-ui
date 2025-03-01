@@ -28,6 +28,8 @@ import { teacherTrainingPrograms } from './teacher-training-programs';
 import { collegeEmployment } from './college-employment';
 import { previous } from './previous';
 import { next } from './next';
+import { searchSmall } from './search-small';
+import { globeSmall } from './globe-small';
 
 export {
   bin,
@@ -60,4 +62,6 @@ export {
   collegeEmployment,
   previous,
   next,
+  searchSmall,
+  globeSmall,
 };

@@ -14,6 +14,8 @@ $kendo-color-card-border: #e8eaf3;
 $kendo-color-divider: #c8c8c8;
 $kendo-color-divider-light: #E0E0E0;
 $kendo-color-hint: #757575;
+$kendo-button-light: #EAEAEA;
+$kendo-button-light-contrast: #4682B4;
 
 $colors: (
   'paper-dark': $kendo-paper-dark,
@@ -33,6 +35,8 @@ $colors: (
   'card-border': $kendo-color-card-border,
   'divider': $kendo-color-divider,
   'divider-light': $kendo-color-divider-light,
+  'button-light': $kendo-button-light,
+  'button-light-contrast': $kendo-button-light-contrast,
 );
 
 @each $name, $value in $colors {

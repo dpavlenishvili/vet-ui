@@ -8,6 +8,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { AsyncPipe } from '@angular/common';
+import { vetIcons } from '../../shared.icons';
 
 @Component({
   selector: 'vet-ui-navbar',
@@ -31,6 +32,7 @@ export class NavbarComponent {
   isProfileCardOpen = signal(false);
   isMobileMenuOpen = signal(false);
 
+  vetIcons = vetIcons;
   roles$ = this.rolesService.roles();
 
   @HostListener('document:click', ['$event'])

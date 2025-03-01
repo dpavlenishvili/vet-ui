@@ -8,7 +8,7 @@
       <ul class="v-ui-navbar__menu">
         @for (item of pages; track item; let i = $index) {
           <li class="v-ui-navbar__menu-item">
-            <a [routerLink]="item.url" class="v-ui-navbar__menu-link">
+            <a [routerLink]="item.url" class="v-ui-navbar__menu-link k-text-base">
               {{ item.title }}
             </a>
           </li>
@@ -17,29 +17,46 @@
           }
         }
       </ul>
-      <div class="v-ui-navbar__actions">
-        <kendo-icon name="search"></kendo-icon>
-        <button kendoButton fillMode="flat" themeColor="light" (click)="switchLang()">
-          {{ currentLangLabel }}
-        </button>
-        <button
-          class="authorization"
-          kendoButton
-          themeColor="light"
-          fillMode="outline"
-          (click)="navigateTo('authorization')"
-        >
-          {{ 'auth.authorization' | transloco }}
-        </button>
-        <button
-          class="registration"
-          kendoButton
-          themeColor="light"
-          fillMode="outline"
-          (click)="navigateTo('registration')"
-        >
-          {{ 'auth.registration' | transloco }}
-        </button>
+      <div class="k-display-flex k-align-items-center">
+        <div class="k-display-flex k-align-items-center">
+          <button kendoButton [svgIcon]="vetIcons.searchSmall" fillMode="flat" ></button>
+          <button
+            kendoButton
+            fillMode="flat"
+            themeColor="light"
+            [svgIcon]="vetIcons.globeSmall"
+            (click)="switchLang()"
+          >
+            <div class="k-text-sm k-ml-2">
+              {{ currentLangLabel }}
+            </div>
+          </button>
+        </div>
+
+        <div class="k-display-flex k-align-items-center k-gap-1">
+          <button
+            class="!k-border-none"
+            kendoButton
+            themeColor="light"
+            fillMode="outline"
+            (click)="navigateTo('authorization')"
+          >
+          <span class="k-text-base">
+            {{ 'auth.authorization' | transloco }}
+          </span>
+          </button>
+          <button
+            class="!k-border-none k-bg-button-light"
+            kendoButton
+            themeColor="light"
+            fillMode="outline"
+            (click)="navigateTo('registration')"
+          >
+          <span class="k-text-base k-color-button-light-contrast">
+            {{ 'auth.registration' | transloco }}
+          </span>
+          </button>
+        </div>
       </div>
     }
 
