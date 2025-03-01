@@ -30,6 +30,8 @@ import { previous } from './previous';
 import { next } from './next';
 import { searchSmall } from './search-small';
 import { globeSmall } from './globe-small';
+import { previousLarge } from './previous-large';
+import { nextLarge } from './next-large';
 
 export {
   bin,
@@ -64,4 +66,6 @@ export {
   next,
   searchSmall,
   globeSmall,
+  previousLarge,
+  nextLarge,
 };

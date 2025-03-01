@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { KENDO_SCROLLVIEW } from '@progress/kendo-angular-scrollview';
+import { AfterViewInit, ChangeDetectionStrategy, Component, input, viewChild } from '@angular/core';
+import { KENDO_SCROLLVIEW, ScrollViewComponent } from '@progress/kendo-angular-scrollview';
+import { vetIcons } from '@vet/shared';
 
 export interface Item {
   date: string;
@@ -35,8 +36,19 @@ export const data: Item[] = [
   styleUrls: ['./posts.component.scss'], // plural "styles" is typical in Angular
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostsComponent {
+export class PostsComponent implements AfterViewInit {
   readonly items = input<Item[]>(data); // Optionally accept items via Input
   protected readonly width = '100%';
   protected readonly height = '370px';
+
+  scrollViewComponent = viewChild<ScrollViewComponent>('scrollViewComponent');
+
+  ngAfterViewInit() {
+    const scrollViewComponent = this.scrollViewComponent();
+
+    if (scrollViewComponent) {
+      scrollViewComponent.chevronLeftIcon = vetIcons.previousLarge;
+      scrollViewComponent.chevronRightIcon = vetIcons.nextLarge;
+    }
+  }
 }

@@ -93,3 +93,12 @@
     }
   }
 }
+
+::ng-deep {
+  .vet-posts-scrollview {
+    kendo-svgicon.k-svg-icon {
+      width: 20px !important;;
+      height: 27px !important;
+    }
+  }
+}
