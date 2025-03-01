@@ -34,9 +34,11 @@ import { RegistrationPhoneVerificationComponent } from '../../registration/regis
 })
 export class AuthorizationLoginComponent {
   loginForm = this.createFormGroup();
-  phoneForm = this.createPhoneForm();
+  // phoneForm = this.createPhoneForm();
 
   isUserLoggedIn = signal(false);
+  isLoginFormSubmitted = signal(false);
+  isMfaPending = signal(true);
   customAuthService = inject(CustomAuthService);
 
   constructor(
@@ -47,20 +49,23 @@ export class AuthorizationLoginComponent {
 
   createFormGroup() {
     return new FormGroup({
-      pid: new FormControl(null, [Validators.required, personalNumberValidator]),
-      password: new FormControl(null, Validators.required),
+      pid: new FormControl('', [Validators.required, personalNumberValidator]),
+      password: new FormControl('', Validators.required),
       code: new FormControl(''),
+      remember: new FormControl(false),
     });
   }
 
-  createPhoneForm() {
-    return new FormGroup({
-      phoneNumber: new FormControl(),
-      verificationNumber: new FormControl(),
-    });
-  }
+  // createPhoneForm() {
+  //   return new FormGroup({
+  //     phoneNumber: new FormControl(),
+  //     verificationNumber: new FormControl(),
+  //   });
+  // }
 
-  onLogin() {
+  onSubmit() {
+    this.isLoginFormSubmitted.set(true);
+
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -68,15 +73,27 @@ export class AuthorizationLoginComponent {
 
     const value = this.loginForm.value;
 
+    if (this.isUserLoggedIn()) {
+      this.submitMfa(
+        value.pid as string,
+        value.password as string,
+        value.code as string,
+      )
+    } else {
+      this.submitUserPassword(value.pid as string, value.password as string);
+    }
+  }
+
+  private submitUserPassword(pid: string, password: string) {
     this.authService
-      .loginUser({ pid: String(value.pid), password: String(value.password) })
+      .loginUser({ pid, password })
       .pipe(
         tap((data: UserLoginResponseBody | UserLogin2FaResponseBody) => {
           if ('phone_mask' in data) {
             this.isUserLoggedIn.set(true);
           } else {
             this.customAuthService.handleSuccessfulAuthorization(data);
-            this.router.navigate(['/home']);
+            void this.router.navigate(['/home']);
           }
         }),
         tap({
@@ -88,25 +105,14 @@ export class AuthorizationLoginComponent {
       .subscribe();
   }
 
-  onSubmit() {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    const value = this.loginForm.value;
-
+  private submitMfa(pid: string, password: string, mfaCode: string) {
     this.customAuthService
-      .validate2FaCode(String(value.pid), String(value.password), String(value.code))
+      .validate2FaCode(pid, password, mfaCode)
       .pipe(
         tap(() => {
-          this.router.navigate(['/home']);
+          void this.router.navigate(['/home']);
         }),
       )
       .subscribe();
-  }
-
-  handleAuthorization() {
-    this.isUserLoggedIn() ? this.onSubmit() : this.onLogin()
   }
 }

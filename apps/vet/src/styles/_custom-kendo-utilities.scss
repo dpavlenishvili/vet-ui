@@ -1,10 +1,14 @@
 @use 'tokens';
 
 $prefix: 'k';
+$kendo-paper-dark: #F5F7F8;
 $kendo-color-chip: #f2f3f6;
 $kendo-color-primary-light: #59acd4;
 $kendo-color-primary-extra-light: #23D0E8;
+$kendo-color-primary-extra-dark: #0E2B43;
 $kendo-color-body: #626262; // #555454
+$kendo-color-body-dark: #444444; // #555454
+$kendo-color-body-extra-dark: #292D32;
 $kendo-color-link: #2351c9;
 $kendo-color-card-border: #e8eaf3;
 $kendo-color-divider: #c8c8c8;
@@ -12,15 +16,19 @@ $kendo-color-divider-light: #E0E0E0;
 $kendo-color-hint: #757575;
 
 $colors: (
+  'paper-dark': $kendo-paper-dark,
   'primary': $kendo-color-primary,
   'primary-light': $kendo-color-primary-light,
   'primary-extra-light': $kendo-color-primary-extra-light,
+  'primary-extra-dark': $kendo-color-primary-extra-dark,
   'secondary': $kendo-color-secondary,
   'tertiary': $kendo-color-tertiary,
   'info': $kendo-color-info,
   'hint': $kendo-color-hint,
   'chip': $kendo-color-chip,
   'body': $kendo-color-body,
+  'body-dark': $kendo-color-body-dark,
+  'body-extra-dark': $kendo-color-body-extra-dark,
   'link': $kendo-color-link,
   'card-border': $kendo-color-card-border,
   'divider': $kendo-color-divider,
@@ -69,7 +77,7 @@ $colors: (
   }
 }
 
-.k-text-xs {
+@mixin text-xs {
   font-family: HelveticaNeue;
   font-size: 11px;
   font-weight: 400;
@@ -86,7 +94,7 @@ $colors: (
   }
 }
 
-.k-text-sm {
+@mixin text-sm() {
   font-family: HelveticaNeue;
   font-size: 12px;
   font-weight: 400;
@@ -104,7 +112,7 @@ $colors: (
   }
 }
 
-.k-text-base {
+@mixin text-base() {
   font-family: HelveticaNeue;
   font-size: 14px;
   font-weight: 400;
@@ -121,7 +129,7 @@ $colors: (
   }
 }
 
-.k-text-md {
+@mixin text-md() {
   font-family: HelveticaNeue;
   font-size: 16px;
   font-weight: 400;
@@ -138,7 +146,7 @@ $colors: (
   }
 }
 
-.k-text-h3 {
+@mixin text-h3() {
   font-family: HelveticaNeueMedium;
   font-size: 16px;
   font-weight: 500;
@@ -147,7 +155,7 @@ $colors: (
   text-decoration-skip-ink: none;
 }
 
-.k-text-h2 {
+@mixin text-h2() {
   font-family: HelveticaNeueMedium;
   font-size: 18px;
   font-weight: 500;
@@ -156,13 +164,67 @@ $colors: (
   text-decoration-skip-ink: none;
 }
 
-.k-text-h1 {
+@mixin text-h1() {
   font-family: HelveticaNeueMedium;
   font-size: 20px;
   font-weight: 500;
   line-height: 22px;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
+}
+
+@mixin text-lg() {
+  font-family: HelveticaNeueMedium;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 30px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+@mixin text-xxl() {
+  font-family: HelveticaNeueMedium;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 36.6px;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+.k-text-xs {
+  @include text-base();
+}
+
+.k-text-sm {
+  @include text-sm();
+}
+
+.k-text-base {
+  @include text-base();
+}
+
+.k-text-md {
+  @include text-md();
+}
+
+.k-text-h3 {
+  @include text-h3();
+}
+
+.k-text-h2 {
+  @include text-h2();
+}
+
+.k-text-h1 {
+  @include text-h1();
+}
+
+.k-text-lg {
+  @include text-lg();
+}
+
+.k-text-xxl {
+  @include text-xxl();
 }
 
 @function max-rows() {
@@ -216,6 +278,11 @@ input::placeholder,
   line-height: 24px !important;
   text-underline-position: from-font !important;
   text-decoration-skip-ink: none !important;
+}
+
+kendo-label {
+  @include text-base();
+  color: $kendo-color-body;
 }
 
 //.k-grid-table {

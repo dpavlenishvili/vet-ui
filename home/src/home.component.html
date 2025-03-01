@@ -1,16 +1,16 @@
-<div class="home-sections">
+<div class="k-display-flex k-flex-column k-mt-10 k-gap-20">
   @if(!authenticated()) {
-    <section>
+    <section class="vet-home-padded-section">
       <vet-posts />
     </section>
   }
 
-  <section>
+  <section class="vet-home-padded-section">
     <vet-services />
   </section>
 
   @if(!authenticated()) {
-    <section>
+    <section class="vet-home-padded-section k-bg-paper-dark">
       <vet-partners />
     </section>
   }

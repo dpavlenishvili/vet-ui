@@ -19,6 +19,15 @@ import { programs } from './programs';
 import { qualifications } from './qualifications';
 import { search } from './search';
 import { success } from './success';
+import { professionalPrograms } from './professional-programs';
+import { trainingPrograms } from './training-programs';
+import { informalEducation } from './informal-education';
+import { orientationService } from './orientation-service';
+import { governmentLanguageTrainingPrograms } from './government-language-training-programs';
+import { teacherTrainingPrograms } from './teacher-training-programs';
+import { collegeEmployment } from './college-employment';
+import { previous } from './previous';
+import { next } from './next';
 
 export {
   bin,
@@ -42,4 +51,13 @@ export {
   qualifications,
   search,
   success,
+  professionalPrograms,
+  trainingPrograms,
+  informalEducation,
+  orientationService,
+  governmentLanguageTrainingPrograms,
+  teacherTrainingPrograms,
+  collegeEmployment,
+  previous,
+  next,
 };

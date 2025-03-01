@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { vetIcons } from '@vet/shared';
+import { SVGIconComponent } from '@progress/kendo-angular-icons';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'vet-services',
@@ -7,16 +10,17 @@ import { NgClass } from '@angular/common';
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass],
+  imports: [NgClass, SVGIconComponent, TranslocoPipe]
 })
 export class ServicesComponent {
+  vetIcons = vetIcons;
   cards = [
-    { text: 'პროფესიული პროგრამები', icon: 'professional-programs.png', color: 'blue' },
-    { text: 'მომზადება/გადამზადების პროგრამები', icon: 'preparation-retraining-programs.png', color: 'yellow' },
-    { text: 'არაფორმალური განათლების აღიარება', icon: 'training-programs.png', color: 'green' },
-    { text: 'საორიენტაციო სერვისი', icon: 'orientation.png', color: 'teal' },
-    { text: 'სახელმწიფო ენის მომზადების პროგრამები', icon: 'state-language.png', color: 'pink' },
-    { text: 'მასწავლებელთა გადამზადების პროგრამები', icon: 'teacher-training.png', color: 'purple' },
-    { text: 'კოლეჯში დასაქმება', icon: 'college-employment.png', color: 'blue' }
+    { text: 'პროფესიული პროგრამები', icon: vetIcons.professionalPrograms, color: 'blue' },
+    { text: 'მომზადება/გადამზადების პროგრამები', icon: vetIcons.trainingPrograms, color: 'yellow' },
+    { text: 'არაფორმალური განათლების აღიარება', icon: vetIcons.informalEducation, color: 'green' },
+    { text: 'საორიენტაციო სერვისი', icon: vetIcons.orientationService, color: 'pink' },
+    { text: 'სახელმწიფო ენის მომზადების პროგრამები', icon: vetIcons.governmentLanguageTrainingPrograms, color: 'pink' },
+    { text: 'მასწავლებელთა გადამზადების პროგრამები', icon: vetIcons.teacherTrainingPrograms, color: 'yellow' },
+    { text: 'კოლეჯში დასაქმება', icon: vetIcons.collegeEmployment, color: 'blue' }
   ];
 }

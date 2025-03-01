@@ -1,13 +1,20 @@
-<div class="card-list">
-  @for (card of cards; track card) {
-    <div
-      class="card-list__item"
-      [ngClass]="'card-list__item--' + card.color"
-    >
-      <div class="card-list__icon">
-        <img [src]="'assets/images/' + card.icon" [alt]="card.text" />
+<div class="k-display-flex k-flex-column k-gap-10">
+  <div class="k-text-lg">
+    {{ 'home.services' | transloco }}
+  </div>
+
+  <div class="card-list">
+    @for (card of cards; track card) {
+      <div
+        class="card-list__item k-display-flex k-gap-9"
+        [ngClass]="'card-list__item--' + card.color"
+      >
+        <div class="card-list__icon">
+          <kendo-svg-icon [icon]="card.icon"/>
+        </div>
+
+        <span class="k-text-base k-color-body-dark">{{ card.text }}</span>
       </div>
-      <p class="card-list__text">{{ card.text }}</p>
-    </div>
-  }
+    }
+  </div>
 </div>

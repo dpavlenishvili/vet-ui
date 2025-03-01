@@ -7,3 +7,20 @@
   margin-top: 1.875rem;
   border-radius: 1.25rem;
 }
+
+kendo-textbox {
+  height: 50px;
+  margin-top: 0.75rem;
+}
+
+button {
+  height: 50px;
+  width: 290px;
+}
+
+::ng-deep {
+  kendo-textbox input.k-input-inner {
+    padding-block: 1rem !important;
+    padding-inline: 1rem !important;
+  }
+}

@@ -1,9 +1,11 @@
 :host {
   display: block;
+}
 
-  .home-sections {
-    display: flex;
-    flex-direction: column;
-    gap: 5rem;
+.vet-home-padded-section {
+  padding: 0 5rem;
+
+  @media (max-width: 768px) {
+    padding: 0 2rem;
   }
 }

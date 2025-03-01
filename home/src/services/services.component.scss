@@ -23,7 +23,6 @@
       padding: 1.25rem;
       border-radius: 1.25rem;
       height: 10.5rem;
-      box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease;
 
       &:hover {
@@ -31,50 +30,50 @@
       }
 
       &--blue {
-        background-color: #E0ECFF;
-        color: #1B3A72;
+        background-color: #DBEBFE;
       }
 
       &--yellow {
-        background-color: #FFF3D6;
-        color: #7A5B23;
+        background-color: #FFF1D1;
       }
 
       &--green {
-        background-color: #E6FAF0;
-        color: #1E6A47;
+        background-color: #E5FFED;
       }
 
       &--pink {
-        background-color: #FFE6F0;
-        color: #A83B5A;
+        background-color: #FCE4EC;
       }
 
       &--purple {
         background-color: #EAE6FF;
-        color: #443F72;
       }
 
       &--teal {
         background-color: #DFF6FF;
-        color: #1E5D74;
       }
     }
 
     &__icon {
       width: 3.125rem;
       height: 3.125rem;
-      margin-bottom: 0.625rem;
 
       img {
         width: 100%;
         height: 100%;
       }
     }
+  }
+}
 
-    &__text {
-      font-size: 1rem;
-      font-weight: 600;
+::ng-deep {
+  .card-list__icon {
+    kendo-svg-icon {
+      display: block !important;
+
+      svg {
+        height: 46px !important;
+      }
     }
   }
 }

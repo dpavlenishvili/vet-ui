@@ -45,9 +45,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
       </vet-ui-navbar>
     </header>
     <main class="main-container">
-      <div class="breadcrumb">
-        <vet-breadcrumb />
-      </div>
+      <vet-breadcrumb />
 
       <div class="router-container">
         <router-outlet />
@@ -69,13 +67,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
         max-width: 1440px;
         margin: 0 auto;
         width: 100%;
-        padding: 14px 80px 150px 80px;
-      }
-
-      .breadcrumb {
-        display: flex;
-        align-items: center;
-        padding-block: 1.25rem;
+        padding: 14px 0 150px 0;
       }
 
       .router-container {
@@ -84,7 +76,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
 
       @media (max-width: 768px) {
         .main-container {
-          padding: 14px 30px 150px 30px;
+          padding: 14px 0 150px 0;
         }
       }
     `,

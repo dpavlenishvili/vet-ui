@@ -4,6 +4,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { Observable, of } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AsyncPipe } from '@angular/common';
+import { vetIcons } from '@vet/shared';
 
 export interface SliderItem {
   imageUrl: string;
@@ -20,7 +21,7 @@ export interface SliderItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PartnersComponent {
-  readonly kendoIcons = kendoIcons;
+  vetIcons = vetIcons;
 
   public sliderData$: Observable<SliderItem[]> = of(sliderItems);
 
@@ -35,65 +36,62 @@ export class PartnersComponent {
 
 export const sliderItems = [
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4ec320a0bbac89222e_amazon_logo.png',
+    imageUrl: '/assets/images/partners/61c785f9825ae302036d6eaae3935de7.jpg',
     title: 'NAMELOGO',
     subtitle: 'IT-service',
   },
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4e9151de118ca4e48f_gatik_logo.png',
+    imageUrl: '/assets/images/partners/297bfad129d802c0fbe5f97b14a8ef41.jpg',
     title: 'TECH',
     subtitle: 'IT-service',
   },
   {
-    imageUrl:
-      'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdf1587d4c137728ae012a_canadian_tire_logo.png',
+    imageUrl: '/assets/images/partners/08fc25d51165d4bb7dbb7e2b3788b029.jpg',
     title: 'Bicycle Shop',
     subtitle: 'IT-service',
   },
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4e686502959d8139d7_lime_logo.png',
+    imageUrl: '/assets/images/partners/1fe494e3ee8f31a63b47472c1b1de35a.jpg',
     title: 'TECHLOGO',
     subtitle: 'IT-service',
   },
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4ec320a0bbac89222e_amazon_logo.png',
+    imageUrl: '/assets/images/partners/297bfad129d802c0fbe5f97b14a8ef41.jpg',
     title: 'NAMELOGO',
     subtitle: 'IT-service',
   },
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4e9151de118ca4e48f_gatik_logo.png',
+    imageUrl: '/assets/images/partners/629e565a995de991807f8e620b718682.jpg',
     title: 'TECH',
     subtitle: 'IT-service',
   },
   {
-    imageUrl:
-      'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdf1587d4c137728ae012a_canadian_tire_logo.png',
+    imageUrl: '/assets/images/partners/08fc25d51165d4bb7dbb7e2b3788b029.jpg',
     title: 'Bicycle Shop',
     subtitle: 'IT-service',
   },
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4e686502959d8139d7_lime_logo.png',
+    imageUrl: '/assets/images/partners/b58db6be30ca33038d0a9fc46d52e9a2.jpg',
     title: 'TECHLOGO',
     subtitle: 'IT-service',
   },
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4ec320a0bbac89222e_amazon_logo.png',
+    imageUrl: '/assets/images/partners/61c785f9825ae302036d6eaae3935de7.jpg',
     title: 'NAMELOGO',
     subtitle: 'IT-service',
   },
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4e9151de118ca4e48f_gatik_logo.png',
+    imageUrl: '/assets/images/partners/297bfad129d802c0fbe5f97b14a8ef41.jpg',
     title: 'TECH',
     subtitle: 'IT-service',
   },
   {
-    imageUrl:
-      'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdf1587d4c137728ae012a_canadian_tire_logo.png',
+    imageUrl: '/assets/images/partners/08fc25d51165d4bb7dbb7e2b3788b029.jpg',
     title: 'Bicycle Shop',
     subtitle: 'IT-service',
   },
   {
-    imageUrl: 'https://cdn.prod.website-files.com/65943d23dc44e6ce92eb6b67/65fdef4e686502959d8139d7_lime_logo.png',
+    imageUrl: '/assets/images/partners/1fe494e3ee8f31a63b47472c1b1de35a.jpg',
     title: 'TECHLOGO',
     subtitle: 'IT-service',
   },
