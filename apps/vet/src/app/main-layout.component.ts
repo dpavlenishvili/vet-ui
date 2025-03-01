@@ -68,6 +68,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
         margin: 0 auto;
         width: 100%;
         padding: 14px 0 150px 0;
+        background: var(--main-bg);
       }
 
       .router-container {

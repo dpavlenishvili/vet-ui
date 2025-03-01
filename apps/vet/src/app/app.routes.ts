@@ -5,8 +5,21 @@ import { breadcrumb } from '@vet/shared';
 import { MainLayoutComponent } from './main-layout.component';
 import { programsRoutes } from '@vet/programs';
 import { longTermProgramsRoutes } from '../../../../long-term-programs/src/long-term-program.routes';
+import { HomeLayoutComponent } from './home-layout.component';
 
 export const appRoutes: Routes = [
+  {
+    path: 'home',
+    pathMatch: 'full',
+    component: HomeLayoutComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadChildren: () => import('@vet/home').then((r) => r.homeRoutes),
+      },
+    ],
+  },
   {
     path: '',
     component: MainLayoutComponent,
@@ -16,10 +29,6 @@ export const appRoutes: Routes = [
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',
-      },
-      {
-        path: 'home',
-        loadChildren: () => import('@vet/home').then((r) => r.homeRoutes),
       },
       {
         path: 'programs',
