@@ -1,6 +1,6 @@
 @if (breadcrumbItems$ | async; as breadcrumbItems) {
   @if (breadcrumbItems.length > 0) {
-    <div class="k-display-flex k-align-items-center k-p-5">
+    <div class="k-display-flex k-align-items-center k-py-5">
       <kendo-breadcrumb class="!k-bg-transparent" [items]="breadcrumbItems" [separatorSVGIcon]="kendoIcons.divideIcon">
         <ng-template kendoBreadCrumbItemTemplate let-item let-index="index">
           @if (index < breadcrumbItems.length - 1) {

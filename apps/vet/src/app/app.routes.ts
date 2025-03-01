@@ -9,27 +9,15 @@ import { HomeLayoutComponent } from './home-layout.component';
 
 export const appRoutes: Routes = [
   {
-    path: 'home',
+    path: '',
     pathMatch: 'full',
     component: HomeLayoutComponent,
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        loadChildren: () => import('@vet/home').then((r) => r.homeRoutes),
-      },
-    ],
+    loadChildren: () => import('@vet/home').then((r) => r.homeRoutes),
   },
   {
     path: '',
     component: MainLayoutComponent,
     children: [
-      {
-        // Temporary redirect to registration page
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
-      },
       {
         path: 'programs',
         children: programsRoutes,
@@ -48,7 +36,7 @@ export const appRoutes: Routes = [
         path: '',
         loadChildren: () => import('@vet/auth').then((r) => r.authRoutes),
         data: breadcrumb([]),
-      },
+      }
     ],
   },
   {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { BreadcrumbComponent, NavbarComponent } from '@vet/shared';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
@@ -44,7 +44,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
         </ng-container>
       </vet-ui-navbar>
     </header>
-    <main class="main-container">
+    <main class="main-container" [class.disable-padding]="disablePadding()">
       <vet-breadcrumb />
 
       <div class="router-container">
@@ -67,23 +67,26 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
         max-width: 1440px;
         margin: 0 auto;
         width: 100%;
-        padding: 14px 0 150px 0;
+        padding: 0 80px 150px 80px;
         background: var(--main-bg);
+
+        @media (max-width: 768px) {
+          padding: 14px 30px 150px 30px;
+        }
+
+        &.disable-padding {
+          padding: 0 0 150px;
+        }
       }
 
       .router-container {
         height: 100%;
-      }
-
-      @media (max-width: 768px) {
-        .main-container {
-          padding: 14px 0 150px 0;
-        }
       }
     `,
   ],
   standalone: true,
 })
 export class MainLayoutComponent {
+  disablePadding = input(false);
   pages$ = inject(ApplicationPagesService).headerMenuPages$;
 }

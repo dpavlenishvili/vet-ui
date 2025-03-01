@@ -5,7 +5,7 @@ import { MainLayoutComponent } from './main-layout.component';
   selector: 'vet-home-layout',
   imports: [MainLayoutComponent],
   template: `
-    <vet-main-layout />
+    <vet-main-layout [disablePadding]="true" />
   `,
   styles: [
     `

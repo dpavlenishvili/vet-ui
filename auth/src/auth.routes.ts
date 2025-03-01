@@ -80,5 +80,4 @@ export const authRoutes: Route[] = [
     loadComponent: () => import('./password-reset/password-reset.component').then((m) => m.PasswordResetComponent),
     data: breadcrumb([...baseBreadcrumbItems, { path: '/authorization', text: 'auth.password_recovery' }]),
   },
-  { path: '**', redirectTo: 'authorization' },
 ];

@@ -62,13 +62,25 @@
 
     @if (tokenUser$(); as user) {
       <div class="v-ui-navbar__actions">
-        <button kendoButton [fillMode]="'outline'" themeColor="light">
-          <kendo-svg-icon [icon]="kendoIcons.bellIcon"></kendo-svg-icon>
-        </button>
-
-        <button kendoButton fillMode="flat" themeColor="light" (click)="switchLang()">
-          {{ currentLangLabel }}
-        </button>
+        <div class="k-display-flex k-align-items-center k-gap-1">
+          <button
+            kendoButton
+            [svgIcon]="kendoIcons.bellIcon"
+            fillMode="outline"
+            themeColor="light"
+          ></button>
+          <button
+            kendoButton
+            fillMode="flat"
+            themeColor="light"
+            [svgIcon]="vetIcons.globeSmall"
+            (click)="switchLang()"
+          >
+            <div class="k-text-sm k-ml-2">
+              {{ currentLangLabel }}
+            </div>
+          </button>
+        </div>
 
         <div class="v-ui-navbar__profile" (click)="toggleProfileCard()">
           @if (user?.photo) {
