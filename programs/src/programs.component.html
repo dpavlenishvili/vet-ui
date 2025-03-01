@@ -1,2 +1,4 @@
-<vet-programs-filters />
-<vet-programs-list />
+@if (programs$ | async; as programs) {
+    <vet-programs-filters [filters]="programs.filters" (filtersChange)="onFiltersChange($event)"/>
+    <vet-programs-list [programs]="programs.data" />
+}

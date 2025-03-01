@@ -5478,6 +5478,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@progress/kendo-angular-schematics@npm:18.1.0":
+  version: 18.1.0
+  resolution: "@progress/kendo-angular-schematics@npm:18.1.0"
+  dependencies:
+    "@progress/kendo-angular-schematics": 18.1.0
+    "@types/semver": ^7.5.0
+    semver: ^7.5.3
+  peerDependencies:
+    "@angular-devkit/core": 16 - 19
+    "@angular-devkit/schematics": 16 - 19
+    "@angular/core": 16 - 19
+    "@schematics/angular": 16 - 19
+    rxjs: ^6.5.3 || ^7.0.0
+  checksum: 942bb79ace07ca4f1e76a4497089c92b3bf16e246d894efdb9abd56c3803ad0fe4826e34297209566cad39a080422cc71033c970a2759f8b0d9a10f29e4a70f7
+  languageName: node
+  linkType: hard
+
 "@progress/kendo-angular-scrollview@npm:^17.1.1":
   version: 17.2.0
   resolution: "@progress/kendo-angular-scrollview@npm:17.2.0"
@@ -5598,6 +5615,29 @@ __metadata:
     "@progress/kendo-licensing": ^1.0.2
     rxjs: ^6.5.3 || ^7.0.0
   checksum: 9eeaabdb105a7d10fd3d16dfb737db20a986a0fcfebcfc413471d0dad8a44e10638c6bcb3bb2e1d3df85c9c87d0bd806a4296dd36916d2fdb4e4bd5e3120c593
+  languageName: node
+  linkType: hard
+
+"@progress/kendo-angular-upload@npm:^18.1.0":
+  version: 18.1.0
+  resolution: "@progress/kendo-angular-upload@npm:18.1.0"
+  dependencies:
+    "@progress/kendo-angular-schematics": 18.1.0
+    tslib: ^2.3.1
+  peerDependencies:
+    "@angular/animations": 16 - 19
+    "@angular/common": 16 - 19
+    "@angular/core": 16 - 19
+    "@angular/forms": 16 - 19
+    "@angular/platform-browser": 16 - 19
+    "@progress/kendo-angular-buttons": 18.1.0
+    "@progress/kendo-angular-common": 18.1.0
+    "@progress/kendo-angular-icons": 18.1.0
+    "@progress/kendo-angular-l10n": 18.1.0
+    "@progress/kendo-angular-progressbar": 18.1.0
+    "@progress/kendo-licensing": ^1.4.0
+    rxjs: ^6.5.3 || ^7.0.0
+  checksum: 41761f810df8da20f4ead6bc2adb00651dfe2f57bb5e811b4f09a6afad477b4c29dd8c5d881e822724a38ad1a0462e56801ada842b63cc5392a2d15a3825285f
   languageName: node
   linkType: hard
 
@@ -20269,6 +20309,7 @@ __metadata:
     "@progress/kendo-angular-tooltip": ^17.1.0
     "@progress/kendo-angular-treelist": ^17.1.0
     "@progress/kendo-angular-treeview": ^17.1.0
+    "@progress/kendo-angular-upload": ^18.1.0
     "@progress/kendo-angular-utils": ^17.1.0
     "@progress/kendo-data-query": ^1.7.0
     "@progress/kendo-drawing": ^1.21.2

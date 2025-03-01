@@ -47,4 +47,12 @@ export class RegistrationCitizenshipComponent {
       this.nextClick.emit();
     }
   }
+
+  onRadioChange(checked: boolean, value: string) {
+    if (checked) {
+      this.form()?.controls['citizenship'].setValue(value);
+      this.form()?.updateValueAndValidity();
+      console.log('Citizenship changed to:', value);
+    }
+  }
 }

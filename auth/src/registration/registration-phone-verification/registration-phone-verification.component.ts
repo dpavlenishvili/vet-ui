@@ -1,4 +1,4 @@
-import { Component, computed, effect, forwardRef, output, signal, viewChildren } from '@angular/core';
+import { Component, computed, effect, forwardRef, input, output, signal, viewChildren } from '@angular/core';
 import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 import { type ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { useAuthEnvironment } from '../../auth.injectors';
@@ -20,6 +20,7 @@ import noop from 'lodash-es/noop';
   standalone: true,
 })
 export class RegistrationPhoneVerificationComponent implements ControlValueAccessor {
+  isPending = input(false);
   reload = output();
 
   length = useAuthEnvironment().phoneVerificationNumberLength;
@@ -30,6 +31,7 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
       .map((c) => c ?? '')
       .join(''),
   );
+  startTime = signal(Date.now());
 
   private onChange: (value: string) => void = noop;
   private onTouched: () => void = noop;
@@ -62,9 +64,14 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
     this.onChange(this.input());
   }
 
-  onSend() {
+  reset() {
+    this.startTime.set(Date.now());
     this.writeValue('');
     this.onChange(this.input());
+  }
+
+  onSend() {
+    this.reset();
     this.reload.emit();
   }
 

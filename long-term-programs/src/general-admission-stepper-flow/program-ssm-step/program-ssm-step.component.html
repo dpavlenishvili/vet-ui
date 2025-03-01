@@ -1,0 +1,153 @@
+@if (form(); as form) {
+  <div class="k-display-flex k-gap-10 k-flex-column">
+    <div>
+      <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
+        <div>
+          <div class="k-display-flex k-flex-column k-gap-5">
+            <vet-info variant="warning">
+              {{ 'programs.ssm_warning' | transloco }}
+            </vet-info>
+
+            <div
+              class="k-display-flex k-flex-column k-gap-5 k-flex-1 k-py-6 k-px-3.5 k-rounded-lg k-border k-border-solid k-text-base"
+              [ngClass]="form.controls['spec_edu'].value ? 'k-border-primary' : 'k-border-divider-light'"
+            >
+              <div class="k-display-flex k-align-items-center k-gap-4.5">
+                <div class="k-text-base k-color-body">
+                  <b>{{ 'programs.ssm_question' | transloco }}</b>
+                </div>
+                <div>
+                  <kendo-switch
+                    formControlName="spec_edu"
+                    [onLabel]="'shared.yes' | transloco"
+                    [offLabel]="'shared.no' | transloco"
+                  />
+                </div>
+              </div>
+
+              @if (form.controls['spec_edu'].value) {
+                <vet-divider/>
+
+                <div
+                  class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base">
+                  <div class="k-text-base k-color-body">
+                    <b>{{ 'programs.ssm_contact_person_info' | transloco }}</b>
+                  </div>
+
+                  <div
+                    class="k-display-flex k-gap-4.5 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base">
+                    <div class="k-display-flex k-flex-column k-gap-4.5 k-flex-1">
+                      <kendo-textbox
+                        formControlName="e_name"
+                        [size]="'large'"
+                        [rounded]="'large'"
+                        [placeholder]="'programs.ssm_contact_person_first_name' | transloco"
+                      />
+
+                      <kendo-textbox
+                        formControlName="e_email"
+                        [size]="'large'"
+                        [rounded]="'large'"
+                        [placeholder]="'programs.ssm_contact_person_email' | transloco"
+                      />
+                    </div>
+
+                    <div class="k-display-flex k-flex-column k-gap-4.5 k-flex-1">
+                      <kendo-textbox
+                        formControlName="e_lastname"
+                        [size]="'large'"
+                        [rounded]="'large'"
+                        [placeholder]="'programs.ssm_contact_person_last_name' | transloco"
+                      />
+
+                      <kendo-textbox
+                        formControlName="e_phone"
+                        [size]="'large'"
+                        [rounded]="'large'"
+                        [placeholder]="'programs.ssm_contact_person_phone' | transloco"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base">
+                  <div class="k-display-flex k-align-items-center k-gap-4.5">
+                    <div class="k-text-base k-color-body">
+                      <b>{{ 'programs.ssm_translator_requirement_question' | transloco }}</b>
+                    </div>
+                    <div>
+                      <kendo-switch
+                        formControlName="ssm_translator_requirement"
+                        [onLabel]="'shared.yes' | transloco"
+                        [offLabel]="'shared.no' | transloco"
+                      />
+                    </div>
+                  </div>
+
+                  @if (form.controls['ssm_translator_requirement'].value) {
+                    <div class="k-display-flex k-align-items-center k-gap-3.5">
+                      <div class="k-flex-1">
+                        <kendo-dropdownlist
+                          formControlName="ssm_translator_requirement_language"
+                          [data]="languages"
+                          inputmode="flat"
+                          valueField="value"
+                          textField="label"
+                          [defaultItem]="languagePlaceholder"
+                          [valuePrimitive]="true"
+                        >
+
+                          <ng-template kendoDropDownListValueTemplate let-item>
+                            {{ item.label | transloco }}
+                          </ng-template>
+
+                          <ng-template kendoDropDownListItemTemplate let-item>
+                            {{ item.label | transloco }}
+                          </ng-template>
+                        </kendo-dropdownlist>
+                      </div>
+
+                      <div class="k-flex-1"></div>
+                    </div>
+                  }
+                </div>
+
+                <div class="k-display-flex k-flex-column k-gap-4">
+                  <div class="k-display-flex k-gap-1 k-text-base k-color-body">
+                    <b>{{ 'programs.ssm_person_requirement_info' | transloco }}</b>
+                  </div>
+
+                  <vet-info variant="info">
+                    {{ 'programs.ssm_person_requirement_description' | transloco }}
+                  </vet-info>
+
+                  <div class="k-border-solid k-border-divider-light k-bg-white k-p-2.5 k-rounded-xxl">
+                    <textarea
+                      class="vet-ssm-textarea k-resize-y k-w-full k-border-none k-outline-none k-text-base"
+                      formControlName="spe_description"
+                      maxlength="{{ maxLengthOfRequirements }}"
+                    ></textarea>
+                    <div class="k-display-flex k-justify-content-end k-text-xs k-color-secondary">
+                      {{ form.controls['spe_description'].value?.length ?? 0 }}/{{ maxLengthOfRequirements }}
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="k-display-flex k-justify-content-between">
+          <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
+            {{ 'auth.back' | transloco }}
+          </button>
+
+          <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
+            {{ 'auth.next' | transloco }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

@@ -14,13 +14,29 @@
           </kendo-textbox>
         </kendo-floatinglabel>
 
-        <kendo-floatinglabel [text]="'programs.institution_name' | transloco">
+        <kendo-floatinglabel [text]="'programs.organisation_id' | transloco">
           <kendo-dropdownlist />
         </kendo-floatinglabel>
       </div>
 
       <div class="programs-filters-container">
-        <kendo-floatinglabel [text]="'programs.program_code' | transloco">
+        @for (filter of mapFilters().slice(2); track $index) {
+          @if (filter.type === 'select') {
+            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+              <kendo-dropdownlist
+                [formControlName]="filter.key"
+                [data]="filter.values"
+                valueField="id"
+                textField="name"
+              />
+            </kendo-floatinglabel>
+          } @else if (filter.type === 'text') {
+            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+              <kendo-textbox [formControlName]="filter.key" />
+            </kendo-floatinglabel>
+          }
+        }
+        <!-- <kendo-floatinglabel [text]="'programs.program_code' | transloco">
           <kendo-textbox />
         </kendo-floatinglabel>
 
@@ -58,10 +74,11 @@
 
         <kendo-floatinglabel [text]="'programs.district' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-floatinglabel> -->
       </div>
     </div>
   </form>
+  {{filters() | json}}
   <kendo-dialog-actions>
     <div class="k-display-flex k-justify-content-between">
       <button kendoButton [svgIcon]="kendoIcons.xIcon" fillMode="flat" themeColor="error" (click)="handleSave()">

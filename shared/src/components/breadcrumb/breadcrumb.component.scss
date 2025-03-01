@@ -1,16 +1,11 @@
 :host {
   display: block;
+  width: 100%;
 }
 
 .k-breadcrumb-item {
   display: block;
-  // max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-div.k-breadcrumb-item {
-  padding-left: 8px;
-  cursor: default;
 }

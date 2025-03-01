@@ -19,12 +19,12 @@ export class SmsService {
      * Phone Number
      * @example "555123456"
      */
-    phone: any;
+    phone: string;
   }) =>
     this.httpClient.get<{
       /**
        * Send sms code
-       * @default true
+       * @example true
        */
       status?: boolean;
     }>(`${this.baseUrl}/sms/send`, { params: query as unknown as Record<string, string> });
@@ -40,19 +40,19 @@ export class SmsService {
   validateSms = (data: {
     /**
      * Phone number
-     * @default "555123456"
+     * @example "555123456"
      */
     phone: string;
     /**
      * SMS code
-     * @default "1234"
+     * @example "1234"
      */
     sms_code: string;
   }) =>
     this.httpClient.post<{
       /**
        * Send sms code
-       * @default true
+       * @example true
        */
       status?: boolean;
     }>(`${this.baseUrl}/sms/validate`, data, {});

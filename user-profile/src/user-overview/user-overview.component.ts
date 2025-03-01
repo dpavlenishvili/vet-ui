@@ -3,15 +3,17 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { CardModule } from '@progress/kendo-angular-layout';
-import { ChangeDetectionStrategy, Component, input, output, DestroyRef, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, DestroyRef, signal, inject } from '@angular/core';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormatDatePipe } from '@vet/shared';
-import { SmsService } from '@vet/backend';
+import { GeneralsService, SmsService } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'vet-user-overview',
@@ -25,6 +27,8 @@ import { tap } from 'rxjs';
     TranslocoPipe,
     ReactiveFormsModule,
     RegistrationPhoneVerificationComponent,
+    AsyncPipe,
+    DropDownListModule,
   ],
   providers: [FormatDatePipe],
   templateUrl: './user-overview.component.html',
@@ -51,10 +55,12 @@ export class UserOverviewComponent {
     }>
   >();
 
-  constructor(
-    private smsService: SmsService,
-    private destroyRef: DestroyRef,
-  ) {}
+  generalsService = inject(GeneralsService);
+  smsService = inject(SmsService);
+  destroyRef = inject(DestroyRef);
+
+  districts$ = this.generalsService.getDistrictsList().pipe(map((response) => response.data));
+  regions$ = this.generalsService.getRegionsList().pipe(map((response) => response.data));
 
   onAdressExpandClick() {
     this.isAddressExpanded = !this.isAddressExpanded;

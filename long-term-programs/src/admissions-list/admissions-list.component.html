@@ -1,0 +1,7 @@
+@if ((admissionList | async); as admissionObject) {
+  @if (admissionObject?.data) {
+    @for (admission of admissionObject?.data; track admission) {
+      <h1>{{admission.id}}</h1><button (click)="updateAdmission(admission?.id)">update admission</button>
+    }
+  }
+}

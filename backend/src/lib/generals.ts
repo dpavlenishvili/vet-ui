@@ -43,7 +43,7 @@ export class GeneralsService {
       data?: {
         /**
          * ID
-         * @default "1"
+         * @default 1
          */
         id?: number;
         /**
@@ -67,21 +67,42 @@ export class GeneralsService {
       data?: {
         /**
          * ID
-         * @default "1"
+         * @default 1
          */
         id?: number;
         /**
-         * Region name
+         * District name
          * @default "Tbilisi"
          */
         name?: string;
         /**
-         * Region name
-         * @default "Tbilisi"
+         * District name in Georgian
+         * @default "თბილისი"
          */
         name_ka?: string;
       }[];
     }>(`${this.baseUrl}/general/districts`);
+
+  /**
+   * @description Returns list of organisations
+   *
+   * @tags Generals
+   * @name GetOrganisationsList
+   * @summary Get list of organisations
+   * @request GET:/general/organisations
+   */
+  getOrganisationsList = () =>
+    this.httpClient.get<{
+      data?: {
+        /**
+         * ID
+         * @default 1
+         */
+        id?: number;
+        /** Organisation name */
+        name?: string;
+      }[];
+    }>(`${this.baseUrl}/general/organisations`);
 
   /**
    * @description Returns all configs
@@ -91,5 +112,58 @@ export class GeneralsService {
    * @summary Get All configs
    * @request GET:/general/var
    */
-  getAllConfigs = () => this.httpClient.get<object>(`${this.baseUrl}/general/var`);
+  getAllConfigs = (query?: {
+    /** Filter Key */
+    key?: string;
+  }) =>
+    this.httpClient.get<{
+      institution_types?: {
+        /** @example "1" */
+        id?: string;
+        /** @example "კერძო" */
+        value?: string;
+      }[];
+      languages?: {
+        /** @example "0" */
+        id?: string;
+        /** @example "ქართული" */
+        value?: string;
+      }[];
+      education_levels?: {
+        /** @example "2" */
+        id?: string;
+        /** @example "საბაზო" */
+        value?: string;
+      }[];
+      program_types?: {
+        /** @example "1" */
+        id?: string;
+        /** @example "დუალური" */
+        value?: string;
+      }[];
+      selection_methods?: {
+        /** @example "16" */
+        id?: string;
+        /** @example "რაოდენობრივი წიგნიერება" */
+        value?: string;
+      }[];
+      selection_categories?: {
+        /** @example "1" */
+        id?: string;
+        /** @example "ძირითადი შერჩევის მეთოდი" */
+        value?: string;
+      }[];
+      financing_types?: {
+        /** @example "1" */
+        id?: string;
+        /** @example "საბიუჯეტო" */
+        value?: string;
+      }[];
+      institution_legal_types?: {
+        /** @example "1" */
+        id?: string;
+        /** @example "ინდივიდუალური მეწარმე" */
+        value?: string;
+      }[];
+    }>(`${this.baseUrl}/general/var`, { params: query as unknown as Record<string, string> });
 }

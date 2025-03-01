@@ -20,6 +20,8 @@ export class UserPasswordChangeComponent {
   kendoIcons = kendoIcons;
   save = output();
 
+  allowedKeys = new Set(['backspace', 'delete', 'arrowleft', 'arrowright', 'tab', 'enter']);
+
   form = input<
     FormGroup<{
       password: FormControl<string | null>;
@@ -27,6 +29,21 @@ export class UserPasswordChangeComponent {
       new_password: FormControl<string | null>;
     }>
   >();
+
+  restrictInput(event: KeyboardEvent) {
+    const key = event.key.toLowerCase();
+
+    const unicodeLetter = /[\p{L}]/u;
+    const englishLetter = /^[a-zA-Z]$/;
+
+    if (this.allowedKeys.has(key)) {
+      return;
+    }
+
+    if (unicodeLetter.test(key) && !englishLetter.test(key)) {
+      event.preventDefault();
+    }
+  }
 
   handleSave() {
     this.save.emit();

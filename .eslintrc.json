@@ -64,7 +64,8 @@
             "name": "sessionStorage",
             "message": "Do not use 'sessionStorage' directly. Instead, use the SessionStorage service from '@angular/local-storage'"
           }
-        ]
+        ],
+        "no-unused-vars": "off"
       }
     },
     {
@@ -86,7 +87,8 @@
             "style": "kebab-case"
           }
         ],
-        "@angular-eslint/prefer-standalone": "off"
+        "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/template/no-unused-directives": "off"
       }
     },
     {

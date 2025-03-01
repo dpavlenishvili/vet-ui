@@ -37,7 +37,7 @@
         "suffixNotSupported": "error",
         "interpolatedSignalNotInvoked": "error",
         "controlFlowPreventingContentProjection": "error",
-        "unusedStandaloneImports": "error",
+        "unusedStandaloneImports": "suppress",
         "unusedLetDeclaration": "error"
       }
     }

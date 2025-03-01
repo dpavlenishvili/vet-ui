@@ -4,6 +4,7 @@ import { breadcrumb } from '@vet/shared';
 
 import { MainLayoutComponent } from './main-layout.component';
 import { programsRoutes } from '@vet/programs';
+import { longTermProgramsRoutes } from '../../../../long-term-programs/src/long-term-program.routes';
 
 export const appRoutes: Routes = [
   {
@@ -23,6 +24,11 @@ export const appRoutes: Routes = [
       {
         path: 'programs',
         children: programsRoutes,
+        data: breadcrumb([]),
+      },
+      {
+        path: 'long-term-programs',
+        children: longTermProgramsRoutes,
         data: breadcrumb([]),
       },
       {

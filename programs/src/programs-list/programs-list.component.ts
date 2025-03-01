@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -6,8 +6,6 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { CardModule } from '@progress/kendo-angular-layout';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { type LongTermsRes, ProgramsService } from '@vet/backend';
-import { Observable } from 'rxjs';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { RouterLink } from '@angular/router';
 
@@ -21,7 +19,7 @@ import { RouterLink } from '@angular/router';
     LabelModule,
     TranslocoPipe,
     SVGIconModule,
-    RouterLink,
+    RouterLink
   ],
   templateUrl: './programs-list.component.html',
   styleUrl: './programs-list.component.scss',
@@ -30,7 +28,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ProgramsListComponent {
   kendoIcons = kendoIcons;
-  programs$: Observable<LongTermsRes>;
+  programs = input(<any>[]);
 
   longTermPrograms = [
     {
@@ -226,8 +224,4 @@ export class ProgramsListComponent {
       organisation: { name: 'სწავლების უნივერსიტეტი', address: 'თბილისი' },
     },
   ];
-
-  constructor(private programsService: ProgramsService) {
-    this.programs$ = programsService.programs();
-  }
 }

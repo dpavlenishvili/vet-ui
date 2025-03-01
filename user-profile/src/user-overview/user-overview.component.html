@@ -25,19 +25,23 @@
           @if (isAddressExpanded) {
             <div class="form-fields-container">
               <kendo-label [text]="'profile.region' | transloco">
-                <kendo-textbox formControlName="region">
-                  <ng-template kendoTextBoxSuffixTemplate>
-                    <img src="/assets/images/edit.svg" alt="edit icon" />
-                  </ng-template>
-                </kendo-textbox>
+                <kendo-dropdownlist
+                  [data]="regions$ | async"
+                  valueField="name"
+                  textField="name"
+                  [valuePrimitive]="true"
+                  formControlName="region"
+                />
               </kendo-label>
 
               <kendo-label [text]="'profile.district' | transloco">
-                <kendo-textbox formControlName="district">
-                  <ng-template kendoTextBoxSuffixTemplate>
-                    <img src="/assets/images/edit.svg" alt="edit icon" />
-                  </ng-template>
-                </kendo-textbox>
+                <kendo-dropdownlist
+                  [data]="districts$ | async"
+                  valueField="name"
+                  textField="name"
+                  [valuePrimitive]="true"
+                  formControlName="district"
+                />
               </kendo-label>
 
               <kendo-label [text]="'profile.address' | transloco">

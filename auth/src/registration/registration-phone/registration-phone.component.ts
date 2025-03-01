@@ -7,6 +7,7 @@ import {
   type OnInit,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { LabelComponent } from '@progress/kendo-angular-label';
 import { KENDO_INPUTS, TextBoxComponent } from '@progress/kendo-angular-inputs';
@@ -17,7 +18,7 @@ import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { of, tap } from 'rxjs';
 import { SmsService } from '@vet/backend';
-import { Reloader, ToastModule, ToastService } from '@vet/shared';
+import { Reloader, ToastModule } from '@vet/shared';
 
 @Component({
   selector: 'vet-registration-phone',
@@ -47,12 +48,13 @@ export class RegistrationPhoneComponent implements OnInit {
   nextClick = output();
 
   phase = signal<'initial' | 'verifying' | 'success'>('initial');
+  isPending = signal(false);
   verificationCodeReloader = new Reloader();
+  protected readonly RegistrationPhoneVerificationComponent = viewChild(RegistrationPhoneVerificationComponent);
 
   constructor(
     private destroyRef: DestroyRef,
     private smsService: SmsService,
-    private toastService: ToastService,
   ) {
     effect(() => {
       const form = this.form();
@@ -72,6 +74,7 @@ export class RegistrationPhoneComponent implements OnInit {
   }
 
   ngOnInit() {
+     this.isPending.set(true);
     this.verificationCodeReloader
       .reloadable(() => {
         const form = this.form();
@@ -88,6 +91,8 @@ export class RegistrationPhoneComponent implements OnInit {
   }
 
   onSend() {
+    console.log('onSent setPending true');
+    this.isPending.set(true);
     this.verificationCodeReloader.reload();
   }
 
@@ -118,6 +123,10 @@ export class RegistrationPhoneComponent implements OnInit {
         .pipe(
           tap({
             next: () => this.nextClick.emit(),
+            error: (error) => {
+              this.isPending.set(false);
+              this.RegistrationPhoneVerificationComponent()?.reset();
+            },
           }),
         )
         .subscribe();

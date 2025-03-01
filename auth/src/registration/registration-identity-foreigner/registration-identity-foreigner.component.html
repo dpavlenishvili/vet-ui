@@ -12,26 +12,61 @@
               textField="name"
               [valuePrimitive]="true"
             />
+            @if (form.controls['citizenship']; as control) {
+              @if (!control.untouched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              }
+            }
           </kendo-label>
 
           <kendo-label [text]="'auth.id_or_passport_number' | transloco">
             <kendo-textbox [clearButton]="true" formControlName="personalNumber" />
+            @if (form.controls['personalNumber']; as control) {
+              @if (!control.untouched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              }
+            }
           </kendo-label>
         </div>
 
         <div class="k-display-flex k-gap-5">
           <kendo-label [text]="'auth.name' | transloco">
             <kendo-textbox [clearButton]="true" formControlName="firstname" />
+            @if (form.controls['firstname']; as control) {
+              @if (!control.untouched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              }
+            }
           </kendo-label>
 
           <kendo-label [text]="'auth.last_name' | transloco">
             <kendo-textbox [clearButton]="true" formControlName="lastname" />
+            @if (form.controls['lastname']; as control) {
+              @if (!control.untouched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              }
+            }
           </kendo-label>
         </div>
 
         <div class="k-display-flex k-gap-5">
           <kendo-label [text]="'auth.date_of_birth' | transloco">
             <kendo-datepicker [clearButton]="true" formControlName="dateOfBirth" />
+            @if (form.controls['dateOfBirth']; as control) {
+              @if (!control.untouched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              }
+            }
           </kendo-label>
 
           <kendo-label [text]="'auth.gender' | transloco">
@@ -42,6 +77,13 @@
               valueField="code"
               textField="name"
             />
+            @if (form.controls['gender']; as control) {
+              @if (!control.untouched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              }
+            }
           </kendo-label>
         </div>
 

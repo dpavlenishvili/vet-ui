@@ -1,4 +1,6 @@
 export * from './components/breadcrumb/breadcrumb.component';
+export * from './components/divider/divider.component';
+export * from './components/info/info.component';
 
 export * from './pipes/format-date.pipe';
 export * from './pipes/format-date-time.pipe';
@@ -41,3 +43,4 @@ export * from './ui/navbar/navbar-logo.directive';
 export * from './ui/navbar/navbar.component';
 export * from '../../auth/src/interceptors/authentication.interceptor';
 export * from './theme.service';
+export * from './ui/file-upload/file-upload.component';

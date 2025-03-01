@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background: white;
+  width: 100%;
+}
+
+.file-input-label {
+  font-size: 16px;
+  color: #777;
+  cursor: pointer;
+  border: 1px dashed #aaa;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.file-input-label:hover {
+  background-color: #f9f9f9;
+}
+
+.file-input-label.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.file-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: opacity 0.3s;
+}
+
+.icon-btn:hover {
+  opacity: 0.7;
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 14px;
+  text-align: center;
+}

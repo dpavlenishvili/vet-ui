@@ -1,79 +1,109 @@
 <kendo-card width="100%">
   <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
     <div class="programs-filters-container k-pb-5 k-px-5">
-      <kendo-floatinglabel [text]="'programs.search' | transloco">
-        <kendo-textbox />
-      </kendo-floatinglabel>
-
-      @if (isFilterExpanded) {
-        <kendo-floatinglabel [text]="'programs.institution_name' | transloco">
-          <kendo-dropdownlist />
-        </kendo-floatinglabel>
+      @for (filter of mapFilters().slice(0, 2); track $index) {
+        @if (filter.type === 'select') {
+          @if (isFilterExpanded) {
+            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+              <kendo-dropdownlist
+                [formControlName]="filter.key"
+                [data]="filter.values"
+                valueField="id"
+                textField="name"
+              />
+            </kendo-floatinglabel>
+          }
+        } @else if (filter.type === 'text') {
+          <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+            <kendo-textbox [formControlName]="filter.key" />
+          </kendo-floatinglabel>
+        }
       }
     </div>
 
     @if (isFilterExpanded) {
       <div class="programs-additional-filters-container k-pb-5 k-px-5">
-        <kendo-floatinglabel [text]="'programs.program_code' | transloco">
-          <kendo-textbox />
+        @for (filter of mapFilters().slice(2); track $index) {
+          @if (filter.type === 'select') {
+            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+              <kendo-dropdownlist
+                [formControlName]="filter.key"
+                [data]="filter.values"
+                valueField="id"
+                textField="name"
+              />
+            </kendo-floatinglabel>
+          } @else if (filter.type === 'text') {
+            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+              <kendo-textbox [formControlName]="filter.key" />
+            </kendo-floatinglabel>
+          }
+        }
+
+        <kendo-floatinglabel [text]="'programs.form'| transloco">
+          <kendo-dropdownlist
+            formControlName="form"
+            [data]="formDropdownValues"
+          >
+            <ng-template kendoDropDownListItemTemplate let-item>
+              {{'shared.' + item | transloco}}
+            </ng-template>
+          </kendo-dropdownlist>
         </kendo-floatinglabel>
 
-        <kendo-floatinglabel [text]="'programs.form' | transloco">
-          <kendo-dropdownlist />
+        <kendo-floatinglabel [text]="'programs.duration' | transloco">
+          <kendo-dropdownlist
+            formControlName="duration"
+            [data]="durationDropdownValues"
+          />
         </kendo-floatinglabel>
 
-        <kendo-floatinglabel [text]="'programs.program_duration' | transloco">
-          <kendo-dropdownlist />
-        </kendo-floatinglabel>
-
-        <kendo-floatinglabel [text]="'programs.integrated' | transloco">
-          <kendo-textbox />
-        </kendo-floatinglabel>
+        @for (filter of mapFilters(); track $index) {
+          @if (filter.type === 'bool') {
+            <kendo-label [text]="'programs.' + filter.key | transloco">
+              <kendo-switch
+                [formControlName]="filter.key"
+                [onLabel]="'programs.yes' | transloco"
+                [offLabel]="'programs.no' | transloco"
+              />
+            </kendo-label>
+          }
+        }
       </div>
     }
 
-    <div class="k-display-flex k-justify-content-between">
-      <div class="k-pb-5 k-px-5">
-        @if (isFilterExpanded) {
-          <kendo-label [text]="'programs.addmission_announced' | transloco">
-            <kendo-switch [onLabel]="'programs.yes' | transloco" [offLabel]="'programs.no' | transloco" />
-          </kendo-label>
-        }
-      </div>
+    <div class="programs-filter-action-container k-pb-5 k-px-5">
+      <button
+        kendoButton
+        [svgIcon]="isFilterExpanded ? kendoIcons.arrowUpIcon : kendoIcons.arrowDownIcon"
+        fillMode="outline"
+        themeColor="primary"
+        (click)="onFilterExpandClick()"
+      ></button>
 
-      <div class="programs-filter-action-container k-pb-5 k-px-5">
-        <button
-          kendoButton
-          [svgIcon]="isFilterExpanded ? kendoIcons.arrowUpIcon : kendoIcons.arrowDownIcon"
-          fillMode="outline"
-          themeColor="primary"
-          (click)="onFilterExpandClick()"
-        ></button>
+      <button
+        kendoButton
+        [svgIcon]="kendoIcons.parametersIcon"
+        fillMode="outline"
+        themeColor="primary"
+        (click)="openDialog()"
+      ></button>
 
-        <button
-          kendoButton
-          [svgIcon]="kendoIcons.parametersIcon"
-          fillMode="outline"
-          themeColor="primary"
-          (click)="openDialog()"
-        ></button>
+      <button
+        kendoButton
+        [svgIcon]="kendoIcons.xIcon"
+        fillMode="outline"
+        themeColor="primary"
+        (click)="clearFilters()"
+      ></button>
 
-        <button
-          kendoButton
-          [svgIcon]="kendoIcons.xIcon"
-          fillMode="outline"
-          themeColor="primary"
-          (click)="clearFilters()"
-        ></button>
-
-        <button kendoButton [svgIcon]="kendoIcons.searchIcon" fillMode="solid" themeColor="primary" type="submit">
-          {{ 'programs.search' | transloco }}
-        </button>
-      </div>
+      <button kendoButton [svgIcon]="kendoIcons.searchIcon" fillMode="solid" themeColor="primary" type="submit">
+        {{ 'programs.search' | transloco }}
+      </button>
     </div>
   </form>
 </kendo-card>
 
 @if (isFilterDialogOpen) {
-  <vet-programs-filters-dialog (dialogClose)="closeDialog()" />
+  <vet-programs-filters-dialog [filters]="filters()" (dialogClose)="closeDialog()" [filterForm]="filterForm"/>
 }

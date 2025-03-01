@@ -31,16 +31,23 @@ export interface AdmissionPrograms {
 
 export interface AdmissionReq {
   id?: number;
+  code?: string;
   education?: string;
   district_id?: number;
   language?: string;
   doc?: string;
-  spec_edu?: string;
+  spec_edu?: boolean;
   e_name?: string;
   e_phone?: string;
-  spec_env?: string;
-  abroad_doc?: string;
-  ocu_doc?: string;
+  e_email?: string;
+  e_lastname?: string;
+  spe_description?: string;
+  spec_env?: string[];
+  abroad_doc?: string[];
+  ocu_doc?: string[];
+  complete_edu_abroad?: boolean;
+  complete_base_edu_abroad?: boolean;
+  number?: string;
   /**
    * Programs
    * Relations to programs
@@ -201,6 +208,48 @@ export interface Page {
   children?: Page[];
 }
 
+export interface Partner {
+  id?: number;
+  ident_no?: string;
+  company_name?: string;
+  company_legal_address?: string;
+  website_url?: string;
+  logo?: string;
+}
+
+export interface ProgramWithCommission {
+  id?: number;
+  path?: string;
+  program_name?: string;
+  type?: string;
+  program_id?: number;
+  specialization_code?: string;
+  specialization_name?: string;
+  qualification_name?: string;
+  program_code?: string;
+  program_kind?: number;
+  address?: string;
+  credits_count?: string;
+  credits_count_non_geo?: string;
+  education_level?: number;
+  language_id?: number;
+  is_integrated?: boolean;
+  region_id?: number;
+  district_id?: number;
+  program_duration?: string;
+  program_duration_non_geo?: string;
+  description?: string;
+  partner?: string;
+  /** | null */
+  video_url?: string | null;
+  gallery?: string[] | null;
+  /**
+   * Commission members
+   * Relations of admission
+   */
+  commission_members?: User[];
+}
+
 export interface Selection {
   method?: number;
   max_evaluation_score?: number;
@@ -349,7 +398,44 @@ export interface ValidateCodeRequestBody {
 
 /** Admission Resource */
 export interface AdmissionRes {
+  data?: AdmissionReq;
+}
+
+/** Admissions Resource */
+export interface AdmissionsRes {
   data?: AdmissionReq[];
+  links?: {
+    /** Pagination links. */
+    first?: string | null;
+    last?: string | null;
+    prev?: string | null;
+    next?: string | null;
+  };
+  meta?: {
+    /**
+     * Pagination metadata.
+     * @example 1
+     */
+    current_page?: number;
+    /** @example 1 */
+    from?: number;
+    /** @example 1 */
+    last_page?: number;
+    links?: {
+      url?: string | null;
+      /** @example "1" */
+      label?: string;
+      /** @example true */
+      active?: boolean;
+    }[];
+    path?: string;
+    /** @example 15 */
+    per_page?: number;
+    /** @example 1 */
+    to?: number;
+    /** @example 1 */
+    total?: number;
+  };
 }
 
 /**
@@ -372,11 +458,66 @@ export interface LongTermRes {
 /** Page Resource */
 export interface LongTermsRes {
   data?: LongTerm[];
+  links?: {
+    /** Pagination links. */
+    first?: string | null;
+    last?: string | null;
+    prev?: string | null;
+    next?: string | null;
+  };
+  meta?: {
+    /**
+     * Pagination metadata.
+     * @example 1
+     */
+    current_page?: number;
+    /** @example 1 */
+    from?: number;
+    /** @example 1 */
+    last_page?: number;
+    links?: {
+      url?: string | null;
+      /** @example "1" */
+      label?: string;
+      /** @example true */
+      active?: boolean;
+    }[];
+    path?: string;
+    /** @example 15 */
+    per_page?: number;
+    /** @example 1 */
+    to?: number;
+    /** @example 1 */
+    total?: number;
+  };
+  filters?: {
+    /**
+     * Filters applied to admissions.
+     * @example "text"
+     */
+    type?: string;
+    /** @example null */
+    selected?: string | null;
+    /** @example "program_name" */
+    key?: string;
+    /** @example "*" */
+    values?: string;
+  }[];
 }
 
 /** Page Resource */
 export interface PagesRes {
   data?: Page[];
+}
+
+/** Page Resource */
+export interface PartnerRes {
+  data?: Partner[];
+}
+
+/** Page Resource */
+export interface ProgramsWithCommissionsRes {
+  data?: ProgramWithCommission[];
 }
 
 export interface UserLogin2FaResponseBody {
@@ -387,8 +528,9 @@ export interface UserLogin2FaResponseBody {
 
 export interface UserLoginResponseBody {
   access_token: string;
+  refresh_token: string;
   token_type: string;
-  expires_in: number;
+  expires_in: string;
 }
 
 /**

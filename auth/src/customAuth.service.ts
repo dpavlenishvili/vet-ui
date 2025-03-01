@@ -5,13 +5,15 @@ import { finalize, map, Observable, of, tap, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AuthService as AuthApiService, type User, type UserLoginResponseBody } from '@vet/backend';
 
-const _storageKeyName = '__user_tokens__';
+const ACCESS_TOKEN_STORAGE_KEY = '__user_tokens__';
+const REFRESH_TOKEN_STORAGE_KEY = '__user_tokens_refresh__';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomAuthService {
   accessToken$: Signal<string | null>;
+  refreshToken$: Signal<string | null>;
   tokenUser$: Signal<User | null>;
   authenticated$ = computed(() => !!this.tokenUser$());
 
@@ -19,11 +21,13 @@ export class CustomAuthService {
 
   private readonly cookieService = inject(SsrCookieService);
 
-  private _accessToken$ = signal(this.cookieService.get(_storageKeyName) || null);
+  private _accessToken$ = signal(this.cookieService.get(ACCESS_TOKEN_STORAGE_KEY) || null);
+  private _refreshToken$ = signal(this.cookieService.get(REFRESH_TOKEN_STORAGE_KEY) || null);
   private authService = inject(AuthApiService);
 
   constructor() {
     this.accessToken$ = this._accessToken$.asReadonly();
+    this.refreshToken$ = this._refreshToken$.asReadonly();
     this.tokenUser$ = this._tokenUser$.asReadonly();
     toObservable(this.accessToken$)
       .pipe(
@@ -56,29 +60,42 @@ export class CustomAuthService {
   }
 
   refresh() {
-    return this.authService.refreshToken().pipe(
-      tap((data) => this.handleSuccessfulAuthorization(data)),
-      catchError((err) => {
-        this.cookieService.delete(_storageKeyName);
-        this._accessToken$.set(null);
-        return throwError(() => err);
-      }),
-    );
+    return of(null);
+
+    // const refreshToken = this.refreshToken$();
+    //
+    // if (!refreshToken) {
+    //   return of(null);
+    // }
+    //
+    // return this.authService.refreshToken({
+    //   refresh_token: refreshToken,
+    // }).pipe(
+    //   tap((data) => this.handleSuccessfulAuthorization(data)),
+    //   catchError((err) => {
+    //     this.cookieService.delete(ACCESS_TOKEN_STORAGE_KEY);
+    //     this._accessToken$.set(null);
+    //     this._refreshToken$.set(null);
+    //     return throwError(() => err);
+    //   }),
+    // );
   }
 
   logout(): Observable<void> {
     return this.authService.logoutUser().pipe(
       finalize(() => {
-        this.cookieService.delete(_storageKeyName);
+        this.cookieService.delete(ACCESS_TOKEN_STORAGE_KEY);
         this._accessToken$.set(null);
+        this._refreshToken$.set(null);
       }),
       map(() => undefined),
     );
   }
 
   handleSuccessfulAuthorization(data: UserLoginResponseBody) {
-    const expirationDate = new Date(data.expires_in * 1000 + Date.now());
-    this.cookieService.set(_storageKeyName, data.access_token, expirationDate);
+    const expirationDate = new Date(Number(data.expires_in) * 1000 + Date.now());
+    this.cookieService.set(ACCESS_TOKEN_STORAGE_KEY, data.access_token, expirationDate);
     this._accessToken$.set(data.access_token);
+    this._refreshToken$.set(data.refresh_token);
   }
 }

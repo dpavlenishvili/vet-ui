@@ -16,7 +16,13 @@ export class ProgramsService {
    * @summary List of programs
    * @request GET:/programs
    */
-  programs = () => this.httpClient.get<LongTermsRes>(`${this.baseUrl}/programs`);
+  programs = (query?: {
+    /** Filter programs */
+    filter?: any;
+  }) =>
+    this.httpClient.get<LongTermsRes>(`${this.baseUrl}/programs`, {
+      params: query as unknown as Record<string, string>,
+    });
 
   /**
    * @description Returns object of program

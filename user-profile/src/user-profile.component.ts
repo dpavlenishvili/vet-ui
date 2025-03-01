@@ -4,7 +4,7 @@ import { AuthService, type UserReq, type UserRes, UsersService } from '@vet/back
 import { Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormatDatePipe, ToastModule, ToastService } from '@vet/shared';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserPasswordChangeComponent } from './user-password-change/user-password-change.component';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
@@ -72,11 +72,11 @@ export class UserProfileComponent implements OnInit {
       }),
       userOverview: new FormGroup({
         name: new FormControl(user?.data?.name ?? ''),
-        region: new FormControl(user?.data?.region ?? ''),
-        district: new FormControl(user?.data?.city ?? ''),
-        address: new FormControl(user?.data?.address ?? ''),
-        email: new FormControl(user?.data?.email ?? ''),
-        phone: new FormControl(user?.data?.phone ?? ''),
+        region: new FormControl(user?.data?.region ?? '', { validators: Validators.required }),
+        district: new FormControl(user?.data?.city ?? '', { validators: Validators.required }),
+        address: new FormControl(user?.data?.address ?? '', { validators: Validators.required }),
+        email: new FormControl(user?.data?.email ?? '', {validators: Validators.required}),
+        phone: new FormControl(user?.data?.phone ?? '', {validators: Validators.required}),
         sms_code: new FormControl(''),
       }),
       passwordChange: new FormGroup({

@@ -6,11 +6,18 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { DividerComponent, InfoComponent } from '@vet/shared';
+import {
+  DropDownListComponent,
+  ItemTemplateDirective,
+  ValueTemplateDirective
+} from '@progress/kendo-angular-dropdowns';
+import { NgClass } from '@angular/common';
 
-export type ProgramSelectedProgramsStepFormGroup = FormGroup;
+export type ProgramSsmStepFormGroup = FormGroup;
 
 @Component({
-  selector: 'vet-program-selected-programs-step',
+  selector: 'vet-program-ssm-step',
   imports: [
     ReactiveFormsModule,
     InputsModule,
@@ -18,19 +25,40 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     ButtonModule,
     LabelModule,
     SVGIconModule,
-    TranslocoPipe
+    TranslocoPipe,
+    InfoComponent,
+    DividerComponent,
+    DropDownListComponent,
+    NgClass,
+    ItemTemplateDirective,
+    ValueTemplateDirective
   ],
-  templateUrl: './program-selected-programs-step.component.html',
-  styleUrl: './program-selected-programs-step.component.scss',
+  templateUrl: './program-ssm-step.component.html',
+  styleUrl: './program-ssm-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class ProgramSelectedProgramsStepComponent {
+export class ProgramSsmStepComponent {
   nextClick = output();
   previousClick = output();
 
-  form = input<ProgramSelectedProgramsStepFormGroup>();
+  form = input<ProgramSsmStepFormGroup>();
   kendoIcons = kendoIcons;
+  languagePlaceholder = {
+    value: null,
+    label: 'programs.ssm_language_label',
+  };
+  languages = [
+    {
+      value: 'ka',
+      label: 'programs.ka',
+    },
+    {
+      value: 'en',
+      label: 'programs.en',
+    },
+  ];
+  maxLengthOfRequirements = 2000;
 
   onPreviousClick() {
     this.previousClick.emit();

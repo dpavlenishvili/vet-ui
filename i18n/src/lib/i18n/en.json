@@ -45,7 +45,8 @@
     "passwordsDoNotMatch": "Passwords do not match",
     "programs": "Programs",
     "program": "Program",
-    "seeAll": "See All"
+    "seeAll": "See All",
+    "please_fill_field": "Please fill the field"
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",
@@ -131,6 +132,7 @@
     "registration_period": "Registration Period",
     "tuition_start_date": "Tuition Start Date",
     "number_of_vacant_positions": "Number of Vacant Positions",
+    "number_of_ssm_vacant_positions": "Number of Vacant Positions",
     "tuition_fee": "Tuition Fee",
     "grant_status": "Funded",
     "listener_fee": "Listener’s Fee",
@@ -150,12 +152,27 @@
     "region": "Region",
     "district": "District",
     "filter": "Filter",
-    "clear_filters": "Clear Filter",
     "registration": "registration",
     "general_information": "general information",
     "program_selection": "program selection",
     "selected_programs": "selected programs",
-    "confirmation": "confirmation"
+    "confirmation": "confirmation",
+    "funding": "დაფინანსება",
+    "dual": "dual",
+    "imitated": "imitated",
+    "cooperative": "cooperative",
+    "modular": "modular",
+    "partly": "ნაწიpartlyლობრივ",
+    "clear_filters": "Clear Filter",
+    "program": "Search",
+    "organisation_id": "Institution name",
+    "program_name": "Program name",
+    "financing_type": "Financing",
+    "duration": "Program duration (mo)",
+    "student_fee": "Student fee",
+    "primary_selection_method": "Primary selection method",
+    "basic_selection_method": "Basic selection method",
+    "additional_selection_method": "Additional selection method"
   },
 
   "profile": {

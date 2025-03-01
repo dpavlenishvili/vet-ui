@@ -9,7 +9,7 @@
               [title]="item.text | transloco"
               [routerLink]="item.path"
               queryParamsHandling="merge"
-              class="k-breadcrumb-item k-breadcrumb-link k-text-no-underline k-color-inherit"
+              class="k-breadcrumb-item k-breadcrumb-link k-text-no-underline k-color-secondary k-text-base k-px-3"
             >
               {{ item.text | transloco }}
             </a>
@@ -17,18 +17,18 @@
             <a
               [routerLink]="item.path"
               queryParamsHandling="merge"
-              class="k-breadcrumb-item k-text-no-underline k-color-inherit"
+              class="k-breadcrumb-item k-text-no-underline k-color-secondary k-text-base k-px-3"
             >
               {{ item.text | transloco }}
             </a>
           }
         } @else {
           @if (item.text.length > showTooltipTextSizeThreshold) {
-            <div kendoTooltip [title]="item.text" class="k-breadcrumb-item k-color-inherit">
+            <div kendoTooltip [title]="item.text" class="k-breadcrumb-item k-color-primary k-text-base k-pl-3">
               {{ item.text | transloco }}
             </div>
           } @else {
-            <div class="k-breadcrumb-item k-color-primary">{{ item.text | transloco }}</div>
+            <div class="k-breadcrumb-item k-color-primary k-text-base k-pl-3">{{ item.text | transloco }}</div>
           }
         }
       </ng-template>

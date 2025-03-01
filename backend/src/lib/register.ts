@@ -21,34 +21,29 @@ export class RegisterService {
      * Personal ID
      * @example "01000000000"
      */
-    pid: any;
+    pid: string;
     /**
      * Last name
      * @example "Doe"
      */
-    last_name: any;
+    last_name: string;
   }) =>
     this.httpClient.get<{
       /**
        * First name
-       * @default "John"
+       * @example "John"
        */
       firstName?: string;
       /**
        * Birth date
-       * @default "1999-12-31"
+       * @example "1999-12-31"
        */
       birthDate?: string;
       /**
        * Gender
-       * @default "male"
+       * @example "male"
        */
       gender?: string;
-      /**
-       * photo of user
-       * @default "base64 string"
-       */
-      photo?: string;
     }>(`${this.baseUrl}/register/validate`, { params: query as unknown as Record<string, string> });
 
   /**

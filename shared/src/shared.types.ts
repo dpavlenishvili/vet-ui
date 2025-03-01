@@ -43,3 +43,8 @@ export interface ResolvedBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
   path: string[];
   text: string | ((routeSnapshot: ActivatedRouteSnapshot) => string);
 }
+
+export interface UploadedFile {
+  filename: string;
+  base64: string;
+}

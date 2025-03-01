@@ -1,0 +1,19 @@
+@if (params(); as params) {
+<kendo-dialog [title]="params.title ? (params.title | transloco) : ''" [width]="661" (close)="close()">
+  <div>
+    {{ params.content ? (params.content | transloco) : '' }}
+  </div>
+
+  <kendo-dialog-actions>
+    <div class="k-display-flex k-justify-content-end k-gap-4">
+      <button kendoButton (click)="dismiss()">
+        {{ params.confirmButtonText ? (params.confirmButtonText | transloco) : ('shared.no' | transloco) }}
+      </button>
+
+      <button kendoButton themeColor="primary" look="default" (click)="confirm()">
+        {{ params.confirmButtonText ? (params.confirmButtonText | transloco) : ('shared.yes' | transloco) }}
+      </button>
+    </div>
+  </kendo-dialog-actions>
+</kendo-dialog>
+}

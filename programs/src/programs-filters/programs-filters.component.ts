@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { CardModule } from '@progress/kendo-angular-layout';
@@ -33,13 +33,31 @@ export class ProgramsFiltersComponent {
   kendoIcons = kendoIcons;
   isFilterExpanded = false;
   isFilterDialogOpen = false;
+  filters = input(<any>[]);
+  filterKeys = ['program', 'organisation_id', 'program_name', 'integrated'];
+  formDropdownValues = ['dual', 'simulated', 'cooperative', 'modular'];
+  durationDropdownValues = ['1-3', '3-6', '6-9', '9-12', '12-15'];
+
+  filtersChange = output<typeof this.filterForm.value>();
 
   createFormGroup() {
     return new FormGroup({
-      name: new FormControl(),
-      size: new FormControl(),
-      sector: new FormControl(),
+      program: new FormControl(),
+      organisation_id: new FormControl(),
+      program_name: new FormControl(),
+      form: new FormControl(),
+      duration: new FormControl(),
+      integrated: new FormControl(),
+      financing_type: new FormControl(),
+      region: new FormControl(),
+      district: new FormControl(),
     });
+  }
+
+  mapFilters() {
+    return this.filters()
+      .filter((filter: any) => this.filterKeys.includes(filter.key))
+      .sort((a: any, b: any) => this.filterKeys.indexOf(a.key) - this.filterKeys.indexOf(b.key));
   }
 
   clearFilters() {
@@ -51,7 +69,7 @@ export class ProgramsFiltersComponent {
   }
 
   onSubmit() {
-    console.log(this.filterForm.value);
+    this.filtersChange.emit(this.filterForm.value);
   }
 
   openDialog() {

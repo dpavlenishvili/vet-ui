@@ -58,7 +58,7 @@ export class AuthService {
     this.httpClient.delete<{
       /**
        * Status
-       * @default "true"
+       * @default true
        */
       status?: boolean;
       /**
@@ -76,7 +76,10 @@ export class AuthService {
    * @summary Refresh token
    * @request POST:/auth/refresh
    */
-  refreshToken = () => this.httpClient.post<UserLoginResponseBody>(`${this.baseUrl}/auth/refresh`, null, {});
+  refreshToken = (data: {
+    /** The refresh token to generate a new access token. */
+    refresh_token: string;
+  }) => this.httpClient.post<UserLoginResponseBody>(`${this.baseUrl}/auth/refresh`, data, {});
 
   /**
    * No description
@@ -111,7 +114,7 @@ export class AuthService {
     this.httpClient.post<{
       /**
        * Status
-       * @default "true"
+       * @default true
        */
       status?: boolean;
       /**
@@ -144,7 +147,7 @@ export class AuthService {
     this.httpClient.post<{
       /**
        * Status
-       * @default "true"
+       * @default true
        */
       status?: boolean;
       /**
@@ -187,7 +190,7 @@ export class AuthService {
     this.httpClient.post<{
       /**
        * Status
-       * @default "true"
+       * @default true
        */
       status?: boolean;
       /**
@@ -220,7 +223,7 @@ export class AuthService {
     this.httpClient.post<{
       /**
        * Status
-       * @default "true"
+       * @default true
        */
       status?: boolean;
       /**

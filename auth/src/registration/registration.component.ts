@@ -52,11 +52,13 @@ export class RegistrationComponent implements OnInit {
     {
       label: 'auth.citizenship_selection',
       title: 'auth.choose_citizenship',
+      path: 'citizenship_selection',
       form: () => this.formGroup.controls.chooseCitizenship,
     },
     {
       label: 'auth.id_verification',
       title: 'auth.fill_in_personal_info',
+      path: 'id_verification',
       form: () =>
         this.citizenship === this.CitizenshipType.Georgian
           ? this.formGroup.controls.checkIdentity
@@ -65,16 +67,19 @@ export class RegistrationComponent implements OnInit {
     {
       label: 'auth.phone_verification',
       title: 'auth.enter_phone_number',
+      path: 'phone_verification',
       form: () => this.formGroup.controls.phone,
     },
     {
       label: 'auth.password_creation',
       title: 'auth.enter_password',
+      path: 'password_creation',
       form: () => this.formGroup.controls.passwords,
     },
     {
       label: 'auth.terms_and_conditions',
       title: 'auth.terms_and_conditions',
+      path: 'terms_and_conditions',
       form: () => this.formGroup.controls.termsAndConditions,
     },
   ];
@@ -84,6 +89,9 @@ export class RegistrationComponent implements OnInit {
   private registrationService = inject(RegisterService);
 
   ngOnInit(): void {
+    if (!this.router.url.includes('/citizenship_selection')) {
+      void this.router.navigate(['/registration/citizenship_selection']);
+    }
     this.clearPhoneVerificationInputs();
     this.handleCitizenshipChange();
   }
@@ -103,10 +111,10 @@ export class RegistrationComponent implements OnInit {
       checkIdentityForeigner: new FormGroup({
         citizenship: new FormControl('', Validators.required),
         lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
-        firstname: new FormControl(''),
-        personalNumber: new FormControl('', [Validators.required, personalNumberValidator]),
-        dateOfBirth: new FormControl<Date | null>(null),
-        gender: new FormControl(''),
+        firstname: new FormControl('', [Validators.required]),
+        personalNumber: new FormControl('', [Validators.required]),
+        dateOfBirth: new FormControl<Date | null>(null, [Validators.required]),
+        gender: new FormControl('', [Validators.required]),
       }),
       phone: new FormGroup({
         phoneNumber: new FormControl('', [Validators.required, mobileNumberValidator]),
@@ -182,12 +190,13 @@ export class RegistrationComponent implements OnInit {
         const user = this.getUserReq();
         this.registrationService.register(user).subscribe({
           next: () => {
-            this.router.navigate(['/authorization']);
+            void this.router.navigate(['/authorization']);
           },
         });
       } else {
         this.currentStepIndex++;
         this.currentStepSubject.next(this.currentStepIndex);
+        void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
       }
     }
   }

@@ -1,6 +1,5 @@
-@if (longTermPrograms; as programs) {
-  <div class="programs-list-container">
-    @for (program of programs; track $index) {
+<div class="programs-list-container">
+    @for (program of programs(); track $index) {
       <div class="program-card">
         <div class="programs-card-header">
           <div class="k-display-flex k-align-items-center k-gap-2">
@@ -15,8 +14,6 @@
           <div class="k-display-flex k-align-items-center">
             @if (program.is_integrated) {
               <img src="/assets/images/not-integrated.svg" alt="Integrated logo" />
-            } @else {
-              <img src="/assets/images/integrated.svg" alt="Not Integrated logo" />
             }
           </div>
         </div>
@@ -41,11 +38,10 @@
               <img src="/assets/images/pin.svg" alt="Pin logo" />
               <p>{{ program.organisation.address }}</p>
             </div>
-            <a class="k-color-primary" routerLink="/programs/123">{{ 'programs.see_in_detail' | transloco }}</a>
+            <a class="k-color-primary" [routerLink]="'/programs/' + program.id">{{ 'programs.see_in_detail' | transloco }}</a>
           </div>
           <div></div>
         </div>
       </div>
     }
   </div>
-}

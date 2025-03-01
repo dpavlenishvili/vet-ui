@@ -1,11 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DialogContainerDirective } from '@progress/kendo-angular-dialog';
 import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
+import { KENDO_DIALOGS } from '@progress/kendo-angular-dialog';
+import {
+  ConfirmationDialogOutletComponent
+} from '../../../../shared/src/components/confirmation-dialog-outlet/confirmation-dialog-outlet.component';
 
 @Component({
   standalone: true,
-  imports: [RouterOutlet, DialogContainerDirective, ThemeSidebarComponent],
+  imports: [RouterOutlet, ThemeSidebarComponent, KENDO_DIALOGS, ConfirmationDialogOutletComponent],
   selector: 'vet-root',
   template: `
     <button class="toggle-container-button" (click)="toggleAppContainer()">
@@ -29,6 +32,7 @@ import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
 
     <router-outlet />
     <div kendoDialogContainer></div>
+    <vet-confirmation-dialog-outlet/>
   `,
   styles: [
     `
@@ -55,6 +59,7 @@ import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
       }
     `,
   ],
+  host: { ngSkipHydration: '' },
 })
 export class AppComponent {
   isOpen = signal(false);

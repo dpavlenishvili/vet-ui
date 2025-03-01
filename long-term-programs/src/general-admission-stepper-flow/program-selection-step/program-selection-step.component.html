@@ -1,0 +1,72 @@
+<div class="k-display-flex k-flex-column k-gap-10">
+  <vet-program-selection-filters />
+
+  @if (form(); as form) {
+    <div class="k-display-flex k-gap-10 k-flex-column">
+      <div>
+        <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
+          <div>
+            @if (eligiblePrograms$ | async; as eligiblePrograms) {
+              <kendo-grid [data]="eligiblePrograms?.data!" (dataStateChange)="handlePageChange($event)">
+                <kendo-grid-column
+                  field="program_name"
+                  [title]="'programs.program_name' | transloco"
+                />
+
+                <kendo-grid-column field="qualification_name" [title]="'programs.form' | transloco" />
+
+                <kendo-grid-column field="education_level" [title]="'programs.level' | transloco" />
+
+                <kendo-grid-column
+                  field="organisation.name"
+                  [title]="'programs.institution_name' | transloco"
+                />
+
+                <kendo-grid-column
+                  field="organisation.address"
+                  [title]="'programs.implementation_location' | transloco"
+                />
+
+                <kendo-grid-column [title]="'programs.selection' | transloco">
+                  <ng-template kendoGridCellTemplate let-item>
+                    <div class="k-display-flex">
+                      <button
+                        kendoButton
+                        fillMode="flat"
+                        [svgIcon]="kendoIcons.eyeIcon"
+                        (click)="onPreviewProgramClick()"
+                      ></button>
+
+                      <button
+                        kendoButton
+                        fillMode="flat"
+                        [svgIcon]="kendoIcons.plusCircleIcon"
+                        (click)="onProgramAddClick(item)"
+                      ></button>
+                    </div>
+                  </ng-template>
+                </kendo-grid-column>
+              </kendo-grid>
+            }
+          </div>
+
+          <div class="k-display-flex k-justify-content-between">
+            <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
+              {{ 'auth.back' | transloco }}
+            </button>
+
+            <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
+              {{ 'auth.next' | transloco }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
+
+@if (isProgramDialogOpen) {
+  <kendo-dialog [width]="900" [height]="900" [title]="'პროგრამის აღწერა'" (close)="closeDialog()">
+    <vet-program />
+  </kendo-dialog>
+}

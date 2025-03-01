@@ -62,7 +62,7 @@ export class RegistrationIdentityCitizenComponent {
     }
 
     this.registerService
-      .validatePerson({ pid: form?.personalNumber, last_name: form?.lastname })
+      .validatePerson({ pid: form?.personalNumber as string, last_name: form?.lastname as string })
       .pipe(
         tap({
           next: (personalInfo: User) => {

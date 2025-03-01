@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl } from '@vet/shared';
 
-import type { AdmissionRes, LongTerm } from './data-contracts';
+import type { AdmissionRes, AdmissionsRes, LongTermsRes } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class AdmissionService {
@@ -16,7 +16,33 @@ export class AdmissionService {
    * @summary List of short-term programs
    * @request GET:/admission
    */
-  admissionList = () => this.httpClient.get<AdmissionRes>(`${this.baseUrl}/admission`);
+  admissionList = (query: {
+    /** Admission Number */
+    number?: any;
+    /**
+     * Registraction date range
+     * @example "2025-01-01 - 2025-12-31"
+     */
+    date?: any;
+    /**
+     * Admission Status
+     * @example "draft"
+     */
+    status?: any;
+    /**
+     * Organisation code
+     * @example "1234"
+     */
+    organisation?: any;
+    /**
+     * Selected role
+     * @example "Default User"
+     */
+    role: any;
+  }) =>
+    this.httpClient.get<AdmissionsRes>(`${this.baseUrl}/admission`, {
+      params: query as unknown as Record<string, string>,
+    });
 
   /**
    * @description User admission on programs
@@ -39,24 +65,18 @@ export class AdmissionService {
     education?: string;
     /**
      * District ID
-     * @default "1"
+     * @default 1
      */
     district_id?: number;
     /**
-     * language code
+     * Language code
      * @default "KA"
      */
     language?: string;
-    /**
-     * PDF base 64 code
-     * @default "base64://"
-     */
-    doc?: string;
-    /**
-     * (Spec Education) if checked then pass value
-     * @default "ინტელექტუალური სირთულეები"
-     */
-    spec_edu?: string;
+    /** PDF base 64 code */
+    doc?: string[];
+    /** (Spec Education) if checked then pass value */
+    spec_edu?: boolean;
     /**
      * (Spec Education) if checked then pass value
      * @default "name of contact person"
@@ -64,42 +84,45 @@ export class AdmissionService {
     e_name?: string;
     /**
      * (Spec Education) if checked then pass value
+     * @default "last name of contact person"
+     */
+    e_lastname?: string;
+    /**
+     * (Spec Education) if checked then pass value
+     * @default "email of contact person"
+     */
+    e_email?: string;
+    /**
+     * (Spec Education) if checked then pass value
      * @default "phone number of contact person"
      */
     e_phone?: string;
     /**
-     * (Spec Enviroment) if checked then pass value
-     * @default "ლიფტი, პანდუსი"
+     * (Spec Education) if checked then pass value
+     * @default "special education description"
      */
-    spec_env?: string;
+    spe_description?: string;
     /**
-     * (Abroad pass any education) if checked then pass value
-     * @default "base64://"
+     * (translate) if checked then pass value
+     * @default "translate language"
      */
-    abroad_doc?: string;
+    translate?: string;
+    /** (Spec Environment) If checked, then pass value for the environments like lift and ramp. */
+    spec_env?: string[];
+    /** (Abroad pass any education) if checked then pass value */
+    abroad_doc?: string[];
+    /** (Occupied region pass any education) if checked then pass value */
+    ocu_doc?: string[];
     /**
-     * (Occupied region pass any education) if checked then pass value
-     * @default "base64://"
+     * Send 'registered' if user finishes the flow
+     * @default "registered"
      */
-    ocu_doc?: string;
-  }) =>
-    this.httpClient.post<{
-      /**
-       * status
-       * @default true
-       */
-      status?: boolean;
-    }>(`${this.baseUrl}/admission`, data, {});
-
-  /**
-   * @description Returns list of eligible Programs
-   *
-   * @tags Admission
-   * @name EligibleProgramsList
-   * @summary List of eligible programs
-   * @request OPTIONS:/admission
-   */
-  eligibleProgramsList = () => this.httpClient.options<LongTerm>(`${this.baseUrl}/admission`);
+    status?: string;
+    /** (Spec Education) if checked then pass value */
+    complete_edu_abroad?: boolean;
+    /** (Spec Education) if checked then pass value */
+    complete_base_edu_abroad?: boolean;
+  }) => this.httpClient.post<AdmissionRes>(`${this.baseUrl}/admission`, data, {});
 
   /**
    * @description Edit User admission on programs
@@ -110,7 +133,7 @@ export class AdmissionService {
    * @request PUT:/admission/{id}
    */
   editAdmission = (
-    id: number,
+    id: string,
     data: {
       /**
        * Program IDS
@@ -124,24 +147,18 @@ export class AdmissionService {
       education?: string;
       /**
        * District ID
-       * @default "1"
+       * @default 1
        */
       district_id?: number;
       /**
-       * language code
+       * Language code
        * @default "KA"
        */
       language?: string;
-      /**
-       * PDF base 64 code
-       * @default "base64://"
-       */
-      doc?: string;
-      /**
-       * (Spec Education) if checked then pass value
-       * @default "ინტელექტუალური სირთულეები"
-       */
-      spec_edu?: string;
+      /** PDF base 64 code */
+      doc?: string[];
+      /** (Spec Education) if checked then pass value */
+      spec_edu?: boolean;
       /**
        * (Spec Education) if checked then pass value
        * @default "name of contact person"
@@ -149,38 +166,46 @@ export class AdmissionService {
       e_name?: string;
       /**
        * (Spec Education) if checked then pass value
+       * @default "last name of contact person"
+       */
+      e_lastname?: string;
+      /**
+       * (Spec Education) if checked then pass value
+       * @default "email of contact person"
+       */
+      e_email?: string;
+      /**
+       * (Spec Education) if checked then pass value
        * @default "phone number of contact person"
        */
       e_phone?: string;
       /**
-       * (Spec Enviroment) if checked then pass value
-       * @default "ლიფტი, პანდუსი"
+       * (Spec Education) if checked then pass value
+       * @default "special education description"
        */
-      spec_env?: string;
+      spe_description?: string;
       /**
-       * (Abroad pass any education) if checked then pass value
-       * @default "base64://"
+       * (translate) if checked then pass value
+       * @default "translate language"
        */
-      abroad_doc?: string;
+      translate?: string;
+      /** (Spec Environment) If checked, then pass value for the environments like lift and ramp. */
+      spec_env?: string[];
+      /** (Abroad pass any education) if checked then pass value */
+      abroad_doc?: string[];
+      /** (Occupied region pass any education) if checked then pass value */
+      ocu_doc?: string[];
       /**
-       * (Occupied region pass any education) if checked then pass value
-       * @default "base64://"
+       * Send 'registered' if user finishes the flow
+       * @default "registered"
        */
-      ocu_doc?: string;
-      /**
-       * Select main program_id
-       * @default "1"
-       */
-      select?: number;
+      status?: string;
+      /** (Spec Education) if checked then pass value */
+      complete_edu_abroad?: boolean;
+      /** (Spec Education) if checked then pass value */
+      complete_base_edu_abroad?: boolean;
     },
-  ) =>
-    this.httpClient.put<{
-      /**
-       * status
-       * @default true
-       */
-      status?: boolean;
-    }>(`${this.baseUrl}/admission/${id}`, data, {});
+  ) => this.httpClient.put<AdmissionRes>(`${this.baseUrl}/admission/${id}`, data, {});
 
   /**
    * @description Delete User admission request
@@ -198,4 +223,62 @@ export class AdmissionService {
        */
       status?: boolean;
     }>(`${this.baseUrl}/admission/${id}`, {});
+
+  /**
+   * @description Returns list of eligible Programs
+   *
+   * @tags Admission
+   * @name EligibleProgramsList
+   * @summary List of eligible programs
+   * @request OPTIONS:/admission/{id}
+   */
+  eligibleProgramsList = (
+    id: any,
+    query?: {
+      /** Filter programs */
+      filter?: any;
+    },
+  ) =>
+    this.httpClient.options<LongTermsRes>(`${this.baseUrl}/admission/${id}`, {
+      params: query as unknown as Record<string, string>,
+    });
+
+  /**
+   * @description Check if user has active student status
+   *
+   * @tags Admission
+   * @name StudentStatus
+   * @summary Student status
+   * @request GET:/admission/student-status
+   */
+  studentStatus = () =>
+    this.httpClient.get<{
+      /**
+       * status
+       * @default true
+       */
+      is_eligible?: boolean;
+    }>(`${this.baseUrl}/admission/student-status`);
+
+  /**
+   * @description Get user education level
+   *
+   * @tags Admission
+   * @name EducationStatus
+   * @summary Education status
+   * @request GET:/admission/education-status
+   */
+  educationStatus = () =>
+    this.httpClient.get<{
+      /**
+       * Education level
+       * @default "ბაკალავრი"
+       */
+      level?: string;
+      /**
+       * Education level ID
+       * @default 6
+       */
+      levelId?: number;
+    }>(`${this.baseUrl}/admission/education-status`);
 }
