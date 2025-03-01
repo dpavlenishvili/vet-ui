@@ -93,7 +93,7 @@ export class AuthorizationLoginComponent {
             this.isUserLoggedIn.set(true);
           } else {
             this.customAuthService.handleSuccessfulAuthorization(data);
-            void this.router.navigate(['/home']);
+            void this.router.navigate(['/']);
           }
         }),
         tap({
@@ -110,7 +110,7 @@ export class AuthorizationLoginComponent {
       .validate2FaCode(pid, password, mfaCode)
       .pipe(
         tap(() => {
-          void this.router.navigate(['/home']);
+          void this.router.navigate(['/']);
         }),
       )
       .subscribe();
