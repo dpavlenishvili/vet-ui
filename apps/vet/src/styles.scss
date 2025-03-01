@@ -186,6 +186,39 @@ a {
   }
 }
 
+.vet-auth {
+  kendo-textbox {
+    height: 50px;
+    margin-top: 0.75rem;
+  }
+
+  button {
+    height: 50px;
+    width: 290px;
+  }
+
+  kendo-textbox input.k-input-inner {
+    padding-block: 1rem !important;
+    padding-inline: 1rem !important;
+  }
+}
+
+.vet-registration {
+  kendo-textbox, kendo-dropdownlist, kendo-datepicker {
+    height: 50px;
+    margin-top: 0.75rem;
+  }
+
+  button {
+    height: 50px;
+  }
+
+  kendo-textbox input.k-input-inner {
+    padding-block: 1rem !important;
+    padding-inline: 1rem !important;
+  }
+}
+
 //.k-button {
 //    font-size: 0.9rem !important;
 //    padding: 1rem 1rem 1rem 1.1rem !important;

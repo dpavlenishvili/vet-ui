@@ -4,8 +4,11 @@
 }
 
 .footer {
-  border-top: 1px solid var(--border-none);
   background: var(--main-bg);
+
+  &.divider {
+    border-top: 1px solid var(--border-none);
+  }
 
   .link-groups {
     display: flex;

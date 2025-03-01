@@ -101,7 +101,8 @@
     "georgian_code": "+995",
     "choose_one": "გთხოვთ, მონიშნოთ ერთ-ერთი მნიშვნელობა",
     "password_changed_successfully": "პაროლის ცვლილება წარმატებით განხორციელდა !",
-    "continue_authorization": "განაგრძეთ ავტორიზაცია"
+    "continue_authorization": "განაგრძეთ ავტორიზაცია",
+    "previous": "უკან დაბრუნება"
   },
 
   "contact": {

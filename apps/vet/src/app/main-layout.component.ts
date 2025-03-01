@@ -52,7 +52,7 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
       </div>
     </main>
 
-    <vet-app-footer />
+    <vet-app-footer [divider]="footerDivider()" />
   `,
   styles: [
     `
@@ -88,5 +88,6 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
 })
 export class MainLayoutComponent {
   disablePadding = input(false);
+  footerDivider = input(false);
   pages$ = inject(ApplicationPagesService).headerMenuPages$;
 }

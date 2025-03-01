@@ -1,4 +1,4 @@
-<div class="k-d-flex k-justify-content-between k-gap-4">
+<div class="vet-registration k-d-flex k-justify-content-between k-gap-4">
   <div class="stepper-container">
     <kendo-stepper
       [(currentStep)]="currentStepIndex"
@@ -13,9 +13,9 @@
     </kendo-stepper>
   </div>
   <div class="step-content-container">
-    <div class="k-display-flex k-gap-10 k-flex-column">
+    <div class="k-display-flex k-gap-7.5 k-flex-column">
       @if (steps[currentStepIndex]; as currentStep) {
-        <h2>{{ currentStep.title | transloco }}</h2>
+        <div class="k-text-md k-color-body">{{ currentStep.title | transloco }}</div>
 
         @switch (currentStepIndex) {
           @case (0) {
