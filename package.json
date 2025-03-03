@@ -2,7 +2,7 @@
   "private": true,
   "name": "vet-ui",
   "workspaces": [
-    "shared"
+    "shared-styles"
   ],
   "scripts": {
     "serve": "npx nx run vet:serve",

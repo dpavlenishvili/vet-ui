@@ -2,7 +2,7 @@
 //@import 'helvetica-neue-font';
 //@import 'custom-kendo-overides';
 
-@use 'tokens';
+@import 'tokens';
 
 $kendo-input-calc-size: 50px;
 
@@ -18,7 +18,6 @@ $kendo-input-calc-size: 50px;
 
 @include kendo-theme--styles();
 
-@forward 'tokens';
-@forward 'helvetica-neue-font';
-@forward 'custom-kendo-utilities';
-@forward 'custom-kendo-overides';
+@import 'helvetica-neue-font';
+@import 'custom-kendo-utilities';
+@import 'custom-kendo-overides';

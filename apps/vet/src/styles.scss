@@ -1,4 +1,4 @@
-@use '~@vet/shared/src/index.scss' as shared;
+@import '@vet/shared-styles/_styles.scss';
 
 /* Default Theme (applies to :root) */
 :root {

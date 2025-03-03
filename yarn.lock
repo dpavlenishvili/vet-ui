@@ -7394,9 +7394,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vet/shared@workspace:shared":
+"@vet/shared-styles@workspace:shared-styles":
   version: 0.0.0-use.local
-  resolution: "@vet/shared@workspace:shared"
+  resolution: "@vet/shared-styles@workspace:shared-styles"
   languageName: unknown
   linkType: soft
 
