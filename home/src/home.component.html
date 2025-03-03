@@ -1,17 +1,21 @@
 <div class="k-display-flex k-flex-column k-mt-14 k-gap-20">
   @if(!authenticated()) {
-    <section class="vet-home-padded-section">
-      <vet-posts />
+    <section class="k-display-flex k-justify-content-center k-px-20">
+      <div class="k-width-desktop">
+        <vet-posts />
+      </div>
     </section>
   }
 
-  <section class="vet-home-padded-section">
-    <vet-services />
+  <section class="k-display-flex k-justify-content-center k-px-20">
+    <div class="k-width-desktop">
+      <vet-services />
+    </div>
   </section>
 
   @if(!authenticated()) {
-    <section class="vet-home-padded-section k-bg-paper-dark">
-      <div class="k-display-flex k-justify-content-center">
+    <section class="k-display-flex k-justify-content-center k-px-20 k-bg-paper-dark">
+      <div class="k-width-desktop">
         <vet-partners />
       </div>
     </section>

@@ -24,6 +24,24 @@ $colors: (
   'button-light': $kendo-button-light,
   'button-light-contrast': $kendo-button-light-contrast,
 );
+$widths: (
+  'desktop': $vet-layout-width-desktop,
+  'mobile': $vet-layout-width-mobile,
+);
+
+@each $name, $value in $widths {
+  .#{$prefix}-width-#{$name} {
+    width: $value;
+  }
+}
+
+@media (max-width: $vet-layout-width-mobile) {
+  @each $name, $value in $widths {
+    .mobile:#{$prefix}-width-#{$name} {
+      width: $value;
+    }
+  }
+}
 
 @each $name, $value in $colors {
   .#{$prefix}-border-#{$name} {
