@@ -1,6 +1,5 @@
 stages:
   - install-dependencies
-  - check-approval
   - node-ssr-build
   - lint-libraries
   - test-libraries
@@ -25,22 +24,6 @@ Install dependencies:
       - node_modules/
   script:
     - yarn install --immutable
-
-Check Approval:
-  stage: check-approval
-  tags:
-    - oc
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-  script:
-    - apk add --no-cache curl jq
-    - |
-      APPROVED_BY=$(curl --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" "https://git.emis.ge/api/v4/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/approvals" | jq -r '.approved_by[].user.username')
-      if [[ "$APPROVED_BY" != *"particular_user"* ]]; then
-        echo "Merge request not approved by particular_user"
-        exit 1
-      fi
-    - echo "Merge request approved by particular_user"
 
 Build:
   needs:
