@@ -4,10 +4,23 @@ stages:
   - lint-libraries
   - test-libraries
   - webserver-setup
+  - check-approvals
 
 variables:
   REMOTE_DIR: '/var/www/vet-seit.emis.ge'
   REMOTE_SSH: 'www@192.168.202.56'
+
+Check Approvals:
+  stage: check-approvals
+  tags:
+    - docker
+  image: node:18-alpine
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+  script:
+    - node ./tools/scripts/check-approvals.js
 
 Install dependencies:
   stage: install-dependencies
