@@ -2,10 +2,11 @@ import type { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/fo
 
 export function passwordPatternValidator(control: AbstractControl): { [key: string]: any } | null {
   const patterns = [
-    /.*[a-z]{1,}.*/,
-    /.*[A-Z]{1,}.*/,
-    /.*[0-9]{1,}.*/,
-    /.*[!@#$%^&*()-_=+\[\]{}\\|;:'",<.>/?]{1,}.*/,
+    /.*[a-z]+.*/,
+    /.*[A-Z]+.*/,
+    /.*[0-9]+.*/,
+    // eslint-disable-next-line no-useless-escape
+    /.*[!@#$%^&*()-_=+\[\]{}\\|;:'",<.>/?]+.*/,
   ];
 
   const value = control.value;
