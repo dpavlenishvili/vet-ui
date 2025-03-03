@@ -1,8 +1,11 @@
+@use '~@vet/shared/src/index' as shared;
+
 :host {
   display: block;
 }
 
 .vet-home-padded-section {
+  max-width: shared.$vet-layout-width-desktop;
   padding: 0 5rem;
 
   @media (max-width: 768px) {

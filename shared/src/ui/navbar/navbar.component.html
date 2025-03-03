@@ -1,7 +1,11 @@
 <nav class="v-ui-navbar">
   <div class="v-ui-navbar__container">
     <div class="v-ui-navbar__logo">
-      <ng-content select="[navbar-logo]"></ng-content>
+      <a routerLink="/">
+        <img src="/assets/images/evet-logo.svg" width="60" height="26" />
+        <div></div>
+        <div>{{ 'app.logo_text' | transloco }}</div>
+      </a>
     </div>
 
     @if (!tokenUser$()) {

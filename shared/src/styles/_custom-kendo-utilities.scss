@@ -1,6 +1,9 @@
 @use 'tokens';
+@use 'helvetica-neue-font';
 
 $prefix: 'k';
+$vet-layout-width-desktop: 1440px;
+$vet-layout-width-mobile: 768px;
 $kendo-paper-dark: #F5F7F8;
 $kendo-color-chip: #f2f3f6;
 $kendo-color-primary-light: #59acd4;

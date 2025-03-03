@@ -12,7 +12,7 @@ import { CustomAuthService } from '@vet/auth';
   standalone: true,
 })
 export class AppFooterComponent {
-  divider = input(true)
+  divider = input(false);
   vetIcons = vetIcons;
   authenticated = inject(CustomAuthService).authenticated$;
 }

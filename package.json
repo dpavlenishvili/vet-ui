@@ -1,6 +1,9 @@
 {
   "private": true,
   "name": "vet-ui",
+  "workspaces": [
+    "shared"
+  ],
   "scripts": {
     "serve": "npx nx run vet:serve",
     "build": "npx nx run vet:build",
