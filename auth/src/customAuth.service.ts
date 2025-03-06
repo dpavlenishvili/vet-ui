@@ -93,8 +93,8 @@ export class CustomAuthService {
   }
 
   handleSuccessfulAuthorization(data: UserLoginResponseBody) {
-    const expirationDate = new Date(Number(data.expires_in) * 1000 + Date.now());
-    this.cookieService.set(ACCESS_TOKEN_STORAGE_KEY, data.access_token, expirationDate);
+    // const expirationDate = new Date(Number(data.expires_in) * 1000 + Date.now());
+    this.cookieService.set(ACCESS_TOKEN_STORAGE_KEY, data.access_token);
     this._accessToken$.set(data.access_token);
     this._refreshToken$.set(data.refresh_token);
   }

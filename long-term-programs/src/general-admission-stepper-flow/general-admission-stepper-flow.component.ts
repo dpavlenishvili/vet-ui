@@ -123,7 +123,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
       general_information: new FormGroup(generalInformationControls),
       ssm_status: new FormGroup({
         ssm_translator_requirement: new FormControl(false),
-        ssm_translator_requirement_language: new FormControl(false),
+        language: new FormControl(''),
 
         spec_edu: new FormControl(false),
         e_name: new FormControl(''),
@@ -219,6 +219,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             e_phone: res.data?.[0].e_phone,
             spe_description: res.data?.[0].spe_description,
             program_ids: res.data?.[0]?.programs ? res.data?.[0]?.programs.filter(p => p?.program?.program_id) : [],
+            language: res.data?.[0].language && res.data?.[0].language !== '0' ? res.data?.[0].language : '',
           },
           program_selection: {
             program_ids: res.data?.[0]?.programs ? res.data?.[0]?.programs.filter(p => p?.program?.program_id) : [],
@@ -255,5 +256,8 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
+  }
+
+  onSubmit() {
   }
 }

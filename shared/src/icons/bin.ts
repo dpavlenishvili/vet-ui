@@ -1,7 +1,7 @@
 import type { SVGIcon } from '@progress/kendo-svg-icons';
 
 export const bin: SVGIcon = {
-  name: 'search',
+  name: 'bin',
   content: `<svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.00146 13.7059L7.00146 10.5294" stroke="#B1B7BB" stroke-width="1.5" stroke-linecap="round"/>
 <path d="M10.9985 13.7059L10.9985 10.5294" stroke="#B1B7BB" stroke-width="1.5" stroke-linecap="round"/>

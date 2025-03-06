@@ -89,13 +89,14 @@
                     <div class="k-display-flex k-align-items-center k-gap-3.5">
                       <div class="k-flex-1">
                         <kendo-dropdownlist
-                          formControlName="ssm_translator_requirement_language"
                           [data]="languages"
                           inputmode="flat"
                           valueField="value"
                           textField="label"
                           [defaultItem]="languagePlaceholder"
                           [valuePrimitive]="true"
+                          [value]="selectedLanguage()"
+                          (valueChange)="onSelectedLanguageChange($event)"
                         >
 
                           <ng-template kendoDropDownListValueTemplate let-item>
@@ -108,7 +109,20 @@
                         </kendo-dropdownlist>
                       </div>
 
-                      <div class="k-flex-1"></div>
+                      <div class="k-flex-1">
+                        @if (selectedLanguage() === 'other') {
+                          <kendo-textbox
+                            formControlName="language"
+                            inputmode="flat"
+                            [placeholder]="'programs.enter_language' | transloco"
+                          />
+                        } @else {
+                          <input
+                            formControlName="language"
+                            type="hidden"
+                          />
+                        }
+                      </div>
                     </div>
                   }
                 </div>

@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { DividerComponent, InfoComponent } from '@vet/shared';
 import {
   DropDownListComponent,
@@ -39,25 +39,31 @@ export type ProgramSsmStepFormGroup = FormGroup;
   standalone: true,
 })
 export class ProgramSsmStepComponent {
+  form = input<ProgramSsmStepFormGroup>();
   nextClick = output();
   previousClick = output();
 
-  form = input<ProgramSsmStepFormGroup>();
+  translocoService = inject(TranslocoService);
   kendoIcons = kendoIcons;
   languagePlaceholder = {
     value: null,
-    label: 'programs.ssm_language_label',
+    label: this.translocoService.translate('programs.ssm_language_label'),
   };
   languages = [
     {
-      value: 'ka',
-      label: 'programs.ka',
+      value: this.translocoService.translate('programs.ka'),
+      label: this.translocoService.translate('programs.ka'),
     },
     {
-      value: 'en',
-      label: 'programs.en',
+      value: this.translocoService.translate('programs.en'),
+      label: this.translocoService.translate('programs.en'),
+    },
+    {
+      value: 'other',
+      label: this.translocoService.translate('programs.other'),
     },
   ];
+  selectedLanguage = signal<string | null>(null);
   maxLengthOfRequirements = 2000;
 
   onPreviousClick() {
@@ -68,6 +74,22 @@ export class ProgramSsmStepComponent {
     this.form()?.markAllAsTouched();
     if (this.form()?.valid) {
       this.nextClick.emit();
+    }
+  }
+
+  onSelectedLanguageChange(value: string | null) {
+    const form = this.form();
+
+    if (!form) {
+      return;
+    }
+
+    this.selectedLanguage.set(value);
+
+    if (value === 'other') {
+      form.controls['language'].patchValue('');
+    } else {
+      form.controls['language'].patchValue(value ?? '');
     }
   }
 }

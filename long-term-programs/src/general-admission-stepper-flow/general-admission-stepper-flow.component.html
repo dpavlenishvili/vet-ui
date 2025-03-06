@@ -60,7 +60,11 @@
 <ng-template #programConfirmationStepTmpl>
   <vet-program-confirmation-step
     [form]="formGroup.controls.confirmation"
+    [generalInformationFormGroup]="formGroup.controls.general_information"
+    [admissionId]="admissionId()"
+    [selectedProgramsForm]="formGroup.controls.selected_programs"
+    [ssmFormGroup]="formGroup.controls.ssm_status"
     (previousClick)="onPreviousClick()"
-    (nextClick)="onNextClick('confirmation')"
+    (nextClick)="onSubmit()"
   />
 </ng-template>

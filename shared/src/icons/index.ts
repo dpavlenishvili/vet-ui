@@ -35,6 +35,8 @@ import { nextLarge } from './next-large';
 import { plusCircled } from './plus-circled';
 import { xIcon } from './x-icon';
 import { chevronUp } from './chevron-up';
+import { download } from './download';
+import { print } from './print';
 
 export {
   bin,
@@ -74,4 +76,6 @@ export {
   plusCircled,
   xIcon,
   chevronUp,
+  download,
+  print,
 };

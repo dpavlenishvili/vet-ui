@@ -1,5 +1,11 @@
-import { AdmissionService } from '@vet/backend';
-import {ChangeDetectionStrategy, Component, OnInit, inject, input, output, signal, linkedSignal} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+  signal,
+  effect
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -7,11 +13,9 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ConfirmationDialogService, vetIcons } from '@vet/shared';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import {Observable, map, of, startWith} from 'rxjs';
-import { AdmissionPrograms, LongTerm } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { vetIcons } from '@vet/shared';
+import { LongTerm } from '@vet/backend';
+import { ProgramSelectedProgramsComponent } from '../program-selected-programs/program-selected-programs.component';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 
@@ -24,8 +28,8 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     ButtonModule,
     LabelModule,
     SVGIconModule,
-    TranslocoPipe,
-    KENDO_GRID,
+    ProgramSelectedProgramsComponent,
+    TranslocoPipe
   ],
   templateUrl: './program-selected-programs-step.component.html',
   styleUrl: './program-selected-programs-step.component.scss',
@@ -39,27 +43,14 @@ export class ProgramSelectedProgramsStepComponent {
   form = input<ProgramSelectedProgramsStepFormGroup>();
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
-  selectedPrograms$: Observable<AdmissionPrograms[]> | undefined;
 
   selectedProgramIds = signal<number[]>([]);
 
-  confirmationDialogService = inject(ConfirmationDialogService);
-  admissionService = inject(AdmissionService);
-
-  protected readonly selectedProgram = rxResource({
-    request: () => ({ admissionId: this.admissionId() }),
-    loader: ({ request: { admissionId } }): Observable<AdmissionPrograms[]> => {
-      if (!admissionId) {
-        return of([]);
-      }
-      return this.admissionService
-        .admissionList({
-          role: 'Default User',
-          number: admissionId,
-        })
-        .pipe(map((res) => res.data?.[0]?.programs ?? []));
-    },
-  });
+  constructor() {
+    effect(() => {
+      this.getSelectedProgramIds();
+    });
+  }
 
   getSelectedProgramIds() {
     const value = this.form()?.value;
@@ -86,13 +77,8 @@ export class ProgramSelectedProgramsStepComponent {
   }
 
   onDeleteClick(item: LongTerm) {
-    this.confirmationDialogService.show({
-      content: 'programs.confirm_program_selection_delete',
-      onConfirm: () => {
-        this.selectedProgramIds().filter((id) => id !== item.program_id);
-        this.form()?.get('program_ids')?.patchValue(this.selectedProgramIds());
-        this.form()?.get('program_ids')?.updateValueAndValidity();
-      },
-    });
+    const filteredIds = this.selectedProgramIds().filter((id) => id !== item.program_id);
+    this.form()?.get('program_ids')?.patchValue(filteredIds);
+    this.form()?.get('program_ids')?.updateValueAndValidity();
   }
 }

@@ -28,6 +28,16 @@ $widths: (
   'desktop': $vet-layout-width-desktop,
   'mobile': $vet-layout-width-mobile,
 );
+$measurements: (
+  '1': 4px,
+  '2\\.5': 10px,
+);
+
+@each $name, $value in $measurements {
+  .#{$prefix}-rounded-#{$name} {
+    border-radius: $value;
+  }
+}
 
 @each $name, $value in $widths {
   .#{$prefix}-width-#{$name} {
