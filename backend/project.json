@@ -10,7 +10,7 @@
       "executor": "@vet/backend:sync",
       "options": {
         "openApiFilePath": "https://dev-api-vet.emis.ge/docs/api-docs.json",
-        "outputDir": "{projectRoot}/src/lib"
+        "outputDir": "{projectRoot}/src/lib/generated"
       }
     },
     "test": {
