@@ -1,5 +1,5 @@
 import { AdmissionService } from '@vet/backend';
-import { ChangeDetectionStrategy, Component, OnInit, inject, input, output, signal } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, inject, input, output, signal, linkedSignal} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -9,9 +9,8 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ConfirmationDialogService, vetIcons } from '@vet/shared';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { Observable, map } from 'rxjs';
+import {Observable, map, of, startWith} from 'rxjs';
 import { AdmissionPrograms, LongTerm } from '@vet/backend';
-import { AsyncPipe } from '@angular/common';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
@@ -49,13 +48,17 @@ export class ProgramSelectedProgramsStepComponent {
 
   protected readonly selectedProgram = rxResource({
     request: () => ({ admissionId: this.admissionId() }),
-    loader: ({ request: { admissionId } }) =>
-      this.admissionService
+    loader: ({ request: { admissionId } }): Observable<AdmissionPrograms[]> => {
+      if (!admissionId) {
+        return of([]);
+      }
+      return this.admissionService
         .admissionList({
           role: 'Default User',
           number: admissionId,
         })
-        .pipe(map((res) => res.data?.[0]?.programs ?? [])),
+        .pipe(map((res) => res.data?.[0]?.programs ?? []));
+    },
   });
 
   getSelectedProgramIds() {
