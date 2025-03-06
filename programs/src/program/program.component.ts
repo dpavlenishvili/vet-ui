@@ -1,12 +1,11 @@
-import { ActivatedRoute } from '@angular/router';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { useRouteParam, vetIcons } from '@vet/shared';
-import { LongTerm, ProgramsService } from '@vet/backend';
-import { Observable, map } from 'rxjs';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
+import {KENDO_ICONS} from '@progress/kendo-angular-icons';
+import {vetCoerceNumberProperty, vetIcons} from '@vet/shared';
+import {LongTerm, ProgramsService} from '@vet/backend';
+import {map, of} from 'rxjs';
+import {TranslocoPipe} from '@jsverse/transloco';
 import * as kendoIcons from '@progress/kendo-svg-icons';
+import {rxResource} from "@angular/core/rxjs-interop";
 
 interface Organisation {
   name?: string;
@@ -14,17 +13,18 @@ interface Organisation {
 
 @Component({
   selector: 'vet-program',
-  imports: [KENDO_ICONS, AsyncPipe, TranslocoPipe],
+  imports: [KENDO_ICONS, TranslocoPipe],
   templateUrl: './program.component.html',
   styleUrl: './program.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class ProgramComponent {
-  programsService = inject(ProgramsService);
-  activatedRoute = inject(ActivatedRoute);
-  programId$ = useRouteParam('programId');
-  partners = [
+  readonly eligibleProgram = input<LongTerm | null>();
+  readonly programId = input(null, {transform: vetCoerceNumberProperty});
+
+  protected programsService = inject(ProgramsService);
+  protected partners = [
     {
       id: 1,
       name: 'შპს სქაინეთი',
@@ -44,10 +44,36 @@ export class ProgramComponent {
   vetIcons = vetIcons;
   admission = true;
 
-  programId = this.activatedRoute.snapshot.paramMap.get('programId');
-  program$ = this.programsService.program(Number(this.programId)).pipe(map((response) => response.data));
+  protected readonly program$ = rxResource({
+    request: () => ({programId: this.programId()}),
+    loader: ({request: {programId}}) => {
+      if (programId) {
+        return this.programsService.program(programId).pipe(map((response) => response.data));
+      }
+      return of(undefined);
+    },
+  });
 
-  getOrganisation(program: LongTerm): Organisation {
+  protected loading = computed(() => {
+    const programId = this.programId();
+    const programLoading = this.program$.isLoading();
+    if (!programId) {
+      return true;
+    }
+    return programLoading;
+  });
+
+  protected program = computed((): LongTerm | null => {
+    const program = this.program$.value();
+    const eligibleProgram = this.eligibleProgram();
+    const programId = this.programId();
+    if (programId) {
+      return program || null;
+    }
+    return eligibleProgram || null;
+  });
+
+  getOrganisation(program: LongTerm | null): Organisation {
     return program?.organisation as Organisation;
   }
 }

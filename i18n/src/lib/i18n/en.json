@@ -46,7 +46,8 @@
     "programs": "Programs",
     "program": "Program",
     "seeAll": "See All",
-    "please_fill_field": "Please fill the field"
+    "please_fill_field": "Please fill the field",
+    "loading": "Loading..."
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",
@@ -172,7 +173,10 @@
     "student_fee": "Student fee",
     "primary_selection_method": "Primary selection method",
     "basic_selection_method": "Basic selection method",
-    "additional_selection_method": "Additional selection method"
+    "additional_selection_method": "Additional selection method",
+    "institutions_name": "Organisation",
+    "selection": "Select",
+    "program_added_on_selected_step": "Program added on Selected Programs step"
   },
 
   "profile": {

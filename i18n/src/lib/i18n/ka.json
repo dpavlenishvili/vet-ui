@@ -52,7 +52,8 @@
     "seeAll": "ყველას ნახვა",
     "please_fill_field": "გთხოვთ შეავსოთ ველი",
     "no": "არა",
-    "yes": "დიახ"
+    "yes": "დიახ",
+    "loading": "იტვირთება..."
   },
 
   "auth": {
@@ -217,7 +218,11 @@
     "implementation_form": "განხოციელების ფორმა",
     "select": "არჩევა",
     "confirm_program_selection_delete": "ნამდვილად გსურთ არჩეული პროგრამის წაშლა?",
-    "admissionUpdate": ""
+    "admissionUpdate": "",
+    "search": "ძიება",
+    "institution_name": "ორგანიზცია",
+    "selection": "არჩევა",
+    "program_added_on_selected_step": "პროგრამა დაემატა ''არჩეულ პროგრამების'' საფეხურზე"
   },
 
   "profile": {

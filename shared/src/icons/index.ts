@@ -32,6 +32,9 @@ import { searchSmall } from './search-small';
 import { globeSmall } from './globe-small';
 import { previousLarge } from './previous-large';
 import { nextLarge } from './next-large';
+import { plusCircled } from './plus-circled';
+import { xIcon } from './x-icon';
+import { chevronUp } from './chevron-up';
 
 export {
   bin,
@@ -68,4 +71,7 @@ export {
   globeSmall,
   previousLarge,
   nextLarge,
+  plusCircled,
+  xIcon,
+  chevronUp,
 };

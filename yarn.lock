@@ -5167,23 +5167,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@progress/kendo-angular-indicators@npm:^17.1.0":
-  version: 17.2.0
-  resolution: "@progress/kendo-angular-indicators@npm:17.2.0"
+"@progress/kendo-angular-indicators@npm:17.1.0":
+  version: 17.1.0
+  resolution: "@progress/kendo-angular-indicators@npm:17.1.0"
   dependencies:
-    "@progress/kendo-angular-schematics": 17.2.0
+    "@progress/kendo-angular-schematics": 17.1.0
     tslib: ^2.3.1
   peerDependencies:
     "@angular/animations": 16 - 19
     "@angular/common": 16 - 19
     "@angular/core": 16 - 19
     "@angular/platform-browser": 16 - 19
-    "@progress/kendo-angular-common": 17.2.0
-    "@progress/kendo-angular-intl": 17.2.0
-    "@progress/kendo-angular-l10n": 17.2.0
+    "@progress/kendo-angular-common": 17.1.0
+    "@progress/kendo-angular-intl": 17.1.0
+    "@progress/kendo-angular-l10n": 17.1.0
     "@progress/kendo-licensing": ^1.0.2
     rxjs: ^6.5.3 || ^7.0.0
-  checksum: 5fcb04c47fe540622504c45e964b9c4c7d9b2a4d418aa05a2190103e1ec63e53b7b1c307c790977ede970554484b59fd7677be090caa7062ca055bc3ea0219ac
+  checksum: 2249428211b7de8d90f3c56162a9d482724d6907bef1ed9542af0f6f3a86786dd2af0ebef3bd651bf1471aef989af525df0c1db98617afbecc121ba07d8db40d
   languageName: node
   linkType: hard
 
@@ -5458,6 +5458,23 @@ __metadata:
     "@progress/kendo-licensing": ^1.0.2
     rxjs: ^6.5.3 || ^7.0.0
   checksum: f1efc3a356e6ccbbae019df8325440c2c384509fec9086f59f0b1be8ddd99824260b8ca84f4bf3f1b76ec417b9af033b7f6a337f2c78565ac18b274e9df27f15
+  languageName: node
+  linkType: hard
+
+"@progress/kendo-angular-schematics@npm:17.1.0":
+  version: 17.1.0
+  resolution: "@progress/kendo-angular-schematics@npm:17.1.0"
+  dependencies:
+    "@progress/kendo-angular-schematics": 17.1.0
+    "@types/semver": ^7.5.0
+    semver: ^7.5.3
+  peerDependencies:
+    "@angular-devkit/core": 16 - 19
+    "@angular-devkit/schematics": 16 - 19
+    "@angular/core": 16 - 19
+    "@schematics/angular": 16 - 19
+    rxjs: ^6.5.3 || ^7.0.0
+  checksum: 179b57fc1861454cb0a0da5b0a58ff6f4bdcd5b6f82db7f16461c233c2ec81a47c62e8fa218b7df9948f1cf2c46bb0bccc93b3c24f64c7798e8d9c80a1e4d6d0
   languageName: node
   linkType: hard
 
@@ -20296,7 +20313,7 @@ __metadata:
     "@progress/kendo-angular-gauges": ^17.1.0
     "@progress/kendo-angular-grid": ^17.1.0
     "@progress/kendo-angular-icons": ^17.1.0
-    "@progress/kendo-angular-indicators": ^17.1.0
+    "@progress/kendo-angular-indicators": 17.1.0
     "@progress/kendo-angular-inputs": ^17.1.0
     "@progress/kendo-angular-intl": ^17.1.0
     "@progress/kendo-angular-l10n": ^17.1.0

@@ -47,7 +47,7 @@
     "@progress/kendo-angular-gauges": "^17.1.0",
     "@progress/kendo-angular-grid": "^17.1.0",
     "@progress/kendo-angular-icons": "^17.1.0",
-    "@progress/kendo-angular-indicators": "^17.1.0",
+    "@progress/kendo-angular-indicators": "17.1.0",
     "@progress/kendo-angular-inputs": "^17.1.0",
     "@progress/kendo-angular-intl": "^17.1.0",
     "@progress/kendo-angular-l10n": "^17.1.0",

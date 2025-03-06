@@ -41,6 +41,7 @@
 <ng-template #programSelectionStepTmpl>
   <vet-program-selection-step
     [form]="formGroup.controls.program_selection"
+    [ssmStepForm]="formGroup.controls.ssm_status"
     [admissionId]="admissionId()"
     (previousClick)="onPreviousClick()"
     (nextClick)="onNextClick('program_selection')"

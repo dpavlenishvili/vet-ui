@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { vetIcons } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -11,6 +12,7 @@ import { CardModule } from '@progress/kendo-angular-layout';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { GeneralsService } from '@vet/backend';
 import { map } from 'rxjs';
+import { ProgramSelectionFilter } from '../program-selection-step.component';
 
 @Component({
   selector: 'vet-program-selection-filters',
@@ -33,6 +35,7 @@ import { map } from 'rxjs';
 export class ProgramSelectionFiltersComponent {
   filterForm = this.createFormGroup();
   kendoIcons = kendoIcons;
+  vetIcons = vetIcons;
   isFilterExpanded = false;
 
   programForms = ['dual', 'imitated', 'cooperative', 'modular'];
@@ -40,19 +43,28 @@ export class ProgramSelectionFiltersComponent {
 
   generalsService = inject(GeneralsService);
 
+  filtersChange = output<ProgramSelectionFilter>();
+
   districts$ = this.generalsService.getDistrictsList().pipe(map((response) => response.data));
   regions$ = this.generalsService.getRegionsList().pipe(map((response) => response.data));
+  organisations$ = this.generalsService.getOrganisationsList().pipe(map((response) => response.data));
 
   createFormGroup() {
     return new FormGroup({
-      name: new FormControl(),
-      size: new FormControl(),
-      sector: new FormControl(),
+      organisation: new FormControl(),
+      program_name: new FormControl(),
+      program: new FormControl(),
+      duration: new FormControl(),
+      integrated: new FormControl(),
+      financing_type: new FormControl(),
+      region: new FormControl(),
+      district: new FormControl(),
     });
   }
 
   clearFilters() {
     this.filterForm.reset();
+    this.onSubmit();
   }
 
   onFilterExpandClick() {
@@ -60,6 +72,19 @@ export class ProgramSelectionFiltersComponent {
   }
 
   onSubmit() {
-    console.log(this.filterForm.value);
+    const value = this.filterForm.value;
+
+    const filterData: ProgramSelectionFilter['filters'] = {
+      organisation: value.organisation ?? null,
+      program_name: value.program_name ?? null,
+      program: value.program ?? null,
+      duration: value.duration ?? null,
+      integrated: value.integrated ?? null,
+      financing_type: value.financing_type ?? null,
+      region: value.region ?? null,
+      district: value.district ?? null,
+    };
+
+    this.filtersChange.emit({ filters: filterData });
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -6,15 +6,27 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
-import { kendoIcons, RouteParamsService } from '@vet/shared';
+import { filterNullValues, kendoIcons, RouteParamsService, vetIcons } from '@vet/shared';
 import { GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { ProgramComponent } from 'programs/src/program/program.component';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { ProgramSelectionFiltersComponent } from './program-selection-filters/program-selection-filters.component';
-import { AsyncPipe } from '@angular/common';
-import { Observable } from 'rxjs';
+import { rxResource } from "@angular/core/rxjs-interop";
 
 export type ProgramSelectionStepFormGroup = FormGroup;
+export type ProgramSsmStep = FormGroup;
+export type ProgramSelectionFilter = {
+  filters: {
+    organisation: number | null;
+    program_name: string | null;
+    program: string | null;
+    duration: string | null;
+    integrated: string | null;
+    financing_type: string | null;
+    region: number | null;
+    district: number | null;
+  };
+};
 
 @Component({
   selector: 'vet-program-selection-step',
@@ -31,33 +43,49 @@ export type ProgramSelectionStepFormGroup = FormGroup;
     ProgramComponent,
     DialogModule,
     ProgramSelectionFiltersComponent,
-    AsyncPipe,
   ],
   templateUrl: './program-selection-step.component.html',
   styleUrl: './program-selection-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class ProgramSelectionStepComponent implements OnInit {
+export class ProgramSelectionStepComponent {
   nextClick = output();
   previousClick = output();
-  isProgramDialogOpen = false;
+  isProgramDialogOpen = signal(false);
+  isConfirmationDialogOpen = signal(false);
+  isInfoDialogOpen = signal(false);
+  infoDialogText = '';
+  vetIcons = vetIcons;
 
   admissionId = input<string | null>();
-  eligiblePrograms$: Observable<any> | undefined;
+  eligiblePrograms$ = rxResource({
+    request: () => ({admissionId: this.admissionId(), filters: this.filters()}),
+    loader: ({request: {admissionId, filters}}) => this.admissionService.eligibleProgramsList(
+      // @ts-expect-error Not yet implemented by BE, should be removed once this works
+      admissionId, filters
+    )
+  });
   admissionService = inject(AdmissionService);
   routeParamsService = inject(RouteParamsService);
 
   form = input<ProgramSelectionStepFormGroup>();
+  ssmStepForm = input<ProgramSsmStep>();
   kendoIcons = kendoIcons;
-  selectedPrograms = signal<any>([]);
+  selectedPrograms = signal<number[]>([]);
 
-  onPreviewProgramClick() {
-    this.isProgramDialogOpen = true;
+  previewProgram: LongTerm | null = null;
+  protected readonly filters = signal<ProgramSelectionFilter['filters'] | undefined>(undefined);
+
+  onPreviewProgramClick(item: LongTerm) {
+    this.isProgramDialogOpen.set(true);
+    this.previewProgram = item;
   }
 
-  closeDialog() {
-    this.isProgramDialogOpen = false;
+  onCloseClick() {
+    this.isProgramDialogOpen.set(false);
+    this.isConfirmationDialogOpen.set(false);
+    this.isInfoDialogOpen.set(false);
   }
 
   onPreviousClick() {
@@ -67,15 +95,22 @@ export class ProgramSelectionStepComponent implements OnInit {
   onProgramAddClick(item: LongTerm) {
     if (item.program_id) {
       this.selectedPrograms().push(item?.program_id);
-      this.form()?.get('program_ids')?.patchValue(this.selectedPrograms())
+      this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
       this.form()?.get('program_ids')?.updateValueAndValidity();
+      this.isConfirmationDialogOpen.set(true);
     }
   }
 
   onNextClick() {
     this.form()?.markAllAsTouched();
-    if (this.form()?.valid) {
-      this.nextClick.emit();
+
+    if (this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms().length < 2) {
+      this.isInfoDialogOpen.set(true);
+      this.infoDialogText = 'must_choose_min_two';
+    } else {
+      if (this.form()?.valid) {
+        this.nextClick.emit();
+      }
     }
   }
 
@@ -85,8 +120,8 @@ export class ProgramSelectionStepComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    console.log('ngOnInit', this.admissionId());
-    this.eligiblePrograms$ = this.admissionService.eligibleProgramsList(this.admissionId());
+  onFiltersChange(filters: ProgramSelectionFilter) {
+    this.routeParamsService.update(filters);
+    this.filters.set(filterNullValues(filters.filters));
   }
 }

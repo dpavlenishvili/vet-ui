@@ -213,3 +213,7 @@ export function breadcrumb(items: AppBreadCrumbItem[]) {
     breadcrumb: items,
   };
 }
+
+export function filterNullValues<T extends object>(obj: T): T {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null)) as T;
+}
