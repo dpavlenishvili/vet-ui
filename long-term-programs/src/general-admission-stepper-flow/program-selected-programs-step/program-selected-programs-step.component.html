@@ -1,71 +1,58 @@
 @if (form(); as form) {
-  <div class="k-display-flex k-gap-10 k-flex-column">
-    <div>
-      <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
-        <div>
-          <div class="k-display-flex k-gap-10">
-            <div class="vet-admission-table vet-grid-table vet-grid-size-7 vet-grid-dense k-mt-10 k-rounded-t-lg">
-              <div class="vet-grid-cell vet-grid-header">
-                <b>#</b>
-              </div>
-              <div class="vet-grid-cell vet-grid-header">
-                <b>{{ 'programs.program_name' | transloco }}</b>
-              </div>
-              <div class="vet-grid-cell vet-grid-header">
-                <b>{{ 'programs.implementation_form' | transloco }}</b>
-              </div>
-              <div class="vet-grid-cell vet-grid-header">
-                <b>{{ 'programs.level' | transloco }}</b>
-              </div>
-              <div class="vet-grid-cell vet-grid-header">
-                <b>{{ 'programs.institution_name' | transloco }}</b>
-              </div>
-              <div class="vet-grid-cell vet-grid-header">
-                <b>{{ 'programs.implementation_location' | transloco }}</b>
-              </div>
-              <div class="vet-grid-cell">
-                <b>{{ 'programs.select' | transloco }}</b>
-              </div>
+  @if (selectedProgram.isLoading()) {
+    asd
+  } @else {
+    @if (selectedProgram.value(); as _selectedProgram) {
+      <kendo-grid [data]="_selectedProgram">
+        <kendo-grid-column [width]="250" [title]="'programs.program_name' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            {{ item.program.program_name }}
+          </ng-template>
+        </kendo-grid-column>
 
-              @for (program of selectedPrograms; track program.id) {
-                <div class="vet-grid-cell">{{ $index + 1 }}</div>
-                <div class="vet-grid-cell">{{ program.program_name }}</div>
-                <div class="vet-grid-cell">{{ program.implementation_form }}</div>
-                <div class="vet-grid-cell">{{ program.level }}</div>
-                <div class="vet-grid-cell">{{ program.institution_name }}</div>
-                <div class="vet-grid-cell">{{ program.implementation_location }}</div>
-                <div class="vet-grid-cell">
-                  <div class="k-display-flex k-align-items-center k-gap-0.5">
-                    <button
-                      kendoButton
-                      fillMode="flat"
-                      [svgIcon]="vetIcons.eye"
-                      (click)="onViewClick(program)"
-                    ></button>
+        <kendo-grid-column [width]="200" [title]="'programs.form' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            {{ item.program.qualification_name }}
+          </ng-template>
+        </kendo-grid-column>
 
-                    <button
-                      kendoButton
-                      fillMode="flat"
-                      [svgIcon]="vetIcons.minusCircled"
-                      (click)="onDeleteClick(program)"
-                    ></button>
-                  </div>
-                </div>
-              }
+        <kendo-grid-column [width]="70" [title]="'programs.level' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            {{ item.program.education_level }}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [width]="250" [title]="'programs.institution_name' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            {{ item.program.organisation.name }}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column
+          [width]="250"
+          field="organisation.address"
+          [title]="'programs.implementation_location' | transloco"
+        >
+          <ng-template kendoGridCellTemplate let-item>
+            {{ item.program.organisation.address }}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [width]="100" [title]="'programs.selection' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            <div class="k-display-flex k-align-items-center k-gap-0.5">
+              <button kendoButton fillMode="flat" [svgIcon]="vetIcons.eye"></button>
+
+              <button
+                kendoButton
+                fillMode="flat"
+                [svgIcon]="kendoIcons.minusOutlineIcon"
+                (click)="onDeleteClick(item)"
+              ></button>
             </div>
-          </div>
-        </div>
-
-        <div class="k-display-flex k-justify-content-between">
-          <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
-            {{ 'auth.previous' | transloco }}
-          </button>
-
-          <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
-            {{ 'auth.next' | transloco }}
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+    }
+  }
 }

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { AdmissionService } from '@vet/backend';
+import { ChangeDetectionStrategy, Component, OnInit, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -7,6 +8,11 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ConfirmationDialogService, vetIcons } from '@vet/shared';
+import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import { Observable, map } from 'rxjs';
+import { AdmissionPrograms, LongTerm } from '@vet/backend';
+import { AsyncPipe } from '@angular/common';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 
@@ -20,41 +26,49 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     LabelModule,
     SVGIconModule,
     TranslocoPipe,
+    KENDO_GRID,
   ],
   templateUrl: './program-selected-programs-step.component.html',
   styleUrl: './program-selected-programs-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
 })
 export class ProgramSelectedProgramsStepComponent {
   nextClick = output();
   previousClick = output();
+  readonly admissionId = input<string | null>();
 
   form = input<ProgramSelectedProgramsStepFormGroup>();
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
-  selectedPrograms = [
-    {
-      id: 1,
-      path: '/programs/engineering',
-      program_name: 'ბაკალავრიატი საინჟინრო დარგში',
-      implementation_form: 'მოდულური',
-      level: '3',
-      institution_name: 'სსიპ კოლეჯი ინფორმაციული ტექნოლოგიების აკადემია',
-      implementation_location: 'თბილისი, გლდანი-ნაძალადევი, ილია ვეკუას ქუჩა, 44'
-    },
-    {
-      id: 2,
-      path: '/programs/engineering',
-      program_name: 'ბაკალავრიატი საინჟინრო დარგში',
-      implementation_form: 'დუალური',
-      level: '2',
-      institution_name: 'კოლეჯი ,,მერმისი "',
-      implementation_location: 'თბილისი, გლდანი-ნაძალადევი, ილია ვეკუას ქუჩა, 44'
-    }
-  ];
+  selectedPrograms$: Observable<AdmissionPrograms[]> | undefined;
 
-  constructor(private confirmationDialogService: ConfirmationDialogService) {
+  selectedProgramIds = signal<number[]>([]);
+
+  confirmationDialogService = inject(ConfirmationDialogService);
+  admissionService = inject(AdmissionService);
+
+  protected readonly selectedProgram = rxResource({
+    request: () => ({ admissionId: this.admissionId() }),
+    loader: ({ request: { admissionId } }) =>
+      this.admissionService
+        .admissionList({
+          role: 'Default User',
+          number: admissionId,
+        })
+        .pipe(map((res) => res.data?.[0]?.programs ?? [])),
+  });
+
+  getSelectedProgramIds() {
+    const value = this.form()?.value;
+    const selectedProgramIds = [];
+
+    for (const item of value.program_ids) {
+      if (item.program?.program_id) {
+        selectedProgramIds.push(item.program.program_id);
+      }
+    }
+
+    this.selectedProgramIds.set(selectedProgramIds);
   }
 
   onPreviousClick() {
@@ -68,15 +82,14 @@ export class ProgramSelectedProgramsStepComponent {
     }
   }
 
-  onViewClick(item: any) {
-  }
-
-  onDeleteClick(item: any) {
+  onDeleteClick(item: LongTerm) {
     this.confirmationDialogService.show({
       content: 'programs.confirm_program_selection_delete',
       onConfirm: () => {
-
-      }
+        this.selectedProgramIds().filter((id) => id !== item.program_id);
+        this.form()?.get('program_ids')?.patchValue(this.selectedProgramIds());
+        this.form()?.get('program_ids')?.updateValueAndValidity();
+      },
     });
   }
 }

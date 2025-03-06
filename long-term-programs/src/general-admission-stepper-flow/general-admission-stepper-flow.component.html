@@ -26,7 +26,8 @@
 <ng-template #programGeneralInformationStepTmpl>
   <vet-program-general-information-step
     [form]="formGroup.controls.general_information"
-    (nextClick)="onNextClick('general_information')" />
+    (nextClick)="onNextClick('general_information')"
+  />
 </ng-template>
 
 <ng-template #programSsmStepTmpl>
@@ -49,6 +50,7 @@
 <ng-template #programSelectedProgramsStepTmpl>
   <vet-program-selected-programs-step
     [form]="formGroup.controls.selected_programs"
+    [admissionId]="admissionId()"
     (previousClick)="onPreviousClick()"
     (nextClick)="onNextClick('selected_programs')"
   />
