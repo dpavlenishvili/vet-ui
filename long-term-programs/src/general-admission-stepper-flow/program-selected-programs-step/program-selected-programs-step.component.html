@@ -1,58 +1,70 @@
 @if (form(); as form) {
-  @if (selectedProgram.isLoading()) {
-    asd
-  } @else {
-    @if (selectedProgram.value(); as _selectedProgram) {
-      <kendo-grid [data]="_selectedProgram">
-        <kendo-grid-column [width]="250" [title]="'programs.program_name' | transloco">
-          <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.program_name }}
-          </ng-template>
-        </kendo-grid-column>
+  <div class="k-display-flex k-flex-column k-gap-10">
+    @if (selectedProgram.isLoading()) {
+      asd
+    } @else {
+      @if (selectedProgram.value(); as _selectedProgram) {
+        <kendo-grid [data]="_selectedProgram">
+          <kendo-grid-column [width]="250" [title]="'programs.program_name' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.program.program_name }}
+            </ng-template>
+          </kendo-grid-column>
 
-        <kendo-grid-column [width]="200" [title]="'programs.form' | transloco">
-          <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.qualification_name }}
-          </ng-template>
-        </kendo-grid-column>
+          <kendo-grid-column [width]="200" [title]="'programs.form' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.program.qualification_name }}
+            </ng-template>
+          </kendo-grid-column>
 
-        <kendo-grid-column [width]="70" [title]="'programs.level' | transloco">
-          <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.education_level }}
-          </ng-template>
-        </kendo-grid-column>
+          <kendo-grid-column [width]="70" [title]="'programs.level' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.program.education_level }}
+            </ng-template>
+          </kendo-grid-column>
 
-        <kendo-grid-column [width]="250" [title]="'programs.institution_name' | transloco">
-          <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.organisation.name }}
-          </ng-template>
-        </kendo-grid-column>
+          <kendo-grid-column [width]="250" [title]="'programs.institution_name' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.program.organisation.name }}
+            </ng-template>
+          </kendo-grid-column>
 
-        <kendo-grid-column
-          [width]="250"
-          field="organisation.address"
-          [title]="'programs.implementation_location' | transloco"
-        >
-          <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.organisation.address }}
-          </ng-template>
-        </kendo-grid-column>
+          <kendo-grid-column
+            [width]="250"
+            field="organisation.address"
+            [title]="'programs.implementation_location' | transloco"
+          >
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.program.organisation.address }}
+            </ng-template>
+          </kendo-grid-column>
 
-        <kendo-grid-column [width]="100" [title]="'programs.selection' | transloco">
-          <ng-template kendoGridCellTemplate let-item>
-            <div class="k-display-flex k-align-items-center k-gap-0.5">
-              <button kendoButton fillMode="flat" [svgIcon]="vetIcons.eye"></button>
+          <kendo-grid-column [width]="100" [title]="'programs.selection' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              <div class="k-display-flex k-align-items-center k-gap-0.5">
+                <button kendoButton fillMode="flat" [svgIcon]="vetIcons.eye"></button>
 
-              <button
-                kendoButton
-                fillMode="flat"
-                [svgIcon]="kendoIcons.minusOutlineIcon"
-                (click)="onDeleteClick(item)"
-              ></button>
-            </div>
-          </ng-template>
-        </kendo-grid-column>
-      </kendo-grid>
+                <button
+                  kendoButton
+                  fillMode="flat"
+                  [svgIcon]="kendoIcons.minusOutlineIcon"
+                  (click)="onDeleteClick(item)"
+                ></button>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+        </kendo-grid>
+
+        <div class="k-display-flex k-justify-content-between">
+          <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
+            {{ 'auth.back' | transloco }}
+          </button>
+
+          <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
+            {{ 'auth.next' | transloco }}
+          </button>
+        </div>
+      }
     }
-  }
+  </div>
 }
