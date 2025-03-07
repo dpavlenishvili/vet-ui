@@ -97,6 +97,9 @@ Webserver Setup:
     - job: Build
       artifacts: true
   allow_failure: false
+  environment:
+    name: seit
+    url: https://vet-seit.emis.ge
   script:
     - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 kill"
     - ssh $REMOTE_SSH "cd $REMOTE_DIR; rm -rf dist"
