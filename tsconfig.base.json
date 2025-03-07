@@ -20,10 +20,10 @@
       "@vet/dynamic-pages": ["dynamic-pages/src/index.ts"],
       "@vet/home": ["home/src/index.ts"],
       "@vet/i18n": ["i18n/src/index.ts"],
+      "@vet/long-term-programs": ["long-term-programs/src/index.ts"],
       "@vet/programs": ["programs/src/index.ts"],
       "@vet/shared": ["shared/src/index.ts"],
-      "@vet/user-profile": ["user-profile/src/index.ts"],
-      "@vet/long-term-programs": ["long-term-programs/src/index.ts"]
+      "@vet/user-profile": ["user-profile/src/index.ts"]
     },
     "noUnusedLocals": false
   },

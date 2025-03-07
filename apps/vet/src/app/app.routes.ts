@@ -36,7 +36,7 @@ export const appRoutes: Routes = [
         path: '',
         loadChildren: () => import('@vet/auth').then((r) => r.authRoutes),
         data: breadcrumb([]),
-      }
+      },
     ],
   },
   {
