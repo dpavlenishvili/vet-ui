@@ -1,9 +1,9 @@
 <form [formGroup]="filterForm">
   <div class="programs-filters-container k-pb-5 k-gap-10">
     <div class="filter-group filter-3">
-      <kendo-floatinglabel [text]="'programs.search' | transloco">
+      <kendo-label [text]="'programs.search' | transloco">
         <kendo-textbox formControlName="program_name" />
-      </kendo-floatinglabel>
+      </kendo-label>
     </div>
 
     <div class="filter-group filter-1">
@@ -24,7 +24,7 @@
 
   @if (isFilterExpanded) {
     <div class="programs-additional-filters-container k-pb-5">
-      <kendo-floatinglabel [text]="'programs.region' | transloco">
+      <kendo-label [text]="'programs.region' | transloco">
         <kendo-dropdownlist
           [valuePrimitive]="true"
           formControlName="region"
@@ -32,9 +32,9 @@
           textField="name"
           [data]="regions$ | async"
         />
-      </kendo-floatinglabel>
+      </kendo-label>
 
-      <kendo-floatinglabel [text]="'programs.district' | transloco">
+      <kendo-label [text]="'programs.district' | transloco">
         <kendo-dropdownlist
           [valuePrimitive]="true"
           formControlName="district"
@@ -42,9 +42,9 @@
           textField="name"
           [data]="districts$ | async"
         />
-      </kendo-floatinglabel>
+      </kendo-label>
 
-      <kendo-floatinglabel [text]="'programs.institution_name' | transloco">
+      <kendo-label [text]="'programs.institution_name' | transloco">
         <kendo-dropdownlist
           [valuePrimitive]="true"
           valueField="id"
@@ -52,27 +52,27 @@
           [data]="organisations$ | async"
           formControlName="organisation"
         />
-      </kendo-floatinglabel>
+      </kendo-label>
 
-      <kendo-floatinglabel [text]="'programs.program_code' | transloco">
+      <kendo-label [text]="'programs.program_code' | transloco">
         <kendo-textbox formControlName="program" />
-      </kendo-floatinglabel>
+      </kendo-label>
 
-      <kendo-floatinglabel [text]="'programs.form' | transloco">
+      <kendo-label [text]="'programs.form' | transloco">
         <kendo-dropdownlist [data]="programForms">
           <ng-template kendoDropDownListItemTemplate let-item>
             {{ 'programs.' + item | transloco }}
           </ng-template>
         </kendo-dropdownlist>
-      </kendo-floatinglabel>
+      </kendo-label>
 
-      <kendo-floatinglabel [text]="'programs.funding' | transloco">
+      <kendo-label [text]="'programs.funding' | transloco">
         <kendo-dropdownlist formControlName="financing_type" [data]="financing">
           <ng-template kendoDropDownListItemTemplate let-item>
             {{ 'programs.' + item | transloco }}
           </ng-template>
         </kendo-dropdownlist>
-      </kendo-floatinglabel>
+      </kendo-label>
     </div>
   }
 

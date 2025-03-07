@@ -6,7 +6,6 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { AsyncPipe } from '@angular/common';
 import { GeneralsService } from '@vet/backend';
 import { FileUploadComponent, InfoComponent, kendoIcons, UploadedFile } from '@vet/shared';
 import { map, take, tap } from 'rxjs';
@@ -27,7 +26,6 @@ export type ProgramGeneralInformationStepFormGroup = FormGroup;
     SVGIconModule,
     TranslocoPipe,
     KENDO_DROPDOWNLIST,
-    AsyncPipe,
     FileUploadComponent,
     FormsModule,
     InfoComponent,
@@ -64,9 +62,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
         }),
         map((res) => {
           const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
-          console.log(educationLevelId);
           if (res.education_levels && educationLevelId) {
-            console.log(educationLevelId);
             return res.education_levels.filter((item) => Number(item.id) >= Number(educationLevelId));
           }
           return res.education_levels;
@@ -89,13 +85,14 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
       this.nextClick.emit();
     }
   }
-
-  handleFileUpload(files: UploadedFile[], abroadKey: string) {
-    this.form()?.get(abroadKey)?.patchValue(files);
+  handleFileUpload(file: UploadedFile, field: string) {
+    const payload = { filename: file.filename, base64: file.base64 };
+    const currentValue = this.form()?.get(field)?.getRawValue();
+    this.form()?.get(field)?.patchValue([...currentValue, payload]);
   }
 
-  handleRemoveFile(files: UploadedFile[], abroadKey: string) {
-    this.form()?.get(abroadKey)?.reset([]);
+  handleRemoveFile(files: UploadedFile[], field: string) {
+    this.form()?.get(field)?.patchValue(files);
   }
 
   toggleSwitcher(event: boolean, key: string) {
@@ -160,8 +157,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form()
-      ?.valueChanges.pipe(
+    this.form()?.valueChanges.pipe(
         tap((value) => {
           this.isSpecEnvEnabled.set(value.spec_env.length > 0);
           if (this.tokenUser$()?.residential !== 'GEO') {

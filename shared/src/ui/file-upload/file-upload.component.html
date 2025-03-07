@@ -1,12 +1,12 @@
 <div class="file-upload-container">
   <label [class.disabled]="uploadedFiles().length >= maxFiles()" class="file-input-label">
-        <span>
-          {{ title() | transloco }}
-          {{ 'shared.selectFileSupportedTypes' | transloco }}
-        </span>
+    <span>
+      {{ title() | transloco }}
+      {{ 'shared.selectFileSupportedTypes' | transloco }}
+    </span>
     <input
       (change)="onFileSelected($event)"
-      [disabled]="uploadedFiles().length >= 2"
+      [disabled]="uploadedFiles().length >= maxFiles()"
       accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.heic"
       multiple
       type="file"
@@ -17,26 +17,9 @@
     <div class="file-list">
       @for (file of uploadedFiles(); track file) {
         <div class="file-item">
-          <span class="file-name">{{ file.filename }}</span>
+          <span class="file-name">{{ file.filename || file.file_name }}</span>
           <div class="file-actions">
             <button type="button" class="icon-btn" (click)="downloadFile(file)">
-              <kendo-svg-icon [icon]="kendoIcons.downloadIcon"></kendo-svg-icon>
-            </button>
-            <button type="button" class="icon-btn" (click)="removeFile(file)">
-              <kendo-svg-icon [icon]="kendoIcons.xIcon"></kendo-svg-icon>
-            </button>
-          </div>
-        </div>
-      }
-    </div>
-  }
-  @if (docs().length > 0) {
-    <div class="file-list">
-      @for (file of docs(); track file) {
-        <div class="file-item">
-          <span class="file-name">{{ 'shared.file' | transloco }}</span>
-          <div class="file-actions">
-            <button type="button" class="icon-btn" (click)="downloadExistingFile(file)">
               <kendo-svg-icon [icon]="kendoIcons.downloadIcon"></kendo-svg-icon>
             </button>
             <button type="button" class="icon-btn" (click)="removeFile(file)">

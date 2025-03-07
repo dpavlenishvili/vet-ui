@@ -5,41 +5,44 @@
         <div class="top-section">
           <div class="k-d-flex k-gap-4">
             <kendo-formfield>
-              <kendo-floatinglabel [text]="'shared.education' | transloco">
+              <kendo-label [text]="'shared.education' | transloco">
                 <kendo-dropdownlist
                   [data]="educations$.value()"
                   textField="value"
                   valueField="id"
                   formControlName="education"
+                  [valuePrimitive]="true"
                 />
-              </kendo-floatinglabel>
+              </kendo-label>
             </kendo-formfield>
             <kendo-formfield>
-              <kendo-floatinglabel [text]="'shared.testCity' | transloco">
+              <kendo-label [text]="'shared.testCity' | transloco">
                 <kendo-dropdownlist
                   [data]="cities$.value()"
                   textField="name"
                   valueField="id"
                   formControlName="district_id"
                   (valueChange)="districtChange()"
+                  [valuePrimitive]="true"
                 />
-              </kendo-floatinglabel>
+              </kendo-label>
             </kendo-formfield>
             <kendo-formfield>
-              <kendo-floatinglabel [text]="'shared.testLanguage' | transloco">
+              <kendo-label [text]="'shared.testLanguage' | transloco">
                 <kendo-dropdownlist
                   [data]="languages$.value()"
                   textField="value"
                   valueField="id"
                   formControlName="language"
                   (valueChange)="languageChange()"
+                  [valuePrimitive]="true"
                 />
-              </kendo-floatinglabel>
+              </kendo-label>
             </kendo-formfield>
           </div>
           <div class="k-mt-3">
             <vet-file-upload [title]="'programs.uploadEducationDocument'"
-                             [docs]="form?.get('doc')?.getRawValue()"
+                             [uploadedFiles]="form?.get('doc')?.getRawValue()"
                              (fileUploaded)="handleFileUpload($event, 'doc')"
                              (fileRemoved)="handleRemoveFile($event, 'doc')" />
           </div>
@@ -94,7 +97,9 @@
               {{ 'programs.switchWarning' | transloco }}
             </vet-info>
             <vet-file-upload [title]="'programs.uploadEducationDocument'"
-                             (fileUploaded)="handleFileUpload($event, 'abroad_doc')" />
+                             [uploadedFiles]="form?.get('abroad_doc')?.getRawValue()"
+                             (fileUploaded)="handleFileUpload($event, 'abroad_doc')"
+                             (fileRemoved)="handleRemoveFile($event, 'abroad_doc')" />
           }
         </div>
 
@@ -121,7 +126,9 @@
               {{ 'programs.switchWarning' | transloco }}
             </vet-info>
             <vet-file-upload [title]="'programs.uploadEducationDocument'"
-                             (fileUploaded)="handleFileUpload($event, 'ocu_doc')" />
+                             [uploadedFiles]="form?.get('ocu_doc')?.getRawValue()"
+                             (fileUploaded)="handleFileUpload($event, 'ocu_doc')"
+                             (fileRemoved)="handleRemoveFile($event, 'ocu_doc')" />
           }
         </div>
       </div>

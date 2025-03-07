@@ -60,7 +60,8 @@
     "requestId": "Request ID",
     "search": "Search",
     "status": "Status",
-    "dateFromTo": "Date - From/To"
+    "dateFromTo": "Date - From/To",
+    "informationMessage": "Information message"
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",

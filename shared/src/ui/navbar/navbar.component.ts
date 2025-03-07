@@ -7,7 +7,7 @@ import {
   OnInit,
   signal,
   ViewEncapsulation,
-  WritableSignal
+  WritableSignal,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
@@ -43,12 +43,15 @@ export class NavbarComponent implements OnInit {
   isMobileMenuOpen = signal(false);
 
   vetIcons = vetIcons;
-  roles: WritableSignal<{
+  roles = signal<
+    | {
     name?: string;
     roles?: string[];
     organisation?: string;
     permissions?: string[];
-  }[] | null> = signal(null);
+  }[]
+    | null
+  >(null);
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
@@ -86,17 +89,19 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rolesService.roles()
-      .pipe(
-        tap((res) => {
-          this.roles.set(res);
-          const userRole = res?.[0].roles?.[0];
-          if (userRole) {
-            this.customAuthService.userRole$.set(userRole);
-          }
-          console.log(this.customAuthService.userRole$());
-        }),
-      )
-      .subscribe();
+    if (this.tokenUser$()) {
+      this.rolesService
+        .roles()
+        .pipe(
+          tap((res) => {
+            this.roles.set(res);
+            const userRole = res?.[0].roles?.[0];
+            if (userRole) {
+              this.customAuthService.userRole$.set(userRole);
+            }
+          }),
+        )
+        .subscribe();
+    }
   }
 }

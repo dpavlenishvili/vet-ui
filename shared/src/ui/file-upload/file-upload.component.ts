@@ -1,10 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, input, output, signal, WritableSignal } from '@angular/core';
-import { KENDO_UPLOAD } from '@progress/kendo-angular-upload';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  model,
+  output,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { UploadedFile } from '../../shared.types';
-import { DOCUMENT, NgForOf } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { useBaseUrl } from '../../shared.injectors';
 
@@ -14,21 +21,19 @@ import { useBaseUrl } from '../../shared.injectors';
   styleUrls: ['./file-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [KENDO_UPLOAD, KENDO_BUTTON, SVGIconComponent, TranslocoPipe, NgForOf],
+  imports: [SVGIconComponent, TranslocoPipe],
 })
 export class FileUploadComponent {
   title = input('');
-  docs = input([]);
-  uploadedFiles: WritableSignal<UploadedFile[]> = signal([]);
+  uploadedFiles = model<UploadedFile[]>([]);
   errorMessage: WritableSignal<string | null> = signal(null);
-  fileUploaded = output<UploadedFile[]>();
+  fileUploaded = output<UploadedFile>();
   fileRemoved = output<UploadedFile[]>();
   kendoIcons = kendoIcons;
   allowedExtensions = signal(['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'heic']);
   maxFiles = signal(2);
   document = inject(DOCUMENT);
   translocoService = inject(TranslocoService);
-
   baseUrl = `${useBaseUrl()}/download?file=`;
 
   onFileSelected(event: Event): void {
@@ -54,16 +59,17 @@ export class FileUploadComponent {
       filesToProcess.forEach((file) => {
         const fileExt = file.name.split('.').pop()?.toLowerCase();
         if (!fileExt || !this.allowedExtensions().includes(fileExt)) {
-          const fileName = file.name;
-          this.errorMessage.set(this.translocoService.translate('shared.invalidFileTypeError', { fileName }));
+          this.errorMessage.set(
+            this.translocoService.translate('shared.invalidFileTypeError', { fileName: file.name }),
+          );
           this.clearErrorAfterDelay();
           return;
         }
         const reader = new FileReader();
         reader.onload = () => {
           const fileData: UploadedFile = { filename: file.name, base64: reader.result as string };
-          this.uploadedFiles.update((files) => [...files, fileData]);
-          this.fileUploaded.emit(this.uploadedFiles());
+          this.uploadedFiles.set([...this.uploadedFiles(), fileData]);
+          this.fileUploaded.emit(fileData);
         };
         reader.readAsDataURL(file);
       });
@@ -72,26 +78,22 @@ export class FileUploadComponent {
   }
 
   removeFile(fileToRemove: UploadedFile): void {
-    this.uploadedFiles.update((files) => files.filter((file) => file.filename !== fileToRemove.filename));
-    this.fileRemoved.emit(this.uploadedFiles());
+    const updatedFiles = this.uploadedFiles().filter((file) => file.filename !== fileToRemove.filename);
+    this.uploadedFiles.set(updatedFiles);
+    this.fileRemoved.emit(updatedFiles);
   }
 
   downloadFile(file: UploadedFile): void {
-    const link = this.document.createElement('a');
-    link.href = file.base64;
-    link.download = file.filename || 'downloaded-file';
-    this.document.body.appendChild(link);
-    link.click();
-    this.document.body.removeChild(link);
-  }
-
-  downloadExistingFile(doc: string): void {
-    console.log(this.docs());
-    const docPath = doc;
-    const encodedDoc = docPath.charAt(0) + encodeURIComponent(docPath.substring(1));
-    const downloadUrl = `${this.baseUrl}${encodedDoc}`;
-
-    window.open(downloadUrl, '_blank');
+    if (file.id) {
+      this.document.defaultView?.open(file.download_url, '_blank');
+    } else {
+      const link = this.document.createElement('a');
+      link.href = file.base64!;
+      link.download = file.filename || 'downloaded-file';
+      this.document.body.appendChild(link);
+      link.click();
+      this.document.body.removeChild(link);
+    }
   }
 
   private clearErrorAfterDelay() {

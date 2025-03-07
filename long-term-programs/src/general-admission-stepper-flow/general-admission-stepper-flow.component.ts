@@ -216,9 +216,9 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             console.log(admissionData);
             const patchValue = {
               general_information: {
-                education: admissionData.education,
-                district_id: admissionData.district_id,
-                language: admissionData.language,
+                education: admissionData.education?.id,
+                district_id: admissionData.district?.id,
+                language: admissionData.language?.id,
                 spec_env: admissionData.spec_env || [],
                 program_ids: filteredPrograms(admissionData.programs),
                 doc: admissionData.doc,
@@ -235,7 +235,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                 e_phone: admissionData.e_phone,
                 spe_description: admissionData.spe_description,
                 program_ids: filteredPrograms(admissionData.programs),
-                language: admissionData.language && admissionData.language !== '0' ? admissionData.language : '',
+                language: admissionData.language && Number(admissionData.language.id) !== Number('0') ? admissionData.language.id : '',
               },
               program_selection: {
                 program_ids: filteredPrograms(admissionData.programs),

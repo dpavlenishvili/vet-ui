@@ -45,6 +45,12 @@ export interface ResolvedBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
 }
 
 export interface UploadedFile {
-  filename: string;
-  base64: string;
+  filename?: string;
+  id?: string | number;
+  file_name?: string;
+  path?: string;
+  download_url?: string;
+  downloadUrl?: string;
+  extension?: string;
+  base64?: string;
 }

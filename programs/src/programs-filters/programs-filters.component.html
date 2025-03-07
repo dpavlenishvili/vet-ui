@@ -2,45 +2,47 @@
   <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
     <div class="programs-filters-container k-pb-5 k-px-5">
       @for (filter of mapFilters().slice(0, 2); track $index) {
+        @let labelText = 'programs.' + filter.key | transloco;
         @if (filter.type === 'select') {
-          @if (isFilterExpanded) {
-            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+          @if (isFilterExpanded()) {
+            <kendo-label [text]="labelText">
               <kendo-dropdownlist
                 [formControlName]="filter.key"
                 [data]="filter.values"
                 valueField="id"
                 textField="name"
               />
-            </kendo-floatinglabel>
+            </kendo-label>
           }
         } @else if (filter.type === 'text') {
-          <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+          <kendo-label [text]="labelText">
             <kendo-textbox [formControlName]="filter.key" />
-          </kendo-floatinglabel>
+          </kendo-label>
         }
       }
     </div>
 
-    @if (isFilterExpanded) {
+    @if (isFilterExpanded()) {
       <div class="programs-additional-filters-container k-pb-5 k-px-5">
         @for (filter of mapFilters().slice(2); track $index) {
+          @let labelText = 'programs.' + filter.key | transloco;
           @if (filter.type === 'select') {
-            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+            <kendo-label [text]="labelText">
               <kendo-dropdownlist
                 [formControlName]="filter.key"
                 [data]="filter.values"
                 valueField="id"
                 textField="name"
               />
-            </kendo-floatinglabel>
+            </kendo-label>
           } @else if (filter.type === 'text') {
-            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+            <kendo-label [text]="labelText">
               <kendo-textbox [formControlName]="filter.key" />
-            </kendo-floatinglabel>
+            </kendo-label>
           }
         }
 
-        <kendo-floatinglabel [text]="'programs.form'| transloco">
+        <kendo-label [text]="'programs.form'| transloco">
           <kendo-dropdownlist
             formControlName="form"
             [data]="formDropdownValues"
@@ -49,14 +51,14 @@
               {{'shared.' + item | transloco}}
             </ng-template>
           </kendo-dropdownlist>
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.duration' | transloco">
+        <kendo-label [text]="'programs.duration' | transloco">
           <kendo-dropdownlist
             formControlName="duration"
             [data]="durationDropdownValues"
           />
-        </kendo-floatinglabel>
+        </kendo-label>
 
         @for (filter of mapFilters(); track $index) {
           @if (filter.type === 'bool') {
@@ -73,12 +75,13 @@
     }
 
     <div class="programs-filter-action-container k-pb-5 k-px-5">
+      @let toggleBtnIcon = isFilterExpanded() ? kendoIcons.arrowUpIcon : kendoIcons.arrowDownIcon;
       <button
         kendoButton
-        [svgIcon]="isFilterExpanded ? kendoIcons.arrowUpIcon : kendoIcons.arrowDownIcon"
+        [svgIcon]="toggleBtnIcon"
         fillMode="outline"
         themeColor="primary"
-        (click)="onFilterExpandClick()"
+        (click)="toggleFilterExpansion()"
       ></button>
 
       <button
@@ -86,7 +89,7 @@
         [svgIcon]="kendoIcons.parametersIcon"
         fillMode="outline"
         themeColor="primary"
-        (click)="openDialog()"
+        (click)="isFilterDialogOpen.set(true)"
       ></button>
 
       <button
@@ -104,6 +107,8 @@
   </form>
 </kendo-card>
 
-@if (isFilterDialogOpen) {
-  <vet-programs-filters-dialog [filters]="filters()" (dialogClose)="closeDialog()" [filterForm]="filterForm"/>
+@defer (when isFilterDialogOpen()) {
+  @if (isFilterDialogOpen()) {
+    <vet-programs-filters-dialog [filters]="filters()" (dialogClose)="isFilterDialogOpen.set(false)" [filterForm]="filterForm"/>
+  }
 }

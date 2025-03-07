@@ -66,7 +66,8 @@
     "search": "ძებნა",
     "status": "სტატუსი",
     "dateFromTo": "თარიღი - დან/მდე",
-    "registration": "რეგისტრაცია"
+    "registration": "რეგისტრაცია",
+    "informationMessage": "საინფორმაციო შეტყობინება"
   },
   "auth": {
     "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",

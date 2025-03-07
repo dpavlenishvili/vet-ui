@@ -93,6 +93,7 @@ export class ProgramConfirmationStepComponent {
   }
 
   onDownloadClick(file: UploadedFile) {
-    downloadFile(file.base64, file.filename);
+    //downloadFile არის დასამოდიფიცირებელი, ნახეთ file-upload component ის download ი როგორ მუშაობს
+    // downloadFile(file.download_url, file.filename);
   }
 }

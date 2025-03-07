@@ -1,14 +1,14 @@
-<div class="k-bg-white k-p-5 k-mb-4 k-border-radius-4">
+<div class="k-bg-white k-p-5 k-mb-4 k-rounded-lg">
   <div class="k-d-flex k-justify-content-between">
-    <div class="title">
+    <span>
       საინფორმაციო შეტყობინება
-    </div>
+    </span>
     <button kendoButton themeColor="primary" (click)="onRegisterClick()">
       {{ 'shared.registration' | transloco }}
     </button>
   </div>
 </div>
-<div class="k-bg-white k-p-5 k-border-radius-4">
+<div class="k-bg-white k-p-5 k-rounded-lg">
   <div class="k-pb-5">
     <vet-admissions-list-filter (filtersChange)="onFiltersChange($event)" />
   </div>
@@ -21,9 +21,9 @@
     [pageSize]="admissionList$.value()?.meta?.per_page"
     (dataStateChange)="handlePageChange($event)"
   >
-    <kendo-grid-column field="id" [title]="'shared.requestId' | transloco" />
-    <kendo-grid-column field="education.value" [title]="'shared.education' | transloco" />
-    <kendo-grid-column field="language.value" [title]="'shared.testLanguage' | transloco" />
+    <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" />
+    <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" />
+    <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" />
     <kendo-grid-column [title]="'' | transloco">
       <ng-template kendoGridCellTemplate let-item>
         <div class="k-display-flex">

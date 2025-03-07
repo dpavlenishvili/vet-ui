@@ -6,75 +6,75 @@
           <kendo-switch [onLabel]="'programs.yes' | transloco" [offLabel]="'programs.no' | transloco" />
         </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.search' | transloco">
+        <kendo-label [text]="'programs.search' | transloco">
           <kendo-textbox>
             <ng-template kendoTextBoxSuffixTemplate>
               <kendo-svg-icon [icon]="kendoIcons.searchIcon" />
             </ng-template>
           </kendo-textbox>
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.organisation_id' | transloco">
+        <kendo-label [text]="'programs.organisation_id' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-label>
       </div>
 
       <div class="programs-filters-container">
         @for (filter of mapFilters().slice(2); track $index) {
           @if (filter.type === 'select') {
-            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+            <kendo-label [text]="'programs.' + filter.key | transloco">
               <kendo-dropdownlist
                 [formControlName]="filter.key"
                 [data]="filter.values"
                 valueField="id"
                 textField="name"
               />
-            </kendo-floatinglabel>
+            </kendo-label>
           } @else if (filter.type === 'text') {
-            <kendo-floatinglabel [text]="'programs.' + filter.key | transloco">
+            <kendo-label [text]="'programs.' + filter.key | transloco">
               <kendo-textbox [formControlName]="filter.key" />
-            </kendo-floatinglabel>
+            </kendo-label>
           }
         }
-        <!-- <kendo-floatinglabel [text]="'programs.program_code' | transloco">
+        <!-- <kendo-label [text]="'programs.program_code' | transloco">
           <kendo-textbox />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.form' | transloco">
+        <kendo-label [text]="'programs.form' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.program_duration' | transloco">
+        <kendo-label [text]="'programs.program_duration' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.integrated' | transloco">
+        <kendo-label [text]="'programs.integrated' | transloco">
           <kendo-textbox />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.financing' | transloco">
+        <kendo-label [text]="'programs.financing' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.partner_organizations' | transloco">
+        <kendo-label [text]="'programs.partner_organizations' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.partner_economy_sector' | transloco">
+        <kendo-label [text]="'programs.partner_economy_sector' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.partner_organization_size' | transloco">
+        <kendo-label [text]="'programs.partner_organization_size' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.region' | transloco">
+        <kendo-label [text]="'programs.region' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel>
+        </kendo-label>
 
-        <kendo-floatinglabel [text]="'programs.district' | transloco">
+        <kendo-label [text]="'programs.district' | transloco">
           <kendo-dropdownlist />
-        </kendo-floatinglabel> -->
+        </kendo-label> -->
       </div>
     </div>
   </form>
