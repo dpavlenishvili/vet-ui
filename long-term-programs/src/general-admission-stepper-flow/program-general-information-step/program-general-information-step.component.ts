@@ -1,17 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { AsyncPipe } from '@angular/common';
 import { GeneralsService } from '@vet/backend';
-import { FileUploadComponent, kendoIcons, UploadedFile } from '@vet/shared';
-import { map, Observable } from 'rxjs';
+import { FileUploadComponent, InfoComponent, kendoIcons, UploadedFile } from '@vet/shared';
+import { map, take, tap } from 'rxjs';
 import { CustomAuthService } from '@vet/auth';
 import { DialogRef, DialogService } from '@progress/kendo-angular-dialog';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 export type ProgramGeneralInformationStepFormGroup = FormGroup;
 
@@ -29,58 +30,62 @@ export type ProgramGeneralInformationStepFormGroup = FormGroup;
     AsyncPipe,
     FileUploadComponent,
     FormsModule,
+    InfoComponent,
   ],
   templateUrl: './program-general-information-step.component.html',
   styleUrl: './program-general-information-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class ProgramGeneralInformationStepComponent {
+export class ProgramGeneralInformationStepComponent implements OnInit {
   nextClick = output();
 
   form = input<ProgramGeneralInformationStepFormGroup>();
-  kendoIcons = kendoIcons;
-
+  isSpecEnvEnabled = signal(false);
+  isAbroadEnabled = signal(false);
+  isOcuEnabled = signal(false);
+  invalidStudentStatus = signal(false);
   tokenUser$ = inject(CustomAuthService).tokenUser$;
 
-  isSpecEnvEnabled = computed(() => {
-    console.log(this.form()?.get('spec_env')?.getRawValue())
-    return this.form()?.get('spec_env')?.getRawValue().length > 0;
-  });
-  isAbroadEnabled = computed(() => {
-    if (this.tokenUser$()?.residential !== 'GEO') {
-      return this.form()?.get('complete_edu_abroad')?.getRawValue();
-    } else {
-      return this.form()?.get('ocu_doc')?.getRawValue().length > 0;
-    }
-  });
-  isOcuEnabled = computed(() => {
-    if (this.tokenUser$()?.residential !== 'GEO') {
-      return this.form()?.get('complete_base_edu_abroad')?.getRawValue();
-    } else {
-      return this.form()?.get('abroad_doc')?.getRawValue().length > 0;
-    }
-  });
-
-  specEnvs = ['ლიფტი, პანდუსი', 'საგამოცდო დროის გაზრდა', 'ტესტის შრიფტის გაზრდა'];
-
+  kendoIcons = kendoIcons;
+  specEnvs = signal(['programs.elevatorRamp', 'programs.testTimeExtension', 'programs.testFontSizeIncrease']);
   generalsService = inject(GeneralsService);
   dialogService = inject(DialogService);
+  translocoService = inject(TranslocoService);
 
-  educations$ = this.generalsService.getAllConfigs({ key: 'education_levels' }).pipe(
-    map((res) => {
-      return res.education_levels;
-    }),
-  );
-  cities$: Observable<{ id?: number; name?: string; name_ka?: string }[] | undefined> = this.generalsService
-    .getDistrictsList()
-    .pipe(map((res) => res.data));
-  languages$ = this.generalsService.getAllConfigs({ key: 'languages' }).pipe(map((res) => res.languages));
+  educations$ = rxResource({
+    request: () => ({ key: 'education_levels' }),
+    loader: ({ request: { key } }) =>
+      this.generalsService.getAllConfigs({ key: key }).pipe(
+        tap(() => {
+          const educationLevel = this.form()?.get('education_level')?.getRawValue();
+          const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
+          this.invalidStudentStatus.set(!(educationLevel && educationLevelId));
+        }),
+        map((res) => {
+          const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
+          console.log(educationLevelId);
+          if (res.education_levels && educationLevelId) {
+            console.log(educationLevelId);
+            return res.education_levels.filter((item) => Number(item.id) >= Number(educationLevelId));
+          }
+          return res.education_levels;
+        }),
+      ),
+  });
+  cities$ = rxResource({
+    request: () => ({}),
+    loader: () => this.generalsService.getDistrictsList().pipe(map((res) => res.data)),
+  });
+  languages$ = rxResource({
+    request: () => ({ key: 'languages' }),
+    loader: ({ request: { key } }) =>
+      this.generalsService.getAllConfigs({ key: key }).pipe(map((res) => res.languages)),
+  });
 
   onNextClick() {
     this.form()?.markAllAsTouched();
     if (this.form()?.valid) {
-      console.log(this.form()?.value);
       this.nextClick.emit();
     }
   }
@@ -89,46 +94,86 @@ export class ProgramGeneralInformationStepComponent {
     this.form()?.get(abroadKey)?.patchValue(files);
   }
 
-  toggleSwitcher(event: Event, abroadKey: string) {
+  handleRemoveFile(files: UploadedFile[], abroadKey: string) {
+    this.form()?.get(abroadKey)?.reset([]);
+  }
+
+  toggleSwitcher(event: boolean, key: string) {
     if (this.tokenUser$()?.residential !== 'GEO') {
-      this.form()?.get(abroadKey)?.patchValue(event);
+      this.form()?.get(key)?.patchValue(event);
+    } else {
+      if (!event) {
+        this.form()?.get(key)?.reset([]);
+      }
     }
   }
 
-  onSpecEnvChange(event: any, specEnv: string) {
+  onSpecEnvChange(checked: boolean, specEnv: string) {
     const specEnvControl = this.form()?.get('spec_env');
+
     if (!specEnvControl) return;
 
     const currentValue = specEnvControl.value || [];
 
-    if (event.target.checked) {
+    if (checked) {
       specEnvControl.setValue([...currentValue, specEnv]);
     } else {
       specEnvControl.setValue(currentValue.filter((item: string) => item !== specEnv));
     }
   }
 
-  districtChange(event: Event) {
+  districtChange() {
     const dialog: DialogRef = this.dialogService.open({
-      title: 'საგამოცდო ქალაქი',
-      content:
-        'გაითვალისწინეთ, რომ ცენტრის მიერ ორგანიზებული ტესტირების შემთხვევაში, ცენტრი იტოვებს შესაძლებლობას ტესტირების მიზნით, აპლიკანტი გადაანაწილოს სხვა საგამოცდო ქალაქში/მუნიციპალიტეტში.',
-      actions: [{ text: 'გავეცანი', themeColor: 'primary' }],
+      title: this.translocoService.translate('shared.testCity'),
+      content: this.translocoService.translate('programs.testReallocationNote'),
+      actions: [{ text: this.translocoService.translate('shared.met'), themeColor: 'primary' }],
       width: 400,
     });
 
     dialog.result.subscribe();
   }
 
-  languageChange(event: Event) {
+  languageChange() {
     const dialog: DialogRef = this.dialogService.open({
-      title: 'ტესტირების ენა',
-      content:
-        'გაითვალისწინეთ, რომ რუსული, აზერბაიჯანული ან სომხური ენის არჩევის შემთხვევაში, პროგრამაზე სწავლებას დაიწყებთ ქართული ენის მოდულით',
-      actions: [{ text: 'გავეცანი', themeColor: 'primary' }],
+      title: this.translocoService.translate('shared.testLanguage'),
+      content: this.translocoService.translate('programs.georgianModuleNote'),
+      actions: [{ text: this.translocoService.translate('shared.met'), themeColor: 'primary' }],
       width: 400,
     });
 
     dialog.result.subscribe();
+  }
+
+  onSpecEnvSwitchChange(checked: boolean) {
+    const specEnvControl = this.form()?.get('spec_env');
+
+    if (!specEnvControl) return;
+
+    if (checked) {
+      specEnvControl?.setValidators(Validators.required);
+      specEnvControl.updateValueAndValidity();
+    } else {
+      specEnvControl.reset([]);
+      specEnvControl?.removeValidators(Validators.required);
+    }
+    specEnvControl.updateValueAndValidity();
+  }
+
+  ngOnInit(): void {
+    this.form()
+      ?.valueChanges.pipe(
+        tap((value) => {
+          this.isSpecEnvEnabled.set(value.spec_env.length > 0);
+          if (this.tokenUser$()?.residential !== 'GEO') {
+            this.isAbroadEnabled.set(value?.complete_edu_abroad);
+            this.isOcuEnabled.set(value?.complete_base_edu_abroad);
+          } else {
+            this.isAbroadEnabled.set(value?.abroad_doc.length > 0);
+            this.isOcuEnabled.set(value?.ocu_doc.length > 0);
+          }
+        }),
+        take(1),
+      )
+      .subscribe();
   }
 }

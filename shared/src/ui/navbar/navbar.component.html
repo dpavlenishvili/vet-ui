@@ -23,7 +23,7 @@
       </ul>
       <div class="k-display-flex k-align-items-center">
         <div class="k-display-flex k-align-items-center">
-          <button kendoButton [svgIcon]="vetIcons.searchSmall" fillMode="flat" ></button>
+          <button kendoButton [svgIcon]="vetIcons.searchSmall" fillMode="flat"></button>
           <button
             kendoButton
             fillMode="flat"
@@ -112,7 +112,7 @@
             class="v-ui-navbar__profile-card"
             (click)="$event.stopPropagation()"
           >
-            @for (role of roles$ | async; track role.name; let i = $index) {
+            @for (role of roles(); track role.name; let i = $index) {
               @if (i === 0) {
                 <div class="profile-card__header" [routerLink]="'user-profile'">
                   @if (user.photo) {
@@ -125,7 +125,7 @@
               } @else {
                 <div class="profile-card__item">
                   <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon"></kendo-svg-icon>
-                  {{role.name}}
+                  {{ role.name }}
                 </div>
               }
             }

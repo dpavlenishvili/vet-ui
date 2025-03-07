@@ -1,7 +1,7 @@
-import { computed, inject, Injectable, type Signal, signal } from '@angular/core';
+import { computed, inject, Injectable, type Signal, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
-import { finalize, map, Observable, of, tap, throwError } from 'rxjs';
+import { finalize, map, Observable, of, tap } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AuthService as AuthApiService, type User, type UserLoginResponseBody } from '@vet/backend';
 
@@ -15,6 +15,7 @@ export class CustomAuthService {
   accessToken$: Signal<string | null>;
   refreshToken$: Signal<string | null>;
   tokenUser$: Signal<User | null>;
+  userRole$: WritableSignal<string> = signal('Default User');
   authenticated$ = computed(() => !!this.tokenUser$());
 
   protected _tokenUser$ = signal<User | null>(null);

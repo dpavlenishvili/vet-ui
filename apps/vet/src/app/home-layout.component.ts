@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AppFooterComponent } from './app-footer/app-footer.component';
-import { BreadcrumbComponent, NavbarComponent } from '@vet/shared';
+import { NavbarComponent } from '@vet/shared';
 import { RouterOutlet } from '@angular/router';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
 
@@ -9,11 +9,11 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
   imports: [AppFooterComponent, NavbarComponent, RouterOutlet],
   template: `
     <header>
-      <vet-ui-navbar [pages]="pages$()"/>
+      <vet-ui-navbar [pages]="pages$()" />
     </header>
 
     <main class="main-container">
-      <div class="router-container">
+      <div class="router-container k-mt-14">
         <router-outlet />
       </div>
     </main>
@@ -26,7 +26,7 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        --main-bg: #FFFFFF;
+        --main-bg: #ffffff;
       }
 
       .main-container {

@@ -1,4 +1,4 @@
-<div class="k-display-flex k-flex-column k-mt-14 k-gap-20">
+<div class="k-display-flex k-flex-column k-gap-20">
   @if(!authenticated()) {
     <section class="k-display-flex k-justify-content-center">
       <div class="k-width-desktop k-px-20">
@@ -9,7 +9,7 @@
 
   <section class="k-display-flex k-justify-content-center">
     <div class="k-width-desktop k-px-20">
-      <vet-services />
+      <vet-services [showTitle]="!authenticated()"/>
     </div>
   </section>
 

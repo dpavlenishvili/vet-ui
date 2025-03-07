@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal, WritableSignal } from '@angular/core';
 import { KENDO_UPLOAD } from '@progress/kendo-angular-upload';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { UploadedFile } from '../../shared.types';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgForOf } from '@angular/common';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { useBaseUrl } from '../../shared.injectors';
 
 @Component({
   selector: 'vet-file-upload',
@@ -12,16 +14,22 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./file-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [KENDO_UPLOAD, KENDO_BUTTON, SVGIconComponent],
+  imports: [KENDO_UPLOAD, KENDO_BUTTON, SVGIconComponent, TranslocoPipe, NgForOf],
 })
 export class FileUploadComponent {
+  title = input('');
+  docs = input([]);
   uploadedFiles: WritableSignal<UploadedFile[]> = signal([]);
   errorMessage: WritableSignal<string | null> = signal(null);
   fileUploaded = output<UploadedFile[]>();
+  fileRemoved = output<UploadedFile[]>();
   kendoIcons = kendoIcons;
   allowedExtensions = signal(['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'heic']);
   maxFiles = signal(2);
   document = inject(DOCUMENT);
+  translocoService = inject(TranslocoService);
+
+  baseUrl = `${useBaseUrl()}/download?file=`;
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -30,7 +38,7 @@ export class FileUploadComponent {
       const currentFiles = this.uploadedFiles();
 
       if (currentFiles.length >= this.maxFiles()) {
-        this.errorMessage.set('მაქსიმუმ 2 ფაილი შეიძლება ატვირთოთ.');
+        this.errorMessage.set(this.translocoService.translate('shared.maxFilesUploadError'));
         this.clearErrorAfterDelay();
         return;
       }
@@ -38,7 +46,7 @@ export class FileUploadComponent {
       const remainingSlots = this.maxFiles() - currentFiles.length;
       if (files.length > remainingSlots) {
         this.errorMessage.set(
-          `შეყვანილი ფაილების რაოდენობა იზიდავს, შეგიძლიათ მხოლოდ ${remainingSlots} მეტი ფაილი ატვირთოთ.`,
+          this.translocoService.translate('shared.exceedFileLimitError', { remaining: remainingSlots }),
         );
       }
       const filesToProcess = files.slice(0, remainingSlots);
@@ -46,7 +54,8 @@ export class FileUploadComponent {
       filesToProcess.forEach((file) => {
         const fileExt = file.name.split('.').pop()?.toLowerCase();
         if (!fileExt || !this.allowedExtensions().includes(fileExt)) {
-          this.errorMessage.set(`ფაილის ტიპი არ არის დებულებული: ${file.name}`);
+          const fileName = file.name;
+          this.errorMessage.set(this.translocoService.translate('shared.invalidFileTypeError', { fileName }));
           this.clearErrorAfterDelay();
           return;
         }
@@ -64,7 +73,7 @@ export class FileUploadComponent {
 
   removeFile(fileToRemove: UploadedFile): void {
     this.uploadedFiles.update((files) => files.filter((file) => file.filename !== fileToRemove.filename));
-    this.fileUploaded.emit(this.uploadedFiles());
+    this.fileRemoved.emit(this.uploadedFiles());
   }
 
   downloadFile(file: UploadedFile): void {
@@ -74,6 +83,15 @@ export class FileUploadComponent {
     this.document.body.appendChild(link);
     link.click();
     this.document.body.removeChild(link);
+  }
+
+  downloadExistingFile(doc: string): void {
+    console.log(this.docs());
+    const docPath = doc;
+    const encodedDoc = docPath.charAt(0) + encodeURIComponent(docPath.substring(1));
+    const downloadUrl = `${this.baseUrl}${encodedDoc}`;
+
+    window.open(downloadUrl, '_blank');
   }
 
   private clearErrorAfterDelay() {

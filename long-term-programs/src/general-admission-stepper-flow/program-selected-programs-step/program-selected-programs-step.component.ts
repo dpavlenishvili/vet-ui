@@ -34,6 +34,7 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
   templateUrl: './program-selected-programs-step.component.html',
   styleUrl: './program-selected-programs-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class ProgramSelectedProgramsStepComponent {
   nextClick = output();

@@ -1,5 +1,6 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
   DestroyRef,
@@ -8,21 +9,21 @@ import {
   OnInit,
   signal,
   TemplateRef,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT, StepperActivateEvent } from '@progress/kendo-angular-layout';
 import { ProgramGeneralInformationStepComponent } from './program-general-information-step/program-general-information-step.component';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { ProgramSelectionStepComponent } from './program-selection-step/program-selection-step.component';
 import { ProgramSelectedProgramsStepComponent } from './program-selected-programs-step/program-selected-programs-step.component';
 import { ProgramConfirmationStepComponent } from './program-confirmation-step/program-confirmation-step.component';
 import { NgTemplateOutlet } from '@angular/common';
 import { ProgramSsmStepComponent } from './program-ssm-step/program-ssm-step.component';
-import { AdmissionRes, AdmissionService, AdmissionsRes } from '@vet/backend';
+import { AdmissionPrograms, AdmissionRes, AdmissionService, AdmissionsRes } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
-import { DialogRef, DialogService } from '@progress/kendo-angular-dialog';
+import { of, switchMap, tap } from 'rxjs';
+import { DialogRef, DialogResult, DialogService } from '@progress/kendo-angular-dialog';
 import { Router } from '@angular/router';
 import { CustomAuthService } from '@vet/auth';
 
@@ -87,12 +88,11 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
       template: this._programConfirmationStepTmpl(),
     },
   ]);
+
   private _programGeneralInformationStepTmpl = viewChild.required('programGeneralInformationStepTmpl', {
     read: TemplateRef,
   });
-  private _programSsmStepTmpl = viewChild.required('programSsmStepTmpl', {
-    read: TemplateRef,
-  });
+  private _programSsmStepTmpl = viewChild.required('programSsmStepTmpl', { read: TemplateRef });
   private _programSelectionStepTmpl = viewChild.required('programSelectionStepTmpl', { read: TemplateRef });
   private _programSelectedProgramsStepTmpl = viewChild.required('programSelectedProgramsStepTmpl', {
     read: TemplateRef,
@@ -102,17 +102,26 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   private dialogService = inject(DialogService);
   private router = inject(Router);
   private admissionService = inject(AdmissionService);
-  tokenUser$ = inject(CustomAuthService).tokenUser$;
+  private translocoService = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
+  private cdr = inject(ChangeDetectorRef);
+  private authService = inject(CustomAuthService);
+
+  tokenUser$ = this.authService.tokenUser$;
+  userRole$ = this.authService.userRole$;
+
   createFormGroup = computed(() => {
     const generalInformationControls: { [key: string]: FormControl } = {
-      education: new FormControl('', Validators.required),
+      education: new FormControl(null, Validators.required),
       district_id: new FormControl(null, Validators.required),
-      language: new FormControl('', Validators.required),
+      language: new FormControl(null, Validators.required),
       doc: new FormControl([]),
-      spec_env: new FormControl([], Validators.required),
+      spec_env: new FormControl([]),
       abroad_doc: new FormControl([]),
       ocu_doc: new FormControl([]),
       program_ids: new FormControl([]),
+      education_level: new FormControl(),
+      education_level_id: new FormControl(),
     };
 
     if (this.tokenUser$()?.residential !== 'GEO') {
@@ -144,14 +153,12 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
       }),
     });
   });
+
   protected readonly formGroup = this.createFormGroup();
-  private destroyRef = inject(DestroyRef);
-  private cdr = inject(ChangeDetectorRef);
 
   protected isStepValid(stepIndex: number): boolean {
     const step = this.steps()[stepIndex];
-
-    return step && !!step.form()?.valid;
+    return !!(step && step.form()?.valid);
   }
 
   protected onStepChange(event: StepperActivateEvent) {
@@ -171,22 +178,19 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   protected onNextClick(formGroupName: string) {
     if (this.isStepValid(this.currentStepIndex())) {
       let value = this.formGroup.get(formGroupName)?.getRawValue();
-      if (this.currentStepIndex() === this.steps.length - 1) {
-        value = {
-          ...value,
-          status: 'registered',
-        };
+      if (this.currentStepIndex() === this.steps().length - 1) {
+        value = { ...value, status: 'registered' };
       }
       if (this.admissionId()) {
-        console.log('test');
         this.admissionService.editAdmission(this.admissionId() as string, value).subscribe();
       } else {
         this.admissionService
           .admission(value)
           .pipe(
             tap((res: AdmissionRes) => {
-              this.router.navigate(['/update-admission', res.data?.id]);
+              this.router.navigate(['long-term-programs', 'update-admission', res.data?.id]);
             }),
+            takeUntilDestroyed(this.destroyRef),
           )
           .subscribe();
       }
@@ -195,69 +199,106 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.admissionService.admissionList({
-      role: 'Default User',
-      number: this.admissionId(),
-    }).pipe(
-      tap((res: AdmissionsRes) => {
-        console.log(res);
-        console.log(res.data?.[0]?.programs ? res.data?.[0]?.programs.filter(p => p?.program?.program_id) : []);
+    if (this.admissionId()) {
+      this.admissionService
+        .admissionList({
+          role: this.userRole$(),
+          number: this.admissionId(),
+        })
+        .pipe(
+          tap((res: AdmissionsRes) => {
+            const admissionData = res.data?.[0];
+            if (!admissionData) {
+              return;
+            }
+            const filteredPrograms = (data: AdmissionPrograms[] | undefined) =>
+              data ? data.filter((p) => p?.program?.program_id) : [];
+            console.log(admissionData);
+            const patchValue = {
+              general_information: {
+                education: admissionData.education,
+                district_id: admissionData.district_id,
+                language: admissionData.language,
+                spec_env: admissionData.spec_env || [],
+                program_ids: filteredPrograms(admissionData.programs),
+                doc: admissionData.doc,
+                abroad_doc: admissionData.abroad_doc,
+                ocu_doc: admissionData.ocu_doc,
+                education_level: admissionData.education_level,
+                education_level_id: admissionData.education_level_id,
+              },
+              ssm_status: {
+                spec_edu: admissionData.spec_edu,
+                e_name: admissionData.e_name,
+                e_lastname: admissionData.e_lastname,
+                e_email: admissionData.e_email,
+                e_phone: admissionData.e_phone,
+                spe_description: admissionData.spe_description,
+                program_ids: filteredPrograms(admissionData.programs),
+                language: admissionData.language && admissionData.language !== '0' ? admissionData.language : '',
+              },
+              program_selection: {
+                program_ids: filteredPrograms(admissionData.programs),
+              },
+              selected_programs: {
+                program_ids: filteredPrograms(admissionData.programs),
+              },
+            };
 
-        const patchValue: any = {
-          general_information: {
-            education: res.data?.[0]?.education,
-            district_id: res.data?.[0].district_id,
-            language: res.data?.[0].language,
-            spec_env: res.data?.[0].spec_env ? res.data?.[0].spec_env : [],
-            program_ids: res.data?.[0]?.programs ? res.data?.[0]?.programs.filter(p => p?.program?.program_id) : [],
-          },
-          ssm_status: {
-            spec_edu: res.data?.[0].spec_edu,
-            e_name: res.data?.[0].e_name,
-            e_lastname: res.data?.[0].e_lastname,
-            e_email: res.data?.[0].e_email,
-            e_phone: res.data?.[0].e_phone,
-            spe_description: res.data?.[0].spe_description,
-            program_ids: res.data?.[0]?.programs ? res.data?.[0]?.programs.filter(p => p?.program?.program_id) : [],
-            language: res.data?.[0].language && res.data?.[0].language !== '0' ? res.data?.[0].language : '',
-          },
-          program_selection: {
-            program_ids: res.data?.[0]?.programs ? res.data?.[0]?.programs.filter(p => p?.program?.program_id) : [],
-          },
-          selected_programs: {
-            program_ids: res.data?.[0]?.programs ? res.data?.[0]?.programs.filter(p => p?.program?.program_id) : [],
-          },
-        };
-
-        this.formGroup.patchValue(patchValue);
-        this.formGroup.updateValueAndValidity();
-        this.cdr.detectChanges();
-
-      })
-    ).subscribe();
-    this.admissionService
-      .studentStatus()
-      .pipe(
-        tap((res) => {
-          if (!res.is_eligible) {
-            const dialog: DialogRef = this.dialogService.open({
-              title: '',
-              content: 'თქვენ უკვე ჩარიცხული ხართ სხვა პროგრამაზე',
-              actions: [{ text: 'გავეცანი', themeColor: 'primary' }],
-            });
-
-            dialog.result.subscribe((result) => {
-              if (result) {
-                this.router.navigate(['/home']);
-              }
-            });
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            this.formGroup.patchValue(patchValue);
+            this.formGroup.updateValueAndValidity();
+            this.cdr.detectChanges();
+          }),
+          switchMap((res: AdmissionsRes) => {
+            console.log(res);
+            if (!(res.data?.[0]?.education_level && res.data?.[0]?.education_level_id)) {
+              return this.admissionService.educationStatus().pipe(
+                tap((res: { level?: string; levelId?: number }) => {
+                  this.formGroup.get('general_information')?.patchValue({
+                    education_level: res.level,
+                    education_level_id: res.levelId,
+                  });
+                }),
+                takeUntilDestroyed(this.destroyRef),
+              );
+            } else {
+              return of(null);
+            }
+          }),
+          takeUntilDestroyed(this.destroyRef),
+        )
+        .subscribe();
+    } else {
+      this.admissionService
+        .studentStatus()
+        .pipe(
+          tap((res) => {
+            if (!res.is_eligible) {
+              const dialog: DialogRef = this.dialogService.open({
+                title: '',
+                content: this.translocoService.translate('shared.alreadyEnrolled'),
+                actions: [{ text: this.translocoService.translate('shared.met'), themeColor: 'primary' }],
+                preventAction: (ev: DialogResult) => {
+                  if ('text' in ev) {
+                    return !ev.text;
+                  }
+                  return true;
+                },
+              });
+              dialog.result.subscribe((result) => {
+                if (result) {
+                  this.router.navigate(['long-term-programs', 'list']);
+                }
+              });
+            }
+          }),
+          takeUntilDestroyed(this.destroyRef),
+        )
+        .subscribe();
+    }
   }
 
-  onSubmit() {
-  }
+  onSubmit() {}
 }

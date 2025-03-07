@@ -30,6 +30,7 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
   templateUrl: './program-selected-programs.component.html',
   styleUrl: './program-selected-programs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class ProgramSelectedProgramsComponent {
   admissionId = input<string | null>();

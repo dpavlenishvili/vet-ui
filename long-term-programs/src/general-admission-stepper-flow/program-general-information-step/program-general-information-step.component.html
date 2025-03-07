@@ -3,96 +3,98 @@
     <form [formGroup]="form">
       <div class="container">
         <div class="top-section">
-          <kendo-formfield>
-            <kendo-floatinglabel [text]="'განათლება'">
-              <kendo-dropdownlist
-                [data]="educations$ | async"
-                textField="value"
-                valueField="id"
-                formControlName="education"
-                [valuePrimitive]="true"
-              />
-            </kendo-floatinglabel>
-          </kendo-formfield>
-          <kendo-formfield>
-            <kendo-floatinglabel [text]="'საგამოცდო ქალაქი'">
-              <kendo-dropdownlist
-                [data]="cities$ | async"
-                textField="name"
-                valueField="id"
-                formControlName="district_id"
-                [valuePrimitive]="true"
-                (valueChange)="districtChange($event)"
-              />
-            </kendo-floatinglabel>
-          </kendo-formfield>
-          <kendo-formfield>
-            <kendo-floatinglabel [text]="'ტესტირების ენა'">
-              <kendo-dropdownlist
-                [data]="languages$ | async"
-                textField="value"
-                valueField="id"
-                formControlName="language"
-                [valuePrimitive]="true"
-                (valueChange)="languageChange($event)"
-              />
-            </kendo-floatinglabel>
-          </kendo-formfield>
+          <div class="k-d-flex k-gap-4">
+            <kendo-formfield>
+              <kendo-floatinglabel [text]="'shared.education' | transloco">
+                <kendo-dropdownlist
+                  [data]="educations$.value()"
+                  textField="value"
+                  valueField="id"
+                  formControlName="education"
+                />
+              </kendo-floatinglabel>
+            </kendo-formfield>
+            <kendo-formfield>
+              <kendo-floatinglabel [text]="'shared.testCity' | transloco">
+                <kendo-dropdownlist
+                  [data]="cities$.value()"
+                  textField="name"
+                  valueField="id"
+                  formControlName="district_id"
+                  (valueChange)="districtChange()"
+                />
+              </kendo-floatinglabel>
+            </kendo-formfield>
+            <kendo-formfield>
+              <kendo-floatinglabel [text]="'shared.testLanguage' | transloco">
+                <kendo-dropdownlist
+                  [data]="languages$.value()"
+                  textField="value"
+                  valueField="id"
+                  formControlName="language"
+                  (valueChange)="languageChange()"
+                />
+              </kendo-floatinglabel>
+            </kendo-formfield>
+          </div>
+          <div class="k-mt-3">
+            <vet-file-upload [title]="'programs.uploadEducationDocument'"
+                             [docs]="form?.get('doc')?.getRawValue()"
+                             (fileUploaded)="handleFileUpload($event, 'doc')"
+                             (fileRemoved)="handleRemoveFile($event, 'doc')" />
+          </div>
         </div>
-
         <div class="section">
           <div class="title">
-            <span>ტესტირება/შერჩევის პროცესისთვის გესაჭიროებათ თუ არა ადაპტირებული გარემო ?</span>
-            <kendo-switch [onLabel]="'დიახ'" [offLabel]="'არა'" [checked]="isSpecEnvEnabled()" #specEnvSwitch />
+            <span>{{ 'programs.needAdaptedEnvironment' | transloco }}</span>
+            <kendo-switch [onLabel]="'shared.yes' | transloco" [offLabel]="'shared.no' | transloco"
+                          [checked]="isSpecEnvEnabled()" (valueChange)="onSpecEnvSwitchChange($event)" #specEnvSwitch />
           </div>
           @if (specEnvSwitch.checked) {
             <div class="checkbox-selection-container">
-              @for (specEnv of specEnvs; track specEnv) {
+              @for (specEnv of specEnvs(); track specEnv) {
                 <div>
                   <input
                     type="checkbox"
                     kendoCheckBox
+                    #specEnvCheckBox
                     [checked]="form?.get('spec_env')?.value.includes(specEnv)"
-                    (change)="onSpecEnvChange($event, specEnv)"
+                    (change)="onSpecEnvChange(specEnvCheckBox.checked, specEnv)"
                   />
-                  <kendo-label class="k-checkbox-label" [text]="specEnv" />
+                  <kendo-label class="k-checkbox-label" [for]="specEnvCheckBox" [text]="specEnv | transloco" />
                   @if (form.invalid && !form.untouched && specEnvSwitch.checked && form?.get('spec_env')?.value?.length === 0) {
-                    <kendo-formerror>ველი სავალდებულოა</kendo-formerror>
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
                   }
                 </div>
               }
             </div>
           }
-          @if (form.invalid && !form?.get('spec_env')?.untouched && form?.get('spec_env')?.value.length === 0 && !specEnvSwitch.checked) {
-            <kendo-formerror>ველი სავალდებულოა</kendo-formerror>
-          }
         </div>
 
         <div class="section">
           <div class="title">
             <span>
               @if (tokenUser$()?.residential === 'GEO') {
-                დაასრულეთ თუ არა უცხო ქვეყნის ზოგადი საგანმანათლებლო დაწესებულება მიმდინარე ან წინა წელს ?
+                {{ 'programs.completedForeignGeneralEducation' | transloco }}
               } @else {
-                უცხოეთში მცხოვრები თანამემამულის სტატუსის მქონე ქვეყნის მოქალაქე
+                {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
               }
             </span>
             <kendo-switch
-              [onLabel]="'დიახ'"
-              [offLabel]="'არა'"
+              [onLabel]="'shared.yes' | transloco"
+              [offLabel]="'shared.no' | transloco"
               [disabled]="abroadSwitch.checked"
               #ocuSwitch
-              (valueChange)="toggleSwitcher($event, 'complete_edu_abroad')"
+              (valueChange)="toggleSwitcher($event, tokenUser$()?.residential === 'GEO' ? 'abroad_doc' : 'complete_edu_abroad')"
               [checked]="isAbroadEnabled()"
             />
           </div>
           @if (ocuSwitch.checked && !abroadSwitch.checked) {
-            <div class="warning">
-              <kendo-svg-icon [icon]="kendoIcons.infoCircleIcon" size="xxlarge" />
-              გთხოვთ არ მონიშნოთ “დიახ” თუ ასეთი სტატუსი არ გაგაჩნიათ, წინააღმდეგ შემთხვევაში დაწესებულებაში თქვენი
-              ჩარიცხვა ვერ განხორციელდება!
-            </div>
-            <vet-file-upload (fileUploaded)="handleFileUpload($event, 'abroad_doc')" />
+            <vet-info variant="warning">
+              {{ 'programs.switchWarning' | transloco }}
+            </vet-info>
+            <vet-file-upload [title]="'programs.uploadEducationDocument'"
+                             (fileUploaded)="handleFileUpload($event, 'abroad_doc')" />
           }
         </div>
 
@@ -100,27 +102,26 @@
           <div class="title">
             <span>
               @if (tokenUser$()?.residential === 'GEO') {
-                დაასრულეთ თუ არა ზოგადი განათლების საშუალო საფეხური ოკუპირებულ ტერიტორიაზე მიმდინარე ან წინა წელს ?
+                {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
               } @else {
-                თავშესაფრის მაძიებელი, ლტოლვილი ან ჰუმანიტარული სტატუსის მქონე პირი
+                {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
               }
             </span>
             <kendo-switch
-              [onLabel]="'დიახ'"
-              [offLabel]="'არა'"
+              [onLabel]="'shared.yes' | transloco"
+              [offLabel]="'shared.no' | transloco"
               [disabled]="ocuSwitch.checked"
               #abroadSwitch
-              (valueChange)="toggleSwitcher($event, 'complete_base_edu_abroad')"
+              (valueChange)="toggleSwitcher($event, tokenUser$()?.residential === 'GEO' ? 'ocu_doc' : 'complete_base_edu_abroad')"
               [checked]="isOcuEnabled()"
             />
           </div>
           @if (abroadSwitch.checked && !ocuSwitch.checked) {
-            <div class="warning">
-              <kendo-svg-icon [icon]="kendoIcons.infoCircleIcon" size="xxlarge" />
-              გთხოვთ არ მონიშნოთ “დიახ” თუ ასეთი სტატუსი არ გაგაჩნიათ, წინააღმდეგ შემთხვევაში დაწესებულებაში თქვენი
-              ჩარიცხვა ვერ განხორციელდება!
-            </div>
-            <vet-file-upload (fileUploaded)="handleFileUpload($event, 'ocu_doc')" />
+            <vet-info variant="warning">
+              {{ 'programs.switchWarning' | transloco }}
+            </vet-info>
+            <vet-file-upload [title]="'programs.uploadEducationDocument'"
+                             (fileUploaded)="handleFileUpload($event, 'ocu_doc')" />
           }
         </div>
       </div>

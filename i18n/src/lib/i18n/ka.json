@@ -11,11 +11,9 @@
     "personCouldNotBeIdentified": "მონაცემები არასწორია",
     "georgianLetters": "შეავსეთ მონაცემი ქართულად"
   },
-
   "app": {
     "logo_text": "პროფესიული განათლების პორტალი"
   },
-
   "shared": {
     "home": "მთავარი",
     "professional_programs": "პროფესიული პროგრამები",
@@ -53,9 +51,23 @@
     "please_fill_field": "გთხოვთ შეავსოთ ველი",
     "no": "არა",
     "yes": "დიახ",
-    "loading": "იტვირთება..."
+    "loading": "იტვირთება...",
+    "education": "განათლება",
+    "testCity": "საგამოცდო ქალაქი",
+    "testLanguage": "ტესტირების ენა",
+    "uploadedFilesCount": "ატვირთული ფაილები ({{count}}/2)",
+    "selectFileSupportedTypes": "(ფორმატები: pdf, doc, docx, png, jpg, jpeg, heic)",
+    "maxFilesUploadError": "მაქსიმუმ 2 ფაილი შეიძლება ატვირთოთ.",
+    "exceedFileLimitError": "შეყვანილი ფაილების რაოდენობა იზიდავს, შეგიძლიათ მხოლოდ {{remaining}} მეტი ფაილი ატვირთოთ.",
+    "invalidFileTypeError": "ფაილის ტიპი არ არის დებულებული: {{fileName}}",
+    "met": "გავეცანი",
+    "alreadyEnrolled": "თქვენ უკვე ჩარიცხული ხართ სხვა პროგრამაზე",
+    "requestId": "განაცხადი ID",
+    "search": "ძებნა",
+    "status": "სტატუსი",
+    "dateFromTo": "თარიღი - დან/მდე",
+    "registration": "რეგისტრაცია"
   },
-
   "auth": {
     "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
     "other_citizen": "სხვა",
@@ -109,7 +121,6 @@
     "continue_authorization": "განაგრძეთ ავტორიზაცია",
     "previous": "უკან დაბრუნება"
   },
-
   "contact": {
     "title": "დაგვიკავშირდით",
     "address": "1 გურამ ფანჯიკიძის ქუჩა, თბილისი",
@@ -119,12 +130,17 @@
   "copyright": {
     "emis": "სსიპ განათლების მართვის საინფორმაციო სისტემა"
   },
-
   "home": {
     "services": "სერვისები",
-    "partners": "პარტნიორები"
+    "partners": "პარტნიორები",
+    "professionalPrograms": "პროფესიული პროგრამები",
+    "trainingPrograms": "მომზადება/გადამზადების პროგრამები",
+    "informalEducation": "არაფორმალური განათლების აღიარება",
+    "orientationService": "საორიენტაციო სერვისი",
+    "governmentLanguageTrainingPrograms": "სახელმწიფო ენის მომზადების პროგრამები",
+    "teacherTrainingPrograms": "მასწავლებელთა გადამზადების პროგრამები",
+    "collegeEmployment": "კოლეჯში დასაქმება"
   },
-
   "programs": {
     "field": "სფერო",
     "program_code": "პროგრამის კოდი",
@@ -245,9 +261,23 @@
     "ssm_disclaimer_item_4": "შესაბამისი სპეციალისტის მიერ გაცემული სამედიცინო ცნობა, ქცევითი და ემოციური აშლილობის არსებობის თაობაზე;",
     "ssm_disclaimer_item_5": "შეზღუდული შესაძლებლობის მქონე პირის სტატუსის დამადასტურებელ დოკუმენტი (ასეთის არსებობის შემთხვევაში).",
     "other": "სხვა",
-    "enter_language": "ჩაწერეთ ენა"
+    "enter_language": "ჩაწერეთ ენა",
+    "completedForeignGeneralEducation": "დაასრულეთ თუ არა უცხო ქვეყნის ზოგადი საგანმანათლებლო დაწესებულება მიმდინარე ან წინა წელს ?",
+    "citizenOfCountryWithFamilyAbroad": "უცხოეთში მცხოვრები თანამემამულის სტატუსის მქონე ქვეყნის მოქალაქე",
+    "completedGeneralEducationInOccupiedTerritory": "დაასრულეთ თუ არა ზოგადი განათლების საშუალო საფეხური ოკუპირებულ ტერიტორიაზე მიმდინარე ან წინა წელს ?",
+    "seekerRefugeeOrHumanitarianStatus": "თავშესაფრის მაძიებელი, ლტოლვილი ან ჰუმანიტარული სტატუსის მქონე პირი",
+    "needAdaptedEnvironment": "ტესტირება/შერჩევის პროცესისთვის გესაჭიროებათ თუ არა ადაპტირებული გარემო ?",
+    "switchWarning": "გთხოვთ არ მონიშნოთ “დიახ” თუ ასეთი სტატუსი არ გაქვთ, წინააღმდეგ შემთხვევაში დაწესებულებაში თქვენი ჩარიცხვა ვერ განხორციელდება!",
+    "elevatorRamp": "ლიფტი, პანდუსი",
+    "testTimeExtension": "საგამოცდო დროის გაზრდა",
+    "testFontSizeIncrease": "ტესტის შრიფტის გაზრდა",
+    "long-term-programs": "პროფესიული პროგრამები",
+    "long-term-programs-admissionRegistration": "რეგისტრაცია",
+    "long-term-programs-admissionUpdate": "რედაქტირება",
+    "uploadEducationDocument": "ატვირთეთ განათლების დამადასტურებელი დოკუმენტი",
+    "testReallocationNote": "გაითვალისწინეთ, რომ ცენტრის მიერ ორგანიზებული ტესტირების შემთხვევაში, ცენტრი იტოვებს შესაძლებლობას ტესტირების მიზნით, აპლიკანტი გადაანაწილოს სხვა საგამოცდო ქალაქში/მუნიციპალიტეტში.",
+    "georgianModuleNote": "გაითვალისწინეთ, რომ რუსული, აზერბაიჯანული ან სომხური ენის არჩევის შემთხვევაში, პროგრამაზე სწავლებას დაიწყებთ ქართული ენის მოდულით"
   },
-
   "profile": {
     "actual_address": "ფაქტობრივი მისამართი",
     "contact_info": "საკონტაქტო მონაცემები",

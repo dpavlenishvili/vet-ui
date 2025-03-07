@@ -11,7 +11,6 @@
     "personCouldNotBeIdentified": "Person could not be identified",
     "georgianLetters": "Please user Georgian alphabet"
   },
-
   "shared": {
     "home": "Home",
     "professional_programs": "Professional Programs",
@@ -47,7 +46,21 @@
     "program": "Program",
     "seeAll": "See All",
     "please_fill_field": "Please fill the field",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "education": "Education",
+    "testCity": "Test City",
+    "testLanguage": "Test Language",
+    "uploadedFilesCount": "Uploaded files ({{count}}/2)",
+    "selectFileSupportedTypes": "Select file (max 2) – supported types: pdf, doc, docx, png, jpg, jpeg, heic",
+    "maxFilesUploadError": "A maximum of 2 files can be uploaded.",
+    "exceedFileLimitError": "Too many files selected, you can only upload {{remaining}} more file(s).",
+    "invalidFileTypeError": "Invalid file type: {{fileName}}",
+    "met": "Met",
+    "alreadyEnrolled": "You are already enrolled in another program",
+    "requestId": "Request ID",
+    "search": "Search",
+    "status": "Status",
+    "dateFromTo": "Date - From/To"
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",
@@ -110,7 +123,14 @@
   },
   "home": {
     "services": "Services",
-    "partners": "Partners"
+    "partners": "Partners",
+    "professionalPrograms": "Professional Programs",
+    "trainingPrograms": "Training/ Retraining Programs",
+    "informalEducation": "Recognition of Informal Education",
+    "orientationService": "Orientation Service",
+    "governmentLanguageTrainingPrograms": "Government Language Training Programs",
+    "teacherTrainingPrograms": "Teacher Training Programs",
+    "collegeEmployment": "Employment in College"
   },
   "programs": {
     "field": "Field",
@@ -176,9 +196,23 @@
     "additional_selection_method": "Additional selection method",
     "institutions_name": "Organisation",
     "selection": "Select",
-    "program_added_on_selected_step": "Program added on Selected Programs step"
+    "program_added_on_selected_step": "Program added on Selected Programs step",
+    "completedForeignGeneralEducation": "Did you complete general education at a foreign institution in the current or previous year?",
+    "citizenOfCountryWithFamilyAbroad": "Citizen of a country with a family member residing abroad",
+    "completedGeneralEducationInOccupiedTerritory": "Did you complete secondary general education in an occupied territory in the current or previous year?",
+    "seekerRefugeeOrHumanitarianStatus": "Seeker of shelter, refugee, or person with humanitarian status",
+    "needAdaptedEnvironment": "Do you need an adapted environment for the testing/selection process?",
+    "switchWarning": "Please do not select 'Yes' if you do not have this status, otherwise your application to the institution cannot be processed!",
+    "elevatorRamp": "Elevator, Ramp",
+    "testTimeExtension": "Extended Test Time",
+    "testFontSizeIncrease": "Test Font Size Increase",
+    "long-term-programs": "Long Term Programs",
+    "long-term-programs-admissionRegistration": "Registration",
+    "long-term-programs-admissionUpdate": "Update",
+    "uploadEducationDocument": "Upload your education supporting document",
+    "testReallocationNote": "Please note that, in the case of testing organized by the center, the center reserves the right to reallocate the applicant to another test city/municipality.",
+    "georgianModuleNote": "Please note that if you choose Russian, Azerbaijani, or Armenian language, you will begin the program with the Georgian language module."
   },
-
   "profile": {
     "actual_address": "Actual address",
     "contact_info": "Contact details",

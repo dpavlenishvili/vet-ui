@@ -6,13 +6,11 @@ const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.hom
 export const longTermProgramsRoutes: Route[] = [
   {
     path: 'list',
-    loadComponent: () =>
-      import('./admissions-list/admissions-list.component').then((m) => m.AdmissionsListComponent),
+    loadComponent: () => import('./admissions-list/admissions-list.component').then((m) => m.AdmissionsListComponent),
     pathMatch: 'full',
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: '/programs', text: 'shared.programs' },
-      { path: '/programs/list', text: 'programs.admissionList' },
+      { path: '/long-programs/list', text: 'programs.long-term-programs' },
     ]),
   },
   {
@@ -22,8 +20,8 @@ export const longTermProgramsRoutes: Route[] = [
     pathMatch: 'full',
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: '/programs', text: 'shared.programs' },
-      { path: '/programs/registration', text: 'programs.admissionRegistration' },
+      { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
+      { path: '/long-term-programs/registration', text: 'programs.long-term-programs-admissionRegistration' },
     ]),
   },
   {
@@ -33,8 +31,8 @@ export const longTermProgramsRoutes: Route[] = [
     pathMatch: 'full',
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: '/programs', text: 'shared.programs' },
-      { path: '/programs/update-admission', text: 'programs.admissionUpdate' },
+      { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
+      { path: '/long-term-programs/update-admission', text: 'programs.long-term-programs-admissionUpdate' },
     ]),
   },
 ];

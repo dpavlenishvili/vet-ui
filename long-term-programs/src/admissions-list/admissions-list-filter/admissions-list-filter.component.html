@@ -1,0 +1,29 @@
+<form [formGroup]="filterForm">
+  <div class="k-d-flex k-gap-4 k-pb-5">
+    <kendo-textbox
+      formControlName="date"
+      [size]="'large'"
+      [rounded]="'large'"
+      [placeholder]="'shared.dateFromTo' | transloco"
+    />
+    <kendo-textbox
+      formControlName="status"
+      [size]="'large'"
+      [rounded]="'large'"
+      [placeholder]="'shared.status' | transloco"
+    />
+  </div>
+  <div class="k-display-flex k-justify-content-end k-gap-4">
+    <button
+      kendoButton
+      [svgIcon]="kendoIcons.xIcon"
+      fillMode="outline"
+      themeColor="primary"
+      (click)="clearFilters()"
+    ></button>
+
+    <button kendoButton [svgIcon]="kendoIcons.searchIcon" fillMode="solid" themeColor="primary" (click)="onSubmit()">
+      {{ 'shared.search' | transloco }}
+    </button>
+  </div>
+</form>
