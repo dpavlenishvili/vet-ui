@@ -1,3 +1,1 @@
-export * from './lib.routes';
-
-export * from './long-term-programs.component';
+export * from './long-term-program.routes';

@@ -4,7 +4,7 @@ import { breadcrumb } from '@vet/shared';
 
 import { MainLayoutComponent } from './main-layout.component';
 import { programsRoutes } from '@vet/programs';
-import { longTermProgramsRoutes } from '../../../../long-term-programs/src/long-term-program.routes';
+import { longTermProgramsRoutes } from '@vet/long-term-programs';
 import { HomeLayoutComponent } from './home-layout.component';
 
 export const appRoutes: Routes = [
