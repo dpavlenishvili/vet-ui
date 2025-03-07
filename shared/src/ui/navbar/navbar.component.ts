@@ -3,11 +3,10 @@ import {
   ElementRef,
   HostListener,
   inject,
-  Input,
+  input,
   OnInit,
   signal,
   ViewEncapsulation,
-  WritableSignal,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
@@ -16,7 +15,6 @@ import { CustomAuthService } from '@vet/auth';
 import { RolesService } from '@vet/backend';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { AsyncPipe } from '@angular/common';
 import { kendoIcons, vetIcons } from '../../shared.icons';
 import { tap } from 'rxjs';
 
@@ -26,11 +24,10 @@ import { tap } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe, AsyncPipe],
+  imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
 })
 export class NavbarComponent implements OnInit {
-  @Input() pages!: NavbarMenuItemType[];
-  @Input() avatarUrl: string | null = null;
+  pages = input.required<NavbarMenuItemType[]>();
 
   customAuthService = inject(CustomAuthService);
   rolesService = inject(RolesService);

@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { DropDownListComponent } from '@progress/kendo-angular-dropdowns';
-import { FloatingLabelComponent } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -16,10 +13,7 @@ import { TextBoxComponent } from '@progress/kendo-angular-inputs';
   styleUrl: './admissions-list-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AsyncPipe,
     ButtonComponent,
-    DropDownListComponent,
-    FloatingLabelComponent,
     FormsModule,
     ReactiveFormsModule,
     TranslocoPipe,

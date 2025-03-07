@@ -167,19 +167,6 @@ export function collectParams(activatedRoute: ActivatedRoute) {
   return params;
 }
 
-export function downloadFile(urlOrSource: string | Blob, name: string) {
-  if (urlOrSource instanceof Blob) {
-    urlOrSource = URL.createObjectURL(urlOrSource);
-  }
-
-  const a = document.createElement('a');
-  a.download = name;
-  a.href = urlOrSource;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
 export function hasParentWithClass(element: HTMLElement, className: string) {
   let current = element as HTMLElement | null;
 

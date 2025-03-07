@@ -10,13 +10,13 @@
 
     @if (!tokenUser$()) {
       <ul class="v-ui-navbar__menu">
-        @for (item of pages; track item; let i = $index) {
+        @for (item of pages(); track item.url) {
           <li class="v-ui-navbar__menu-item">
             <a [routerLink]="item.url" class="v-ui-navbar__menu-link k-text-base">
               {{ item.title }}
             </a>
           </li>
-          @if (i !== pages.length - 1) {
+          @if (!$last) {
             <div class="k-separator"></div>
           }
         }
@@ -90,7 +90,7 @@
           @if (user?.photo) {
             <img [src]="user.photo" alt="User Avatar" class="v-ui-navbar__profile-avatar" />
           } @else {
-            <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon"></kendo-svg-icon>
+            <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon" />
           }
 
           <span class="v-ui-navbar__profile-name">
@@ -98,12 +98,12 @@
                             </span>
 
           @if (isProfileCardOpen()) {
-            <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowUpIcon"></kendo-svg-icon>
+            <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowUpIcon" />
           } @else {
             <kendo-svg-icon
               [themeColor]="'light'"
               [icon]="kendoIcons.arrowDownIcon"
-            ></kendo-svg-icon>
+            />
           }
         </div>
 
@@ -118,20 +118,20 @@
                   @if (user.photo) {
                     <img [src]="user.photo" alt="Avatar" class="profile-card__avatar" />
                   } @else {
-                    <kendo-svg-icon [icon]="kendoIcons.userIcon"></kendo-svg-icon>
+                    <kendo-svg-icon [icon]="kendoIcons.userIcon" />
                   }
                   <span class="profile-card__username">{{ role.name }}</span>
                 </div>
               } @else {
                 <div class="profile-card__item">
-                  <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon"></kendo-svg-icon>
+                  <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon" />
                   {{ role.name }}
                 </div>
               }
             }
 
             <div class="profile-card__item profile-card__logout" (click)="logout()">
-              <kendo-svg-icon [icon]="kendoIcons.loginIcon"></kendo-svg-icon>
+              <kendo-svg-icon [icon]="kendoIcons.loginIcon" />
               {{ 'auth.logout' | transloco }}
             </div>
           </div>

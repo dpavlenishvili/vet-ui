@@ -17,7 +17,7 @@ import {
   ProgramGeneralInformationStepFormGroup
 } from '../program-general-information-step/program-general-information-step.component';
 import { NgClass } from '@angular/common';
-import { downloadFile, InfoComponent, UploadedFile, vetIcons } from '@vet/shared';
+import { InfoComponent, UploadedFile, vetIcons } from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
 import { WA_WINDOW } from '@ng-web-apis/common';
 

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
-import { AsyncPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { CustomAuthService } from '@vet/auth';
 import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
@@ -8,8 +7,6 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { filterNullValues, RouteParamsService, vetIcons } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { AdmissionsListFilterComponent } from './admissions-list-filter/admissions-list-filter.component';
-import { CheckBoxDirective, ErrorComponent } from '@progress/kendo-angular-inputs';
-import { LabelComponent } from '@progress/kendo-angular-label';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 export type AdmissionListFilter = {
@@ -23,14 +20,10 @@ export type AdmissionListFilter = {
 @Component({
   selector: 'vet-admissions-list',
   imports: [
-    AsyncPipe,
     KENDO_GRID,
     TranslocoPipe,
     ButtonComponent,
     AdmissionsListFilterComponent,
-    CheckBoxDirective,
-    ErrorComponent,
-    LabelComponent,
   ],
   templateUrl: './admissions-list.component.html',
   styleUrl: './admissions-list.component.scss',

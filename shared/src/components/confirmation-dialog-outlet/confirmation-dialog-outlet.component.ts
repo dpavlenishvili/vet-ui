@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
 import { IconModule, SVGIconModule } from '@progress/kendo-angular-icons';
@@ -14,7 +13,6 @@ import { TranslocoPipe } from '@jsverse/transloco';
   selector: 'vet-confirmation-dialog-outlet',
   standalone: true,
   imports: [
-    CommonModule,
     GridModule,
     TranslocoPipe,
     TooltipModule,

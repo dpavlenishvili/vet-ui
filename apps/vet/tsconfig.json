@@ -8,7 +8,8 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noImplicitAny": true
   },
   "files": [],
   "include": [],
@@ -37,7 +38,7 @@
         "suffixNotSupported": "error",
         "interpolatedSignalNotInvoked": "error",
         "controlFlowPreventingContentProjection": "error",
-        "unusedStandaloneImports": "suppress",
+        "unusedStandaloneImports": "error",
         "unusedLetDeclaration": "error"
       }
     }
