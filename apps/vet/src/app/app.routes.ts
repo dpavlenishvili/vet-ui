@@ -7,7 +7,7 @@ import { programsRoutes } from '@vet/programs';
 import { longTermProgramsRoutes } from '@vet/long-term-programs';
 import { HomeLayoutComponent } from './home-layout.component';
 import { userProfileRoutes } from '@vet/user-profile';
-import { authRoutes } from '@vet/auth';
+import {authenticatedGuard, authRoutes} from '@vet/auth';
 
 export const appRoutes: Routes = [
   {
@@ -33,6 +33,7 @@ export const appRoutes: Routes = [
       {
         path: 'user-profile',
         children: userProfileRoutes,
+        canActivate: [authenticatedGuard]
       },
       {
         path: '',

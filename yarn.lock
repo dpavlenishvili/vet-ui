@@ -20588,6 +20588,7 @@ __metadata:
     "@nx/eslint": 20.5.0
     "@nx/eslint-plugin": 20.5.0
     "@nx/jest": 20.5.0
+    "@nx/js": 20.5.0
     "@nx/plugin": 20.5.0
     "@progress/kendo-angular-buttons": ^17.2.0
     "@progress/kendo-angular-charts": ^17.2.0

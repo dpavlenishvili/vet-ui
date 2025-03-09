@@ -7,23 +7,22 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, throwError } from 'rxjs';
+import {BehaviorSubject, catchError, filter, finalize, Observable, switchMap, tap, throwError} from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { authorizationSkipped } from '../skip-authorization-token-ctx';
+
+const _refreshing$ = new BehaviorSubject(false);
+const _refreshSuccess$ = new BehaviorSubject<boolean | null>(null);
 
 function handleRequest(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   authenticationService: AuthenticationService,
 ): Observable<HttpEvent<unknown>> {
-  const accessToken = authenticationService.accessToken();
-  if (authorizationSkipped(req.context) || !accessToken) {
-    return next(req);
-  }
   return next(
     req.clone({
       setHeaders: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${authenticationService.accessToken()}`,
       },
     }),
   );
@@ -34,8 +33,10 @@ export const authenticationInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
   const authenticationService = inject(AuthenticationService);
-  const _refreshing$ = new BehaviorSubject(false);
-  const _refreshSuccess$ = new BehaviorSubject(false);
+
+  if (authorizationSkipped(req.context) || !authenticationService.accessToken()) {
+    return next(req);
+  }
 
   return handleRequest(req, next, authenticationService).pipe(
     catchError((err: HttpErrorResponse) => {
@@ -43,15 +44,34 @@ export const authenticationInterceptor: HttpInterceptorFn = (
         if (!_refreshing$.getValue()) {
           _refreshing$.next(true);
           return authenticationService.refreshToken().pipe(
+            tap({
+              next: () => {
+                _refreshSuccess$.next(true);
+              },
+              error: () => {
+                _refreshSuccess$.next(false);
+              },
+            }),
             switchMap(() => handleRequest(req, next, authenticationService)),
-            finalize(() => _refreshing$.next(false)),
+            catchError(refreshError => throwError(() => err)),
+            finalize(() => {
+              _refreshing$.next(false);
+              _refreshSuccess$.next(null);
+            }),
           );
         }
         return _refreshing$.pipe(
           filter((refreshing) => !refreshing),
           switchMap(() => _refreshSuccess$),
-          filter((refreshSuccess) => refreshSuccess),
-          switchMap(() => handleRequest(req, next, authenticationService)),
+          filter((refreshSuccess) => {
+            return refreshSuccess !== null;
+          }),
+          switchMap((refreshSuccess) => {
+            if (refreshSuccess) {
+              return handleRequest(req, next, authenticationService);
+            }
+            throw err;
+          }),
         );
       }
       return throwError(() => err);

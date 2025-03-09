@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { combineLatest, interval, map, of, startWith, switchMap, take, tap } from 'rxjs';
-import dayjs from 'dayjs';
-import { default as duration } from 'dayjs/plugin/duration';
+import dayjs from 'dayjs/esm';
+import { default as duration } from 'dayjs/esm/plugin/duration';
 
 import { useAuthEnvironment } from '../../auth.providers';
 import { TranslocoPipe } from '@jsverse/transloco';

@@ -47,3 +47,4 @@ export * from './ui/file-upload/file-upload.component';
 export * from './coercion/number-property';
 export * from './http-request-options';
 export * from './use-http-contexts';
+export * from './vet-provide';
