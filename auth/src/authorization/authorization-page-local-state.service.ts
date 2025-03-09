@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { type LoginRequestBody, UserLogin2FaResponseBody } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
 
-@Injectable()
+// There is some sort of bug in Angular which causes route level providers to be recognised as undefined, so I have to make this root level provider
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthorizationPageLocalStateService {
   private _router = inject(Router);
   private _2faResponseBody?: UserLogin2FaResponseBody;

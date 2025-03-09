@@ -6,7 +6,6 @@ import { AuthorizationPageLocalStateService } from './authorization-page-local-s
 export const getAuthorizationRoutes: (bs: AppBreadCrumbItem[]) => Routes = (baseBreadcrumbItems) => [
   {
     path: '',
-    providers: [AuthorizationPageLocalStateService],
     loadComponent: () => import('./authorization-page.component').then((m) => m.AuthorizationPageComponent),
     data: breadcrumb([...baseBreadcrumbItems, { path: '/authorization', text: 'auth.authorization' }]),
     children: [
