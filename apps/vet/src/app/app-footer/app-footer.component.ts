@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { vetIcons } from '@vet/shared';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { CustomAuthService } from '@vet/auth';
+import { AuthenticationService } from '@vet/auth';
 
 @Component({
   selector: 'vet-app-footer',
@@ -14,5 +14,5 @@ import { CustomAuthService } from '@vet/auth';
 export class AppFooterComponent {
   divider = input(false);
   vetIcons = vetIcons;
-  authenticated = inject(CustomAuthService).authenticated$;
+  authenticated = inject(AuthenticationService).isAuthenticated;
 }

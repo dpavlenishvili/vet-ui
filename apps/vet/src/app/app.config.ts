@@ -1,5 +1,5 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import type { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
@@ -27,7 +27,7 @@ import { acceptLanguageInterceptor } from './accept-language.interceptor';
 import { appRoutes } from './app.routes';
 import { initializeTransolco } from '@vet/i18n';
 import { provideAuthEnvironment } from '@vet/auth';
-import { errorInterceptor } from '@vet/shared';
+import { errorInterceptor, ToastModule } from '@vet/shared';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -37,6 +37,7 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([acceptLanguageInterceptor, authenticationInterceptor, errorInterceptor]),
     ),
+    importProvidersFrom(ToastModule),
     provideEnvironment(environment),
     initializeTransolco(),
     provideAngularSvgIcon(),

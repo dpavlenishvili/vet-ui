@@ -3,7 +3,7 @@ import { PostsComponent } from './posts/posts.component';
 import { PartnersComponent } from './partners/partners.component';
 import { ServicesComponent } from './services/services.component';
 import { ThemeService } from '@vet/shared';
-import { CustomAuthService } from '@vet/auth';
+import { AuthenticationService } from '@vet/auth';
 
 @Component({
   selector: 'vet-home',
@@ -14,7 +14,7 @@ import { CustomAuthService } from '@vet/auth';
   standalone: true,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  authenticated = inject(CustomAuthService).authenticated$;
+  readonly authenticated = inject(AuthenticationService).isAuthenticated;
   private themeService = inject(ThemeService);
 
   ngOnInit(): void {

@@ -1,13 +1,13 @@
 import { type Route } from '@angular/router';
 import { type AppBreadCrumbItem, breadcrumb } from '@vet/shared';
+import { getAuthorizationRoutes } from './authorization/authorization.routes';
 
 const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }];
 
 export const authRoutes: Route[] = [
   {
     path: 'authorization',
-    loadComponent: () => import('./authorization/authorization.component').then((m) => m.AuthorizationComponent),
-    data: breadcrumb([...baseBreadcrumbItems, { path: '/authorization', text: 'auth.authorization' }]),
+    children: getAuthorizationRoutes(baseBreadcrumbItems),
   },
   {
     path: 'registration',
@@ -68,7 +68,7 @@ export const authRoutes: Route[] = [
           { path: '/registration/terms_and_conditions', text: 'auth.terms_and_conditions' },
         ]),
       },
-    ]
+    ],
   },
   {
     path: 'password/forgot',

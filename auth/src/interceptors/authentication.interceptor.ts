@@ -1,19 +1,23 @@
-import type { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandlerFn,
+  HttpInterceptorFn,
+  HttpRequest,
+  HttpStatusCode,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, filter, switchMap, tap } from 'rxjs/operators';
-import { CustomAuthService } from '@vet/auth';
-
-const _refreshing$ = new BehaviorSubject(false);
-const _refreshSuccess$ = new BehaviorSubject(false);
+import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, throwError } from 'rxjs';
+import { AuthenticationService } from '../authentication.service';
+import { authorizationSkipped } from '../skip-authorization-token-ctx';
 
 function handleRequest(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
-  authenticationService: CustomAuthService,
+  authenticationService: AuthenticationService,
 ): Observable<HttpEvent<unknown>> {
-  const accessToken = authenticationService.accessToken$();
-  if (!accessToken) {
+  const accessToken = authenticationService.accessToken();
+  if (authorizationSkipped(req.context) || !accessToken) {
     return next(req);
   }
   return next(
@@ -29,23 +33,18 @@ export const authenticationInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
-  const authenticationService = inject(CustomAuthService);
+  const authenticationService = inject(AuthenticationService);
+  const _refreshing$ = new BehaviorSubject(false);
+  const _refreshSuccess$ = new BehaviorSubject(false);
+
   return handleRequest(req, next, authenticationService).pipe(
     catchError((err: HttpErrorResponse) => {
-      if (err.status === 401 || err.status === 403) {
+      if (err.status === HttpStatusCode.Unauthorized || err.status === HttpStatusCode.Forbidden) {
         if (!_refreshing$.getValue()) {
           _refreshing$.next(true);
           return authenticationService.refresh().pipe(
-            tap({
-              next: () => _refreshSuccess$.next(true),
-              error: () => _refreshSuccess$.next(false),
-            }),
             switchMap(() => handleRequest(req, next, authenticationService)),
-            tap(() => _refreshing$.next(false)),
-            catchError((err: HttpErrorResponse) => {
-              _refreshing$.next(false);
-              return throwError(() => err);
-            }),
+            finalize(() => _refreshing$.next(false)),
           );
         }
         return _refreshing$.pipe(

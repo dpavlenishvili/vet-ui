@@ -1,0 +1,34 @@
+<form
+  [formGroup]="confirmationForm"
+  (ngSubmit)="onSubmit()"
+  class="k-display-flex k-flex-column k-gap-6 k-px-14 k-py-8 k-bg-white"
+>
+  <div class="k-display-flex k-justify-content-center">
+    <vet-registration-phone-verification formControlName="code" [isPending]="is2FaPending()" (reload)="onSubmit()" />
+  </div>
+
+  <div class="k-display-flex k-flex-column k-align-items-center k-mt-4 k-gap-3">
+    <div class="k-w-full k-px-16">
+      <button
+        kendoButton
+        type="submit"
+        themeColor="primary"
+        class="k-w-full"
+        look="default"
+        [disabled]="is2FaPending()"
+      >
+        @if (is2FaPending()) {
+          <kendo-loader size="small" />
+        }
+        {{ 'auth.login' | transloco }}
+      </button>
+    </div>
+
+    <a
+      class="k-cursor-pointer k-text-base k-text-underline k-color-primary"
+      [routerLink]="['/registration']"
+      [class.k-disabled]="is2FaPending()"
+      >{{ 'auth.registration' | transloco }}</a
+    >
+  </div>
+</form>

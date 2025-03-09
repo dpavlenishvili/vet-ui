@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
-import { CustomAuthService } from '@vet/auth';
+import { UserRolesService } from '@vet/auth';
 import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { filterNullValues, RouteParamsService, vetIcons } from '@vet/shared';
@@ -19,21 +19,15 @@ export type AdmissionListFilter = {
 
 @Component({
   selector: 'vet-admissions-list',
-  imports: [
-    KENDO_GRID,
-    TranslocoPipe,
-    ButtonComponent,
-    AdmissionsListFilterComponent,
-  ],
+  imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, AdmissionsListFilterComponent],
   templateUrl: './admissions-list.component.html',
   styleUrl: './admissions-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class AdmissionsListComponent {
-  userRole$ = inject(CustomAuthService).userRole$;
   admissionList$ = rxResource({
-    request: () => ({ role: this.userRole$(), filters: this.filters() }),
+    request: () => ({ role: this._userRolesService.userRole(), filters: this.filters() }),
     loader: ({ request: { role, filters } }) =>
       this.admissionService.admissionList({
         role: role,
@@ -46,6 +40,7 @@ export class AdmissionsListComponent {
   admissionService = inject(AdmissionService);
   routeParamsService = inject(RouteParamsService);
   protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
+  private readonly _userRolesService = inject(UserRolesService);
 
   onRegisterClick() {
     this.router.navigate(['long-term-programs', 'register-admission']);

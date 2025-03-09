@@ -25,7 +25,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { of, switchMap, tap } from 'rxjs';
 import { DialogRef, DialogResult, DialogService } from '@progress/kendo-angular-dialog';
 import { Router } from '@angular/router';
-import { CustomAuthService } from '@vet/auth';
+import { AuthenticationService, UserRolesService } from '@vet/auth';
 
 interface StepDefinition {
   label: string;
@@ -105,10 +105,8 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   private translocoService = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
   private cdr = inject(ChangeDetectorRef);
-  private authService = inject(CustomAuthService);
-
-  tokenUser$ = this.authService.tokenUser$;
-  userRole$ = this.authService.userRole$;
+  private authService = inject(AuthenticationService);
+  private userRolesService = inject(UserRolesService);
 
   createFormGroup = computed(() => {
     const generalInformationControls: { [key: string]: FormControl } = {
@@ -124,7 +122,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
       education_level_id: new FormControl(),
     };
 
-    if (this.tokenUser$()?.residential !== 'GEO') {
+    if (this.authService.user()?.residential !== 'GEO') {
       generalInformationControls['complete_edu_abroad'] = new FormControl(false);
       generalInformationControls['complete_base_edu_abroad'] = new FormControl(false);
     }
@@ -202,7 +200,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
     if (this.admissionId()) {
       this.admissionService
         .admissionList({
-          role: this.userRole$(),
+          role: this.userRolesService.userRole(),
           number: this.admissionId(),
         })
         .pipe(
@@ -235,7 +233,10 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                 e_phone: admissionData.e_phone,
                 spe_description: admissionData.spe_description,
                 program_ids: filteredPrograms(admissionData.programs),
-                language: admissionData.language && Number(admissionData.language.id) !== Number('0') ? admissionData.language.id : '',
+                language:
+                  admissionData.language && Number(admissionData.language.id) !== Number('0')
+                    ? admissionData.language.id
+                    : '',
               },
               program_selection: {
                 program_ids: filteredPrograms(admissionData.programs),

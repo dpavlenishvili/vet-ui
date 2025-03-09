@@ -1,0 +1,51 @@
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RegistrationPhoneVerificationComponent } from '../../registration/registration-phone-verification/registration-phone-verification.component';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { RouterLink } from '@angular/router';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
+import { finalize, tap } from 'rxjs';
+import { AuthorizationPageLocalStateService } from '../authorization-page-local-state.service';
+import { ToastService } from '@vet/shared';
+
+@Component({
+  selector: 'vet-auth-two-factor-page',
+  templateUrl: './two-factor-page.component.html',
+  imports: [
+    ReactiveFormsModule,
+    RegistrationPhoneVerificationComponent,
+    TranslocoPipe,
+    RouterLink,
+    KENDO_BUTTON,
+    KENDO_LOADER,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TwoFactorPageComponent {
+  protected readonly confirmationForm = new FormGroup({
+    code: new FormControl<string>('', Validators.required),
+  });
+  protected readonly is2FaPending = signal(false);
+  private readonly state = inject(AuthorizationPageLocalStateService);
+  private readonly toastService = inject(ToastService);
+
+  protected onSubmit() {
+    if (this.confirmationForm.invalid) {
+      return;
+    }
+    this.is2FaPending.set(true);
+    this.state
+      .validate2FaCode(this.confirmationForm.value.code!)
+      .pipe(
+        tap({
+          next: () => this.state.handleSuccessfulAuthentication(),
+          error: (error) => {
+            this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_login');
+          },
+        }),
+        finalize(() => this.is2FaPending.set(false)),
+      )
+      .subscribe();
+  }
+}

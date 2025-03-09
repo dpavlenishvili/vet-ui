@@ -1,24 +1,24 @@
-@if (user(); as user) {
-  @if (form(); as form) {
+@if (user(); as _user) {
+  @if (form(); as _form) {
     <div class="k-display-flex k-gap-10 k-flex-column">
       <div>
-        <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
+        <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="_form">
           <div class="k-display-flex k-flex-column k-gap-10">
             <div class="k-p-4 k-rounded-2.5 k-display-flex k-gap-6 k-bg-divider-light k-w-full">
-              <img src="/assets/images/profile.png" width="146" height="120"/>
+              <img src="/assets/images/profile.png" width="146" height="120" />
 
               <div class="k-display-flex k-flex-column k-w-full k-gap-1">
                 <div class="k-display-flex k-w-full k-gap-2.5 k-text-base k-border-b-solid k-border-white">
                   <span class="k-color-body">{{ 'programs.pid' | transloco }}:</span>
-                  <span class="k-color-body-dark">{{ user.pid }}</span>
+                  <span class="k-color-body-dark">{{ _user.pid }}</span>
                 </div>
                 <div class="k-display-flex k-w-full k-gap-2.5 k-text-base k-border-b-solid k-border-white">
                   <span class="k-color-body">{{ 'programs.name_surname' | transloco }}:</span>
-                  <span class="k-color-body-dark">{{ user.name }}</span>
+                  <span class="k-color-body-dark">{{ _user.name }}</span>
                 </div>
                 <div class="k-display-flex k-w-full k-gap-2.5 k-text-base k-border-b-solid k-border-white">
                   <span class="k-color-body">{{ 'programs.mobile' | transloco }}:</span>
-                  <span class="k-color-body-dark">{{ user.phone }}</span>
+                  <span class="k-color-body-dark">{{ _user.phone }}</span>
                 </div>
                 <div class="k-display-flex k-w-full k-gap-2.5 k-text-base k-border-b-solid k-border-white">
                   <span class="k-color-body">{{ 'programs.education' | transloco }}:</span>
@@ -60,7 +60,8 @@
 
               @if (ssmForm.controls['spec_edu'].value) {
                 <div
-                  class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base">
+                  class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base"
+                >
                   <div class="k-display-flex k-align-items-center k-gap-4.5">
                     <div class="k-text-base k-color-body">
                       <b>{{ 'programs.ssm_translator_requirement_question' | transloco }}</b>
@@ -109,7 +110,9 @@
               }
             }
 
-            <div class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body">
+            <div
+              class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
+            >
               <div class="k-display-flex k-align-items-center k-gap-4">
                 <b>{{ 'programs.needs_adaptive_environment' | transloco }}</b>
                 <kendo-switch
@@ -126,21 +129,18 @@
               <div class="k-display-flex k-align-items-center k-gap-4">
                 @for (specialRequirement of getSpecialRequirements(); track specialRequirement) {
                   <div class="k-display-flex k-align-items-center k-gap-2">
-                    <input
-                      kendoCheckBox
-                      type="checkbox"
-                      [checked]="true"
-                      [disabled]="true"
-                    />
+                    <input kendoCheckBox type="checkbox" [checked]="true" [disabled]="true" />
                     <kendo-label class="k-text-base k-color-body-dark" [text]="specialRequirement" />
                   </div>
                 }
               </div>
             </div>
 
-            <div class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body">
+            <div
+              class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
+            >
               <div class="k-display-flex k-align-items-center k-gap-4">
-                @if (user.residential === 'GEO') {
+                @if (_user.residential === 'GEO') {
                   <b>{{ 'programs.foreigner_school_education_text' | transloco }}</b>
                 } @else {
                   <b>{{ 'programs.foreigner_school_education_text_non_resident' | transloco }}</b>
@@ -155,17 +155,18 @@
                 />
               </div>
 
-              <vet-info
-                variant="warning"
-                [text]="'programs.foreigner_school_education_warning' | transloco"
-              />
+              <vet-info variant="warning" [text]="'programs.foreigner_school_education_warning' | transloco" />
 
-              <div class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body">
+              <div
+                class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
+              >
                 <b>{{ 'programs.file' | transloco }}</b>
 
                 <div class="k-display-flex k-flex-column k-gap-2">
                   @for (file of getAbroadDocuments(); track file.filename) {
-                    <div class="k-px-3.5 k-py-2.5 k-rounded-1 k-display-flex k-justify-content-between k-align-items-center k-gap-6 k-bg-paper-dark k-w-full">
+                    <div
+                      class="k-px-3.5 k-py-2.5 k-rounded-1 k-display-flex k-justify-content-between k-align-items-center k-gap-6 k-bg-paper-dark k-w-full"
+                    >
                       <span>{{ file.filename }}</span>
                       <kendo-svg-icon
                         [icon]="vetIcons.download"
@@ -178,9 +179,11 @@
               </div>
             </div>
 
-            <div class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body">
+            <div
+              class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
+            >
               <div class="k-display-flex k-align-items-center k-gap-4">
-                @if (user.residential === 'GEO') {
+                @if (_user.residential === 'GEO') {
                   <b>{{ 'programs.occupied_school_education_text' | transloco }}</b>
                 } @else {
                   <b>{{ 'programs.occupied_school_education_text_refugee' | transloco }}</b>
@@ -195,17 +198,18 @@
                 />
               </div>
 
-              <vet-info
-                variant="warning"
-                [text]="'programs.foreigner_school_education_warning' | transloco"
-              />
+              <vet-info variant="warning" [text]="'programs.foreigner_school_education_warning' | transloco" />
 
-              <div class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body">
+              <div
+                class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
+              >
                 <b>{{ 'programs.file' | transloco }}</b>
 
                 <div class="k-display-flex k-flex-column k-gap-2">
                   @for (file of getOcuDocuments(); track file.filename) {
-                    <div class="k-px-3.5 k-py-2.5 k-rounded-1 k-display-flex k-justify-content-between k-align-items-center k-gap-6 k-bg-paper-dark k-w-full">
+                    <div
+                      class="k-px-3.5 k-py-2.5 k-rounded-1 k-display-flex k-justify-content-between k-align-items-center k-gap-6 k-bg-paper-dark k-w-full"
+                    >
                       <span>{{ file.filename }}</span>
                       <kendo-svg-icon
                         [icon]="vetIcons.download"
@@ -220,7 +224,9 @@
 
             @if (ssmFormGroup(); as ssmForm) {
               @if (ssmForm.controls['spec_edu'].value) {
-                <div class="k-display-flex k-flex-column k-gap-3 k-flex-1 k-py-6 k-px-3.5 k-rounded-lg k-border k-border-solid k-border-primary k-text-base k-color-body-dark">
+                <div
+                  class="k-display-flex k-flex-column k-gap-3 k-flex-1 k-py-6 k-px-3.5 k-rounded-lg k-border k-border-solid k-border-primary k-text-base k-color-body-dark"
+                >
                   <div class="k-display-flex k-gap-1 k-text-base k-pb-3 k-border-b-solid k-border-divider-light">
                     {{ 'programs.ssm_disclaimer_summary' | transloco }}
                   </div>

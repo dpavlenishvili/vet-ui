@@ -8,7 +8,7 @@
       </a>
     </div>
 
-    @if (!tokenUser$()) {
+    @if (!user()) {
       <ul class="v-ui-navbar__menu">
         @for (item of pages(); track item.url) {
           <li class="v-ui-navbar__menu-item">
@@ -24,13 +24,7 @@
       <div class="k-display-flex k-align-items-center">
         <div class="k-display-flex k-align-items-center">
           <button kendoButton [svgIcon]="vetIcons.searchSmall" fillMode="flat"></button>
-          <button
-            kendoButton
-            fillMode="flat"
-            themeColor="light"
-            [svgIcon]="vetIcons.globeSmall"
-            (click)="switchLang()"
-          >
+          <button kendoButton fillMode="flat" themeColor="light" [svgIcon]="vetIcons.globeSmall" (click)="switchLang()">
             <div class="k-text-sm k-ml-2">
               {{ currentLangLabel }}
             </div>
@@ -45,9 +39,9 @@
             fillMode="outline"
             (click)="navigateTo('authorization')"
           >
-          <span class="k-text-base">
-            {{ 'auth.authorization' | transloco }}
-          </span>
+            <span class="k-text-base">
+              {{ 'auth.authorization' | transloco }}
+            </span>
           </button>
           <button
             class="!k-border-none k-bg-button-light"
@@ -56,30 +50,19 @@
             fillMode="outline"
             (click)="navigateTo('registration')"
           >
-          <span class="k-text-base k-color-button-light-contrast">
-            {{ 'auth.registration' | transloco }}
-          </span>
+            <span class="k-text-base k-color-button-light-contrast">
+              {{ 'auth.registration' | transloco }}
+            </span>
           </button>
         </div>
       </div>
     }
 
-    @if (tokenUser$(); as user) {
+    @if (user(); as _user) {
       <div class="v-ui-navbar__actions">
         <div class="k-display-flex k-align-items-center k-gap-1">
-          <button
-            kendoButton
-            [svgIcon]="kendoIcons.bellIcon"
-            fillMode="outline"
-            themeColor="light"
-          ></button>
-          <button
-            kendoButton
-            fillMode="flat"
-            themeColor="light"
-            [svgIcon]="vetIcons.globeSmall"
-            (click)="switchLang()"
-          >
+          <button kendoButton [svgIcon]="kendoIcons.bellIcon" fillMode="outline" themeColor="light"></button>
+          <button kendoButton fillMode="flat" themeColor="light" [svgIcon]="vetIcons.globeSmall" (click)="switchLang()">
             <div class="k-text-sm k-ml-2">
               {{ currentLangLabel }}
             </div>
@@ -87,36 +70,30 @@
         </div>
 
         <div class="v-ui-navbar__profile" (click)="toggleProfileCard()">
-          @if (user?.photo) {
-            <img [src]="user.photo" alt="User Avatar" class="v-ui-navbar__profile-avatar" />
+          @if (_user?.photo) {
+            <img [src]="_user.photo" alt="User Avatar" class="v-ui-navbar__profile-avatar" />
           } @else {
             <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon" />
           }
 
           <span class="v-ui-navbar__profile-name">
-                                {{ tokenUser$()?.name }}
-                            </span>
+            {{ _user?.name }}
+          </span>
 
           @if (isProfileCardOpen()) {
             <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowUpIcon" />
           } @else {
-            <kendo-svg-icon
-              [themeColor]="'light'"
-              [icon]="kendoIcons.arrowDownIcon"
-            />
+            <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowDownIcon" />
           }
         </div>
 
         @if (isProfileCardOpen()) {
-          <div
-            class="v-ui-navbar__profile-card"
-            (click)="$event.stopPropagation()"
-          >
-            @for (role of roles(); track role.name; let i = $index) {
-              @if (i === 0) {
+          <div class="v-ui-navbar__profile-card" (click)="$event.stopPropagation()">
+            @for (role of roles(); track role.name) {
+              @if ($first) {
                 <div class="profile-card__header" [routerLink]="'user-profile'">
-                  @if (user.photo) {
-                    <img [src]="user.photo" alt="Avatar" class="profile-card__avatar" />
+                  @if (_user.photo) {
+                    <img [src]="_user.photo" alt="Avatar" class="profile-card__avatar" />
                   } @else {
                     <kendo-svg-icon [icon]="kendoIcons.userIcon" />
                   }

@@ -41,17 +41,24 @@
             </kendo-formfield>
           </div>
           <div class="k-mt-3">
-            <vet-file-upload [title]="'programs.uploadEducationDocument'"
-                             [uploadedFiles]="form?.get('doc')?.getRawValue()"
-                             (fileUploaded)="handleFileUpload($event, 'doc')"
-                             (fileRemoved)="handleRemoveFile($event, 'doc')" />
+            <vet-file-upload
+              [title]="'programs.uploadEducationDocument'"
+              [uploadedFiles]="form?.get('doc')?.getRawValue()"
+              (fileUploaded)="handleFileUpload($event, 'doc')"
+              (fileRemoved)="handleRemoveFile($event, 'doc')"
+            />
           </div>
         </div>
         <div class="section">
           <div class="title">
             <span>{{ 'programs.needAdaptedEnvironment' | transloco }}</span>
-            <kendo-switch [onLabel]="'shared.yes' | transloco" [offLabel]="'shared.no' | transloco"
-                          [checked]="isSpecEnvEnabled()" (valueChange)="onSpecEnvSwitchChange($event)" #specEnvSwitch />
+            <kendo-switch
+              [onLabel]="'shared.yes' | transloco"
+              [offLabel]="'shared.no' | transloco"
+              [checked]="isSpecEnvEnabled()"
+              (valueChange)="onSpecEnvSwitchChange($event)"
+              #specEnvSwitch
+            />
           </div>
           @if (specEnvSwitch.checked) {
             <div class="checkbox-selection-container">
@@ -65,7 +72,12 @@
                     (change)="onSpecEnvChange(specEnvCheckBox.checked, specEnv)"
                   />
                   <kendo-label class="k-checkbox-label" [for]="specEnvCheckBox" [text]="specEnv | transloco" />
-                  @if (form.invalid && !form.untouched && specEnvSwitch.checked && form?.get('spec_env')?.value?.length === 0) {
+                  @if (
+                    form.invalid &&
+                    !form.untouched &&
+                    specEnvSwitch.checked &&
+                    form?.get('spec_env')?.value?.length === 0
+                  ) {
                     <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
                   }
                 </div>
@@ -77,7 +89,7 @@
         <div class="section">
           <div class="title">
             <span>
-              @if (tokenUser$()?.residential === 'GEO') {
+              @if (user()?.residential === 'GEO') {
                 {{ 'programs.completedForeignGeneralEducation' | transloco }}
               } @else {
                 {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
@@ -88,7 +100,9 @@
               [offLabel]="'shared.no' | transloco"
               [disabled]="abroadSwitch.checked"
               #ocuSwitch
-              (valueChange)="toggleSwitcher($event, tokenUser$()?.residential === 'GEO' ? 'abroad_doc' : 'complete_edu_abroad')"
+              (valueChange)="
+                toggleSwitcher($event, user()?.residential === 'GEO' ? 'abroad_doc' : 'complete_edu_abroad')
+              "
               [checked]="isAbroadEnabled()"
             />
           </div>
@@ -96,17 +110,19 @@
             <vet-info variant="warning">
               {{ 'programs.switchWarning' | transloco }}
             </vet-info>
-            <vet-file-upload [title]="'programs.uploadEducationDocument'"
-                             [uploadedFiles]="form?.get('abroad_doc')?.getRawValue()"
-                             (fileUploaded)="handleFileUpload($event, 'abroad_doc')"
-                             (fileRemoved)="handleRemoveFile($event, 'abroad_doc')" />
+            <vet-file-upload
+              [title]="'programs.uploadEducationDocument'"
+              [uploadedFiles]="form?.get('abroad_doc')?.getRawValue()"
+              (fileUploaded)="handleFileUpload($event, 'abroad_doc')"
+              (fileRemoved)="handleRemoveFile($event, 'abroad_doc')"
+            />
           }
         </div>
 
         <div class="section">
           <div class="title">
             <span>
-              @if (tokenUser$()?.residential === 'GEO') {
+              @if (user()?.residential === 'GEO') {
                 {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
               } @else {
                 {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
@@ -117,7 +133,9 @@
               [offLabel]="'shared.no' | transloco"
               [disabled]="ocuSwitch.checked"
               #abroadSwitch
-              (valueChange)="toggleSwitcher($event, tokenUser$()?.residential === 'GEO' ? 'ocu_doc' : 'complete_base_edu_abroad')"
+              (valueChange)="
+                toggleSwitcher($event, user()?.residential === 'GEO' ? 'ocu_doc' : 'complete_base_edu_abroad')
+              "
               [checked]="isOcuEnabled()"
             />
           </div>
@@ -125,10 +143,12 @@
             <vet-info variant="warning">
               {{ 'programs.switchWarning' | transloco }}
             </vet-info>
-            <vet-file-upload [title]="'programs.uploadEducationDocument'"
-                             [uploadedFiles]="form?.get('ocu_doc')?.getRawValue()"
-                             (fileUploaded)="handleFileUpload($event, 'ocu_doc')"
-                             (fileRemoved)="handleRemoveFile($event, 'ocu_doc')" />
+            <vet-file-upload
+              [title]="'programs.uploadEducationDocument'"
+              [uploadedFiles]="form?.get('ocu_doc')?.getRawValue()"
+              (fileUploaded)="handleFileUpload($event, 'ocu_doc')"
+              (fileRemoved)="handleRemoveFile($event, 'ocu_doc')"
+            />
           }
         </div>
       </div>

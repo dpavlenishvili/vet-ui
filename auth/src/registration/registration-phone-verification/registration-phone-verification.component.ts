@@ -1,7 +1,7 @@
 import { Component, computed, effect, forwardRef, input, output, signal, viewChildren } from '@angular/core';
 import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 import { type ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { useAuthEnvironment } from '../../auth.injectors';
+import { useAuthEnvironment } from '../../auth.providers';
 import { RegistrationPhoneTimeoutComponent } from '../registration-phone-timeout/registration-phone-timeout.component';
 import noop from 'lodash-es/noop';
 

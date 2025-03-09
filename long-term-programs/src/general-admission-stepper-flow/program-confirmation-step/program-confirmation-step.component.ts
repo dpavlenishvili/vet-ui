@@ -6,16 +6,14 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { CustomAuthService } from '@vet/auth';
+import { AuthenticationService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AdmissionService } from '@vet/backend';
 import {
   ProgramSelectedProgramsComponent,
-  ProgramSelectedProgramsStepFormGroup
+  ProgramSelectedProgramsStepFormGroup,
 } from '../program-selected-programs/program-selected-programs.component';
-import {
-  ProgramGeneralInformationStepFormGroup
-} from '../program-general-information-step/program-general-information-step.component';
+import { ProgramGeneralInformationStepFormGroup } from '../program-general-information-step/program-general-information-step.component';
 import { NgClass } from '@angular/common';
 import { InfoComponent, UploadedFile, vetIcons } from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
@@ -35,7 +33,7 @@ export type ProgramSelectionStepFormGroup = FormGroup;
     TranslocoPipe,
     ProgramSelectedProgramsComponent,
     InfoComponent,
-    NgClass
+    NgClass,
   ],
   templateUrl: './program-confirmation-step.component.html',
   styleUrl: './program-confirmation-step.component.scss',
@@ -53,7 +51,7 @@ export class ProgramConfirmationStepComponent {
 
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
-  user = inject(CustomAuthService).tokenUser$;
+  user = inject(AuthenticationService).user;
 
   admissionService = inject(AdmissionService);
   educationStatus = rxResource({
@@ -62,8 +60,7 @@ export class ProgramConfirmationStepComponent {
   });
   maxLengthOfRequirements = 2000;
 
-  constructor(@Inject(WA_WINDOW) private window: Window) {
-  }
+  constructor(@Inject(WA_WINDOW) private window: Window) {}
 
   onPreviousClick() {
     this.previousClick.emit();

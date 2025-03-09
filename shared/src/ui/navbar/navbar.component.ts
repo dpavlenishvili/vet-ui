@@ -1,22 +1,11 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  input,
-  OnInit,
-  signal,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, ElementRef, HostListener, inject, input, signal, ViewEncapsulation } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { CustomAuthService } from '@vet/auth';
-import { RolesService } from '@vet/backend';
+import { AuthenticationService, UserRolesService } from '@vet/auth';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-ui-navbar',
@@ -26,29 +15,21 @@ import { tap } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   pages = input.required<NavbarMenuItemType[]>();
 
-  customAuthService = inject(CustomAuthService);
-  rolesService = inject(RolesService);
+  authenticationService = inject(AuthenticationService);
+  userRolesService = inject(UserRolesService);
+  roles = this.userRolesService.roles;
   router = inject(Router);
   elementRef = inject(ElementRef);
-  tokenUser$ = inject(CustomAuthService).tokenUser$;
+  user = this.authenticationService.user;
   transloco = inject(TranslocoService);
   kendoIcons = kendoIcons;
   isProfileCardOpen = signal(false);
   isMobileMenuOpen = signal(false);
 
   vetIcons = vetIcons;
-  roles = signal<
-    | {
-    name?: string;
-    roles?: string[];
-    organisation?: string;
-    permissions?: string[];
-  }[]
-    | null
-  >(null);
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
@@ -82,23 +63,6 @@ export class NavbarComponent implements OnInit {
 
   logout(): void {
     this.isProfileCardOpen.set(false);
-    this.customAuthService.logout().subscribe();
-  }
-
-  ngOnInit(): void {
-    if (this.tokenUser$()) {
-      this.rolesService
-        .roles()
-        .pipe(
-          tap((res) => {
-            this.roles.set(res);
-            const userRole = res?.[0].roles?.[0];
-            if (userRole) {
-              this.customAuthService.userRole$.set(userRole);
-            }
-          }),
-        )
-        .subscribe();
-    }
+    this.authenticationService.logout().subscribe();
   }
 }

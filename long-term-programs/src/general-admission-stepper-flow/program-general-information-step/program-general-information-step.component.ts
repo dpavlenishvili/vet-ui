@@ -9,7 +9,7 @@ import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { GeneralsService } from '@vet/backend';
 import { FileUploadComponent, InfoComponent, kendoIcons, UploadedFile } from '@vet/shared';
 import { map, take, tap } from 'rxjs';
-import { CustomAuthService } from '@vet/auth';
+import { AuthenticationService } from '@vet/auth';
 import { DialogRef, DialogService } from '@progress/kendo-angular-dialog';
 import { rxResource } from '@angular/core/rxjs-interop';
 
@@ -43,7 +43,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   isAbroadEnabled = signal(false);
   isOcuEnabled = signal(false);
   invalidStudentStatus = signal(false);
-  tokenUser$ = inject(CustomAuthService).tokenUser$;
+  protected user = inject(AuthenticationService).user;
 
   kendoIcons = kendoIcons;
   specEnvs = signal(['programs.elevatorRamp', 'programs.testTimeExtension', 'programs.testFontSizeIncrease']);
@@ -88,7 +88,9 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   handleFileUpload(file: UploadedFile, field: string) {
     const payload = { filename: file.filename, base64: file.base64 };
     const currentValue = this.form()?.get(field)?.getRawValue();
-    this.form()?.get(field)?.patchValue([...currentValue, payload]);
+    this.form()
+      ?.get(field)
+      ?.patchValue([...currentValue, payload]);
   }
 
   handleRemoveFile(files: UploadedFile[], field: string) {
@@ -96,7 +98,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   }
 
   toggleSwitcher(event: boolean, key: string) {
-    if (this.tokenUser$()?.residential !== 'GEO') {
+    if (this.user()?.residential !== 'GEO') {
       this.form()?.get(key)?.patchValue(event);
     } else {
       if (!event) {
@@ -157,10 +159,11 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form()?.valueChanges.pipe(
+    this.form()
+      ?.valueChanges.pipe(
         tap((value) => {
           this.isSpecEnvEnabled.set(value.spec_env.length > 0);
-          if (this.tokenUser$()?.residential !== 'GEO') {
+          if (this.user()?.residential !== 'GEO') {
             this.isAbroadEnabled.set(value?.complete_edu_abroad);
             this.isOcuEnabled.set(value?.complete_base_edu_abroad);
           } else {

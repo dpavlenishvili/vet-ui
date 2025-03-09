@@ -3,7 +3,7 @@ import { combineLatest, interval, map, of, startWith, switchMap, take, tap } fro
 import dayjs from 'dayjs';
 import { default as duration } from 'dayjs/plugin/duration';
 
-import { useAuthEnvironment } from '../../auth.injectors';
+import { useAuthEnvironment } from '../../auth.providers';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { Reloader } from '@vet/shared';
 import { RouterLink } from '@angular/router';
@@ -18,7 +18,7 @@ dayjs.extend(duration);
   templateUrl: './registration-phone-timeout.component.html',
   styleUrl: './registration-phone-timeout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class RegistrationPhoneTimeoutComponent {
   isPending = input<boolean>(false);
@@ -34,11 +34,15 @@ export class RegistrationPhoneTimeoutComponent {
   createCountdown() {
     return this.verificationCodeReloader.reloadable(() => {
       return combineLatest([this.isPending$, this.startTime$]).pipe(
-        switchMap(([isPending]) => !isPending ? of(0) : interval(1000).pipe(
-          take(this.timeoutSeconds),
-          map((elapsed) => Math.max(this.timeoutSeconds - elapsed - 1, 0)),
-          startWith(this.timeoutSeconds),
-        )),
+        switchMap(([isPending]) =>
+          !isPending
+            ? of(0)
+            : interval(1000).pipe(
+                take(this.timeoutSeconds),
+                map((elapsed) => Math.max(this.timeoutSeconds - elapsed - 1, 0)),
+                startWith(this.timeoutSeconds),
+              ),
+        ),
         map((remaining) => ({ remaining })),
       );
     });
