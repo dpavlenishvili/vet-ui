@@ -14,7 +14,7 @@ export * from './services/local-storage.service';
 export * from './services/stored-state.service';
 export * from './services/reloader';
 
-export * from './interceptors/error.interceptor';
+export * from './api-error-handling';
 
 export * from './validators/custom-pattern-validator';
 export * from './validators/georgian-letters-validator';

@@ -27,7 +27,7 @@ import { acceptLanguageInterceptor } from './accept-language.interceptor';
 import { appRoutes } from './app.routes';
 import { initializeTransolco } from '@vet/i18n';
 import { provideAuthEnvironment } from '@vet/auth';
-import { errorInterceptor, ToastModule } from '@vet/shared';
+import { apiErrorInterceptor, ToastModule } from '@vet/shared';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,7 +35,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes, withComponentInputBinding()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([acceptLanguageInterceptor, authenticationInterceptor, errorInterceptor]),
+      withInterceptors([acceptLanguageInterceptor, authenticationInterceptor, apiErrorInterceptor]),
     ),
     importProvidersFrom(ToastModule),
     provideEnvironment(environment),
