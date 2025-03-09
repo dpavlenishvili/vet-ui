@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { vetIcons } from '@vet/shared';
+import * as vetIcons from '../../icons';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { NgClass } from '@angular/common';
 

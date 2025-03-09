@@ -1,15 +1,22 @@
-import { Component, inject } from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import { NavbarComponent } from '@vet/shared';
 import { RouterOutlet } from '@angular/router';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
+import {AuthenticationService, UserRolesService} from "@vet/auth";
+import { take } from 'rxjs';
 
 @Component({
   selector: 'vet-home-layout',
   imports: [AppFooterComponent, NavbarComponent, RouterOutlet],
   template: `
     <header>
-      <vet-ui-navbar [pages]="pages$()" />
+      <vet-ui-navbar
+        [pages]="pages$()"
+        [roles]="roles()"
+        [user]="user()"
+        (logout)="logout()"
+      />
     </header>
 
     <main class="main-container">
@@ -48,5 +55,16 @@ import { ApplicationPagesService } from '@vet/dynamic-pages';
   standalone: true,
 })
 export class HomeLayoutComponent {
-  pages$ = inject(ApplicationPagesService).headerMenuPages$;
+  protected readonly pages$ = inject(ApplicationPagesService).headerMenuPages$;
+  protected readonly roles = computed(() => this.userRolesService.roles());
+  protected readonly user = computed(() => this.authenticationService.user());
+  protected userRolesService = inject(UserRolesService);
+  protected authenticationService = inject(AuthenticationService);
+
+  protected logout() {
+    this.authenticationService
+      .logout()
+      .pipe(take(1))
+      .subscribe();
+  }
 }

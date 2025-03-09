@@ -9,3 +9,5 @@ export * from './auth.providers';
 export * from './authentication.service';
 export * from './user-roles.service';
 export * from './skip-authorization-token-ctx';
+export * from './authenticated.guard';
+export * from './interceptors/authentication.interceptor';

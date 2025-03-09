@@ -1,8 +1,8 @@
-import { Component, ElementRef, HostListener, inject, input, signal, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, input, output, signal, ViewEncapsulation } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { AuthenticationService, UserRolesService } from '@vet/auth';
+import { User, UserRole } from '@vet/backend';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
@@ -17,13 +17,13 @@ import { kendoIcons, vetIcons } from '../../shared.icons';
 })
 export class NavbarComponent {
   pages = input.required<NavbarMenuItemType[]>();
+  roles = input.required<UserRole[]>();
+  user = input.required<User | null>();
 
-  authenticationService = inject(AuthenticationService);
-  userRolesService = inject(UserRolesService);
-  roles = this.userRolesService.roles;
+  logout = output<void>();
+
   router = inject(Router);
   elementRef = inject(ElementRef);
-  user = this.authenticationService.user;
   transloco = inject(TranslocoService);
   kendoIcons = kendoIcons;
   isProfileCardOpen = signal(false);
@@ -61,8 +61,8 @@ export class NavbarComponent {
     this.transloco.setActiveLang(newLang);
   }
 
-  logout(): void {
+  handleLogout(): void {
     this.isProfileCardOpen.set(false);
-    this.authenticationService.logout().subscribe();
+    this.logout.emit();
   }
 }
