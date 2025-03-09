@@ -1,34 +1,34 @@
 :host {
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
 
-    .overview-container {
-        background-color: #ffffff;
-        border-radius: 1.25rem;
-        padding: 1.25rem;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-    }
+  .overview-container {
+    background-color: #ffffff;
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
 
-    .profile-picture {
-        width: 6.063rem;
-        height: 5.375rem;
-        border-radius: 0.625rem;
-    }
+  .profile-picture {
+    width: 6.063rem;
+    height: 5.375rem;
+    border-radius: 0.625rem;
+  }
 
-    .user-info {
-        border: 0.5px solid #e0e0e0;
-        border-radius: 0.625rem;
-        padding: 1.25rem;
-    }
+  .user-info {
+    border: 0.5px solid #e0e0e0;
+    border-radius: 0.625rem;
+    padding: 1.25rem;
+  }
 
-    .form-fields-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        justify-content: space-between;
-        align-items: end;
-        gap: 2.5rem 1.25rem;
-        margin-top: 2.5rem;
-    }
+  .form-fields-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    align-items: end;
+    gap: 2.5rem 1.25rem;
+    margin-top: 2.5rem;
+  }
 }

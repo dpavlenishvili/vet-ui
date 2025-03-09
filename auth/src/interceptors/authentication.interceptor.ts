@@ -42,7 +42,7 @@ export const authenticationInterceptor: HttpInterceptorFn = (
       if (err.status === HttpStatusCode.Unauthorized || err.status === HttpStatusCode.Forbidden) {
         if (!_refreshing$.getValue()) {
           _refreshing$.next(true);
-          return authenticationService.refresh().pipe(
+          return authenticationService.refreshToken().pipe(
             switchMap(() => handleRequest(req, next, authenticationService)),
             finalize(() => _refreshing$.next(false)),
           );

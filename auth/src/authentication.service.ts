@@ -72,7 +72,7 @@ export class AuthenticationService {
       .pipe(tap((user) => this.handleSuccessfulAuthorization(user)));
   }
 
-  refresh() {
+  refreshToken() {
     const refreshToken = this._refreshToken();
 
     if (!refreshToken) {
@@ -95,6 +95,10 @@ export class AuthenticationService {
           return throwError(() => err);
         }),
       );
+  }
+
+  reloadUser() {
+    this._user.reload();
   }
 
   private handleSuccessfulAuthorization(userOr2Fa: UserLoginResponseBody) {

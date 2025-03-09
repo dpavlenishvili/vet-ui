@@ -1,23 +1,23 @@
-import { RegistrationPhoneVerificationComponent } from './../../../auth/src/registration/registration-phone-verification/registration-phone-verification.component';
+import { RegistrationPhoneVerificationComponent } from '@vet/auth';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { CardModule } from '@progress/kendo-angular-layout';
-import { ChangeDetectionStrategy, Component, input, output, DestroyRef, signal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, output, signal } from '@angular/core';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormatDatePipe } from '@vet/shared';
-import { GeneralsService, SmsService } from '@vet/backend';
+import { ReactiveFormsModule } from '@angular/forms';
+import { GeneralsService, SmsService, UserReq } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+import { getUserOverviewFormData, userOverviewForm } from './user-overview-form';
+import { UserProfileSection } from '../user-profile-section';
 
 @Component({
   selector: 'vet-user-overview',
-  standalone: true,
   imports: [
     CardModule,
     ButtonModule,
@@ -30,12 +30,11 @@ import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
     AsyncPipe,
     DropDownListModule,
   ],
-  providers: [FormatDatePipe],
   templateUrl: './user-overview.component.html',
   styleUrl: './user-overview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserOverviewComponent {
+export class UserOverviewComponent extends UserProfileSection {
   kendoIcons = kendoIcons;
   isAddressExpanded = false;
   isContactInfoExpanded = false;
@@ -43,26 +42,23 @@ export class UserOverviewComponent {
 
   save = output();
 
-  form = input<
-    FormGroup<{
-      name: FormControl<string | null>;
-      region: FormControl<string | null>;
-      district: FormControl<string | null>;
-      address: FormControl<string | null>;
-      email: FormControl<string | null>;
-      phone: FormControl<string | null>;
-      sms_code: FormControl<string | null>;
-    }>
-  >();
+  protected readonly form = userOverviewForm();
 
   generalsService = inject(GeneralsService);
   smsService = inject(SmsService);
-  destroyRef = inject(DestroyRef);
 
   districts$ = this.generalsService.getDistrictsList().pipe(map((response) => response.data));
   regions$ = this.generalsService.getRegionsList().pipe(map((response) => response.data));
 
-  onAdressExpandClick() {
+  constructor() {
+    super();
+    const formDataModel = computed(() => getUserOverviewFormData(this.authService.user()));
+    effect(() => {
+      this.form.reset(formDataModel());
+    });
+  }
+
+  onAddressExpandClick() {
     this.isAddressExpanded = !this.isAddressExpanded;
   }
 
@@ -72,7 +68,7 @@ export class UserOverviewComponent {
 
   verifyPhone() {
     const targetPhone = {
-      phone: String(this.form()?.value.phone),
+      phone: String(this.form?.value.phone),
     };
 
     this.isContactInfoExpanded = true;
@@ -92,15 +88,15 @@ export class UserOverviewComponent {
 
   handleSave() {
     const validatePhone = {
-      phone: String(this.form()?.value.phone),
-      sms_code: String(this.form()?.value.sms_code),
+      phone: String(this.form?.value.phone),
+      sms_code: String(this.form?.value.sms_code),
     };
     this.smsService
       .validateSms(validatePhone)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         tap(() => {
-          this.save.emit();
+          this.updateUser(this.form.value as UserReq);
           this.isSmsCodeSent.set(false);
         }),
       )

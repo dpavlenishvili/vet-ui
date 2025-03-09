@@ -1,6 +1,6 @@
-import { Pipe, type PipeTransform } from '@angular/core';
+import {Pipe, type PipeTransform} from '@angular/core';
 import dayjs from 'dayjs';
-import { useDefaultDateFallback, useDefaultDisplayDateFormat } from '../shared.injectors';
+import {useDefaultDateFallback, useDefaultDisplayDateFormat} from '../shared.injectors';
 
 @Pipe({
   name: 'formatDate',
@@ -8,19 +8,22 @@ import { useDefaultDateFallback, useDefaultDisplayDateFormat } from '../shared.i
   standalone: true,
 })
 export class FormatDatePipe implements PipeTransform {
-  private readonly defaultDisplayDateFormat = useDefaultDisplayDateFormat();
-  private readonly defaultDateFallback = useDefaultDateFallback();
+  transform = formatDateFn();
+}
 
-  transform(
+export const formatDateFn = (defaultDisplayDateFormat = useDefaultDisplayDateFormat(), defaultDateFallback = useDefaultDateFallback()) => {
+  return (
     date: string | number | Date | dayjs.Dayjs,
     params: {
       format?: string;
       fallback?: string;
-    } = {},
-  ): string {
-    const format = params.format ?? this.defaultDisplayDateFormat;
-    const fallback = params.fallback ?? this.defaultDateFallback;
+    } = {}
+  ) => {
+    const format = params.format ?? defaultDisplayDateFormat;
+    const fallback = params.fallback ?? defaultDateFallback;
 
     return date ? dayjs(date).format(format) : fallback;
   }
 }
+
+export type FormatDateFn = ReturnType<typeof formatDateFn>;

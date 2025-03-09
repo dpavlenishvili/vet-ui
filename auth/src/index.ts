@@ -1,3 +1,7 @@
+export {
+  RegistrationPhoneVerificationComponent
+} from './registration/registration-phone-verification/registration-phone-verification.component';
+
 export * from './interceptors/authentication.interceptor';
 
 export * from './auth.routes';

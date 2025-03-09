@@ -6,6 +6,8 @@ import { MainLayoutComponent } from './main-layout.component';
 import { programsRoutes } from '@vet/programs';
 import { longTermProgramsRoutes } from '@vet/long-term-programs';
 import { HomeLayoutComponent } from './home-layout.component';
+import { userProfileRoutes } from '@vet/user-profile';
+import { authRoutes } from '@vet/auth';
 
 export const appRoutes: Routes = [
   {
@@ -30,11 +32,11 @@ export const appRoutes: Routes = [
       },
       {
         path: 'user-profile',
-        loadChildren: () => import('@vet/user-profile').then((r) => r.userProfileRoutes),
+        children: userProfileRoutes,
       },
       {
         path: '',
-        loadChildren: () => import('@vet/auth').then((r) => r.authRoutes),
+        children: authRoutes,
         data: breadcrumb([]),
       },
     ],
