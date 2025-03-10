@@ -61,7 +61,6 @@ export class ApplicationPagesService {
     const existingRoutes = [...this.router.config];
     const pagesIndex = existingRoutes.findIndex((route) => route.path === dynamicUrlPrefix);
     existingRoutes[pagesIndex].children = [...this.dynamicPagesRoutes];
-    console.log({ existingRoutes });
     this.router.resetConfig(existingRoutes);
   }
 
