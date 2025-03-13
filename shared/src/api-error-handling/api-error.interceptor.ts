@@ -1,9 +1,10 @@
-import {inject} from '@angular/core';
+import {inject, PLATFORM_ID} from '@angular/core';
 import type {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import {TranslocoService} from '@jsverse/transloco';
 import {NotificationService} from "@progress/kendo-angular-notification";
 import {catchError, take, tap, throwError} from 'rxjs';
 import {getApiErrorHandler} from "./api-error-ctx";
+import {isPlatformServer} from "@angular/common";
 
 const reportError = (message: string, notificationService: NotificationService) => {
   notificationService.show({
@@ -20,6 +21,11 @@ const reportError = (message: string, notificationService: NotificationService) 
 export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const translocoService = inject(TranslocoService);
   const notificationService = inject(NotificationService);
+  const platformId = inject(PLATFORM_ID);
+
+  if (isPlatformServer(platformId)) {
+    return next(req);
+  }
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {

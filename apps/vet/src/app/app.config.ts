@@ -1,5 +1,5 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import {ApplicationConfig, importProvidersFrom, inject} from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
@@ -27,6 +27,8 @@ import { appRoutes } from './app.routes';
 import { initializeTransolco } from '@vet/i18n';
 import { provideAuthEnvironment, authenticationInterceptor } from '@vet/auth';
 import { apiErrorInterceptor, ToastModule } from '@vet/shared';
+import { NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
+import { WA_WINDOW } from '@ng-web-apis/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -53,5 +55,12 @@ export const appConfig: ApplicationConfig = {
     provideKendoDateTimePickerFormat(environment.kendoDateTimePickerFormat),
     provideAuthEnvironment(environment.modules.auth),
     dynamicPagesInitializer(),
+    {
+      provide: NOTIFICATION_CONTAINER,
+      useFactory: () => {
+        const _window = inject(WA_WINDOW);
+        return { nativeElement: _window.document.body };
+      }
+    }
   ],
 };
