@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, Inject, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, inject, input, output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -18,6 +18,7 @@ import { NgClass } from '@angular/common';
 import { InfoComponent, UploadedFile, vetIcons } from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
 import { WA_WINDOW } from '@ng-web-apis/common';
+import { admissionProgramsResource } from '../admission-programs-resource';
 
 export type ProgramSelectionStepFormGroup = FormGroup;
 
@@ -58,6 +59,7 @@ export class ProgramConfirmationStepComponent {
     request: () => ({}),
     loader: () => this.admissionService.educationStatus(),
   });
+  selectedPrograms = admissionProgramsResource(this.admissionId);
   maxLengthOfRequirements = 2000;
 
   constructor(@Inject(WA_WINDOW) private window: Window) {}

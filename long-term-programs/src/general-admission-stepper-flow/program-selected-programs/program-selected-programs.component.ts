@@ -1,5 +1,5 @@
-import { AdmissionPrograms, AdmissionService } from '@vet/backend';
-import { ChangeDetectionStrategy, Component, OnInit, inject, input, output, signal } from '@angular/core';
+import { AdmissionPrograms, LongTerm } from '@vet/backend';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -9,9 +9,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ConfirmationDialogService, vetIcons } from '@vet/shared';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { map, Observable, of } from 'rxjs';
-import { LongTerm } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 
@@ -33,32 +31,16 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
   standalone: true,
 })
 export class ProgramSelectedProgramsComponent {
-  admissionId = input<string | null>();
-  form = input<ProgramSelectedProgramsStepFormGroup>();
-  mode = input<'edit' | 'view'>('edit');
+  isEditMode = input(false, { transform: coerceBooleanProperty });
+  selectedPrograms = input<AdmissionPrograms[]>();
+  selectedProgramsLoading = input<boolean>();
+  selectedProgramsError = input<Error>();
   deleteClick = output<LongTerm>();
 
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
 
   confirmationDialogService = inject(ConfirmationDialogService);
-  admissionService = inject(AdmissionService);
-
-  protected readonly selectedPrograms = rxResource({
-    request: () => ({ admissionId: this.admissionId() }),
-    loader: ({ request: { admissionId } }): Observable<AdmissionPrograms[]> => {
-      if (!admissionId) {
-        return of([]);
-      }
-
-      return this.admissionService
-        .admissionList({
-          role: 'Default User',
-          number: admissionId,
-        })
-        .pipe(map((res) => res.data?.[0]?.programs ?? []));
-    },
-  });
 
   onDeleteClick(item: LongTerm) {
     this.confirmationDialogService.show({

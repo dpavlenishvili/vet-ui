@@ -21,8 +21,8 @@ import { ProgramConfirmationStepComponent } from './program-confirmation-step/pr
 import { NgTemplateOutlet } from '@angular/common';
 import { ProgramSsmStepComponent } from './program-ssm-step/program-ssm-step.component';
 import { AdmissionPrograms, AdmissionRes, AdmissionService, AdmissionsRes } from '@vet/backend';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { of, switchMap, tap } from 'rxjs';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { DialogRef, DialogResult, DialogService } from '@progress/kendo-angular-dialog';
 import { Router } from '@angular/router';
 import { AuthenticationService, UserRolesService } from '@vet/auth';
@@ -239,10 +239,10 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                     : '',
               },
               program_selection: {
-                program_ids: filteredPrograms(admissionData.programs),
+                program_ids: admissionData.programs?.map((program) => program?.program?.program_id) ?? [],
               },
               selected_programs: {
-                program_ids: filteredPrograms(admissionData.programs),
+                program_ids: admissionData.programs?.map((program) => program?.program?.program_id) ?? [],
               },
             };
 

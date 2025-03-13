@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output,
-  signal,
-  effect
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -14,10 +7,14 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { vetIcons } from '@vet/shared';
-import { LongTerm } from '@vet/backend';
+import { AdmissionService, LongTerm } from '@vet/backend';
 import { ProgramSelectedProgramsComponent } from '../program-selected-programs/program-selected-programs.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
+import { admissionProgramsResource } from '../admission-programs-resource';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
+export type ProgramsSelectionStepFormGroup = FormGroup;
 
 @Component({
   selector: 'vet-program-selected-programs-step',
@@ -29,7 +26,7 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     LabelModule,
     SVGIconModule,
     ProgramSelectedProgramsComponent,
-    TranslocoPipe
+    TranslocoPipe,
   ],
   templateUrl: './program-selected-programs-step.component.html',
   styleUrl: './program-selected-programs-step.component.scss',
@@ -39,31 +36,20 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 export class ProgramSelectedProgramsStepComponent {
   nextClick = output();
   previousClick = output();
-  readonly admissionId = input<string | null>();
-
+  readonly admissionId = input.required<string | null>();
+  protected readonly selectedPrograms = admissionProgramsResource(this.admissionId);
   form = input<ProgramSelectedProgramsStepFormGroup>();
+  selectionProgramsForm = input<ProgramsSelectionStepFormGroup>();
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
 
-  selectedProgramIds = signal<number[]>([]);
+  admissionService = inject(AdmissionService);
+  private destroyRef = inject(DestroyRef);
 
   constructor() {
     effect(() => {
-      this.getSelectedProgramIds();
+      this.selectedPrograms.reload();
     });
-  }
-
-  getSelectedProgramIds() {
-    const value = this.form()?.value;
-    const selectedProgramIds = [];
-
-    for (const item of value.program_ids) {
-      if (item.program?.program_id) {
-        selectedProgramIds.push(item.program.program_id);
-      }
-    }
-
-    this.selectedProgramIds.set(selectedProgramIds);
   }
 
   onPreviousClick() {
@@ -78,8 +64,22 @@ export class ProgramSelectedProgramsStepComponent {
   }
 
   onDeleteClick(item: LongTerm) {
-    const filteredIds = this.selectedProgramIds().filter((id) => id !== item.program_id);
-    this.form()?.get('program_ids')?.patchValue(filteredIds);
-    this.form()?.get('program_ids')?.updateValueAndValidity();
+    const deletedProgramIds = this.form()
+      ?.get('program_ids')
+      ?.value.filter((id: number) => id !== item.program_id);
+    this.form()?.get('program_ids')?.patchValue(deletedProgramIds);
+    this.form()?.updateValueAndValidity();
+    this.selectionProgramsForm()?.get('program_ids')?.patchValue(deletedProgramIds);
+    this.selectionProgramsForm()?.updateValueAndValidity();
+
+    this.admissionService
+      .editAdmission(this.admissionId() as string, this.form()?.value)
+      .pipe(
+        tap(() => {
+          this.selectedPrograms.reload();
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 }

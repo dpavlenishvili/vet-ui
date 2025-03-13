@@ -1,7 +1,7 @@
-@if (selectedPrograms.isLoading()) {
+@if (selectedProgramsLoading()) {
   <div>{{ 'programs.loading' | transloco }}</div>
 } @else {
-  @if (selectedPrograms.value(); as _selectedPrograms) {
+  @if (selectedPrograms(); as _selectedPrograms) {
     <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5">
       <kendo-grid-column [width]="250" [title]="'programs.program_name' | transloco">
         <ng-template kendoGridCellTemplate let-item>
@@ -11,13 +11,13 @@
 
       <kendo-grid-column [width]="200" [title]="'programs.form' | transloco">
         <ng-template kendoGridCellTemplate let-item>
-          {{ item.program.qualification_name }}
+          {{ item.program.program_kind.name }}
         </ng-template>
       </kendo-grid-column>
 
       <kendo-grid-column [width]="70" [title]="'programs.level' | transloco">
         <ng-template kendoGridCellTemplate let-item>
-          {{ item.program.education_level }}
+          {{ item.program.education_level.name }}
         </ng-template>
       </kendo-grid-column>
 
@@ -37,7 +37,7 @@
         </ng-template>
       </kendo-grid-column>
 
-      @if (mode() === 'edit') {
+      @if (isEditMode()) {
         <kendo-grid-column [width]="100" [title]="'programs.selection' | transloco">
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-align-items-center k-gap-0.5">
@@ -46,8 +46,8 @@
               <button
                 kendoButton
                 fillMode="flat"
-                [svgIcon]="kendoIcons.minusOutlineIcon"
-                (click)="onDeleteClick(item)"
+                [svgIcon]="vetIcons.minusCircled"
+                (click)="onDeleteClick(item.program)"
               ></button>
             </div>
           </ng-template>

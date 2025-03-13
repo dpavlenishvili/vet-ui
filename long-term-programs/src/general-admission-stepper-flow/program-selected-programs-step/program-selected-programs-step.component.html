@@ -1,7 +1,9 @@
 <div class="k-display-flex k-flex-column k-gap-10">
   <vet-program-selected-programs
-    [admissionId]="admissionId()"
-    [form]="form()"
+    isEditMode
+    [selectedPrograms]="selectedPrograms.value()"
+    [selectedProgramsLoading]="selectedPrograms.isLoading()"
+    [selectedProgramsError]="$any(selectedPrograms.error())"
     (deleteClick)="onDeleteClick($event)"
   />
 

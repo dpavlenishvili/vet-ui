@@ -42,6 +42,7 @@
   <vet-program-selection-step
     [form]="formGroup.controls.program_selection"
     [ssmStepForm]="formGroup.controls.ssm_status"
+    [selectedProgramsForm]="formGroup.controls.selected_programs"
     [admissionId]="admissionId()"
     (previousClick)="onPreviousClick()"
     (nextClick)="onNextClick('program_selection')"
@@ -51,6 +52,7 @@
 <ng-template #programSelectedProgramsStepTmpl>
   <vet-program-selected-programs-step
     [form]="formGroup.controls.selected_programs"
+    [selectionProgramsForm]="formGroup.controls.program_selection"
     [admissionId]="admissionId()"
     (previousClick)="onPreviousClick()"
     (nextClick)="onNextClick('selected_programs')"

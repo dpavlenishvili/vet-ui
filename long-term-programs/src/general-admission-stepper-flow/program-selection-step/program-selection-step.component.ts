@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -11,10 +11,12 @@ import { GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular
 import { ProgramComponent } from 'programs/src/program/program.component';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { ProgramSelectionFiltersComponent } from './program-selection-filters/program-selection-filters.component';
-import { rxResource } from "@angular/core/rxjs-interop";
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
 
 export type ProgramSelectionStepFormGroup = FormGroup;
 export type ProgramSsmStep = FormGroup;
+export type SelectedProgramsStepForm = FormGroup;
 export type ProgramSelectionFilter = {
   filters: {
     organisation: number | null;
@@ -58,19 +60,25 @@ export class ProgramSelectionStepComponent {
   infoDialogText = '';
   vetIcons = vetIcons;
 
+  singleProgramId = signal(0);
+
   admissionId = input<string | null>();
   eligiblePrograms$ = rxResource({
-    request: () => ({admissionId: this.admissionId(), filters: this.filters()}),
-    loader: ({request: {admissionId, filters}}) => this.admissionService.eligibleProgramsList(
-      // @ts-expect-error Not yet implemented by BE, should be removed once this works
-      admissionId, filters
-    )
+    request: () => ({ admissionId: this.admissionId(), filters: this.filters() }),
+    loader: ({ request: { admissionId, filters } }) =>
+      this.admissionService.eligibleProgramsList(
+        admissionId,
+        // @ts-expect-error Not yet implemented by BE, should be removed once this works
+        filters,
+      ),
   });
   admissionService = inject(AdmissionService);
   routeParamsService = inject(RouteParamsService);
+  destroyRef = inject(DestroyRef);
 
   form = input<ProgramSelectionStepFormGroup>();
   ssmStepForm = input<ProgramSsmStep>();
+  selectedProgramsForm = input<SelectedProgramsStepForm>();
   kendoIcons = kendoIcons;
   selectedPrograms = signal<number[]>([]);
 
@@ -78,8 +86,13 @@ export class ProgramSelectionStepComponent {
   protected readonly filters = signal<ProgramSelectionFilter['filters'] | undefined>(undefined);
 
   onPreviewProgramClick(item: LongTerm) {
+    this.singleProgramId.set(Number(item.id));
     this.isProgramDialogOpen.set(true);
     this.previewProgram = item;
+  }
+
+  isAddButtonDisabled() {
+    return this.selectedProgramsForm()?.get('program_ids')?.value.length >= 3;
   }
 
   onCloseClick() {
@@ -93,11 +106,24 @@ export class ProgramSelectionStepComponent {
   }
 
   onProgramAddClick(item: LongTerm) {
+    this.selectedPrograms.set(this.form()?.get('program_ids')?.value);
     if (item.program_id) {
-      this.selectedPrograms().push(item?.program_id);
-      this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
-      this.form()?.get('program_ids')?.updateValueAndValidity();
-      this.isConfirmationDialogOpen.set(true);
+      if (!this.selectedPrograms().includes(item.program_id)) {
+        this.selectedPrograms().push(item.program_id);
+        this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
+        this.form()?.get('program_ids')?.updateValueAndValidity();
+        this.isConfirmationDialogOpen.set(true);
+        this.admissionService
+          .editAdmission(this.admissionId() as string, this.form()?.value)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            tap(() => this.isConfirmationDialogOpen.set(true)),
+          )
+          .subscribe();
+      } else {
+        this.isInfoDialogOpen.set(true);
+        this.infoDialogText = 'programs.program_already_chosen';
+      }
     }
   }
 

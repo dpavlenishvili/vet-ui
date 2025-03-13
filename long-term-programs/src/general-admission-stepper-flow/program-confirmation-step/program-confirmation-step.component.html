@@ -32,9 +32,9 @@
                 {{ 'programs.selected_programs' | transloco }}
               </div>
               <vet-program-selected-programs
-                [form]="selectedProgramsForm()"
-                [admissionId]="admissionId()"
-                [mode]="'view'"
+                [selectedPrograms]="selectedPrograms.value()"
+                [selectedProgramsLoading]="selectedPrograms.isLoading()"
+                [selectedProgramsError]="$any(selectedPrograms.error())"
               />
             </div>
 

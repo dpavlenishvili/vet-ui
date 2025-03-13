@@ -15,16 +15,13 @@
           >
             <ng-template kendoGridNoRecordsTemplate>
               @if (eligiblePrograms$.error()) {
-
-              } @else {
-
-              }
+              } @else {}
             </ng-template>
             <kendo-grid-column [width]="250" field="program_name" [title]="'programs.program_name' | transloco" />
 
-            <kendo-grid-column [width]="200" field="qualification_name" [title]="'programs.form' | transloco" />
+            <kendo-grid-column [width]="200" field="program_kind.name" [title]="'programs.form' | transloco" />
 
-            <kendo-grid-column [width]="70" field="education_level" [title]="'programs.level' | transloco" />
+            <kendo-grid-column [width]="70" field="education_level.name" [title]="'programs.level' | transloco" />
 
             <kendo-grid-column
               [width]="250"
@@ -48,14 +45,12 @@
                     (click)="onPreviewProgramClick(item)"
                   ></button>
 
-                  @if (selectedPrograms().length <= 2) {
-                    <button
-                      kendoButton
-                      fillMode="flat"
-                      [svgIcon]="vetIcons.plusCircled"
-                      (click)="onProgramAddClick(item)"
-                    ></button>
-                  }
+                  <button
+                    kendoButton
+                    fillMode="flat"
+                    [svgIcon]="vetIcons.plusCircled"
+                    (click)="onProgramAddClick(item)"
+                  ></button>
                 </div>
               </ng-template>
             </kendo-grid-column>
@@ -83,7 +78,7 @@
     [title]="'programs.program_description' | transloco"
     (close)="onCloseClick()"
   >
-    <vet-program [eligibleProgram]="previewProgram" />
+    <vet-program [programId]="singleProgramId()" />
   </kendo-dialog>
 }
 
