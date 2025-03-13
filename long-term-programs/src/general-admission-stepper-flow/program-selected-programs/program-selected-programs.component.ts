@@ -1,5 +1,5 @@
 import { AdmissionPrograms, LongTerm } from '@vet/backend';
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -10,6 +10,8 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { ConfirmationDialogService, vetIcons } from '@vet/shared';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
+import { ProgramComponent } from 'programs/src/program/program.component';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 
@@ -24,6 +26,8 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     SVGIconModule,
     TranslocoPipe,
     KENDO_GRID,
+    KENDO_DIALOG,
+    ProgramComponent
   ],
   templateUrl: './program-selected-programs.component.html',
   styleUrl: './program-selected-programs.component.scss',
@@ -37,10 +41,21 @@ export class ProgramSelectedProgramsComponent {
   selectedProgramsError = input<Error>();
   deleteClick = output<LongTerm>();
 
+  isProgramDialogOpen = signal(false);
+  singleProgramId = signal(0);
+
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
 
   confirmationDialogService = inject(ConfirmationDialogService);
+  onPreviewProgramClick(item: LongTerm) {
+    this.singleProgramId.set(Number(item.id));
+    this.isProgramDialogOpen.set(true);
+  }
+
+  onCloseClick() {
+    this.isProgramDialogOpen.set(false);
+  }
 
   onDeleteClick(item: LongTerm) {
     this.confirmationDialogService.show({

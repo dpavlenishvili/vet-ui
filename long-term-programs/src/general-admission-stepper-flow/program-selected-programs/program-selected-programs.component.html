@@ -56,3 +56,17 @@
     </kendo-grid>
   }
 }
+
+@defer (when isProgramDialogOpen()) {
+  @if (isProgramDialogOpen()) {
+    <kendo-dialog
+      [width]="1100"
+      [height]="900"
+      [title]="'programs.program_description' | transloco"
+      (close)="onCloseClick()"
+    >
+      <vet-program [programId]="singleProgramId()" />
+    </kendo-dialog>
+  }
+}
+

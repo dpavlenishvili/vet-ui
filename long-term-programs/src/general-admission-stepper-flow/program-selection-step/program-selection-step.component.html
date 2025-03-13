@@ -47,6 +47,7 @@
 
                   <button
                     kendoButton
+                    [disabled]="isAddButtonDisabled(item)"
                     fillMode="flat"
                     [svgIcon]="vetIcons.plusCircled"
                     (click)="onProgramAddClick(item)"

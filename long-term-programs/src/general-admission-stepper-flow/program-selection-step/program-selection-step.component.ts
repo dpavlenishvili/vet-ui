@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -13,10 +23,12 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { ProgramSelectionFiltersComponent } from './program-selection-filters/program-selection-filters.component';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
+import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';
 
 export type ProgramSelectionStepFormGroup = FormGroup;
 export type ProgramSsmStep = FormGroup;
 export type SelectedProgramsStepForm = FormGroup;
+export type GeneralInformationStepFromGroup = FormGroup;
 export type ProgramSelectionFilter = {
   filters: {
     organisation: number | null;
@@ -78,9 +90,11 @@ export class ProgramSelectionStepComponent {
 
   form = input<ProgramSelectionStepFormGroup>();
   ssmStepForm = input<ProgramSsmStep>();
+  generalInformationFrom = input<GeneralInformationStepFromGroup>();
   selectedProgramsForm = input<SelectedProgramsStepForm>();
   kendoIcons = kendoIcons;
   selectedPrograms = signal<number[]>([]);
+  selectedProgramsCount = computed(() => this.form()?.get('program_ids')?.value?.length ?? 0);
 
   previewProgram: LongTerm | null = null;
   protected readonly filters = signal<ProgramSelectionFilter['filters'] | undefined>(undefined);
@@ -91,8 +105,13 @@ export class ProgramSelectionStepComponent {
     this.previewProgram = item;
   }
 
-  isAddButtonDisabled() {
-    return this.selectedProgramsForm()?.get('program_ids')?.value.length >= 3;
+  isAddButtonDisabled(item: LongTerm): boolean {
+    const isMaxProgramCount = this.selectedProgramsCount() >= 3;
+    const educationLevel = this.generalInformationFrom()?.get('education_level')?.value;
+    const isBasicEducation = !!item.is_integrated && educationLevel === EducationLevel.Basic;
+    const isCollegeEducation = !!item.is_integrated && educationLevel === EducationLevel.ProfessionalBasic;
+
+    return isMaxProgramCount || isBasicEducation || isCollegeEducation;
   }
 
   onCloseClick() {
