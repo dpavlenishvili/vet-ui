@@ -48,6 +48,7 @@ Build:
   artifacts:
     paths:
       - dist/
+    expire_in: 1 day
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
