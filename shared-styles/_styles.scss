@@ -1,23 +1,56 @@
-//@import '@progress/kendo-theme-fluent/dist/all';
-//@import 'helvetica-neue-font';
-//@import 'custom-kendo-overides';
+@use 'tokens' as *;
+@use '@progress/kendo-theme-bootstrap/scss/index.scss' as * with (
 
-@import 'tokens';
+  $kendo-colors: (
+    surface: $tb-kendo-color-surface,
+    on-app-surface: $tb-kendo-color-on-app-surface,
+    primary: $tb-kendo-color-primary,
+    primary-hover: $tb-kendo-color-primary-hover,
+    secondary: $tb-kendo-color-secondary,
+    primary-active: $tb-kendo-color-primary-active,
+    primary-subtle: $tb-kendo-color-primary-subtle,
+    primary-subtle-hover: $tb-kendo-color-primary-subtle-hover,
+    primary-subtle-active: $tb-kendo-color-primary-subtle-active,
+    primary-on-surface: $tb-kendo-color-primary-on-surface,
+    secondary-hover: $tb-kendo-color-secondary-hover,
+    secondary-active: $tb-kendo-color-secondary-active,
+    tertiary-subtle: $tb-kendo-color-tertiary-subtle,
+    tertiary-subtle-hover: $tb-kendo-color-tertiary-subtle-hover,
+    tertiary-subtle-active: $tb-kendo-color-tertiary-subtle-active,
+    tertiary: $tb-kendo-color-tertiary,
+    tertiary-hover: $tb-kendo-color-tertiary-hover,
+    tertiary-active: $tb-kendo-color-tertiary-active,
+    tertiary-emphasis: $tb-kendo-color-tertiary-emphasis,
+    tertiary-on-subtle: $tb-kendo-color-tertiary-on-subtle,
+    tertiary-on-surface: $tb-kendo-color-tertiary-on-surface,
+  ),
+    $kendo-font-family: $tb-kendo-font-family,
+  $kendo-font-size: $tb-kendo-font-size,
+  $kendo-font-weight-normal: $tb-kendo-font-weight-normal,
+  $kendo-line-height: $tb-kendo-line-height,
 
-$kendo-input-calc-size: 50px;
-
-@import '@progress/kendo-theme-default/dist/all';
-
-@import 'overrides';
-
-@import 'general';
-
-.k-button-outline {
-  border-color: $kendo-button-border;
-}
+);
+@use '@progress/kendo-theme-utils/scss/all.scss' as *;
+@use 'overrides' as *;
 
 @include kendo-theme--styles();
 
+@include tb-overrides();
+
+//@import 'backup/tokens';
+//
+//@import '@progress/kendo-theme-default/dist/all';
+//
+//@import 'backup/overrides';
+//
+//@import 'general';
+//
+//.k-button-outline {
+//  border-color: $kendo-button-border;
+//}
+//
+//@include kendo-theme--styles();
+//
 @import 'helvetica-neue-font';
 @import 'custom-kendo-utilities';
 @import 'custom-kendo-overides';

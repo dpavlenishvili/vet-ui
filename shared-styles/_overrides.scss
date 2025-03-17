@@ -1,240 +1,117 @@
-// Compatible with @progress/kendo-theme-default v.7.2.0
+// Compatible with @progress/kendo-theme-bootstrap v.10.2.0
 
-%tb-typography {
-  @include typography-classes($tb-typography);
+@use '@progress/kendo-theme-bootstrap/scss/index.scss' as *;
+@use 'tokens' as *;
+
+@mixin tb-overrides {
+                      .k-button.k-button-solid-secondary{
+        color: k-color( primary );
+          
 }
-
-%tb-effects {
-  @include effects-classes($tb-effects);
+                      .k-button.k-hover.k-button-outline.k-button-outline-primary,.k-button.k-state-hover.k-button-outline.k-button-outline-primary,.k-button.k-state-hovered.k-button-outline.k-button-outline-primary,.k-button:hover.k-button-outline.k-button-outline-primary{
+        background-color: $tb-kendo-breadcrumb-current-item-text;
+            background-image: none;
+            color: k-color( primary-on-surface );
+          
 }
-
-.k-filter
-  .k-filter-container
-  .k-filter-group-main
-  .k-filter-toolbar
-  .k-toolbar
-  > .k-toolbar-button-group
-  .k-toolbar-button.k-selected.k-button-solid-base {
-  background-color: $tb-kendo-color-primary;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02));
+                      .k-button.k-active.k-button-outline.k-button-outline-primary,.k-button.k-state-active.k-button-outline.k-button-outline-primary,.k-button:active.k-button-outline.k-button-outline-primary{
+        background-color: $tb-kendo-breadcrumb-current-item-text;
+            background-image: none;
+            color: k-color( primary-on-surface );
+          
 }
-
-.k-scheduler
-  .k-toolbar.k-scheduler-toolbar
-  .k-button-group.k-scheduler-views
-  .k-button.k-button-md.k-button-solid.k-button-solid-base.k-rounded-md.k-selected {
-  background-color: $tb-kendo-color-primary;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02));
+                      .k-button.k-focus.k-button-outline.k-button-outline-primary,.k-button.k-state-focus.k-button-outline.k-button-outline-primary,.k-button.k-state-focused.k-button-outline.k-button-outline-primary,.k-button:focus.k-button-outline.k-button-outline-primary{
+        background-color: $tb-kendo-breadcrumb-current-item-text;
+            background-image: none;
+          
 }
-
-.k-button.k-button-md {
-  padding-bottom: 8px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 8px;
+                      .k-dropdownlist.k-picker-solid{
+        background-color: initial;
+            background-image: none;
+          
 }
-
-.k-drawer-container.k-drawer-expanded.k-drawer-push .k-drawer.k-drawer-start .k-drawer-wrapper .k-drawer-items {
-  background-color: $tb-kendo-breadcrumb-link-text;
-  background-image: none;
+                      .k-dropdowntree.k-picker-solid{
+        background-color: initial;
+            background-image: none;
+          
 }
-
-.k-drawer-container.k-drawer-mini .k-drawer.k-drawer-start .k-drawer-wrapper .k-drawer-items {
-  background-color: $tb-kendo-breadcrumb-link-text;
-  background-image: none;
+                      .k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row.k-alt.k-table-alt-row{
+        background-color: initial;
+            background-image: none;
+          
 }
-
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-hover,
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-state-hover,
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-state-hovered,
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item:hover {
-  background-color: $tb-kendo-list-item-selected-bg;
-  background-image: none;
-  color: $tb-kendo-component-bg;
+                      .k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row.k-hover,.k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row.k-state-hover,.k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row.k-state-hovered,.k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row:hover{
+        background-color: initial;
+            background-image: none;
+          
 }
-
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-focus,
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-state-focus,
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-state-focused,
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item:focus {
-  background-color: $tb-kendo-color-primary;
-  background-image: none;
-  color: $tb-kendo-component-bg;
+                      .k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row.k-hover >td,.k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row.k-state-hover >td,.k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row.k-state-hovered >td,.k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row:hover >td{
+        background-color: $tb-kendo-base-bg;
+            background-image: none;
+          
 }
-
-.k-drawer-container.k-drawer-mini.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item {
-  color: $tb-kendo-component-bg;
+                      .k-tabstrip .k-tabstrip-items-wrapper .k-tabstrip-items.k-reset.k-tabstrip-items-start .k-item.k-tabstrip-item.k-active,.k-tabstrip .k-tabstrip-items-wrapper .k-tabstrip-items.k-reset.k-tabstrip-items-start .k-item.k-tabstrip-item.k-state-active,.k-tabstrip .k-tabstrip-items-wrapper .k-tabstrip-items.k-reset.k-tabstrip-items-start .k-item.k-tabstrip-item:active{
+        font-weight: 400;
+          
 }
-
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item {
-  color: $tb-kendo-component-bg;
+                      .k-grid.k-grid-md .k-table .k-table-tbody .k-master-row.k-table-row >td{
+        border-top-color: $tb-kendo-table-border;
+            border-top-style: solid;
+            border-top-width: 1px;
+            padding-bottom: 12px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-top: 12px;
+          
 }
-
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-hover,
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-state-hover,
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-state-hovered,
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item:hover {
-  background-color: $tb-kendo-rating-icon-hover-text;
-  background-image: none;
+                      .k-grid.k-grid-md .k-grid-header{
+        border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+          
 }
-
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-selected {
-  background-color: $tb-kendo-link-hover-text;
-  background-image: none;
+                      .k-grid.k-grid-md .k-table-thead .k-table-row .k-header.k-table-th .k-cell-inner .k-link .k-column-title,.k-grid.k-grid-md .k-grid-header .k-table-row .k-header.k-table-th .k-cell-inner .k-link .k-column-title{
+        color: $tb-kendo-base-text;
+          
 }
-
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-focus,
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-state-focus,
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-state-focused,
-.k-drawer-container.k-drawer-expanded.k-drawer-push
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item:focus {
-  background-color: $tb-kendo-link-hover-text;
-  background-image: none;
+                      .k-button.k-button-md{
+        padding-bottom: 8px;
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-top: 8px;
+          
 }
-
-.k-drawer-container.k-drawer-mini
-  .k-drawer.k-drawer-start
-  .k-drawer-wrapper
-  .k-drawer-items
-  .k-drawer-item.k-drawer-separator {
-  color: inherit;
+                      .k-appbar.k-appbar-light{
+        background-color: $tb-header-bg;
+            background-image: none;
+            color: $tb-kendo-appbar-dark-text;
+          
 }
-
-.k-drawer-container.k-drawer-expanded.k-drawer-push .k-drawer.k-drawer-start .k-drawer-wrapper {
-  background-color: $tb-kendo-breadcrumb-link-text;
-  background-image: none;
-  border-bottom-color: $tb-kendo-breadcrumb-link-text;
-  border-left-color: $tb-kendo-breadcrumb-link-text;
-  border-right-color: $tb-kendo-breadcrumb-link-text;
-  border-top-color: $tb-kendo-breadcrumb-link-text;
+                      .k-textbox.k-input{
+        padding-bottom: 4px;
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-top: 4px;
+          
 }
-
-.k-drawer-container.k-drawer-mini .k-drawer.k-drawer-start .k-drawer-wrapper {
-  background-color: $tb-kendo-breadcrumb-link-text;
-  background-image: none;
-  border-bottom-color: $tb-kendo-breadcrumb-link-text;
-  border-left-color: $tb-kendo-breadcrumb-link-text;
-  border-right-color: $tb-kendo-breadcrumb-link-text;
-  border-top-color: $tb-kendo-breadcrumb-link-text;
+                      .k-numerictextbox.k-input{
+        padding-bottom: 4px;
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-top: 4px;
+          
 }
-
-.k-scrollview {
-  border-radius: 20px;
-  border: none;
-  .k-scrollview-wrap {
-    background: #fdf8ff;
-  }
-  .k-scrollview-elements {
-    .k-scrollview-next {
-      color: #b1b7bb;
-      right: 20px;
-
-      &:hover {
-        color: #b1b7bb;
+                      .k-maskedtextbox.k-input{
+        padding-bottom: 4px;
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-top: 4px;
+          
+}
+                      input.k-input{
+        padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 10px;
+          
+}
       }
-    }
-
-    .k-scrollview-prev {
-      color: #b1b7bb;
-      left: 20px;
-
-      &:hover {
-        color: #b1b7bb;
-      }
-    }
-
-    .k-scrollview-nav-wrap {
-      .k-scrollview-nav {
-        span.k-link {
-          border: 1px solid #c3c3c3;
-          transition: all 0.3s ease-in-out;
-
-          &:hover {
-            width: 20px;
-            border-radius: 10px;
-          }
-        }
-        span.k-link.k-primary {
-          width: 20px;
-          border-radius: 10px;
-          background: #c3c3c3;
-        }
-      }
-    }
-  }
-}

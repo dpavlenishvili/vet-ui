@@ -6,7 +6,7 @@
 
     <div>
       <a
-        [ngClass]="countdown.remaining > 0 ? 'k-color-secondary k-cursor-not-allowed' : ''"
+        [ngClass]="countdown.remaining > 0 ? 'k-color-body-light k-cursor-not-allowed' : ''"
         [routerLink]="[]"
         (click)="countdown.remaining <= 0 && onResendClick()"
       >

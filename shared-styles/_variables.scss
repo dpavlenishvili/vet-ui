@@ -1,12 +1,19 @@
+//@forward 'backup/tokens';
 @forward 'tokens';
+@use 'tokens' as tokens;
 
 $vet-layout-width-desktop: 1440px;
 $vet-layout-width-mobile: 768px;
 $kendo-paper-dark: #F5F7F8;
 $kendo-color-chip: #f2f3f6;
+$kendo-color-primary: tokens.$tb-kendo-color-primary;
 $kendo-color-primary-light: #59acd4;
 $kendo-color-primary-extra-light: #23D0E8;
 $kendo-color-primary-extra-dark: #0E2B43;
+$kendo-color-secondary: tokens.$tb-kendo-color-secondary;
+$kendo-color-tertiary: tokens.$tb-kendo-color-tertiary;
+$kendo-color-info: #0058e9;
+$kendo-color-body-light: #b1b7bb;
 $kendo-color-body: #626262; // #555454
 $kendo-color-body-dark: #444444; // #555454
 $kendo-color-body-extra-dark: #292D32;

@@ -1,0 +1,240 @@
+// Compatible with @progress/kendo-theme-default v.7.2.0
+
+%tb-typography {
+  @include typography-classes($tb-typography);
+}
+
+%tb-effects {
+  @include effects-classes($tb-effects);
+}
+
+.k-filter
+  .k-filter-container
+  .k-filter-group-main
+  .k-filter-toolbar
+  .k-toolbar
+  > .k-toolbar-button-group
+  .k-toolbar-button.k-selected.k-button-solid-base {
+  background-color: $tb-kendo-color-primary;
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02));
+}
+
+.k-scheduler
+  .k-toolbar.k-scheduler-toolbar
+  .k-button-group.k-scheduler-views
+  .k-button.k-button-md.k-button-solid.k-button-solid-base.k-rounded-md.k-selected {
+  background-color: $tb-kendo-color-primary;
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02));
+}
+
+.k-button.k-button-md {
+  padding-bottom: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 8px;
+}
+
+.k-drawer-container.k-drawer-expanded.k-drawer-push .k-drawer.k-drawer-start .k-drawer-wrapper .k-drawer-items {
+  background-color: $tb-kendo-breadcrumb-link-text;
+  background-image: none;
+}
+
+.k-drawer-container.k-drawer-mini .k-drawer.k-drawer-start .k-drawer-wrapper .k-drawer-items {
+  background-color: $tb-kendo-breadcrumb-link-text;
+  background-image: none;
+}
+
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-hover,
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-state-hover,
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-state-hovered,
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item:hover {
+  background-color: $tb-kendo-list-item-selected-bg;
+  background-image: none;
+  color: $tb-kendo-component-bg;
+}
+
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-focus,
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-state-focus,
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-state-focused,
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item:focus {
+  background-color: $tb-kendo-color-primary;
+  background-image: none;
+  color: $tb-kendo-component-bg;
+}
+
+.k-drawer-container.k-drawer-mini.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item {
+  color: $tb-kendo-component-bg;
+}
+
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item {
+  color: $tb-kendo-component-bg;
+}
+
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-hover,
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-state-hover,
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-state-hovered,
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item:hover {
+  background-color: $tb-kendo-rating-icon-hover-text;
+  background-image: none;
+}
+
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-selected {
+  background-color: $tb-kendo-link-hover-text;
+  background-image: none;
+}
+
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-focus,
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-state-focus,
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-state-focused,
+.k-drawer-container.k-drawer-expanded.k-drawer-push
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item:focus {
+  background-color: $tb-kendo-link-hover-text;
+  background-image: none;
+}
+
+.k-drawer-container.k-drawer-mini
+  .k-drawer.k-drawer-start
+  .k-drawer-wrapper
+  .k-drawer-items
+  .k-drawer-item.k-drawer-separator {
+  color: inherit;
+}
+
+.k-drawer-container.k-drawer-expanded.k-drawer-push .k-drawer.k-drawer-start .k-drawer-wrapper {
+  background-color: $tb-kendo-breadcrumb-link-text;
+  background-image: none;
+  border-bottom-color: $tb-kendo-breadcrumb-link-text;
+  border-left-color: $tb-kendo-breadcrumb-link-text;
+  border-right-color: $tb-kendo-breadcrumb-link-text;
+  border-top-color: $tb-kendo-breadcrumb-link-text;
+}
+
+.k-drawer-container.k-drawer-mini .k-drawer.k-drawer-start .k-drawer-wrapper {
+  background-color: $tb-kendo-breadcrumb-link-text;
+  background-image: none;
+  border-bottom-color: $tb-kendo-breadcrumb-link-text;
+  border-left-color: $tb-kendo-breadcrumb-link-text;
+  border-right-color: $tb-kendo-breadcrumb-link-text;
+  border-top-color: $tb-kendo-breadcrumb-link-text;
+}
+
+.k-scrollview {
+  border-radius: 20px;
+  border: none;
+  .k-scrollview-wrap {
+    background: #fdf8ff;
+  }
+  .k-scrollview-elements {
+    .k-scrollview-next {
+      color: #b1b7bb;
+      right: 20px;
+
+      &:hover {
+        color: #b1b7bb;
+      }
+    }
+
+    .k-scrollview-prev {
+      color: #b1b7bb;
+      left: 20px;
+
+      &:hover {
+        color: #b1b7bb;
+      }
+    }
+
+    .k-scrollview-nav-wrap {
+      .k-scrollview-nav {
+        span.k-link {
+          border: 1px solid #c3c3c3;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            width: 20px;
+            border-radius: 10px;
+          }
+        }
+        span.k-link.k-primary {
+          width: 20px;
+          border-radius: 10px;
+          background: #c3c3c3;
+        }
+      }
+    }
+  }
+}

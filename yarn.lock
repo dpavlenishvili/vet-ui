@@ -6006,10 +6006,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@progress/kendo-theme-bootstrap@npm:^10.3.1":
+  version: 10.3.1
+  resolution: "@progress/kendo-theme-bootstrap@npm:10.3.1"
+  dependencies:
+    "@progress/kendo-svg-icons": ^4.0.0
+    "@progress/kendo-theme-core": 10.3.1
+    "@progress/kendo-theme-utils": 10.3.1
+  checksum: 3c6bdcebd2bdacb25df5b730159a111c79bc3b9362a9f66d64c82dbdea7d33f71ed33f14ae7f4543e024175cff5f5aa45bf7da04e01c22877bb01e5d8b61a66d
+  languageName: node
+  linkType: hard
+
 "@progress/kendo-theme-core@npm:10.1.0":
   version: 10.1.0
   resolution: "@progress/kendo-theme-core@npm:10.1.0"
   checksum: 224e5ff5fc2537e58e740d46c67f8e736cea502ec6981ab9ccd896b2123fa20b64e01eb9fbdb6a19cfee4d4c0fe20598aa2a3167852ad2aa1a004c0a10ea6ed2
+  languageName: node
+  linkType: hard
+
+"@progress/kendo-theme-core@npm:10.3.1":
+  version: 10.3.1
+  resolution: "@progress/kendo-theme-core@npm:10.3.1"
+  checksum: 84e29a6ec423f98223f3923aa419a074f4608dec39c08fb112dc1bdf0f446bc8639675e72811e43deaacc32656fc4b20124ea29e3e28faf293478e55ad0acdb4
   languageName: node
   linkType: hard
 
@@ -6041,6 +6059,15 @@ __metadata:
   dependencies:
     "@progress/kendo-theme-core": 10.1.0
   checksum: ff3bae1efe5c81086026e7f20ff4866bff03d5d596e9bd8d858732fb9e380dcaa88852078b0be000d121a58c910f7470e27cd36de0e9e37f0de794276123f04a
+  languageName: node
+  linkType: hard
+
+"@progress/kendo-theme-utils@npm:10.3.1":
+  version: 10.3.1
+  resolution: "@progress/kendo-theme-utils@npm:10.3.1"
+  dependencies:
+    "@progress/kendo-theme-core": 10.3.1
+  checksum: 37215c40b0d68ba32bdd559593f8f7e8d80b63f6679e15fd51bda0e28d30ee6572ba77d0345170f0b8e9cd850fd41bfb38be4761196bb0dd3afe75a6a587ab8d
   languageName: node
   linkType: hard
 
@@ -20626,6 +20653,7 @@ __metadata:
     "@progress/kendo-drawing": ^1.21.2
     "@progress/kendo-licensing": ^1.3.5
     "@progress/kendo-svg-icons": ^4.0.0
+    "@progress/kendo-theme-bootstrap": ^10.3.1
     "@progress/kendo-theme-default": ^10.0.1
     "@progress/kendo-theme-fluent": ^10.0.1
     "@schematics/angular": 19.2.1

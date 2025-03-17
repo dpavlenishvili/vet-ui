@@ -1,3 +1,4 @@
+//@import 'backup/tokens';
 @import 'tokens';
 @import 'variables';
 @import 'mixins';
@@ -14,6 +15,7 @@ $colors: (
   'info': $kendo-color-info,
   'hint': $kendo-color-hint,
   'chip': $kendo-color-chip,
+  'body-light': $kendo-color-body-light,
   'body': $kendo-color-body,
   'body-dark': $kendo-color-body-dark,
   'body-extra-dark': $kendo-color-body-extra-dark,
