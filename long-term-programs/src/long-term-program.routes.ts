@@ -5,15 +5,6 @@ const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.hom
 
 export const longTermProgramsRoutes: Route[] = [
   {
-    path: 'list',
-    loadComponent: () => import('./admissions-list/admissions-list.component').then((m) => m.AdmissionsListComponent),
-    pathMatch: 'full',
-    data: breadcrumb([
-      ...baseBreadcrumbItems,
-      { path: '/long-programs/list', text: 'programs.long-term-programs' },
-    ]),
-  },
-  {
     path: 'register-admission',
     loadComponent: () =>
       import('./admission-registration/admission-registration.component').then((m) => m.AdmissionRegistrationComponent),
@@ -34,5 +25,22 @@ export const longTermProgramsRoutes: Route[] = [
       { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
       { path: '/long-term-programs/update-admission', text: 'programs.long-term-programs-admissionUpdate' },
     ]),
+  },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./long-term-programs-sidebar-layout/long-term-programs-sidebar-layout.component')
+        .then((m) => m.LongTermProgramsSidebarLayoutComponent),
+    children: [
+      {
+        path: 'list',
+        loadComponent: () => import('./admissions-list/admissions-list.component').then((m) => m.AdmissionsListComponent),
+        pathMatch: 'full',
+        data: breadcrumb([
+          ...baseBreadcrumbItems,
+          { path: '/long-programs/list', text: 'programs.long-term-programs' },
+        ]),
+      },
+    ]
   },
 ];

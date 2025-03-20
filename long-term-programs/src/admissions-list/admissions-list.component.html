@@ -13,28 +13,30 @@
     <vet-admissions-list-filter (filtersChange)="onFiltersChange($event)" />
   </div>
 
-  <kendo-grid
-    [loading]="admissionList$.isLoading()"
-    [data]="admissionList$.value()?.data || []"
-    [skip]="0"
-    [pageable]="true"
-    [pageSize]="admissionList$.value()?.meta?.per_page"
-    (dataStateChange)="handlePageChange($event)"
-  >
-    <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" />
-    <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" />
-    <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" />
-    <kendo-grid-column [title]="'' | transloco">
-      <ng-template kendoGridCellTemplate let-item>
-        <div class="k-display-flex">
-          <button
-            kendoButton
-            fillMode="flat"
-            [svgIcon]="vetIcons.eye"
-            (click)="onViewClick(item)"
-          ></button>
-        </div>
-      </ng-template>
-    </kendo-grid-column>
-  </kendo-grid>
+  @if (isBrowser) {
+    <kendo-grid
+      [loading]="admissionList$.isLoading()"
+      [data]="admissionList$.value()?.data || []"
+      [skip]="0"
+      [pageable]="true"
+      [pageSize]="admissionList$.value()?.meta?.per_page"
+      (dataStateChange)="handlePageChange($event)"
+    >
+      <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" />
+      <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" />
+      <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" />
+      <kendo-grid-column [title]="''">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex">
+            <button
+              kendoButton
+              fillMode="flat"
+              [svgIcon]="vetIcons.eye"
+              (click)="onViewClick(item)"
+            ></button>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  }
 </div>

@@ -5,6 +5,7 @@
 
 $prefix: 'k';
 $colors: (
+  'surface': $tb-kendo-color-surface,
   'paper-dark': $kendo-paper-dark,
   'primary': $kendo-color-primary,
   'primary-light': $kendo-color-primary-light,
@@ -32,18 +33,71 @@ $widths: (
 );
 $measurements: (
   '1': 4px,
+  '2': 8px,
   '2\\.5': 10px,
+  '3': '12px',
+  '3\\.5': '14px',
+  '4': '16px',
+  '4\\.5': '18px',
+  '5': 20px,
+  '10\\.5': 42px,
 );
 
 @each $name, $value in $measurements {
   .#{$prefix}-rounded-#{$name} {
     border-radius: $value;
   }
+
+  .#{$prefix}-rounded-tl-#{$name} {
+    border-top-left-radius: $value;
+  }
+
+  .#{$prefix}-rounded-bl-#{$name} {
+    border-bottom-left-radius: $value;
+  }
+
+  .#{$prefix}-rounded-tr-#{$name} {
+    border-top-right-radius: $value;
+  }
+
+  .#{$prefix}-rounded-br-#{$name} {
+    border-bottom-right-radius: $value;
+  }
+
+  .#{$prefix}-rounded-t-#{$name} {
+    border-top-left-radius: $value;
+    border-top-right-radius: $value;
+  }
+
+  .#{$prefix}-rounded-b-#{$name} {
+    border-bottom-left-radius: $value;
+    border-bottom-right-radius: $value;
+  }
+
+  .#{$prefix}-rounded-l-#{$name} {
+    border-top-left-radius: $value;
+    border-bottom-left-radius: $value;
+  }
+
+  .#{$prefix}-rounded-r-#{$name} {
+    border-top-right-radius: $value;
+    border-bottom-right-radius: $value;
+  }
 }
 
 @each $name, $value in $widths {
   .#{$prefix}-width-#{$name} {
     width: $value;
+  }
+  .#{$prefix}-w-#{$name} {
+    width: $value;
+  }
+
+  .#{$prefix}-height-#{$name} {
+    height: $value;
+  }
+  .#{$prefix}-h-#{$name} {
+    height: $value;
   }
 }
 
@@ -189,6 +243,49 @@ input::placeholder,
 kendo-label {
   @include text-base();
   color: $kendo-color-body;
+}
+
+kendo-svg-icon.tiny {
+  display: block !important;
+  width: 4px !important;
+
+  svg {
+    width: 4px !important;
+    height: 8px !important;
+  }
+}
+
+kendo-svg-icon.medium {
+  display: block !important;
+  width: 22px;
+  height: 22px !important;
+
+  svg {
+    height: 100% !important;
+  }
+}
+
+kendo-svg-icon.large {
+  display: block !important;
+  width: 46px !important;
+  height: 46px !important;
+
+  svg {
+    height: 46px !important;
+  }
+}
+
+.k-anchor-reset {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+ul.k-list-style-circle {
+  list-style: circle;
 }
 
 //.k-grid-table {

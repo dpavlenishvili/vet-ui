@@ -1,0 +1,36 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: width 200ms ease-in-out;
+
+  &.expanded {
+    width: shared.$vet-sidebar-width-full;
+    align-items: flex-start;
+  }
+
+  &.collapsed {
+    width: shared.$vet-sidebar-width-mini;
+    align-items: center;
+  }
+}
+
+.sidebar-menu-item {
+  transition: all 200ms ease-out;
+
+  .sidebar-menu-item-button {
+    transition: all 200ms ease-out;
+    height: 3.75rem;
+  }
+
+  .sidebar-menu-item-icon-container {
+    width: 42px;
+    height: 42px;
+  }
+}

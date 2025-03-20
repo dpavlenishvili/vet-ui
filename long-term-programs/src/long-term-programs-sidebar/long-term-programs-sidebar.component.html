@@ -1,0 +1,89 @@
+<div
+  class="sidebar-container k-py-4 k-px-2.5 k-gap-3.5 k-bg-white k-rounded-5"
+  [class.expanded]="isExpanded()"
+  [class.collapsed]="!isExpanded()"
+>
+  <div class="k-display-flex k-justify-content-end" [class.k-w-full]="isExpanded()">
+    <button
+      kendoButton
+      [svgIcon]="isExpanded() ? vetIcons.chevronLeft : vetIcons.chevronRight"
+      class="k-bg-surface k-border-surface"
+      [ngClass]="isExpanded() ? 'k-w-8 k-h-8' : 'k-w-7 k-h-7'"
+      (click)="onToggleExpansion()"
+    ></button>
+  </div>
+
+  <div class="k-display-flex k-flex-column k-gap-3.5 k-w-full">
+    @for (item of items(); track item.id) {
+      <div
+        class="sidebar-menu-item k-w-full k-rounded-2.5 k-bg-surface k-border-solid"
+        [ngClass]="item.isActive && (!isExpanded() || item.isExpanded()) ? 'k-border-primary' : 'k-border-surface'"
+      >
+        <a
+          kendoTooltip
+          [title]="!isExpanded() ? (item.text | transloco) : ''"
+          [position]="'left'"
+          [routerLink]="item.url ? [item.url] : []"
+          class="k-anchor-reset k-display-block k-w-full"
+        >
+          <div
+          class="sidebar-menu-item-button k-w-full k-rounded-2.5"
+          [ngClass]="item.isActive && !item.isExpanded()? 'k-bg-primary' : 'k-bg-surface'"
+          [class.k-pr-2.5]="isExpanded()"
+          (click)="onItemClick(item)"
+        >
+          <div
+            class="k-w-full k-h-full k-display-flex  k-align-items-center k-gap-2.5 k-p-2 k-bg-surface"
+            [ngClass]="isExpanded() ? 'k-rounded-l-2.5 k-pr-1 k-justify-content-between' : 'k-rounded-2.5 k-justify-content-center'"
+          >
+            <div
+              class="k-display-flex k-align-items-center k-gap-2.5"
+            >
+              <div
+                class="sidebar-menu-item-icon-container k-rounded-full k-p-2.5"
+                [class.k-bg-white]="item.isActive"
+              >
+                <kendo-svg-icon [icon]="item.icon" class="medium"/>
+              </div>
+
+              @if (isExpanded()) {
+                <div class="k-text-base">
+                  @if (item.isActive) {
+                    <b>{{ item.text | transloco }}</b>
+                  } @else {
+                    <span>{{ item.text | transloco }}</span>
+                  }
+                </div>
+              }
+            </div>
+
+            @if (isExpanded() && item.children && item.children.length > 0) {
+              <kendo-svg-icon
+                [icon]="item.isExpanded() ? vetIcons.chevronBottomXs : vetIcons.chevronLeftXs"
+                class="tiny"
+              />
+            }
+          </div>
+        </div>
+        </a>
+
+        @if (item.isExpanded()) {
+          <div class="k-p-4 k-border-t-solid k-border-divider-light k-border-t-1">
+            <ul class="k-list-style-circle k-ml-4 k-display-flex k-flex-column k-gap-2">
+              @for (child of item.children; track child.id) {
+                <li
+                  class="hover:k-color-primary"
+                  [ngClass]="child.isActive ? 'k-color-primary' : 'k-color-body'"
+                >
+                  <a [routerLink]="child.url ? [child.url] : []" class="k-anchor-reset k-text-sm">
+                    {{ child.text | transloco }}
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

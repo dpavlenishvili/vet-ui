@@ -1,5 +1,8 @@
 import { bin } from './bin';
+import { chevronBottomXs } from './chevron-bottom-xs';
 import { chevronDown } from './chevron-down';
+import { chevronLeft } from './chevron-left';
+import { chevronLeftXs } from './chevron-left-xs';
 import { chevronRight } from './chevron-right';
 import { dialogClose } from './dialog-close';
 import { euFlag } from './eu-flag';
@@ -40,7 +43,10 @@ import { print } from './print';
 
 export {
   bin,
+  chevronBottomXs,
   chevronDown,
+  chevronLeft,
+  chevronLeftXs,
   chevronRight,
   dialogClose,
   euFlag,

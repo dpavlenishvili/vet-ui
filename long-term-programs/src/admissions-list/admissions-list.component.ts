@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
@@ -8,6 +8,7 @@ import { filterNullValues, RouteParamsService, vetIcons } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { AdmissionsListFilterComponent } from './admissions-list-filter/admissions-list-filter.component';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { isPlatformBrowser } from '@angular/common';
 
 export type AdmissionListFilter = {
   number?: unknown | null;
@@ -39,6 +40,8 @@ export class AdmissionsListComponent {
   vetIcons = vetIcons;
   admissionService = inject(AdmissionService);
   routeParamsService = inject(RouteParamsService);
+  platformId = inject(PLATFORM_ID);
+  isBrowser = isPlatformBrowser(this.platformId);
   protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
   private readonly _userRolesService = inject(UserRolesService);
 

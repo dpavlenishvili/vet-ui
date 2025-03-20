@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  gap: 1.25rem;
+}
+
+.content-container {
+  flex: 1;
+}
