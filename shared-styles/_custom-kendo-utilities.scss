@@ -276,12 +276,7 @@ kendo-svg-icon.large {
 }
 
 .k-anchor-reset {
-  text-decoration: none;
-  color: inherit;
-
-  &:hover {
-    text-decoration: none;
-  }
+  @include anchor-reset();
 }
 
 ul.k-list-style-circle {

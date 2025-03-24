@@ -1,113 +1,116 @@
-@mixin text-xs {
-  font-family: HelveticaNeue;
+@mixin text-shared-properties($bold: false) {
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+  @if ($bold) {
+    font-weight: 500;
+    font-family: HelveticaNeueMedium;
+  } @else {
+    font-family: HelveticaNeue;
+    font-weight: 400;
+
+    &strong,
+    &b,
+    strong,
+    b {
+      font-weight: 500;
+      font-family: HelveticaNeueMedium;
+    }
+  }
+}
+
+@mixin text-xs($bold: false) {
+  @include text-shared-properties($bold);
   font-size: 11px;
-  font-weight: 400;
   line-height: 13px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
-
-  &strong,
-  &b,
-  strong,
-  b {
-    font-weight: 500;
-    font-family: HelveticaNeueMedium;
-  }
 }
 
-@mixin text-sm() {
-  font-family: HelveticaNeue;
+@mixin text-sm($bold: false) {
+  @include text-shared-properties($bold);
   font-size: 12px;
-  font-weight: 400;
   line-height: 14.5px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
 
-  &strong,
-  &b,
-  strong,
-  b {
-    font-weight: 500;
-    line-height: 20px;
-    font-family: HelveticaNeueMedium;
-  }
+  // bold line-height: 20px;
 }
 
-@mixin text-base() {
-  font-family: HelveticaNeue;
+@mixin text-base($bold: false) {
+  @include text-shared-properties($bold);
   font-size: 14px;
-  font-weight: 400;
   line-height: 24px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
-
-  &strong,
-  &b,
-  strong,
-  b {
-    font-weight: 500;
-    font-family: HelveticaNeueMedium;
-  }
 }
 
-@mixin text-md() {
-  font-family: HelveticaNeue;
+@mixin text-md($bold: false) {
+  @include text-shared-properties($bold);
   font-size: 16px;
-  font-weight: 400;
   line-height: 20px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
-
-  &strong,
-  &b,
-  strong,
-  b {
-    font-weight: 500;
-    font-family: HelveticaNeueMedium;
-  }
 }
 
-@mixin text-h3() {
-  font-family: HelveticaNeueMedium;
+@mixin text-h3($bold: false) {
+  @include text-shared-properties($bold);
   font-size: 16px;
   font-weight: 500;
   line-height: 22px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
 }
 
-@mixin text-h2() {
-  font-family: HelveticaNeueMedium;
+@mixin text-h2($bold: true) {
+  @include text-shared-properties($bold);
   font-size: 18px;
-  font-weight: 500;
   line-height: 22px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
 }
 
-@mixin text-h1() {
-  font-family: HelveticaNeueMedium;
+@mixin text-h1($bold: true) {
+  @include text-shared-properties($bold);
   font-size: 20px;
-  font-weight: 500;
   line-height: 22px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
 }
 
-@mixin text-lg() {
-  font-family: HelveticaNeueMedium;
+@mixin text-lg($bold: true) {
+  @include text-shared-properties($bold);
   font-size: 24px;
-  font-weight: 500;
   line-height: 30px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
 }
 
-@mixin text-xxl() {
-  font-family: HelveticaNeueMedium;
+@mixin text-xxl($bold: true) {
+  @include text-shared-properties($bold);
   font-size: 30px;
-  font-weight: 500;
   line-height: 36.6px;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
+}
+
+@mixin anchor-reset() {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+@mixin rounded($value) {
+  border-radius: $value;
+}
+
+@mixin rounded-left($value) {
+  border-top-left-radius: $value;
+  border-bottom-left-radius: $value;
+}
+
+@mixin rounded-right($value) {
+  border-top-right-radius: $value;
+  border-bottom-right-radius: $value;
+}
+
+@mixin rounded-top-left($value) {
+  border-top-left-radius: $value;
+}
+
+@mixin rounded-bottom-left($value) {
+  border-bottom-left-radius: $value;
+}
+
+@mixin rounded-top-right($value) {
+  border-top-right-radius: $value;
+}
+
+@mixin rounded-bottom-right($value) {
+  border-bottom-right-radius: $value;
 }

@@ -4,7 +4,6 @@ import { vetIcons } from '@vet/shared';
 import { SVGIcon, SVGIconComponent } from '@progress/kendo-angular-icons';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { NgClass } from '@angular/common';
 import { v4 as uuid } from 'uuid';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
@@ -23,7 +22,7 @@ export interface LongTermProgramsSidebarMenuItem extends LongTermProgramsSidebar
 
 @Component({
   selector: 'vet-long-term-programs-sidebar',
-  imports: [ButtonComponent, SVGIconComponent, RouterLink, TranslocoPipe, NgClass, TooltipDirective],
+  imports: [ButtonComponent, SVGIconComponent, RouterLink, TranslocoPipe, TooltipDirective],
   templateUrl: './long-term-programs-sidebar.component.html',
   styleUrl: './long-term-programs-sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -134,6 +133,10 @@ export class LongTermProgramsSidebarComponent {
       isExpanded: signal(false),
     },
   ]);
+
+  isItemHighlighted(item: LongTermProgramsSidebarMenuItem) {
+    return item.isActive && (!this.isExpanded() || item.isExpanded());
+  }
 
   onToggleExpansion() {
     this.isExpanded.update((value) => !value);
