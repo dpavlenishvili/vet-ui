@@ -54,3 +54,10 @@ export interface UploadedFile {
   extension?: string;
   base64?: string;
 }
+
+export interface District {
+  id?: number;
+  name?: string;
+  region_id?: number;
+  region_name?: string;
+}

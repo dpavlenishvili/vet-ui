@@ -7,8 +7,8 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { GeneralsService } from '@vet/backend';
-import { FileUploadComponent, InfoComponent, kendoIcons, UploadedFile } from '@vet/shared';
-import { map, take, tap } from 'rxjs';
+import { Citizenship, FileUploadComponent, InfoComponent, kendoIcons, UploadedFile } from '@vet/shared';
+import { delay, map, take, tap } from 'rxjs';
 import { AuthenticationService } from '@vet/auth';
 import { DialogRef, DialogService } from '@progress/kendo-angular-dialog';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -46,6 +46,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   protected user = inject(AuthenticationService).user;
 
   kendoIcons = kendoIcons;
+  citizenship = Citizenship;
   specEnvs = signal(['programs.elevatorRamp', 'programs.testTimeExtension', 'programs.testFontSizeIncrease']);
   generalsService = inject(GeneralsService);
   dialogService = inject(DialogService);
@@ -55,10 +56,12 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     request: () => ({ key: 'education_levels' }),
     loader: ({ request: { key } }) =>
       this.generalsService.getAllConfigs({ key: key }).pipe(
+        delay(100),
         tap(() => {
           const educationLevel = this.form()?.get('education_level')?.getRawValue();
           const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
           this.invalidStudentStatus.set(!(educationLevel && educationLevelId));
+          console.log(this.invalidStudentStatus());
         }),
         map((res) => {
           const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
@@ -98,7 +101,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   }
 
   toggleSwitcher(event: boolean, key: string) {
-    if (this.user()?.residential !== 'GEO') {
+    if (this.user()?.residential !== this.citizenship.Georgian) {
       this.form()?.get(key)?.patchValue(event);
     } else {
       if (!event) {
@@ -150,7 +153,6 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
 
     if (checked) {
       specEnvControl?.setValidators(Validators.required);
-      specEnvControl.updateValueAndValidity();
     } else {
       specEnvControl.reset([]);
       specEnvControl?.removeValidators(Validators.required);
@@ -163,7 +165,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
       ?.valueChanges.pipe(
         tap((value) => {
           this.isSpecEnvEnabled.set(value.spec_env.length > 0);
-          if (this.user()?.residential !== 'GEO') {
+          if (this.user()?.residential !== this.citizenship.Georgian) {
             this.isAbroadEnabled.set(value?.complete_edu_abroad);
             this.isOcuEnabled.set(value?.complete_base_edu_abroad);
           } else {

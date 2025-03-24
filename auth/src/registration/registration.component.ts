@@ -10,20 +10,16 @@ import { RegistrationIdentityForeignerComponent } from './registration-identity-
 import { RegistrationPasswordCreateComponent } from './registration-password-create/registration-password-create.component';
 import { RegistrationTermsAndConditionsComponent } from './registration-terms-and-conditions/registration-terms-and-conditions.component';
 import {
+  Citizenship,
   georgianLettersValidator,
   mobileNumberValidator,
   passwordMatchValidator,
   passwordPatternValidator,
-  personalNumberValidator,
+  personalNumberValidator
 } from '@vet/shared';
 import { RegisterService, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
-
-enum CitizenshipType {
-  Georgian = 'GEO',
-  Foreigner = 'Foreigner',
-}
 
 @Component({
   selector: 'vet-registration',
@@ -83,7 +79,7 @@ export class RegistrationComponent implements OnInit {
       form: () => this.formGroup.controls.termsAndConditions,
     },
   ];
-  CitizenshipType = CitizenshipType;
+  CitizenshipType = Citizenship;
 
   private router = inject(Router);
   private registrationService = inject(RegisterService);
@@ -172,6 +168,7 @@ export class RegistrationComponent implements OnInit {
     if (this.isStepValid(this.currentStepIndex) || event.index < this.currentStepIndex) {
       this.currentStepIndex = event.index;
       this.currentStepSubject.next(this.currentStepIndex);
+      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
     } else {
       event.preventDefault();
     }
@@ -181,6 +178,7 @@ export class RegistrationComponent implements OnInit {
     if (this.currentStepIndex > 0) {
       this.currentStepIndex--;
       this.currentStepSubject.next(this.currentStepIndex);
+      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
     }
   }
 

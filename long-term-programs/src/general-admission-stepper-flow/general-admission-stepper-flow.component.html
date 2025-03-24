@@ -15,7 +15,6 @@
   <div class="step-content-container">
     <div class="k-display-flex k-gap-5 k-flex-column">
       @if (currentStep(); as _currentStep) {
-        <h2>{{ _currentStep.title | transloco }}</h2>
 
         <ng-template [ngTemplateOutlet]="_currentStep.template" />
       }

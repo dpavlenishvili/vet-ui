@@ -40,17 +40,19 @@
               </kendo-label>
             </kendo-formfield>
           </div>
-          <div class="k-mt-3">
-            <vet-file-upload
-              [title]="'programs.uploadEducationDocument'"
-              [uploadedFiles]="form?.get('doc')?.getRawValue()"
-              (fileUploaded)="handleFileUpload($event, 'doc')"
-              (fileRemoved)="handleRemoveFile($event, 'doc')"
-            />
-          </div>
+          @if (invalidStudentStatus()) {
+            <div class="k-mt-3">
+              <vet-file-upload
+                [title]="'programs.uploadEducationDocument'"
+                [uploadedFiles]="form?.get('doc')?.getRawValue()"
+                (fileUploaded)="handleFileUpload($event, 'doc')"
+                (fileRemoved)="handleRemoveFile($event, 'doc')"
+              />
+            </div>
+          }
         </div>
         <div class="section">
-          <div class="title">
+          <div class="title k-text-base">
             <span>{{ 'programs.needAdaptedEnvironment' | transloco }}</span>
             <kendo-switch
               [onLabel]="'shared.yes' | transloco"
@@ -62,34 +64,41 @@
           </div>
           @if (specEnvSwitch.checked) {
             <div class="checkbox-selection-container">
-              @for (specEnv of specEnvs(); track specEnv) {
-                <div>
-                  <input
-                    type="checkbox"
-                    kendoCheckBox
-                    #specEnvCheckBox
-                    [checked]="form?.get('spec_env')?.value.includes(specEnv)"
-                    (change)="onSpecEnvChange(specEnvCheckBox.checked, specEnv)"
-                  />
-                  <kendo-label class="k-checkbox-label" [for]="specEnvCheckBox" [text]="specEnv | transloco" />
-                  @if (
-                    form.invalid &&
-                    !form.untouched &&
-                    specEnvSwitch.checked &&
-                    form?.get('spec_env')?.value?.length === 0
+              <div class="k-mb-3">
+                გთხოვთ, მონიშნოთ თქვენი საჭიროება:
+              </div>
+              <div class="k-d-flex k-gap-3 k-justify-content-between">
+                @for (specEnv of specEnvs(); track specEnv) {
+                  <div>
+                    <input
+                      type="checkbox"
+                      kendoCheckBox
+                      #specEnvCheckBox
+                      [checked]="form?.get('spec_env')?.value.includes(specEnv)"
+                      (change)="onSpecEnvChange(specEnvCheckBox.checked, specEnv)"
+                    />
+                    <kendo-label class="k-checkbox-label" [for]="specEnvCheckBox" [text]="specEnv | transloco" />
+                  </div>
+                }
+              </div>
+              <div class="k-mt-3">
+                @if (
+                  form?.get('spec_env')?.invalid &&
+                  !form?.get('spec_env')?.untouched &&
+                  specEnvSwitch.checked &&
+                  form?.get('spec_env')?.value?.length === 0
                   ) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                </div>
-              }
+                  <kendo-formerror>{{ 'shared.minOneFieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              </div>
             </div>
           }
         </div>
 
         <div class="section">
-          <div class="title">
+          <div class="title k-text-base">
             <span>
-              @if (user()?.residential === 'GEO') {
+              @if (user()?.residential === citizenship.Georgian) {
                 {{ 'programs.completedForeignGeneralEducation' | transloco }}
               } @else {
                 {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
@@ -101,7 +110,7 @@
               [disabled]="abroadSwitch.checked"
               #ocuSwitch
               (valueChange)="
-                toggleSwitcher($event, user()?.residential === 'GEO' ? 'abroad_doc' : 'complete_edu_abroad')
+                toggleSwitcher($event, user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad')
               "
               [checked]="isAbroadEnabled()"
             />
@@ -120,9 +129,9 @@
         </div>
 
         <div class="section">
-          <div class="title">
+          <div class="title k-text-base">
             <span>
-              @if (user()?.residential === 'GEO') {
+              @if (user()?.residential === citizenship.Georgian) {
                 {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
               } @else {
                 {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
@@ -134,7 +143,7 @@
               [disabled]="ocuSwitch.checked"
               #abroadSwitch
               (valueChange)="
-                toggleSwitcher($event, user()?.residential === 'GEO' ? 'ocu_doc' : 'complete_base_edu_abroad')
+                toggleSwitcher($event, user()?.residential === citizenship.Georgian ? 'ocu_doc' : 'complete_base_edu_abroad')
               "
               [checked]="isOcuEnabled()"
             />

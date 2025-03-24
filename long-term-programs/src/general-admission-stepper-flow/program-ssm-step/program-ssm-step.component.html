@@ -21,6 +21,7 @@
                     formControlName="spec_edu"
                     [onLabel]="'shared.yes' | transloco"
                     [offLabel]="'shared.no' | transloco"
+                    (valueChange)="onSpecEduSwitchChange($event)"
                   />
                 </div>
               </div>

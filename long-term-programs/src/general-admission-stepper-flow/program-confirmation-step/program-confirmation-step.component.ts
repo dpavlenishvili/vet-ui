@@ -15,7 +15,7 @@ import {
 } from '../program-selected-programs/program-selected-programs.component';
 import { ProgramGeneralInformationStepFormGroup } from '../program-general-information-step/program-general-information-step.component';
 import { NgClass } from '@angular/common';
-import { InfoComponent, UploadedFile, vetIcons } from '@vet/shared';
+import { Citizenship, InfoComponent, UploadedFile, vetIcons } from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { admissionProgramsResource } from '../admission-programs-resource';
@@ -52,6 +52,7 @@ export class ProgramConfirmationStepComponent {
 
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
+  citizenship = Citizenship;
   user = inject(AuthenticationService).user;
 
   admissionService = inject(AdmissionService);

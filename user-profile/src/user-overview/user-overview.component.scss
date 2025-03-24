@@ -26,8 +26,6 @@
   .form-fields-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    justify-content: space-between;
-    align-items: end;
     gap: 2.5rem 1.25rem;
     margin-top: 2.5rem;
   }

@@ -9,34 +9,31 @@ import {
   OnInit,
   signal,
   TemplateRef,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT, StepperActivateEvent } from '@progress/kendo-angular-layout';
-import {
-  ProgramGeneralInformationStepComponent
-} from './program-general-information-step/program-general-information-step.component';
+import { ProgramGeneralInformationStepComponent } from './program-general-information-step/program-general-information-step.component';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { ProgramSelectionStepComponent } from './program-selection-step/program-selection-step.component';
-import {
-  ProgramSelectedProgramsStepComponent
-} from './program-selected-programs-step/program-selected-programs-step.component';
+import { ProgramSelectedProgramsStepComponent } from './program-selected-programs-step/program-selected-programs-step.component';
 import { ProgramConfirmationStepComponent } from './program-confirmation-step/program-confirmation-step.component';
 import { NgTemplateOutlet } from '@angular/common';
 import { ProgramSsmStepComponent } from './program-ssm-step/program-ssm-step.component';
 import { AdmissionRes, AdmissionService, AdmissionsRes } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { of, switchMap, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { DialogRef, DialogResult, DialogService } from '@progress/kendo-angular-dialog';
 import { Router } from '@angular/router';
 import { AuthenticationService, UserRolesService } from '@vet/auth';
-import { ToastService } from '@vet/shared';
+import { Citizenship, ToastService } from '@vet/shared';
 
 interface StepDefinition {
   label: string;
   title: string;
   form: () => FormGroup;
   template: TemplateRef<void>;
+  path: string;
 }
 
 @Component({
@@ -50,15 +47,16 @@ interface StepDefinition {
     ProgramSelectedProgramsStepComponent,
     ProgramConfirmationStepComponent,
     NgTemplateOutlet,
-    ProgramSsmStepComponent
+    ProgramSsmStepComponent,
   ],
   templateUrl: './general-admission-stepper-flow.component.html',
   styleUrl: './general-admission-stepper-flow.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class GeneralAdmissionStepperFlowComponent implements OnInit {
   admissionId = input<string | null>(null);
+  citizenship = Citizenship;
   protected readonly currentStepIndex = signal(0);
   protected currentStep = computed(() => this.steps()[this.currentStepIndex()]);
   protected steps = computed((): StepDefinition[] => [
@@ -66,41 +64,46 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
       label: 'programs.general_information',
       title: 'programs.general_information',
       form: () => this.formGroup.controls.general_information,
-      template: this._programGeneralInformationStepTmpl()
+      template: this._programGeneralInformationStepTmpl(),
+      path: 'general_information',
     },
     {
       label: 'programs.ssm_status',
       title: 'programs.ssm_status',
       form: () => this.formGroup.controls.ssm_status,
-      template: this._programSsmStepTmpl()
+      template: this._programSsmStepTmpl(),
+      path: 'ssm_status',
     },
     {
       label: 'programs.program_selection',
       title: 'programs.program_selection',
       form: () => this.formGroup.controls.program_selection,
-      template: this._programSelectionStepTmpl()
+      template: this._programSelectionStepTmpl(),
+      path: 'program_selection',
     },
     {
       label: 'programs.selected_programs',
       title: 'programs.selected_programs',
       form: () => this.formGroup.controls.selected_programs,
-      template: this._programSelectedProgramsStepTmpl()
+      template: this._programSelectedProgramsStepTmpl(),
+      path: 'selected_programs',
     },
     {
       label: 'programs.confirmation',
       title: 'programs.confirmation',
       form: () => this.formGroup.controls.confirmation,
-      template: this._programConfirmationStepTmpl()
-    }
+      template: this._programConfirmationStepTmpl(),
+      path: 'confirmation',
+    },
   ]);
 
   private _programGeneralInformationStepTmpl = viewChild.required('programGeneralInformationStepTmpl', {
-    read: TemplateRef
+    read: TemplateRef,
   });
   private _programSsmStepTmpl = viewChild.required('programSsmStepTmpl', { read: TemplateRef });
   private _programSelectionStepTmpl = viewChild.required('programSelectionStepTmpl', { read: TemplateRef });
   private _programSelectedProgramsStepTmpl = viewChild.required('programSelectedProgramsStepTmpl', {
-    read: TemplateRef
+    read: TemplateRef,
   });
   private _programConfirmationStepTmpl = viewChild.required('programConfirmationStepTmpl', { read: TemplateRef });
 
@@ -125,10 +128,10 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
       ocu_doc: new FormControl([]),
       program_ids: new FormControl([]),
       education_level: new FormControl(),
-      education_level_id: new FormControl()
+      education_level_id: new FormControl(),
     };
 
-    if (this.authService.user()?.residential !== 'GEO') {
+    if (this.authService.user()?.residential !== this.citizenship.Georgian) {
       generalInformationControls['complete_edu_abroad'] = new FormControl(false);
       generalInformationControls['complete_base_edu_abroad'] = new FormControl(false);
     }
@@ -141,20 +144,27 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
         spec_edu: new FormControl(false),
         e_name: new FormControl(''),
         e_lastname: new FormControl(''),
-        e_email: new FormControl(''),
-        e_phone: new FormControl(''),
+        e_email: new FormControl(
+          '',
+          [
+            Validators.email
+          ]
+        ),
+        e_phone: new FormControl(
+          ''
+        ),
         spe_description: new FormControl(''),
-        program_ids: new FormControl([])
+        program_ids: new FormControl([]),
       }),
       program_selection: new FormGroup({
-        program_ids: new FormControl([])
+        program_ids: new FormControl([]),
       }),
       selected_programs: new FormGroup({
-        program_ids: new FormControl([])
+        program_ids: new FormControl([]),
       }),
       confirmation: new FormGroup({
-        status: new FormControl('registered')
-      })
+        status: new FormControl('registered'),
+      }),
     });
   });
 
@@ -168,6 +178,8 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   protected onStepChange(event: StepperActivateEvent) {
     if (this.isStepValid(this.currentStepIndex()) || event.index < this.currentStepIndex()) {
       this.currentStepIndex.set(event.index);
+      console.log(this.steps()[this.currentStepIndex()].path);
+      void this.router.navigate([`long-term-programs/update-admission/${this.admissionId()}/${this.steps()[this.currentStepIndex()].path}`]);
     } else {
       event.preventDefault();
     }
@@ -176,6 +188,8 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   protected onPreviousClick() {
     if (this.currentStepIndex() > 0) {
       this.currentStepIndex.set(this.currentStepIndex() - 1);
+      console.log(this.steps()[this.currentStepIndex()].path);
+      void this.router.navigate([`long-term-programs/update-admission/${this.admissionId()}/${this.steps()[this.currentStepIndex()].path}`]);
     }
   }
 
@@ -186,21 +200,24 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
         value = {
           ...value,
           status: 'registered',
-          program_ids: this.formGroup.get('selected_programs')?.value.program_ids ?? []
+          program_ids: this.formGroup.get('selected_programs')?.value.program_ids ?? [],
         };
       }
       if (this.admissionId()) {
-        this.admissionService.editAdmission(this.admissionId() as string, value).pipe(
-          tap({
-            next: () => {
-              if (this.currentStepIndex() === this.steps().length - 1) {
-                this.toastService.success('programs.program_updated_successfully');
-                void this.router.navigate(['long-term-programs', 'list']);
-              }
-            },
-            error: () => this.toastService.error('programs.program_update_failed')
-          })
-        ).subscribe();
+        this.admissionService
+          .editAdmission(this.admissionId() as string, value)
+          .pipe(
+            tap({
+              next: () => {
+                if (this.currentStepIndex() === this.steps().length - 1) {
+                  this.toastService.success('programs.program_updated_successfully');
+                  void this.router.navigate(['long-term-programs', 'list']);
+                }
+              },
+              error: () => this.toastService.error('programs.program_update_failed'),
+            }),
+          )
+          .subscribe();
       } else {
         this.admissionService
           .admission(value)
@@ -216,8 +233,8 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                   void this.router.navigate(['long-term-programs', 'list']);
                 }
               },
-              error: () => this.toastService.error('programs.program_creation_failed')
-            })
+              error: () => this.toastService.error('programs.program_creation_failed'),
+            }),
           )
           .subscribe();
       }
@@ -233,7 +250,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
       this.admissionService
         .admissionList({
           role: this.userRolesService.userRole(),
-          number: this.admissionId()
+          number: this.admissionId(),
         })
         .pipe(
           tap((res: AdmissionsRes) => {
@@ -243,7 +260,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             }
 
             const programs = admissionData.programs ?? [];
-            const programIds = programs.map(p => p.program?.program_id).filter(id => !!id);
+            const programIds = programs.map((p) => p.program?.program_id).filter((id) => !!id);
 
             console.log(admissionData);
             const patchValue = {
@@ -257,7 +274,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                 abroad_doc: admissionData.abroad_doc,
                 ocu_doc: admissionData.ocu_doc,
                 education_level: admissionData.education_level,
-                education_level_id: admissionData.education_level_id
+                education_level_id: admissionData.education_level_id,
               },
               ssm_status: {
                 spec_edu: admissionData.spec_edu,
@@ -270,14 +287,14 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                 language:
                   admissionData.language && Number(admissionData.language.id) !== Number('0')
                     ? admissionData.language.id
-                    : ''
+                    : '',
               },
               program_selection: {
-                program_ids: admissionData.programs?.map((program) => program?.program?.program_id) ?? []
+                program_ids: admissionData.programs?.map((program) => program?.program?.program_id) ?? [],
               },
               selected_programs: {
-                program_ids: admissionData.programs?.map((program) => program?.program?.program_id) ?? []
-              }
+                program_ids: admissionData.programs?.map((program) => program?.program?.program_id) ?? [],
+              },
             };
 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -286,23 +303,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             this.formGroup.updateValueAndValidity();
             this.cdr.detectChanges();
           }),
-          switchMap((res: AdmissionsRes) => {
-            console.log(res);
-            if (!(res.data?.[0]?.education_level && res.data?.[0]?.education_level_id)) {
-              return this.admissionService.educationStatus().pipe(
-                tap((res: { level?: string; levelId?: number }) => {
-                  this.formGroup.get('general_information')?.patchValue({
-                    education_level: res.level,
-                    education_level_id: res.levelId
-                  });
-                }),
-                takeUntilDestroyed(this.destroyRef)
-              );
-            } else {
-              return of(null);
-            }
-          }),
-          takeUntilDestroyed(this.destroyRef)
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe();
     } else {
@@ -320,7 +321,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                     return !ev.text;
                   }
                   return true;
-                }
+                },
               });
               dialog.result.subscribe((result) => {
                 if (result) {
@@ -329,9 +330,22 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
               });
             }
           }),
-          takeUntilDestroyed(this.destroyRef)
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe();
     }
+    this.admissionService
+      .educationStatus()
+      .pipe(
+        tap((res: { level?: string; levelId?: number }) => {
+          this.formGroup.get('general_information')?.patchValue({
+            education_level: res?.level,
+            education_level_id: res?.levelId,
+          });
+          console.log(this.formGroup.get('general_information'));
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 }

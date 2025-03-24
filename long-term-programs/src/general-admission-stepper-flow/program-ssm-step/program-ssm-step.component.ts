@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
@@ -90,6 +90,15 @@ export class ProgramSsmStepComponent {
       form.controls['language'].patchValue('');
     } else {
       form.controls['language'].patchValue(value ?? '');
+    }
+  }
+
+  onSpecEduSwitchChange(checked: boolean) {
+    if (!this.form()) return;
+
+    if (!checked) {
+      this.form()?.reset();
+      this.form()?.updateValueAndValidity();
     }
   }
 }

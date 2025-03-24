@@ -2,45 +2,55 @@
   <div class="overview-container">
     <div class="k-display-flex k-align-items-center k-gap-9">
       <img
-        [src]="
-          'https://png.pngtree.com/png-clipart/20220720/original/pngtree-handsome-boy-for-profile-picture-png-image_8390953.png'
-        "
+        src="https://png.pngtree.com/png-clipart/20220720/original/pngtree-handsome-boy-for-profile-picture-png-image_8390953.png"
         alt="user"
         class="profile-picture"
       />
-      <p>{{ form.controls.name.value }}</p>
+      <p>{{ form.get('name')?.value }}</p>
     </div>
 
     <div class="k-display-flex k-flex-column k-gap-5">
       <div class="user-info">
-        <div
-          class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
-          (click)="onAddressExpandClick()"
-        >
+        <div class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
+             (click)="onAddressExpandClick()">
           <p>{{ 'profile.actual_address' | transloco }}</p>
-          <kendo-svg-icon [icon]="isAddressExpanded ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
+          <kendo-svg-icon [icon]="isAddressExpanded() ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
         </div>
 
-        @if (isAddressExpanded) {
+        @if (isAddressExpanded()) {
           <div class="form-fields-container">
             <kendo-label [text]="'profile.region' | transloco">
               <kendo-dropdownlist
-                [data]="regions$ | async"
+                [data]="regionsResource.value()"
                 valueField="name"
                 textField="name"
                 [valuePrimitive]="true"
                 formControlName="region"
               />
+              @if (form.controls['region']; as control) {
+                @if (!control.untouched) {
+                  @if (control.errors?.['required']) {
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                  }
+                }
+              }
             </kendo-label>
 
             <kendo-label [text]="'profile.district' | transloco">
               <kendo-dropdownlist
-                [data]="districts$ | async"
+                [data]="filteredDistricts()"
                 valueField="name"
                 textField="name"
                 [valuePrimitive]="true"
                 formControlName="district"
               />
+              @if (form.controls['district']; as control) {
+                @if (!control.untouched) {
+                  @if (control.errors?.['required']) {
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                  }
+                }
+              }
             </kendo-label>
 
             <kendo-label [text]="'profile.address' | transloco">
@@ -49,21 +59,26 @@
                   <img src="/assets/images/edit.svg" alt="edit icon" />
                 </ng-template>
               </kendo-textbox>
+              @if (form.controls['address']; as control) {
+                @if (!control.untouched) {
+                  @if (control.errors?.['required']) {
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                  }
+                }
+              }
             </kendo-label>
           </div>
         }
       </div>
 
       <div class="user-info">
-        <div
-          class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
-          (click)="onContactInfoExpandClick()"
-        >
+        <div class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
+             (click)="onContactInfoExpandClick()">
           <p>{{ 'profile.contact_info' | transloco }}</p>
-          <kendo-svg-icon [icon]="isContactInfoExpanded ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
+          <kendo-svg-icon [icon]="isContactInfoExpanded() ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
         </div>
 
-        @if (isContactInfoExpanded) {
+        @if (isContactInfoExpanded()) {
           <div class="form-fields-container">
             <kendo-label [text]="'profile.email' | transloco">
               <kendo-textbox formControlName="email">
@@ -71,14 +86,31 @@
                   <img src="/assets/images/edit.svg" alt="edit icon" />
                 </ng-template>
               </kendo-textbox>
+              @if (form.controls['email']; as control) {
+                @if (!control.untouched) {
+                  @if (control.errors?.['required']) {
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                  }
+                }
+              }
             </kendo-label>
 
             <kendo-label [text]="'profile.phone' | transloco">
               <kendo-textbox formControlName="phone">
+                <ng-template kendoTextBoxPrefixTemplate>
+                  <p class="k-ml-2 k-color-black">{{ 'auth.georgian_code' | transloco }}</p>
+                </ng-template>
                 <ng-template kendoTextBoxSuffixTemplate>
                   <img src="/assets/images/edit.svg" alt="edit icon" />
                 </ng-template>
               </kendo-textbox>
+              @if (form.controls['phone']; as control) {
+                @if (!control.untouched) {
+                  @if (control.errors?.['required']) {
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                  }
+                }
+              }
             </kendo-label>
           </div>
 
@@ -92,7 +124,12 @@
     </div>
 
     <div class="k-display-flex k-align-self-end">
-      <button kendoButton themeColor="primary" look="default" (click)="!isSmsCodeSent() ? verifyPhone() : handleSave()">
+      <button
+        kendoButton
+        themeColor="primary"
+        look="default"
+        (click)="!isSmsCodeSent() ? verifyPhone() : handleSave()"
+      >
         {{ 'profile.save' | transloco }}
       </button>
     </div>

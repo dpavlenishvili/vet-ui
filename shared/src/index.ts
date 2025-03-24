@@ -26,6 +26,7 @@ export * from './shared.injectors';
 export * from './shared.interceptors';
 export * from './shared.providers';
 export * from './shared.types';
+export * from './shared.enums';
 export * from './shared.utils';
 export * from './shared.constants';
 export * from './shared.constants';

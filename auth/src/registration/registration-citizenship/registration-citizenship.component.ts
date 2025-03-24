@@ -6,11 +6,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-
-enum Citizenship {
-  Georgian = 'GEO',
-  Foreigner = 'Foreigner',
-}
+import { Citizenship } from '@vet/shared';
 
 @Component({
   selector: 'vet-registration-citizenship',

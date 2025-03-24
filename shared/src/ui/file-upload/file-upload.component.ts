@@ -30,7 +30,7 @@ export class FileUploadComponent {
   fileUploaded = output<UploadedFile>();
   fileRemoved = output<UploadedFile[]>();
   kendoIcons = kendoIcons;
-  allowedExtensions = signal(['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'heic']);
+  allowedExtensions = signal(['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg']);
   maxFiles = signal(2);
   document = inject(DOCUMENT);
   translocoService = inject(TranslocoService);
@@ -50,9 +50,10 @@ export class FileUploadComponent {
 
       const remainingSlots = this.maxFiles() - currentFiles.length;
       if (files.length > remainingSlots) {
-        this.errorMessage.set(
-          this.translocoService.translate('shared.exceedFileLimitError', { remaining: remainingSlots }),
-        );
+        // დროებით დაკომენდარდეს
+        // this.errorMessage.set(
+        //   this.translocoService.translate('shared.exceedFileLimitError', { remaining: remainingSlots }),
+        // );
       }
       const filesToProcess = files.slice(0, remainingSlots);
 

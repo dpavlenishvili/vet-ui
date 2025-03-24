@@ -46,11 +46,11 @@ export class AdmissionsListComponent {
   private readonly _userRolesService = inject(UserRolesService);
 
   onRegisterClick() {
-    this.router.navigate(['long-term-programs', 'register-admission']);
+    this.router.navigate(['long-term-programs', 'register-admission', 'general_information']);
   }
 
   onViewClick(item: AdmissionReq) {
-    this.router.navigate(['long-term-programs', 'update-admission', item.id]);
+    this.router.navigate(['long-term-programs', 'update-admission', item.id, 'general_information']);
   }
 
   handlePageChange(event: PageChangeEvent) {

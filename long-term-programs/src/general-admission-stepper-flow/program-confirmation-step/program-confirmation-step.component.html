@@ -140,7 +140,7 @@
               class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
             >
               <div class="k-display-flex k-align-items-center k-gap-4">
-                @if (_user.residential === 'GEO') {
+                @if (_user.residential === citizenship.Georgian) {
                   <b>{{ 'programs.foreigner_school_education_text' | transloco }}</b>
                 } @else {
                   <b>{{ 'programs.foreigner_school_education_text_non_resident' | transloco }}</b>
@@ -183,7 +183,7 @@
               class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
             >
               <div class="k-display-flex k-align-items-center k-gap-4">
-                @if (_user.residential === 'GEO') {
+                @if (_user.residential === citizenship.Georgian) {
                   <b>{{ 'programs.occupied_school_education_text' | transloco }}</b>
                 } @else {
                   <b>{{ 'programs.occupied_school_education_text_refugee' | transloco }}</b>

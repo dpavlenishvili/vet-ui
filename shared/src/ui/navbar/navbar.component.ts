@@ -6,6 +6,7 @@ import { User, UserRole } from '@vet/backend';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
+import { Citizenship } from '../../shared.enums';
 
 @Component({
   selector: 'vet-ui-navbar',
@@ -30,6 +31,7 @@ export class NavbarComponent {
   isMobileMenuOpen = signal(false);
 
   vetIcons = vetIcons;
+  citizenship = Citizenship;
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
@@ -40,7 +42,7 @@ export class NavbarComponent {
 
   get currentLangLabel(): string {
     const activeLang = this.transloco.getActiveLang();
-    return activeLang === 'ka' ? 'GEO' : 'ENG';
+    return activeLang === 'ka' ? this.citizenship.Georgian : 'ENG';
   }
 
   toggleProfileCard(): void {

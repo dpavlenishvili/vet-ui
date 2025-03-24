@@ -41,6 +41,7 @@
     "services": "სერვისები",
     "errorOccurred": "დაფიქსირდა შეცდომა",
     "fieldIsRequired": "ველი სავალდებულოა",
+    "minOneFieldIsRequired": "გთხოვთ, მონიშნეთ მინ. ერთი მნიშვნელობა",
     "invalidPersonalNumber": "პირადი ნომერი არასოწრია",
     "invalidGeorgianLetters": "შეავსეთ მონაცემი ქართულად",
     "invalidPasswordPattern": "ველი უნდა შედგებოდეს 8 სიმბოლოსგან, მინიმუმ ერთი პატარა ასოს, დიდის ასოს, ციფრის, პუნქტუაციის ნიშნისა და სპეციალური სიმბოლოსგა.",
@@ -56,7 +57,7 @@
     "testCity": "საგამოცდო ქალაქი",
     "testLanguage": "ტესტირების ენა",
     "uploadedFilesCount": "ატვირთული ფაილები ({{count}}/2)",
-    "selectFileSupportedTypes": "(ფორმატები: pdf, doc, docx, png, jpg, jpeg, heic)",
+    "selectFileSupportedTypes": "(ფორმატები: pdf, doc, docx, png, jpg, jpeg)",
     "maxFilesUploadError": "მაქსიმუმ 2 ფაილი შეიძლება ატვირთოთ.",
     "exceedFileLimitError": "შეყვანილი ფაილების რაოდენობა იზიდავს, შეგიძლიათ მხოლოდ {{remaining}} მეტი ფაილი ატვირთოთ.",
     "invalidFileTypeError": "ფაილის ტიპი არ არის დებულებული: {{fileName}}",
@@ -67,7 +68,8 @@
     "status": "სტატუსი",
     "dateFromTo": "თარიღი - დან/მდე",
     "registration": "რეგისტრაცია",
-    "informationMessage": "საინფორმაციო შეტყობინება"
+    "informationMessage": "საინფორმაციო შეტყობინება",
+    "incorrectFormat": "ფორმატი არასწორია"
   },
   "auth": {
     "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
