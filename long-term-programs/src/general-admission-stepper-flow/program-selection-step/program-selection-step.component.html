@@ -1,81 +1,102 @@
 <div class="k-display-flex k-flex-column k-gap-10">
   <vet-program-selection-filters (filtersChange)="onFiltersChange($event)" />
 
-  @if (form(); as form) {
-    <div class="k-display-flex k-gap-10 k-flex-column">
-      <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
-        <div>
-          <kendo-grid
-            [loading]="eligiblePrograms$.isLoading()"
-            [data]="eligiblePrograms$.value()?.data || []"
-            [skip]="0"
-            [pageable]="true"
-            [pageSize]="eligiblePrograms$.value()?.meta?.per_page"
-            (dataStateChange)="handlePageChange($event)"
-          >
-            <ng-template kendoGridNoRecordsTemplate>
-              @if (eligiblePrograms$.error()) {
-              } @else {}
-            </ng-template>
-            <kendo-grid-column [width]="250" field="program_name" [title]="'programs.program_name' | transloco" />
+  <div class="k-display-flex k-gap-10 k-flex-column">
+    <div class="responsive-grid-container">
+      <kendo-grid
+        [loading]="eligiblePrograms$.isLoading()"
+        [data]="eligiblePrograms$.value()?.data || []"
+        [skip]="0"
+        [pageable]="true"
+        [pageSize]="eligiblePrograms$.value()?.meta?.per_page"
+        (dataStateChange)="handlePageChange($event)"
+      >
+        <ng-template kendoGridNoRecordsTemplate>
+          @if (eligiblePrograms$.error()) {
+            <!-- Optionally handle error display here -->
+          } @else {
+            <!-- Message when no records are available -->
+          }
+        </ng-template>
 
-            <kendo-grid-column [width]="200" field="program_kind.name" [title]="'programs.form' | transloco" />
+        <kendo-grid-column
+          [width]="200"
+          field="program_name"
+          [title]="'programs.program_name' | transloco"
+        />
 
-            <kendo-grid-column [width]="70" field="education_level.name" [title]="'programs.level' | transloco" />
+        <kendo-grid-column
+          [width]="220"
+          field="program_kind.name"
+          [title]="'programs.form' | transloco"
+        />
 
-            <kendo-grid-column
-              [width]="250"
-              field="organisation.name"
-              [title]="'programs.institution_name' | transloco"
-            />
+        <kendo-grid-column
+          [width]="60"
+          field="education_level"
+          [title]="'programs.level' | transloco"
+        />
 
-            <kendo-grid-column
-              [width]="250"
-              field="organisation.address"
-              [title]="'programs.implementation_location' | transloco"
-            />
+        <kendo-grid-column
+          [width]="250"
+          field="organisation.name"
+          [title]="'programs.institution_name' | transloco"
+        />
 
-            <kendo-grid-column [width]="100" [title]="'programs.selection' | transloco">
-              <ng-template kendoGridCellTemplate let-item>
-                <div class="k-display-flex k-align-items-center k-gap-0.5">
-                  <button
-                    kendoButton
-                    fillMode="flat"
-                    [svgIcon]="vetIcons.eye"
-                    (click)="onPreviewProgramClick(item)"
-                  ></button>
+        <kendo-grid-column
+          [width]="250"
+          field="organisation.address"
+          [title]="'programs.implementation_location' | transloco"
+        />
 
-                  <button
-                    kendoButton
-                    [disabled]="isAddButtonDisabled(item)"
-                    fillMode="flat"
-                    [svgIcon]="vetIcons.plusCircled"
-                    (click)="onProgramAddClick(item)"
-                  ></button>
-                </div>
-              </ng-template>
-            </kendo-grid-column>
-          </kendo-grid>
-        </div>
-
-        <div class="k-display-flex k-justify-content-between">
-          <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
-            {{ 'auth.back' | transloco }}
-          </button>
-
-          <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
-            {{ 'auth.next' | transloco }}
-          </button>
-        </div>
-      </form>
+        <kendo-grid-column [width]="100" [title]="'programs.selection' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            <div class="k-display-flex k-align-items-center k-gap-0.5">
+              <button
+                kendoButton
+                fillMode="flat"
+                [svgIcon]="vetIcons.eye"
+                (click)="onPreviewProgramClick(item)"
+              ></button>
+              <button
+                kendoButton
+                fillMode="flat"
+                [disabled]="!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)"
+                (click)="toggleProgramSelection(item)"
+              >
+                @if (selectedPrograms().includes(item.program_id)) {
+                  <kendo-svg-icon
+                    [icon]="vetIcons.minusCircled"
+                    themeColor="warning"
+                  />
+                } @else {
+                  <kendo-svg-icon
+                    [icon]="vetIcons.plusCircled"
+                    themeColor="success"
+                  />
+                }
+              </button>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
     </div>
-  }
+
+    <div class="k-display-flex k-justify-content-between">
+      <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
+        {{ 'auth.back' | transloco }}
+      </button>
+      <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
+        {{ 'auth.next' | transloco }}
+      </button>
+    </div>
+  </div>
 </div>
 
 @if (isProgramDialogOpen()) {
   <kendo-dialog
-    [width]="1100"
-    [height]="900"
+    width="90%"
+    height="90%"
     [title]="'programs.program_description' | transloco"
     (close)="onCloseClick()"
   >
@@ -83,17 +104,13 @@
   </kendo-dialog>
 }
 
-@if (isConfirmationDialogOpen()) {
-  <kendo-dialog [title]="' '" [width]="474" [height]="150" (close)="onCloseClick()">
-    <div class="k-display-flex k-flex-column k-align-items-center k-justify-content-center">
-      <kendo-svg-icon [size]="'large'" [icon]="kendoIcons.checkCircleIcon" themeColor="success" />
-      <p>{{ 'programs.program_added_on_selected_step' | transloco }}</p>
-    </div>
-  </kendo-dialog>
-}
-
 @if (isInfoDialogOpen()) {
-  <kendo-dialog [width]="474" [height]="150" [title]="'programs.warning' | transloco" (close)="onCloseClick()">
-    {{ 'programs.' + infoDialogText | transloco }}
+  <kendo-dialog
+    [width]="474"
+    [height]="150"
+    [title]="'programs.warning' | transloco"
+    (close)="onCloseClick()"
+  >
+    {{ infoDialogText() | transloco }}
   </kendo-dialog>
 }

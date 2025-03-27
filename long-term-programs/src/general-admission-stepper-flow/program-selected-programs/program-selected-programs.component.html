@@ -3,21 +3,21 @@
 } @else {
   @if (selectedPrograms(); as _selectedPrograms) {
     <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5">
-      <kendo-grid-column [width]="250" [title]="'programs.program_name' | transloco">
+      <kendo-grid-column [width]="200" [title]="'programs.program_name' | transloco">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.program.program_name }}
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [width]="200" [title]="'programs.form' | transloco">
+      <kendo-grid-column [width]="220" [title]="'programs.form' | transloco">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.program.program_kind.name }}
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [width]="70" [title]="'programs.level' | transloco">
+      <kendo-grid-column [width]="60" [title]="'programs.level' | transloco">
         <ng-template kendoGridCellTemplate let-item>
-          {{ item.program.education_level.name }}
+          {{ item.program.education_level }}
         </ng-template>
       </kendo-grid-column>
 

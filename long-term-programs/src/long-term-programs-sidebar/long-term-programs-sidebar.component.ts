@@ -25,8 +25,7 @@ export interface LongTermProgramsSidebarMenuItem extends LongTermProgramsSidebar
   imports: [ButtonComponent, SVGIconComponent, RouterLink, TranslocoPipe, TooltipDirective],
   templateUrl: './long-term-programs-sidebar.component.html',
   styleUrl: './long-term-programs-sidebar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LongTermProgramsSidebarComponent {
   vetIcons = vetIcons;

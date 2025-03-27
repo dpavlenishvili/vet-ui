@@ -57,7 +57,7 @@
             <kendo-switch
               [onLabel]="'shared.yes' | transloco"
               [offLabel]="'shared.no' | transloco"
-              [checked]="isSpecEnvEnabled()"
+              [checked]="form?.get('spec_env')?.getRawValue()?.length > 0"
               (valueChange)="onSpecEnvSwitchChange($event)"
               #specEnvSwitch
             />
@@ -65,7 +65,7 @@
           @if (specEnvSwitch.checked) {
             <div class="checkbox-selection-container">
               <div class="k-mb-3">
-                გთხოვთ, მონიშნოთ თქვენი საჭიროება:
+                {{ 'programs.please_select_your_requirement' | transloco}}
               </div>
               <div class="k-d-flex k-gap-3 k-justify-content-between">
                 @for (specEnv of specEnvs(); track specEnv) {
@@ -74,7 +74,7 @@
                       type="checkbox"
                       kendoCheckBox
                       #specEnvCheckBox
-                      [checked]="form?.get('spec_env')?.value.includes(specEnv)"
+                      [checked]="form?.get('spec_env')?.getRawValue().includes(specEnv)"
                       (change)="onSpecEnvChange(specEnvCheckBox.checked, specEnv)"
                     />
                     <kendo-label class="k-checkbox-label" [for]="specEnvCheckBox" [text]="specEnv | transloco" />

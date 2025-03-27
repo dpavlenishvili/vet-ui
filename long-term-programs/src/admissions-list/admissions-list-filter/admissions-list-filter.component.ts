@@ -5,10 +5,12 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionListFilter } from '../admissions-list.component';
 import { TextBoxComponent } from '@progress/kendo-angular-inputs';
+import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
+import { LabelComponent } from '@progress/kendo-angular-label';
+import { formatDate } from '@vet/shared';
 
 @Component({
   selector: 'vet-admissions-list-filter',
-  standalone: true,
   templateUrl: './admissions-list-filter.component.html',
   styleUrl: './admissions-list-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,6 +20,8 @@ import { TextBoxComponent } from '@progress/kendo-angular-inputs';
     ReactiveFormsModule,
     TranslocoPipe,
     TextBoxComponent,
+    DatePickerComponent,
+    LabelComponent,
   ],
 })
 export class AdmissionsListFilterComponent {
@@ -27,10 +31,12 @@ export class AdmissionsListFilterComponent {
 
   createFormGroup() {
     return new FormGroup({
-      number: new FormControl(),
-      date: new FormControl(),
+      search: new FormControl(),
+      date: new FormGroup({
+        start: new FormControl(null),
+        end: new FormControl(null),
+      }),
       status: new FormControl(),
-      organisation: new FormControl(),
     });
   }
 
@@ -41,9 +47,12 @@ export class AdmissionsListFilterComponent {
 
   onSubmit() {
     const value = this.filterForm.value;
-
+    let durationStr: string | null = null;
+    if (value.date?.start && value.date?.end) {
+      durationStr = `${formatDate(value.date.start)} - ${formatDate(value.date.end)}`;
+    }
     const filterData: AdmissionListFilter = {
-      date: value.date ?? null,
+      date: durationStr ?? null,
       status: value.status ?? null,
     };
 

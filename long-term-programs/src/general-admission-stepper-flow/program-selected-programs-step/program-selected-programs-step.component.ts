@@ -6,12 +6,13 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { vetIcons } from '@vet/shared';
+import { ToastService, vetIcons } from '@vet/shared';
 import { AdmissionService, LongTerm } from '@vet/backend';
 import { ProgramSelectedProgramsComponent } from '../program-selected-programs/program-selected-programs.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { admissionProgramsResource } from '../admission-programs-resource';
+import { Router } from '@angular/router';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 export type ProgramsSelectionStepFormGroup = FormGroup;
@@ -30,8 +31,7 @@ export type ProgramsSelectionStepFormGroup = FormGroup;
   ],
   templateUrl: './program-selected-programs-step.component.html',
   styleUrl: './program-selected-programs-step.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProgramSelectedProgramsStepComponent {
   nextClick = output();
@@ -43,8 +43,10 @@ export class ProgramSelectedProgramsStepComponent {
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
 
-  admissionService = inject(AdmissionService);
-  private destroyRef = inject(DestroyRef);
+  private readonly admissionService = inject(AdmissionService);
+  private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
     effect(() => {
@@ -60,23 +62,38 @@ export class ProgramSelectedProgramsStepComponent {
     this.form()?.markAllAsTouched();
     if (this.form()?.valid) {
       this.nextClick.emit();
+    } else {
+      this.toastService.info('programs.pleaseSelectProgram');
     }
   }
 
   onDeleteClick(item: LongTerm) {
-    const deletedProgramIds = this.form()
-      ?.get('program_ids')
-      ?.value.filter((id: number) => id !== item.program_id);
-    this.form()?.get('program_ids')?.patchValue(deletedProgramIds);
-    this.form()?.updateValueAndValidity();
-    this.selectionProgramsForm()?.get('program_ids')?.patchValue(deletedProgramIds);
+    if (!item.program_id) {
+      return;
+    }
+    const currentSelected = this.selectedPrograms.value();
+    const updatedSelection = currentSelected
+      ?.filter((p) => p.program?.program_id !== item.program_id)
+      .map((p) => p.program?.program_id);
+    this.form()?.get('program_ids')?.patchValue(updatedSelection);
+    this.form()?.get('program_ids')?.updateValueAndValidity();
+    this.selectionProgramsForm()?.get('program_ids')?.patchValue(updatedSelection);
     this.selectionProgramsForm()?.updateValueAndValidity();
 
     this.admissionService
-      .editAdmission(this.admissionId() as string, this.form()?.value)
+      .editAdmission(this.admissionId() as string, this.form()?.getRawValue())
       .pipe(
-        tap(() => {
-          this.selectedPrograms.reload();
+        tap({
+          next: () => {
+            this.toastService.success('programs.programRemoved');
+            this.selectedPrograms.reload();
+            if (this.selectedPrograms.value()?.length === 0) {
+              this.router.navigate(['long-term-programs', 'update-admission', this.admissionId(), 'program_selection']);
+            }
+          },
+          error: (error) => {
+            this.toastService.error(error?.error?.error?.message ?? 'shared.error');
+          },
         }),
         takeUntilDestroyed(this.destroyRef),
       )

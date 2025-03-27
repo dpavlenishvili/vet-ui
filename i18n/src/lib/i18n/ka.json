@@ -59,6 +59,7 @@
     "uploadedFilesCount": "ატვირთული ფაილები ({{count}}/2)",
     "selectFileSupportedTypes": "(ფორმატები: pdf, doc, docx, png, jpg, jpeg)",
     "maxFilesUploadError": "მაქსიმუმ 2 ფაილი შეიძლება ატვირთოთ.",
+    "maxItemAddError": "მაქსიმუმ {{requiredLength}} შეიძლება დაამატოთ",
     "exceedFileLimitError": "შეყვანილი ფაილების რაოდენობა იზიდავს, შეგიძლიათ მხოლოდ {{remaining}} მეტი ფაილი ატვირთოთ.",
     "invalidFileTypeError": "ფაილის ტიპი არ არის დებულებული: {{fileName}}",
     "met": "გავეცანი",
@@ -69,7 +70,11 @@
     "dateFromTo": "თარიღი - დან/მდე",
     "registration": "რეგისტრაცია",
     "informationMessage": "საინფორმაციო შეტყობინება",
-    "incorrectFormat": "ფორმატი არასწორია"
+    "incorrectFormat": "ფორმატი არასწორია",
+    "error": "შეცდომა",
+    "startDate": "დაწყების თარიღი",
+    "endDate": "დასრულების თარიღი",
+    "emailFormatError": "არასწორი მეილის ფორმატი"
   },
   "auth": {
     "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
@@ -299,7 +304,11 @@
     "commissionGrade": "კომისიის შეფასება",
     "commissionResults": "კომისიის შედეგები",
     "testingCard": "საგამოცდო ბარათი",
-    "statistics": "სტატისტიკა"
+    "statistics": "სტატისტიკა",
+    "programAdded": "პროგრამა დაემატა",
+    "programRemoved": "პროგრამა წაიშალა",
+    "cannotAddProgram": "პროგრამა ვერ დაემატება",
+    "pleaseSelectProgram": "გთოხვთ გადახვიდეთ წინა სტეპზე და აირჩიოთ თქვენითვის სასურველი პროგრამა"
   },
   "profile": {
     "actual_address": "ფაქტობრივი მისამართი",

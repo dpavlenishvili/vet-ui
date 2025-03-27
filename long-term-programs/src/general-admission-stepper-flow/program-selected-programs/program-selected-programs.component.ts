@@ -27,12 +27,11 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     TranslocoPipe,
     KENDO_GRID,
     KENDO_DIALOG,
-    ProgramComponent
+    ProgramComponent,
   ],
   templateUrl: './program-selected-programs.component.html',
   styleUrl: './program-selected-programs.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProgramSelectedProgramsComponent {
   isEditMode = input(false, { transform: coerceBooleanProperty });

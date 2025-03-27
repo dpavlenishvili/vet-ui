@@ -1,17 +1,26 @@
 <form [formGroup]="filterForm">
-  <div class="k-d-flex k-gap-4 k-pb-5">
-    <kendo-textbox
-      formControlName="date"
-      [size]="'large'"
-      [rounded]="'large'"
-      [placeholder]="'shared.dateFromTo' | transloco"
-    />
-    <kendo-textbox
-      formControlName="status"
-      [size]="'large'"
-      [rounded]="'large'"
-      [placeholder]="'shared.status' | transloco"
-    />
+  <div class="k-d-flex k-gap-4 k-pb-5 k-flex-wrap">
+    <div class="k-d-flex k-gap-4 k-w-full">
+      <kendo-label [text]="'shared.search' | transloco">
+        <kendo-textbox
+          formControlName="search"
+        />
+      </kendo-label>
+
+      <kendo-label [text]="'shared.status' | transloco">
+        <kendo-textbox
+          formControlName="status"
+        />
+      </kendo-label>
+    </div>
+
+    <kendo-label [text]="'programs.duration' | transloco">
+      <div formGroupName="date" class="k-display-flex k-gap-2 k-align-items-center">
+        <kendo-datepicker formControlName="start" [formatPlaceholder]="'formatPattern'" [format]="'yyyy-MM-dd'" [placeholder]="'shared.startDate' | transloco" />
+        <span> - </span>
+        <kendo-datepicker formControlName="end" [formatPlaceholder]="'formatPattern'" [format]="'yyyy-MM-dd'" [placeholder]="'shared.endDate' | transloco" />
+      </div>
+    </kendo-label>
   </div>
   <div class="k-display-flex k-justify-content-end k-gap-4">
     <button

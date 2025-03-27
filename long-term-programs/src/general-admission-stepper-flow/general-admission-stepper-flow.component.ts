@@ -24,9 +24,9 @@ import { AdmissionRes, AdmissionService, AdmissionsRes } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { DialogRef, DialogResult, DialogService } from '@progress/kendo-angular-dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, UserRolesService } from '@vet/auth';
-import { Citizenship, ToastService } from '@vet/shared';
+import { Citizenship, georgianMobileValidator, ToastService } from '@vet/shared';
 
 interface StepDefinition {
   label: string;
@@ -51,8 +51,7 @@ interface StepDefinition {
   ],
   templateUrl: './general-admission-stepper-flow.component.html',
   styleUrl: './general-admission-stepper-flow.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GeneralAdmissionStepperFlowComponent implements OnInit {
   admissionId = input<string | null>(null);
@@ -109,6 +108,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
 
   private dialogService = inject(DialogService);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
   private admissionService = inject(AdmissionService);
   private translocoService = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
@@ -138,29 +138,26 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
     return new FormGroup({
       general_information: new FormGroup(generalInformationControls),
       ssm_status: new FormGroup({
-        ssm_translator_requirement: new FormControl(false),
-        language: new FormControl(''),
-
+        translate: new FormControl(),
+        translate_select: new FormControl(),
         spec_edu: new FormControl(false),
-        e_name: new FormControl(''),
-        e_lastname: new FormControl(''),
+        e_name: new FormControl('', Validators.required),
+        e_lastname: new FormControl('', Validators.required),
         e_email: new FormControl(
           '',
           [
             Validators.email
           ]
         ),
-        e_phone: new FormControl(
-          ''
-        ),
+        e_phone: new FormControl(null, [Validators.required, georgianMobileValidator]),
         spe_description: new FormControl(''),
         program_ids: new FormControl([]),
       }),
       program_selection: new FormGroup({
-        program_ids: new FormControl([]),
+        program_ids: new FormControl([], Validators.required),
       }),
       selected_programs: new FormGroup({
-        program_ids: new FormControl([]),
+        program_ids: new FormControl([], Validators.required),
       }),
       confirmation: new FormGroup({
         status: new FormControl('registered'),
@@ -178,8 +175,9 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   protected onStepChange(event: StepperActivateEvent) {
     if (this.isStepValid(this.currentStepIndex()) || event.index < this.currentStepIndex()) {
       this.currentStepIndex.set(event.index);
-      console.log(this.steps()[this.currentStepIndex()].path);
-      void this.router.navigate([`long-term-programs/update-admission/${this.admissionId()}/${this.steps()[this.currentStepIndex()].path}`]);
+      void this.router.navigate([
+        `long-term-programs/update-admission/${this.admissionId()}/${this.steps()[this.currentStepIndex()].path}`,
+      ]);
     } else {
       event.preventDefault();
     }
@@ -188,15 +186,16 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   protected onPreviousClick() {
     if (this.currentStepIndex() > 0) {
       this.currentStepIndex.set(this.currentStepIndex() - 1);
-      console.log(this.steps()[this.currentStepIndex()].path);
-      void this.router.navigate([`long-term-programs/update-admission/${this.admissionId()}/${this.steps()[this.currentStepIndex()].path}`]);
+      void this.router.navigate([
+        `long-term-programs/update-admission/${this.admissionId()}/${this.steps()[this.currentStepIndex()].path}`,
+      ]);
     }
   }
 
   protected onNextClick(formGroupName: string) {
     if (this.isStepValid(this.currentStepIndex())) {
       let value = this.formGroup.get(formGroupName)?.getRawValue();
-      if (this.currentStepIndex() === this.steps().length - 1) {
+      if (this.currentStepIndex() === this.steps().length) {
         value = {
           ...value,
           status: 'registered',
@@ -209,7 +208,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
           .pipe(
             tap({
               next: () => {
-                if (this.currentStepIndex() === this.steps().length - 1) {
+                if (this.currentStepIndex() === this.steps().length) {
                   this.toastService.success('programs.program_updated_successfully');
                   void this.router.navigate(['long-term-programs', 'list']);
                 }
@@ -223,15 +222,10 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
           .admission(value)
           .pipe(
             takeUntilDestroyed(this.destroyRef),
-            tap((res: AdmissionRes) => {
-              void this.router.navigate(['long-term-programs', 'update-admission', res.data?.id]);
-            }),
             tap({
-              next: () => {
-                if (this.currentStepIndex() === this.steps().length - 1) {
-                  this.toastService.success('programs.program_created_successfully');
-                  void this.router.navigate(['long-term-programs', 'list']);
-                }
+              next: (res: AdmissionRes) => {
+                this.toastService.success('programs.program_created_successfully');
+                void this.router.navigate(['long-term-programs', 'update-admission', res.data?.id, 'ssm_status']);
               },
               error: () => this.toastService.error('programs.program_creation_failed'),
             }),
@@ -245,7 +239,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (this.admissionId()) {
       this.admissionService
         .admissionList({
@@ -262,7 +256,6 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             const programs = admissionData.programs ?? [];
             const programIds = programs.map((p) => p.program?.program_id).filter((id) => !!id);
 
-            console.log(admissionData);
             const patchValue = {
               general_information: {
                 education: admissionData.education?.id,
@@ -284,10 +277,8 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                 e_phone: admissionData.e_phone,
                 spe_description: admissionData.spe_description,
                 program_ids: programIds,
-                language:
-                  admissionData.language && Number(admissionData.language.id) !== Number('0')
-                    ? admissionData.language.id
-                    : '',
+                translate: admissionData.translate,
+                translate_select: admissionData.translate_select,
               },
               program_selection: {
                 program_ids: admissionData.programs?.map((program) => program?.program?.program_id) ?? [],
@@ -302,6 +293,21 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             this.formGroup.patchValue(patchValue);
             this.formGroup.updateValueAndValidity();
             this.cdr.detectChanges();
+          }),
+          tap(() => {
+            let routeSnapshot = this.activatedRoute.snapshot;
+            while (routeSnapshot.firstChild) {
+              routeSnapshot = routeSnapshot.firstChild;
+            }
+            const urlSegments = routeSnapshot.url;
+            const stepPath = urlSegments.length ? urlSegments[urlSegments.length - 1].path : null;
+            const idx = this.steps().findIndex((step) => step.path === stepPath);
+            console.log(this.isStepValid(idx));
+            if (idx >= 0 && this.isStepValid(idx)) {
+              this.currentStepIndex.set(idx);
+            } else {
+              this.currentStepIndex.set(0);
+            }
           }),
           takeUntilDestroyed(this.destroyRef),
         )
@@ -342,7 +348,6 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             education_level: res?.level,
             education_level_id: res?.levelId,
           });
-          console.log(this.formGroup.get('general_information'));
         }),
         takeUntilDestroyed(this.destroyRef),
       )

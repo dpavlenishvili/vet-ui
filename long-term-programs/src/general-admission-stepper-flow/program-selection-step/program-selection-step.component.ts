@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -16,14 +6,14 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
-import { filterNullValues, kendoIcons, RouteParamsService, vetIcons } from '@vet/shared';
+import { filterNullValues, kendoIcons, RouteParamsService, ToastService, vetIcons } from '@vet/shared';
 import { GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { ProgramComponent } from 'programs/src/program/program.component';
 import { DialogModule } from '@progress/kendo-angular-dialog';
+import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';
 import { ProgramSelectionFiltersComponent } from './program-selection-filters/program-selection-filters.component';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
-import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';
 
 export type ProgramSelectionStepFormGroup = FormGroup;
 export type ProgramSsmStep = FormGroup;
@@ -31,14 +21,16 @@ export type SelectedProgramsStepForm = FormGroup;
 export type GeneralInformationStepFromGroup = FormGroup;
 export type ProgramSelectionFilter = {
   filters: {
-    organisation: number | null;
-    program_name: string | null;
-    program: string | null;
-    duration: string | null;
-    integrated: string | null;
-    financing_type: string | null;
-    region: number | null;
-    district: number | null;
+    filter?: string | null;
+    organisation?: string | null;
+    program_name?: string | null;
+    program?: string | null;
+    program_kind?: string | null;
+    duration?: string | null;
+    integrated?: boolean | null;
+    financing_type?: string | null;
+    region?: string | null;
+    district?: string | null;
   };
 };
 
@@ -61,43 +53,43 @@ export type ProgramSelectionFilter = {
   templateUrl: './program-selection-step.component.html',
   styleUrl: './program-selection-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
-export class ProgramSelectionStepComponent {
-  nextClick = output();
-  previousClick = output();
-  isProgramDialogOpen = signal(false);
-  isConfirmationDialogOpen = signal(false);
-  isInfoDialogOpen = signal(false);
-  infoDialogText = '';
-  vetIcons = vetIcons;
-
-  singleProgramId = signal(0);
-
-  admissionId = input<string | null>();
-  eligiblePrograms$ = rxResource({
-    request: () => ({ admissionId: this.admissionId(), filters: this.filters() }),
-    loader: ({ request: { admissionId, filters } }) =>
-      this.admissionService.eligibleProgramsList(
-        admissionId,
-        // @ts-expect-error Not yet implemented by BE, should be removed once this works
-        filters,
-      ),
-  });
-  admissionService = inject(AdmissionService);
-  routeParamsService = inject(RouteParamsService);
-  destroyRef = inject(DestroyRef);
-
+export class ProgramSelectionStepComponent implements OnInit {
+  nextClick = output<void>();
+  previousClick = output<void>();
   form = input<ProgramSelectionStepFormGroup>();
   ssmStepForm = input<ProgramSsmStep>();
   generalInformationFrom = input<GeneralInformationStepFromGroup>();
   selectedProgramsForm = input<SelectedProgramsStepForm>();
-  kendoIcons = kendoIcons;
-  selectedPrograms = signal<number[]>([]);
-  selectedProgramsCount = computed(() => this.form()?.get('program_ids')?.value?.length ?? 0);
+  admissionId = input<string | null>();
 
+  isProgramDialogOpen = signal(false);
+  isInfoDialogOpen = signal(false);
+  singleProgramId = signal(0);
+  selectedPrograms = signal<number[]>([]);
+  selectedProgramsCount = signal<number>(0);
+  infoDialogText = signal<string>('shared.maxItemAddError');
+  vetIcons = vetIcons;
+  kendoIcons = kendoIcons;
   previewProgram: LongTerm | null = null;
-  protected readonly filters = signal<ProgramSelectionFilter['filters'] | undefined>(undefined);
+
+  private toastService = inject(ToastService);
+  private admissionService = inject(AdmissionService);
+  private routeParamsService = inject(RouteParamsService);
+  private destroyRef = inject(DestroyRef);
+
+  protected filters = signal<ProgramSelectionFilter['filters'] | undefined>(undefined);
+
+  eligiblePrograms$ = rxResource({
+    request: () => ({ admissionId: this.admissionId(), filters: this.filters() }),
+    loader: ({ request: { admissionId, filters } }) => this.admissionService.eligibleProgramsList(admissionId, filters),
+  });
+
+  ngOnInit() {
+    const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
+    this.selectedPrograms.set(programs);
+    this.selectedProgramsCount.set(programs.length);
+  }
 
   onPreviewProgramClick(item: LongTerm) {
     this.singleProgramId.set(Number(item.id));
@@ -106,17 +98,16 @@ export class ProgramSelectionStepComponent {
   }
 
   isAddButtonDisabled(item: LongTerm): boolean {
-    const isMaxProgramCount = this.selectedProgramsCount() >= 3;
+    const maxReached = this.selectedProgramsCount() >= 3;
     const educationLevel = this.generalInformationFrom()?.get('education_level')?.value;
-    const isBasicEducation = !!item.is_integrated && educationLevel === EducationLevel.Basic;
-    const isCollegeEducation = !!item.is_integrated && educationLevel === EducationLevel.ProfessionalBasic;
-
-    return isMaxProgramCount || isBasicEducation || isCollegeEducation;
+    const isIntegrated = !!item.is_integrated;
+    const isBasicEducation = isIntegrated && educationLevel === EducationLevel.Basic;
+    const isCollegeEducation = isIntegrated && educationLevel === EducationLevel.ProfessionalBasic;
+    return maxReached || isBasicEducation || isCollegeEducation;
   }
 
   onCloseClick() {
     this.isProgramDialogOpen.set(false);
-    this.isConfirmationDialogOpen.set(false);
     this.isInfoDialogOpen.set(false);
   }
 
@@ -124,38 +115,52 @@ export class ProgramSelectionStepComponent {
     this.previousClick.emit();
   }
 
-  onProgramAddClick(item: LongTerm) {
-    this.selectedPrograms.set(this.form()?.get('program_ids')?.value);
-    if (item.program_id) {
-      if (!this.selectedPrograms().includes(item.program_id)) {
-        this.selectedPrograms().push(item.program_id);
-        this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
-        this.form()?.get('program_ids')?.updateValueAndValidity();
-        this.isConfirmationDialogOpen.set(true);
-        this.admissionService
-          .editAdmission(this.admissionId() as string, this.form()?.value)
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            tap(() => this.isConfirmationDialogOpen.set(true)),
-          )
-          .subscribe();
-      } else {
-        this.isInfoDialogOpen.set(true);
-        this.infoDialogText = 'programs.program_already_chosen';
-      }
+  toggleProgramSelection(item: LongTerm) {
+    if (!item.program_id) {
+      return;
     }
+    const currentSelected = this.selectedPrograms();
+    const isSelected = currentSelected.includes(item.program_id);
+    let actionStatusText;
+
+    if (isSelected) {
+      const updatedSelection = currentSelected.filter((id) => id !== item.program_id);
+      this.selectedPrograms.set(updatedSelection);
+      actionStatusText = 'programs.programRemoved';
+    } else {
+      if (this.isAddButtonDisabled(item)) {
+        this.toastService.warning('programs.cannotAddProgram');
+        return;
+      }
+      const updatedSelection = [...currentSelected, item.program_id];
+      this.selectedPrograms.set(updatedSelection);
+      actionStatusText = 'programs.programAdded';
+    }
+
+    this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
+    this.form()?.get('program_ids')?.updateValueAndValidity();
+    this.selectedProgramsCount.set(this.selectedPrograms().length);
+
+    this.admissionService
+      .editAdmission(this.admissionId() as string, this.form()?.getRawValue())
+      .pipe(
+        tap({
+          next: () => this.toastService.success(actionStatusText),
+          error: (error) => {
+            this.toastService.error(error?.error?.error?.message ?? 'shared.error');
+          },
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   onNextClick() {
     this.form()?.markAllAsTouched();
-
     if (this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms().length < 2) {
       this.isInfoDialogOpen.set(true);
-      this.infoDialogText = 'must_choose_min_two';
-    } else {
-      if (this.form()?.valid) {
-        this.nextClick.emit();
-      }
+    } else if (this.form()?.valid) {
+      this.nextClick.emit();
     }
   }
 

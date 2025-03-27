@@ -33,11 +33,11 @@ export const data: Item[] = [
   standalone: true,
   imports: [KENDO_SCROLLVIEW],
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss'], // plural "styles" is typical in Angular
+  styleUrl: './posts.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsComponent implements AfterViewInit {
-  readonly items = input<Item[]>(data); // Optionally accept items via Input
+  readonly items = input<Item[]>(data);
   protected readonly width = '100%';
   protected readonly height = '370px';
 

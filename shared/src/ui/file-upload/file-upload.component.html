@@ -1,17 +1,19 @@
 <div class="file-upload-container">
-  <label [class.disabled]="uploadedFiles().length >= maxFiles()" class="file-input-label">
+  @if (!readonly()) {
+    <label [class.disabled]="uploadedFiles().length >= maxFiles()" class="file-input-label">
     <span>
       {{ title() | transloco }}
       {{ 'shared.selectFileSupportedTypes' | transloco }}
     </span>
-    <input
-      (change)="onFileSelected($event)"
-      [disabled]="uploadedFiles().length >= maxFiles()"
-      accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
-      multiple
-      type="file"
-    />
-  </label>
+      <input
+        (change)="onFileSelected($event)"
+        [disabled]="uploadedFiles().length >= maxFiles()"
+        accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+        multiple
+        type="file"
+      />
+    </label>
+  }
 
   @if (uploadedFiles().length > 0) {
     <div class="file-list">
@@ -22,9 +24,11 @@
             <button type="button" class="icon-btn" (click)="downloadFile(file)">
               <kendo-svg-icon [icon]="kendoIcons.downloadIcon" />
             </button>
-            <button type="button" class="icon-btn" (click)="removeFile(file)">
-              <kendo-svg-icon [icon]="kendoIcons.xIcon" />
-            </button>
+            @if (!readonly()) {
+              <button type="button" class="icon-btn" (click)="removeFile(file)">
+                <kendo-svg-icon [icon]="kendoIcons.xIcon" />
+              </button>
+            }
           </div>
         </div>
       }

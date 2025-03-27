@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Inject, inject, input, output } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -15,7 +24,7 @@ import {
 } from '../program-selected-programs/program-selected-programs.component';
 import { ProgramGeneralInformationStepFormGroup } from '../program-general-information-step/program-general-information-step.component';
 import { NgClass } from '@angular/common';
-import { Citizenship, InfoComponent, UploadedFile, vetIcons } from '@vet/shared';
+import { Citizenship, FileUploadComponent, InfoComponent, vetIcons } from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { admissionProgramsResource } from '../admission-programs-resource';
@@ -35,13 +44,13 @@ export type ProgramSelectionStepFormGroup = FormGroup;
     ProgramSelectedProgramsComponent,
     InfoComponent,
     NgClass,
+    FileUploadComponent,
   ],
   templateUrl: './program-confirmation-step.component.html',
   styleUrl: './program-confirmation-step.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProgramConfirmationStepComponent {
+export class ProgramConfirmationStepComponent implements AfterViewInit {
   form = input<ProgramSelectionStepFormGroup>();
   generalInformationFormGroup = input<ProgramGeneralInformationStepFormGroup>();
   ssmFormGroup = input<ProgramSsmStepFormGroup>();
@@ -57,11 +66,14 @@ export class ProgramConfirmationStepComponent {
 
   admissionService = inject(AdmissionService);
   educationStatus = rxResource({
-    request: () => ({}),
     loader: () => this.admissionService.educationStatus(),
   });
   selectedPrograms = admissionProgramsResource(this.admissionId);
   maxLengthOfRequirements = 2000;
+
+  specialRequirements = signal<string[]>([]);
+  isAbroadEnabled = signal(false);
+  isOcuEnabled = signal(false);
 
   constructor(@Inject(WA_WINDOW) private window: Window) {}
 
@@ -76,24 +88,20 @@ export class ProgramConfirmationStepComponent {
     }
   }
 
-  getSpecialRequirements() {
-    return (this.generalInformationFormGroup()?.controls['spec_env']?.value ?? []) as string[];
-  }
-
-  getAbroadDocuments() {
-    return (this.generalInformationFormGroup()?.controls['abroad_doc']?.value ?? []) as UploadedFile[];
-  }
-
-  getOcuDocuments() {
-    return (this.generalInformationFormGroup()?.controls['ocu_doc']?.value ?? []) as UploadedFile[];
-  }
-
   onPrintClick() {
     this.window?.print?.();
   }
 
-  onDownloadClick(file: UploadedFile) {
-    //downloadFile არის დასამოდიფიცირებელი, ნახეთ file-upload component ის download ი როგორ მუშაობს
-    // downloadFile(file.download_url, file.filename);
+  ngAfterViewInit() {
+    const value = this.generalInformationFormGroup()?.getRawValue();
+
+    this.specialRequirements.set(value.spec_env);
+    if (this.user()?.residential !== this.citizenship.Georgian) {
+      this.isAbroadEnabled.set(value?.complete_edu_abroad);
+      this.isOcuEnabled.set(value?.complete_base_edu_abroad);
+    } else {
+      this.isAbroadEnabled.set(value?.abroad_doc.length > 0);
+      this.isOcuEnabled.set(value?.ocu_doc.length > 0);
+    }
   }
 }

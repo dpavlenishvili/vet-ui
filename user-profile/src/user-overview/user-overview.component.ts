@@ -18,7 +18,7 @@ import { District } from '@vet/shared';
 @Component({
   selector: 'vet-user-overview',
   templateUrl: './user-overview.component.html',
-  styleUrls: ['./user-overview.component.scss'],
+  styleUrl: './user-overview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
@@ -46,12 +46,10 @@ export class UserOverviewComponent extends UserProfileSection {
   smsService = inject(SmsService);
 
   regionsResource = rxResource({
-    request: () => null,
     loader: () => this.generalsService.getRegionsList().pipe(map((response) => response.data)),
   });
 
   districtsResource = rxResource({
-    request: () => null,
     loader: () => this.generalsService.getDistrictsList().pipe(map((response) => response.data)),
   });
 

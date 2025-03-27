@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
@@ -23,8 +23,7 @@ export type AdmissionListFilter = {
   imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, AdmissionsListFilterComponent],
   templateUrl: './admissions-list.component.html',
   styleUrl: './admissions-list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdmissionsListComponent {
   admissionList$ = rxResource({

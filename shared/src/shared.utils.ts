@@ -204,3 +204,12 @@ export function breadcrumb(items: AppBreadCrumbItem[]) {
 export function filterNullValues<T extends object>(obj: T): T {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null)) as T;
 }
+
+
+export function formatDate(date: Date): string {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = ('0' + (d.getMonth() + 1)).slice(-2);
+  const day = ('0' + d.getDate()).slice(-2);
+  return `${year}-${month}-${day}`;
+}

@@ -12,7 +12,7 @@ import { Citizenship } from '../../shared.enums';
   selector: 'vet-ui-navbar',
   standalone: true,
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  styleUrl: './navbar.component.scss',
   encapsulation: ViewEncapsulation.None,
   imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
 })

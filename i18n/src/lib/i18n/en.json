@@ -54,6 +54,7 @@
     "uploadedFilesCount": "Uploaded files ({{count}}/2)",
     "selectFileSupportedTypes": "Select file (max 2) – supported types: pdf, doc, docx, png, jpg, jpeg",
     "maxFilesUploadError": "A maximum of 2 files can be uploaded.",
+    "maxItemAddError": "A maximum {{requiredLength}} can be added",
     "exceedFileLimitError": "Too many files selected, you can only upload {{remaining}} more file(s).",
     "invalidFileTypeError": "Invalid file type: {{fileName}}",
     "met": "Met",
@@ -62,7 +63,10 @@
     "search": "Search",
     "status": "Status",
     "dateFromTo": "Date - From/To",
-    "informationMessage": "Information message"
+    "informationMessage": "Information message",
+    "error": "Error",
+    "startDate": "Start date",
+    "endDate": "End date"
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",
@@ -213,7 +217,10 @@
     "long-term-programs-admissionUpdate": "Update",
     "uploadEducationDocument": "Upload your education supporting document",
     "testReallocationNote": "Please note that, in the case of testing organized by the center, the center reserves the right to reallocate the applicant to another test city/municipality.",
-    "georgianModuleNote": "Please note that if you choose Russian, Azerbaijani, or Armenian language, you will begin the program with the Georgian language module."
+    "georgianModuleNote": "Please note that if you choose Russian, Azerbaijani, or Armenian language, you will begin the program with the Georgian language module.",
+    "programAdded": "Program added",
+    "programRemoved": "Program removed",
+    "cannotAddProgram": "Cannot add this program"
   },
   "profile": {
     "actual_address": "Actual address",

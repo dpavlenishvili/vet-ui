@@ -8,7 +8,6 @@ import {
   imports: [GeneralAdmissionStepperFlowComponent],
   templateUrl: './admission-registration.component.html',
   styleUrl: './admission-registration.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdmissionRegistrationComponent {}

@@ -53,12 +53,13 @@
                       [offLabel]="'shared.no' | transloco"
                       [checked]="!!ssmForm.controls['spec_edu'].value"
                       [disabled]="true"
+                      #spec_edu
                     />
                   </div>
                 </div>
               </div>
 
-              @if (ssmForm.controls['spec_edu'].value) {
+              @if (spec_edu.checked) {
                 <div
                   class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base"
                 >
@@ -70,23 +71,33 @@
                       <kendo-switch
                         [onLabel]="'shared.yes' | transloco"
                         [offLabel]="'shared.no' | transloco"
-                        [checked]="!!ssmForm.controls['language'].value"
+                        [checked]="!!ssmForm.controls['translate_select'].value"
                         [disabled]="true"
                       />
                     </div>
                   </div>
 
-                  @if (ssmForm.controls['language'].value) {
+                  @if (ssmForm.controls['translate_select'].value) {
                     <div class="k-display-flex k-align-items-center k-gap-3.5">
                       <div class="k-flex-1">
                         <kendo-textbox
                           inputmode="flat"
-                          [value]="ssmForm.controls['language'].value ?? ''"
+                          [value]="ssmForm.controls['translate_select'].value ?? ''"
                           [readonly]="true"
                         />
                       </div>
 
-                      <div class="k-flex-1"></div>
+                      @if (ssmForm.controls['translate'].value) {
+                        <div class="k-flex-1">
+                          <div class="k-flex-1">
+                            <kendo-textbox
+                              inputmode="flat"
+                              [value]="ssmForm.controls['translate'].value ?? ''"
+                              [readonly]="true"
+                            />
+                          </div>
+                        </div>
+                      }
                     </div>
                   }
                 </div>
@@ -119,107 +130,84 @@
                   [onLabel]="'programs.yes' | transloco"
                   [offLabel]="'programs.no' | transloco"
                   [size]="'small'"
-                  [checked]="getSpecialRequirements().length > 0"
+                  [checked]="specialRequirements().length > 0"
                   [disabled]="true"
+                  #spec_env
                 />
               </div>
 
-              <b>{{ 'programs.please_select_your_requirement' | transloco }}</b>
-
-              <div class="k-display-flex k-align-items-center k-gap-4">
-                @for (specialRequirement of getSpecialRequirements(); track specialRequirement) {
-                  <div class="k-display-flex k-align-items-center k-gap-2">
-                    <input kendoCheckBox type="checkbox" [checked]="true" [disabled]="true" />
-                    <kendo-label class="k-text-base k-color-body-dark" [text]="specialRequirement" />
-                  </div>
-                }
-              </div>
+              @if (spec_env.checked) {
+                <div class="k-display-flex k-align-items-center k-gap-4">
+                  @for (specialRequirement of specialRequirements(); track specialRequirement) {
+                    <div class="k-display-flex k-align-items-center k-gap-2">
+                      <input kendoCheckBox type="checkbox" [checked]="true" [disabled]="true" />
+                      <kendo-label class="k-text-base k-color-body-dark" [text]="specialRequirement | transloco" />
+                    </div>
+                  }
+                </div>
+              }
             </div>
 
             <div
               class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
             >
               <div class="k-display-flex k-align-items-center k-gap-4">
-                @if (_user.residential === citizenship.Georgian) {
-                  <b>{{ 'programs.foreigner_school_education_text' | transloco }}</b>
+                @if (user()?.residential === citizenship.Georgian) {
+                  {{ 'programs.completedForeignGeneralEducation' | transloco }}
                 } @else {
-                  <b>{{ 'programs.foreigner_school_education_text_non_resident' | transloco }}</b>
+                  {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
                 }
 
                 <kendo-switch
-                  [onLabel]="'programs.yes' | transloco"
-                  [offLabel]="'programs.no' | transloco"
-                  [size]="'small'"
-                  [checked]="getSpecialRequirements().length > 0"
+                  [onLabel]="'shared.yes' | transloco"
+                  [offLabel]="'shared.no' | transloco"
                   [disabled]="true"
+                  #ocuSwitch
+                  [checked]="isAbroadEnabled()"
                 />
               </div>
 
-              <vet-info variant="warning" [text]="'programs.foreigner_school_education_warning' | transloco" />
-
-              <div
-                class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
-              >
-                <b>{{ 'programs.file' | transloco }}</b>
-
-                <div class="k-display-flex k-flex-column k-gap-2">
-                  @for (file of getAbroadDocuments(); track file.filename) {
-                    <div
-                      class="k-px-3.5 k-py-2.5 k-rounded-1 k-display-flex k-justify-content-between k-align-items-center k-gap-6 k-bg-paper-dark k-w-full"
-                    >
-                      <span>{{ file.filename }}</span>
-                      <kendo-svg-icon
-                        [icon]="vetIcons.download"
-                        class="k-cursor-pointer"
-                        (click)="onDownloadClick(file)"
-                      />
-                    </div>
-                  }
-                </div>
-              </div>
+              @if (ocuSwitch.checked && !abroadSwitch.checked) {
+                <vet-info variant="warning">
+                  {{ 'programs.switchWarning' | transloco }}
+                </vet-info>
+                <vet-file-upload
+                  [title]="'programs.uploadEducationDocument'"
+                  [readonly]="true"
+                  [uploadedFiles]="generalInformationFormGroup()?.get('abroad_doc')?.getRawValue()"
+                />
+              }
             </div>
 
             <div
               class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
             >
               <div class="k-display-flex k-align-items-center k-gap-4">
-                @if (_user.residential === citizenship.Georgian) {
-                  <b>{{ 'programs.occupied_school_education_text' | transloco }}</b>
+                @if (user()?.residential === citizenship.Georgian) {
+                  {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
                 } @else {
-                  <b>{{ 'programs.occupied_school_education_text_refugee' | transloco }}</b>
+                  {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
                 }
 
                 <kendo-switch
-                  [onLabel]="'programs.yes' | transloco"
-                  [offLabel]="'programs.no' | transloco"
-                  [size]="'small'"
-                  [checked]="!!generalInformationFormGroup()?.controls?.['complete_base_edu_abroad']?.value"
+                  [onLabel]="'shared.yes' | transloco"
+                  [offLabel]="'shared.no' | transloco"
                   [disabled]="true"
+                  #abroadSwitch
+                  [checked]="isOcuEnabled()"
                 />
               </div>
 
-              <vet-info variant="warning" [text]="'programs.foreigner_school_education_warning' | transloco" />
-
-              <div
-                class="k-p-4 k-rounded-2.5 k-display-flex k-flex-column k-gap-6 k-border-solid k-border-divider-light k-w-full k-text-base k-color-body"
-              >
-                <b>{{ 'programs.file' | transloco }}</b>
-
-                <div class="k-display-flex k-flex-column k-gap-2">
-                  @for (file of getOcuDocuments(); track file.filename) {
-                    <div
-                      class="k-px-3.5 k-py-2.5 k-rounded-1 k-display-flex k-justify-content-between k-align-items-center k-gap-6 k-bg-paper-dark k-w-full"
-                    >
-                      <span>{{ file.filename }}</span>
-                      <kendo-svg-icon
-                        [icon]="vetIcons.download"
-                        class="k-cursor-pointer"
-                        (click)="onDownloadClick(file)"
-                      />
-                    </div>
-                  }
-                </div>
-              </div>
+              @if (abroadSwitch.checked && !ocuSwitch.checked) {
+                <vet-info variant="warning">
+                  {{ 'programs.switchWarning' | transloco }}
+                </vet-info>
+                <vet-file-upload
+                  [title]="'programs.uploadEducationDocument'"
+                  [readonly]="true"
+                  [uploadedFiles]="generalInformationFormGroup()?.get('ocu_doc')?.getRawValue()"
+                />
+              }
             </div>
 
             @if (ssmFormGroup(); as ssmForm) {

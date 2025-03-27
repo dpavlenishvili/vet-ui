@@ -9,8 +9,7 @@ import {
   imports: [GeneralAdmissionStepperFlowComponent],
   templateUrl: './admission-update.component.html',
   styleUrl: './admission-update.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdmissionUpdateComponent {
   activatedRoute = inject(ActivatedRoute);

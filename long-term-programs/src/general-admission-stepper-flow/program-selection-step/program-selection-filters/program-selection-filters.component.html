@@ -1,56 +1,57 @@
 <form [formGroup]="filterForm">
   <div class="programs-filters-container k-pb-5 k-gap-10">
+    <!-- Search Box -->
     <div class="filter-group filter-3">
       <kendo-label [text]="'programs.search' | transloco">
-        <kendo-textbox formControlName="program_name" />
+        <kendo-textbox formControlName="filter" />
       </kendo-label>
     </div>
 
     <div class="filter-group filter-1">
       <div class="k-rounded-md k-border k-border-solid k-border-divider-light">
         <div class="k-display-flex k-justify-content-center k-align-items-center k-text-sm k-p-1.5 k-gap-2">
-          <img class="k-w-6 k-h-6" src="/assets/images/not-integrated.svg" alt="Integrated logo" />
+          <img class="k-w-6 k-h-6" src="/assets/images/not-integrated.svg" alt="Integrated logo">
           <p>{{ 'programs.integrated' | transloco }}</p>
           <kendo-switch
             formControlName="integrated"
             [onLabel]="'programs.yes' | transloco"
             [offLabel]="'programs.no' | transloco"
-            [size]="'small'"
+            size="small"
           />
         </div>
       </div>
     </div>
   </div>
 
-  @if (isFilterExpanded) {
+  @if (isFilterExpanded()) {
     <div class="programs-additional-filters-container k-pb-5">
       <kendo-label [text]="'programs.region' | transloco">
         <kendo-dropdownlist
+          [data]="regionsRc$.value()"
+          valueField="name"
+          textField="name"
           [valuePrimitive]="true"
           formControlName="region"
-          valueField="id"
-          textField="name"
-          [data]="regions$ | async"
         />
       </kendo-label>
 
       <kendo-label [text]="'programs.district' | transloco">
         <kendo-dropdownlist
+          [data]="filteredDistricts()"
+          valueField="name"
+          textField="name"
           [valuePrimitive]="true"
           formControlName="district"
-          valueField="id"
-          textField="name"
-          [data]="districts$ | async"
         />
       </kendo-label>
 
       <kendo-label [text]="'programs.institution_name' | transloco">
         <kendo-dropdownlist
           [valuePrimitive]="true"
+          formControlName="organisation"
           valueField="id"
           textField="name"
-          [data]="organisations$ | async"
-          formControlName="organisation"
+          [data]="organisationsRc$.value()"
         />
       </kendo-label>
 
@@ -60,17 +61,29 @@
 
       <kendo-label [text]="'programs.form' | transloco">
         <kendo-dropdownlist [data]="programForms">
-          <ng-template kendoDropDownListItemTemplate let-item>
-            {{ 'programs.' + item | transloco }}
-          </ng-template>
+          @for (item of programForms; track item) {
+            <ng-template kendoDropDownListItemTemplate let-item>
+              {{ 'programs.' + item | transloco }}
+            </ng-template>
+          } @empty {
+            <ng-template kendoDropDownListItemTemplate>
+              {{ 'programs.no_data' | transloco }}
+            </ng-template>
+          }
         </kendo-dropdownlist>
       </kendo-label>
 
       <kendo-label [text]="'programs.funding' | transloco">
         <kendo-dropdownlist formControlName="financing_type" [data]="financing">
-          <ng-template kendoDropDownListItemTemplate let-item>
-            {{ 'programs.' + item | transloco }}
-          </ng-template>
+          @for (item of financing; track item) {
+            <ng-template kendoDropDownListItemTemplate let-item>
+              {{ 'programs.' + item | transloco }}
+            </ng-template>
+          } @empty {
+            <ng-template kendoDropDownListItemTemplate>
+              {{ 'programs.no_data' | transloco }}
+            </ng-template>
+          }
         </kendo-dropdownlist>
       </kendo-label>
     </div>
@@ -78,31 +91,30 @@
 
   <div class="k-display-flex k-justify-content-end k-gap-2">
     <button
-      [size]="'large'"
+      size="large"
       kendoButton
-      [svgIcon]="isFilterExpanded ? vetIcons.chevronUp : vetIcons.chevronDown"
+      [svgIcon]="isFilterExpanded() ? vetIcons.chevronUp : vetIcons.chevronDown"
       fillMode="outline"
       themeColor="primary"
-      (click)="onFilterExpandClick()"
-    ></button>
+      (click)="onFilterExpandClick()">
+    </button>
 
     <button
-      [size]="'large'"
+      size="large"
       kendoButton
       [svgIcon]="vetIcons.xIcon"
       fillMode="outline"
       themeColor="primary"
-      (click)="clearFilters()"
-    ></button>
+      (click)="clearFilters()">
+    </button>
 
     <button
-      [size]="'large'"
+      size="large"
       kendoButton
       [svgIcon]="kendoIcons.searchIcon"
       fillMode="solid"
       themeColor="primary"
-      (click)="onSubmit()"
-    >
+      (click)="onSubmit()">
       {{ 'programs.search' | transloco }}
     </button>
   </div>

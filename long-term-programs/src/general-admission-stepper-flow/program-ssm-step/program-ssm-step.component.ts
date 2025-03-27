@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
@@ -10,9 +10,11 @@ import { DividerComponent, InfoComponent } from '@vet/shared';
 import {
   DropDownListComponent,
   ItemTemplateDirective,
-  ValueTemplateDirective
+  ValueTemplateDirective,
 } from '@progress/kendo-angular-dropdowns';
 import { NgClass } from '@angular/common';
+import { GeneralsService } from '@vet/backend';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 export type ProgramSsmStepFormGroup = FormGroup;
 
@@ -31,40 +33,34 @@ export type ProgramSsmStepFormGroup = FormGroup;
     DropDownListComponent,
     NgClass,
     ItemTemplateDirective,
-    ValueTemplateDirective
+    ValueTemplateDirective,
   ],
   templateUrl: './program-ssm-step.component.html',
   styleUrl: './program-ssm-step.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProgramSsmStepComponent {
+export class ProgramSsmStepComponent implements OnInit {
   form = input<ProgramSsmStepFormGroup>();
   nextClick = output();
   previousClick = output();
 
   translocoService = inject(TranslocoService);
+  generalsService = inject(GeneralsService);
   kendoIcons = kendoIcons;
   languagePlaceholder = {
     value: null,
     label: this.translocoService.translate('programs.ssm_language_label'),
   };
-  languages = [
-    {
-      value: this.translocoService.translate('programs.ka'),
-      label: this.translocoService.translate('programs.ka'),
-    },
-    {
-      value: this.translocoService.translate('programs.en'),
-      label: this.translocoService.translate('programs.en'),
-    },
-    {
-      value: 'other',
-      label: this.translocoService.translate('programs.other'),
-    },
-  ];
+
+  languages$ = rxResource({
+    loader: () => this.generalsService.translate(),
+  });
   selectedLanguage = signal<string | null>(null);
   maxLengthOfRequirements = 2000;
+
+  ngOnInit() {
+    this.selectedLanguage.set(this.form()?.get('translate_select')?.value);
+  }
 
   onPreviousClick() {
     this.previousClick.emit();
@@ -85,19 +81,16 @@ export class ProgramSsmStepComponent {
     }
 
     this.selectedLanguage.set(value);
-
-    if (value === 'other') {
-      form.controls['language'].patchValue('');
-    } else {
-      form.controls['language'].patchValue(value ?? '');
-    }
+    form.controls['translate'].reset();
   }
 
   onSpecEduSwitchChange(checked: boolean) {
     if (!this.form()) return;
 
     if (!checked) {
-      this.form()?.reset();
+      this.form()?.reset({
+        program_ids: [],
+      });
       this.form()?.updateValueAndValidity();
     }
   }

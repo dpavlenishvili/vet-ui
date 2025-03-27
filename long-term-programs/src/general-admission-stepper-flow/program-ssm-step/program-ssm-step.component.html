@@ -38,35 +38,77 @@
                   <div
                     class="k-display-flex k-gap-4.5 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base">
                     <div class="k-display-flex k-flex-column k-gap-4.5 k-flex-1">
-                      <kendo-textbox
-                        formControlName="e_name"
-                        [size]="'large'"
-                        [rounded]="'large'"
-                        [placeholder]="'programs.ssm_contact_person_first_name' | transloco"
-                      />
-
-                      <kendo-textbox
-                        formControlName="e_email"
-                        [size]="'large'"
-                        [rounded]="'large'"
-                        [placeholder]="'programs.ssm_contact_person_email' | transloco"
-                      />
+                      <kendo-formfield>
+                        <kendo-textbox
+                          formControlName="e_name"
+                          [size]="'large'"
+                          [rounded]="'large'"
+                          [placeholder]="'programs.ssm_contact_person_first_name' | transloco"
+                        />
+                        @if (form.controls['e_name']; as control) {
+                          @if (control.touched) {
+                            @if (control.errors?.['required']) {
+                              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                            }
+                          }
+                        }
+                      </kendo-formfield>
+                      <kendo-formfield>
+                        <kendo-textbox
+                          formControlName="e_email"
+                          [size]="'large'"
+                          [rounded]="'large'"
+                          [placeholder]="'programs.ssm_contact_person_email' | transloco"
+                        />
+                        @if (form.controls['e_email']; as control) {
+                          @if (control.touched) {
+                            @if (control.errors?.['email']) {
+                              <kendo-formerror>{{ 'shared.emailFormatError' | transloco }}</kendo-formerror>
+                            }
+                          }
+                        }
+                      </kendo-formfield>
                     </div>
 
                     <div class="k-display-flex k-flex-column k-gap-4.5 k-flex-1">
-                      <kendo-textbox
-                        formControlName="e_lastname"
-                        [size]="'large'"
-                        [rounded]="'large'"
-                        [placeholder]="'programs.ssm_contact_person_last_name' | transloco"
-                      />
 
-                      <kendo-textbox
-                        formControlName="e_phone"
-                        [size]="'large'"
-                        [rounded]="'large'"
-                        [placeholder]="'programs.ssm_contact_person_phone' | transloco"
-                      />
+                      <kendo-formfield>
+                        <kendo-textbox
+                          formControlName="e_lastname"
+                          [size]="'large'"
+                          [rounded]="'large'"
+                          [placeholder]="'programs.ssm_contact_person_last_name' | transloco"
+                        />
+                        @if (form.controls['e_lastname']; as control) {
+                          @if (control.touched) {
+                            @if (control.errors?.['required']) {
+                              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                            }
+                          }
+                        }
+                      </kendo-formfield>
+
+                      <kendo-formfield>
+                        <kendo-textbox
+                          [clearButton]="true"
+                          formControlName="e_phone"
+                        >
+                          <ng-template kendoTextBoxPrefixTemplate>
+                            <span class="k-ml-2 k-color-black">+995</span>
+                          </ng-template>
+                        </kendo-textbox>
+
+                        @if (form.controls['e_phone']; as control) {
+                          @if (control.touched) {
+                            @if (control.errors?.['required']) {
+                              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                            }
+                            @if (control.errors?.['mobileNumber']) {
+                              <kendo-formerror>{{ 'errors.mobileNumber' | transloco }}</kendo-formerror>
+                            }
+                          }
+                        }
+                      </kendo-formfield>
                     </div>
                   </div>
                 </div>
@@ -79,48 +121,38 @@
                     </div>
                     <div>
                       <kendo-switch
-                        formControlName="ssm_translator_requirement"
                         [onLabel]="'shared.yes' | transloco"
                         [offLabel]="'shared.no' | transloco"
+                        [checked]="!!selectedLanguage()"
+                        #translateReq
                       />
                     </div>
                   </div>
 
-                  @if (form.controls['ssm_translator_requirement'].value) {
+                  @if (translateReq.checked) {
                     <div class="k-display-flex k-align-items-center k-gap-3.5">
                       <div class="k-flex-1">
                         <kendo-dropdownlist
-                          [data]="languages"
-                          inputmode="flat"
-                          valueField="value"
-                          textField="label"
-                          [defaultItem]="languagePlaceholder"
-                          [valuePrimitive]="true"
-                          [value]="selectedLanguage()"
+                          [data]="languages$.value()"
+                          formControlName="translate_select"
                           (valueChange)="onSelectedLanguageChange($event)"
                         >
-
                           <ng-template kendoDropDownListValueTemplate let-item>
-                            {{ item.label | transloco }}
+                            {{ item | transloco }}
                           </ng-template>
 
                           <ng-template kendoDropDownListItemTemplate let-item>
-                            {{ item.label | transloco }}
+                            {{ item | transloco }}
                           </ng-template>
                         </kendo-dropdownlist>
                       </div>
 
                       <div class="k-flex-1">
-                        @if (selectedLanguage() === 'other') {
+                        @if (selectedLanguage() === 'other' || selectedLanguage() === 'სხვა') {
                           <kendo-textbox
-                            formControlName="language"
+                            formControlName="translate"
                             inputmode="flat"
                             [placeholder]="'programs.enter_language' | transloco"
-                          />
-                        } @else {
-                          <input
-                            formControlName="language"
-                            type="hidden"
                           />
                         }
                       </div>

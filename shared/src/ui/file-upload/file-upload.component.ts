@@ -18,13 +18,13 @@ import { useBaseUrl } from '../../shared.injectors';
 @Component({
   selector: 'vet-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss'],
+  styleUrl: './file-upload.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [SVGIconComponent, TranslocoPipe],
 })
 export class FileUploadComponent {
   title = input('');
+  readonly = input(false);
   uploadedFiles = model<UploadedFile[]>([]);
   errorMessage: WritableSignal<string | null> = signal(null);
   fileUploaded = output<UploadedFile>();
@@ -50,7 +50,7 @@ export class FileUploadComponent {
 
       const remainingSlots = this.maxFiles() - currentFiles.length;
       if (files.length > remainingSlots) {
-        // დროებით დაკომენდარდეს
+        // @todo დროებით დაკომენდარდეს
         // this.errorMessage.set(
         //   this.translocoService.translate('shared.exceedFileLimitError', { remaining: remainingSlots }),
         // );
@@ -89,7 +89,7 @@ export class FileUploadComponent {
       this.document.defaultView?.open(file.download_url, '_blank');
     } else {
       const link = this.document.createElement('a');
-      link.href = file.base64!;
+      link.href = file.base64 ? file.base64 : '';
       link.download = file.filename || 'downloaded-file';
       this.document.body.appendChild(link);
       link.click();
