@@ -11,15 +11,7 @@
                 [value]="citizenship.Georgian"
                 (checkedChange)="onRadioChange($event, citizenship.Georgian)"
               />
-              <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco">
-                @if (form.controls['citizenship']; as control) {
-                  @if (!control.untouched) {
-                    @if (control.errors?.['required']) {
-                      <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                    }
-                  }
-                }
-              </kendo-label>
+              <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco" />
             </div>
 
             <div class="k-display-flex k-align-items-center k-gap-3">
@@ -29,19 +21,11 @@
                 [value]="citizenship.Foreigner"
                 (checkedChange)="onRadioChange($event, citizenship.Foreigner)"
               />
-              <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco">
-                @if (form.controls['citizenship']; as control) {
-                  @if (!control.untouched) {
-                    @if (control.errors?.['required']) {
-                      <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                    }
-                  }
-                }
-              </kendo-label>
+              <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco" />
             </div>
           </div>
 
-          @if (!form.value.citizenship) {
+          @if (isWarningVisible()) {
             <div class="k-text-error k-display-flex k-gap-2 k-font-size-sm k-mt-2">
               <kendo-svg-icon [icon]="kendoIcons.warningCircleIcon" [size]="'small'" />
               <p>{{ 'auth.choose_one' | transloco }}</p>

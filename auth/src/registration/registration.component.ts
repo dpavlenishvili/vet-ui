@@ -88,7 +88,6 @@ export class RegistrationComponent implements OnInit {
     if (!this.router.url.includes('/citizenship_selection')) {
       void this.router.navigate(['/registration/citizenship_selection']);
     }
-    this.clearPhoneVerificationInputs();
     this.handleCitizenshipChange();
   }
 
@@ -197,20 +196,6 @@ export class RegistrationComponent implements OnInit {
         void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
       }
     }
-  }
-
-  clearPhoneVerificationInputs() {
-    this.currentStep$
-      .pipe(
-        tap(() => {
-          if (this.currentStepIndex <= 2) {
-            const phoneGroup = this.formGroup.get('phone') as FormGroup;
-            phoneGroup.get('phoneNumber')?.reset();
-            phoneGroup.get('verificationNumber')?.reset();
-          }
-        }),
-      )
-      .subscribe();
   }
 
   handleCitizenshipChange() {

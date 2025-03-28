@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -34,6 +34,7 @@ export class RegistrationCitizenshipComponent {
   kendoIcons = kendoIcons;
 
   citizenship = Citizenship;
+  isWarningVisible = signal(false)
 
   nextClick = output();
 
@@ -41,6 +42,8 @@ export class RegistrationCitizenshipComponent {
     this.form()?.markAllAsTouched();
     if (this.form()?.valid) {
       this.nextClick.emit();
+    } else {
+      this.isWarningVisible.set(true);
     }
   }
 
