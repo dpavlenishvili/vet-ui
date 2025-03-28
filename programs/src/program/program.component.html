@@ -21,19 +21,19 @@
               {{ 'programs.level' | transloco }}: <strong>{{ _program.education_level }}</strong>
             </div>
             <div>
-              {{ 'programs.program_kind' | transloco }}: <strong>{{ _program.program_kind }}</strong>
+              {{ 'programs.implementation_type' | transloco }}: <strong>{{ _program.program_kind?.name }}</strong>
             </div>
             <div>
               {{ 'programs.program_duration' | transloco }}: <strong>{{ _program.program_duration }}</strong>
             </div>
             <div>
-              {{ 'programs.employment_field' | transloco }}: <strong>{{ _program.specialization_name }}</strong>
-            </div>
-            <div>
-              {{ 'programs.applicant_selection_method' | transloco }}: <strong>{{ _program.type }}</strong>
+              {{ 'programs.duration_non_citizen' | transloco }}: <strong>{{ _program.program_duration_non_geo }}</strong>
             </div>
             <div>
               {{ 'programs.admission_prerequisite' | transloco }}: <strong>{{ _program.qualification_name }}</strong>
+            </div>
+            <div>
+              {{ 'programs.allowed_min_age' | transloco }}: <strong>{{ _program.qualification_name }}</strong>
             </div>
             <div>
               {{ 'programs.implementation_location' | transloco }}: <strong>{{ _program.address }}</strong>
@@ -73,7 +73,7 @@
               }
             </div> -->
 
-            @for (admission of _program.admission; track admission.admission_id) {
+            @if (_program.admission; as admission) {
               <div class="k-display-flex k-flex-column k-gap-5">
                 <div class="k-display-flex k-gap-5">
                   <kendo-svg-icon [icon]="kendoIcons.infoSolidIcon" themeColor="secondary" />
