@@ -1,12 +1,24 @@
-import { Component, ElementRef, HostListener, inject, input, output, signal, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  output,
+  signal,
+  ViewEncapsulation
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { User, UserRole } from '@vet/backend';
+import { User } from '@vet/backend';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
 import { Citizenship } from '../../shared.enums';
+import { UserRolesService } from '@vet/auth';
+import { UserAccount } from '../../../../auth/src/auth.types';
 
 @Component({
   selector: 'vet-ui-navbar',
@@ -18,8 +30,13 @@ import { Citizenship } from '../../shared.enums';
 })
 export class NavbarComponent {
   pages = input.required<NavbarMenuItemType[]>();
-  roles = input.required<UserRole[]>();
   user = input.required<User | null>();
+
+  protected readonly userRolesService = inject(UserRolesService);
+  protected readonly selectedAccountName = computed(() => this.userRolesService.selectedAccountName());
+  protected readonly userAccounts = computed(() => this.userRolesService.userAccounts().sort((a) => {
+    return a.name === this.selectedAccountName() ? -1 : 1;
+  }));
 
   logout = output<void>();
 
@@ -31,7 +48,6 @@ export class NavbarComponent {
   isMobileMenuOpen = signal(false);
 
   vetIcons = vetIcons;
-  citizenship = Citizenship;
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
@@ -41,8 +57,9 @@ export class NavbarComponent {
   }
 
   get currentLangLabel(): string {
-    const activeLang = this.transloco.getActiveLang();
-    return activeLang === 'ka' ? this.citizenship.Georgian : 'ENG';
+    return  this.transloco.getActiveLang() === 'ka'
+      ? Citizenship.Georgian
+      : 'ENG';
   }
 
   toggleProfileCard(): void {
@@ -66,5 +83,13 @@ export class NavbarComponent {
   handleLogout(): void {
     this.isProfileCardOpen.set(false);
     this.logout.emit();
+  }
+
+  onUserAccountClick(userAccount: UserAccount) {
+    if (userAccount.name) {
+      this.userRolesService.selectUserAccount(userAccount.name);
+    }
+
+    void this.router.navigate(['user-profile'])
   }
 }

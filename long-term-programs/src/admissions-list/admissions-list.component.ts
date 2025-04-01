@@ -27,7 +27,7 @@ export type AdmissionListFilter = {
 })
 export class AdmissionsListComponent {
   admissionList$ = rxResource({
-    request: () => ({ role: this._userRolesService.userRole(), filters: this.filters() }),
+    request: () => ({ role: this._userRolesService.selectedRole(), filters: this.filters() }),
     loader: ({ request: { role, filters } }) =>
       this.admissionService.admissionList({
         role: role,

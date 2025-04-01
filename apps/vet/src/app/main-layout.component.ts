@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { BreadcrumbComponent, NavbarComponent } from '@vet/shared';
 import { ApplicationPagesService } from '@vet/dynamic-pages';
 import { AppFooterComponent } from './app-footer/app-footer.component';
-import { AuthenticationService, UserRolesService} from '@vet/auth';
+import { AuthenticationService } from '@vet/auth';
 import { take } from 'rxjs';
 
 @Component({
@@ -11,12 +11,7 @@ import { take } from 'rxjs';
   imports: [RouterOutlet, NavbarComponent, BreadcrumbComponent, AppFooterComponent],
   template: `
     <header>
-      <vet-ui-navbar
-        [pages]="pages$()"
-        [roles]="roles()"
-        [user]="user()"
-        (logout)="logout()"
-      />
+      <vet-ui-navbar [pages]="pages$()" [user]="user()" (logout)="logout()" />
     </header>
 
     <main class="main-container">
@@ -59,9 +54,7 @@ import { take } from 'rxjs';
 })
 export class MainLayoutComponent {
   protected readonly pages$ = inject(ApplicationPagesService).headerMenuPages$;
-  protected readonly roles = computed(() => this.userRolesService.roles());
   protected readonly user = computed(() => this.authenticationService.user());
-  protected userRolesService = inject(UserRolesService);
   protected authenticationService = inject(AuthenticationService);
 
   protected logout() {

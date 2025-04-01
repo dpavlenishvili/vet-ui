@@ -6,7 +6,9 @@
         alt="user"
         class="profile-picture"
       />
-      <p>{{ form.get('name')?.value }}</p>
+      <p>{{ (selectedAccountName() && selectedAccountName() !== form.get('name')?.value)
+        ? selectedAccountName() + ' (' + form.get('name')?.value + ')'
+        : form.get('name')?.value }}</p>
     </div>
 
     <div class="k-display-flex k-flex-column k-gap-5">

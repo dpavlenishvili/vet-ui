@@ -55,7 +55,6 @@ interface StepDefinition {
 })
 export class GeneralAdmissionStepperFlowComponent implements OnInit {
   admissionId = input<string | null>(null);
-  citizenship = Citizenship;
   protected readonly currentStepIndex = signal(0);
   protected currentStep = computed(() => this.steps()[this.currentStepIndex()]);
   protected steps = computed((): StepDefinition[] => [
@@ -131,7 +130,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
       education_level_id: new FormControl(),
     };
 
-    if (this.authService.user()?.residential !== this.citizenship.Georgian) {
+    if (this.authService.user()?.residential !== Citizenship.Georgian) {
       generalInformationControls['complete_edu_abroad'] = new FormControl(false);
       generalInformationControls['complete_base_edu_abroad'] = new FormControl(false);
     }
@@ -243,7 +242,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
     if (this.admissionId()) {
       this.admissionService
         .admissionList({
-          role: this.userRolesService.userRole(),
+          role: this.userRolesService.selectedRole(),
           number: this.admissionId(),
         })
         .pipe(
@@ -302,7 +301,6 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             const urlSegments = routeSnapshot.url;
             const stepPath = urlSegments.length ? urlSegments[urlSegments.length - 1].path : null;
             const idx = this.steps().findIndex((step) => step.path === stepPath);
-            console.log(this.isStepValid(idx));
             if (idx >= 0 && this.isStepValid(idx)) {
               this.currentStepIndex.set(idx);
             } else {

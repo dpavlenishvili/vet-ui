@@ -11,7 +11,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
-import { RegistrationPhoneVerificationComponent } from '@vet/auth';
+import { RegistrationPhoneVerificationComponent, UserRolesService } from '@vet/auth';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { District } from '@vet/shared';
 
@@ -37,6 +37,8 @@ export class UserOverviewComponent extends UserProfileSection {
   isAddressExpanded = signal(true);
   isContactInfoExpanded = signal(true);
   isSmsCodeSent = signal(false);
+  protected readonly userRolesService = inject(UserRolesService);
+  protected readonly selectedAccountName = computed(() => this.userRolesService.selectedAccountName());
 
   save = output();
 

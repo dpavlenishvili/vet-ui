@@ -10,9 +10,6 @@
         @if (control.errors?.['required']) {
           <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
         }
-        @if (control.errors?.['personalNumberError']) {
-          <kendo-formerror>{{ 'shared.invalidPersonalNumber' | transloco }}</kendo-formerror>
-        }
       }
     }
   </kendo-label>

@@ -155,6 +155,13 @@
       }
     }
 
+    button {
+      border: none;
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+
     .profile-card__item {
       display: flex;
       align-items: center;

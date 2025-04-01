@@ -5,7 +5,7 @@ import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize, tap } from 'rxjs';
-import { personalNumberValidator, ToastService } from '@vet/shared';
+import { ToastService } from '@vet/shared';
 import { AuthenticationService } from '../../authentication.service';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
@@ -21,7 +21,7 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 })
 export class LoginPageComponent {
   protected readonly loginForm = new FormGroup({
-    pid: new FormControl('', [Validators.required, personalNumberValidator]),
+    pid: new FormControl('', [Validators.required]),
     password: new FormControl('', Validators.required),
     remember: new FormControl(false),
   });

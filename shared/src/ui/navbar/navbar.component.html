@@ -77,7 +77,7 @@
           }
 
           <span class="v-ui-navbar__profile-name">
-            {{ _user?.name }}
+            {{ selectedAccountName() ?? _user?.name }}
           </span>
 
           @if (isProfileCardOpen()) {
@@ -88,29 +88,29 @@
         </div>
 
         @if (isProfileCardOpen()) {
-          <div class="v-ui-navbar__profile-card" (click)="$event.stopPropagation()">
-            @for (role of roles(); track role.name) {
+          <div class="v-ui-navbar__profile-card">
+            @for (userAccount of userAccounts(); track userAccount.name) {
               @if ($first) {
-                <div class="profile-card__header" [routerLink]="'user-profile'">
+                <button class="profile-card__header" (click)="onUserAccountClick(userAccount)">
                   @if (_user.photo) {
                     <img [src]="_user.photo" alt="Avatar" class="profile-card__avatar" />
                   } @else {
                     <kendo-svg-icon [icon]="kendoIcons.userIcon" />
                   }
-                  <span class="profile-card__username">{{ role.name }}</span>
-                </div>
+                  <span class="profile-card__username">{{ userAccount.name }}</span>
+                </button>
               } @else {
-                <div class="profile-card__item">
+                <button class="profile-card__item" (click)="onUserAccountClick(userAccount)">
                   <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon" />
-                  {{ role.name }}
-                </div>
+                  {{ userAccount.name }}
+                </button>
               }
             }
 
-            <div class="profile-card__item profile-card__logout" (click)="handleLogout()">
+            <button class="profile-card__item profile-card__logout" (click)="handleLogout()">
               <kendo-svg-icon [icon]="kendoIcons.loginIcon" />
               {{ 'auth.logout' | transloco }}
-            </div>
+            </button>
           </div>
         }
       </div>
