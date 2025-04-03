@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { DividerComponent, InfoComponent } from '@vet/shared';
+import { DividerComponent, georgianMobileValidator, InfoComponent } from '@vet/shared';
 import {
   DropDownListComponent,
   ItemTemplateDirective,
@@ -67,8 +67,19 @@ export class ProgramSsmStepComponent implements OnInit {
   }
 
   onNextClick() {
-    this.form()?.markAllAsTouched();
-    if (this.form()?.valid) {
+    const ssmForm = this.form();
+    ssmForm?.markAllAsTouched();
+
+    const specEdu = ssmForm?.get('spec_edu')?.value;
+    if (!specEdu) {
+      ['e_name', 'e_lastname', 'e_phone'].forEach(controlName => {
+        const control = ssmForm?.get(controlName);
+        control?.clearValidators();
+        control?.updateValueAndValidity();
+      });
+    }
+
+    if (ssmForm?.valid) {
       this.nextClick.emit();
     }
   }
@@ -85,13 +96,23 @@ export class ProgramSsmStepComponent implements OnInit {
   }
 
   onSpecEduSwitchChange(checked: boolean) {
-    if (!this.form()) return;
+    const ssmForm = this.form();
+    if (!ssmForm) return;
 
-    if (!checked) {
-      this.form()?.reset({
+    if (checked) {
+      ssmForm.get('e_name')?.setValidators(Validators.required);
+      ssmForm.get('e_lastname')?.setValidators(Validators.required);
+      ssmForm.get('e_phone')?.setValidators([Validators.required, georgianMobileValidator]);
+    } else {
+      ssmForm.get('e_name')?.clearValidators();
+      ssmForm.get('e_lastname')?.clearValidators();
+      ssmForm.get('e_phone')?.clearValidators();
+      ssmForm.reset({
         program_ids: [],
       });
-      this.form()?.updateValueAndValidity();
     }
+
+    ssmForm.updateValueAndValidity();
+    ssmForm.markAsUntouched();
   }
 }

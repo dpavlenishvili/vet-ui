@@ -122,30 +122,34 @@ export class ProgramSelectionStepComponent implements OnInit {
     const currentSelected = this.selectedPrograms();
     const isSelected = currentSelected.includes(item.program_id);
     let actionStatusText;
+    let updatedSelection;
 
     if (isSelected) {
-      const updatedSelection = currentSelected.filter((id) => id !== item.program_id);
-      this.selectedPrograms.set(updatedSelection);
+      updatedSelection = currentSelected.filter((id) => id !== item.program_id);
       actionStatusText = 'programs.programRemoved';
     } else {
       if (this.isAddButtonDisabled(item)) {
         this.toastService.warning('programs.cannotAddProgram');
         return;
       }
-      const updatedSelection = [...currentSelected, item.program_id];
-      this.selectedPrograms.set(updatedSelection);
+      updatedSelection = [...currentSelected, item.program_id];
       actionStatusText = 'programs.programAdded';
     }
 
-    this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
-    this.form()?.get('program_ids')?.updateValueAndValidity();
-    this.selectedProgramsCount.set(this.selectedPrograms().length);
-
     this.admissionService
-      .editAdmission(this.admissionId() as string, this.form()?.getRawValue())
+      .editAdmission(this.admissionId() as string, {
+        ...this.form()?.getRawValue(),
+        program_ids: updatedSelection,
+      })
       .pipe(
         tap({
-          next: () => this.toastService.success(actionStatusText),
+          next: () => {
+            this.selectedPrograms.set(updatedSelection);
+            this.selectedProgramsCount.set(this.selectedPrograms().length);
+            this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
+            this.form()?.get('program_ids')?.updateValueAndValidity();
+            this.toastService.success(actionStatusText);
+          },
           error: (error) => {
             this.toastService.error(error?.error?.error?.message ?? 'shared.error');
           },

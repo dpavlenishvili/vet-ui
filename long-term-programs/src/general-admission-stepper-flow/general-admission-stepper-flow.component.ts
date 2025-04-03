@@ -159,6 +159,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
         program_ids: new FormControl([], Validators.required),
       }),
       confirmation: new FormGroup({
+        program_ids: new FormControl([]),
         status: new FormControl('registered'),
       }),
     });
@@ -192,9 +193,15 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
   }
 
   protected onNextClick(formGroupName: string) {
+    if (formGroupName === 'program_selection') {
+      this.formGroup.controls.selected_programs.patchValue(
+        this.formGroup.controls.program_selection.getRawValue()
+      );
+    }
     if (this.isStepValid(this.currentStepIndex())) {
       let value = this.formGroup.get(formGroupName)?.getRawValue();
-      if (this.currentStepIndex() === this.steps().length) {
+      const errorKey = formGroupName === 'confirmation' ? 'program_creation_failed' : 'program_update_failed';
+      if (formGroupName === 'confirmation') {
         value = {
           ...value,
           status: 'registered',
@@ -207,12 +214,19 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
           .pipe(
             tap({
               next: () => {
-                if (this.currentStepIndex() === this.steps().length) {
-                  this.toastService.success('programs.program_updated_successfully');
+                if (formGroupName === 'confirmation') {
+                  this.toastService.success('programs.program_created_successfully');
                   void this.router.navigate(['long-term-programs', 'list']);
+                } else {
+                  if (this.currentStepIndex() < this.steps().length - 1) {
+                    this.currentStepIndex.set(this.currentStepIndex() + 1);
+                  }
+                  void this.router.navigate([
+                    `long-term-programs/update-admission/${this.admissionId()}/${this.steps()[this.currentStepIndex()].path}`,
+                  ]);
                 }
               },
-              error: () => this.toastService.error('programs.program_update_failed'),
+              error: () => this.toastService.error(errorKey),
             }),
           )
           .subscribe();
@@ -230,10 +244,6 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             }),
           )
           .subscribe();
-      }
-
-      if (this.currentStepIndex() < this.steps().length - 1) {
-        this.currentStepIndex.set(this.currentStepIndex() + 1);
       }
     }
   }
@@ -301,7 +311,7 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
             const urlSegments = routeSnapshot.url;
             const stepPath = urlSegments.length ? urlSegments[urlSegments.length - 1].path : null;
             const idx = this.steps().findIndex((step) => step.path === stepPath);
-            if (idx >= 0 && this.isStepValid(idx)) {
+            if (idx > 0 && this.isStepValid(idx - 1)) {
               this.currentStepIndex.set(idx);
             } else {
               this.currentStepIndex.set(0);
