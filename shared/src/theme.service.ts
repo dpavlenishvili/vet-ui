@@ -44,12 +44,6 @@ export class ThemeService {
     if (theme !== 'default-theme') {
       this.renderer.addClass(this.rootElement, theme);
       this.removeHomePageStyle();
-    } else {
-      if (this.isHomePage()) {
-        this.applyHomePageStyle();
-      } else {
-        this.removeHomePageStyle();
-      }
     }
     this.storage.setItem(this.themeKey, theme);
   }

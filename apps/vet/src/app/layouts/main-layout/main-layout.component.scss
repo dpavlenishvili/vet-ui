@@ -1,0 +1,36 @@
+::ng-deep :root {
+  --container-bg: var(--main-bg);
+  --container-padding: 0 80px 150px 80px;
+  --container-max-width: 1440px;
+
+  &.home-page {
+    --container-bg: #ffffff;
+    --container-padding: 0 0 150px;
+    --container-max-width: 100%;
+    --container-divider-color: var(--border-none);
+  }
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-container {
+  flex: 1;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--container-padding);
+  background: var(--container-bg);
+  max-width: var(--container-max-width);
+  border-bottom: 1px solid var(--container-divider-color, transparent);
+
+  @media (max-width: 768px) {
+    padding: 14px 30px 150px 30px;
+  }
+}
+
+.router-container {
+  height: 100%;
+}

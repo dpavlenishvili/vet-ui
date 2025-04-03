@@ -2,7 +2,7 @@
 
 /* Default Theme (applies to :root) */
 :root {
-  --main-bg: #F5F7F8;
+  --main-bg: #f5f7f8;
   --secondary-color: #4682b4;
   --text-color: #000000;
   --secondary-text-color: #626262;
@@ -11,13 +11,8 @@
   --link-color: #4682b4;
   --nav-link-color: #ffffff;
   --nav-bg-color: #4682b4;
-  --border-none: #B1B7BB;
+  --border-none: #b1b7bb;
   --font-size: 1rem;
-}
-
-/* ✅ Ensure Home Page Always Has a White Background */
-html.home-page {
-  --main-bg: #F5F7F8; /* No !important, so themes can override when needed */
 }
 
 .theme-v1 {
@@ -204,7 +199,9 @@ a {
 }
 
 .vet-registration {
-  kendo-textbox, kendo-dropdownlist, kendo-datepicker {
+  kendo-textbox,
+  kendo-dropdownlist,
+  kendo-datepicker {
     height: 50px;
     margin-top: 0.75rem;
   }
