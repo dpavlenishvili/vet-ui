@@ -54,7 +54,7 @@ export class LongTermProgramsSidebarComponent {
         {
           id: uuid(),
           text: 'programs.commissionMembers',
-          url: null,
+          url: 'commission-members',
           isActive: false,
         },
         {

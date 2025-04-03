@@ -1,0 +1,60 @@
+<kendo-dialog [width]="600" [title]="'programs.add_commission_member' | transloco" (close)="handleClose()">
+  <form [formGroup]="commissionMemberForm">
+    <div class="k-display-flex k-flex-column k-gap-5">
+      <div class="k-display-flex k-gap-4.5 k-flex-1">
+        <kendo-textbox
+          formControlName="pid"
+          [size]="'large'"
+          [rounded]="'large'"
+          [placeholder]="'programs.id_passport_number' | transloco"
+        />
+
+        <kendo-textbox
+          formControlName="name"
+          [size]="'large'"
+          [rounded]="'large'"
+          [placeholder]="'programs.last_name' | transloco"
+        />
+      </div>
+
+      <div class="k-display-flex k-align-self-end">
+        <button kendoButton themeColor="primary" look="default" (click)="checkCommissionMember()">
+          {{ 'programs.check' | transloco }}
+        </button>
+      </div>
+
+      @if (isCommissionMemberValid()) {
+        <div class="k-display-flex k-flex-column k-gap-4.5">
+          <div class="k-display-flex k-gap-4.5 k-flex-1">
+            <kendo-textbox
+              formControlName="fist_name"
+              [size]="'large'"
+              [rounded]="'large'"
+              [placeholder]="'programs.id_passport_number' | transloco"
+            />
+
+            <kendo-textbox
+              formControlName="phone"
+              [size]="'large'"
+              [rounded]="'large'"
+              [placeholder]="'programs.last_name' | transloco"
+            />
+          </div>
+
+          <kendo-textbox
+            formControlName="program_code"
+            [size]="'large'"
+            [rounded]="'large'"
+            [placeholder]="'programs.program_code' | transloco"
+          />
+        </div>
+
+        <div class="k-display-flex k-align-self-end">
+          <button kendoButton themeColor="primary" look="default">
+            {{ 'programs.add' | transloco }}
+          </button>
+        </div>
+      }
+    </div>
+  </form>
+</kendo-dialog>

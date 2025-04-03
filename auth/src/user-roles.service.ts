@@ -56,4 +56,8 @@ export class UserRolesService {
       this._savedAccountName.set(accountName);
     }
   }
+
+  getOrganisation() {
+    return this.selectedAccount()?.organisation;
+  }
 }

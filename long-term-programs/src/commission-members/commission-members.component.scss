@@ -1,0 +1,14 @@
+:host {
+  display: block;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1.25rem;
+    width: 100%;
+  }
+}
