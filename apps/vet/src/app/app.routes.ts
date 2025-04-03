@@ -5,7 +5,7 @@ import { breadcrumb } from '@vet/shared';
 import { programsRoutes } from '@vet/programs';
 import { longTermProgramsRoutes } from '@vet/long-term-programs';
 import { userProfileRoutes } from '@vet/user-profile';
-import { authenticatedGuard, authRoutes } from '@vet/auth';
+import { authenticatedGuard, authRoutes, unAuthenticatedGuard } from '@vet/auth';
 import { homeRoutes } from '@vet/home';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
@@ -23,11 +23,13 @@ export const appRoutes: Routes = [
         path: 'programs',
         children: programsRoutes,
         data: breadcrumb([]),
+        canActivate: [unAuthenticatedGuard],
       },
       {
         path: 'long-term-programs',
         children: longTermProgramsRoutes,
         data: breadcrumb([]),
+        canActivate: [authenticatedGuard],
       },
       {
         path: 'user-profile',
@@ -38,6 +40,7 @@ export const appRoutes: Routes = [
         path: '',
         children: authRoutes,
         data: breadcrumb([]),
+        canActivate: [unAuthenticatedGuard],
       },
     ],
   },

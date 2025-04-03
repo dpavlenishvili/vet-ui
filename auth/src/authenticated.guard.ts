@@ -1,6 +1,6 @@
-import {CanActivateFn, RedirectCommand, Router} from "@angular/router";
-import {inject} from "@angular/core";
-import {AuthenticationService} from "./authentication.service";
+import { CanActivateFn, RedirectCommand, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { AuthenticationService } from './authentication.service';
 
 export const authenticatedGuard: CanActivateFn = () => {
   const authenticationService = inject(AuthenticationService);
@@ -8,7 +8,14 @@ export const authenticatedGuard: CanActivateFn = () => {
   if (authenticationService.isAuthenticated()) {
     return true;
   }
-  return new RedirectCommand(
-    router.parseUrl('/')
-  );
-}
+  return new RedirectCommand(router.parseUrl('/'));
+};
+
+export const unAuthenticatedGuard: CanActivateFn = () => {
+  const authenticationService = inject(AuthenticationService);
+  const router = inject(Router);
+  if (!authenticationService.isAuthenticated()) {
+    return true;
+  }
+  return new RedirectCommand(router.parseUrl('/'));
+};
