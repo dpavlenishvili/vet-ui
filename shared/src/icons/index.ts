@@ -1,3 +1,4 @@
+import { authInfo } from './auth-info';
 import { bin } from './bin';
 import { chevronBottomXs } from './chevron-bottom-xs';
 import { chevronDown } from './chevron-down';
@@ -84,4 +85,5 @@ export {
   chevronUp,
   download,
   print,
+  authInfo
 };

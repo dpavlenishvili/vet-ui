@@ -5,7 +5,7 @@ import { AuthenticationService } from '@vet/auth';
 
 // There is some sort of bug in Angular which causes route level providers to be recognised as undefined, so I have to make this root level provider
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthorizationPageLocalStateService {
   private _router = inject(Router);
@@ -36,5 +36,9 @@ export class AuthorizationPageLocalStateService {
       ...this._2faCredentials!,
       code,
     });
+  }
+
+  get2FaCredentials() {
+    return this._2faResponseBody;
   }
 }

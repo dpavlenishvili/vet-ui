@@ -83,6 +83,7 @@ export class NavbarComponent {
   handleLogout(): void {
     this.isProfileCardOpen.set(false);
     this.logout.emit();
+    void this.router.navigate(['authorization'])
   }
 
   onUserAccountClick(userAccount: UserAccount) {

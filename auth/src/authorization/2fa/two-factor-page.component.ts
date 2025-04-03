@@ -7,7 +7,8 @@ import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { finalize, tap } from 'rxjs';
 import { AuthorizationPageLocalStateService } from '../authorization-page-local-state.service';
-import { ToastService } from '@vet/shared';
+import { ToastService, vetIcons } from '@vet/shared';
+import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 
 @Component({
   selector: 'vet-auth-two-factor-page',
@@ -19,6 +20,7 @@ import { ToastService } from '@vet/shared';
     RouterLink,
     KENDO_BUTTON,
     KENDO_LOADER,
+    KENDO_SVGICON,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -29,6 +31,12 @@ export class TwoFactorPageComponent {
   protected readonly is2FaPending = signal(false);
   private readonly state = inject(AuthorizationPageLocalStateService);
   private readonly toastService = inject(ToastService);
+
+  vetIcons = vetIcons;
+
+  getPhoneMask() {
+    return this.state.get2FaCredentials()?.phone_mask;
+  }
 
   protected onSubmit() {
     if (this.confirmationForm.invalid) {
