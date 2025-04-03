@@ -3,7 +3,7 @@ import { NgClass } from '@angular/common';
 import { vetIcons } from '@vet/shared';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'vet-services',
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, SVGIconComponent, TranslocoPipe],
+  imports: [NgClass, SVGIconComponent, TranslocoPipe, RouterLink],
 })
 export class ServicesComponent {
   showTitle = input(true);
@@ -61,8 +61,4 @@ export class ServicesComponent {
     },
   ];
   router = inject(Router);
-
-  handleRouting(url: string | null) {
-    this.router.navigate([url]);
-  }
 }

@@ -7,17 +7,17 @@
 
   <div class="card-list">
     @for (card of cards; track card) {
-      <div
+      <a
         class="card-list__item k-display-flex k-gap-9"
         [ngClass]="'card-list__item--' + card.color"
-        (click)="handleRouting(card.url)"
+        [routerLink]="card.url"
       >
         <div class="card-list__icon">
           <kendo-svg-icon [icon]="card.icon"/>
         </div>
 
         <span class="k-text-base k-color-body-dark">{{ card.text | transloco }}</span>
-      </div>
+      </a>
     }
   </div>
 </div>
