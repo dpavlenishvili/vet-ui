@@ -35,6 +35,7 @@ Install dependencies:
   artifacts:
     paths:
       - node_modules/
+    expire_in: 1 day
   script:
     - yarn install --immutable
 
