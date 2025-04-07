@@ -28,7 +28,7 @@ import { countries, genders } from '@vet/shared';
 export class RegistrationIdentityForeignerComponent {
   form = input<
     FormGroup<{
-      citizenship: FormControl<string | null>;
+      residential: FormControl<string | null>;
       lastname: FormControl<string | null>;
       personalNumber: FormControl<string | null>;
       firstname: FormControl<string | null>;

@@ -104,12 +104,12 @@ export class RegistrationComponent implements OnInit {
         gender: new FormControl(''),
       }),
       checkIdentityForeigner: new FormGroup({
-        citizenship: new FormControl('', Validators.required),
-        lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
-        firstname: new FormControl('', [Validators.required]),
-        personalNumber: new FormControl('', [Validators.required]),
-        dateOfBirth: new FormControl<Date | null>(null, [Validators.required]),
-        gender: new FormControl('', [Validators.required]),
+        residential: new FormControl('', Validators.required),
+        lastname: new FormControl('', Validators.required),
+        firstname: new FormControl('', Validators.required),
+        personalNumber: new FormControl('', Validators.required),
+        dateOfBirth: new FormControl<Date | null>(null, Validators.required),
+        gender: new FormControl('', Validators.required),
       }),
       phone: new FormGroup({
         phoneNumber: new FormControl('', [Validators.required, mobileNumberValidator]),
@@ -135,7 +135,7 @@ export class RegistrationComponent implements OnInit {
     const phone = this.formGroup.get('phone') as FormGroup;
     const passwords = this.formGroup.get('passwords') as FormGroup;
 
-    const isForeigner = chooseCitizenship.get('citizenship')?.value === 'Foreigner';
+    const isForeigner = chooseCitizenship.get('citizenship')?.value === this.CitizenshipType.Foreigner;
 
     const identityGroup = isForeigner ? checkIdentityForeigner : checkIdentity;
 
@@ -147,7 +147,7 @@ export class RegistrationComponent implements OnInit {
       last_name: identityGroup.get('lastname')?.value,
       gender: identityGroup.get('gender')?.value,
       birth_date: identityGroup.get('dateOfBirth')?.value?.toISOString().split('T')[0],
-      residential: chooseCitizenship.get('citizenship')?.value,
+      residential: isForeigner ? identityGroup.get('residential')?.value : chooseCitizenship.get('citizenship')?.value,
       password: passwords.get('password')?.value,
       password_confirmation: passwords.get('confirmPassword')?.value,
     };

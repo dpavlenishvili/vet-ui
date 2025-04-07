@@ -6,13 +6,13 @@
           <kendo-label [text]="'auth.citizenship' | transloco">
             <kendo-dropdownlist
               [data]="countries"
-              formControlName="citizenship"
+              formControlName="residential"
               inputmode="flat"
               valueField="code"
               textField="name"
               [valuePrimitive]="true"
             />
-            @if (form.controls['citizenship']; as control) {
+            @if (form.controls['residential']; as control) {
               @if (!control.untouched) {
                 @if (control.errors?.['required']) {
                   <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
