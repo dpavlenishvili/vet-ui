@@ -1,60 +1,95 @@
 <kendo-dialog [width]="600" [title]="'programs.add_commission_member' | transloco" (close)="handleClose()">
-  <form [formGroup]="commissionMemberForm">
-    <div class="k-display-flex k-flex-column k-gap-5">
-      <div class="k-display-flex k-gap-4.5 k-flex-1">
-        <kendo-textbox
-          formControlName="pid"
-          [size]="'large'"
-          [rounded]="'large'"
-          [placeholder]="'programs.id_passport_number' | transloco"
-        />
-
-        <kendo-textbox
-          formControlName="name"
-          [size]="'large'"
-          [rounded]="'large'"
-          [placeholder]="'programs.last_name' | transloco"
-        />
-      </div>
-
-      <div class="k-display-flex k-align-self-end">
-        <button kendoButton themeColor="primary" look="default" (click)="checkCommissionMember()">
-          {{ 'programs.check' | transloco }}
-        </button>
-      </div>
-
-      @if (isCommissionMemberValid()) {
-        <div class="k-display-flex k-flex-column k-gap-4.5">
-          <div class="k-display-flex k-gap-4.5 k-flex-1">
-            <kendo-textbox
-              formControlName="fist_name"
-              [size]="'large'"
-              [rounded]="'large'"
-              [placeholder]="'programs.id_passport_number' | transloco"
-            />
-
-            <kendo-textbox
-              formControlName="phone"
-              [size]="'large'"
-              [rounded]="'large'"
-              [placeholder]="'programs.last_name' | transloco"
-            />
-          </div>
+  @if (commissionMemberForm; as form) {
+    <form [formGroup]="form">
+      <div class="k-display-flex k-flex-column k-gap-5">
+        <div class="k-display-flex k-gap-4.5 k-flex-1">
+          <kendo-textbox
+            formControlName="pid"
+            [size]="'large'"
+            [placeholder]="'programs.id_passport_number' | transloco"
+          />
 
           <kendo-textbox
-            formControlName="program_code"
+            formControlName="name"
             [size]="'large'"
-            [rounded]="'large'"
-            [placeholder]="'programs.program_code' | transloco"
+            [placeholder]="'programs.last_name' | transloco"
           />
         </div>
 
         <div class="k-display-flex k-align-self-end">
-          <button kendoButton themeColor="primary" look="default">
-            {{ 'programs.add' | transloco }}
+          <button kendoButton themeColor="primary" look="default" (click)="checkCommissionMember()">
+            {{ 'programs.check' | transloco }}
           </button>
         </div>
-      }
-    </div>
-  </form>
+
+        @if (isCommissionMemberValid()) {
+          <div class="k-display-flex k-flex-column k-gap-4.5">
+            <div class="k-display-flex k-gap-4.5 k-flex-1">
+              <kendo-textbox
+                formControlName="first_name"
+                [size]="'large'"
+                [placeholder]="'programs.first_name' | transloco"
+              />
+
+              <kendo-textbox
+                formControlName="phone"
+                [size]="'large'"
+                [placeholder]="'programs.phone' | transloco"
+              />
+            </div>
+
+            <kendo-textbox
+              formControlName="program_code"
+              [size]="'large'"
+              [placeholder]="'programs.program_code' | transloco"
+            />
+          </div>
+
+          <div class="k-display-flex k-align-self-end">
+            <button kendoButton themeColor="primary" look="default" (click)="addCommissionMember()">
+              {{ 'programs.add' | transloco }}
+            </button>
+          </div>
+
+          @if (isCommissionMembersGridVisible()) {
+            <kendo-grid [data]="updatedCommissionMembers()">
+              <ng-template kendoGridNoRecordsTemplate>
+                {{'programs.no_commission_members' | transloco}}
+              </ng-template>
+
+              <kendo-grid-column [title]="'programs.commission_members' | transloco">
+                <ng-template kendoGridCellTemplate let-item>
+                  <div class="k-display-flex k-gap-1">
+                    <p>{{ item.firstName }}</p>
+                    <p>{{ item.lastName }}</p>
+                  </div>
+                </ng-template>
+              </kendo-grid-column>
+
+              <kendo-grid-column [title]="'programs.other' | transloco" [width]="65">
+                <ng-template kendoGridCellTemplate let-item>
+                  <button
+                    kendoButton
+                    fillMode="flat"
+                    [svgIcon]="vetIcons.xCircled"
+                    (click)="removeCommissionMember(item)"
+                  ></button>
+                </ng-template>
+              </kendo-grid-column>
+            </kendo-grid>
+
+            <vet-info variant="warning">
+              {{ 'programs.commission_add_warning' | transloco }}
+            </vet-info>
+
+            <div class="k-display-flex k-align-self-end">
+              <button kendoButton themeColor="primary" look="default" (click)="saveChanges()">
+                {{ 'programs.save' | transloco }}
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </form>
+  }
 </kendo-dialog>

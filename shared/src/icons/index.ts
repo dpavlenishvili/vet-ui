@@ -41,6 +41,7 @@ import { xIcon } from './x-icon';
 import { chevronUp } from './chevron-up';
 import { download } from './download';
 import { print } from './print';
+import { xCircled } from './xCircled';
 
 export {
   bin,
@@ -85,5 +86,6 @@ export {
   chevronUp,
   download,
   print,
-  authInfo
+  authInfo,
+  xCircled
 };
