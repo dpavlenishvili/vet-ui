@@ -1,3 +1,4 @@
+import { editIcon } from './edit';
 import { authInfo } from './auth-info';
 import { bin } from './bin';
 import { chevronBottomXs } from './chevron-bottom-xs';
@@ -87,5 +88,6 @@ export {
   download,
   print,
   authInfo,
-  xCircled
+  xCircled,
+  editIcon,
 };

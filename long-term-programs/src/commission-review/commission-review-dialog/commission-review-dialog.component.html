@@ -1,0 +1,28 @@
+<kendo-dialog [width]="600" [title]="'programs.grading' | transloco" (close)="handleClose()">
+  <div class="k-display-flex k-flex-column k-gap-12">
+    @if (commissionCriteria$.value(); as _commissionCriteria) {
+      @if (commissionScoresFormGroup; as formGroup) {
+        <form [formGroup]="formGroup">
+          <div formArrayName="scores" class="k-display-flex k-flex-column k-gap-12">
+            @for (item of CommissionCriteria.controls; track $index) {
+              <div [formGroup]="item" class="score-container">
+                <p>{{ _commissionCriteria?.data?.[$index]?.name }}</p>
+                <kendo-textbox formControlName="score" class="score-input" [maxlength]="2" />
+              </div>
+            }
+          </div>
+        </form>
+      }
+    }
+
+    <div class="k-display-flex k-justify-content-between">
+      <button kendoButton themeColor="secondary" look="default" (click)="handleClose()">
+        {{ 'programs.close' | transloco }}
+      </button>
+
+      <button kendoButton themeColor="primary" look="default" (click)="handleSave()">
+        {{ 'programs.save' | transloco }}
+      </button>
+    </div>
+  </div>
+</kendo-dialog>

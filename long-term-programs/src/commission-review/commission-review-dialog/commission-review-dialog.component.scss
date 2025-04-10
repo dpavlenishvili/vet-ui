@@ -1,0 +1,15 @@
+:host {
+  display: block;
+
+  .score-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .score-input {
+    width: 3.625rem;
+    height: 2.5rem;
+    text-align: center;
+  }
+}

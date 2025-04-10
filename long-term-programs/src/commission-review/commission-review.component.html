@@ -1,0 +1,89 @@
+<div class="k-display-flex k-flex-column k-gap-10">
+  <div class="container">
+    @if (programsWithCommissionReview$.value()?.data; as _programsWithCommissionReview) {
+      <kendo-grid [data]="_programsWithCommissionReview">
+        <kendo-grid-column [title]="'programs.applicant_data' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            <div class="k-display-flex k-flex-column k-gap-2">
+              <p>{{ item.user.name }}</p>
+              <p>{{ item.user.pid }}</p>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [title]="'programs.about_program' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            <div class="k-display-flex k-flex-column k-gap-2">
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.program_code' | transloco }}</p>
+                <p>{{ item.program.program_code }}</p>
+              </div>
+
+              <vet-divider />
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.name' | transloco }}</p>
+                <p>{{ item.program.program_name }}</p>
+              </div>
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.level' | transloco }}</p>
+                <p>{{ item.program.education_level }}</p>
+              </div>
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.integrated' | transloco }}</p>
+                <p>{{ item.program.is_integrated ? ('shared.yes' | transloco) : ('shared.no' | transloco) }}</p>
+              </div>
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.form' | transloco }}</p>
+                <p>{{ item.program.program_kind.name }}</p>
+              </div>
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.implementation_location' | transloco }}</p>
+                <p>{{ item.program.address }}</p>
+              </div>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [title]="'programs.grading' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            <div class="k-display-flex k-flex-column k-gap-2">
+              @for (result of item.results; track $index) {
+                @for (score of result.results.scores; track $index) {
+                  <div class="k-display-flex k-justify-content-between">
+                    <p>{{ score.name }}</p>
+                    <p>{{ score.score }}</p>
+                  </div>
+                }
+              }
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [title]="'programs.other' | transloco" [width]="60">
+          <ng-template kendoGridCellTemplate let-item>
+            <button
+              kendoButton
+              fillMode="flat"
+              [svgIcon]="vetIcons.editIcon"
+              (click)="openCommissionReviewDialog(item.admission.id, item.program.program_id)"
+            ></button>
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+    }
+  </div>
+</div>
+
+@if (isCommissionReviewDialogOpen()) {
+  <vet-commission-review-dialog
+    (dialogClose)="closeCommissionReviewDialog()"
+    (reloadProgramsWithCommissionReview)="reloadCommissionReview()"
+    [admissionId]="this.selectedAdmissionId()"
+    [programId]="this.selectedProgramId()"
+  />
+}

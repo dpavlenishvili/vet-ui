@@ -60,7 +60,7 @@ export class LongTermProgramsSidebarComponent {
         {
           id: uuid(),
           text: 'programs.commissionGrade',
-          url: null,
+          url: 'commission-review',
           isActive: false,
         },
         {
