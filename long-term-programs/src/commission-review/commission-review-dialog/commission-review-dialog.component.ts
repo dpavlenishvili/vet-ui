@@ -10,6 +10,7 @@ import { UserRolesService } from '@vet/auth';
 import { CommissionService } from '@vet/backend';
 import { tap } from 'rxjs';
 import { Criteria, ScorePayload } from 'long-term-programs/src/long-term-programs.types';
+import { scoreValidator } from '@vet/shared';
 
 @Component({
   selector: 'vet-commission-review-dialog',
@@ -30,6 +31,7 @@ export class CommissionReviewDialogComponent {
 
   organisation = this.userRolesService.getOrganisation();
   commissionScoresFormGroup: FormGroup | undefined;
+  allowedScores = ['0', '1', '2', '3', '4'];
 
   commissionCriteria$ = rxResource({
     request: () => ({ admission: this.admissionId() as number, program: this.programId() as number }),
@@ -49,7 +51,7 @@ export class CommissionReviewDialogComponent {
             (item) =>
               new FormGroup({
                 criteria_id: new FormControl(item.id),
-                score: new FormControl(item.score, [Validators.required]),
+                score: new FormControl(item.score, [Validators.required, scoreValidator]),
               }),
           ),
         ),
@@ -57,6 +59,12 @@ export class CommissionReviewDialogComponent {
     }
 
     return;
+  }
+
+  allowOnlyScore(event: KeyboardEvent) {
+    if (!this.allowedScores.includes(event.key)) {
+      event.preventDefault();
+    }
   }
 
   get CommissionCriteria() {

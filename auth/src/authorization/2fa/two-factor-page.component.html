@@ -4,14 +4,20 @@
   class="k-display-flex k-flex-column k-gap-6 k-px-14 k-py-8 k-bg-white"
 >
   <div
-    class="k-border-solid k-border k-border-primary k-bg-white k-rounded-2.5 k-p-1 k-display-flex k-gap-2 k-align-items-center"
+    class="k-border-solid k-border k-border-primary k-bg-white k-rounded-2.5 k-p-2 k-display-flex k-gap-2 k-align-items-center"
+    kendoTooltip
+    [tooltipWidth]="600"
   >
-    <kendo-svg-icon [icon]="vetIcons.authInfo" [size]="'xxlarge'"/>
+    <kendo-svg-icon [title]="'auth.auth_info_text' | transloco" [icon]="vetIcons.authInfo" [size]="'xxlarge'"/>
     <p class="k-text-base">{{ 'auth.verification_send_text' | transloco: { value: getPhoneMask() } }}</p>
   </div>
 
   <div class="k-display-flex k-justify-content-center">
-    <vet-registration-phone-verification formControlName="code" [isPending]="is2FaPending()" (reload)="onSubmit()" />
+    <vet-registration-phone-verification 
+      formControlName="code" 
+      [isPending]="is2FaPending()" 
+      (reload)="onSubmit()" 
+    />
   </div>
 
   <div class="k-display-flex k-flex-column k-align-items-center k-mt-4 k-gap-3">

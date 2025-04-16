@@ -15,7 +15,7 @@ export const environment = {
   modules: {
     auth: <AuthEnvironment>{
       phoneVerificationNumberLength: 6,
-      phoneVerificationNumberTimeoutSeconds: 180,
+      phoneVerificationNumberTimeoutSeconds: 120,
     },
   },
 };

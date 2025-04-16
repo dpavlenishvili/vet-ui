@@ -21,6 +21,7 @@ export * from './validators/georgian-letters-validator';
 export * from './validators/mobile-number-validator';
 export * from './validators/password-pattern-validator';
 export * from './validators/personal-number-validator';
+export * from './validators/score-pattern-validator';
 
 export * from './shared.injectors';
 export * from './shared.interceptors';

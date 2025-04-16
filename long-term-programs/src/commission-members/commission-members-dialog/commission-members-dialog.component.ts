@@ -1,7 +1,7 @@
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { ChangeDetectionStrategy, Component, inject, input, output, DestroyRef, signal, OnInit } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { CommissionService, User } from '@vet/backend';
@@ -44,8 +44,8 @@ export class CommissionMembersDialogComponent implements OnInit {
 
   createFormGroup() {
     return new FormGroup({
-      pid: new FormControl(),
-      name: new FormControl(),
+      pid: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
       first_name: new FormControl(),
       last_name: new FormControl(),
       phone: new FormControl(),
@@ -89,13 +89,19 @@ export class CommissionMembersDialogComponent implements OnInit {
   }
 
   addCommissionMember() {
+    if(this.commissionMemberForm.invalid) {
+      return
+    }
+
     const formValue = this.commissionMemberForm.value;
     const newMember: User = {
-      pid: formValue.pid,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      pid: formValue.pid!,
       firstName: formValue.first_name,
       lastName: formValue.last_name,
       phone: formValue.phone,
-      name: formValue.name,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      name: formValue.name!,
     };
 
     this.updatedCommissionMembers.update((members) => {

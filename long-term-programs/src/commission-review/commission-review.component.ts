@@ -8,10 +8,19 @@ import { UserRolesService } from '@vet/auth';
 import { CommissionService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CommissionReviewDialogComponent } from './commission-review-dialog/commission-review-dialog.component';
+import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-commission-review',
-  imports: [KENDO_CARD, KENDO_GRID, KENDO_BUTTON, TranslocoPipe, DividerComponent, CommissionReviewDialogComponent],
+  imports: [
+    KENDO_CARD,
+    KENDO_GRID,
+    KENDO_BUTTON,
+    KENDO_TOOLTIP,
+    TranslocoPipe,
+    DividerComponent,
+    CommissionReviewDialogComponent,
+  ],
   templateUrl: './commission-review.component.html',
   styleUrl: './commission-review.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

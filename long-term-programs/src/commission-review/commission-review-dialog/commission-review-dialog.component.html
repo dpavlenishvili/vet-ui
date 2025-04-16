@@ -7,7 +7,12 @@
             @for (item of CommissionCriteria.controls; track $index) {
               <div [formGroup]="item" class="score-container">
                 <p>{{ _commissionCriteria?.data?.[$index]?.name }}</p>
-                <kendo-textbox formControlName="score" class="score-input" [maxlength]="2" />
+                <kendo-textbox 
+                  formControlName="score" 
+                  class="score-input" 
+                  [maxlength]="1"
+                  (keypress)="allowOnlyScore($event)"
+                />
               </div>
             }
           </div>

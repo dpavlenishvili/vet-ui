@@ -62,6 +62,8 @@ export class UserOverviewComponent extends UserProfileSection {
     const formDataModel = computed(() => getUserOverviewFormData(this.authService.user()));
     effect(() => {
       this.form.reset(formDataModel());
+      const region = this.form.get('region')?.value;
+      this.setFilteredDistricts(region);
     });
 
     this.form
@@ -74,13 +76,17 @@ export class UserOverviewComponent extends UserProfileSection {
             this.filteredDistricts.set([]);
           } else {
             this.form.get('district')?.enable();
-            const allDistricts = this.districtsResource.value() || [];
-            this.filteredDistricts.set(allDistricts.filter((district: District) => district.region_name === region));
+            this.setFilteredDistricts(region);
           }
         }),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
+  }
+
+  setFilteredDistricts(region: string) {
+    const allDistricts = this.districtsResource.value() || [];
+    this.filteredDistricts.set(allDistricts.filter((district: District) => district.region_name === region));
   }
 
   onAddressExpandClick(): void {

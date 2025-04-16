@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, inject, viewChild } from '@angular/core';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { LabelComponent } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -10,6 +10,9 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
 import { DialogRef, DialogService } from '@progress/kendo-angular-dialog';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
+import { RegistrationPhoneVerificationComponent } from '../registration/registration-phone-verification/registration-phone-verification.component';
+import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-password-reset',
@@ -23,11 +26,13 @@ import { SVGIconComponent } from '@progress/kendo-angular-icons';
     ToastModule,
     FormFieldModule,
     SVGIconComponent,
-    RouterLink
+    RouterLink,
+    RegistrationPhoneVerificationComponent,
+    KENDO_TOOLTIP,
   ],
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordResetComponent {
   vetIcons = vetIcons;
@@ -35,15 +40,12 @@ export class PasswordResetComponent {
   successDialogContent = viewChild<TemplateRef<any>>('successDialogContent');
   dialogRef: DialogRef | null = null;
 
-  constructor(
-    private destroyRef: DestroyRef,
-    private toastService: ToastService,
-    private authService: AuthService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private dialogService: DialogService
-  ) {
-  }
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly toastService = inject(ToastService);
+  private readonly authService = inject(AuthService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly dialogService = inject(DialogService);
+  private readonly router = inject(Router);
 
   createFormGroup() {
     return new FormGroup({
@@ -61,12 +63,41 @@ export class PasswordResetComponent {
             }
 
             return {
-              repeatPasswordInvalid: true
+              repeatPasswordInvalid: true,
             };
-          }
-        ])
-      )
+          },
+        ]),
+      ),
     });
+  }
+
+  getPhoneMask() {
+    return this.activatedRoute.snapshot.queryParams['phone'];
+  }
+
+  resendCode() {
+    const phone = this.activatedRoute.snapshot.queryParams['phone'] ?? '';
+    const pid = this.activatedRoute.snapshot.queryParams['pid'] ?? '';
+
+    this.authService
+      .initForgetPassword({
+        pid: pid,
+        phone: phone,
+      })
+      .pipe(
+        tap({
+          next: () =>
+            this.router.navigate(['password/reset'], {
+              queryParams: {
+                pid,
+                phone,
+              },
+            }),
+          error: (error) => this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password'),
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   onSubmit() {
@@ -81,7 +112,7 @@ export class PasswordResetComponent {
         pid: activateRouteSnapshot.queryParams['pid'],
         phone: activateRouteSnapshot.queryParams['phone'],
         code: code?.toString() ?? '',
-        password: new_password?.toString() ?? ''
+        password: new_password?.toString() ?? '',
       })
       .pipe(
         tap({
@@ -91,8 +122,8 @@ export class PasswordResetComponent {
               cssClass: 'vet-password-reset-dialog',
             });
           },
-          error: (error) => this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password')
-        })
+          error: (error) => this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password'),
+        }),
       )
       .subscribe();
   }

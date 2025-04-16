@@ -9,6 +9,7 @@ import { finalize, tap } from 'rxjs';
 import { AuthorizationPageLocalStateService } from '../authorization-page-local-state.service';
 import { ToastService, vetIcons } from '@vet/shared';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
+import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-auth-two-factor-page',
@@ -21,6 +22,7 @@ import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
     KENDO_BUTTON,
     KENDO_LOADER,
     KENDO_SVGICON,
+    KENDO_TOOLTIP,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -28,7 +30,7 @@ export class TwoFactorPageComponent {
   protected readonly confirmationForm = new FormGroup({
     code: new FormControl<string>('', Validators.required),
   });
-  protected readonly is2FaPending = signal(false);
+  protected readonly is2FaPending = signal(true);
   private readonly state = inject(AuthorizationPageLocalStateService);
   private readonly toastService = inject(ToastService);
 
@@ -42,7 +44,6 @@ export class TwoFactorPageComponent {
     if (this.confirmationForm.invalid) {
       return;
     }
-    this.is2FaPending.set(true);
     this.state
       .validate2FaCode(this.confirmationForm.value.code!)
       .pipe(

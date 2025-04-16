@@ -2,7 +2,7 @@
   <div class="container">
     @if (programsWithCommissionReview$.value()?.data; as _programsWithCommissionReview) {
       <kendo-grid [data]="_programsWithCommissionReview">
-        <kendo-grid-column [title]="'programs.applicant_data' | transloco">
+        <kendo-grid-column [title]="'programs.applicant_data' | transloco" [width]="210">
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-flex-column k-gap-2">
               <p>{{ item.user.name }}</p>
@@ -11,7 +11,7 @@
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-column [title]="'programs.about_program' | transloco">
+        <kendo-grid-column [title]="'programs.about_program' | transloco" [width]="355">
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-flex-column k-gap-2">
               <div class="k-display-flex k-gap-3">
@@ -43,13 +43,16 @@
 
               <div class="k-display-flex k-gap-3">
                 <p class="k-font-bold">{{ 'programs.implementation_location' | transloco }}</p>
-                <p>{{ item.program.address }}</p>
+                <div class="k-display-flex k-gap-1">
+                  <p>{{ item.program.district.name }}</p>
+                  <p>{{ item.program.address }}</p>
+                </div>
               </div>
             </div>
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-column [title]="'programs.grading' | transloco">
+        <kendo-grid-column [title]="'programs.grading' | transloco" [width]="320">
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-flex-column k-gap-2">
               @for (result of item.results; track $index) {
@@ -66,12 +69,15 @@
 
         <kendo-grid-column [title]="'programs.other' | transloco" [width]="60">
           <ng-template kendoGridCellTemplate let-item>
-            <button
-              kendoButton
-              fillMode="flat"
-              [svgIcon]="vetIcons.editIcon"
-              (click)="openCommissionReviewDialog(item.admission.id, item.program.program_id)"
-            ></button>
+            <div kendoTooltip>
+              <button
+                [title]="'programs.grading' | transloco"
+                kendoButton
+                fillMode="flat"
+                [svgIcon]="vetIcons.editIcon"
+                (click)="openCommissionReviewDialog(item.admission.id, item.program.program_id)"
+              ></button>
+            </div>
           </ng-template>
         </kendo-grid-column>
       </kendo-grid>

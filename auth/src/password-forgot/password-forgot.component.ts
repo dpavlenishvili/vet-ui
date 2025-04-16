@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
 import { LabelComponent } from '@progress/kendo-angular-label';
-import { TextBoxComponent } from '@progress/kendo-angular-inputs';
+import { TextBoxModule } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
@@ -8,17 +8,22 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@vet/backend';
 import { ToastModule, ToastService } from '@vet/shared';
 import { tap } from 'rxjs';
+import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
+import { vetIcons } from '@vet/shared';
+import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-password-forgot',
   imports: [
     LabelComponent,
-    TextBoxComponent,
+    TextBoxModule,
     TranslocoPipe,
     ReactiveFormsModule,
     ButtonComponent,
     RouterLink,
     ToastModule,
+    KENDO_SVGICON,
+    KENDO_TOOLTIP
   ],
   templateUrl: './password-forgot.component.html',
   styleUrl: './password-forgot.component.scss',
@@ -27,6 +32,7 @@ import { tap } from 'rxjs';
 })
 export class PasswordForgotComponent {
   formGroup = this.createFormGroup();
+  vetIcons = vetIcons;
 
   constructor(
     private destroyRef: DestroyRef,
