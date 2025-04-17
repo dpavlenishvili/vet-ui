@@ -1,0 +1,28 @@
+@if (params(); as paramsObject) {
+  <kendo-dialog
+    class="vet-alert-dialog"
+    [title]="paramsObject.title ? (paramsObject.title | transloco) : ''"
+    [width]="523"
+    (close)="close()"
+  >
+    <div class="k-display-flex k-flex-column k-gap-5">
+      @if (!paramsObject.variant || paramsObject.variant === 'success') {
+        <div class="k-display-flex k-justify-content-center">
+          <kendo-svg-icon [icon]="vetIcons.successCircle" size="xxlarge" />
+        </div>
+      }
+
+      @if (paramsObject.text) {
+        <div class="k-text-base k-text-center" (click)="onClick($event)">
+          <b [innerHTML]="paramsObject.text | transloco"></b>
+        </div>
+      }
+
+      @if (paramsObject.template) {
+        <div>
+          <ng-container *ngTemplateOutlet="paramsObject.template" />
+        </div>
+      }
+    </div>
+  </kendo-dialog>
+}

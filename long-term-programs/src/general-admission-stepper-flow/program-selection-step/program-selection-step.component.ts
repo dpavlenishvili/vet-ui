@@ -150,9 +150,6 @@ export class ProgramSelectionStepComponent implements OnInit {
             this.form()?.get('program_ids')?.updateValueAndValidity();
             this.toastService.success(actionStatusText);
           },
-          error: (error) => {
-            this.toastService.error(error?.error?.error?.message ?? 'shared.error');
-          },
         }),
         takeUntilDestroyed(this.destroyRef),
       )

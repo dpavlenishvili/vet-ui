@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import type { BreadCrumbItem } from '@progress/kendo-angular-navigation';
 import { ActivatedRouteSnapshot } from '@angular/router';
+import { TemplateRef } from '@angular/core';
 
 export interface QueryParams {
   [key: string]: any; // Allow any value type
@@ -24,6 +25,14 @@ export interface Option {
 }
 
 export type UpdateFn<T> = (previousValue: T | null) => T;
+
+export interface AlertDialogParams {
+  variant?: 'success';
+  title?: string;
+  text?: string;
+  template?: TemplateRef<unknown>;
+  onClose?: () => void | Observable<unknown>;
+}
 
 export interface ConfirmationDialogParams {
   title?: string;

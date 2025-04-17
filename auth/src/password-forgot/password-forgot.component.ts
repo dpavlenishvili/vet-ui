@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LabelComponent } from '@progress/kendo-angular-label';
 import { TextBoxModule } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -6,7 +6,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@vet/backend';
-import { ToastModule, ToastService } from '@vet/shared';
+import { ToastModule } from '@vet/shared';
 import { tap } from 'rxjs';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { vetIcons } from '@vet/shared';
@@ -28,15 +28,13 @@ import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
   templateUrl: './password-forgot.component.html',
   styleUrl: './password-forgot.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+  standalone: true,
 })
 export class PasswordForgotComponent {
   formGroup = this.createFormGroup();
   vetIcons = vetIcons;
 
   constructor(
-    private destroyRef: DestroyRef,
-    private toastService: ToastService,
     private authService: AuthService,
     private router: Router,
   ) {}
@@ -68,7 +66,6 @@ export class PasswordForgotComponent {
                 phone,
               },
             }),
-          error: (error) => this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password'),
         }),
       )
       .subscribe();

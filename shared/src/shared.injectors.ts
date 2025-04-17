@@ -16,6 +16,8 @@ import {
 import { RouteParamsService } from './services/route-params.service';
 import { ActivatedRoute } from '@angular/router';
 import { getRouteNumberParam, getRouteParam } from './shared.utils';
+import { AlertDialogService } from './services/alert-dialog.service';
+import { ConfirmationDialogService } from './services/confirmation-dialog.service';
 
 export function useBaseApiUrl(): string {
   return inject(BASE_API_URL);
@@ -82,4 +84,12 @@ export function useRouteNumberParam(key: string, fallback = NaN) {
   const activatedRoute = inject(ActivatedRoute);
 
   return getRouteNumberParam(activatedRoute, key, fallback);
+}
+
+export function useAlert() {
+  return inject(AlertDialogService);
+}
+
+export function useConfirm() {
+  return inject(ConfirmationDialogService);
 }

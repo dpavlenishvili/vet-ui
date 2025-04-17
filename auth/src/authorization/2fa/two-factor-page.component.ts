@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RegistrationPhoneVerificationComponent } from '../../registration/registration-phone-verification/registration-phone-verification.component';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { finalize, tap } from 'rxjs';
 import { AuthorizationPageLocalStateService } from '../authorization-page-local-state.service';
-import { ToastService, vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { RegistrationPhoneVerificationComponent } from '../../registration/registration-phone-verification/registration-phone-verification.component';
 
 @Component({
   selector: 'vet-auth-two-factor-page',
@@ -33,7 +33,6 @@ export class TwoFactorPageComponent implements OnInit {
   });
   protected readonly is2FaPending = signal(false);
   private readonly state = inject(AuthorizationPageLocalStateService);
-  private readonly toastService = inject(ToastService);
 
   vetIcons = vetIcons;
   activatedRoute = inject(ActivatedRoute);
@@ -62,10 +61,7 @@ export class TwoFactorPageComponent implements OnInit {
       .pipe(
         tap({
           next: () => this.state.handleSuccessfulAuthentication(),
-          error: (error) => {
-            this.is2FaPending.set(false);
-            this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_login');
-          },
+          error: () => this.is2FaPending.set(false),
         }),
         finalize(() => this.is2FaPending.set(false)),
       )

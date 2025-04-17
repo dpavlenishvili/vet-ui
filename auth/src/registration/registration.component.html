@@ -40,7 +40,11 @@
 
         @switch (currentStepIndex) {
           @case (0) {
-            <vet-registration-citizenship [form]="formGroup.controls.chooseCitizenship" (nextClick)="onNextClick()" />
+            <vet-registration-citizenship
+              [form]="formGroup.controls.chooseCitizenship"
+              (nextClick)="onNextClick()"
+              (resetForm)="onResetForm()"
+            />
           }
           @case (1) {
             @switch (citizenship) {

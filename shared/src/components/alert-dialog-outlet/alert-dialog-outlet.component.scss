@@ -1,0 +1,11 @@
+::ng-deep {
+  kendo-dialog.vet-alert-dialog {
+    .k-window.k-dialog {
+      border-radius: 1.25rem;
+
+      .k-window-content.k-dialog-content {
+        padding: 2.5rem;
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 export * from './components/breadcrumb/breadcrumb.component';
 export * from './components/divider/divider.component';
 export * from './components/info/info.component';
+export * from './components/alert-dialog-outlet/alert-dialog-outlet.component';
+export * from './components/confirmation-dialog-outlet/confirmation-dialog-outlet.component';
 
 export * from './pipes/format-date.pipe';
 export * from './pipes/format-date-time.pipe';
@@ -8,6 +10,7 @@ export * from './pipes/uploaded-file-uri.pipe';
 
 export * from './services/toast.service';
 export * from './services/reload.service';
+export * from './services/alert-dialog.service';
 export * from './services/confirmation-dialog.service';
 export * from './services/route-params.service';
 export * from './services/local-storage.service';

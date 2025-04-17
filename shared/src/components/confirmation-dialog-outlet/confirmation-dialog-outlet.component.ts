@@ -34,7 +34,7 @@ export class ConfirmationDialogOutletComponent {
   }
 
   close() {
-    this.confirmationDialogService.currentDialogParams.set(null);
+    this.confirmationDialogService.close();
   }
 
   confirm() {

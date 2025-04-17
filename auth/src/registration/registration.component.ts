@@ -15,7 +15,9 @@ import {
   mobileNumberValidator,
   passwordMatchValidator,
   passwordPatternValidator,
-  personalNumberValidator, vetIcons
+  personalNumberValidator,
+  vetIcons,
+  useAlert,
 } from '@vet/shared';
 import { RegisterService, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
@@ -50,6 +52,7 @@ export class RegistrationComponent implements OnInit {
   formGroup = this.createFormGroup();
   vetIcons = vetIcons;
   isExpanded = signal(true);
+  alert = useAlert();
   steps = [
     {
       label: 'auth.citizenship_selection',
@@ -193,7 +196,7 @@ export class RegistrationComponent implements OnInit {
         const user = this.getUserReq();
         this.registrationService.register(user).subscribe({
           next: () => {
-            void this.router.navigate(['/authorization']);
+            this.alert.show('auth.alert_registration_successful');
           },
         });
       } else {
@@ -202,6 +205,12 @@ export class RegistrationComponent implements OnInit {
         void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
       }
     }
+  }
+
+  onResetForm() {
+    this.formGroup.patchValue(this.createFormGroup().value);
+    this.formGroup.markAsPristine();
+    this.formGroup.markAsUntouched();
   }
 
   handleCitizenshipChange() {

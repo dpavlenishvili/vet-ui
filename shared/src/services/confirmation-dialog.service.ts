@@ -8,4 +8,8 @@ export class ConfirmationDialogService {
   show(params: ConfirmationDialogParams) {
     this.currentDialogParams.set(params);
   }
+
+  close() {
+    this.currentDialogParams.set(null);
+  }
 }

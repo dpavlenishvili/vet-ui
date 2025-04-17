@@ -200,7 +200,6 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
     }
     if (this.isStepValid(this.currentStepIndex())) {
       let value = this.formGroup.get(formGroupName)?.getRawValue();
-      const errorKey = formGroupName === 'confirmation' ? 'program_creation_failed' : 'program_update_failed';
       if (formGroupName === 'confirmation') {
         value = {
           ...value,
@@ -226,7 +225,6 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                   ]);
                 }
               },
-              error: () => this.toastService.error(errorKey),
             }),
           )
           .subscribe();
@@ -240,7 +238,6 @@ export class GeneralAdmissionStepperFlowComponent implements OnInit {
                 this.toastService.success('programs.program_created_successfully');
                 void this.router.navigate(['long-term-programs', 'update-admission', res.data?.id, 'ssm_status']);
               },
-              error: () => this.toastService.error('programs.program_creation_failed'),
             }),
           )
           .subscribe();

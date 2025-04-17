@@ -3,12 +3,19 @@ import { RouterOutlet } from '@angular/router';
 import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
 import { KENDO_DIALOGS } from '@progress/kendo-angular-dialog';
 import {
+  AlertDialogOutletComponent,
   ConfirmationDialogOutletComponent
-} from '../../../../shared/src/components/confirmation-dialog-outlet/confirmation-dialog-outlet.component';
+} from '@vet/shared';
 
 @Component({
   standalone: true,
-  imports: [RouterOutlet, ThemeSidebarComponent, KENDO_DIALOGS, ConfirmationDialogOutletComponent],
+  imports: [
+    RouterOutlet,
+    ThemeSidebarComponent,
+    KENDO_DIALOGS,
+    ConfirmationDialogOutletComponent,
+    AlertDialogOutletComponent,
+  ],
   selector: 'vet-root',
   template: `
     <button class="toggle-container-button" (click)="toggleAppContainer()">
@@ -32,7 +39,8 @@ import {
 
     <router-outlet />
     <div kendoDialogContainer></div>
-    <vet-confirmation-dialog-outlet/>
+    <vet-confirmation-dialog-outlet />
+    <vet-alert-dialog-outlet />
   `,
   styles: [
     `

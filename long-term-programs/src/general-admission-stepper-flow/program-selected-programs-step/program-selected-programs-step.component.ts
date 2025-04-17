@@ -91,9 +91,6 @@ export class ProgramSelectedProgramsStepComponent {
               this.router.navigate(['long-term-programs', 'update-admission', this.admissionId(), 'program_selection']);
             }
           },
-          error: (error) => {
-            this.toastService.error(error?.error?.error?.message ?? 'shared.error');
-          },
         }),
         takeUntilDestroyed(this.destroyRef),
       )

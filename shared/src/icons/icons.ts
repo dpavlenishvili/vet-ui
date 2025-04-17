@@ -36,3 +36,12 @@ export const confirmed: SVGIcon = {
   viewBox: '0 0 18 18',
 };
 
+export const successCircle: SVGIcon = {
+  name: 'success-circle',
+  content: `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="15" cy="15" r="15" fill="#1D9F70"/>
+<path d="M9 16.25L12.2727 20L21 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+  viewBox: '0 0 30 30',
+};

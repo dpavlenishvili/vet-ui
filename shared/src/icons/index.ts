@@ -43,6 +43,7 @@ import { chevronUp } from './chevron-up';
 import { download } from './download';
 import { print } from './print';
 import { xCircled } from './xCircled';
+export * from './icons';
 
 export {
   bin,

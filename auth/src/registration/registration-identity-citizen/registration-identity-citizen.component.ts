@@ -7,7 +7,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
 import { RegisterService, type User } from '@vet/backend';
 import { tap } from 'rxjs';
-import { ToastService, ToastModule } from '@vet/shared';
+import { ToastModule } from '@vet/shared';
 
 @Component({
   selector: 'vet-registration-identity-citizen',
@@ -41,10 +41,7 @@ export class RegistrationIdentityCitizenComponent {
   previousClick = output();
   nextClick = output();
 
-  constructor(
-    private registerService: RegisterService,
-    private toastService: ToastService,
-  ) {}
+  constructor(private registerService: RegisterService) {}
 
   onPreviousClick() {
     this.previousClick.emit();
@@ -55,7 +52,6 @@ export class RegistrationIdentityCitizenComponent {
 
     const form = this.form()?.value;
 
-    console.log(this.form());
     if (this.form()?.invalid) {
       this.form()?.markAllAsTouched();
       return;
@@ -73,9 +69,6 @@ export class RegistrationIdentityCitizenComponent {
             );
             this.form()?.controls.firstname.setValue(personalInfo.firstName ?? null);
             this.form()?.controls.gender.setValue(personalInfo.gender ?? null);
-          },
-          error: (error) => {
-            this.toastService.error(error?.error?.error?.message);
           },
         }),
       )

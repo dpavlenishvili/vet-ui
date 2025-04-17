@@ -9,12 +9,10 @@ import {isPlatformServer} from "@angular/common";
 const reportError = (message: string, notificationService: NotificationService) => {
   notificationService.show({
     content: message,
-    type: {
-      style: 'error',
-      icon: true,
-    },
-    animation: {type: 'fade', duration: 300},
-    hideAfter: 500
+    animation: { type: 'slide', duration: 400 },
+    position: { horizontal: 'center', vertical: 'top' },
+    type: { style: 'error', icon: true },
+    hideAfter: 3000,
   });
 }
 

@@ -30,13 +30,13 @@ export class RegistrationCitizenshipComponent {
       citizenship: FormControl<string | null>;
     }>
   >();
+  nextClick = output();
+  resetForm = output();
 
   kendoIcons = kendoIcons;
 
   citizenship = Citizenship;
   isWarningVisible = signal(false)
-
-  nextClick = output();
 
   onNextClick() {
     this.form()?.markAllAsTouched();
@@ -49,9 +49,9 @@ export class RegistrationCitizenshipComponent {
 
   onRadioChange(checked: boolean, value: string) {
     if (checked) {
+      this.resetForm.emit();
       this.form()?.controls['citizenship'].setValue(value);
       this.form()?.updateValueAndValidity();
-      console.log('Citizenship changed to:', value);
     }
   }
 }

@@ -4,7 +4,7 @@ import { LabelComponent } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormFieldModule, TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ToastModule, ToastService, vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared';
 import { AuthService } from '@vet/backend';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
@@ -23,7 +23,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ReactiveFormsModule,
     TextBoxComponent,
     TranslocoPipe,
-    ToastModule,
     FormFieldModule,
     SVGIconComponent,
     RouterLink,
@@ -37,11 +36,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class PasswordResetComponent {
   vetIcons = vetIcons;
   formGroup = this.createFormGroup();
-  successDialogContent = viewChild<TemplateRef<any>>('successDialogContent');
+  successDialogContent = viewChild<TemplateRef<unknown>>('successDialogContent');
   dialogRef: DialogRef | null = null;
 
   private readonly destroyRef = inject(DestroyRef);
-  private readonly toastService = inject(ToastService);
   private readonly authService = inject(AuthService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly dialogService = inject(DialogService);
@@ -93,7 +91,6 @@ export class PasswordResetComponent {
                 phone,
               },
             }),
-          error: (error) => this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password'),
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -122,7 +119,6 @@ export class PasswordResetComponent {
               cssClass: 'vet-password-reset-dialog',
             });
           },
-          error: (error) => this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_recover_password'),
         }),
       )
       .subscribe();
