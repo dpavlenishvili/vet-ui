@@ -21,6 +21,7 @@ import { noop } from 'lodash-es';
 })
 export class RegistrationPhoneVerificationComponent implements ControlValueAccessor {
   isPending = input(false);
+  timeSent = input(Date.now());
   reload = output();
 
   length = useAuthEnvironment().phoneVerificationNumberLength;
@@ -31,13 +32,16 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
       .map((c) => c ?? '')
       .join(''),
   );
-  startTime = signal(Date.now());
+  startTime = signal(this.timeSent());
 
   private onChange: (value: string) => void = noop;
   private onTouched: () => void = noop;
 
   protected readonly inputs = viewChildren(NumericTextBoxComponent);
   constructor() {
+    effect(() => {
+      this.startTime.set(this.timeSent());
+    });
     effect(() => {
       const inputList = this.inputs();
 

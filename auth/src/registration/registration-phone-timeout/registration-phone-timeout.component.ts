@@ -38,9 +38,9 @@ export class RegistrationPhoneTimeoutComponent {
           !isPending
             ? of(0)
             : interval(1000).pipe(
-                take(this.timeoutSeconds),
-                map((elapsed) => Math.max(this.timeoutSeconds - elapsed - 1, 0)),
-                startWith(this.timeoutSeconds),
+                take(this.getRemainingSeconds()),
+                map(() => this.getRemainingSeconds()),
+                startWith(this.getRemainingSeconds()),
               ),
         ),
         map((remaining) => ({ remaining })),
@@ -55,5 +55,9 @@ export class RegistrationPhoneTimeoutComponent {
 
   format(remaining: number) {
     return dayjs.duration(remaining, 'seconds').format('mm:ss');
+  }
+
+  getRemainingSeconds() {
+    return Math.max(this.timeoutSeconds - ((Date.now() - this.startTime()) / 1000), 0);
   }
 }

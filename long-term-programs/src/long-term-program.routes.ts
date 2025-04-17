@@ -101,7 +101,7 @@ export const longTermProgramsRoutes: Route[] = [
     children: [
       {
         path: 'list',
-        loadComponent: () => import('./admissions-list/admissions-list.component').then((m) => m.AdmissionsListComponent),
+        loadComponent: () => import('./admissions-list-container/admissions-list-container.component').then((m) => m.AdmissionsListContainerComponent),
         pathMatch: 'full',
         data: breadcrumb([
           ...baseBreadcrumbItems,

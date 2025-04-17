@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "commit": "git-cz",
     "postinstall": "husky install",
-    "serve:ssr": "node dist/apps/vet/server/main.js"
+    "serve:ssr": "node dist/apps/vet/server/main.js",
+    "lint": "yarn nx run-many --target=lint --all"
   },
   "packageManager": "yarn@3.6.4",
   "engines": {

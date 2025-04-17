@@ -3,6 +3,7 @@ import { inject, InjectionToken, Provider } from '@angular/core';
 export interface AuthEnvironment {
   phoneVerificationNumberLength: number;
   phoneVerificationNumberTimeoutSeconds: number;
+  login2faTimeoutSeconds: number;
 }
 
 const AUTH_ENVIRONMENT = new InjectionToken<AuthEnvironment>('Environment config for auth module');

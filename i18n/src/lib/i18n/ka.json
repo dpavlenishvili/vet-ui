@@ -74,7 +74,8 @@
     "error": "შეცდომა",
     "startDate": "დაწყების თარიღი",
     "endDate": "დასრულების თარიღი",
-    "emailFormatError": "არასწორი მეილის ფორმატი"
+    "emailFormatError": "არასწორი მეილის ფორმატი",
+    "numberOfRecords": "სულ {{count}} ჩანაწერი"
   },
   "auth": {
     "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
@@ -330,7 +331,16 @@
     "no_commission_members": "კომისიის წევრები არ არის არჩეული",
     "applicant_data": "აპლიკანტის მონაცემები",
     "grading": "შეფასება",
-    "close": "დახურვა"
+    "close": "დახურვა",
+    "first_name": "სახელი",
+    "institution": "დაწესებულება",
+    "status": "სტატუსი",
+    "contact_data": "საკონტაქტო მონაცემები",
+    "confirmed_education": "დადასტურებული განათლება",
+    "confirmed_yes": "კი",
+    "confirmed_no": "არა",
+    "ssm": "სსსმ",
+    "ssm_status_document": "სსსმ სტატუსი/დოკუმენტი"
   },
   "profile": {
     "actual_address": "ფაქტობრივი მისამართი",

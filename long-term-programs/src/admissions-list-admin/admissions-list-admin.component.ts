@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
 import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { filterNullValues, RouteParamsService, vetIcons } from '@vet/shared';
+import { filterEmptyValues, FormatDatePipe, RouteParamsService, vetIcons } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { AdmissionsListFilterComponent } from './admissions-list-filter/admissions-list-filter.component';
+import { AdmissionsListAdminFiltersComponent } from './admissions-list-admin-filters/admissions-list-admin-filters.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -19,21 +19,21 @@ export type AdmissionListFilter = {
 };
 
 @Component({
-  selector: 'vet-admissions-list',
-  imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, AdmissionsListFilterComponent],
-  templateUrl: './admissions-list.component.html',
-  styleUrl: './admissions-list.component.scss',
+  selector: 'vet-admissions-list-admin',
+  imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, AdmissionsListAdminFiltersComponent, FormatDatePipe],
+  templateUrl: './admissions-list-admin.component.html',
+  styleUrl: './admissions-list-admin.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class AdmissionsListComponent {
+export class AdmissionsListAdminComponent {
   admissionList$ = rxResource({
     request: () => ({ role: this._userRolesService.selectedRole(), filters: this.filters() }),
     loader: ({ request: { role, filters } }) =>
-      this.admissionService.admissionList({
+      this.admissionService.admissionList(filterEmptyValues({
         role: role,
         ...filters,
-      }),
+      })),
   });
 
   router = inject(Router);
@@ -61,6 +61,6 @@ export class AdmissionsListComponent {
 
   onFiltersChange(filters: AdmissionListFilter) {
     this.routeParamsService.update(filters);
-    this.filters.set(filterNullValues(filters));
+    this.filters.set(filterEmptyValues(filters));
   }
 }

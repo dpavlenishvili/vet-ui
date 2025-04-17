@@ -205,6 +205,10 @@ export function filterNullValues<T extends object>(obj: T): T {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null)) as T;
 }
 
+export function filterEmptyValues<T extends object>(obj: T): T {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null && v.trim() !== '')) as T;
+}
+
 
 export function formatDate(date: Date): string {
   const d = new Date(date);

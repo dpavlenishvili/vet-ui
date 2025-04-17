@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegistrationPhoneVerificationComponent } from '../../registration/registration-phone-verification/registration-phone-verification.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { finalize, tap } from 'rxjs';
@@ -10,6 +10,7 @@ import { AuthorizationPageLocalStateService } from '../authorization-page-local-
 import { ToastService, vetIcons } from '@vet/shared';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-auth-two-factor-page',
@@ -26,15 +27,26 @@ import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TwoFactorPageComponent {
+export class TwoFactorPageComponent implements OnInit {
   protected readonly confirmationForm = new FormGroup({
     code: new FormControl<string>('', Validators.required),
   });
-  protected readonly is2FaPending = signal(true);
+  protected readonly is2FaPending = signal(false);
   private readonly state = inject(AuthorizationPageLocalStateService);
   private readonly toastService = inject(ToastService);
 
   vetIcons = vetIcons;
+  activatedRoute = inject(ActivatedRoute);
+  query = toSignal(this.activatedRoute.queryParamMap);
+  timeSent = computed(() => {
+    const timeSent = this.query()?.get('timeSent');
+
+    return timeSent && !isNaN(Number(timeSent)) ? Number(timeSent) : Date.now();
+  });
+
+  ngOnInit() {
+    this.is2FaPending.set(true);
+  }
 
   getPhoneMask() {
     return this.state.get2FaCredentials()?.phone_mask;
@@ -44,12 +56,14 @@ export class TwoFactorPageComponent {
     if (this.confirmationForm.invalid) {
       return;
     }
+    this.is2FaPending.set(true);
     this.state
       .validate2FaCode(this.confirmationForm.value.code!)
       .pipe(
         tap({
           next: () => this.state.handleSuccessfulAuthentication(),
           error: (error) => {
+            this.is2FaPending.set(false);
             this.toastService.error(error?.error?.error?.message ?? 'auth.failed_to_login');
           },
         }),

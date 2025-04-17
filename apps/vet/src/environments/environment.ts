@@ -16,6 +16,7 @@ export const environment = {
     auth: <AuthEnvironment>{
       phoneVerificationNumberLength: 6,
       phoneVerificationNumberTimeoutSeconds: 120,
+      login2faTimeoutSeconds: 120,
     },
   },
 };

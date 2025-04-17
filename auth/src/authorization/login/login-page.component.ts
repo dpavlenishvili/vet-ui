@@ -12,6 +12,9 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { UserLogin2FaResponseBody } from '@vet/backend';
 import { AuthorizationPageLocalStateService } from '../authorization-page-local-state.service';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
+import { WA_SESSION_STORAGE } from '@ng-web-apis/common';
+import { CODE_2FA_SENT } from '../authorization.constants';
+import { useAuthEnvironment } from '@vet/auth';
 
 @Component({
   selector: 'vet-authorization-login',
@@ -20,6 +23,8 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent {
+  private readonly storage = inject(WA_SESSION_STORAGE);
+
   protected readonly loginForm = new FormGroup({
     pid: new FormControl('', [Validators.required]),
     password: new FormControl('', Validators.required),
@@ -31,6 +36,7 @@ export class LoginPageComponent {
   private readonly authenticationService = inject(AuthenticationService);
   private readonly authorizationPageLocalStateService = inject(AuthorizationPageLocalStateService);
   private readonly toastService = inject(ToastService);
+  timeoutSeconds = useAuthEnvironment().login2faTimeoutSeconds;
 
   protected onSubmit() {
     this.isLoginFormSubmitted.set(true);
@@ -46,6 +52,26 @@ export class LoginPageComponent {
   }
 
   private submitUserPassword(pid: string, password: string) {
+    const rawSentCode = this.storage.getItem(CODE_2FA_SENT);
+
+    if (rawSentCode) {
+      const sentCode = JSON.parse(rawSentCode) as {
+        pid: string;
+        time: number;
+        response: UserLogin2FaResponseBody;
+      };
+
+      if (sentCode.pid
+        && sentCode.time
+        && sentCode.response
+        && sentCode.pid === pid
+        && (Date.now() - sentCode.time) < (this.timeoutSeconds * 1000)
+      ) {
+        this.authorizationPageLocalStateService.navigateTo2fa(sentCode.response, { pid, password }, sentCode.time);
+        return;
+      }
+    }
+
     this.isLoginLoading.set(true);
     this.authenticationService
       .login({ pid, password })
@@ -53,8 +79,13 @@ export class LoginPageComponent {
         tap({
           next: () => this.authorizationPageLocalStateService.handleSuccessfulAuthentication(),
           error: (err: HttpErrorResponse) => {
-            if (err.status === HttpStatusCode.Forbidden) {
+            if (err.status === HttpStatusCode.Forbidden || err.status === HttpStatusCode.NotAcceptable) {
               const response = err.error as UserLogin2FaResponseBody;
+              this.storage.setItem(CODE_2FA_SENT, JSON.stringify({
+                pid,
+                time: Date.now(),
+                response,
+              }))
               this.authorizationPageLocalStateService.navigateTo2fa(response, { pid, password });
             }
             if (err.status === HttpStatusCode.Unauthorized) {

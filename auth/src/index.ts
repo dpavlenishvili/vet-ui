@@ -4,6 +4,12 @@ export {
 
 export * from './interceptors/authentication.interceptor';
 
+export * from './guards/has-not-role.guard';
+export * from './guards/has-not-permission.guard';
+export * from './guards/has-role.guard';
+export * from './guards/has-permission.guard';
+export * from './pipes/can.pipe';
+export * from './pipes/role.pipe';
 export * from './auth.routes';
 export * from './auth.providers';
 export * from './authentication.service';

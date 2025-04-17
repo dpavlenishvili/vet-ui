@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
@@ -15,11 +15,13 @@ import {
   mobileNumberValidator,
   passwordMatchValidator,
   passwordPatternValidator,
-  personalNumberValidator
+  personalNumberValidator, vetIcons
 } from '@vet/shared';
 import { RegisterService, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
+import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-registration',
@@ -33,6 +35,8 @@ import { BehaviorSubject, tap } from 'rxjs';
     TranslocoPipe,
     RegistrationPasswordCreateComponent,
     RegistrationTermsAndConditionsComponent,
+    ButtonComponent,
+    TooltipDirective,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
@@ -44,6 +48,8 @@ export class RegistrationComponent implements OnInit {
   currentStepSubject = new BehaviorSubject<number>(0);
   currentStep$ = this.currentStepSubject.asObservable();
   formGroup = this.createFormGroup();
+  vetIcons = vetIcons;
+  isExpanded = signal(true);
   steps = [
     {
       label: 'auth.citizenship_selection',
@@ -208,5 +214,9 @@ export class RegistrationComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  onToggleExpansion() {
+    this.isExpanded.update((value) => !value);
   }
 }

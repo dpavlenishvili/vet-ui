@@ -1,13 +1,31 @@
 <div class="wrapper k-pt-14">
-  <nav class="menu">
+  <nav class="menu" [class.expanded]="isExpanded()">
+    <div class="sidebar-menu-toggle-container">
+      <button
+        kendoButton
+        [svgIcon]="isExpanded() ? vetIcons.chevronLeft : vetIcons.chevronRight"
+        class="sidebar-menu-toggle"
+        (click)="onToggleExpansion()"
+      ></button>
+    </div>
+
     @for (item of menuItems; track $index) {
       @let text = 'profile.' + item.text | transloco;
-      <a class="menu-item" [routerLink]="item.url" routerLinkActive="selected-menu-item">
+      <a
+        class="menu-item"
+        [routerLink]="item.url" routerLinkActive="selected-menu-item"
+        kendoTooltip
+        [title]="!isExpanded() ? text : ''"
+        [position]="'right'"
+      >
         <!-- <kendo-svg-icon [icon]="kendoIcons.menuIcon"></kendo-svg-icon> -->
         <img routerLinkActive="selected-menu-item-icon" [src]="item.icon" [alt]="text" />
-        <p routerLinkActive="selected-menu-item-text" class="menu-item-text">
-          {{ text }}
-        </p>
+
+        @if (isExpanded()) {
+          <p routerLinkActive="selected-menu-item-text" class="menu-item-text">
+            {{ text }}
+          </p>
+        }
       </a>
     }
   </nav>

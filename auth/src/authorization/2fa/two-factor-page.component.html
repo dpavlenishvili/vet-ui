@@ -13,10 +13,11 @@
   </div>
 
   <div class="k-display-flex k-justify-content-center">
-    <vet-registration-phone-verification 
-      formControlName="code" 
-      [isPending]="is2FaPending()" 
-      (reload)="onSubmit()" 
+    <vet-registration-phone-verification
+      formControlName="code"
+      [timeSent]="timeSent()"
+      [isPending]="is2FaPending()"
+      (reload)="onSubmit()"
     />
   </div>
 

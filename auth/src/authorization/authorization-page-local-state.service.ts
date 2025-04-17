@@ -11,12 +11,18 @@ export class AuthorizationPageLocalStateService {
   private _router = inject(Router);
   private _2faResponseBody?: UserLogin2FaResponseBody;
   private _2faCredentials?: LoginRequestBody;
+  private _timeSent?: number;
   private readonly _authenticationService = inject(AuthenticationService);
 
-  navigateTo2fa(responseBody: UserLogin2FaResponseBody, credentials: LoginRequestBody) {
+  navigateTo2fa(responseBody: UserLogin2FaResponseBody, credentials: LoginRequestBody, timeSent?: number) {
     this._2faResponseBody = responseBody;
     this._2faCredentials = credentials;
-    this._router.navigate(['/authorization', '2fa']);
+    this._timeSent = timeSent;
+    this._router.navigate(['/authorization', '2fa'], {
+      queryParams: {
+        timeSent,
+      }
+    });
   }
 
   handleSuccessfulAuthentication() {

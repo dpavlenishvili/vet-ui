@@ -1,17 +1,29 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ToastModule } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ToastModule, vetIcons } from '@vet/shared';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-user-profile',
-  imports: [SVGIconModule, TranslocoPipe, ToastModule, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [
+    SVGIconModule,
+    TranslocoPipe,
+    ToastModule,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    ButtonComponent,
+    TooltipDirective,
+  ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserProfileComponent {
+  protected readonly vetIcons = vetIcons;
   protected readonly menuItems = [
     {
       text: 'my_profile',
@@ -39,4 +51,9 @@ export class UserProfileComponent {
       url: ['/user-profile', 'my-messages'],
     },
   ];
+  isExpanded = signal(true);
+
+  onToggleExpansion() {
+    this.isExpanded.update((value) => !value);
+  }
 }

@@ -1,0 +1,96 @@
+<div class="k-bg-white k-p-5 k-rounded-lg">
+  @let items = admissionList$.value()?.data || [];
+
+  <div class="k-pb-5">
+    <vet-admissions-list-admin-filters
+      [itemsCount]="items.length"
+      (filtersChange)="onFiltersChange($event)"
+    />
+  </div>
+
+  @if (isBrowser) {
+    <kendo-grid
+      [loading]="admissionList$.isLoading()"
+      [data]="items"
+      [skip]="0"
+      [pageable]="true"
+      [pageSize]="admissionList$.value()?.meta?.per_page"
+      (dataStateChange)="handlePageChange($event)"
+    >
+      <kendo-grid-column [title]="'programs.applicant_data' | transloco">
+        <ng-template kendoGridCellTemplate let-item>
+          <div>{{ item.user?.name }}</div>
+          <div>{{ item.user?.pid }}</div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column [title]="'programs.contact_data' | transloco">
+        <ng-template kendoGridCellTemplate let-item>
+          <div>{{ item.user?.phone }}</div>
+          <div>{{ item.user?.email }}</div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column [title]="'programs.confirmed_education' | transloco">
+        <ng-template kendoGridCellTemplate let-item>
+          <div>{{ (item.education ? 'programs.confirmed_yes' : 'programs.confirmed_no') | transloco }}</div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column [title]="'programs.ssm' | transloco">
+        <ng-template kendoGridCellTemplate let-item>
+          <div>{{ (item.spec_edu ? 'programs.confirmed_yes' : 'programs.confirmed_no') | transloco }}</div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column [title]="'programs.ssm_status_document' | transloco">
+        <ng-template kendoGridCellTemplate />
+      </kendo-grid-column>
+
+      <kendo-grid-column [title]="'programs.status' | transloco">
+        <ng-template kendoGridCellTemplate let-item>
+          <div>{{ item.status.current }}</div>
+          <div>{{ item.status.date | formatDate }}</div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column [title]="'programs.other' | transloco">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex k-align-items-center k-gap-1">
+            <button
+              kendoButton
+              fillMode="flat"
+              class="!k-p-0"
+              [svgIcon]="vetIcons.eye"
+              (click)="onViewClick(item)"
+            ></button>
+
+            <button
+              kendoButton
+              fillMode="flat"
+              class="!k-p-0"
+              [svgIcon]="vetIcons.document"
+              (click)="onViewClick(item)"
+            ></button>
+
+            <button
+              kendoButton
+              fillMode="flat"
+              class="!k-p-0"
+              [svgIcon]="vetIcons.lookUp"
+              (click)="onViewClick(item)"
+            ></button>
+
+            <button
+              kendoButton
+              fillMode="flat"
+              class="!k-p-0"
+              [svgIcon]="vetIcons.confirmed"
+              (click)="onViewClick(item)"
+            ></button>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  }
+</div>

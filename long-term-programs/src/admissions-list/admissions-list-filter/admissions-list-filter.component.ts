@@ -14,6 +14,7 @@ import { formatDate } from '@vet/shared';
   templateUrl: './admissions-list-filter.component.html',
   styleUrl: './admissions-list-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   imports: [
     ButtonComponent,
     FormsModule,

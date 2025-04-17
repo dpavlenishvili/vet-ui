@@ -6,6 +6,7 @@ export interface UserAccount {
 }
 
 export type AuthRole =
+  | 'Super Admin'
   | 'Default User';
 
 export type AuthPermission =

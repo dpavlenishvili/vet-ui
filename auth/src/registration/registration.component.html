@@ -1,5 +1,14 @@
 <div class="vet-registration k-d-flex k-justify-content-between k-gap-4">
-  <div class="stepper-container">
+  <div class="stepper-container" [class.expanded]="isExpanded()">
+    <div class="sidebar-menu-toggle-container">
+      <button
+        kendoButton
+        [svgIcon]="isExpanded() ? vetIcons.chevronLeft : vetIcons.chevronRight"
+        class="sidebar-menu-toggle"
+        (click)="onToggleExpansion()"
+      ></button>
+    </div>
+
     <kendo-stepper
       [(currentStep)]="currentStepIndex"
       [steps]="steps"
@@ -7,8 +16,20 @@
       [orientation]="'vertical'"
       (activate)="onStepChange($event)"
     >
+      <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
+          <div
+            kendoTooltip
+            [title]="!isExpanded() ? (step.label | transloco) : ''"
+            [position]="'right'"
+          >
+            {{ index + 1 }}
+          </div>
+      </ng-template>
+
       <ng-template kendoStepperLabelTemplate let-step>
-        {{ step.label | transloco }}
+        @if (isExpanded()) {
+          {{ step.label | transloco }}
+        }
       </ng-template>
     </kendo-stepper>
   </div>

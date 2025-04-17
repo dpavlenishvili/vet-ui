@@ -1,0 +1,105 @@
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+  <div class="k-d-flex k-flex-column k-gap-5">
+    <div class="k-display-flex k-gap-4.5 k-flex-1">
+      <kendo-textbox
+        formControlName="pid"
+        [size]="'large'"
+        [rounded]="'large'"
+        [placeholder]="'programs.pid' | transloco"
+      />
+
+      <kendo-textbox
+        formControlName="first_name"
+        [size]="'large'"
+        [rounded]="'large'"
+        [placeholder]="'programs.first_name' | transloco"
+      />
+
+      <kendo-textbox
+        formControlName="last_name"
+        [size]="'large'"
+        [rounded]="'large'"
+        [placeholder]="'programs.last_name' | transloco"
+      />
+    </div>
+
+    <div class="k-display-flex k-gap-4.5 k-flex-1">
+      <kendo-dropdownlist
+        formControlName="institution_id"
+        [data]="[]"
+        valueField="value"
+        textField="label"
+        [valuePrimitive]="true"
+        [defaultItem]="institutionPlaceholder"
+      >
+        <ng-template kendoDropDownListValueTemplate let-item>
+          {{ item.label | transloco }}
+        </ng-template>
+
+        <ng-template kendoDropDownListItemTemplate let-item>
+          {{ item.label | transloco }}
+        </ng-template>
+      </kendo-dropdownlist>
+
+      <kendo-dropdownlist
+        formControlName="status"
+        [data]="[]"
+        valueField="value"
+        textField="label"
+        [valuePrimitive]="true"
+        [defaultItem]="statusPlaceholder"
+      >
+        <ng-template kendoDropDownListValueTemplate let-item>
+          {{ item.label | transloco }}
+        </ng-template>
+
+        <ng-template kendoDropDownListItemTemplate let-item>
+          {{ item.label | transloco }}
+        </ng-template>
+      </kendo-dropdownlist>
+
+      <kendo-dropdownlist
+        formControlName="ssm_status"
+        [data]="[]"
+        valueField="value"
+        textField="label"
+        [valuePrimitive]="true"
+        [defaultItem]="ssmStatusPlaceholder"
+      >
+        <ng-template kendoDropDownListValueTemplate let-item>
+          {{ item.label | transloco }}
+        </ng-template>
+
+        <ng-template kendoDropDownListItemTemplate let-item>
+          {{ item.label | transloco }}
+        </ng-template>
+      </kendo-dropdownlist>
+    </div>
+
+    <div class="k-display-flex k-justify-content-between k-align-items-center">
+      <div class="k-text-sm k-color-body">
+        {{ 'shared.numberOfRecords' | transloco: { count: itemsCount() } }}
+      </div>
+
+      <div class="k-display-flex k-justify-content-end k-align-items-center k-gap-3">
+        <button
+          type="button"
+          kendoButton
+          [svgIcon]="kendoIcons.xIcon"
+          fillMode="outline"
+          themeColor="primary"
+          (click)="clearFilters()"
+        ></button>
+
+        <button
+          kendoButton
+          [svgIcon]="kendoIcons.searchIcon"
+          fillMode="solid"
+          themeColor="primary"
+        >
+          {{ 'shared.search' | transloco }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

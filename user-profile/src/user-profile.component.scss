@@ -1,3 +1,5 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
 
@@ -8,12 +10,24 @@
   }
 
   .menu {
-    min-width: 16rem;
+    width: 4.5rem;
+    min-width: 4.5rem;
+    transition: all 200ms ease-in-out;
     border-radius: 0.5rem;
     background-color: #ffffff;
     padding: 0;
     margin: 0;
     display: block;
+
+    &.expanded {
+      width: 16rem;
+      min-width: 16rem;
+      align-items: flex-start;
+    }
+  }
+
+  .sidebar-menu-toggle-container {
+    padding: 0.75rem;
   }
 
   .menu-item {
@@ -22,11 +36,13 @@
     box-sizing: border-box;
     align-items: center;
     display: flex;
+    justify-content: center;
     gap: 0.5rem;
     cursor: pointer;
     border-bottom: 1px solid #e0e0e0;
     text-decoration: none;
     color: black;
+    text-wrap: nowrap;
   }
 
   .menu .menu-item:last-child {
@@ -55,5 +71,37 @@
     text-align: left;
     width: 90%;
     font-size: 14px;
+  }
+}
+
+.sidebar-menu-toggle-container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 0.75rem;
+}
+
+.sidebar-menu-toggle {
+  background-color: shared.$tb-kendo-color-surface;
+  border-color: shared.$tb-kendo-color-surface;
+  width: 26px;
+  height: 26px;
+  transition: all 200ms ease-out;
+}
+
+.menu.expanded {
+  justify-content: center;
+
+  .sidebar-menu-toggle-container {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .sidebar-menu-toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .menu-item {
+    justify-content: flex-start;
   }
 }

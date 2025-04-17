@@ -345,3 +345,74 @@ ul.k-list-style-circle {
 //    }
 //  }
 //}
+
+kendo-grid.k-grid {
+  border-radius: 0.625rem;
+  border-color: #ECECEC;
+
+  .k-grid-aria-root {
+    border-color: #ECECEC;
+
+    .k-grid-header {
+      border-bottom-color: #ECECEC;
+
+      thead:first-of-type {
+        background: transparent;
+        border-top-left-radius: 0.625rem;
+        border-top-right-radius: 0.625rem;
+        border-color: #ECECEC;
+
+        th {
+          padding: 1.125rem 0.75rem;
+
+          .k-cell-inner {
+            .k-column-title {
+              @include text-sm(true);
+              color: $kendo-color-body-dark;
+            }
+          }
+        }
+
+        th:first-of-type {
+          border-top-left-radius: 0.625rem;
+          .k-cell-inner {
+            border-top-left-radius: 0.625rem;
+          }
+        }
+
+        th:last-of-type {
+          .k-cell-inner {
+            border-top-right-radius: 0.625rem;
+          }
+        }
+      }
+    }
+
+    .k-grid-container {
+      table {
+        tbody {
+          tr {
+            td {
+              @include text-sm();
+              color: $kendo-color-body;
+              padding: 0.5rem 0.75rem !important;
+              border-color: #ECECEC !important;
+            }
+          }
+
+          tr:first-of-type {
+            td {
+              border-top: none !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  kendo-pager {
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+    @include text-sm();
+  }
+}

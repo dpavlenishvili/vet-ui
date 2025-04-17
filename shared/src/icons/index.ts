@@ -91,3 +91,5 @@ export {
   xCircled,
   editIcon,
 };
+
+export * from './icons';
