@@ -1,4 +1,4 @@
-@if (params(); as paramsObject) {
+@if (resolvedParams(); as paramsObject) {
   <kendo-dialog
     class="vet-alert-dialog"
     [title]="paramsObject.title ? (paramsObject.title | transloco) : ''"
@@ -6,15 +6,17 @@
     (close)="close()"
   >
     <div class="k-display-flex k-flex-column k-gap-5">
+      <div class="k-display-flex k-justify-content-center">
       @if (!paramsObject.variant || paramsObject.variant === 'success') {
-        <div class="k-display-flex k-justify-content-center">
-          <kendo-svg-icon [icon]="vetIcons.successCircle" size="xxlarge" />
-        </div>
+        <kendo-svg-icon [icon]="vetIcons.successCircle" size="xxlarge" />
+      } @else if (paramsObject.variant === 'error') {
+        <kendo-svg-icon [icon]="vetIcons.errorCircle" size="xxlarge" />
       }
+      </div>
 
       @if (paramsObject.text) {
         <div class="k-text-base k-text-center" (click)="onClick($event)">
-          <b [innerHTML]="paramsObject.text | transloco"></b>
+          <b [innerHTML]="paramsObject.text"></b>
         </div>
       }
 

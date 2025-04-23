@@ -5,7 +5,6 @@ import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize, tap } from 'rxjs';
-import { ToastService } from '@vet/shared';
 import { AuthenticationService } from '../../authentication.service';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
@@ -35,7 +34,6 @@ export class LoginPageComponent {
   protected readonly isLoginLoading = signal(false);
   private readonly authenticationService = inject(AuthenticationService);
   private readonly authorizationPageLocalStateService = inject(AuthorizationPageLocalStateService);
-  private readonly toastService = inject(ToastService);
   timeoutSeconds = useAuthEnvironment().login2faTimeoutSeconds;
 
   protected onSubmit() {
@@ -87,9 +85,6 @@ export class LoginPageComponent {
                 response,
               }))
               this.authorizationPageLocalStateService.navigateTo2fa(response, { pid, password });
-            }
-            if (err.status === HttpStatusCode.Unauthorized) {
-              this.toastService.error(err?.error?.error?.message ?? 'auth.failed_to_login');
             }
           },
         }),

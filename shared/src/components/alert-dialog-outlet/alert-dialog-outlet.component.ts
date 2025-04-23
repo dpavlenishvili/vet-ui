@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
 import { IconModule, SVGIconModule } from '@progress/kendo-angular-icons';
@@ -6,12 +6,13 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { AlertDialogParams } from '../../shared.types';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { AlertDialogService } from '../../services/alert-dialog.service';
 import { NgTemplateOutlet } from '@angular/common';
 import { vetIcons } from '../../shared.icons';
 import { Router } from '@angular/router';
 import { WA_WINDOW } from '@ng-web-apis/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'vet-alert-dialog-outlet',
@@ -37,6 +38,23 @@ export class AlertDialogOutletComponent {
 
   params: Signal<AlertDialogParams | null>;
   window = inject(WA_WINDOW);
+  sanitizer = inject(DomSanitizer);
+  translocoService = inject(TranslocoService);
+  resolvedParams = computed(() => {
+    const params = this.params();
+
+    if (!params) {
+      return undefined;
+    }
+
+    return {
+      ...params,
+      variant: params?.variant ?? 'success',
+      text: params?.text
+        ? this.sanitizer.bypassSecurityTrustHtml(this.translocoService.translate(params.text))
+        : undefined,
+    };
+  });
 
   protected readonly vetIcons = vetIcons;
 
@@ -56,7 +74,7 @@ export class AlertDialogOutletComponent {
       const url = URL.parse(anchor.href);
 
       if (url?.host !== this.window?.location?.host) {
-        return
+        return;
       }
 
       event.preventDefault();

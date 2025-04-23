@@ -46,13 +46,14 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
   standalone: true,
 })
 export class RegistrationComponent implements OnInit {
+  alert = useAlert();
+
   currentStepIndex = 0;
   currentStepSubject = new BehaviorSubject<number>(0);
   currentStep$ = this.currentStepSubject.asObservable();
   formGroup = this.createFormGroup();
   vetIcons = vetIcons;
   isExpanded = signal(true);
-  alert = useAlert();
   steps = [
     {
       label: 'auth.citizenship_selection',
@@ -103,7 +104,7 @@ export class RegistrationComponent implements OnInit {
   createFormGroup() {
     return new FormGroup({
       chooseCitizenship: new FormGroup({
-        citizenship: new FormControl<string | null>(null, Validators.required),
+        citizenship: new FormControl<string | null>(Citizenship.Georgian, Validators.required),
       }),
       checkIdentity: new FormGroup({
         lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
@@ -194,11 +195,13 @@ export class RegistrationComponent implements OnInit {
     if (this.isStepValid(this.currentStepIndex)) {
       if (this.currentStepIndex === this.steps.length - 1) {
         const user = this.getUserReq();
-        this.registrationService.register(user).subscribe({
-          next: () => {
-            this.alert.show('auth.alert_registration_successful');
-          },
-        });
+        this.registrationService.register(user).pipe(
+          tap({
+            next: () => {
+              this.alert.show('auth.alert_registration_successful');
+            },
+          }),
+        ).subscribe();
       } else {
         this.currentStepIndex++;
         this.currentStepSubject.next(this.currentStepIndex);

@@ -27,7 +27,15 @@ export interface Option {
 export type UpdateFn<T> = (previousValue: T | null) => T;
 
 export interface AlertDialogParams {
-  variant?: 'success';
+  variant?: 'success' | 'error';
+  title?: string;
+  text?: string;
+  template?: TemplateRef<unknown>;
+  onClose?: () => void | Observable<unknown>;
+}
+
+export interface ResolvedAlertDialogParams {
+  variant: 'success' | 'error';
   title?: string;
   text?: string;
   template?: TemplateRef<unknown>;

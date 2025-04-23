@@ -7,7 +7,12 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
 import { RegisterService, type User } from '@vet/backend';
 import { tap } from 'rxjs';
-import { ToastModule } from '@vet/shared';
+import {
+  ToastModule,
+  useAlertApiErrorHandler,
+  useApiErrorConditionalContextFactory,
+  useToastApiErrorHandler,
+} from '@vet/shared';
 
 @Component({
   selector: 'vet-registration-identity-citizen',
@@ -27,6 +32,12 @@ import { ToastModule } from '@vet/shared';
   standalone: true,
 })
 export class RegistrationIdentityCitizenComponent {
+  createApiErrorHandlerContext = useApiErrorConditionalContextFactory({
+    when: ({ code }) => code === 1009,
+    then: useAlertApiErrorHandler(),
+    else: useToastApiErrorHandler(),
+  });
+
   form = input<
     FormGroup<{
       personalNumber: FormControl<string | null>;
@@ -58,7 +69,9 @@ export class RegistrationIdentityCitizenComponent {
     }
 
     this.registerService
-      .validatePerson({ pid: form?.personalNumber as string, last_name: form?.lastname as string })
+      .validatePerson({ pid: form?.personalNumber as string, last_name: form?.lastname as string }, {
+        context: this.createApiErrorHandlerContext(),
+      })
       .pipe(
         tap({
           next: (personalInfo: User) => {
