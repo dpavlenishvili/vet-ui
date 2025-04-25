@@ -22,6 +22,7 @@ export class UserRolesService {
   readonly selectedAccountName = computed(() => this.selectedAccount()?.name ?? null);
   readonly selectedRole = computed((): AuthRole => this.selectedAccount()?.roles?.[0] ?? DEFAULT_ROLE);
   readonly userAccounts = computed((): UserAccount[] => this._userAccounts.value() ?? []);
+  readonly currentAccountName = computed(() => this._savedAccountName());
 
   private readonly _cookieService = inject(SsrCookieService);
   private readonly _authenticationService = inject(AuthenticationService);

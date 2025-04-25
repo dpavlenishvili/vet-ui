@@ -7,7 +7,7 @@ import {
   input,
   output,
   signal,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
@@ -34,9 +34,11 @@ export class NavbarComponent {
 
   protected readonly userRolesService = inject(UserRolesService);
   protected readonly selectedAccountName = computed(() => this.userRolesService.selectedAccountName());
-  protected readonly userAccounts = computed(() => this.userRolesService.userAccounts().sort((a) => {
-    return a.name === this.selectedAccountName() ? -1 : 1;
-  }));
+  protected readonly userAccounts = computed(() =>
+    this.userRolesService.userAccounts().sort((a) => {
+      return a.name === this.selectedAccountName() ? -1 : 1;
+    }),
+  );
 
   logout = output<void>();
 
@@ -57,9 +59,7 @@ export class NavbarComponent {
   }
 
   get currentLangLabel(): string {
-    return  this.transloco.getActiveLang() === 'ka'
-      ? Citizenship.Georgian
-      : 'ENG';
+    return this.transloco.getActiveLang() === 'ka' ? Citizenship.Georgian : 'ENG';
   }
 
   toggleProfileCard(): void {
@@ -83,14 +83,15 @@ export class NavbarComponent {
   handleLogout(): void {
     this.isProfileCardOpen.set(false);
     this.logout.emit();
-    void this.router.navigate(['authorization'])
+    void this.router.navigate(['authorization']);
   }
 
   onUserAccountClick(userAccount: UserAccount) {
+    const selectedAccountName = this.userRolesService.currentAccountName();
     if (userAccount.name) {
       this.userRolesService.selectUserAccount(userAccount.name);
     }
 
-    void this.router.navigate(['user-profile'])
+    void this.router.navigate([selectedAccountName === userAccount.name ? 'user-profile' : '']);
   }
 }

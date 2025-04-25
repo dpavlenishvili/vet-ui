@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ToastModule, vetIcons } from '@vet/shared';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import { UserRolesService } from '@vet/auth';
 
 @Component({
   selector: 'vet-user-profile',
@@ -23,8 +24,9 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserProfileComponent {
+  private readonly userRolesService = inject(UserRolesService);
   protected readonly vetIcons = vetIcons;
-  protected readonly menuItems = [
+  protected readonly allMenuItems = [
     {
       text: 'my_profile',
       icon: '/assets/images/my-profile.svg',
@@ -55,5 +57,14 @@ export class UserProfileComponent {
 
   onToggleExpansion() {
     this.isExpanded.update((value) => !value);
+  }
+
+  get menuItems() {
+    const alwaysVisible = ['my_profile', 'my_messages'];
+    return this.allMenuItems.filter((item) => alwaysVisible.includes(item.text) || this.hasAllItemsAccess());
+  }
+
+  hasAllItemsAccess() {
+    return this.userRolesService.hasRole('Default User') || this.userRolesService.hasRole('Super Admin');
   }
 }

@@ -1,9 +1,9 @@
 import { computed, DestroyRef, Directive, inject, signal } from '@angular/core';
-import { User, UserReq, UsersService } from '@vet/backend';
+import { User, UsersService, UserUpdateReq } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
-import { finalize } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { formatDateFn, FormatDateFn } from '@vet/shared';
+import { formatDateFn, FormatDateFn, ToastService } from '@vet/shared';
 
 @Directive()
 export class UserProfileSection {
@@ -11,10 +11,11 @@ export class UserProfileSection {
   protected readonly usersService = inject(UsersService);
   protected readonly authService = inject(AuthenticationService);
   protected readonly destroyRef = inject(DestroyRef);
+  private readonly toastService = inject(ToastService);
   private readonly _userUpdating = signal(false);
   private readonly _mandatoryFieldsFn = mandatoryFieldsFn(formatDateFn('YYYY-MM-DD'));
 
-  protected updateUser(userReq: UserReq) {
+  protected updateUser(userReq: UserUpdateReq) {
     const user = this.authService.user();
     if (!user || !user.id) {
       return;
@@ -27,6 +28,10 @@ export class UserProfileSection {
       })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
+        tap({
+          next: () => this.toastService.success('profile.user_update_success'),
+          error: () => this.toastService.error('profile.user_update_failed'),
+        }),
         finalize(() => {
           this.authService.reloadUser();
           this._userUpdating.set(false);
@@ -38,7 +43,6 @@ export class UserProfileSection {
 
 export const mandatoryFieldsFn = (formatDate: FormatDateFn) => (user?: User | null) => ({
   pid: user?.pid ?? '',
-  phone: user?.phone ?? '',
   first_name: user?.firstName ?? '',
   last_name: user?.lastName ?? '',
   gender: user?.gender ?? '',

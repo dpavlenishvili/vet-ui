@@ -5,8 +5,14 @@
     </div>
   </div>
 
-  <div class="container">
-    @if (programsWithCommissionMembers$.value()?.data; as _programsWithCommissionMembers) {
+  @if (programsWithCommissionMembers$.value()?.data; as _programsWithCommissionMembers) {
+    <div>
+      <p class="k-pl-5">
+        {{ 'programs.record_quantity' | transloco: { value: _programsWithCommissionMembers.length } }}
+      </p>
+    </div>
+
+    <div class="container">
       <kendo-grid [data]="_programsWithCommissionMembers">
         <kendo-grid-column [title]="'programs.commission_members' | transloco">
           <ng-template kendoGridCellTemplate let-item>
@@ -72,8 +78,8 @@
           </ng-template>
         </kendo-grid-column>
       </kendo-grid>
-    }
-  </div>
+    </div>
+  }
 </div>
 
 @if (isMembersDialogOpen()) {

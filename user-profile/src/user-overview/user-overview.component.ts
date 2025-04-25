@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs/operators';
-import { GeneralsService, SmsService, UserReq } from '@vet/backend';
+import { GeneralsService, SmsService, UserReq, UserUpdateReq } from '@vet/backend';
 import { getUserOverviewFormData, userOverviewForm } from './user-overview-form';
 import { UserProfileSection } from '../user-profile-section';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
@@ -31,7 +31,7 @@ import { District } from '@vet/shared';
     KENDO_BUTTON,
   ],
 })
-export class UserOverviewComponent extends UserProfileSection {
+export class UserOverviewComponent extends UserProfileSection implements OnInit {
   kendoIcons = kendoIcons;
 
   isAddressExpanded = signal(true);
@@ -46,6 +46,8 @@ export class UserOverviewComponent extends UserProfileSection {
 
   generalsService = inject(GeneralsService);
   smsService = inject(SmsService);
+
+  oldPhoneNumber = '';
 
   regionsResource = rxResource({
     loader: () => this.generalsService.getRegionsList().pipe(map((response) => response.data)),
@@ -64,6 +66,7 @@ export class UserOverviewComponent extends UserProfileSection {
       this.form.reset(formDataModel());
       const region = this.form.get('region')?.value;
       this.setFilteredDistricts(region);
+      this.oldPhoneNumber = this.form.value.phone;
     });
 
     this.form
@@ -72,16 +75,28 @@ export class UserOverviewComponent extends UserProfileSection {
         tap((region: string) => {
           this.form.get('district')?.reset();
           if (!region) {
-            this.form.get('district')?.disable();
             this.filteredDistricts.set([]);
           } else {
-            this.form.get('district')?.enable();
             this.setFilteredDistricts(region);
           }
         }),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
+  }
+
+  ngOnInit(): void {
+    this.disableControls();
+  }
+
+  disableControls() {
+    if (!this.userRolesService.hasRole('Default User') && !this.userRolesService.hasRole('Super Admin')) {
+      this.form.get('region')?.disable();
+      this.form.get('city')?.disable();
+      this.form.get('address')?.disable();
+      this.form.get('email')?.disable();
+      this.form.get('phone')?.disable();
+    }
   }
 
   setFilteredDistricts(region: string) {
@@ -114,7 +129,24 @@ export class UserOverviewComponent extends UserProfileSection {
     }
   }
 
+  resendCode() {
+    const phone = this.form.value.phone;
+    this.smsService.sendSmsCode(phone).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+  }
+
   handleSave(): void {
+    const currentPhone = this.form.value.phone;
+
+    if (this.oldPhoneNumber === currentPhone) {
+      this.updateUserWithoutPhone();
+      return;
+    }
+
+    if (!this.isSmsCodeSent()) {
+      this.verifyPhone();
+      return;
+    }
+
     const validatePhone = {
       phone: String(this.form.get('phone')?.value),
       sms_code: String(this.form.get('sms_code')?.value),
@@ -130,5 +162,18 @@ export class UserOverviewComponent extends UserProfileSection {
         }),
       )
       .subscribe();
+  }
+
+  updateUserWithoutPhone() {
+    const formValue = this.form.value;
+    const userReq: UserUpdateReq = {
+      address: formValue.address,
+      city: formValue.city,
+      region: formValue.region,
+      email: formValue.email,
+    };
+
+    this.isSmsCodeSent.set(false);
+    this.updateUser(userReq);
   }
 }

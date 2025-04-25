@@ -6,15 +6,21 @@
         alt="user"
         class="profile-picture"
       />
-      <p>{{ (selectedAccountName() && selectedAccountName() !== form.get('name')?.value)
-        ? selectedAccountName() + ' (' + form.get('name')?.value + ')'
-        : form.get('name')?.value }}</p>
+      <p>
+        {{
+          selectedAccountName() && selectedAccountName() !== form.get('name')?.value
+            ? selectedAccountName() + ' (' + form.get('name')?.value + ')'
+            : form.get('name')?.value
+        }}
+      </p>
     </div>
 
     <div class="k-display-flex k-flex-column k-gap-5">
       <div class="user-info">
-        <div class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
-             (click)="onAddressExpandClick()">
+        <div
+          class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
+          (click)="onAddressExpandClick()"
+        >
           <p>{{ 'profile.actual_address' | transloco }}</p>
           <kendo-svg-icon [icon]="isAddressExpanded() ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
         </div>
@@ -44,7 +50,7 @@
                 valueField="name"
                 textField="name"
                 [valuePrimitive]="true"
-                formControlName="district"
+                formControlName="city"
               />
               @if (form.controls['district']; as control) {
                 @if (!control.untouched) {
@@ -74,8 +80,10 @@
       </div>
 
       <div class="user-info">
-        <div class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
-             (click)="onContactInfoExpandClick()">
+        <div
+          class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
+          (click)="onContactInfoExpandClick()"
+        >
           <p>{{ 'profile.contact_info' | transloco }}</p>
           <kendo-svg-icon [icon]="isContactInfoExpanded() ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
         </div>
@@ -118,7 +126,11 @@
 
           @if (isSmsCodeSent()) {
             <div class="k-display-flex k-justify-content-end k-mt-5">
-              <vet-registration-phone-verification formControlName="sms_code" />
+              <vet-registration-phone-verification
+                formControlName="sms_code"
+                [isPending]="true"
+                (reload)="resendCode()"
+              />
             </div>
           }
         }
@@ -126,12 +138,7 @@
     </div>
 
     <div class="k-display-flex k-align-self-end">
-      <button
-        kendoButton
-        themeColor="primary"
-        look="default"
-        (click)="!isSmsCodeSent() ? verifyPhone() : handleSave()"
-      >
+      <button kendoButton themeColor="primary" look="default" (click)="handleSave()">
         {{ 'profile.save' | transloco }}
       </button>
     </div>

@@ -5,7 +5,7 @@ export function userOverviewForm(): FormGroup {
   return new FormGroup({
     name: new FormControl(''),
     region: new FormControl('', Validators.required),
-    district: new FormControl({ value: '', disabled: true }, Validators.required),
+    city: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', Validators.required),
@@ -17,7 +17,7 @@ export function getUserOverviewFormData(user: User | null) {
   return {
     name: user?.name ?? '',
     region: user?.region ?? '',
-    district: user?.city ?? '',
+    city: user?.city ?? '',
     address: user?.address ?? '',
     email: user?.email ?? '',
     phone: user?.phone ?? '',
