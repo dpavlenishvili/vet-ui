@@ -50,44 +50,44 @@
               {{ 'programs.add' | transloco }}
             </button>
           </div>
+        }
 
-          @if (isCommissionMembersGridVisible()) {
-            <kendo-grid [data]="updatedCommissionMembers()">
-              <ng-template kendoGridNoRecordsTemplate>
-                {{'programs.no_commission_members' | transloco}}
+        @if (isCommissionMembersGridVisible()) {
+          <kendo-grid [data]="updatedCommissionMembers()">
+            <ng-template kendoGridNoRecordsTemplate>
+              {{'programs.no_commission_members' | transloco}}
+            </ng-template>
+
+            <kendo-grid-column [title]="'programs.commission_members' | transloco">
+              <ng-template kendoGridCellTemplate let-item>
+                <div class="k-display-flex k-gap-1">
+                  <p>{{ item.firstName }}</p>
+                  <p>{{ item.lastName }}</p>
+                </div>
               </ng-template>
+            </kendo-grid-column>
 
-              <kendo-grid-column [title]="'programs.commission_members' | transloco">
-                <ng-template kendoGridCellTemplate let-item>
-                  <div class="k-display-flex k-gap-1">
-                    <p>{{ item.firstName }}</p>
-                    <p>{{ item.lastName }}</p>
-                  </div>
-                </ng-template>
-              </kendo-grid-column>
+            <kendo-grid-column [title]="'programs.other' | transloco" [width]="65">
+              <ng-template kendoGridCellTemplate let-item>
+                <button
+                  kendoButton
+                  fillMode="flat"
+                  [svgIcon]="vetIcons.xCircled"
+                  (click)="removeCommissionMember(item)"
+                ></button>
+              </ng-template>
+            </kendo-grid-column>
+          </kendo-grid>
 
-              <kendo-grid-column [title]="'programs.other' | transloco" [width]="65">
-                <ng-template kendoGridCellTemplate let-item>
-                  <button
-                    kendoButton
-                    fillMode="flat"
-                    [svgIcon]="vetIcons.xCircled"
-                    (click)="removeCommissionMember(item)"
-                  ></button>
-                </ng-template>
-              </kendo-grid-column>
-            </kendo-grid>
+          <vet-info variant="warning">
+            {{ 'programs.commission_add_warning' | transloco }}
+          </vet-info>
 
-            <vet-info variant="warning">
-              {{ 'programs.commission_add_warning' | transloco }}
-            </vet-info>
-
-            <div class="k-display-flex k-align-self-end">
-              <button kendoButton themeColor="primary" look="default" (click)="saveChanges()">
-                {{ 'programs.save' | transloco }}
-              </button>
-            </div>
-          }
+          <div class="k-display-flex k-align-self-end">
+            <button kendoButton themeColor="primary" look="default" (click)="saveChanges()">
+              {{ 'programs.save' | transloco }}
+            </button>
+          </div>
         }
       </div>
     </form>

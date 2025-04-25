@@ -14,7 +14,7 @@
 
     <div class="container">
       <kendo-grid [data]="_programsWithCommissionMembers">
-        <kendo-grid-column [title]="'programs.commission_members' | transloco">
+        <kendo-grid-column [title]="'programs.commission_members' | transloco" [width]="300">
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-flex-column k-gap-2">
               @for (member of item.commission_members; track $index) {
@@ -27,7 +27,7 @@
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-column [title]="'programs.about_program' | transloco">
+        <kendo-grid-column [title]="'programs.about_program' | transloco" [width]="500">
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-flex-column k-gap-2">
               <div class="k-display-flex k-gap-3">

@@ -70,6 +70,9 @@ export class CommissionMembersDialogComponent implements OnInit {
           this.commissionMemberForm.get('last_name')?.setValue(member.data?.last_name);
           this.commissionMemberForm.get('phone')?.setValue(member.data?.phone);
           this.commissionMemberForm.get('program_code')?.setValue(this.programCode());
+          this.commissionMemberForm.get('first_name')?.disable();
+          this.commissionMemberForm.get('phone')?.disable();
+          this.commissionMemberForm.get('program_code')?.disable();
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -110,6 +113,9 @@ export class CommissionMembersDialogComponent implements OnInit {
     });
 
     this.isCommissionMembersGridVisible.set(true);
+    this.isCommissionMemberValid.set(false);
+    this.commissionMemberForm.get('name')?.reset();
+    this.commissionMemberForm.get('pid')?.reset();
   }
 
   removeCommissionMember(user: User) {
