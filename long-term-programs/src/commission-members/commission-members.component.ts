@@ -7,7 +7,7 @@ import { KENDO_CARD } from '@progress/kendo-angular-layout';
 import { DividerComponent, vetIcons } from '@vet/shared';
 import { CommissionMembersDialogComponent } from './commission-members-dialog/commission-members-dialog.component';
 import { UserRolesService } from '@vet/auth';
-import { CommissionService, User } from '@vet/backend';
+import { CommissionService, ProgramWithCommission, User } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -28,6 +28,7 @@ export class CommissionMembersComponent {
   activatedRoute = inject(ActivatedRoute);
 
   selectedProgramCode = signal('');
+  selectedProgramName = signal('');
   selectedProgramCommissionMembers = signal<User[]>([]);
   vetIcons = vetIcons;
 
@@ -41,8 +42,9 @@ export class CommissionMembersComponent {
       this.commissionService.listOfOrganisationAndCommissionMemebers(organisation),
   });
 
-  onMemberAddClick(programCode: string, commissionMembers: User[]) {
-    this.selectedProgramCode.set(programCode);
+  onMemberAddClick(item: ProgramWithCommission, commissionMembers: User[]) {
+    this.selectedProgramCode.set(String(item.program_id));
+    this.selectedProgramName.set(String(item.program_name));
     this.isMembersDialogOpen.set(true);
     this.selectedProgramCommissionMembers.set(commissionMembers)
   }

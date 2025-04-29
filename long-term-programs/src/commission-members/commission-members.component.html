@@ -72,7 +72,7 @@
                 kendoButton
                 fillMode="flat"
                 [svgIcon]="vetIcons.plusCircled"
-                (click)="onMemberAddClick(item.program_id, item.commission_members)"
+                (click)="onMemberAddClick(item, item.commission_members)"
               ></button>
             </div>
           </ng-template>
@@ -87,6 +87,7 @@
     (dialogClose)="closeDialog()"
     (reloadProgramsWithCommissionMembers)="reloadProgramsWithCommissionMembers()"
     [programCode]="selectedProgramCode()"
+    [programName]="selectedProgramName()"
     [commissionMembers]="selectedProgramCommissionMembers()"
   />
 }

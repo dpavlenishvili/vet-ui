@@ -8,7 +8,7 @@ import { CommissionService, User } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { vetIcons, InfoComponent } from '@vet/shared';
+import { vetIcons, InfoComponent, ToastService } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 
 @Component({
@@ -21,7 +21,8 @@ import { UserRolesService } from '@vet/auth';
 export class CommissionMembersDialogComponent implements OnInit {
   dialogClose = output();
   reloadProgramsWithCommissionMembers = output();
-  programCode = input();
+  programCode = input<string>();
+  programName = input<string>();
   commissionMembers = input<User[]>();
 
   commissionMemberForm = this.createFormGroup();
@@ -29,6 +30,7 @@ export class CommissionMembersDialogComponent implements OnInit {
   commissionService = inject(CommissionService);
   destroyRef = inject(DestroyRef);
   userRolesService = inject(UserRolesService);
+  toastService = inject(ToastService);
 
   organisation = this.userRolesService.getOrganisation();;
 
@@ -50,6 +52,7 @@ export class CommissionMembersDialogComponent implements OnInit {
       last_name: new FormControl(),
       phone: new FormControl(),
       program_code: new FormControl(),
+      program_name: new FormControl(),
     });
   }
 
@@ -70,9 +73,11 @@ export class CommissionMembersDialogComponent implements OnInit {
           this.commissionMemberForm.get('last_name')?.setValue(member.data?.last_name);
           this.commissionMemberForm.get('phone')?.setValue(member.data?.phone);
           this.commissionMemberForm.get('program_code')?.setValue(this.programCode());
+          this.commissionMemberForm.get('program_name')?.setValue(this.programName());
           this.commissionMemberForm.get('first_name')?.disable();
           this.commissionMemberForm.get('phone')?.disable();
           this.commissionMemberForm.get('program_code')?.disable();
+          this.commissionMemberForm.get('program_name')?.disable();
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -107,15 +112,19 @@ export class CommissionMembersDialogComponent implements OnInit {
       name: formValue.name!,
     };
 
-    this.updatedCommissionMembers.update((members) => {
-      const exists = members.some((member) => member.pid === newMember.pid);
-      return exists ? members : [...members, newMember];
-    });
+    if(this.updatedCommissionMembers().length < 6) {
+      this.updatedCommissionMembers.update((members) => {
+        const exists = members.some((member) => member.pid === newMember.pid);
+        return exists ? members : [...members, newMember];
+      });
 
-    this.isCommissionMembersGridVisible.set(true);
-    this.isCommissionMemberValid.set(false);
-    this.commissionMemberForm.get('name')?.reset();
-    this.commissionMemberForm.get('pid')?.reset();
+      this.isCommissionMembersGridVisible.set(true);
+      this.isCommissionMemberValid.set(false);
+      this.commissionMemberForm.get('name')?.reset();
+      this.commissionMemberForm.get('pid')?.reset();
+    } else {
+      this.toastService.error('programs.commission_members_add_rules')
+    }
   }
 
   removeCommissionMember(user: User) {

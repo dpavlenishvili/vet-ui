@@ -38,11 +38,19 @@
               />
             </div>
 
-            <kendo-textbox
-              formControlName="program_code"
-              [size]="'large'"
-              [placeholder]="'programs.program_code' | transloco"
-            />
+            <div class="k-display-flex k-gap-4.5 k-flex-1">
+              <kendo-textbox
+                formControlName="program_code"
+                [size]="'large'"
+                [placeholder]="'programs.program_code' | transloco"
+              />
+
+              <kendo-textbox
+                formControlName="program_name"
+                [size]="'large'"
+                [placeholder]="'programs.program_name' | transloco"
+              />
+            </div>
           </div>
 
           <div class="k-display-flex k-align-self-end">
