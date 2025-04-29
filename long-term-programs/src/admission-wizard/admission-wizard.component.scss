@@ -2,12 +2,13 @@
   display: block;
 
   --container-bg-color: #ffffff;
-  --container-border-radius: 20px;
-  --container-padding: 20px;
+  --container-border-radius: 1.25rem;
+  --container-padding: 1.25rem;
 
   .stepper-container,
   .step-content-container {
-    width: 100%;
+    overflow: auto;
+    flex: 1;
     height: 100%;
     padding: var(--container-padding);
     border-radius: var(--container-border-radius);
@@ -15,10 +16,7 @@
   }
 
   .stepper-container {
-    max-width: 305px;
-  }
-
-  .step-content-container {
-    max-width: 955px;
+    width: 100%;
+    max-width: 16rem;
   }
 }

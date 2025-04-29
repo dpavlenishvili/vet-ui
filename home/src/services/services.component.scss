@@ -4,13 +4,13 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
-    @media (max-width: 1215px) {
+    @media (max-width: 75.9375rem) {
       grid-template-columns: repeat(3, 1fr);
     }
-    @media (max-width: 945px) {
+    @media (max-width: 59.0625rem) {
       grid-template-columns: repeat(2, 1fr);
     }
-    @media screen and (max-width: 575px) {
+    @media screen and (max-width: 35.9375rem) {
       grid-template-columns: 1fr;
     }
 
@@ -73,7 +73,7 @@
       display: block !important;
 
       svg {
-        height: 46px !important;
+        height: 2.875rem !important;
       }
     }
   }

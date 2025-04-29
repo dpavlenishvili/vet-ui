@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -23,7 +14,6 @@ import {
   ProgramSelectedProgramsStepFormGroup,
 } from '../program-selected-programs/program-selected-programs.component';
 import { ProgramGeneralInformationStepFormGroup } from '../program-general-information-step/program-general-information-step.component';
-import { NgClass } from '@angular/common';
 import { Citizenship, FileUploadComponent, InfoComponent, vetIcons } from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
 import { WA_WINDOW } from '@ng-web-apis/common';
@@ -43,14 +33,13 @@ export type ProgramSelectionStepFormGroup = FormGroup;
     TranslocoPipe,
     ProgramSelectedProgramsComponent,
     InfoComponent,
-    NgClass,
     FileUploadComponent,
   ],
   templateUrl: './program-confirmation-step.component.html',
   styleUrl: './program-confirmation-step.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProgramConfirmationStepComponent implements AfterViewInit {
+export class ProgramConfirmationStepComponent implements OnInit {
   form = input<ProgramSelectionStepFormGroup>();
   generalInformationFormGroup = input<ProgramGeneralInformationStepFormGroup>();
   ssmFormGroup = input<ProgramSsmStepFormGroup>();
@@ -92,7 +81,7 @@ export class ProgramConfirmationStepComponent implements AfterViewInit {
     this.window?.print?.();
   }
 
-  ngAfterViewInit() {
+  ngOnInit(): void {
     const value = this.generalInformationFormGroup()?.getRawValue();
 
     this.specialRequirements.set(value.spec_env);

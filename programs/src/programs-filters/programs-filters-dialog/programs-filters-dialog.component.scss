@@ -6,8 +6,8 @@
     grid-template-columns: repeat(2, 1fr);
     justify-content: space-between;
     align-items: end;
-    gap: 10px;
-    @media (max-width: 800px) {
+    gap: 0.625rem;
+    @media (max-width: 50rem) {
       grid-template-columns: 1fr;
     }
   }

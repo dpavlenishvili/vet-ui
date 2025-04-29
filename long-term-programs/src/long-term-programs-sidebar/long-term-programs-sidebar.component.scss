@@ -36,15 +36,15 @@
 .sidebar-menu-toggle {
   background-color: shared.$tb-kendo-color-surface;
   border-color: shared.$tb-kendo-color-surface;
-  width: 26px;
-  height: 26px;
+  width: 1.625rem;
+  height: 1.625rem;
   transition: all 200ms ease-out;
 }
 
 .sidebar-container.expanded {
   .sidebar-menu-toggle {
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
   }
 }
 
@@ -59,7 +59,7 @@
   width: 100%;
   border-radius: 0.625rem;
   background-color: shared.$tb-kendo-color-surface;
-  border: 1px solid shared.$tb-kendo-color-surface;
+  border: 0.0625rem solid shared.$tb-kendo-color-surface;
   transition: all 200ms ease-out;
 
   &.highlighted {
@@ -136,8 +136,8 @@
 }
 
 .sidebar-menu-item-icon-container {
-  width: 42px;
-  height: 42px;
+  width: 2.625rem;
+  height: 2.625rem;
 }
 
 .sidebar-menu-item-highlighter {
@@ -151,7 +151,7 @@
 
 .sidebar-menu-children-list-container {
   padding: 1rem;
-  border-top: 1px solid shared.$kendo-color-divider-light;
+  border-top: 0.0625rem solid shared.$kendo-color-divider-light;
 }
 
 .sidebar-menu-children-list {

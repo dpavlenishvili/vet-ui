@@ -1,5 +1,5 @@
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {ChangeDetectionStrategy, Component, computed, input, output, signal} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import {InputsModule} from '@progress/kendo-angular-inputs';
 import {ButtonModule} from '@progress/kendo-angular-buttons';
 import {CardModule} from '@progress/kendo-angular-layout';
@@ -9,6 +9,9 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {ProgramsFiltersDialogComponent} from './programs-filters-dialog/programs-filters-dialog.component';
 import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
 import {SVGIconModule} from '@progress/kendo-angular-icons';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
+import { GeneralsService } from '@vet/backend';
 
 @Component({
   selector: 'vet-programs-filters',
@@ -39,8 +42,14 @@ export class ProgramsFiltersComponent {
       .filter((filter: any) => this.filterKeys.includes(filter.key))
       .sort((a: any, b: any) => this.filterKeys.indexOf(a.key) - this.filterKeys.indexOf(b.key))
   );
+  generalsService = inject(GeneralsService);
   filterKeys = ['program', 'organisation_id', 'program_name', 'integrated'];
-  formDropdownValues = ['dual', 'simulated', 'cooperative', 'modular'];
+  programTypes$ = rxResource({
+    loader: () =>
+      this.generalsService.getAllConfigs({ key: 'program_types' }).pipe(
+        map((res) => res.program_types),
+      ),
+  });
   durationDropdownValues = ['1-3', '3-6', '6-9', '9-12', '12-15'];
 
   filtersChange = output<typeof this.filterForm.value>();

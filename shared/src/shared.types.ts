@@ -27,7 +27,7 @@ export interface Option {
 export type UpdateFn<T> = (previousValue: T | null) => T;
 
 export interface AlertDialogParams {
-  variant?: 'success' | 'error';
+  variant?: 'success' | 'error' | 'info' | 'warning';
   title?: string;
   text?: string;
   template?: TemplateRef<unknown>;
@@ -47,12 +47,14 @@ export interface ConfirmationDialogParams {
   content?: string;
   confirmButtonText?: string;
   dismissButtonText?: string;
+  singleTypeDialogActionText?: string;
+  showYesNoButtons?: boolean;
   onConfirm: () => void | Observable<unknown>;
   onDismiss?: () => void | Observable<unknown>;
 }
 
 export interface AppBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
-  path: string;
+  path: string | null
   text: string | ((routeSnapshot: ActivatedRouteSnapshot) => string);
 }
 

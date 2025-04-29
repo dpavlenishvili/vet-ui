@@ -1,5 +1,10 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { AuthService, UserLoginResponseBody } from '@vet/backend';
+import {
+  AuthService,
+  type UserLogin2FaResponseBody,
+  UserLoginResponseBody,
+  ValidateCodeRequestBody
+} from '@vet/backend';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { finalize, map, Observable, of, tap, throwError } from 'rxjs';
@@ -25,6 +30,7 @@ export class AuthenticationService {
 
   private readonly _accessToken = signal(this._ssrCookieService.get(ACCESS_TOKEN_STORAGE_KEY) || null);
   private readonly _refreshToken = signal(this._ssrCookieService.get(REFRESH_TOKEN_STORAGE_KEY) || null);
+  private readonly twoFactorToken = signal('');
 
   private readonly _user = rxResource({
     request: () => this._accessToken(),
@@ -46,6 +52,7 @@ export class AuthenticationService {
   login(request: { pid: string; password: string }) {
     return this._authService.loginUser(request, { context: _authSkipCtx }).pipe(
       map((userOr2Fa) => {
+        this.twoFactorToken.set((userOr2Fa as UserLogin2FaResponseBody).token);
         if ('access_token' in userOr2Fa) {
           return this.handleSuccessfulAuthorization(userOr2Fa);
         }
@@ -66,7 +73,10 @@ export class AuthenticationService {
     );
   }
 
-  validate2FaCode(req: { pid: string; password: string; code: string }) {
+  validate2FaCode(req: ValidateCodeRequestBody) {
+    if (!req.token) {
+      req.token = this.twoFactorToken();
+    }
     return this._authService
       .validate2FaCode(req, { context: _authSkipCtx })
       .pipe(tap((user) => this.handleSuccessfulAuthorization(user)));

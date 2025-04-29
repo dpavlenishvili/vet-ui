@@ -37,7 +37,7 @@ export type ProgramSsmStepFormGroup = FormGroup;
   ],
   templateUrl: './program-ssm-step.component.html',
   styleUrl: './program-ssm-step.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramSsmStepComponent implements OnInit {
   form = input<ProgramSsmStepFormGroup>();
@@ -72,7 +72,7 @@ export class ProgramSsmStepComponent implements OnInit {
 
     const specEdu = ssmForm?.get('spec_edu')?.value;
     if (!specEdu) {
-      ['e_name', 'e_lastname', 'e_phone'].forEach(controlName => {
+      ['e_name', 'e_lastname', 'e_phone'].forEach((controlName) => {
         const control = ssmForm?.get(controlName);
         control?.clearValidators();
         control?.updateValueAndValidity();
@@ -114,5 +114,24 @@ export class ProgramSsmStepComponent implements OnInit {
 
     ssmForm.updateValueAndValidity();
     ssmForm.markAsUntouched();
+  }
+
+  onLanguageSwitchChange(checked: boolean) {
+    const translateSelectControl = this.form()?.get('translate_select');
+    const translateControl = this.form()?.get('translate');
+
+    if (!translateSelectControl) return;
+
+    if (checked) {
+      translateSelectControl?.markAsUntouched();
+      translateSelectControl?.setValidators(Validators.required);
+    } else {
+      translateSelectControl.reset();
+      translateControl?.reset();
+      this.selectedLanguage.set(null);
+      translateSelectControl?.removeValidators(Validators.required);
+    }
+    translateSelectControl.updateValueAndValidity();
+    translateControl?.updateValueAndValidity();
   }
 }

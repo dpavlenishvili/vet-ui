@@ -6,7 +6,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
-import { filterNullValues, kendoIcons, RouteParamsService, ToastService, vetIcons } from '@vet/shared';
+import { filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons } from '@vet/shared';
 import { GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { ProgramComponent } from 'programs/src/program/program.component';
 import { DialogModule } from '@progress/kendo-angular-dialog';
@@ -21,13 +21,14 @@ export type SelectedProgramsStepForm = FormGroup;
 export type GeneralInformationStepFromGroup = FormGroup;
 export type ProgramSelectionFilter = {
   filters: {
-    filter?: string | null;
+    search?: string | null;
     organisation?: string | null;
     program_name?: string | null;
     program?: string | null;
     program_kind?: string | null;
     duration?: string | null;
     integrated?: boolean | null;
+    program_types?: string | null;
     financing_type?: string | null;
     region?: string | null;
     district?: string | null;
@@ -64,16 +65,16 @@ export class ProgramSelectionStepComponent implements OnInit {
   admissionId = input<string | null>();
 
   isProgramDialogOpen = signal(false);
-  isInfoDialogOpen = signal(false);
+  isSelectionWarningDialogOpen = signal(false);
+  selectionWarningDialogText = signal('');
   singleProgramId = signal(0);
   selectedPrograms = signal<number[]>([]);
   selectedProgramsCount = signal<number>(0);
-  infoDialogText = signal<string>('shared.maxItemAddError');
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;
   previewProgram: LongTerm | null = null;
 
-  private toastService = inject(ToastService);
+  private alert = useAlert();
   private admissionService = inject(AdmissionService);
   private routeParamsService = inject(RouteParamsService);
   private destroyRef = inject(DestroyRef);
@@ -82,7 +83,12 @@ export class ProgramSelectionStepComponent implements OnInit {
 
   eligiblePrograms$ = rxResource({
     request: () => ({ admissionId: this.admissionId(), filters: this.filters() }),
-    loader: ({ request: { admissionId, filters } }) => this.admissionService.eligibleProgramsList(admissionId, filters),
+    loader: ({ request: { admissionId, filters } }) => {
+      // ტიპი არის დასამატებელი, აღსაწერია სვაგერი სწორად.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      return this.admissionService.eligibleProgramsList(admissionId, filters);
+    },
   });
 
   ngOnInit() {
@@ -108,7 +114,7 @@ export class ProgramSelectionStepComponent implements OnInit {
 
   onCloseClick() {
     this.isProgramDialogOpen.set(false);
-    this.isInfoDialogOpen.set(false);
+    this.isSelectionWarningDialogOpen.set(false);
   }
 
   onPreviousClick() {
@@ -129,7 +135,10 @@ export class ProgramSelectionStepComponent implements OnInit {
       actionStatusText = 'programs.programRemoved';
     } else {
       if (this.isAddButtonDisabled(item)) {
-        this.toastService.warning('programs.cannotAddProgram');
+        this.alert.show({
+          text: 'programs.cannotAddProgram',
+          variant: 'warning',
+        });
         return;
       }
       updatedSelection = [...currentSelected, item.program_id];
@@ -145,10 +154,13 @@ export class ProgramSelectionStepComponent implements OnInit {
         tap({
           next: () => {
             this.selectedPrograms.set(updatedSelection);
+            this.alert.show({
+              text: actionStatusText,
+              variant: this.selectedPrograms().length > this.selectedProgramsCount() ? 'success' : 'warning',
+            });
             this.selectedProgramsCount.set(this.selectedPrograms().length);
             this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
             this.form()?.get('program_ids')?.updateValueAndValidity();
-            this.toastService.success(actionStatusText);
           },
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -159,7 +171,15 @@ export class ProgramSelectionStepComponent implements OnInit {
   onNextClick() {
     this.form()?.markAllAsTouched();
     if (this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms().length < 2) {
-      this.isInfoDialogOpen.set(true);
+      this.alert.show({
+        text: 'programs.warningMinTwoProgramShouldBeSelected',
+        variant: 'warning',
+      });
+    } else if (!this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms().length < 1) {
+      this.alert.show({
+        text: 'programs.warningMinOneProgramShouldBeSelected',
+        variant: 'warning',
+      });
     } else if (this.form()?.valid) {
       this.nextClick.emit();
     }

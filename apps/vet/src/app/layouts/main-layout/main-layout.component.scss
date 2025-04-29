@@ -1,11 +1,11 @@
 ::ng-deep :root {
   --container-bg: var(--main-bg);
-  --container-padding: 0 80px 150px 80px;
-  --container-max-width: 1440px;
+  --container-padding: 0 1.25rem 9.375rem 1.25rem;
+  --container-max-width: 92.5rem;
 
   &.home-page {
     --container-bg: #ffffff;
-    --container-padding: 0 0 150px;
+    --container-padding: 0 0 9.375rem;
     --container-max-width: 100%;
     --container-divider-color: var(--border-none);
   }
@@ -24,11 +24,7 @@
   padding: var(--container-padding);
   background: var(--container-bg);
   max-width: var(--container-max-width);
-  border-bottom: 1px solid var(--container-divider-color, transparent);
-
-  @media (max-width: 768px) {
-    padding: 14px 30px 150px 30px;
-  }
+  border-bottom: 0.0625rem solid var(--container-divider-color, transparent);
 }
 
 .router-container {

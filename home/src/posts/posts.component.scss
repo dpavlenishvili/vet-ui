@@ -8,6 +8,8 @@
       height: 100%;
       padding: 0 5.75rem;
       gap: 2rem;
+      border-radius: 1.25rem;
+      background: #fdf8ff;
 
       &-image {
         width: 50%;
@@ -53,13 +55,15 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     .posts__item {
       flex-direction: column;
       align-items: flex-start;
       padding: 1rem;
       height: 100%;
       gap: 1rem;
+      border-radius: 1.25rem;
+      background: #fdf8ff;
 
       &-image {
         width: 100%;
@@ -97,8 +101,8 @@
 ::ng-deep {
   .vet-posts-scrollview {
     kendo-svgicon.k-svg-icon {
-      width: 20px !important;;
-      height: 27px !important;
+      width: 1.5625rem !important;
+      height: 1.6875rem !important;
     }
   }
 }

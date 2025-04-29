@@ -4,10 +4,11 @@
   display: block;
 
   --container-bg-color: #ffffff;
-  --container-border-radius: 20px;
-  --container-padding: 20px;
+  --container-border-radius: 1.25rem;
+  --container-padding: 1.25rem;
 
   .step-content-container {
+    overflow: auto;
     flex: 1;
     height: 100%;
     padding: var(--container-padding);
@@ -16,7 +17,8 @@
   }
 
   .stepper-container {
-    width: 4.5rem;
+    width: 100%;
+    max-width: 4.5rem;
     min-width: 4.5rem;
     transition: all 200ms ease-in-out;
     height: 100%;

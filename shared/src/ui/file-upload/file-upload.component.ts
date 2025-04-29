@@ -1,19 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  model,
-  output,
-  signal,
-  WritableSignal,
-} from '@angular/core';
-import * as kendoIcons from '@progress/kendo-svg-icons';
+import { ChangeDetectionStrategy, Component, inject, input, model, output, signal } from '@angular/core';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { UploadedFile } from '../../shared.types';
 import { DOCUMENT } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { useBaseUrl } from '../../shared.injectors';
+import { vetIcons } from '@vet/shared';
 
 @Component({
   selector: 'vet-file-upload',
@@ -26,10 +17,10 @@ export class FileUploadComponent {
   title = input('');
   readonly = input(false);
   uploadedFiles = model<UploadedFile[]>([]);
-  errorMessage: WritableSignal<string | null> = signal(null);
+  errorMessage = model();
   fileUploaded = output<UploadedFile>();
   fileRemoved = output<UploadedFile[]>();
-  kendoIcons = kendoIcons;
+  vetIcons = vetIcons;
   allowedExtensions = signal(['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg']);
   maxFiles = signal(2);
   document = inject(DOCUMENT);

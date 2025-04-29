@@ -22,11 +22,11 @@
           <span class="file-name">{{ file.filename || file.file_name }}</span>
           <div class="file-actions">
             <button type="button" class="icon-btn" (click)="downloadFile(file)">
-              <kendo-svg-icon [icon]="kendoIcons.downloadIcon" />
+              <kendo-svg-icon [icon]="vetIcons.download" />
             </button>
             @if (!readonly()) {
               <button type="button" class="icon-btn" (click)="removeFile(file)">
-                <kendo-svg-icon [icon]="kendoIcons.xIcon" />
+                <kendo-svg-icon [icon]="vetIcons.xCircled" />
               </button>
             }
           </div>

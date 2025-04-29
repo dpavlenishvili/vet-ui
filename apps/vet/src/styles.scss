@@ -10,6 +10,7 @@
   --text-secondary-color: #444444;
   --link-color: #4682b4;
   --nav-link-color: #ffffff;
+  --nav-link-color-visited: #cccccc;
   --nav-bg-color: #4682b4;
   --border-none: #b1b7bb;
   --font-size: 1rem;
@@ -22,6 +23,7 @@
   --secondary-text-color: #000000;
   --link-color: #000000;
   --nav-link-color: #ffff54;
+  --nav-link-color-visited: #e6e64d;
   --nav-bg-color: #000000;
   --border-none: #000000;
 }
@@ -33,6 +35,7 @@
   --secondary-text-color: #ffff54;
   --link-color: #ffff54;
   --nav-link-color: #000000;
+  --nav-link-color-visited: #333333;
   --nav-bg-color: #ffff54;
   --border-none: #ffff54;
 }
@@ -44,6 +47,7 @@
   --secondary-text-color: #0000f5;
   --link-color: #0000f5;
   --nav-link-color: #ffffff;
+  --nav-link-color-visited: #dddddd;
   --nav-bg-color: #0000f5;
   --border-none: #0000f5;
 }
@@ -82,9 +86,9 @@ a {
 
 .vet-text-base {
   font-family: HelveticaNeue;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 1.5rem;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 
@@ -98,9 +102,9 @@ a {
 
 .vet-text-sm {
   font-family: HelveticaNeue;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 1.25rem;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 
@@ -114,9 +118,9 @@ a {
 
 .vet-text-h2 {
   font-family: HelveticaNeueMedium;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 500;
-  line-height: 22px;
+  line-height: 1.375rem;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 }
@@ -130,19 +134,19 @@ a {
 
 .vet-grid-table {
   display: grid;
-  border: 1px solid var(--kendo-color-border);
+  border: 0.0625rem solid var(--kendo-color-border);
 
   .vet-grid-cell {
     padding: 1rem;
     border-style: solid;
     border-color: var(--kendo-color-border);
     border-width: 0;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
+    border-right-width: 0.0625rem;
+    border-bottom-width: 0.0625rem;
     font-family: HelveticaNeue;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 400;
-    line-height: 16px;
+    line-height: 1rem;
     text-align: left;
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
@@ -150,7 +154,7 @@ a {
     &.vet-grid-header {
       font-family: HelveticaNeueMedium;
       font-weight: 500;
-      line-height: 14.65px;
+      line-height: 0.915625rem;
     }
 
     &:last-child {
@@ -183,13 +187,13 @@ a {
 
 .vet-auth {
   kendo-textbox {
-    height: 50px;
+    height: 3.125rem;
     margin-top: 0.75rem;
   }
 
   button {
-    height: 50px;
-    width: 290px;
+    height: 3.125rem;
+    width: 18.125rem;
   }
 
   kendo-textbox input.k-input-inner {
@@ -202,12 +206,12 @@ a {
   kendo-textbox,
   kendo-dropdownlist,
   kendo-datepicker {
-    height: 50px;
+    height: 3.125rem;
     margin-top: 0.75rem;
   }
 
   button {
-    height: 50px;
+    height: 3.125rem;
   }
 
   kendo-textbox input.k-input-inner {

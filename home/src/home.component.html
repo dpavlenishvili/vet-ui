@@ -1,21 +1,21 @@
 <div class="k-display-flex k-flex-column k-gap-20">
   @if(!authenticated()) {
     <section class="k-display-flex k-justify-content-center">
-      <div class="k-width-desktop k-px-20">
+      <div class="k-width-desktop k-px-5">
         <vet-posts />
       </div>
     </section>
   }
 
   <section class="k-display-flex k-justify-content-center">
-    <div class="k-width-desktop k-px-20">
+    <div class="k-width-desktop k-px-5">
       <vet-services [showTitle]="!authenticated()"/>
     </div>
   </section>
 
   @if(!authenticated()) {
     <section class="k-display-flex k-justify-content-center k-bg-paper-dark">
-      <div class="k-width-desktop k-px-20">
+      <div class="k-width-desktop k-px-5">
         <vet-partners />
       </div>
     </section>

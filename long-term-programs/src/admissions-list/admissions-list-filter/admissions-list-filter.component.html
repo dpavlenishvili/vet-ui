@@ -2,25 +2,25 @@
   <div class="k-d-flex k-gap-4 k-pb-5 k-flex-wrap">
     <div class="k-d-flex k-gap-4 k-w-full">
       <kendo-label [text]="'shared.search' | transloco">
-        <kendo-textbox
-          formControlName="search"
-        />
+        <kendo-textbox formControlName="search">
+          <ng-template kendoTextBoxSuffixTemplate class="k-bg-primary">
+            <div kendoTooltip [title]="'programs.admissionFilterSearchTooltip' | transloco" >
+              <kendo-svg-icon [icon]="vetIcons.info" />
+            </div>
+          </ng-template>
+        </kendo-textbox>
       </kendo-label>
 
       <kendo-label [text]="'shared.status' | transloco">
-        <kendo-textbox
+        <kendo-dropdownlist
+          [data]="admissionStatus$.value()"
+          textField="value"
+          valueField="id"
           formControlName="status"
+          [valuePrimitive]="true"
         />
       </kendo-label>
     </div>
-
-    <kendo-label [text]="'programs.duration' | transloco">
-      <div formGroupName="date" class="k-display-flex k-gap-2 k-align-items-center">
-        <kendo-datepicker formControlName="start" [formatPlaceholder]="'formatPattern'" [format]="'yyyy-MM-dd'" [placeholder]="'shared.startDate' | transloco" />
-        <span> - </span>
-        <kendo-datepicker formControlName="end" [formatPlaceholder]="'formatPattern'" [format]="'yyyy-MM-dd'" [placeholder]="'shared.endDate' | transloco" />
-      </div>
-    </kendo-label>
   </div>
   <div class="k-display-flex k-justify-content-end k-gap-4">
     <button

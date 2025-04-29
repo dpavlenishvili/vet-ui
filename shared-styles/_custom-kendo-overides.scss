@@ -45,3 +45,49 @@ kendo-label {
 .k-rounded-xl {
   padding: 1.25rem;
 }
+
+.k-scrollview {
+  border-radius: 20px;
+  border: none;
+  .k-scrollview-wrap {
+    background: #fdf8ff;
+  }
+  .k-scrollview-elements {
+    .k-scrollview-next {
+      color: #b1b7bb;
+      right: 20px;
+
+      &:hover {
+        color: #b1b7bb;
+      }
+    }
+
+    .k-scrollview-prev {
+      color: #b1b7bb;
+      left: 20px;
+
+      &:hover {
+        color: #b1b7bb;
+      }
+    }
+
+    .k-scrollview-nav-wrap {
+      .k-scrollview-nav {
+        span.k-link {
+          border: 1px solid #c3c3c3;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            width: 20px;
+            border-radius: 10px;
+          }
+        }
+        span.k-link.k-primary {
+          width: 20px;
+          border-radius: 10px;
+          background: #c3c3c3;
+        }
+      }
+    }
+  }
+}

@@ -44,6 +44,9 @@ import { download } from './download';
 import { print } from './print';
 import { xCircled } from './xCircled';
 export * from './icons';
+import { emptyDocumentIcon } from './empty-document';
+import { readDocumentIcon } from './read-document';
+import { acceptedDocumentIcon } from './accepted-document';
 
 export {
   bin,
@@ -91,6 +94,9 @@ export {
   authInfo,
   xCircled,
   editIcon,
+  emptyDocumentIcon,
+  readDocumentIcon,
+  acceptedDocumentIcon
 };
 
 export * from './icons';

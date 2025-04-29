@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  output,
+  ResourceRef,
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -6,13 +15,14 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ToastService, vetIcons } from '@vet/shared';
-import { AdmissionService, LongTerm } from '@vet/backend';
+import { useAlert, vetIcons } from '@vet/shared';
+import { AdmissionPrograms, AdmissionService, LongTerm } from '@vet/backend';
 import { ProgramSelectedProgramsComponent } from '../program-selected-programs/program-selected-programs.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { admissionProgramsResource } from '../admission-programs-resource';
 import { Router } from '@angular/router';
+import { ProgramSsmStep } from '../program-selection-step/program-selection-step.component';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 export type ProgramsSelectionStepFormGroup = FormGroup;
@@ -31,20 +41,23 @@ export type ProgramsSelectionStepFormGroup = FormGroup;
   ],
   templateUrl: './program-selected-programs-step.component.html',
   styleUrl: './program-selected-programs-step.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramSelectedProgramsStepComponent {
   nextClick = output();
   previousClick = output();
   readonly admissionId = input.required<string | null>();
-  protected readonly selectedPrograms = admissionProgramsResource(this.admissionId);
+  protected readonly selectedPrograms: ResourceRef<AdmissionPrograms[] | undefined> = admissionProgramsResource(
+    this.admissionId,
+  );
   form = input<ProgramSelectedProgramsStepFormGroup>();
+  ssmStepForm = input<ProgramSsmStep>();
   selectionProgramsForm = input<ProgramsSelectionStepFormGroup>();
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
 
   private readonly admissionService = inject(AdmissionService);
-  private readonly toastService = inject(ToastService);
+  private readonly alert = useAlert();
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -60,10 +73,18 @@ export class ProgramSelectedProgramsStepComponent {
 
   onNextClick() {
     this.form()?.markAllAsTouched();
-    if (this.form()?.valid) {
+    if (this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms.value()!.length < 2) {
+      this.alert.show({
+        text: 'programs.warningMinTwoProgramShouldBeSelected',
+        variant: 'warning',
+      });
+    } else if (!this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms.value()!.length < 1) {
+      this.alert.show({
+        text: 'programs.warningMinOneProgramShouldBeSelected',
+        variant: 'warning',
+      });
+    } else if (this.form()?.valid) {
       this.nextClick.emit();
-    } else {
-      this.toastService.info('programs.pleaseSelectProgram');
     }
   }
 
@@ -85,7 +106,10 @@ export class ProgramSelectedProgramsStepComponent {
       .pipe(
         tap({
           next: () => {
-            this.toastService.success('programs.programRemoved');
+            this.alert.show({
+              text: 'programs.programRemoved',
+              variant: 'warning',
+            });
             this.selectedPrograms.reload();
             if (this.selectedPrograms.value()?.length === 0) {
               this.router.navigate(['long-term-programs', 'update-admission', this.admissionId(), 'program_selection']);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Signal } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
 import { IconModule, SVGIconModule } from '@progress/kendo-angular-icons';
@@ -31,6 +31,14 @@ export class ConfirmationDialogOutletComponent {
 
   constructor(private confirmationDialogService: ConfirmationDialogService) {
     this.params = this.confirmationDialogService.currentDialogParams;
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  public onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
   }
 
   close() {

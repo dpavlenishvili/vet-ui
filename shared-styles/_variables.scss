@@ -2,10 +2,10 @@
 @forward 'tokens';
 @use 'tokens' as tokens;
 
-$vet-layout-width-desktop: 1440px;
-$vet-layout-width-mobile: 768px;
-$vet-sidebar-width-full: 305px;
-$vet-sidebar-width-mini: 88px;
+$vet-layout-width-desktop: 92.5rem;
+$vet-layout-width-mobile: 48rem;
+$vet-sidebar-width-full: 19.0625rem;
+$vet-sidebar-width-mini: 5.5rem;
 
 $kendo-paper-dark: #F5F7F8;
 $kendo-color-chip: #f2f3f6;

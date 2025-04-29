@@ -4,13 +4,15 @@ import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
 import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { filterNullValues, RouteParamsService, vetIcons } from '@vet/shared';
+import { filterNullValues, FormatDateTimePipe, RouteParamsService, vetIcons } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { AdmissionsListFilterComponent } from './admissions-list-filter/admissions-list-filter.component';
 import { rxResource } from '@angular/core/rxjs-interop';
+import * as kendoIcons from '@progress/kendo-svg-icons';
 import { isPlatformBrowser } from '@angular/common';
 
 export type AdmissionListFilter = {
+  search?: unknown | null;
   number?: unknown | null;
   date?: unknown | null;
   status?: unknown | null;
@@ -20,11 +22,10 @@ export type AdmissionListFilter = {
 
 @Component({
   selector: 'vet-admissions-list',
-  imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, AdmissionsListFilterComponent],
+  imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, AdmissionsListFilterComponent, FormatDateTimePipe],
   templateUrl: './admissions-list.component.html',
   styleUrl: './admissions-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
 export class AdmissionsListComponent {
   admissionList$ = rxResource({
@@ -38,6 +39,7 @@ export class AdmissionsListComponent {
 
   router = inject(Router);
   vetIcons = vetIcons;
+  kendoIcons = kendoIcons;
   admissionService = inject(AdmissionService);
   routeParamsService = inject(RouteParamsService);
   platformId = inject(PLATFORM_ID);

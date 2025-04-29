@@ -1,16 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { GeneralsService } from '@vet/backend';
-import { Citizenship, FileUploadComponent, InfoComponent, kendoIcons, UploadedFile } from '@vet/shared';
+import { Citizenship, FileUploadComponent, InfoComponent, kendoIcons, UploadedFile, useConfirm } from '@vet/shared';
 import { delay, map, tap } from 'rxjs';
 import { AuthenticationService } from '@vet/auth';
-import { DialogRef, DialogService } from '@progress/kendo-angular-dialog';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 export type ProgramGeneralInformationStepFormGroup = FormGroup;
@@ -32,30 +31,32 @@ export type ProgramGeneralInformationStepFormGroup = FormGroup;
   ],
   templateUrl: './program-general-information-step.component.html',
   styleUrl: './program-general-information-step.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramGeneralInformationStepComponent implements OnInit {
   nextClick = output();
+  clearSelectedPrograms = output();
 
   form = input<ProgramGeneralInformationStepFormGroup>();
   isSpecEnvEnabled = signal(false);
   isAbroadEnabled = signal(false);
   isOcuEnabled = signal(false);
   invalidStudentStatus = signal(false);
+  previousEducationId = signal<null | number>(null);
+  abroadDoc = computed(() => this.form()?.get('abroad_doc'));
+  ocuDoc = computed(() => this.form()?.get('ocu_doc'));
   protected user = inject(AuthenticationService).user;
 
   kendoIcons = kendoIcons;
   citizenship = Citizenship;
   specEnvs = signal(['programs.elevatorRamp', 'programs.testTimeExtension', 'programs.testFontSizeIncrease']);
   generalsService = inject(GeneralsService);
-  dialogService = inject(DialogService);
-  translocoService = inject(TranslocoService);
+  confirm = useConfirm();
 
   educations$ = rxResource({
-    request: () => ({ key: 'education_levels' }),
-    loader: ({ request: { key } }) =>
-      this.generalsService.getAllConfigs({ key: key }).pipe(
-        delay(100),
+    loader: () =>
+      this.generalsService.getAllConfigs({ key: 'education_levels' }).pipe(
+        delay(200),
         tap(() => {
           const educationLevel = this.form()?.get('education_level')?.getRawValue();
           const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
@@ -64,7 +65,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
         map((res) => {
           const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
           if (res.education_levels && educationLevelId) {
-            return res.education_levels.filter((item) => Number(item.id) >= Number(educationLevelId));
+            return res.education_levels.filter((item) => Number(item.id) === Number(educationLevelId));
           }
           return res.education_levels;
         }),
@@ -74,9 +75,8 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     loader: () => this.generalsService.getDistrictsList().pipe(map((res) => res.data)),
   });
   languages$ = rxResource({
-    request: () => ({ key: 'languages' }),
-    loader: ({ request: { key } }) =>
-      this.generalsService.getAllConfigs({ key: key }).pipe(map((res) => res.languages)),
+    loader: () =>
+      this.generalsService.getAllConfigs({ key: 'languages' }).pipe(map((res) => res.languages)),
   });
 
   onNextClick() {
@@ -85,6 +85,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
       this.nextClick.emit();
     }
   }
+
   handleFileUpload(file: UploadedFile, field: string) {
     const payload = { filename: file.filename, base64: file.base64 };
     const currentValue = this.form()?.get(field)?.getRawValue();
@@ -101,9 +102,14 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     if (this.user()?.residential !== this.citizenship.Georgian) {
       this.form()?.get(key)?.patchValue(event);
     } else {
-      if (!event) {
+      if (event) {
+        this.form()?.get(key)?.markAsUntouched();
+        this.form()?.get(key)?.setValidators(Validators.required);
+      } else {
         this.form()?.get(key)?.reset([]);
+        this.form()?.get(key)?.removeValidators(Validators.required);
       }
+      this.form()?.get(key)?.updateValueAndValidity();
     }
   }
 
@@ -121,26 +127,38 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     }
   }
 
-  districtChange() {
-    const dialog: DialogRef = this.dialogService.open({
-      title: this.translocoService.translate('shared.testCity'),
-      content: this.translocoService.translate('programs.testReallocationNote'),
-      actions: [{ text: this.translocoService.translate('shared.met'), themeColor: 'primary' }],
-      width: 400,
+  educationChange(educationId: number) {
+    const control = this.form()?.get('education');
+    if (!control || !this.previousEducationId()) {
+      return;
+    }
+    this.confirm.show({
+      content: 'programs.educationChangeNote',
+      onConfirm: () => {
+        control?.setValue(educationId);
+        this.clearSelectedPrograms.emit();
+        this.previousEducationId.set(educationId);
+      },
+      onDismiss: () => {
+        control?.setValue(this.previousEducationId()?.toString(), { emitEvent: false });
+      },
     });
+  }
 
-    dialog.result.subscribe();
+  districtChange() {
+    this.confirm.show({
+      content: 'programs.testReallocationNote',
+      showYesNoButtons: false,
+      onConfirm: () => {},
+    });
   }
 
   languageChange() {
-    const dialog: DialogRef = this.dialogService.open({
-      title: this.translocoService.translate('shared.testLanguage'),
-      content: this.translocoService.translate('programs.georgianModuleNote'),
-      actions: [{ text: this.translocoService.translate('shared.met'), themeColor: 'primary' }],
-      width: 400,
+    this.confirm.show({
+      content: 'programs.georgianModuleNote',
+      showYesNoButtons: false,
+      onConfirm: () => {},
     });
-
-    dialog.result.subscribe();
   }
 
   onSpecEnvSwitchChange(checked: boolean) {
@@ -149,6 +167,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     if (!specEnvControl) return;
 
     if (checked) {
+      specEnvControl?.markAsUntouched();
       specEnvControl?.setValidators(Validators.required);
     } else {
       specEnvControl.reset([]);
@@ -157,9 +176,9 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     specEnvControl.updateValueAndValidity();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const value = this.form()?.getRawValue();
-
+    this.previousEducationId.set(this.form()?.get('education')?.getRawValue());
     this.isSpecEnvEnabled.set(value.spec_env.length > 0);
     if (this.user()?.residential !== this.citizenship.Georgian) {
       this.isAbroadEnabled.set(value?.complete_edu_abroad);

@@ -21,10 +21,10 @@ export const longTermProgramsRoutes: Route[] = [
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
-          { path: '/long-term-programs/registration', text: 'programs.long-term-programs-admissionRegistration' },
-          { path: '/register-admission/general_information', text: 'programs.general_information' },
+          { path: null, text: 'programs.general_information' },
+          { path: null, text: 'programs.long-term-programs-admissionRegistration' },
         ]),
-      }
+      },
     ],
   },
   {
@@ -38,57 +38,60 @@ export const longTermProgramsRoutes: Route[] = [
     children: [
       {
         path: 'general_information',
-            loadComponent: () =>
-      import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
+        loadComponent: () =>
+          import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
-          { path: '/long-term-programs/update-admission', text: 'programs.long-term-programs-admissionUpdate' },
-          { path: '/update-admission/:admissionId/general_information', text: 'programs.general_information' },
+          {
+            path: null,
+            text: 'programs.general_information',
+          },
+          { path: null, text: 'programs.long-term-programs-admissionUpdate' },
         ]),
       },
       {
         path: 'ssm_status',
-            loadComponent: () =>
-      import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
+        loadComponent: () =>
+          import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
-          { path: '/long-term-programs/update-admission', text: 'programs.long-term-programs-admissionUpdate' },
-          { path: '/update-admission/:admissionId/ssm_status', text: 'programs.ssm_status' },
+          { path: null, text: 'programs.ssm_status' },
+          { path: null, text: 'programs.long-term-programs-admissionUpdate' },
         ]),
       },
       {
         path: 'program_selection',
-            loadComponent: () =>
-      import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
+        loadComponent: () =>
+          import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
-          { path: '/long-term-programs/update-admission', text: 'programs.long-term-programs-admissionUpdate' },
-          { path: '/update-admission/:admissionId/program_selection', text: 'programs.program_selection' },
+          { path: null, text: 'programs.program_selection' },
+          { path: null, text: 'programs.long-term-programs-admissionUpdate' },
         ]),
       },
       {
         path: 'selected_programs',
-            loadComponent: () =>
-      import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
+        loadComponent: () =>
+          import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
-          { path: '/long-term-programs/update-admission', text: 'programs.long-term-programs-admissionUpdate' },
-          { path: '/update-admission/:admissionId/selected_programs', text: 'programs.selected_programs' },
+          { path: null, text: 'programs.selected_programs' },
+          { path: null, text: 'programs.long-term-programs-admissionUpdate' },
         ]),
       },
       {
         path: 'confirmation',
-            loadComponent: () =>
-      import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
+        loadComponent: () =>
+          import('./admission-update/admission-update.component').then((m) => m.AdmissionUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/long-term-programs/list', text: 'programs.long-term-programs' },
-          { path: '/long-term-programs/update-admission', text: 'programs.long-term-programs-admissionUpdate' },
-          { path: '/update-admission/:admissionId/confirmation', text: 'programs.confirmation' },
+          { path: null, text: 'programs.confirmation' },
+          { path: null, text: 'programs.long-term-programs-admissionUpdate' },
         ]),
       },
     ],
@@ -96,12 +99,14 @@ export const longTermProgramsRoutes: Route[] = [
   {
     path: '',
     loadComponent: () =>
-      import('./long-term-programs-sidebar-layout/long-term-programs-sidebar-layout.component')
-        .then((m) => m.LongTermProgramsSidebarLayoutComponent),
+      import('./long-term-programs-sidebar-layout/long-term-programs-sidebar-layout.component').then(
+        (m) => m.LongTermProgramsSidebarLayoutComponent,
+      ),
     children: [
       {
         path: 'list',
-        loadComponent: () => import('./admissions-list-container/admissions-list-container.component').then((m) => m.AdmissionsListContainerComponent),
+        loadComponent: () =>
+          import('./admissions-list/admissions-list.component').then((m) => m.AdmissionsListComponent),
         pathMatch: 'full',
         data: breadcrumb([
           ...baseBreadcrumbItems,
@@ -128,6 +133,6 @@ export const longTermProgramsRoutes: Route[] = [
           { path: '/long-programs/commission-review', text: 'programs.commissionGrade' },
         ]),
       },
-    ]
+    ],
   },
 ];

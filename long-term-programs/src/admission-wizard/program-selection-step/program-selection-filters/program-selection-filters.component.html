@@ -2,8 +2,14 @@
   <div class="programs-filters-container k-pb-5 k-gap-10">
     <!-- Search Box -->
     <div class="filter-group filter-3">
-      <kendo-label [text]="'programs.search' | transloco">
-        <kendo-textbox formControlName="filter" />
+      <kendo-label [text]="'shared.search' | transloco">
+        <kendo-textbox formControlName="search">
+          <ng-template kendoTextBoxSuffixTemplate class="k-bg-primary">
+            <div kendoTooltip [title]="'programs.admissionProgramSelectionFilterSearchTooltip' | transloco" >
+              <kendo-svg-icon [icon]="vetIcons.info" />
+            </div>
+          </ng-template>
+        </kendo-textbox>
       </kendo-label>
     </div>
 
@@ -60,31 +66,23 @@
       </kendo-label>
 
       <kendo-label [text]="'programs.form' | transloco">
-        <kendo-dropdownlist [data]="programForms">
-          @for (item of programForms; track item) {
-            <ng-template kendoDropDownListItemTemplate let-item>
-              {{ 'programs.' + item | transloco }}
-            </ng-template>
-          } @empty {
-            <ng-template kendoDropDownListItemTemplate>
-              {{ 'programs.no_data' | transloco }}
-            </ng-template>
-          }
-        </kendo-dropdownlist>
+        <kendo-dropdownlist
+          [valuePrimitive]="true"
+          formControlName="program_types"
+          valueField="id"
+          textField="value"
+          [data]="programTypes$.value()"
+        />
       </kendo-label>
 
       <kendo-label [text]="'programs.funding' | transloco">
-        <kendo-dropdownlist formControlName="financing_type" [data]="financing">
-          @for (item of financing; track item) {
-            <ng-template kendoDropDownListItemTemplate let-item>
-              {{ 'programs.' + item | transloco }}
-            </ng-template>
-          } @empty {
-            <ng-template kendoDropDownListItemTemplate>
-              {{ 'programs.no_data' | transloco }}
-            </ng-template>
-          }
-        </kendo-dropdownlist>
+        <kendo-dropdownlist
+          [valuePrimitive]="true"
+          formControlName="financing_type"
+          valueField="id"
+          textField="value"
+          [data]="financingTypes$.value()"
+        />
       </kendo-label>
     </div>
   }

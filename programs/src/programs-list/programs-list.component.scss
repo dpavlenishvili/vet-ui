@@ -7,10 +7,10 @@
     align-items: end;
     gap: 2.5rem 1.25rem;
     margin-top: 2.5rem;
-    @media (max-width: 800px) {
+    @media (max-width: 50rem) {
       grid-template-columns: repeat(2, 1fr);
     }
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 37.5rem) {
       grid-template-columns: 1fr;
     }
   }
@@ -24,8 +24,8 @@
   }
 
   .program-card-picture {
-    width: 60px;
-    height: 60px;
+    width: 3.75rem;
+    height: 3.75rem;
     border-radius: 1.25rem;
     background-color: #e3c7c9;
   }
@@ -40,7 +40,7 @@
       flex-direction: column;
       gap: 0.875rem;
       p {
-        font-size: 0.875;
+        font-size: 0.875rem;
         color: #757575;
       }
     }

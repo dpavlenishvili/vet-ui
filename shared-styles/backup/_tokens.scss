@@ -1,273 +1,273 @@
 // Compatible with @progress/kendo-theme-default v.7.2.0
 
 $tb-kendo-is-dark-theme: false;
-$tb-kendo-icon-size: 16px;
-$tb-kendo-border-radius: 6px;
-$tb-kendo-appbar-padding-x: 8px;
-$tb-kendo-appbar-padding-y: 8px;
-$tb-kendo-appbar-border-width: 0px;
-$tb-kendo-appbar-font-size: 14px;
-$tb-kendo-appbar-gap: 8px;
-$tb-kendo-avatar-border-width: 1px;
-$tb-kendo-avatar-font-size: 14px;
-$tb-kendo-badge-border-width: 1px;
-$tb-kendo-bottom-nav-padding-x: 4px;
-$tb-kendo-bottom-nav-font-size: 14px;
-$tb-kendo-bottom-nav-letter-spacing: 0.2px;
-$tb-kendo-bottom-nav-item-padding-x: 8px;
-$tb-kendo-bottom-nav-item-min-width: 72px;
-$tb-kendo-breadcrumb-border-width: 0px;
-$tb-kendo-breadcrumb-font-size: 14px;
-$tb-kendo-breadcrumb-link-padding-x: 8px;
-$tb-kendo-breadcrumb-link-padding-y: 6px;
-$tb-kendo-breadcrumb-icon-link-padding-y: 8px;
-$tb-kendo-breadcrumb-link-icon-spacing: 4px;
-$tb-kendo-button-border-width: 1px;
-$tb-kendo-button-padding-x: 8px;
-$tb-kendo-button-padding-y: 4px;
-$tb-kendo-button-font-size: 14px;
-$tb-kendo-card-padding-x: 16px;
-$tb-kendo-card-padding-y: 12px;
-$tb-kendo-card-border-width: 1px;
-$tb-kendo-card-border-radius: 6px;
-$tb-kendo-card-font-size: 14px;
-$tb-kendo-card-deck-gap: 16px;
-$tb-kendo-card-header-border-width: 1px;
-$tb-kendo-card-body-padding-x: 16px;
-$tb-kendo-card-body-padding-y: 16px;
-$tb-kendo-card-footer-border-width: 1px;
-$tb-kendo-card-title-margin-bottom: 8px;
-$tb-kendo-card-title-font-size: 16px;
-$tb-kendo-card-subtitle-margin-bottom: 8px;
-$tb-kendo-card-subtitle-font-size: 12px;
-$tb-kendo-card-img-max-width: 100px;
-$tb-kendo-card-avatar-size: 45px;
-$tb-kendo-card-actions-padding-x: 8px;
-$tb-kendo-card-actions-padding-y: 8px;
-$tb-kendo-card-actions-gap: 8px;
-$tb-kendo-card-deck-scroll-button-radius: 0px;
-$tb-kendo-card-deck-scroll-button-offset: -1px;
-$tb-kendo-card-callout-width: 20px;
-$tb-kendo-card-callout-height: 20px;
-$tb-kendo-checkbox-border-width: 1px;
-$tb-kendo-checkbox-label-margin-x: 4px;
-$tb-kendo-checkbox-list-spacing: 16px;
-$tb-kendo-checkbox-list-item-padding-x: 0px;
-$tb-kendo-checkbox-list-item-padding-y: 4px;
-$tb-kendo-chip-border-width: 1px;
-$tb-kendo-chip-spacing: 4px;
-$tb-kendo-chip-padding-x: 4px;
-$tb-kendo-chip-padding-y: 4px;
-$tb-kendo-chip-font-size: 14px;
-$tb-kendo-color-gradient-spacer: 12px;
-$tb-kendo-color-gradient-width: 272px;
-$tb-kendo-color-gradient-border-width: 1px;
-$tb-kendo-color-gradient-font-size: 14px;
-$tb-kendo-color-gradient-canvas-rectangle-height: 180px;
-$tb-kendo-color-gradient-slider-track-size: 10px;
-$tb-kendo-color-gradient-slider-border-radius: 10px;
-$tb-kendo-color-gradient-slider-draghandle-border-width: 3px;
-$tb-kendo-color-gradient-slider-vertical-size: 180px;
-$tb-kendo-color-gradient-draghandle-width: 14px;
-$tb-kendo-color-gradient-draghandle-height: 14px;
-$tb-kendo-color-gradient-draghandle-border-width: 1px;
-$tb-kendo-color-gradient-draghandle-outline-width: 1px;
-$tb-kendo-color-gradient-canvas-draghandle-margin-y: -7px;
-$tb-kendo-color-gradient-canvas-draghandle-margin-x: -7px;
-$tb-kendo-color-gradient-input-width: 46px;
-$tb-kendo-color-gradient-input-gap: 8px;
-$tb-kendo-color-gradient-input-label-gap: 4px;
-$tb-kendo-color-gradient-contrast-spacer: 8px;
-$tb-kendo-color-editor-spacer: 12px;
-$tb-kendo-color-editor-min-width: 272px;
-$tb-kendo-color-editor-border-width: 1px;
-$tb-kendo-color-editor-font-size: 14px;
-$tb-kendo-color-editor-header-actions-gap: 8px;
-$tb-kendo-color-editor-color-preview-width: 32px;
-$tb-kendo-color-editor-color-preview-height: 12px;
-$tb-kendo-color-editor-preview-gap: 4px;
-$tb-kendo-color-editor-color-gradient-focus-outline: 2px;
-$tb-kendo-color-palette-font-size: 14px;
-$tb-kendo-color-palette-tile-width: 24px;
-$tb-kendo-dialog-buttongroup-padding-x: 8px;
-$tb-kendo-dialog-buttongroup-padding-y: 8px;
-$tb-kendo-dialog-buttongroup-border-width: 1px;
-$tb-kendo-dialog-button-spacing: 8px;
-$tb-kendo-dock-manager-border-width: 1px;
-$tb-kendo-dock-manager-pane-header-padding-y: 8px;
-$tb-kendo-dock-manager-pane-header-padding-x: 16px;
-$tb-kendo-dock-manager-pane-title-font-size: 16px;
-$tb-kendo-dock-manager-tabbed-pane-padding-y: 14px;
-$tb-kendo-dock-manager-tabbed-pane-padding-x: 8px;
-$tb-kendo-dock-manager-unpinned-container-width: 300px;
-$tb-kendo-dock-indicator-padding: 6px;
-$tb-kendo-dock-indicator-outline-width: 1px;
-$tb-kendo-dock-manager-dock-preview-border-width: 1px;
-$tb-kendo-dock-manager-dock-preview-border-radius: 2px;
-$tb-kendo-dropdowntree-popup-padding-x: 8px;
-$tb-kendo-dropdowntree-popup-padding-y: 8px;
-$tb-kendo-dropzone-padding-x: 8px;
-$tb-kendo-dropzone-padding-y: 8px;
-$tb-kendo-dropzone-border-width: 1px;
-$tb-kendo-dropzone-min-height: 220px;
-$tb-kendo-dropzone-font-size: 14px;
-$tb-kendo-dropzone-icon-spacing: 24px;
-$tb-kendo-dropzone-hint-spacing: 8px;
-$tb-kendo-dropzone-note-font-size: 12px;
-$tb-kendo-editor-border-width: 1px;
-$tb-kendo-editor-font-size: 14px;
-$tb-kendo-editor-resize-handle-size: 8px;
-$tb-kendo-editor-resize-handle-border-width: 1px;
-$tb-kendo-editor-selectednode-outline-width: 2px;
-$tb-kendo-expander-spacing-y: 8px;
-$tb-kendo-expander-border-width: 1px;
-$tb-kendo-expander-font-size: 14px;
-$tb-kendo-expander-header-padding-x: 16px;
-$tb-kendo-expander-header-padding-y: 12px;
-$tb-kendo-expander-indicator-margin-x: 12px;
-$tb-kendo-expander-content-padding-x: 16px;
-$tb-kendo-expander-content-padding-y: 16px;
-$tb-kendo-filter-padding-x: 8px;
-$tb-kendo-filter-padding-y: 4px;
-$tb-kendo-filter-bottom-margin: 30px;
-$tb-kendo-filter-line-size: 1px;
-$tb-kendo-fab-border-width: 1px;
-$tb-kendo-fab-font-size: 14px;
-$tb-kendo-fab-padding-x: 16px;
-$tb-kendo-fab-icon-padding-x: 2px;
-$tb-kendo-fab-icon-spacing: 2px;
-$tb-kendo-fab-items-padding-x: 0px;
-$tb-kendo-fab-items-padding-y: 16px;
-$tb-kendo-fab-item-text-padding-x: 4px;
-$tb-kendo-fab-item-text-border-width: 1px;
-$tb-kendo-fab-item-text-border-radius: 2px;
-$tb-kendo-fab-item-text-font-size: 10px;
-$tb-kendo-fab-item-icon-padding-x: 10px;
-$tb-kendo-fab-outline-width: 2px;
-$tb-kendo-fab-item-outline-width: 2px;
-$tb-kendo-floating-label-font-size: 14px;
-$tb-kendo-form-spacer: 16px;
-$tb-kendo-form-font-size: 14px;
-$tb-kendo-form-fieldset-padding: 0px;
-$tb-kendo-form-legend-padding: 0px;
-$tb-kendo-form-legend-font-size: 14px;
-$tb-kendo-form-label-margin-bottom: 0px;
-$tb-kendo-form-hint-font-size: 12px;
-$tb-kendo-form-hint-margin-top: 4px;
-$tb-kendo-horizontal-form-label-padding-top: 5px;
-$tb-kendo-horizontal-form-label-margin-x: 10px;
-$tb-kendo-label-optional-margin-x: 6px;
-$tb-kendo-label-optional-font-size: 12px;
-$tb-kendo-fieldset-margin: 30px;
-$tb-kendo-grid-padding-x: 12px;
-$tb-kendo-grid-padding-y: 8px;
-$tb-kendo-grid-edit-cell-padding-y: 3px;
-$tb-kendo-grid-selection-aggregates-border-width: 1px;
-$tb-kendo-grid-selection-aggregates-spacing: 8px;
-$tb-kendo-grid-row-resizer-height: 2px;
-$tb-kendo-input-border-width: 1px;
-$tb-kendo-input-padding-x: 8px;
-$tb-kendo-input-padding-y: 4px;
-$tb-kendo-input-font-size: 14px;
-$tb-kendo-listbox-spacing: 8px;
-$tb-kendo-listbox-button-spacing: 8px;
-$tb-kendo-listbox-default-height: 200px;
-$tb-kendo-listbox-border-width: 1px;
-$tb-kendo-listbox-font-size: 14px;
-$tb-kendo-listbox-drop-hint-width: 1px;
-$tb-kendo-listview-padding-x: 4px;
-$tb-kendo-listview-padding-y: 4px;
-$tb-kendo-listview-border-width: 1px;
-$tb-kendo-listview-font-size: 14px;
-$tb-kendo-listview-item-padding-x: 4px;
-$tb-kendo-listview-item-padding-y: 4px;
-$tb-kendo-loader-container-panel-border-width: 1px;
-$tb-kendo-menu-popup-border-width: 1px;
-$tb-kendo-menu-popup-item-padding-x: 8px;
-$tb-kendo-menu-popup-item-padding-y: 4px;
-$tb-kendo-menu-popup-item-spacing: 0px;
-$tb-kendo-notification-group-gap: 8px;
-$tb-kendo-notification-padding-x: 8px;
-$tb-kendo-notification-padding-y: 4px;
-$tb-kendo-notification-border-width: 1px;
-$tb-kendo-notification-font-size: 12px;
-$tb-kendo-notification-icon-spacing: 4px;
-$tb-kendo-pager-border-width: 1px;
-$tb-kendo-pager-font-size: 14px;
-$tb-kendo-popup-border-width: 1px;
-$tb-kendo-popup-font-size: 14px;
-$tb-kendo-popup-content-padding-x: 8px;
-$tb-kendo-popup-content-padding-y: 8px;
-$tb-kendo-progressbar-height: 22px;
-$tb-kendo-progressbar-border-width: 0px;
-$tb-kendo-progressbar-font-size: 12px;
-$tb-kendo-radio-border-width: 1px;
-$tb-kendo-radio-label-margin-x: 4px;
-$tb-kendo-radio-list-spacing: 16px;
-$tb-kendo-radio-list-item-padding-x: 0px;
-$tb-kendo-radio-list-item-padding-y: 4px;
-$tb-kendo-rating-font-size: 14px;
-$tb-kendo-rating-container-margin-x: 4px;
-$tb-kendo-rating-item-padding-x: 4px;
-$tb-kendo-rating-item-padding-y: 4px;
-$tb-kendo-rating-label-margin-x: 8px;
-$tb-kendo-rating-label-margin-y: 4px;
-$tb-kendo-scrollview-border-width: 1px;
-$tb-kendo-scrollview-font-size: 14px;
-$tb-kendo-scrollview-pagebutton-size: 10px;
-$tb-kendo-scrollview-pager-item-spacing: 20px;
-$tb-kendo-scrollview-pager-item-border-width: 0px;
-$tb-kendo-skeleton-circle-border-radius: 9999px;
-$tb-kendo-switch-track-border-width: 1px;
-$tb-kendo-switch-thumb-border-width: 1px;
-$tb-kendo-table-border-width: 1px;
-$tb-kendo-table-cell-vertical-border-width: 1px;
-$tb-kendo-table-cell-horizontal-border-width: 0px;
-$tb-kendo-tabstrip-item-padding-x: 12px;
-$tb-kendo-tabstrip-item-padding-y: 6px;
-$tb-kendo-tabstrip-item-border-width: 1px;
-$tb-kendo-tabstrip-content-padding-x: 16px;
-$tb-kendo-tabstrip-content-padding-y: 16px;
-$tb-kendo-tabstrip-content-border-width: 1px;
-$tb-kendo-tile-layout-border-width: 0px;
-$tb-kendo-tile-layout-padding-x: 16px;
-$tb-kendo-tile-layout-hint-border-width: 1px;
-$tb-kendo-tile-layout-hint-border-radius: 6px;
-$tb-kendo-toolbar-border-width: 1px;
-$tb-kendo-toolbar-font-size: 14px;
-$tb-kendo-toolbar-flat-border-width: 1px;
-$tb-kendo-tooltip-padding-y: 4px;
-$tb-kendo-tooltip-padding-x: 8px;
-$tb-kendo-tooltip-border-width: 0px;
-$tb-kendo-tooltip-font-size: 14px;
-$tb-kendo-tooltip-title-font-size: 17.5px;
-$tb-kendo-tooltip-callout-size: 6px;
-$tb-kendo-treeview-font-size: 14px;
-$tb-kendo-treeview-indent: 24px;
-$tb-kendo-treeview-item-padding-x: 8px;
-$tb-kendo-treeview-item-padding-y: 4px;
-$tb-kendo-treeview-item-border-width: 0px;
-$tb-kendo-font-size: 14px;
-$tb-kendo-font-size-xs: 10px;
-$tb-kendo-font-size-xl: 20px;
-$tb-kendo-upload-border-width: 1px;
-$tb-kendo-upload-max-height: 300px;
-$tb-kendo-upload-dropzone-padding-x: 8px;
-$tb-kendo-upload-dropzone-padding-y: 8px;
-$tb-kendo-upload-item-padding-x: 8px;
-$tb-kendo-upload-multiple-items-spacing: 12px;
-$tb-kendo-upload-validation-font-size: 11px;
-$tb-kendo-upload-icon-spacing: 4px;
-$tb-kendo-window-border-width: 0px;
-$tb-kendo-window-border-radius: 0px;
-$tb-kendo-window-titlebar-padding-x: 16px;
-$tb-kendo-window-titlebar-padding-y: 12px;
-$tb-kendo-window-title-font-size: 16px;
-$tb-kendo-window-inner-padding-x: 16px;
-$tb-kendo-window-inner-padding-y: 16px;
-$tb-kendo-window-buttongroup-padding-x: 8px;
-$tb-kendo-window-buttongroup-padding-y: 8px;
-$tb-kendo-window-buttongroup-border-width: 1px;
+$tb-kendo-icon-size: 1rem;
+$tb-kendo-border-radius: 0.375rem;
+$tb-kendo-appbar-padding-x: 0.5rem;
+$tb-kendo-appbar-padding-y: 0.5rem;
+$tb-kendo-appbar-border-width: 0rem;
+$tb-kendo-appbar-font-size: 0.875rem;
+$tb-kendo-appbar-gap: 0.5rem;
+$tb-kendo-avatar-border-width: 0.0625rem;
+$tb-kendo-avatar-font-size: 0.875rem;
+$tb-kendo-badge-border-width: 0.0625rem;
+$tb-kendo-bottom-nav-padding-x: 0.25rem;
+$tb-kendo-bottom-nav-font-size: 0.875rem;
+$tb-kendo-bottom-nav-letter-spacing: 0.0125rem;
+$tb-kendo-bottom-nav-item-padding-x: 0.5rem;
+$tb-kendo-bottom-nav-item-min-width: 4.5rem;
+$tb-kendo-breadcrumb-border-width: 0rem;
+$tb-kendo-breadcrumb-font-size: 0.875rem;
+$tb-kendo-breadcrumb-link-padding-x: 0.5rem;
+$tb-kendo-breadcrumb-link-padding-y: 0.375rem;
+$tb-kendo-breadcrumb-icon-link-padding-y: 0.5rem;
+$tb-kendo-breadcrumb-link-icon-spacing: 0.25rem;
+$tb-kendo-button-border-width: 0.0625rem;
+$tb-kendo-button-padding-x: 0.5rem;
+$tb-kendo-button-padding-y: 0.25rem;
+$tb-kendo-button-font-size: 0.875rem;
+$tb-kendo-card-padding-x: 1rem;
+$tb-kendo-card-padding-y: 0.75rem;
+$tb-kendo-card-border-width: 0.0625rem;
+$tb-kendo-card-border-radius: 0.375rem;
+$tb-kendo-card-font-size: 0.875rem;
+$tb-kendo-card-deck-gap: 1rem;
+$tb-kendo-card-header-border-width: 0.0625rem;
+$tb-kendo-card-body-padding-x: 1rem;
+$tb-kendo-card-body-padding-y: 1rem;
+$tb-kendo-card-footer-border-width: 0.0625rem;
+$tb-kendo-card-title-margin-bottom: 0.5rem;
+$tb-kendo-card-title-font-size: 1rem;
+$tb-kendo-card-subtitle-margin-bottom: 0.5rem;
+$tb-kendo-card-subtitle-font-size: 0.75rem;
+$tb-kendo-card-img-max-width: 6.25rem;
+$tb-kendo-card-avatar-size: 2.8125rem;
+$tb-kendo-card-actions-padding-x: 0.5rem;
+$tb-kendo-card-actions-padding-y: 0.5rem;
+$tb-kendo-card-actions-gap: 0.5rem;
+$tb-kendo-card-deck-scroll-button-radius: 0rem;
+$tb-kendo-card-deck-scroll-button-offset: -0.0625rem;
+$tb-kendo-card-callout-width: 1.25rem;
+$tb-kendo-card-callout-height: 1.25rem;
+$tb-kendo-checkbox-border-width: 0.0625rem;
+$tb-kendo-checkbox-label-margin-x: 0.25rem;
+$tb-kendo-checkbox-list-spacing: 1rem;
+$tb-kendo-checkbox-list-item-padding-x: 0rem;
+$tb-kendo-checkbox-list-item-padding-y: 0.25rem;
+$tb-kendo-chip-border-width: 0.0625rem;
+$tb-kendo-chip-spacing: 0.25rem;
+$tb-kendo-chip-padding-x: 0.25rem;
+$tb-kendo-chip-padding-y: 0.25rem;
+$tb-kendo-chip-font-size: 0.875rem;
+$tb-kendo-color-gradient-spacer: 0.75rem;
+$tb-kendo-color-gradient-width: 17rem;
+$tb-kendo-color-gradient-border-width: 0.0625rem;
+$tb-kendo-color-gradient-font-size: 0.875rem;
+$tb-kendo-color-gradient-canvas-rectangle-height: 11.25rem;
+$tb-kendo-color-gradient-slider-track-size: 0.625rem;
+$tb-kendo-color-gradient-slider-border-radius: 0.625rem;
+$tb-kendo-color-gradient-slider-draghandle-border-width: 0.1875rem;
+$tb-kendo-color-gradient-slider-vertical-size: 11.25rem;
+$tb-kendo-color-gradient-draghandle-width: 0.875rem;
+$tb-kendo-color-gradient-draghandle-height: 0.875rem;
+$tb-kendo-color-gradient-draghandle-border-width: 0.0625rem;
+$tb-kendo-color-gradient-draghandle-outline-width: 0.0625rem;
+$tb-kendo-color-gradient-canvas-draghandle-margin-y: -0.4375rem;
+$tb-kendo-color-gradient-canvas-draghandle-margin-x: -0.4375rem;
+$tb-kendo-color-gradient-input-width: 2.875rem;
+$tb-kendo-color-gradient-input-gap: 0.5rem;
+$tb-kendo-color-gradient-input-label-gap: 0.25rem;
+$tb-kendo-color-gradient-contrast-spacer: 0.5rem;
+$tb-kendo-color-editor-spacer: 0.75rem;
+$tb-kendo-color-editor-min-width: 17rem;
+$tb-kendo-color-editor-border-width: 0.0625rem;
+$tb-kendo-color-editor-font-size: 0.875rem;
+$tb-kendo-color-editor-header-actions-gap: 0.5rem;
+$tb-kendo-color-editor-color-preview-width: 2rem;
+$tb-kendo-color-editor-color-preview-height: 0.75rem;
+$tb-kendo-color-editor-preview-gap: 0.25rem;
+$tb-kendo-color-editor-color-gradient-focus-outline: 0.125rem;
+$tb-kendo-color-palette-font-size: 0.875rem;
+$tb-kendo-color-palette-tile-width: 1.5rem;
+$tb-kendo-dialog-buttongroup-padding-x: 0.5rem;
+$tb-kendo-dialog-buttongroup-padding-y: 0.5rem;
+$tb-kendo-dialog-buttongroup-border-width: 0.0625rem;
+$tb-kendo-dialog-button-spacing: 0.5rem;
+$tb-kendo-dock-manager-border-width: 0.0625rem;
+$tb-kendo-dock-manager-pane-header-padding-y: 0.5rem;
+$tb-kendo-dock-manager-pane-header-padding-x: 1rem;
+$tb-kendo-dock-manager-pane-title-font-size: 1rem;
+$tb-kendo-dock-manager-tabbed-pane-padding-y: 0.875rem;
+$tb-kendo-dock-manager-tabbed-pane-padding-x: 0.5rem;
+$tb-kendo-dock-manager-unpinned-container-width: 18.75rem;
+$tb-kendo-dock-indicator-padding: 0.375rem;
+$tb-kendo-dock-indicator-outline-width: 0.0625rem;
+$tb-kendo-dock-manager-dock-preview-border-width: 0.0625rem;
+$tb-kendo-dock-manager-dock-preview-border-radius: 0.125rem;
+$tb-kendo-dropdowntree-popup-padding-x: 0.5rem;
+$tb-kendo-dropdowntree-popup-padding-y: 0.5rem;
+$tb-kendo-dropzone-padding-x: 0.5rem;
+$tb-kendo-dropzone-padding-y: 0.5rem;
+$tb-kendo-dropzone-border-width: 0.0625rem;
+$tb-kendo-dropzone-min-height: 13.75rem;
+$tb-kendo-dropzone-font-size: 0.875rem;
+$tb-kendo-dropzone-icon-spacing: 1.5rem;
+$tb-kendo-dropzone-hint-spacing: 0.5rem;
+$tb-kendo-dropzone-note-font-size: 0.75rem;
+$tb-kendo-editor-border-width: 0.0625rem;
+$tb-kendo-editor-font-size: 0.875rem;
+$tb-kendo-editor-resize-handle-size: 0.5rem;
+$tb-kendo-editor-resize-handle-border-width: 0.0625rem;
+$tb-kendo-editor-selectednode-outline-width: 0.125rem;
+$tb-kendo-expander-spacing-y: 0.5rem;
+$tb-kendo-expander-border-width: 0.0625rem;
+$tb-kendo-expander-font-size: 0.875rem;
+$tb-kendo-expander-header-padding-x: 1rem;
+$tb-kendo-expander-header-padding-y: 0.75rem;
+$tb-kendo-expander-indicator-margin-x: 0.75rem;
+$tb-kendo-expander-content-padding-x: 1rem;
+$tb-kendo-expander-content-padding-y: 1rem;
+$tb-kendo-filter-padding-x: 0.5rem;
+$tb-kendo-filter-padding-y: 0.25rem;
+$tb-kendo-filter-bottom-margin: 1.875rem;
+$tb-kendo-filter-line-size: 0.0625rem;
+$tb-kendo-fab-border-width: 0.0625rem;
+$tb-kendo-fab-font-size: 0.875rem;
+$tb-kendo-fab-padding-x: 1rem;
+$tb-kendo-fab-icon-padding-x: 0.125rem;
+$tb-kendo-fab-icon-spacing: 0.125rem;
+$tb-kendo-fab-items-padding-x: 0rem;
+$tb-kendo-fab-items-padding-y: 1rem;
+$tb-kendo-fab-item-text-padding-x: 0.25rem;
+$tb-kendo-fab-item-text-border-width: 0.0625rem;
+$tb-kendo-fab-item-text-border-radius: 0.125rem;
+$tb-kendo-fab-item-text-font-size: 0.625rem;
+$tb-kendo-fab-item-icon-padding-x: 0.625rem;
+$tb-kendo-fab-outline-width: 0.125rem;
+$tb-kendo-fab-item-outline-width: 0.125rem;
+$tb-kendo-floating-label-font-size: 0.875rem;
+$tb-kendo-form-spacer: 1rem;
+$tb-kendo-form-font-size: 0.875rem;
+$tb-kendo-form-fieldset-padding: 0rem;
+$tb-kendo-form-legend-padding: 0rem;
+$tb-kendo-form-legend-font-size: 0.875rem;
+$tb-kendo-form-label-margin-bottom: 0rem;
+$tb-kendo-form-hint-font-size: 0.75rem;
+$tb-kendo-form-hint-margin-top: 0.25rem;
+$tb-kendo-horizontal-form-label-padding-top: 0.3125rem;
+$tb-kendo-horizontal-form-label-margin-x: 0.625rem;
+$tb-kendo-label-optional-margin-x: 0.375rem;
+$tb-kendo-label-optional-font-size: 0.75rem;
+$tb-kendo-fieldset-margin: 1.875rem;
+$tb-kendo-grid-padding-x: 0.75rem;
+$tb-kendo-grid-padding-y: 0.5rem;
+$tb-kendo-grid-edit-cell-padding-y: 0.1875rem;
+$tb-kendo-grid-selection-aggregates-border-width: 0.0625rem;
+$tb-kendo-grid-selection-aggregates-spacing: 0.5rem;
+$tb-kendo-grid-row-resizer-height: 0.125rem;
+$tb-kendo-input-border-width: 0.0625rem;
+$tb-kendo-input-padding-x: 0.5rem;
+$tb-kendo-input-padding-y: 0.25rem;
+$tb-kendo-input-font-size: 0.875rem;
+$tb-kendo-listbox-spacing: 0.5rem;
+$tb-kendo-listbox-button-spacing: 0.5rem;
+$tb-kendo-listbox-default-height: 12.5rem;
+$tb-kendo-listbox-border-width: 0.0625rem;
+$tb-kendo-listbox-font-size: 0.875rem;
+$tb-kendo-listbox-drop-hint-width: 0.0625rem;
+$tb-kendo-listview-padding-x: 0.25rem;
+$tb-kendo-listview-padding-y: 0.25rem;
+$tb-kendo-listview-border-width: 0.0625rem;
+$tb-kendo-listview-font-size: 0.875rem;
+$tb-kendo-listview-item-padding-x: 0.25rem;
+$tb-kendo-listview-item-padding-y: 0.25rem;
+$tb-kendo-loader-container-panel-border-width: 0.0625rem;
+$tb-kendo-menu-popup-border-width: 0.0625rem;
+$tb-kendo-menu-popup-item-padding-x: 0.5rem;
+$tb-kendo-menu-popup-item-padding-y: 0.25rem;
+$tb-kendo-menu-popup-item-spacing: 0rem;
+$tb-kendo-notification-group-gap: 0.5rem;
+$tb-kendo-notification-padding-x: 0.5rem;
+$tb-kendo-notification-padding-y: 0.25rem;
+$tb-kendo-notification-border-width: 0.0625rem;
+$tb-kendo-notification-font-size: 0.75rem;
+$tb-kendo-notification-icon-spacing: 0.25rem;
+$tb-kendo-pager-border-width: 0.0625rem;
+$tb-kendo-pager-font-size: 0.875rem;
+$tb-kendo-popup-border-width: 0.0625rem;
+$tb-kendo-popup-font-size: 0.875rem;
+$tb-kendo-popup-content-padding-x: 0.5rem;
+$tb-kendo-popup-content-padding-y: 0.5rem;
+$tb-kendo-progressbar-height: 1.375rem;
+$tb-kendo-progressbar-border-width: 0rem;
+$tb-kendo-progressbar-font-size: 0.75rem;
+$tb-kendo-radio-border-width: 0.0625rem;
+$tb-kendo-radio-label-margin-x: 0.25rem;
+$tb-kendo-radio-list-spacing: 1rem;
+$tb-kendo-radio-list-item-padding-x: 0rem;
+$tb-kendo-radio-list-item-padding-y: 0.25rem;
+$tb-kendo-rating-font-size: 0.875rem;
+$tb-kendo-rating-container-margin-x: 0.25rem;
+$tb-kendo-rating-item-padding-x: 0.25rem;
+$tb-kendo-rating-item-padding-y: 0.25rem;
+$tb-kendo-rating-label-margin-x: 0.5rem;
+$tb-kendo-rating-label-margin-y: 0.25rem;
+$tb-kendo-scrollview-border-width: 0.0625rem;
+$tb-kendo-scrollview-font-size: 0.875rem;
+$tb-kendo-scrollview-pagebutton-size: 0.625rem;
+$tb-kendo-scrollview-pager-item-spacing: 1.25rem;
+$tb-kendo-scrollview-pager-item-border-width: 0rem;
+$tb-kendo-skeleton-circle-border-radius: 624.9375rem;
+$tb-kendo-switch-track-border-width: 0.0625rem;
+$tb-kendo-switch-thumb-border-width: 0.0625rem;
+$tb-kendo-table-border-width: 0.0625rem;
+$tb-kendo-table-cell-vertical-border-width: 0.0625rem;
+$tb-kendo-table-cell-horizontal-border-width: 0rem;
+$tb-kendo-tabstrip-item-padding-x: 0.75rem;
+$tb-kendo-tabstrip-item-padding-y: 0.375rem;
+$tb-kendo-tabstrip-item-border-width: 0.0625rem;
+$tb-kendo-tabstrip-content-padding-x: 1rem;
+$tb-kendo-tabstrip-content-padding-y: 1rem;
+$tb-kendo-tabstrip-content-border-width: 0.0625rem;
+$tb-kendo-tile-layout-border-width: 0rem;
+$tb-kendo-tile-layout-padding-x: 1rem;
+$tb-kendo-tile-layout-hint-border-width: 0.0625rem;
+$tb-kendo-tile-layout-hint-border-radius: 0.375rem;
+$tb-kendo-toolbar-border-width: 0.0625rem;
+$tb-kendo-toolbar-font-size: 0.875rem;
+$tb-kendo-toolbar-flat-border-width: 0.0625rem;
+$tb-kendo-tooltip-padding-y: 0.25rem;
+$tb-kendo-tooltip-padding-x: 0.5rem;
+$tb-kendo-tooltip-border-width: 0rem;
+$tb-kendo-tooltip-font-size: 0.875rem;
+$tb-kendo-tooltip-title-font-size: 1.09375rem;
+$tb-kendo-tooltip-callout-size: 0.375rem;
+$tb-kendo-treeview-font-size: 0.875rem;
+$tb-kendo-treeview-indent: 1.5rem;
+$tb-kendo-treeview-item-padding-x: 0.5rem;
+$tb-kendo-treeview-item-padding-y: 0.25rem;
+$tb-kendo-treeview-item-border-width: 0rem;
+$tb-kendo-font-size: 0.875rem;
+$tb-kendo-font-size-xs: 0.625rem;
+$tb-kendo-font-size-xl: 1.25rem;
+$tb-kendo-upload-border-width: 0.0625rem;
+$tb-kendo-upload-max-height: 18.75rem;
+$tb-kendo-upload-dropzone-padding-x: 0.5rem;
+$tb-kendo-upload-dropzone-padding-y: 0.5rem;
+$tb-kendo-upload-item-padding-x: 0.5rem;
+$tb-kendo-upload-multiple-items-spacing: 0.75rem;
+$tb-kendo-upload-validation-font-size: 0.6875rem;
+$tb-kendo-upload-icon-spacing: 0.25rem;
+$tb-kendo-window-border-width: 0rem;
+$tb-kendo-window-border-radius: 0rem;
+$tb-kendo-window-titlebar-padding-x: 1rem;
+$tb-kendo-window-titlebar-padding-y: 0.75rem;
+$tb-kendo-window-title-font-size: 1rem;
+$tb-kendo-window-inner-padding-x: 1rem;
+$tb-kendo-window-inner-padding-y: 1rem;
+$tb-kendo-window-buttongroup-padding-x: 0.5rem;
+$tb-kendo-window-buttongroup-padding-y: 0.5rem;
+$tb-kendo-window-buttongroup-border-width: 0.0625rem;
 $tb-kendo-icon-size-md: $tb-kendo-icon-size;
 $tb-kendo-padding-y: $tb-kendo-border-radius;
 $tb-kendo-border-radius-md: $tb-kendo-border-radius;
@@ -695,35 +695,35 @@ $tb-kendo-window-titlebar-bg: $tb-kendo-component-header-bg;
 $tb-kendo-window-titlebar-text: $tb-kendo-component-header-text;
 
 $tb-kendo-appbar-box-shadow:
-  0px 8px 10px 0 rgba(0, 0, 0, 0.12),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 0.5rem 0.625rem 0 rgba(0, 0, 0, 0.12),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-bottom-nav-shadow:
-  0px 8px 10px 0 rgba(0, 0, 0, 0.12),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 0.5rem 0.625rem 0 rgba(0, 0, 0, 0.12),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-color-gradient-focus-shadow:
-  0px 6px 8px 0 rgba(0, 0, 0, 0.08),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 0.375rem 0.5rem 0 rgba(0, 0, 0, 0.08),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-fab-shadow:
-  0px 10px 12px 0 rgba(0, 0, 0, 0.16),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 0.625rem 0.75rem 0 rgba(0, 0, 0, 0.16),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-fab-disabled-shadow:
-  0px 10px 12px 0 rgba(0, 0, 0, 0.16),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 0.625rem 0.75rem 0 rgba(0, 0, 0, 0.16),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-list-header-shadow:
-  0px 4px 6px 0 rgba(0, 0, 0, 0.06),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 0.25rem 0.375rem 0 rgba(0, 0, 0, 0.06),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-popup-shadow:
-  0px 8px 10px 0 rgba(0, 0, 0, 0.12),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 0.5rem 0.625rem 0 rgba(0, 0, 0, 0.12),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-tooltip-shadow:
-  0px 4px 6px 0 rgba(0, 0, 0, 0.06),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 0.25rem 0.375rem 0 rgba(0, 0, 0, 0.06),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-window-shadow:
-  0px 16px 18px 0 rgba(0, 0, 0, 0.28),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 1rem 1.125rem 0 rgba(0, 0, 0, 0.28),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 $tb-kendo-window-focus-shadow:
-  0px 32px 34px 0 rgba(0, 0, 0, 0.32),
-  0px 4px 16px 0 rgba(0, 0, 0, 0.12);
+  0rem 2rem 2.125rem 0 rgba(0, 0, 0, 0.32),
+  0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12);
 
 $kendo-is-dark-theme: $tb-kendo-is-dark-theme;
 $kendo-icon-size: $tb-kendo-icon-size;
@@ -1429,7 +1429,7 @@ $kendo-tooltip-shadow: $tb-kendo-tooltip-shadow;
 $kendo-window-shadow: $tb-kendo-window-shadow;
 $kendo-window-focus-shadow: $tb-kendo-window-focus-shadow;
 $kendo-font-family: inherit;
-$kendo-font-size: 14px;
+$kendo-font-size: 0.875rem;
 $kendo-font-weight-normal: 400;
 $kendo-line-height: 1.4285714286;
 
@@ -1438,7 +1438,7 @@ $enable-gradients: true;
 $tb-typography: (
   kendo-default-typography: (
     font-family: 'inherit',
-    font-size: 14px,
+    font-size: 0.875rem,
     font-weight: 400,
     line-height: 1.4285714286,
   ),
@@ -1473,62 +1473,62 @@ $tb-effects: (
   ),
   kendo-appbar-box-shadow: (
     box-shadow: (
-      0px 8px 10px 0 rgba(0, 0, 0, 0.12),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 0.5rem 0.625rem 0 rgba(0, 0, 0, 0.12),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-bottom-nav-shadow: (
     box-shadow: (
-      0px 8px 10px 0 rgba(0, 0, 0, 0.12),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 0.5rem 0.625rem 0 rgba(0, 0, 0, 0.12),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-color-gradient-focus-shadow: (
     box-shadow: (
-      0px 6px 8px 0 rgba(0, 0, 0, 0.08),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 0.375rem 0.5rem 0 rgba(0, 0, 0, 0.08),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-fab-shadow: (
     box-shadow: (
-      0px 10px 12px 0 rgba(0, 0, 0, 0.16),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 0.625rem 0.75rem 0 rgba(0, 0, 0, 0.16),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-fab-disabled-shadow: (
     box-shadow: (
-      0px 10px 12px 0 rgba(0, 0, 0, 0.16),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 0.625rem 0.75rem 0 rgba(0, 0, 0, 0.16),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-list-header-shadow: (
     box-shadow: (
-      0px 4px 6px 0 rgba(0, 0, 0, 0.06),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 0.25rem 0.375rem 0 rgba(0, 0, 0, 0.06),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-popup-shadow: (
     box-shadow: (
-      0px 8px 10px 0 rgba(0, 0, 0, 0.12),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 0.5rem 0.625rem 0 rgba(0, 0, 0, 0.12),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-tooltip-shadow: (
     box-shadow: (
-      0px 4px 6px 0 rgba(0, 0, 0, 0.06),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 0.25rem 0.375rem 0 rgba(0, 0, 0, 0.06),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-window-shadow: (
     box-shadow: (
-      0px 16px 18px 0 rgba(0, 0, 0, 0.28),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 1rem 1.125rem 0 rgba(0, 0, 0, 0.28),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
   kendo-window-focus-shadow: (
     box-shadow: (
-      0px 32px 34px 0 rgba(0, 0, 0, 0.32),
-      0px 4px 16px 0 rgba(0, 0, 0, 0.12),
+      0rem 2rem 2.125rem 0 rgba(0, 0, 0, 0.32),
+      0rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.12),
     ),
   ),
 );

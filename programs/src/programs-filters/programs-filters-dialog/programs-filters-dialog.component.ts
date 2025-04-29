@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { DialogModule } from '@progress/kendo-angular-dialog';
@@ -37,7 +37,6 @@ export class ProgramsFiltersDialogComponent {
   isFilterExpanded = false;
   isFilterDialogOpen = false;
   filterKeys = ['program', 'organisation_id', 'program_name', 'integrated'];
-  formDropdownValues = ['dual', 'simulated', 'cooperative', 'modular'];
   durationDropdownValues = ['1-3', '3-6', '6-9', '9-12', '12-15'];
 
   filters = input(<any>[]);

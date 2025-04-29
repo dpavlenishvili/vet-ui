@@ -11,10 +11,12 @@
                   textField="value"
                   valueField="id"
                   formControlName="education"
+                  (valueChange)="educationChange($event)"
                   [valuePrimitive]="true"
                 />
               </kendo-label>
             </kendo-formfield>
+
             <kendo-formfield>
               <kendo-label [text]="'shared.testCity' | transloco">
                 <kendo-dropdownlist
@@ -52,7 +54,7 @@
           }
         </div>
         <div class="section">
-          <div class="title k-text-base">
+          <div class="title k-text-md">
             <span>{{ 'programs.needAdaptedEnvironment' | transloco }}</span>
             <kendo-switch
               [onLabel]="'shared.yes' | transloco"
@@ -64,7 +66,7 @@
           </div>
           @if (specEnvSwitch.checked) {
             <div class="checkbox-selection-container">
-              <div class="k-mb-3">
+              <div class="k-mb-3 k-text-base">
                 {{ 'programs.please_select_your_requirement' | transloco}}
               </div>
               <div class="k-d-flex k-gap-3 k-justify-content-between">
@@ -96,7 +98,7 @@
         </div>
 
         <div class="section">
-          <div class="title k-text-base">
+          <div class="title k-text-md">
             <span>
               @if (user()?.residential === citizenship.Georgian) {
                 {{ 'programs.completedForeignGeneralEducation' | transloco }}
@@ -121,7 +123,10 @@
             </vet-info>
             <vet-file-upload
               [title]="'programs.uploadEducationDocument'"
-              [uploadedFiles]="form?.get('abroad_doc')?.getRawValue()"
+              [uploadedFiles]="abroadDoc()?.getRawValue()"
+              [errorMessage]="!(abroadDoc()?.touched && abroadDoc()?.errors?.['required'])
+              ? null
+              : 'programs.uploadEducationDocument' | transloco"
               (fileUploaded)="handleFileUpload($event, 'abroad_doc')"
               (fileRemoved)="handleRemoveFile($event, 'abroad_doc')"
             />
@@ -129,7 +134,7 @@
         </div>
 
         <div class="section">
-          <div class="title k-text-base">
+          <div class="title k-text-md">
             <span>
               @if (user()?.residential === citizenship.Georgian) {
                 {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
@@ -154,7 +159,10 @@
             </vet-info>
             <vet-file-upload
               [title]="'programs.uploadEducationDocument'"
-              [uploadedFiles]="form?.get('ocu_doc')?.getRawValue()"
+              [errorMessage]="!(ocuDoc()?.touched && ocuDoc()?.errors?.['required'])
+              ? null
+              : 'programs.uploadEducationDocument' | transloco"
+              [uploadedFiles]="ocuDoc()?.getRawValue()"
               (fileUploaded)="handleFileUpload($event, 'ocu_doc')"
               (fileRemoved)="handleRemoveFile($event, 'ocu_doc')"
             />

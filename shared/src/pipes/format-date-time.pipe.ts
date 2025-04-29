@@ -21,6 +21,12 @@ export class FormatDateTimePipe implements PipeTransform {
     const format = params.format ?? this.defaultDisplayDateTimeFormat;
     const fallback = params.fallback ?? this.defaultDateTimeFallback;
 
-    return date ? dayjs(date).format(format) : fallback;
+    if (typeof date === 'string') {
+      date = date.replace(/(\.\d{3})\d+/, '$1');
+    }
+
+    const dayjsDate = dayjs(date);
+
+    return dayjsDate.isValid() ? dayjsDate.format(format) : fallback;
   }
 }

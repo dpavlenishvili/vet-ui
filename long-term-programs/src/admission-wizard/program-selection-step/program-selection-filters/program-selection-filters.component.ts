@@ -14,6 +14,7 @@ import { map, tap } from 'rxjs/operators';
 import { ProgramSelectionFilter } from '../program-selection-step.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-program-selection-filters',
@@ -27,6 +28,7 @@ import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
     DropDownsModule,
     SVGIconModule,
     DateInputsModule,
+    TooltipDirective,
   ],
   templateUrl: './program-selection-filters.component.html',
   styleUrl: './program-selection-filters.component.scss',
@@ -40,13 +42,18 @@ export class ProgramSelectionFiltersComponent {
   isFilterExpanded = signal(false);
   filteredDistricts = signal<District[]>([]);
 
-  programForms: string[] = ['dual', 'imitated', 'cooperative', 'modular'];
-  financing: string[] = ['yes', 'no', 'partly'];
-
   generalsService = inject(GeneralsService);
 
   filtersChange = output<ProgramSelectionFilter>();
 
+  programTypes$ = rxResource({
+    loader: () =>
+      this.generalsService.getAllConfigs({ key: 'program_types' }).pipe(map((res) => res.program_types)),
+  });
+  financingTypes$ = rxResource({
+    loader: () =>
+      this.generalsService.getAllConfigs({ key: 'financing_types' }).pipe(map((res) => res.financing_types)),
+  });
   regionsRc$ = rxResource({
     loader: () => this.generalsService.getRegionsList().pipe(map((response) => response.data)),
   });
@@ -83,12 +90,13 @@ export class ProgramSelectionFiltersComponent {
 
   createFormGroup() {
     return new FormGroup({
-      filter: new FormControl<string | null>(null),
+      search: new FormControl<string | null>(null),
       organisation: new FormControl<string | null>(null),
       program_name: new FormControl<string | null>(null),
       program: new FormControl<string | null>(null),
       program_kind: new FormControl<string | null>(null),
       integrated: new FormControl<boolean | null>(null),
+      program_types: new FormControl<string | null>(null),
       financing_type: new FormControl<string | null>(null),
       region: new FormControl<string | null>(null),
       district: new FormControl<string | null>(null),
@@ -107,12 +115,13 @@ export class ProgramSelectionFiltersComponent {
   onSubmit() {
     const value = this.filterForm.value;
     const filterData: ProgramSelectionFilter['filters'] = {
-      filter: value.filter ?? null,
+      search: value.search ?? null,
       organisation: value.organisation ?? null,
       program_name: value.program_name ?? null,
       program: value.program ?? null,
       program_kind: value.program_kind ?? null,
       integrated: value.integrated ?? null,
+      program_types: value.program_types ?? null,
       financing_type: value.financing_type ?? null,
       region: value.region ?? null,
       district: value.district ?? null,

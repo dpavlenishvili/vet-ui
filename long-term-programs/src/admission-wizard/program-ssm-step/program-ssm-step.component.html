@@ -124,6 +124,7 @@
                         [onLabel]="'shared.yes' | transloco"
                         [offLabel]="'shared.no' | transloco"
                         [checked]="!!selectedLanguage()"
+                        (valueChange)="onLanguageSwitchChange($event)"
                         #translateReq
                       />
                     </div>
@@ -156,6 +157,15 @@
                           />
                         }
                       </div>
+                    </div>
+                    <div class="k-mt-1">
+                      @if (
+                        form?.get('translate_select')?.invalid &&
+                        !form?.get('translate_select')?.untouched &&
+                        translateReq.checked
+                        ) {
+                        <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                      }
                     </div>
                   }
                 </div>

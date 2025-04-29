@@ -21,59 +21,59 @@
 
 @mixin text-xs($bold: false) {
   @include text-shared-properties($bold);
-  font-size: 11px;
-  line-height: 13px;
+  font-size: 0.6875rem;
+  line-height: 0.8125rem;
 }
 
 @mixin text-sm($bold: false) {
   @include text-shared-properties($bold);
-  font-size: 12px;
-  line-height: 14.5px;
+  font-size: 0.75rem;
+  line-height: 0.90625rem;
 
-  // bold line-height: 20px;
+  // bold line-height: 1.25rem;
 }
 
 @mixin text-base($bold: false) {
   @include text-shared-properties($bold);
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
 }
 
 @mixin text-md($bold: false) {
   @include text-shared-properties($bold);
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 1rem;
+  line-height: 1.25rem;
 }
 
 @mixin text-h3($bold: false) {
   @include text-shared-properties($bold);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
-  line-height: 22px;
+  line-height: 1.375rem;
 }
 
 @mixin text-h2($bold: true) {
   @include text-shared-properties($bold);
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 1.125rem;
+  line-height: 1.375rem;
 }
 
 @mixin text-h1($bold: true) {
   @include text-shared-properties($bold);
-  font-size: 20px;
-  line-height: 22px;
+  font-size: 1.25rem;
+  line-height: 1.375rem;
 }
 
 @mixin text-lg($bold: true) {
   @include text-shared-properties($bold);
-  font-size: 24px;
-  line-height: 30px;
+  font-size: 1.5rem;
+  line-height: 1.875rem;
 }
 
 @mixin text-xxl($bold: true) {
   @include text-shared-properties($bold);
-  font-size: 30px;
-  line-height: 36.6px;
+  font-size: 1.875rem;
+  line-height: 2.2875rem;
 }
 
 @mixin anchor-reset() {

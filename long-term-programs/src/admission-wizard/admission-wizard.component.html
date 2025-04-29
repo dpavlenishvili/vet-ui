@@ -1,4 +1,4 @@
-<div class="k-d-flex k-justify-content-between k-gap-4">
+<div class="k-d-flex k-gap-4">
   <div class="stepper-container">
     <kendo-stepper
       [(currentStep)]="currentStepIndex"
@@ -15,7 +15,6 @@
   <div class="step-content-container">
     <div class="k-display-flex k-gap-5 k-flex-column">
       @if (currentStep(); as _currentStep) {
-
         <ng-template [ngTemplateOutlet]="_currentStep.template" />
       }
     </div>
@@ -26,6 +25,7 @@
   <vet-program-general-information-step
     [form]="formGroup.controls.general_information"
     (nextClick)="onNextClick('general_information')"
+    (clearSelectedPrograms)="clearSelectedPrograms()"
   />
 </ng-template>
 
@@ -52,6 +52,7 @@
 <ng-template #programSelectedProgramsStepTmpl>
   <vet-program-selected-programs-step
     [form]="formGroup.controls.selected_programs"
+    [ssmStepForm]="formGroup.controls.ssm_status"
     [selectionProgramsForm]="formGroup.controls.program_selection"
     [admissionId]="admissionId()"
     (previousClick)="onPreviousClick()"

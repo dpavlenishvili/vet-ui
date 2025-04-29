@@ -1,14 +1,4 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  HostListener,
-  inject,
-  input,
-  output,
-  signal,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, input, output, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
@@ -22,10 +12,8 @@ import { UserAccount } from '../../../../auth/src/auth.types';
 
 @Component({
   selector: 'vet-ui-navbar',
-  standalone: true,
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
-  encapsulation: ViewEncapsulation.None,
   imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
 })
 export class NavbarComponent {
@@ -68,9 +56,12 @@ export class NavbarComponent {
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
+    this.isProfileCardOpen.set(false);
   }
 
   navigateTo(direction: string) {
+    this.isMobileMenuOpen.set(false);
+    this.isProfileCardOpen.set(false);
     this.router.navigate([`/${direction}`]).then();
   }
 
@@ -81,6 +72,7 @@ export class NavbarComponent {
   }
 
   handleLogout(): void {
+    this.isMobileMenuOpen.set(false);
     this.isProfileCardOpen.set(false);
     this.logout.emit();
     void this.router.navigate(['authorization']);
@@ -90,6 +82,9 @@ export class NavbarComponent {
     const selectedAccountName = this.userRolesService.currentAccountName();
     if (userAccount.name) {
       this.userRolesService.selectUserAccount(userAccount.name);
+      this.isMobileMenuOpen.set(false);
+      this.isProfileCardOpen.set(false);
+      void this.router.navigate(['/']);
     }
 
     void this.router.navigate([selectedAccountName === userAccount.name ? 'user-profile' : '']);

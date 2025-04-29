@@ -1,6 +1,5 @@
 import { inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { WA_LOCAL_STORAGE, WA_WINDOW } from '@ng-web-apis/common';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +9,7 @@ export class ThemeService {
   private readonly rootElement: HTMLElement;
   private readonly themeKey = 'preferred-theme';
   private readonly storage = inject(WA_LOCAL_STORAGE);
-  private router = inject(Router);
+
 
   constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -82,14 +81,6 @@ export class ThemeService {
   private clearTheme(): void {
     const themes: ThemeName[] = ['theme-v1', 'theme-v2', 'theme-v3'];
     themes.forEach((theme) => this.renderer.removeClass(this.rootElement, theme));
-  }
-
-  /**
-   * Check if the current route is Home Page
-   */
-  private isHomePage(): boolean {
-    const currentUrl = this.router.url;
-    return currentUrl === '/' || currentUrl === '/home';
   }
 }
 

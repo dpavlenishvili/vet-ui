@@ -28,10 +28,10 @@
 }
 
 .k-button.k-button-md {
-  padding-bottom: 8px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 8px;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
 }
 
 .k-drawer-container.k-drawer-expanded.k-drawer-push .k-drawer.k-drawer-start .k-drawer-wrapper .k-drawer-items {
@@ -194,7 +194,7 @@
 }
 
 .k-scrollview {
-  border-radius: 20px;
+  border-radius: 1.25rem;
   border: none;
   .k-scrollview-wrap {
     background: #fdf8ff;
@@ -202,7 +202,7 @@
   .k-scrollview-elements {
     .k-scrollview-next {
       color: #b1b7bb;
-      right: 20px;
+      right: 1.25rem;
 
       &:hover {
         color: #b1b7bb;
@@ -211,7 +211,7 @@
 
     .k-scrollview-prev {
       color: #b1b7bb;
-      left: 20px;
+      left: 1.25rem;
 
       &:hover {
         color: #b1b7bb;
@@ -221,17 +221,17 @@
     .k-scrollview-nav-wrap {
       .k-scrollview-nav {
         span.k-link {
-          border: 1px solid #c3c3c3;
+          border: 0.0625rem solid #c3c3c3;
           transition: all 0.3s ease-in-out;
 
           &:hover {
-            width: 20px;
-            border-radius: 10px;
+            width: 1.25rem;
+            border-radius: 0.625rem;
           }
         }
         span.k-link.k-primary {
-          width: 20px;
-          border-radius: 10px;
+          width: 1.25rem;
+          border-radius: 0.625rem;
           background: #c3c3c3;
         }
       }

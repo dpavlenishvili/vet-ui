@@ -42,15 +42,14 @@
           }
         }
 
-        <kendo-label [text]="'programs.form'| transloco">
+        <kendo-label [text]="'programs.form' | transloco">
           <kendo-dropdownlist
+            [valuePrimitive]="true"
             formControlName="form"
-            [data]="formDropdownValues"
-          >
-            <ng-template kendoDropDownListItemTemplate let-item>
-              {{'shared.' + item | transloco}}
-            </ng-template>
-          </kendo-dropdownlist>
+            valueField="id"
+            textField="value"
+            [data]="programTypes$.value()"
+          />
         </kendo-label>
 
         <kendo-label [text]="'programs.duration' | transloco">

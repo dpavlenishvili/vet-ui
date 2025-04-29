@@ -104,13 +104,13 @@
   </kendo-dialog>
 }
 
-@if (isInfoDialogOpen()) {
+@if (isSelectionWarningDialogOpen()) {
   <kendo-dialog
-    [width]="474"
+    [width]="574"
     [height]="150"
-    [title]="'programs.warning' | transloco"
+    [title]="'shared.informationMessage' | transloco"
     (close)="onCloseClick()"
   >
-    {{ infoDialogText() | transloco }}
+    {{ selectionWarningDialogText() | transloco }}
   </kendo-dialog>
 }

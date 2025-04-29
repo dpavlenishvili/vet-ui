@@ -1,7 +1,7 @@
 <div class="k-bg-white k-p-5 k-mb-4 k-rounded-lg">
   <div class="k-d-flex k-justify-content-between">
     <span>
-      საინფორმაციო შეტყობინება
+      {{ 'shared.informationMessage' | transloco }}
     </span>
     <button kendoButton themeColor="primary" (click)="onRegisterClick()">
       {{ 'shared.registration' | transloco }}
@@ -22,17 +22,55 @@
       [pageSize]="admissionList$.value()?.meta?.per_page"
       (dataStateChange)="handlePageChange($event)"
     >
-      <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" />
-      <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" />
-      <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" />
-      <kendo-grid-column [title]="''">
+      <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" [width]="200" />
+      <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" [width]="200" />
+      <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" [width]="200" />
+      <kendo-grid-column field="registered_at" [title]="'programs.registration_date' | transloco" [width]="200">
+        <ng-template kendoGridCellTemplate let-item>
+          {{ item.registered_at | formatDateTime: { format: 'MM/DD/YYYY' } }}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column [title]="'programs.ssm_status' | transloco" [width]="200">
+        <ng-template kendoGridCellTemplate let-item>
+          {{ (item?.spec_edu ? 'shared.yes' : 'shared.no') | transloco }}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column [title]="'shared.status' | transloco" [width]="200">
+        <ng-template kendoGridCellTemplate let-item>
+          {{ item.status.current }}
+          {{ item.status.date | formatDateTime: { format: 'MM/DD/YYYY' } }}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column [title]="''" [width]="200">
         <ng-template kendoGridCellTemplate let-item>
           <div class="k-display-flex">
             <button
               kendoButton
               fillMode="flat"
-              [svgIcon]="vetIcons.eye"
+              [svgIcon]="vetIcons.editIcon"
               (click)="onViewClick(item)"
+              [disabled]="!item.actions.edit"
+            ></button>
+            <button
+              kendoButton
+              fillMode="flat"
+              [svgIcon]="vetIcons.emptyDocumentIcon"
+              (click)="onViewClick(item)"
+              [disabled]="!item.actions.choose"
+            ></button>
+            <button
+              kendoButton
+              fillMode="flat"
+              [svgIcon]="vetIcons.readDocumentIcon"
+              (click)="onViewClick(item)"
+              [disabled]="!item.actions.view"
+            ></button>
+            <button
+              kendoButton
+              fillMode="flat"
+              [svgIcon]="vetIcons.acceptedDocumentIcon"
+              (click)="onViewClick(item)"
+              [disabled]="!item.actions.result"
             ></button>
           </div>
         </ng-template>

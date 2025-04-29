@@ -1,8 +1,8 @@
-import { inject, resource, Signal } from '@angular/core';
-import { AdmissionService } from '@vet/backend';
+import { inject, resource, ResourceRef, Signal } from '@angular/core';
+import { AdmissionPrograms, AdmissionService } from '@vet/backend';
 import { firstValueFrom, map } from 'rxjs';
 
-export function admissionProgramsResource(admissionId: Signal<string | null | undefined>) {
+export function admissionProgramsResource(admissionId: Signal<string | null | undefined>): ResourceRef<AdmissionPrograms[] | undefined> {
   const admissionService = inject(AdmissionService);
   return resource({
     request: () => ({ admissionId: admissionId() }),

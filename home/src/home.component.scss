@@ -2,13 +2,17 @@
 
 :host {
   display: block;
+  .k-width-desktop {
+    max-width: shared.$vet-layout-width-desktop;
+    width: 100%;
+  }
 }
 
 .vet-home-padded-section {
   max-width: shared.$vet-layout-width-desktop;
   padding: 0 5rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 48rem) {
     padding: 0 2rem;
   }
 }
