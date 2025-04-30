@@ -33,7 +33,7 @@
               {{ 'programs.admission_prerequisite' | transloco }}: <strong>{{ _program.qualification_name }}</strong>
             </div>
             <div>
-              {{ 'programs.allowed_min_age' | transloco }}: <strong>{{ _program.qualification_name }}</strong>
+              {{ 'programs.allowed_min_age' | transloco }}: <strong>{{ _program.admission?.min_allowed_age }}</strong>
             </div>
             <div>
               {{ 'programs.implementation_location' | transloco }}: <strong>{{ _program.address }}</strong>
@@ -47,33 +47,11 @@
           </div>
         </div>
 
-        @if (admission) {
+        @if (_program.admission; as admission) {
           <div class="k-pos-relative k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-primary">
             <div class="k-pos-absolute k-top-0 k-left-17 k-mt--4 k-ml-0.5 k-bg-white k-px-5 k-py-1 vet-text-sm">
               <strong class="k-color-primary">{{ 'programs.admission_open' | transloco }}</strong>
             </div>
-
-            <!-- <div class="vet-admission-table vet-grid-table vet-grid-size-6 vet-grid-dense k-mt-10">
-              <div class="vet-grid-cell vet-grid-header">{{ 'programs.registration_period' | transloco }}</div>
-              <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_start_date' | transloco }}</div>
-              <div class="vet-grid-cell vet-grid-header">{{ 'programs.number_of_vacant_positions' | transloco }}</div>
-              <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_fee' | transloco }}</div>
-              <div class="vet-grid-cell vet-grid-header">{{ 'programs.grant_status' | transloco }}</div>
-              <div class="vet-grid-cell vet-grid-header">{{ 'programs.listener_fee' | transloco }}</div>
-
-              @for (admission of program.admission; track admission.admission_id) {
-                <div class="vet-grid-cell">
-                  {{ admission.registration_start_date }} / {{ admission.registration_end_date }}
-                </div>
-                <div class="vet-grid-cell">{{ admission.study_start_date }}</div>
-                <div class="vet-grid-cell">{{ admission.students_limit }}</div>
-                <div class="vet-grid-cell">{{ admission.student_fee }}</div>
-                <div class="vet-grid-cell">{{ admission.grantStatus }}</div>
-                <div class="vet-grid-cell">{{ admission.program_fee }}</div>
-              }
-            </div> -->
-
-            @if (_program.admission; as admission) {
               <div class="k-display-flex k-flex-column k-gap-5">
                 <div class="k-display-flex k-gap-5">
                   <kendo-svg-icon [icon]="kendoIcons.infoSolidIcon" themeColor="secondary" />
@@ -128,7 +106,7 @@
 
                 <div class="gray-line"></div>
               </div>
-            }
+            
 
             <div class="vet-text-base k-mt-7">
               <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
@@ -158,7 +136,7 @@
           <div class="vet-grid-cell vet-grid-header">{{ 'programs.organization_size' | transloco }}</div>
           <div class="vet-grid-cell vet-grid-header">{{ 'programs.economic_sector' | transloco }}</div>
 
-          @for (partner of partners; track partner.id) {
+          @for (partner of _program.partners; track partner.id) {
             <div class="vet-grid-cell">{{ partner.name }}</div>
             <div class="vet-grid-cell">
               <kendo-svg-icon [icon]="vetIcons.info" />
@@ -179,22 +157,24 @@
         </div>
       </div>
 
-      <div class="k-mt-8 k-px-24 k-pb-15">
-        <div class="k-px-2">
-          <div class="k-p-7 k-rounded-card k-elevation-1">
-            <iframe
-              width="100%"
-              height="395"
-              [src]="_program.video_url"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
+      @if (_program.video_url; as videoUrl) {
+        <div class="k-mt-8 k-px-24 k-pb-15">
+          <div class="k-px-2">
+            <div class="k-p-7 k-rounded-card k-elevation-1">
+              <iframe
+                width="100%"
+                height="395"
+                [src]="getVideoUrl(videoUrl)"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
           </div>
         </div>
-      </div>
+      }
     </div>
   }
 }

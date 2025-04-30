@@ -3,32 +3,25 @@
 } @else {
   @if (selectedPrograms(); as _selectedPrograms) {
     <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5">
-      <kendo-grid-column [width]="200" [title]="'programs.program_name' | transloco">
+      <kendo-grid-column [title]="'programs.program_name' | transloco">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.program.program_name }}
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [width]="220" [title]="'programs.form' | transloco">
-        <ng-template kendoGridCellTemplate let-item>
-          {{ item.program.program_kind.name }}
-        </ng-template>
-      </kendo-grid-column>
-
-      <kendo-grid-column [width]="60" [title]="'programs.level' | transloco">
+      <kendo-grid-column [title]="'programs.level' | transloco">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.program.education_level }}
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [width]="250" [title]="'programs.institution_name' | transloco">
+      <kendo-grid-column [title]="'programs.institution_name' | transloco">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.program.organisation.name }}
         </ng-template>
       </kendo-grid-column>
 
       <kendo-grid-column
-        [width]="250"
         field="organisation.address"
         [title]="'programs.implementation_location' | transloco"
       >
@@ -37,12 +30,17 @@
         </ng-template>
       </kendo-grid-column>
 
+
       @if (isEditMode()) {
-        <kendo-grid-column [width]="100" [title]="'programs.selection' | transloco">
+        <kendo-grid-column [title]="'programs.selection' | transloco" [width]="50">
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-align-items-center k-gap-0.5">
-              <button kendoButton fillMode="flat" [svgIcon]="vetIcons.eye"></button>
-
+              <button
+                kendoButton
+                fillMode="flat"
+                [svgIcon]="vetIcons.eye"
+                (click)="onPreviewProgramClick(item)">
+              </button>
               <button
                 kendoButton
                 fillMode="flat"

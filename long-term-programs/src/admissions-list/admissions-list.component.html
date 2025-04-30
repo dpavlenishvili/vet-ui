@@ -27,7 +27,7 @@
       <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" [width]="200" />
       <kendo-grid-column field="registered_at" [title]="'programs.registration_date' | transloco" [width]="200">
         <ng-template kendoGridCellTemplate let-item>
-          {{ item.registered_at | formatDateTime: { format: 'MM/DD/YYYY' } }}
+          {{ item.registered_at | formatDateTime: { format: 'DD/MM/YYYY' } }}
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-column [title]="'programs.ssm_status' | transloco" [width]="200">
@@ -38,7 +38,8 @@
       <kendo-grid-column [title]="'shared.status' | transloco" [width]="200">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.status.current }}
-          {{ item.status.date | formatDateTime: { format: 'MM/DD/YYYY' } }}
+          <br>
+          {{ item.status.date | formatDateTime: { format: 'DD/MM/YYYY' } }}
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-column [title]="''" [width]="200">

@@ -1,21 +1,23 @@
 <div class="k-display-flex k-flex-column k-gap-10">
-  <vet-program-selection-filters (filtersChange)="onFiltersChange($event)" />
+    <vet-program-selection-filters
+        [filters]="localFilters()" (filtersChange)="onFiltersChange($event)"
+    />
 
   <div class="k-display-flex k-gap-10 k-flex-column">
     <div class="responsive-grid-container">
-      <kendo-grid
-        [loading]="eligiblePrograms$.isLoading()"
-        [data]="eligiblePrograms$.value()?.data || []"
-        [skip]="0"
-        [pageable]="true"
-        [pageSize]="eligiblePrograms$.value()?.meta?.per_page"
-        (dataStateChange)="handlePageChange($event)"
-      >
+        <kendo-grid
+            [loading]="eligiblePrograms$.isLoading()"
+            [data]="gridData()"
+            [skip]="skip()"
+            [pageable]="true"
+            [pageSize]="pageSize()"
+            (dataStateChange)="handlePageChange($event)"
+        >
         <ng-template kendoGridNoRecordsTemplate>
           @if (eligiblePrograms$.error()) {
-            <!-- Optionally handle error display here -->
+              {{ 'shared.loadError' | transloco }}
           } @else {
-            <!-- Message when no records are available -->
+              {{ 'shared.noRecords' | transloco }}
           }
         </ng-template>
 
@@ -23,12 +25,6 @@
           [width]="200"
           field="program_name"
           [title]="'programs.program_name' | transloco"
-        />
-
-        <kendo-grid-column
-          [width]="220"
-          field="program_kind.name"
-          [title]="'programs.form' | transloco"
         />
 
         <kendo-grid-column

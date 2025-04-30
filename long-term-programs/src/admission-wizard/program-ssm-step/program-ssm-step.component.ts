@@ -47,10 +47,6 @@ export class ProgramSsmStepComponent implements OnInit {
   translocoService = inject(TranslocoService);
   generalsService = inject(GeneralsService);
   kendoIcons = kendoIcons;
-  languagePlaceholder = {
-    value: null,
-    label: this.translocoService.translate('programs.ssm_language_label'),
-  };
 
   languages$ = rxResource({
     loader: () => this.generalsService.translate(),
@@ -60,6 +56,7 @@ export class ProgramSsmStepComponent implements OnInit {
 
   ngOnInit() {
     this.selectedLanguage.set(this.form()?.get('translate_select')?.value);
+    this.onSpecEduSwitchChange(this.form()?.get('spec_edu')?.getRawValue());
   }
 
   onPreviousClick() {

@@ -15,6 +15,13 @@
                   [valuePrimitive]="true"
                 />
               </kendo-label>
+              @if (form.controls['education']; as control) {
+                @if (control.touched) {
+                  @if (control.errors?.['required']) {
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                  }
+                }
+              }
             </kendo-formfield>
 
             <kendo-formfield>
@@ -28,6 +35,13 @@
                   [valuePrimitive]="true"
                 />
               </kendo-label>
+              @if (form.controls['district_id']; as control) {
+                @if (control.touched) {
+                  @if (control.errors?.['required']) {
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                  }
+                }
+              }
             </kendo-formfield>
             <kendo-formfield>
               <kendo-label [text]="'shared.testLanguage' | transloco">
@@ -40,6 +54,13 @@
                   [valuePrimitive]="true"
                 />
               </kendo-label>
+              @if (form.controls['language']; as control) {
+                @if (control.touched) {
+                  @if (control.errors?.['required']) {
+                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                  }
+                }
+              }
             </kendo-formfield>
           </div>
           @if (invalidStudentStatus()) {

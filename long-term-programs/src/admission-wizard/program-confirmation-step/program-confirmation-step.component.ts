@@ -10,9 +10,9 @@ import { AuthenticationService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AdmissionService } from '@vet/backend';
 import {
-  ProgramSelectedProgramsComponent,
+  AdmissionSelectedProgramsComponent,
   ProgramSelectedProgramsStepFormGroup,
-} from '../program-selected-programs/program-selected-programs.component';
+} from '../../admission-selected-programs/admission-selected-programs.component';
 import { ProgramGeneralInformationStepFormGroup } from '../program-general-information-step/program-general-information-step.component';
 import { Citizenship, FileUploadComponent, InfoComponent, vetIcons } from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
@@ -31,7 +31,7 @@ export type ProgramSelectionStepFormGroup = FormGroup;
     LabelModule,
     SVGIconModule,
     TranslocoPipe,
-    ProgramSelectedProgramsComponent,
+    AdmissionSelectedProgramsComponent,
     InfoComponent,
     FileUploadComponent,
   ],

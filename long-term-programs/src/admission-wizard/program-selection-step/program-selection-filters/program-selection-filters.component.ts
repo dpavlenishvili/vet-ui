@@ -1,5 +1,5 @@
 import { District, vetIcons } from '@vet/shared';
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -10,11 +10,18 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { CardModule } from '@progress/kendo-angular-layout';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { GeneralsService } from '@vet/backend';
-import { map, tap } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { ProgramSelectionFilter } from '../program-selection-step.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+
+interface Organisations {
+  id?: number;
+  name?: string;
+  region_id?: number;
+  district_id?: number;
+}
 
 @Component({
   selector: 'vet-program-selection-filters',
@@ -39,16 +46,23 @@ export class ProgramSelectionFiltersComponent {
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
 
-  isFilterExpanded = signal(false);
+  isFilterExpanded = signal(true);
   filteredDistricts = signal<District[]>([]);
+  filteredOrganisations = signal<Organisations[]>([]);
 
   generalsService = inject(GeneralsService);
 
+  filters = input<ProgramSelectionFilter['filter'] | undefined>({});
   filtersChange = output<ProgramSelectionFilter>();
 
   programTypes$ = rxResource({
     loader: () =>
-      this.generalsService.getAllConfigs({ key: 'program_types' }).pipe(map((res) => res.program_types)),
+      this.generalsService
+        .getAllConfigs({
+          key: 'program_types',
+          program_type: 'long-term',
+        })
+        .pipe(map((res) => res.program_types)),
   });
   financingTypes$ = rxResource({
     loader: () =>
@@ -57,11 +71,9 @@ export class ProgramSelectionFiltersComponent {
   regionsRc$ = rxResource({
     loader: () => this.generalsService.getRegionsList().pipe(map((response) => response.data)),
   });
-
   districtsRc$ = rxResource({
     loader: () => this.generalsService.getDistrictsList().pipe(map((response) => response.data)),
   });
-
   organisationsRc$ = rxResource({
     loader: () => this.generalsService.getOrganisationsList().pipe(map((response) => response.data)),
   });
@@ -69,64 +81,91 @@ export class ProgramSelectionFiltersComponent {
   protected readonly destroyRef = inject(DestroyRef);
 
   constructor() {
-    this.filterForm
-      .get('region')
-      ?.valueChanges.pipe(
-        tap((region: string | null) => {
-          this.filterForm.get('district')?.reset();
-          if (!region) {
-            this.filterForm.get('district')?.disable();
-            this.filteredDistricts.set([]);
-          } else {
-            this.filterForm.get('district')?.enable();
-            const allDistricts = this.districtsRc$.value() || [];
-            this.filteredDistricts.set(allDistricts.filter((district: District) => district.region_name === region));
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
+    this.watchRegionChanges();
+    effect(() => this.patchIncomingFilters());
   }
 
   createFormGroup() {
     return new FormGroup({
-      search: new FormControl<string | null>(null),
-      organisation: new FormControl<string | null>(null),
-      program_name: new FormControl<string | null>(null),
-      program: new FormControl<string | null>(null),
-      program_kind: new FormControl<string | null>(null),
-      integrated: new FormControl<boolean | null>(null),
-      program_types: new FormControl<string | null>(null),
-      financing_type: new FormControl<string | null>(null),
-      region: new FormControl<string | null>(null),
-      district: new FormControl<string | null>(null),
+      search: new FormControl(),
+      organisation: new FormControl(),
+      program_name: new FormControl(),
+      program: new FormControl(),
+      program_kind: new FormControl(),
+      integrated: new FormControl(),
+      financing_type: new FormControl(),
+      region: new FormControl(),
+      district: new FormControl(),
     });
   }
 
-  clearFilters() {
-    this.filterForm.reset();
-    this.onSubmit();
+  patchIncomingFilters() {
+    const filterValue = {
+      ...this.filterForm.value,
+      ...this.filters(),
+    };
+    this.filterForm.patchValue(filterValue ?? {}, { emitEvent: false });
+    if (filterValue?.region) {
+      this.filterForm.get('region')?.updateValueAndValidity();
+    }
+  }
+
+  watchRegionChanges() {
+    this.filterForm
+      .get('region')
+      ?.valueChanges.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
+      .subscribe((regionId) => this.onRegionSelected(regionId));
+  }
+
+  onRegionSelected(regionId: number): void {
+    if (regionId !== this.filters()?.region) {
+      this.filterForm.get('district')?.reset();
+      this.filterForm.get('organisation')?.reset();
+    }
+    if (!regionId) {
+      this.filterForm.get('district')?.disable();
+      this.filterForm.get('district')?.reset();
+      this.filterForm.get('organisation')?.disable();
+      this.filterForm.get('organisation')?.reset();
+      this.filteredDistricts.set([]);
+      this.filteredOrganisations.set([]);
+    } else {
+      this.filterForm.get('district')?.enable();
+      this.filterForm.get('organisation')?.enable();
+      const allDistricts = this.districtsRc$.value() || [];
+      const allOrganisations = this.organisationsRc$.value() || [];
+      this.filteredDistricts.set(allDistricts.filter((district: District) => district.region_id === regionId));
+      this.filteredOrganisations.set(
+        allOrganisations.filter((organisation: Organisations) => organisation.region_id === regionId),
+      );
+    }
   }
 
   onFilterExpandClick() {
     this.isFilterExpanded.set(!this.isFilterExpanded());
   }
 
+  clearFilters() {
+    this.filterForm.reset();
+    this.filterForm.updateValueAndValidity();
+    this.onSubmit();
+  }
+
   onSubmit() {
     const value = this.filterForm.value;
-    const filterData: ProgramSelectionFilter['filters'] = {
+
+    const filterData: ProgramSelectionFilter['filter'] = {
       search: value.search ?? null,
       organisation: value.organisation ?? null,
       program_name: value.program_name ?? null,
       program: value.program ?? null,
       program_kind: value.program_kind ?? null,
       integrated: value.integrated ?? null,
-      program_types: value.program_types ?? null,
       financing_type: value.financing_type ?? null,
-      region: value.region ?? null,
+      region: value?.region ?? null,
       district: value.district ?? null,
     };
 
-    this.filtersChange.emit({ filters: filterData });
+    this.filtersChange.emit({ filter: filterData });
   }
 }

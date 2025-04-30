@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -6,8 +16,8 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
-import { filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons } from '@vet/shared';
-import { GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { filterNullValues, kendoIcons, RouteParamsService, useAlert, useJsonQueryParam, vetIcons } from '@vet/shared';
+import { GridDataResult, GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { ProgramComponent } from 'programs/src/program/program.component';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';
@@ -20,7 +30,7 @@ export type ProgramSsmStep = FormGroup;
 export type SelectedProgramsStepForm = FormGroup;
 export type GeneralInformationStepFromGroup = FormGroup;
 export type ProgramSelectionFilter = {
-  filters: {
+  filter: {
     search?: string | null;
     organisation?: string | null;
     program_name?: string | null;
@@ -30,7 +40,7 @@ export type ProgramSelectionFilter = {
     integrated?: boolean | null;
     program_types?: string | null;
     financing_type?: string | null;
-    region?: string | null;
+    region?: number | null;
     district?: string | null;
   };
 };
@@ -70,6 +80,7 @@ export class ProgramSelectionStepComponent implements OnInit {
   singleProgramId = signal(0);
   selectedPrograms = signal<number[]>([]);
   selectedProgramsCount = signal<number>(0);
+  localFilters = signal<ProgramSelectionFilter['filter'] | undefined>(useJsonQueryParam('filter'));
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;
   previewProgram: LongTerm | null = null;
@@ -79,10 +90,13 @@ export class ProgramSelectionStepComponent implements OnInit {
   private routeParamsService = inject(RouteParamsService);
   private destroyRef = inject(DestroyRef);
 
-  protected filters = signal<ProgramSelectionFilter['filters'] | undefined>(undefined);
-
   eligiblePrograms$ = rxResource({
-    request: () => ({ admissionId: this.admissionId(), filters: this.filters() }),
+    request: () => ({
+      admissionId: this.admissionId(),
+      filters: filterNullValues({
+        ...this.localFilters(),
+      }),
+    }),
     loader: ({ request: { admissionId, filters } }) => {
       // ტიპი არის დასამატებელი, აღსაწერია სვაგერი სწორად.
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -90,6 +104,13 @@ export class ProgramSelectionStepComponent implements OnInit {
       return this.admissionService.eligibleProgramsList(admissionId, filters);
     },
   });
+
+  readonly gridData = computed(() => {
+    const val = this.eligiblePrograms$.value();
+    return { data: val?.data || [], total: val?.meta?.total || 0 } as GridDataResult;
+  });
+  readonly pageSize = computed(() => this.eligiblePrograms$.value()?.meta?.per_page || 5);
+  readonly skip = signal(0);
 
   ngOnInit() {
     const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
@@ -103,7 +124,7 @@ export class ProgramSelectionStepComponent implements OnInit {
     this.previewProgram = item;
   }
 
-  isAddButtonDisabled(item: LongTerm): boolean {
+  isAddButtonDisabled(item: LongTerm) {
     const maxReached = this.selectedProgramsCount() >= 3;
     const educationLevel = this.generalInformationFrom()?.get('education_level')?.value;
     const isIntegrated = !!item.is_integrated;
@@ -186,13 +207,13 @@ export class ProgramSelectionStepComponent implements OnInit {
   }
 
   handlePageChange(event: PageChangeEvent) {
-    this.routeParamsService.update({
-      page: event.skip / event.take + 1,
-    });
+    const page = event.skip / event.take + 1;
+    this.skip.set(event.skip);
+    this.routeParamsService.update({ page });
   }
 
-  onFiltersChange(filters: ProgramSelectionFilter) {
-    this.routeParamsService.update(filters);
-    this.filters.set(filterNullValues(filters.filters));
+  onFiltersChange(evt: ProgramSelectionFilter) {
+    this.localFilters.set(evt.filter ?? {});
+    this.routeParamsService.update(evt);
   }
 }

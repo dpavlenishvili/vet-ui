@@ -6,6 +6,7 @@ import {map, of} from 'rxjs';
 import {TranslocoPipe} from '@jsverse/transloco';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import {rxResource} from "@angular/core/rxjs-interop";
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 interface Organisation {
   name?: string;
@@ -23,21 +24,9 @@ export class ProgramComponent {
   readonly eligibleProgram = input<LongTerm | null>();
   readonly programId = input(null, {transform: vetCoerceNumberProperty});
 
+  private sanitizer = inject(DomSanitizer);
+
   protected programsService = inject(ProgramsService);
-  protected partners = [
-    {
-      id: 1,
-      name: 'შპს სქაინეთი',
-      size: 'მცირე',
-      sector: 'სოფლის მეურნეობა და თევზჭერა',
-    },
-    {
-      id: 2,
-      name: 'შპს კომპიუტერული ტექნოლოგიების აკადემია სი თი ეი',
-      size: 'დიდი',
-      sector: 'ვაჭრობა',
-    },
-  ];
 
   kendoIcons = kendoIcons;
 
@@ -75,5 +64,9 @@ export class ProgramComponent {
 
   getOrganisation(program: LongTerm | null): Organisation {
     return program?.organisation as Organisation;
+  }
+
+  getVideoUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

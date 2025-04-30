@@ -41,6 +41,9 @@
                 @if (control.errors?.['required']) {
                   <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
                 }
+                @if (control.errors?.['georgianLettersError']) {
+                  <kendo-formerror>{{ 'shared.invalidGeorgianLetters' | transloco }}</kendo-formerror>
+                }
               }
             }
           </kendo-label>
@@ -51,6 +54,9 @@
               @if (!control.untouched) {
                 @if (control.errors?.['required']) {
                   <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+                @if (control.errors?.['georgianLettersError']) {
+                  <kendo-formerror>{{ 'shared.invalidGeorgianLetters' | transloco }}</kendo-formerror>
                 }
               }
             }

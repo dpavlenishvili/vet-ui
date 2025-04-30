@@ -8,7 +8,7 @@
         >
           <div class="k-display-flex k-flex-column k-gap-10">
             <div
-              class="k-bg-divider-light k-border-b-solid k-border-white k-display-flex k-gap-6 k-p-4 k-rounded-2.5 k-w-full"
+              class="k-bg-divider-light k-border-b-solid k-border-white k-display-flex k-gap-6 k-p-4 k-rounded-lg k-w-full"
             >
               <img
                 src="/assets/images/profile.png"
@@ -48,14 +48,14 @@
             </div>
 
             <div
-              class="k-border-divider-light k-border-solid k-px-2 k-py-8 k-pos-relative"
+              class="k-border-divider-light k-border k-border-solid k-px-2 k-py-8 k-pos-relative k-rounded-lg"
             >
               <div
                 class="k-bg-white k-color-body k-pos-absolute k-p-2 k-text-md k-top-0 k-left-0 k-mt--5 k-ml-24"
               >
                 {{ 'programs.selected_programs' | transloco }}
               </div>
-              <vet-program-selected-programs
+              <vet-admission-selected-programs
                 [selectedPrograms]="selectedPrograms.value()"
                 [selectedProgramsError]="$any(selectedPrograms.error())"
                 [selectedProgramsLoading]="selectedPrograms.isLoading()"
@@ -63,7 +63,7 @@
             </div>
 
             <div
-              class="k-border-divider-light k-border-solid k-color-body k-display-flex k-flex-column k-gap-6 k-p-4 k-rounded-2.5 k-text-base k-w-full"
+              class="k-border-divider-light k-border k-border-solid k-color-body k-display-flex k-flex-column k-gap-6 k-p-4 k-rounded-lg k-text-base k-w-full"
             >
               <div class="k-align-items-center k-display-flex k-gap-4">
                 <b>{{ 'programs.needAdaptedEnvironment' | transloco }}</b>
@@ -99,7 +99,7 @@
 
             @if (ssmFormGroup(); as ssmForm) {
               <div
-                class="k-border-divider-light k-border-solid k-color-body k-flex-1 k-display-flex k-flex-column k-gap-5 k-px-3.5 k-py-6 k-rounded-lg k-text-base"
+                class="k-border-divider-light k-border k-border-solid k-color-body k-flex-1 k-display-flex k-flex-column k-gap-5 k-px-3.5 k-py-6 k-rounded-lg k-text-base"
               >
                 <div class="k-align-items-center k-display-flex k-gap-4.5">
                   <div class="k-color-body k-text-base">
@@ -117,7 +117,7 @@
 
               @if (spec_edu.checked) {
                 <div
-                  class="k-border-divider-light k-border-solid k-display-flex k-flex-column k-gap-4 k-p-3.5 k-rounded-lg k-text-base"
+                  class="k-border-divider-light k-border k-border-solid k-display-flex k-flex-column k-gap-4 k-p-3.5 k-rounded-lg k-text-base"
                 >
                   <div class="k-align-items-center k-display-flex k-gap-4.5">
                     <div class="k-color-body k-text-base">
@@ -154,12 +154,12 @@
                   }
 
                   <div class="k-display-flex k-flex-column k-gap-4">
-                    <div class="k-color-body k-display-flex k-gap-1 k-text-base">
+                    <div class="k-color-body k-display-flex k-gap-1 k-color-body k-text-base">
                       <b>{{ 'programs.ssm_person_requirement_info' | transloco }}</b>
                     </div>
 
                     <div
-                      class="k-bg-white k-border-divider-light k-border-solid k-p-2.5 k-rounded-xxl"
+                      class="k-bg-white k-border-divider-light k-border k-border-solid k-p-2.5 k-rounded-lg"
                     >
                       <textarea
                         class="k-outline-none k-border-none k-resize-y k-text-base k-w-full vet-ssm-textarea"
@@ -178,14 +178,16 @@
             }
 
             <div
-              class="k-border-divider-light k-border-solid k-color-body k-display-flex k-flex-column k-gap-6 k-p-4 k-rounded-2.5 k-text-base k-w-full"
+              class="k-border-divider-light k-border k-border-solid k-color-body k-display-flex k-flex-column k-gap-6 k-p-4 k-rounded-lg k-text-base k-w-full"
             >
-              <div class="k-align-items-center k-display-flex k-gap-4">
-                @if (user()?.residential === citizenship.Georgian) {
-                  {{ 'programs.completedForeignGeneralEducation' | transloco }}
-                } @else {
-                  {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
-                }
+              <div class="k-align-items-center k-display-flex k-gap-4 k-color-body k-text-base">
+                <b>
+                  @if (user()?.residential === citizenship.Georgian) {
+                    {{ 'programs.completedForeignGeneralEducation' | transloco }}
+                  } @else {
+                    {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
+                  }
+                </b>
                 <kendo-switch
                   [checked]="isAbroadEnabled()"
                   [disabled]="true"
@@ -208,14 +210,16 @@
             </div>
 
             <div
-              class="k-border-divider-light k-border-solid k-color-body k-display-flex k-flex-column k-gap-6 k-p-4 k-rounded-2.5 k-text-base k-w-full"
+              class="k-border-divider-light k-border k-border-solid k-color-body k-display-flex k-flex-column k-gap-6 k-p-4 k-rounded-lg k-text-base k-w-full"
             >
-              <div class="k-align-items-center k-display-flex k-gap-4">
-                @if (user()?.residential === citizenship.Georgian) {
-                  {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
-                } @else {
-                  {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
-                }
+              <div class="k-align-items-center k-display-flex k-gap-4 k-color-body k-text-base">
+                <b>
+                  @if (user()?.residential === citizenship.Georgian) {
+                    {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
+                  } @else {
+                    {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
+                  }
+                </b>
                 <kendo-switch
                   [checked]="isOcuEnabled()"
                   [disabled]="true"
@@ -238,7 +242,7 @@
             </div>
 
             <div
-              class="k-border-primary k-border-solid k-border k-color-body-dark k-display-flex k-flex-column k-gap-3 k-px-3.5 k-py-6 k-rounded-lg k-text-base"
+              class="k-border-divider-light k-border-solid k-border k-color-body-dark k-display-flex k-flex-column k-gap-3 k-px-3.5 k-py-6 k-rounded-lg k-text-base"
             >
               <div
                 class="k-border-b-solid k-display-flex k-gap-1 k-pb-3 k-text-base"

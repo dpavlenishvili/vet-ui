@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdmissionReq, type AdmissionRequest, AdmissionService } from '@vet/backend';
-import { useAlert } from '@vet/shared';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AdmissionWizardComponent } from '../admission-wizard/admission-wizard.component';
 import { UserRolesService } from '@vet/auth';
@@ -29,7 +28,6 @@ export class AdmissionUpdateComponent implements OnInit {
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private userRolesService = inject(UserRolesService);
-  private alert = useAlert();
 
   admissionId = signal(this.route.snapshot.paramMap.get('admissionId'));
   admissionData = signal<AdmissionReq | null>(null);
@@ -62,12 +60,9 @@ export class AdmissionUpdateComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         if (e.step === 'confirmation' && e.body.payload.status === 'registered') {
-          this.alert.show({ text: 'programs.program_updated_successfully', variant: 'success' });
           this.router.navigate(['long-term-programs', 'list']);
         } else {
-          void this.router.navigate([
-            `long-term-programs/update-admission/${this.admissionId()}/${e.step}`,
-          ]);
+          void this.router.navigate([`long-term-programs/update-admission/${this.admissionId()}/${e.step}`]);
         }
       });
   }

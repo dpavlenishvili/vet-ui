@@ -11,12 +11,12 @@ import { useConfirm, vetIcons } from '@vet/shared';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
-import { ProgramComponent } from 'programs/src/program/program.component';
+import { ProgramComponent } from '../../../programs/src/program/program.component';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 
 @Component({
-  selector: 'vet-program-selected-programs',
+  selector: 'vet-admission-selected-programs',
   imports: [
     ReactiveFormsModule,
     InputsModule,
@@ -29,24 +29,22 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     KENDO_DIALOG,
     ProgramComponent,
   ],
-  templateUrl: './program-selected-programs.component.html',
-  styleUrl: './program-selected-programs.component.scss',
+  templateUrl: './admission-selected-programs.component.html',
+  styleUrl: './admission-selected-programs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProgramSelectedProgramsComponent {
+export class AdmissionSelectedProgramsComponent {
   isEditMode = input(false, { transform: coerceBooleanProperty });
   selectedPrograms = input<AdmissionPrograms[] | undefined>();
   selectedProgramsLoading = input<boolean>();
   selectedProgramsError = input<Error>();
   deleteClick = output<LongTerm>();
-
   isProgramDialogOpen = signal(false);
   singleProgramId = signal(0);
-
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
-
   confirm = useConfirm();
+
   onPreviewProgramClick(item: LongTerm) {
     this.singleProgramId.set(Number(item.id));
     this.isProgramDialogOpen.set(true);

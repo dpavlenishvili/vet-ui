@@ -1,39 +1,43 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ProgramsFiltersComponent } from './programs-filters/programs-filters.component';
 import { ProgramsListComponent } from './programs-list/programs-list.component';
-import { Observable } from 'rxjs';
 import { ProgramsService } from '@vet/backend';
-import { AsyncPipe } from '@angular/common';
+import { rxResource } from '@angular/core/rxjs-interop';
+
+export type ProgramFilters = {
+  program: string | null;
+  organisation_id: string | null;
+  program_name: string | null;
+  form: string | null;
+  duration: string | null;
+  integrated: string | null;
+};
 
 @Component({
   selector: 'vet-programs',
-  imports: [ProgramsFiltersComponent, ProgramsListComponent, AsyncPipe],
+  imports: [ProgramsFiltersComponent, ProgramsListComponent],
   templateUrl: './programs.component.html',
   styleUrl: './programs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class ProgramsComponent {
-  programs$: Observable<any>;
+  private programsService = inject(ProgramsService);
 
-  constructor(private programsService: ProgramsService) {
-    this.programs$ = programsService.programs();
-  }
+  filters = signal<Partial<ProgramFilters>>({});
 
-  onFiltersChange(
-    filters: Partial<{
-      program: string | null;
-      organisation_id: string | null;
-      program_name: string | null;
-      form: string | null;
-      duration: string | null;
-      integrated: string | null;
-    }>,
-  ) {
-    const params = Object.fromEntries(
-      Object.entries(filters).filter(([_, value]) => value !== null && value !== '')
+  programs$ = rxResource({
+    request: () => this.filters(),
+    loader: (filters) => {
+      return this.programsService.programs({ filter: filters });
+    },
+  });
+
+  onFiltersChange(filters: Partial<ProgramFilters>) {
+    const cleanedFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, value]) => value !== null && value !== ''),
     );
 
-    console.log(params)
+    this.filters.set(cleanedFilters);
   }
 }

@@ -75,8 +75,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     loader: () => this.generalsService.getDistrictsList().pipe(map((res) => res.data)),
   });
   languages$ = rxResource({
-    loader: () =>
-      this.generalsService.getAllConfigs({ key: 'languages' }).pipe(map((res) => res.languages)),
+    loader: () => this.generalsService.getAllConfigs({ key: 'languages' }).pipe(map((res) => res.languages)),
   });
 
   onNextClick() {

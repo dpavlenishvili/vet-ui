@@ -17,7 +17,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useAlert, vetIcons } from '@vet/shared';
 import { AdmissionPrograms, AdmissionService, LongTerm } from '@vet/backend';
-import { ProgramSelectedProgramsComponent } from '../program-selected-programs/program-selected-programs.component';
+import { AdmissionSelectedProgramsComponent } from '../../admission-selected-programs/admission-selected-programs.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { admissionProgramsResource } from '../admission-programs-resource';
@@ -36,8 +36,8 @@ export type ProgramsSelectionStepFormGroup = FormGroup;
     ButtonModule,
     LabelModule,
     SVGIconModule,
-    ProgramSelectedProgramsComponent,
     TranslocoPipe,
+    AdmissionSelectedProgramsComponent,
   ],
   templateUrl: './program-selected-programs-step.component.html',
   styleUrl: './program-selected-programs-step.component.scss',

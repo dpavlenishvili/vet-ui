@@ -18,6 +18,7 @@ import {
   personalNumberValidator,
   vetIcons,
   useAlert,
+  ToastService,
 } from '@vet/shared';
 import { RegisterService, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
@@ -93,6 +94,7 @@ export class RegistrationComponent implements OnInit {
 
   private router = inject(Router);
   private registrationService = inject(RegisterService);
+  private toastService = inject(ToastService);
 
   ngOnInit(): void {
     if (!this.router.url.includes('/citizenship_selection')) {
@@ -115,8 +117,8 @@ export class RegistrationComponent implements OnInit {
       }),
       checkIdentityForeigner: new FormGroup({
         residential: new FormControl('', Validators.required),
-        lastname: new FormControl('', Validators.required),
-        firstname: new FormControl('', Validators.required),
+        lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
+        firstname: new FormControl('', [Validators.required, georgianLettersValidator]),
         personalNumber: new FormControl('', Validators.required),
         dateOfBirth: new FormControl<Date | null>(null, Validators.required),
         gender: new FormControl('', Validators.required),
@@ -198,8 +200,9 @@ export class RegistrationComponent implements OnInit {
         this.registrationService.register(user).pipe(
           tap({
             next: () => {
-              this.alert.show('auth.alert_registration_successful');
+              this.alert.show('auth.alert_registration_successful')
             },
+            error: (error) => {this.toastService.error(error.error ?? 'auth.registration_failed')}
           }),
         ).subscribe();
       } else {

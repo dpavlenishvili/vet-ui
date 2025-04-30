@@ -91,3 +91,27 @@ kendo-label {
     }
   }
 }
+
+
+kendo-grid.k-grid {
+  .k-grid-aria-root {
+    .k-grid-header {
+      thead:first-of-type {
+        th {
+          padding: 1.125rem 0.4rem !important;
+        }
+      }
+    }
+    .k-grid-container {
+      table {
+        tbody {
+          tr {
+            td {
+              padding: 0.4rem 0.4rem !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
