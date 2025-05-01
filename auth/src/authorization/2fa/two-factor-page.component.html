@@ -29,7 +29,7 @@
         themeColor="primary"
         class="k-w-full"
         look="default"
-        [disabled]="!is2FaPending()"
+        [disabled]="isSubmitButtonDisabled()"
       >
         @if (is2FaPending()) {
           <kendo-loader size="small" />

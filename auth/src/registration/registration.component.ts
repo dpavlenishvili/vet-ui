@@ -202,7 +202,16 @@ export class RegistrationComponent implements OnInit {
             next: () => {
               this.alert.show('auth.alert_registration_successful')
             },
-            error: (error) => {this.toastService.error(error.error ?? 'auth.registration_failed')}
+            error: (error) => {
+              if(error.error.errors) {
+                for(let item of error.error.errors) {
+                  this.alert.show({
+                    variant: 'error',
+                    text: item,
+                  })
+                }
+              }
+            }
           }),
         ).subscribe();
       } else {

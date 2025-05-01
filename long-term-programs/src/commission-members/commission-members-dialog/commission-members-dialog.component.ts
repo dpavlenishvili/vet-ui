@@ -73,7 +73,7 @@ export class CommissionMembersDialogComponent implements OnInit {
           this.commissionMemberForm.get('last_name')?.setValue(member.data?.last_name);
           this.commissionMemberForm.get('phone')?.setValue(member.data?.phone);
           this.commissionMemberForm.get('program_code')?.setValue(this.programCode());
-          this.commissionMemberForm.get('program_name')?.setValue(this.programName());
+          this.commissionMemberForm.get('program_name')?.setValue(`${this.programCode()} - ${this.programName()}`);
           this.commissionMemberForm.get('first_name')?.disable();
           this.commissionMemberForm.get('phone')?.disable();
           this.commissionMemberForm.get('program_code')?.disable();
@@ -132,10 +132,8 @@ export class CommissionMembersDialogComponent implements OnInit {
   }
 
   saveChanges() {
-    const formValue = this.commissionMemberForm.value;
-
     const payload = {
-      program: formValue.program_code as string,
+      program: this.programCode() as string,
       pids: this.getCommissionMembersPids() as string[],
     };
 

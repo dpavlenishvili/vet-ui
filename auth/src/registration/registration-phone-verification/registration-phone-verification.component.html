@@ -13,6 +13,7 @@
         [style.width.rem]="3.5"
         [style.height.rem]="3.5"
         (ngModelChange)="onDigitChange($index, $event, input)"
+        (keydown)="onKeyDown($event, $index)"
       />
     }
   </div>

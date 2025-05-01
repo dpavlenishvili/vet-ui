@@ -4,7 +4,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
-import { finalize, tap } from 'rxjs';
+import { catchError, filter, finalize, of, switchMap, tap } from 'rxjs';
 import { AuthorizationPageLocalStateService } from '../authorization-page-local-state.service';
 import { vetIcons } from '@vet/shared';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
@@ -31,7 +31,8 @@ export class TwoFactorPageComponent implements OnInit {
   protected readonly confirmationForm = new FormGroup({
     code: new FormControl<string>('', Validators.required),
   });
-  protected readonly is2FaPending = signal(false);
+  protected readonly is2FaPending = signal(true);
+  protected readonly isSubmitButtonDisabled = signal(true);
   private readonly state = inject(AuthorizationPageLocalStateService);
 
   vetIcons = vetIcons;
@@ -44,27 +45,43 @@ export class TwoFactorPageComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.is2FaPending.set(true);
+    this.validateCode();
   }
 
   getPhoneMask() {
     return this.state.get2FaCredentials()?.phone_mask;
   }
 
+  validateCode() {
+    const codeControl = this.confirmationForm.get('code');
+
+    codeControl?.valueChanges
+      .pipe(
+        filter((code) => code?.length === 4),
+        switchMap((code) => {
+          if (code) {
+            return this.state.validate2FaCode(code).pipe(
+              tap(() => {
+                this.isSubmitButtonDisabled.set(false);
+              }),
+              catchError(() => {
+                this.isSubmitButtonDisabled.set(true);
+                return of(null);
+              }),
+            );
+          } else {
+            return of(null);
+          }
+        }),
+      )
+      .subscribe();
+  }
+
   protected onSubmit() {
     if (this.confirmationForm.invalid) {
       return;
     }
-    this.is2FaPending.set(true);
-    this.state
-      .validate2FaCode(this.confirmationForm.value.code!)
-      .pipe(
-        tap({
-          next: () => this.state.handleSuccessfulAuthentication(),
-          error: () => this.is2FaPending.set(false),
-        }),
-        finalize(() => this.is2FaPending.set(false)),
-      )
-      .subscribe();
+
+    this.state.handleSuccessfulAuthentication();
   }
 }

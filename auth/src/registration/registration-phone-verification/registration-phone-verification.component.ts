@@ -51,13 +51,20 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
     });
   }
 
+  onKeyDown(event: KeyboardEvent, index: number) {
+    const target = event.target as HTMLInputElement;
+
+    if (event.key === 'Backspace' && target.value === '' && index > 0) {
+      const prevInput = this.inputs()[index - 1];
+      prevInput?.hostElement.nativeElement.querySelector('input')?.focus();
+      event.preventDefault();
+    }
+  }
+
   onDigitChange(index: number, value: number, input: NumericTextBoxComponent) {
     const element = input.hostElement.nativeElement;
     const nextElement = element.nextElementSibling?.querySelector('input');
-
-    if (nextElement) {
-      nextElement.focus();
-    }
+    const prevElement = element.previousElementSibling?.querySelector('input');
 
     this.digits.update((digits) => {
       return digits.map((digit, i) => {
@@ -65,7 +72,18 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
       });
     });
 
-    this.onChange(this.input());
+    const updatedValue = this.input();
+    this.onChange(updatedValue);
+
+    if (value === null || value === undefined || (value === 0 && !input.value)) {
+      if (prevElement) {
+        prevElement.focus();
+      }
+    } else {
+      if (nextElement) {
+        nextElement.focus();
+      }
+    }
   }
 
   reset() {
