@@ -153,26 +153,28 @@
                     </div>
                   }
 
-                  <div class="k-display-flex k-flex-column k-gap-4">
-                    <div class="k-color-body k-display-flex k-gap-1 k-color-body k-text-base">
-                      <b>{{ 'programs.ssm_person_requirement_info' | transloco }}</b>
-                    </div>
+                  @if (ssmForm.controls['spe_description'].value) {
+                    <div class="k-display-flex k-flex-column k-gap-4">
+                      <div class="k-color-body k-display-flex k-gap-1 k-color-body k-text-base">
+                        <b>{{ 'programs.ssm_person_requirement_info' | transloco }}</b>
+                      </div>
 
-                    <div
-                      class="k-bg-white k-border-divider-light k-border k-border-solid k-p-2.5 k-rounded-lg"
-                    >
+                      <div
+                        class="k-bg-white k-border-divider-light k-border k-border-solid k-p-2.5 k-rounded-lg"
+                      >
                       <textarea
                         class="k-outline-none k-border-none k-resize-y k-text-base k-w-full vet-ssm-textarea"
                         [readOnly]="true"
                         [value]="ssmForm.controls['spe_description'].value ?? ''"
                       ></textarea>
-                      <div class="k-color-body-light k-display-flex k-justify-content-end k-text-xs">
-                        {{
-                          ssmForm.controls['spe_description'].value?.length ?? 0
-                        }}/{{ maxLengthOfRequirements }}
+                        <div class="k-color-body-light k-display-flex k-justify-content-end k-text-xs">
+                          {{
+                            ssmForm.controls['spe_description'].value?.length ?? 0
+                          }}/{{ maxLengthOfRequirements }}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  }
                 </div>
               }
             }

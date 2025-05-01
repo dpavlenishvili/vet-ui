@@ -16,7 +16,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
-import { filterNullValues, kendoIcons, RouteParamsService, useAlert, useJsonQueryParam, vetIcons } from '@vet/shared';
+import { filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons } from '@vet/shared'; // Import RouteParamsService
 import { GridDataResult, GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { ProgramComponent } from 'programs/src/program/program.component';
 import { DialogModule } from '@progress/kendo-angular-dialog';
@@ -30,19 +30,18 @@ export type ProgramSsmStep = FormGroup;
 export type SelectedProgramsStepForm = FormGroup;
 export type GeneralInformationStepFromGroup = FormGroup;
 export type ProgramSelectionFilter = {
-  filter: {
-    search?: string | null;
-    organisation?: string | null;
-    program_name?: string | null;
-    program?: string | null;
-    program_kind?: string | null;
-    duration?: string | null;
-    integrated?: boolean | null;
-    program_types?: string | null;
-    financing_type?: string | null;
-    region?: number | null;
-    district?: string | null;
-  };
+  search?: string | null;
+  organisation?: string | null;
+  program_name?: string | null;
+  program?: string | null;
+  program_kind?: string | null;
+  duration?: string | null;
+  integrated?: boolean | null;
+  program_types?: string | null;
+  financing_type?: string | null;
+  region?: number | null;
+  district?: string | null;
+  page?: number | null;
 };
 
 @Component({
@@ -80,22 +79,20 @@ export class ProgramSelectionStepComponent implements OnInit {
   singleProgramId = signal(0);
   selectedPrograms = signal<number[]>([]);
   selectedProgramsCount = signal<number>(0);
-  localFilters = signal<ProgramSelectionFilter['filter'] | undefined>(useJsonQueryParam('filter'));
+  filters = signal<ProgramSelectionFilter>({});
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;
   previewProgram: LongTerm | null = null;
 
   private alert = useAlert();
   private admissionService = inject(AdmissionService);
-  private routeParamsService = inject(RouteParamsService);
   private destroyRef = inject(DestroyRef);
+  private routeParamsService = inject(RouteParamsService);
 
   eligiblePrograms$ = rxResource({
     request: () => ({
       admissionId: this.admissionId(),
-      filters: filterNullValues({
-        ...this.localFilters(),
-      }),
+      filters: filterNullValues(this.filters()),
     }),
     loader: ({ request: { admissionId, filters } }) => {
       // ტიპი არის დასამატებელი, აღსაწერია სვაგერი სწორად.
@@ -116,6 +113,22 @@ export class ProgramSelectionStepComponent implements OnInit {
     const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
     this.selectedPrograms.set(programs);
     this.selectedProgramsCount.set(programs.length);
+    this.loadRouteParams();
+  }
+
+  private loadRouteParams() {
+    this.routeParamsService
+      .get<{ filters: ProgramSelectionFilter; skip: number }>()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        console.log(params);
+        if (params.filters) {
+          this.filters.set(params.filters);
+        }
+        if (params.skip !== undefined && params.skip !== this.skip()) {
+          this.skip.set(Number(params.skip));
+        }
+      });
   }
 
   onPreviewProgramClick(item: LongTerm) {
@@ -208,12 +221,28 @@ export class ProgramSelectionStepComponent implements OnInit {
 
   handlePageChange(event: PageChangeEvent) {
     const page = event.skip / event.take + 1;
-    this.skip.set(event.skip);
-    this.routeParamsService.update({ page });
+    this.skip.set(Number(event.skip));
+
+    const updatedFilters = {
+      ...this.filters(),
+      page: page,
+    };
+    this.filters.set(updatedFilters);
+
+    this.updateRouteParams(updatedFilters, event.skip);
   }
 
-  onFiltersChange(evt: ProgramSelectionFilter) {
-    this.localFilters.set(evt.filter ?? {});
-    this.routeParamsService.update(evt);
+  onFiltersChange(filterValue: ProgramSelectionFilter) {
+    this.filters.set(filterValue ?? {});
+    this.skip.set(0);
+
+    this.updateRouteParams(filterValue, 0);
+  }
+
+  private updateRouteParams(filters: ProgramSelectionFilter, skip: number) {
+    this.routeParamsService.update({
+      filters,
+      skip,
+    });
   }
 }

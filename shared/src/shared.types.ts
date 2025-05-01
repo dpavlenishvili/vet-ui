@@ -26,8 +26,10 @@ export interface Option {
 
 export type UpdateFn<T> = (previousValue: T | null) => T;
 
+export type DialogVariant = 'success' | 'error' | 'info' | 'warning';
+
 export interface AlertDialogParams {
-  variant?: 'success' | 'error' | 'info' | 'warning';
+  variant?: DialogVariant;
   title?: string;
   text?: string;
   template?: TemplateRef<unknown>;

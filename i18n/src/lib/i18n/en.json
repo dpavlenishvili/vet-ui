@@ -66,7 +66,8 @@
     "informationMessage": "Information message",
     "error": "Error",
     "startDate": "Start date",
-    "endDate": "End date"
+    "endDate": "End date",
+    "noRecords": "No Records"
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",

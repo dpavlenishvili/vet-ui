@@ -152,6 +152,7 @@
                         @if (selectedLanguage() === 'other' || selectedLanguage() === 'სხვა') {
                           <kendo-textbox
                             formControlName="translate"
+                            required
                             inputmode="flat"
                             [placeholder]="'programs.enter_language' | transloco"
                           />

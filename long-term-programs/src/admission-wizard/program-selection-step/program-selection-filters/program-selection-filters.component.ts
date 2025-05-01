@@ -52,7 +52,7 @@ export class ProgramSelectionFiltersComponent {
 
   generalsService = inject(GeneralsService);
 
-  filters = input<ProgramSelectionFilter['filter'] | undefined>({});
+  filters = input<ProgramSelectionFilter>({});
   filtersChange = output<ProgramSelectionFilter>();
 
   programTypes$ = rxResource({
@@ -154,7 +154,7 @@ export class ProgramSelectionFiltersComponent {
   onSubmit() {
     const value = this.filterForm.value;
 
-    const filterData: ProgramSelectionFilter['filter'] = {
+    const filterData: ProgramSelectionFilter = {
       search: value.search ?? null,
       organisation: value.organisation ?? null,
       program_name: value.program_name ?? null,
@@ -166,6 +166,6 @@ export class ProgramSelectionFiltersComponent {
       district: value.district ?? null,
     };
 
-    this.filtersChange.emit({ filter: filterData });
+    this.filtersChange.emit(filterData);
   }
 }

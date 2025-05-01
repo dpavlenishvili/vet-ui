@@ -67,9 +67,13 @@ export function InjectEnvironment(): InjectDecorator {
   return Inject(ENVIRONMENT);
 }
 
-export function useJsonQueryParam(name: string) {
+export function useJsonQueryParam(name?: string) {
   const routeParamsService = inject(RouteParamsService);
-  const rawValue = routeParamsService.getSnapshot()[name];
+  const rawValue = name ? routeParamsService.getSnapshot()[name] : routeParamsService.getSnapshot();
+
+  console.log(routeParamsService.getSnapshot());
+  console.log(rawValue);
+  console.log(name);
 
   return rawValue ? JSON.parse(rawValue) : {};
 }

@@ -1,119 +1,119 @@
 <form [formGroup]="filterForm">
-    <div class="programs-filters-container k-pb-5 k-gap-10">
-        <div class="filter-group filter-3">
-            <kendo-label [text]="'shared.search' | transloco">
-                <kendo-textbox formControlName="search">
-                    <ng-template kendoTextBoxSuffixTemplate class="k-bg-primary">
-                        <div kendoTooltip [title]="'programs.admissionProgramSelectionFilterSearchTooltip' | transloco">
-                            <kendo-svg-icon [icon]="vetIcons.info" />
-                        </div>
-                    </ng-template>
-                </kendo-textbox>
-            </kendo-label>
-        </div>
-
-        <div class="filter-group filter-1">
-            <div class="k-rounded-md k-border k-border-solid k-border-divider-light">
-                <div class="k-display-flex k-justify-content-center k-align-items-center k-text-sm k-p-1.5 k-gap-2">
-                    <img class="k-w-6 k-h-6" src="/assets/images/not-integrated.svg" alt="Integrated logo">
-                    <p>{{ 'programs.integrated' | transloco }}</p>
-                    <kendo-switch
-                        formControlName="integrated"
-                        [onLabel]="'programs.yes' | transloco"
-                        [offLabel]="'programs.no' | transloco"
-                        size="small"
-                    />
-                </div>
+  <div class="programs-filters-container k-pb-5 k-gap-10">
+    <div class="filter-group filter-3">
+      <kendo-label [text]="'shared.search' | transloco">
+        <kendo-textbox formControlName="search">
+          <ng-template kendoTextBoxSuffixTemplate class="k-bg-primary">
+            <div kendoTooltip [title]="'programs.admissionProgramSelectionFilterSearchTooltip' | transloco">
+              <kendo-svg-icon [icon]="vetIcons.info" />
             </div>
-        </div>
+          </ng-template>
+        </kendo-textbox>
+      </kendo-label>
     </div>
 
-    @if (isFilterExpanded()) {
-        <div class="programs-additional-filters-container k-pb-5">
-
-            <kendo-label [text]="'programs.region' | transloco">
-                <kendo-dropdownlist
-                    [valuePrimitive]="true"
-                    [data]="regionsRc$.value()"
-                    valueField="id"
-                    textField="name"
-                    formControlName="region"
-                />
-            </kendo-label>
-
-            <kendo-label [text]="'programs.district' | transloco">
-                <kendo-dropdownlist
-                    [valuePrimitive]="true"
-                    [data]="filteredDistricts()"
-                    valueField="id"
-                    textField="name"
-                    formControlName="district"
-                />
-            </kendo-label>
-
-            <kendo-label [text]="'programs.institution_name' | transloco">
-                <kendo-dropdownlist
-                    [valuePrimitive]="true"
-                    [data]="filteredOrganisations()"
-                    valueField="id"
-                    textField="name"
-                    formControlName="organisation"
-                />
-            </kendo-label>
-
-            <kendo-label [text]="'programs.program_code' | transloco">
-                <kendo-textbox formControlName="program" />
-            </kendo-label>
-
-            <kendo-label [text]="'programs.form' | transloco">
-                <kendo-dropdownlist
-                    [valuePrimitive]="true"
-                    [data]="programTypes$.value()"
-                    valueField="id"
-                    textField="value"
-                    formControlName="program_kind"
-                />
-            </kendo-label>
-
-            <kendo-label [text]="'programs.funding' | transloco">
-                <kendo-dropdownlist
-                    [valuePrimitive]="true"
-                    [data]="financingTypes$.value()"
-                    valueField="id"
-                    textField="value"
-                    formControlName="financing_type"
-                />
-            </kendo-label>
+    <div class="filter-group filter-1">
+      <div class="k-rounded-md k-border k-border-solid k-border-divider-light">
+        <div class="k-display-flex k-justify-content-center k-align-items-center k-text-sm k-p-1.5 k-gap-2">
+          <img class="k-w-6 k-h-6" src="/assets/images/not-integrated.svg" alt="Integrated logo">
+          <p>{{ 'programs.integrated' | transloco }}</p>
+          <kendo-switch
+            formControlName="integrated"
+            [onLabel]="'programs.yes' | transloco"
+            [offLabel]="'programs.no' | transloco"
+            size="small"
+          />
         </div>
-    }
-
-    <div class="k-display-flex k-justify-content-end k-gap-2">
-        <button
-            size="large"
-            kendoButton
-            [svgIcon]="isFilterExpanded() ? vetIcons.chevronUp : vetIcons.chevronDown"
-            fillMode="outline"
-            themeColor="primary"
-            (click)="onFilterExpandClick()">
-        </button>
-
-        <button
-            size="large"
-            kendoButton
-            [svgIcon]="vetIcons.xIcon"
-            fillMode="outline"
-            themeColor="primary"
-            (click)="clearFilters()">
-        </button>
-
-        <button
-            size="large"
-            kendoButton
-            [svgIcon]="kendoIcons.searchIcon"
-            fillMode="solid"
-            themeColor="primary"
-            (click)="onSubmit()">
-            {{ 'programs.search' | transloco }}
-        </button>
+      </div>
     </div>
+  </div>
+
+  @if (isFilterExpanded()) {
+    <div class="programs-additional-filters-container k-pb-5">
+
+      <kendo-label [text]="'programs.region' | transloco">
+        <kendo-dropdownlist
+          [valuePrimitive]="true"
+          [data]="regionsRc$.value()"
+          valueField="id"
+          textField="name"
+          formControlName="region"
+        />
+      </kendo-label>
+
+      <kendo-label [text]="'programs.district' | transloco">
+        <kendo-dropdownlist
+          [valuePrimitive]="true"
+          [data]="filteredDistricts()"
+          valueField="id"
+          textField="name"
+          formControlName="district"
+        />
+      </kendo-label>
+
+      <kendo-label [text]="'programs.institution_name' | transloco">
+        <kendo-dropdownlist
+          [valuePrimitive]="true"
+          [data]="filteredOrganisations()"
+          valueField="id"
+          textField="name"
+          formControlName="organisation"
+        />
+      </kendo-label>
+
+      <kendo-label [text]="'programs.program_code' | transloco">
+        <kendo-textbox formControlName="program" />
+      </kendo-label>
+
+      <kendo-label [text]="'programs.form' | transloco">
+        <kendo-dropdownlist
+          [valuePrimitive]="true"
+          [data]="programTypes$.value()"
+          valueField="id"
+          textField="value"
+          formControlName="program_kind"
+        />
+      </kendo-label>
+
+      <kendo-label [text]="'programs.funding' | transloco">
+        <kendo-dropdownlist
+          [valuePrimitive]="true"
+          [data]="financingTypes$.value()"
+          valueField="id"
+          textField="value"
+          formControlName="financing_type"
+        />
+      </kendo-label>
+    </div>
+  }
+
+  <div class="k-display-flex k-justify-content-end k-gap-2">
+    <button
+      size="large"
+      kendoButton
+      [svgIcon]="isFilterExpanded() ? vetIcons.chevronUp : vetIcons.chevronDown"
+      fillMode="outline"
+      themeColor="primary"
+      (click)="onFilterExpandClick()">
+    </button>
+
+    <button
+      size="large"
+      kendoButton
+      [svgIcon]="vetIcons.xIcon"
+      fillMode="outline"
+      themeColor="primary"
+      (click)="clearFilters()">
+    </button>
+
+    <button
+      size="large"
+      kendoButton
+      [svgIcon]="kendoIcons.searchIcon"
+      fillMode="solid"
+      themeColor="primary"
+      (click)="onSubmit()">
+      {{ 'programs.search' | transloco }}
+    </button>
+  </div>
 </form>

@@ -47,6 +47,9 @@ export * from './icons';
 import { emptyDocumentIcon } from './empty-document';
 import { readDocumentIcon } from './read-document';
 import { acceptedDocumentIcon } from './accepted-document';
+import { blocked } from './blocked';
+import { minusCircleRed } from './minus-circle-red';
+import { plusCircleGreen } from './plus-circle-green';
 
 export {
   bin,
@@ -96,7 +99,10 @@ export {
   editIcon,
   emptyDocumentIcon,
   readDocumentIcon,
-  acceptedDocumentIcon
+  acceptedDocumentIcon,
+  blocked,
+  minusCircleRed,
+  plusCircleGreen
 };
 
 export * from './icons';

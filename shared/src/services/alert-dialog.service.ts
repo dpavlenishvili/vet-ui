@@ -3,12 +3,14 @@ import type { AlertDialogParams } from '../shared.types';
 
 @Injectable({ providedIn: 'root' })
 export class AlertDialogService {
-  currentDialogParams = signal<AlertDialogParams | null>(null);
+  readonly currentDialogParams = signal<AlertDialogParams | null>(null);
 
   show(params: string | AlertDialogParams) {
-    this.currentDialogParams.set(typeof params === 'string' ? {
-      text: params
-    } : params);
+    const dialogParams = typeof params === 'string'
+      ? { text: params, variant: 'success' as const }
+      : { ...params, variant: params.variant || 'success' };
+
+    this.currentDialogParams.set(dialogParams);
   }
 
   close() {

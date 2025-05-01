@@ -1,0 +1,43 @@
+<div class="k-display-flex k-flex-column k-gap-5">
+  <form [formGroup]="filterForm">
+    <div class="k-display-flex k-gap-5">
+      @for (filter of filters(); track $index) {
+        @if (filter) {
+          @switch (filter.type) {
+            @case ('select') {
+              <kendo-dropdownlist
+                [data]="filter.values"
+                [valuePrimitive]="true"
+                valueField="id"
+                textField="name"
+                [formControlName]="filter.key"
+              />
+            }
+
+            @case ('text') {
+              <kendo-textbox [placeholder]="'programs.' + filter.key | transloco" [formControlName]="filter.key" />
+            }
+          }
+        }
+      }
+    </div>
+  </form>
+
+  <div class="k-display-flex k-justify-content-end k-gap-2">
+    <button 
+      kendoButton 
+      type="secondary" 
+      [svgIcon]="vetIcons.xIcon" 
+      (click)="clearFilters()"
+    ></button>
+    
+    <button 
+      kendoButton 
+      themeColor="primary"
+      [svgIcon]="vetIcons.search" 
+      (click)="onSubmit()"
+    >
+      {{ 'shared.search' | transloco }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="k-display-flex k-flex-column k-gap-10">
+  <div class="container">
+    <vet-commission-results-filters [filters]="filtersForComponent()" (filtersChange)="onFiltersChange($event)" />
+
+    @if (commissionResults$.value(); as _commissionResults) {
+      <div>
+        <p class="k-pl-5">
+          {{ 'programs.record_quantity' | transloco: { value: _commissionResults.data?.length } }}
+        </p>
+      </div>
+
+      <kendo-grid [data]="_commissionResults.data ?? []" [loading]="commissionResults$.isLoading()">
+        <kendo-grid-column [title]="'programs.applicant_data' | transloco" [width]="120">
+          <ng-template kendoGridCellTemplate let-item>
+            <div class="k-display-flex k-flex-column k-gap-1">
+              <p>{{ item.user.name }}</p>
+              <p>{{ item.user.pid }}</p>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [title]="'programs.about_program' | transloco" [width]="200">
+          <ng-template kendoGridCellTemplate let-item>
+            <div class="k-display-flex k-flex-column k-gap-2">
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.program_code' | transloco }}</p>
+                <p>{{ item.program.program_code }}</p>
+              </div>
+
+              <vet-divider />
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.name' | transloco }}</p>
+                <p>{{ item.program.program_name }}</p>
+              </div>
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.level' | transloco }}</p>
+                <p>{{ item.program.education_level }}</p>
+              </div>
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.integrated' | transloco }}</p>
+                <p>{{ item.program.is_integrated ? ('shared.yes' | transloco) : ('shared.no' | transloco) }}</p>
+              </div>
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.form' | transloco }}</p>
+                <p>{{ item.program.program_kind.name }}</p>
+              </div>
+
+              <div class="k-display-flex k-gap-3">
+                <p class="k-font-bold">{{ 'programs.implementation_location' | transloco }}</p>
+                <p>{{ item.program.address }}</p>
+              </div>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [title]="'programs.grading' | transloco" [width]="200">
+          <ng-template kendoGridCellTemplate let-item>
+            @if (item.reviews[0]; as _review) {
+              <div class="k-display-flex k-justify-content-between">
+                <div class="k-display-flex k-flex-column">
+                  @for (result of _review.results.scores; track $index) {
+                    <div class="k-display-flex k-gap-1">
+                      <p>{{ result.weight }}</p>
+                      <p>{{ result.name }}</p>
+                    </div>
+                  }
+                </div>
+
+                <div kendoTooltip filter="kendo-svg-icon">
+                  @for (review of item.reviews; track $index) {
+                    <kendo-svg-icon
+                      [title]="review.results.comission_member.name ?? ''"
+                      [icon]="kendoIcons.userIcon"
+                      [themeColor]="review.results.completed ? 'success' : 'error'"
+                    />
+                  }
+                </div>
+              </div>
+            }
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [width]="60">
+          <ng-template kendoGridHeaderTemplate let-item>
+            <p class="grade-header">{{ 'programs.summed_grade' | transloco }}</p>
+          </ng-template>
+
+          <ng-template kendoGridCellTemplate let-item>
+            <p class="grade-header">{{ item.result.score }}</p>
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+    } @else {
+      <div>
+        <kendo-loader themeColor="primary" type="infinite-spinner"></kendo-loader>
+      </div>
+    }
+  </div>
+</div>

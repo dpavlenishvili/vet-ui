@@ -1,32 +1,31 @@
-@if (resolvedParams(); as paramsObject) {
+@if (resolvedParams(); as params) {
   <kendo-dialog
     class="vet-alert-dialog"
-    [title]="paramsObject.title ? (paramsObject.title | transloco) : ''"
-    [width]="523"
+    [title]="params.title ? (params.title | transloco) : ''"
+    [width]="dialogWidth"
     (close)="close()"
+    [ngClass]="params.variant"
   >
-    <div class="k-display-flex k-flex-column k-gap-5">
-      <div class="k-display-flex k-justify-content-center">
-      @if (!paramsObject.variant || paramsObject.variant === 'success') {
-        <kendo-svg-icon [icon]="vetIcons.successCircle" size="xxlarge" />
-      } @else if (paramsObject.variant === 'error') {
-        <kendo-svg-icon [icon]="vetIcons.errorCircle" size="xxlarge" />
-      } @else if (paramsObject.variant === 'info') {
-        <kendo-svg-icon [icon]="vetIcons.info" size="xxlarge" />
-      } @else if (paramsObject.variant === 'warning') {
-        <kendo-svg-icon [icon]="vetIcons.infoWarning" size="xxlarge" />
-      }
+    <div class="dialog-header">
+      <button kendoButton class="dialog-close-btn" (click)="close()" aria-label="Close" type="button" fillMode="flat">
+        <kendo-svg-icon [icon]="vetIcons.dialogClose" [size]="'xlarge'" />
+      </button>
+    </div>
+
+    <div class="dialog-content">
+      <div class="dialog-icon">
+        <kendo-svg-icon [icon]="getIconByVariant(params.variant)" size="xxlarge" />
       </div>
 
-      @if (paramsObject.text) {
-        <div class="k-text-base k-text-center" (click)="onClick($event)">
-          <b [innerHTML]="paramsObject.text"></b>
+      @if (params.text) {
+        <div class="dialog-message" (click)="handleLinkClick($event)">
+          <span [innerHTML]="params.text"></span>
         </div>
       }
 
-      @if (paramsObject.template) {
-        <div>
-          <ng-container *ngTemplateOutlet="paramsObject.template" />
+      @if (params.template) {
+        <div class="dialog-template">
+          <ng-container *ngTemplateOutlet="params.template" />
         </div>
       }
     </div>

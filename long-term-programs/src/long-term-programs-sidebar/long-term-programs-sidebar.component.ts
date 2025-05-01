@@ -66,7 +66,7 @@ export class LongTermProgramsSidebarComponent {
         {
           id: uuid(),
           text: 'programs.commissionResults',
-          url: null,
+          url: 'commission-results',
           isActive: false,
         },
         {

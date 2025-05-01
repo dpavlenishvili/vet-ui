@@ -1,0 +1,22 @@
+:host {
+  display: block;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1.25rem;
+    width: 100%;
+  }
+
+  .grade-header {
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    margin: 0;
+    font-size: 0.75rem;
+  }
+}
