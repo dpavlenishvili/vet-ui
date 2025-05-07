@@ -13,7 +13,34 @@ export class AlertDialogService {
     this.currentDialogParams.set(dialogParams);
   }
 
+  success(params: string | Omit<AlertDialogParams, 'variant'>) {
+    return this.showVariant('success', params);
+  }
+
+  error(params: string | Omit<AlertDialogParams, 'variant'>) {
+    return this.showVariant('error', params);
+  }
+
+  info(params: string | Omit<AlertDialogParams, 'variant'>) {
+    return this.showVariant('info', params);
+  }
+
+  warning(params: string | Omit<AlertDialogParams, 'variant'>) {
+    return this.showVariant('warning', params);
+  }
+
   close() {
     this.currentDialogParams.set(null);
+  }
+
+  private showVariant(
+    type: AlertDialogParams['variant'],
+    params: string | Omit<AlertDialogParams, 'variant'>,
+  ) {
+    return this.show({
+      ...(typeof params === 'string' ? {} : params),
+      variant: type,
+      text: typeof params === 'string' ? params : params.text,
+    })
   }
 }

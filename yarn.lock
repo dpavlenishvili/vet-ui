@@ -5166,14 +5166,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@progress/kendo-angular-dateinputs@npm:^17.2.0":
-  version: 17.2.0
-  resolution: "@progress/kendo-angular-dateinputs@npm:17.2.0"
+"@progress/kendo-angular-dateinputs@npm:^18.5.2":
+  version: 18.5.2
+  resolution: "@progress/kendo-angular-dateinputs@npm:18.5.2"
   dependencies:
-    "@progress/kendo-angular-schematics": 17.2.0
+    "@progress/kendo-angular-schematics": 18.5.2
     "@progress/kendo-common": ^1.0.1
     "@progress/kendo-date-math": ^1.1.0
-    "@progress/kendo-dateinputs-common": ^0.4.1
+    "@progress/kendo-dateinputs-common": ^0.4.4
     tslib: ^2.3.1
   peerDependencies:
     "@angular/animations": 16 - 19
@@ -5181,17 +5181,17 @@ __metadata:
     "@angular/core": 16 - 19
     "@angular/forms": 16 - 19
     "@angular/platform-browser": 16 - 19
-    "@progress/kendo-angular-buttons": 17.2.0
-    "@progress/kendo-angular-common": 17.2.0
-    "@progress/kendo-angular-icons": 17.2.0
-    "@progress/kendo-angular-intl": 17.2.0
-    "@progress/kendo-angular-l10n": 17.2.0
-    "@progress/kendo-angular-navigation": 17.2.0
-    "@progress/kendo-angular-popup": 17.2.0
-    "@progress/kendo-angular-utils": 17.2.0
-    "@progress/kendo-licensing": ^1.0.2
+    "@progress/kendo-angular-buttons": 18.5.2
+    "@progress/kendo-angular-common": 18.5.2
+    "@progress/kendo-angular-icons": 18.5.2
+    "@progress/kendo-angular-intl": 18.5.2
+    "@progress/kendo-angular-l10n": 18.5.2
+    "@progress/kendo-angular-navigation": 18.5.2
+    "@progress/kendo-angular-popup": 18.5.2
+    "@progress/kendo-angular-utils": 18.5.2
+    "@progress/kendo-licensing": ^1.5.0
     rxjs: ^6.5.3 || ^7.0.0
-  checksum: bf70d58e537f0361da0c2be84f11c2638ba7d061c79cf1a8b7931ad0bd529c5c5002a25d98c0f806fe05d2cdba506b41aa612ef155957dbbf710b39714c72767
+  checksum: 510ad5dad064b56f44ccc1322918a72c2f8c470310556c402836598f51d374249e9bd174ec45d7516d40f4c9ea37c65e7cb7daeebcd3f0f297752c9b05f860ec
   languageName: node
   linkType: hard
 
@@ -5425,11 +5425,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@progress/kendo-angular-intl@npm:^17.2.0":
-  version: 17.2.0
-  resolution: "@progress/kendo-angular-intl@npm:17.2.0"
+"@progress/kendo-angular-intl@npm:^18.5.2":
+  version: 18.5.2
+  resolution: "@progress/kendo-angular-intl@npm:18.5.2"
   dependencies:
-    "@progress/kendo-angular-schematics": 17.2.0
+    "@progress/kendo-angular-schematics": 18.5.2
     "@progress/kendo-intl": ^3.1.0
     tslib: ^2.3.1
   peerDependencies:
@@ -5437,10 +5437,10 @@ __metadata:
     "@angular/common": 16 - 19
     "@angular/core": 16 - 19
     "@angular/platform-browser": 16 - 19
-    "@progress/kendo-angular-common": 17.2.0
-    "@progress/kendo-licensing": ^1.0.2
+    "@progress/kendo-angular-common": 18.5.2
+    "@progress/kendo-licensing": ^1.5.0
     rxjs: ^6.5.3 || ^7.0.0
-  checksum: beafa51db53fcd802e7c0597dc84747cb45e812cab20de04c3e31f7092b40452e782be40bcdf3050b6c326c33ffdf2675226b3a45f13dab9856ad690b664437a
+  checksum: 9f41e6d8ac0d849375e137bf049c77d6734ba1b4bb87fda95d6dfdb585b28253afeed422389a329330858332c967a0bb67c171ffb5ec74cf2305f086980d2d36
   languageName: node
   linkType: hard
 
@@ -5687,6 +5687,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@progress/kendo-angular-schematics@npm:18.5.2":
+  version: 18.5.2
+  resolution: "@progress/kendo-angular-schematics@npm:18.5.2"
+  dependencies:
+    "@progress/kendo-angular-schematics": 18.5.2
+    "@types/semver": ^7.5.0
+    semver: ^7.5.3
+  peerDependencies:
+    "@angular-devkit/core": 16 - 19
+    "@angular-devkit/schematics": 16 - 19
+    "@angular/core": 16 - 19
+    "@schematics/angular": 16 - 19
+    rxjs: ^6.5.3 || ^7.0.0
+  checksum: 80658f4bfd6185c26cb282518f7d4d47d2156a7483a38a47f34acf33fb43cbf25cae7c9d1321d275d9f284986bf36a0bad5fb57d9a916d0aecae1c172d27577d
+  languageName: node
+  linkType: hard
+
 "@progress/kendo-angular-scrollview@npm:^17.2.0":
   version: 17.2.0
   resolution: "@progress/kendo-angular-scrollview@npm:17.2.0"
@@ -5888,13 +5905,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@progress/kendo-dateinputs-common@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@progress/kendo-dateinputs-common@npm:0.4.1"
+"@progress/kendo-dateinputs-common@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "@progress/kendo-dateinputs-common@npm:0.4.4"
   dependencies:
     "@progress/kendo-date-math": ^1.5.9
     tslib: ^2.4.1
-  checksum: ac93aa3815250bf5715258c4514cf291415350546721c67ebf40bb4562e9cf844c8449388457b6b3fd46f2bb769c77f3e0a7abd3b451017531afd9c42c840b3e
+  checksum: d20ad1584a4f2b5d82d28f63b6beedf61686378cf51700900dcb0ff9d30adcc5bad762018ceecbd3f90c0d40b91b8993a74179947e5c372931428e3014aff25e
   languageName: node
   linkType: hard
 
@@ -20629,7 +20646,7 @@ __metadata:
     "@progress/kendo-angular-buttons": ^17.2.0
     "@progress/kendo-angular-charts": ^17.2.0
     "@progress/kendo-angular-common": ^17.2.0
-    "@progress/kendo-angular-dateinputs": ^17.2.0
+    "@progress/kendo-angular-dateinputs": ^18.5.2
     "@progress/kendo-angular-dialog": ^17.2.0
     "@progress/kendo-angular-dropdowns": ^17.2.0
     "@progress/kendo-angular-editor": ^17.2.0
@@ -20639,7 +20656,7 @@ __metadata:
     "@progress/kendo-angular-icons": ^17.2.0
     "@progress/kendo-angular-indicators": ^17.2.0
     "@progress/kendo-angular-inputs": ^17.2.0
-    "@progress/kendo-angular-intl": ^17.2.0
+    "@progress/kendo-angular-intl": ^18.5.2
     "@progress/kendo-angular-l10n": ^17.2.0
     "@progress/kendo-angular-label": ^17.2.0
     "@progress/kendo-angular-layout": ^17.2.0

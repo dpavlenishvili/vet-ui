@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, tap } from 'rxjs';
 import { AuthenticationService } from '../../authentication.service';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
@@ -14,6 +14,7 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { WA_SESSION_STORAGE } from '@ng-web-apis/common';
 import { CODE_2FA_SENT } from '../authorization.constants';
 import { useAuthEnvironment } from '@vet/auth';
+import { useAlert } from '@vet/shared';
 
 @Component({
   selector: 'vet-authorization-login',
@@ -21,7 +22,7 @@ import { useAuthEnvironment } from '@vet/auth';
   templateUrl: './login-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
   private readonly storage = inject(WA_SESSION_STORAGE);
 
   protected readonly loginForm = new FormGroup({
@@ -33,8 +34,28 @@ export class LoginPageComponent {
   protected readonly isLoginFormSubmitted = signal(false);
   protected readonly isLoginLoading = signal(false);
   private readonly authenticationService = inject(AuthenticationService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly alert = useAlert();
   private readonly authorizationPageLocalStateService = inject(AuthorizationPageLocalStateService);
   timeoutSeconds = useAuthEnvironment().login2faTimeoutSeconds;
+
+  ngOnInit() {
+    if (this.activatedRoute.snapshot.queryParamMap.get('referrer') === 'registration') {
+      this.alert.show({
+        text: 'auth.alert_registration_successful',
+        onClose: () => {
+          const { referrer: _, ...params } = this.activatedRoute.snapshot.queryParams;
+          void this.router.navigate([], {
+            queryParams: params,
+          })
+        },
+      });
+    }
+
+    const rawSentCode = this.storage.getItem(CODE_2FA_SENT);
+
+  }
 
   protected onSubmit() {
     this.isLoginFormSubmitted.set(true);
@@ -55,17 +76,22 @@ export class LoginPageComponent {
     if (rawSentCode) {
       const sentCode = JSON.parse(rawSentCode) as {
         pid: string;
+        token: string;
         time: number;
         response: UserLogin2FaResponseBody;
       };
 
-      if (sentCode.pid
-        && sentCode.time
-        && sentCode.response
-        && sentCode.pid === pid
-        && (Date.now() - sentCode.time) < (this.timeoutSeconds * 1000)
+      if (
+        sentCode.pid &&
+        sentCode.time &&
+        sentCode.response &&
+        sentCode.pid === pid &&
+        Date.now() - sentCode.time < this.timeoutSeconds * 1000
       ) {
-        this.authorizationPageLocalStateService.navigateTo2fa(sentCode.response, { pid, password }, sentCode.time);
+        this.authorizationPageLocalStateService.navigateTo2fa(sentCode.response, {
+          pid,
+          token: sentCode.token,
+        }, sentCode.time);
         return;
       }
     }
@@ -79,12 +105,20 @@ export class LoginPageComponent {
           error: (err: HttpErrorResponse) => {
             if (err.status === HttpStatusCode.Forbidden || err.status === HttpStatusCode.NotAcceptable) {
               const response = err.error as UserLogin2FaResponseBody;
-              this.storage.setItem(CODE_2FA_SENT, JSON.stringify({
+              const time = Date.now();
+              this.storage.setItem(
+                CODE_2FA_SENT,
+                JSON.stringify({
+                  pid,
+                  token: response.token,
+                  time,
+                  response,
+                }),
+              );
+              this.authorizationPageLocalStateService.navigateTo2fa(response, {
                 pid,
-                time: Date.now(),
-                response,
-              }))
-              this.authorizationPageLocalStateService.navigateTo2fa(response, { pid, password });
+                token: response.token,
+              }, time);
             }
           },
         }),

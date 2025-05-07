@@ -65,7 +65,7 @@
 
         <div class="k-display-flex k-gap-5">
           <kendo-label [text]="'auth.date_of_birth' | transloco">
-            <kendo-datepicker [clearButton]="true" formControlName="dateOfBirth" />
+            <kendo-datepicker format="dd/MM/yyyy" calendarType="classic" [clearButton]="true" formControlName="dateOfBirth" />
             @if (form.controls['dateOfBirth']; as control) {
               @if (!control.untouched) {
                 @if (control.errors?.['required']) {

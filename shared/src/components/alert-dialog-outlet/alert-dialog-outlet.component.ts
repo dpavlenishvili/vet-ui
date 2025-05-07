@@ -84,6 +84,7 @@ export class AlertDialogOutletComponent {
   }
 
   protected close() {
+    this.resolvedParams()?.onClose?.();
     this.alertDialogService.close();
   }
 

@@ -106,7 +106,7 @@ export class RegistrationComponent implements OnInit {
   createFormGroup() {
     return new FormGroup({
       chooseCitizenship: new FormGroup({
-        citizenship: new FormControl<string | null>(Citizenship.Georgian, Validators.required),
+        citizenship: new FormControl<string | null>(null, Validators.required),
       }),
       checkIdentity: new FormGroup({
         lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
@@ -200,15 +200,16 @@ export class RegistrationComponent implements OnInit {
         this.registrationService.register(user).pipe(
           tap({
             next: () => {
-              this.alert.show('auth.alert_registration_successful')
+              void this.router.navigate(['/authorization'], {
+                queryParams: {
+                  referrer: 'registration',
+                }
+              });
             },
             error: (error) => {
-              if(error.error.errors) {
-                for(let item of error.error.errors) {
-                  this.alert.show({
-                    variant: 'error',
-                    text: item,
-                  })
+              if (error.error.errors) {
+                for (const item of error.error.errors) {
+                  this.alert.error(item);
                 }
               }
             }

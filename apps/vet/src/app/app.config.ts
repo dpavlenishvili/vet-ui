@@ -29,6 +29,7 @@ import { provideAuthEnvironment, authenticationInterceptor } from '@vet/auth';
 import { apiErrorInterceptor, ToastModule } from '@vet/shared';
 import { NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
 import { WA_WINDOW } from '@ng-web-apis/common';
+import { provideKendoDateSettings } from './kendo-date-config.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -55,6 +56,7 @@ export const appConfig: ApplicationConfig = {
     provideKendoDateTimePickerFormat(environment.kendoDateTimePickerFormat),
     provideAuthEnvironment(environment.modules.auth),
     dynamicPagesInitializer(),
+    provideKendoDateSettings(),
     {
       provide: NOTIFICATION_CONTAINER,
       useFactory: () => {

@@ -1,3 +1,5 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
 
@@ -17,6 +19,46 @@
 
   .stepper-container {
     width: 100%;
-    max-width: 16rem;
+    max-width: 4.5rem;
+    min-width: 4.5rem;
+
+    kendo-stepper {
+      max-width: 2rem;
+    }
+
+    &.expanded {
+      min-width: 16rem;
+      max-width: 16rem;
+      align-items: flex-start;
+    }
+  }
+
+  .stepper-container-toggle-container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.75rem;
+  }
+
+  .stepper-container-toggle {
+    background-color: shared.$tb-kendo-color-surface;
+    border-color: shared.$tb-kendo-color-surface;
+    width: 1.625rem;
+    height: 1.625rem;
+    transition: all 200ms ease-out;
+  }
+
+  .stepper-container.expanded {
+    justify-content: center;
+
+    .stepper-container-toggle-container {
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    .stepper-container-toggle {
+      width: 2rem;
+      height: 2rem;
+    }
   }
 }
+

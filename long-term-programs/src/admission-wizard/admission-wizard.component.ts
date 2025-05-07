@@ -24,8 +24,10 @@ import { TranslocoPipe } from '@jsverse/transloco';
 
 import { AdmissionReq, type AdmissionRequest } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
-import { Citizenship, georgianMobileValidator } from '@vet/shared';
+import { Citizenship, georgianMobileValidator, vetIcons } from '@vet/shared';
 import { StepBody, StepDefinition } from '../long-term-programs.types';
+import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-admission-wizard',
@@ -40,6 +42,8 @@ import { StepBody, StepDefinition } from '../long-term-programs.types';
     ProgramSelectionStepComponent,
     ProgramSelectedProgramsStepComponent,
     ProgramConfirmationStepComponent,
+    ButtonComponent,
+    TooltipDirective,
   ],
   templateUrl: './admission-wizard.component.html',
   styleUrl: './admission-wizard.component.scss',
@@ -53,6 +57,8 @@ export class AdmissionWizardComponent implements OnInit {
   createAdmission = output<AdmissionRequest>();
   updateAdmission = output<StepBody<AdmissionRequest>>();
 
+  protected isExpanded = signal(true);
+  protected readonly vetIcons = vetIcons;
   protected readonly currentStepIndex = signal(0);
   protected currentStep = computed(() => this.steps()[this.currentStepIndex()]);
   protected steps = computed((): StepDefinition[] => [
@@ -300,5 +306,9 @@ export class AdmissionWizardComponent implements OnInit {
         program_ids: [],
       },
     });
+  }
+
+  onToggleExpansion() {
+    this.isExpanded.update((value) => !value);
   }
 }
