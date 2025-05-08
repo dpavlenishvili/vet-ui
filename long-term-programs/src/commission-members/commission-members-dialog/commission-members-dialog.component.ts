@@ -63,7 +63,7 @@ export class CommissionMembersDialogComponent implements OnInit {
   checkCommissionMember() {
     this.isCommissionMemberValid.set(false);
 
-    if (this.commissionMembers()?.length === 6) {
+    if (this.updatedCommissionMembers().length === 6) {
       this.isCommissionMembersGridVisible.set(true);
     }
 

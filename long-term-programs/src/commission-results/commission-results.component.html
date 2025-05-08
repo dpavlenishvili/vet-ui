@@ -70,7 +70,7 @@
                   }
                 </div>
 
-                <div kendoTooltip filter="kendo-svg-icon" class="k-display-flex k-flex-column k-gap-1">
+                <div kendoTooltip filter="kendo-svg-icon" class="k-display-flex k-flex-column">
                   @for (review of item.reviews; track $index) {
                     <kendo-svg-icon
                       [title]="review.results.comission_member.name ?? ''"

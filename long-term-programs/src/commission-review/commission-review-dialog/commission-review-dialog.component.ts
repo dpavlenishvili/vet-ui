@@ -76,6 +76,11 @@ export class CommissionReviewDialogComponent {
   }
 
   handleSave() {
+    if (this.commissionScoresFormGroup?.invalid) {
+      this.commissionScoresFormGroup.markAllAsTouched();
+      return;
+    }
+
     const value = this.commissionScoresFormGroup?.value;
     const payload: ScorePayload = {
       admission: this.admissionId() as number,
