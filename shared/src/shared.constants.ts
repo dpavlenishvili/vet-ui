@@ -47,6 +47,10 @@ export const countries = [
     name: 'ანტიგუა და ბარბუდა',
   },
   {
+    code: 'GEO',
+    name: 'საქართველო',
+  },
+  {
     code: 'AUS',
     name: 'ავსტრალია',
   },

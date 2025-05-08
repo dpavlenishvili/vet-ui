@@ -18,7 +18,6 @@ import {
   personalNumberValidator,
   vetIcons,
   useAlert,
-  ToastService,
 } from '@vet/shared';
 import { RegisterService, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
@@ -94,13 +93,11 @@ export class RegistrationComponent implements OnInit {
 
   private router = inject(Router);
   private registrationService = inject(RegisterService);
-  private toastService = inject(ToastService);
 
   ngOnInit(): void {
     if (!this.router.url.includes('/citizenship_selection')) {
       void this.router.navigate(['/registration/citizenship_selection']);
     }
-    this.handleCitizenshipChange();
   }
 
   createFormGroup() {
@@ -223,22 +220,11 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  onResetForm() {
-    this.formGroup.patchValue(this.createFormGroup().value);
+  onResetForm(citizenship: string) {
+    this.formGroup.reset()
+    this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(citizenship);
     this.formGroup.markAsPristine();
     this.formGroup.markAsUntouched();
-  }
-
-  handleCitizenshipChange() {
-    const citizenshipControl = this.formGroup.controls.chooseCitizenship.get('citizenship');
-
-    citizenshipControl?.valueChanges
-      .pipe(
-        tap(() => {
-          this.formGroup.controls.passwords.reset();
-        }),
-      )
-      .subscribe();
   }
 
   onToggleExpansion() {

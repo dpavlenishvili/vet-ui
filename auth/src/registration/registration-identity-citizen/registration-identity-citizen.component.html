@@ -6,7 +6,7 @@
           <kendo-label [text]="'auth.id_number' | transloco">
             <kendo-textbox [clearButton]="true" formControlName="personalNumber" />
             @if (form.controls['personalNumber']; as control) {
-              @if (!control.untouched) {
+              @if (!control.untouched || control.value) {
                 @if (control.errors?.['required']) {
                   <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
                 }
@@ -20,7 +20,7 @@
           <kendo-label [text]="'auth.last_name' | transloco">
             <kendo-textbox [clearButton]="true" formControlName="lastname" />
             @if (form.controls['lastname']; as control) {
-              @if (!control.untouched) {
+              @if (!control.untouched || control.value) {
                 @if (control.errors?.['required']) {
                   <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
                 }

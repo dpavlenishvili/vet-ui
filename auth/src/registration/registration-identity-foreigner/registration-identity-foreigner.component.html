@@ -1,4 +1,4 @@
-@if (form(); as form) {
+@if (identityForm(); as form) {
   <div class="k-display-flex k-gap-10 k-flex-column">
     <form [formGroup]="form">
       <div class="k-display-flex k-flex-column k-gap-7.5">
@@ -37,7 +37,7 @@
           <kendo-label [text]="'auth.name' | transloco">
             <kendo-textbox [clearButton]="true" formControlName="firstname" />
             @if (form.controls['firstname']; as control) {
-              @if (!control.untouched) {
+              @if (!control.untouched || control.value) {
                 @if (control.errors?.['required']) {
                   <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
                 }
@@ -51,7 +51,7 @@
           <kendo-label [text]="'auth.last_name' | transloco">
             <kendo-textbox [clearButton]="true" formControlName="lastname" />
             @if (form.controls['lastname']; as control) {
-              @if (!control.untouched) {
+              @if (!control.untouched || control.value) {
                 @if (control.errors?.['required']) {
                   <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
                 }
@@ -98,8 +98,13 @@
             {{ 'auth.previous' | transloco }}
           </button>
 
-          <button kendoButton type="button" themeColor="primary" (click)="onNextClick()">
-            {{ 'auth.next' | transloco }}
+          <button
+            kendoButton
+            themeColor="primary"
+            type="button"
+            (click)="isPersonVerified() ? onNextClick() : onCheckClick()"
+          >
+            {{ isPersonVerified() ? ('auth.next' | transloco) : ('auth.check' | transloco) }}
           </button>
         </div>
       </div>

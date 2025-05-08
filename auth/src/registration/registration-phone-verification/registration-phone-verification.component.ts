@@ -5,6 +5,8 @@ import { useAuthEnvironment } from '../../auth.providers';
 import { RegistrationPhoneTimeoutComponent } from '../registration-phone-timeout/registration-phone-timeout.component';
 import { noop } from 'lodash-es';
 
+export type VerificationState = 'default' | 'valid' | 'invalid';
+
 @Component({
   selector: 'vet-registration-phone-verification',
   imports: [FormsModule, NumericTextBoxComponent, RegistrationPhoneTimeoutComponent],
@@ -22,6 +24,7 @@ import { noop } from 'lodash-es';
 export class RegistrationPhoneVerificationComponent implements ControlValueAccessor {
   isPending = input(false);
   timeSent = input(Date.now());
+  isValid = input<boolean | null>(null);
   reload = output();
 
   length = useAuthEnvironment().phoneVerificationNumberLength;
@@ -33,20 +36,34 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
       .join(''),
   );
   startTime = signal(this.timeSent());
+  state = computed<VerificationState>(() => {
+    if (this.isValid() === true) return 'valid';
+    if (this.isValid() === false) return 'invalid';
+    return 'default';
+  });
+
+  isComplete = computed(() => {
+    return this.digits().every(digit => digit !== null);
+  });
 
   private onChange: (value: string) => void = noop;
   private onTouched: () => void = noop;
 
   protected readonly inputs = viewChildren(NumericTextBoxComponent);
+
   constructor() {
     effect(() => {
       this.startTime.set(this.timeSent());
     });
+
     effect(() => {
       const inputList = this.inputs();
-
       if (inputList.length > 0) {
-        inputList[0].hostElement.nativeElement.querySelector('input').focus();
+        const emptyIndex = this.digits().findIndex(d => d === null);
+        const focusIndex = emptyIndex >= 0 ? emptyIndex : 0;
+        if (focusIndex < inputList.length) {
+          inputList[focusIndex].hostElement.nativeElement.querySelector('input').focus();
+        }
       }
     });
   }
@@ -55,33 +72,43 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
     const target = event.target as HTMLInputElement;
 
     if (event.key === 'Backspace' && target.value === '' && index > 0) {
+      this.digits.update(digits => {
+        digits[index] = null;
+        return [...digits];
+      });
+
       const prevInput = this.inputs()[index - 1];
       prevInput?.hostElement.nativeElement.querySelector('input')?.focus();
       event.preventDefault();
     }
   }
 
-  onDigitChange(index: number, value: number, input: NumericTextBoxComponent) {
-    const element = input.hostElement.nativeElement;
-    const nextElement = element.nextElementSibling?.querySelector('input');
-    const prevElement = element.previousElementSibling?.querySelector('input');
+  onDigitChange(index: number, value: number | null, input: NumericTextBoxComponent) {
+    if (value !== null && (value < 0 || value > 9)) {
+      value = Math.abs(value) % 10;
+    }
 
     this.digits.update((digits) => {
-      return digits.map((digit, i) => {
-        return i === index ? value : digit;
-      });
+      const newDigits = [...digits];
+      newDigits[index] = value;
+      return newDigits;
     });
 
     const updatedValue = this.input();
     this.onChange(updatedValue);
+    this.onTouched();
 
-    if (value === null || value === undefined || (value === 0 && !input.value)) {
-      if (prevElement) {
-        prevElement.focus();
-      }
+    const element = input.hostElement.nativeElement;
+    const inputElements = this.inputs();
+
+    if (value === null) {
+      element.querySelector('input')?.focus();
     } else {
-      if (nextElement) {
-        nextElement.focus();
+      const nextEmptyIndex = this.digits().findIndex((d, i) => i > index && d === null);
+      if (nextEmptyIndex >= 0 && nextEmptyIndex < inputElements.length) {
+        inputElements[nextEmptyIndex].hostElement.nativeElement.querySelector('input')?.focus();
+      } else if (index < inputElements.length - 1) {
+        inputElements[index + 1].hostElement.nativeElement.querySelector('input')?.focus();
       }
     }
   }

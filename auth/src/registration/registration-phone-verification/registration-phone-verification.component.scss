@@ -1,0 +1,53 @@
+:host {
+  display: block;
+}
+
+kendo-numerictextbox {
+  &.input-valid {
+    border-color: #2f9e44 !important;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0.5rem;
+
+    .k-input-inner {
+      color: #2f9e44;
+    }
+  }
+
+  &.input-invalid {
+    border-color: #e03131 !important;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0.5rem;
+
+    .k-input-inner {
+      color: #e03131;
+    }
+  }
+
+  &.k-input {
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .k-input-inner {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 500;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
+  }
+}
+
+kendo-numerictextbox:focus-within {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+kendo-numerictextbox.k-input-md {
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+}

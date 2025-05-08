@@ -43,7 +43,7 @@
             <vet-registration-citizenship
               [form]="formGroup.controls.chooseCitizenship"
               (nextClick)="onNextClick()"
-              (resetForm)="onResetForm()"
+              (resetForm)="onResetForm($event)"
             />
           }
           @case (1) {
@@ -57,9 +57,9 @@
               }
               @case (CitizenshipType.Foreigner) {
                 <vet-registration-identity-foreigner
-                  [form]="formGroup.controls.checkIdentityForeigner"
+                  [generalForm]="formGroup"
+                  [identityForm]="formGroup.controls.checkIdentityForeigner"
                   (previousClick)="onPreviousClick()"
-                  (nextClick)="onNextClick()"
                 />
               }
             }

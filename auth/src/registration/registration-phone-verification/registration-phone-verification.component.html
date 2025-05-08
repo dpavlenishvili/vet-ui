@@ -12,6 +12,8 @@
         [ngModel]="digit"
         [style.width.rem]="3.5"
         [style.height.rem]="3.5"
+        [class.input-valid]="state() === 'valid'"
+        [class.input-invalid]="state() === 'invalid'"
         (ngModelChange)="onDigitChange($index, $event, input)"
         (keydown)="onKeyDown($event, $index)"
       />

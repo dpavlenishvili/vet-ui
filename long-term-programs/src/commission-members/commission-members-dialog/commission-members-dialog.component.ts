@@ -32,7 +32,7 @@ export class CommissionMembersDialogComponent implements OnInit {
   userRolesService = inject(UserRolesService);
   toastService = inject(ToastService);
 
-  organisation = this.userRolesService.getOrganisation();;
+  organisation = this.userRolesService.getOrganisation();
 
   ngOnInit(): void {
     this.setCommissionMembersGridData();
@@ -62,6 +62,10 @@ export class CommissionMembersDialogComponent implements OnInit {
 
   checkCommissionMember() {
     this.isCommissionMemberValid.set(false);
+
+    if (this.commissionMembers()?.length === 6) {
+      this.isCommissionMembersGridVisible.set(true);
+    }
 
     const value = this.commissionMemberForm.value;
     this.commissionService
@@ -97,8 +101,8 @@ export class CommissionMembersDialogComponent implements OnInit {
   }
 
   addCommissionMember() {
-    if(this.commissionMemberForm.invalid) {
-      return
+    if (this.commissionMemberForm.invalid) {
+      return;
     }
 
     const formValue = this.commissionMemberForm.value;
@@ -112,7 +116,7 @@ export class CommissionMembersDialogComponent implements OnInit {
       name: formValue.name!,
     };
 
-    if(this.updatedCommissionMembers().length < 6) {
+    if (this.updatedCommissionMembers().length < 6) {
       this.updatedCommissionMembers.update((members) => {
         const exists = members.some((member) => member.pid === newMember.pid);
         return exists ? members : [...members, newMember];
@@ -123,7 +127,7 @@ export class CommissionMembersDialogComponent implements OnInit {
       this.commissionMemberForm.get('name')?.reset();
       this.commissionMemberForm.get('pid')?.reset();
     } else {
-      this.toastService.error('programs.commission_members_add_rules')
+      this.toastService.error('programs.commission_members_add_rules');
     }
   }
 
