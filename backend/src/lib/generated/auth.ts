@@ -1,0 +1,239 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { useBaseApiUrl, type HttpRequestOptions } from '@vet/shared';
+
+import type {
+  LoginRequestBody,
+  UserLogin2FaResponseBody,
+  UserLoginResponseBody,
+  UserRes,
+  ValidateCodeRequestBody,
+} from './data-contracts';
+
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  private httpClient = inject(HttpClient);
+  private baseUrl = useBaseApiUrl();
+  /**
+   * No description * * @tags Auth
+   * @name LoginUser
+   * @summary User authentication
+   * @request POST:/auth/login */
+
+  loginUser = (data: LoginRequestBody, options: HttpRequestOptions = {}) => {
+    return this.httpClient.post<UserLoginResponseBody | UserLogin2FaResponseBody>(
+      `${this.baseUrl}/auth/login`,
+      data,
+      options,
+    );
+  };
+  /**
+   * No description * * @tags Auth
+   * @name Validate2FaCode
+   * @summary User authentication with 2fa code
+   * @request POST:/auth/login/2fa */
+
+  validate2FaCode = (data: ValidateCodeRequestBody, options: HttpRequestOptions = {}) => {
+    return this.httpClient.post<UserLoginResponseBody>(`${this.baseUrl}/auth/login/2fa`, data, options);
+  };
+  /**
+   * No description * * @tags Auth
+   * @name GetUser
+   * @summary Get user info
+   * @request GET:/auth/me */
+
+  getUser = (options: HttpRequestOptions = {}) => {
+    return this.httpClient.get<UserRes>(`${this.baseUrl}/auth/me`, options);
+  };
+  /**
+   * No description * * @tags Auth
+   * @name LogoutUser
+   * @summary Logout user
+   * @request DELETE:/auth/logout */
+
+  logoutUser = (options: HttpRequestOptions = {}) => {
+    return this.httpClient.delete<{
+      /**
+       * Status
+       * @default true
+       */
+      status?: boolean;
+      /**
+       * Successfully logged out
+       * @default "Successfully logged out"
+       */
+      msg?: string;
+    }>(`${this.baseUrl}/auth/logout`, options);
+  };
+  /**
+   * No description * * @tags Auth
+   * @name RefreshToken
+   * @summary Refresh token
+   * @request POST:/auth/refresh */
+
+  refreshToken = (
+    data: {
+      /** The refresh token to generate a new access token. */
+      refresh_token: string;
+    },
+    options: HttpRequestOptions = {},
+  ) => {
+    return this.httpClient.post<UserLoginResponseBody>(`${this.baseUrl}/auth/refresh`, data, options);
+  };
+  /**
+   * No description * * @tags Auth
+   * @name ChangePassword
+   * @summary Change password for user
+   * @request POST:/auth/password */
+
+  changePassword = (
+    data: {
+      /**
+       * Personal ID
+       * @default "010000000000"
+       */
+      pid?: string;
+      /**
+       * Password
+       * @default "password"
+       */
+      password?: string;
+      /**
+       * New Password
+       * @default "password"
+       */
+      new_password?: string;
+      /**
+       * Password confirmation
+       * @default "password"
+       */
+      password_confirmation?: string;
+    },
+    options: HttpRequestOptions = {},
+  ) => {
+    return this.httpClient.post<{
+      /**
+       * Status
+       * @default true
+       */
+      status?: boolean;
+      /**
+       * Password updated
+       * @default "Password updated"
+       */
+      msg?: string;
+    }>(`${this.baseUrl}/auth/password`, data, options);
+  };
+  /**
+   * No description * * @tags Auth
+   * @name InitForgetPassword
+   * @summary Init forget password for user
+   * @request POST:/auth/reset */
+
+  initForgetPassword = (
+    data: {
+      /**
+       * Personal ID
+       * @default "010000000000"
+       */
+      pid?: string;
+      /**
+       * Phone Number
+       * @default "555123456"
+       */
+      phone?: string;
+    },
+    options: HttpRequestOptions = {},
+  ) => {
+    return this.httpClient.post<{
+      /**
+       * Status
+       * @default true
+       */
+      status?: boolean;
+      /**
+       * Sms code sent
+       * @default "Password updated"
+       */
+      msg?: string;
+    }>(`${this.baseUrl}/auth/reset`, data, options);
+  };
+  /**
+   * No description * * @tags Auth
+   * @name ResetPassword
+   * @summary Reset password for user
+   * @request POST:/auth/reset/save */
+
+  resetPassword = (
+    data: {
+      /**
+       * Personal ID
+       * @default "010000000000"
+       */
+      pid?: string;
+      /**
+       * Phone Number
+       * @default "555123456"
+       */
+      phone?: string;
+      /**
+       * Sms code
+       * @default "1234"
+       */
+      code?: string;
+      /**
+       * New Password
+       * @default "password"
+       */
+      password?: string;
+    },
+    options: HttpRequestOptions = {},
+  ) => {
+    return this.httpClient.post<{
+      /**
+       * Status
+       * @default true
+       */
+      status?: boolean;
+      /**
+       * Password updated
+       * @default "Password updated"
+       */
+      msg?: string;
+    }>(`${this.baseUrl}/auth/reset/save`, data, options);
+  };
+  /**
+   * No description * * @tags Auth
+   * @name ResetPasswordByToken
+   * @summary Reset password by token for user
+   * @request POST:/auth/password/change */
+
+  resetPasswordByToken = (
+    data: {
+      /**
+       * Token
+       * @default "qwertyuiopasdfdsgfdhgfjhgkj..."
+       */
+      token?: string;
+      /**
+       * New Password
+       * @default "password"
+       */
+      password?: string;
+    },
+    options: HttpRequestOptions = {},
+  ) => {
+    return this.httpClient.post<{
+      /**
+       * Status
+       * @default true
+       */
+      status?: boolean;
+      /**
+       * Password updated
+       * @default "Password updated"
+       */
+      msg?: string;
+    }>(`${this.baseUrl}/auth/password/change`, data, options);
+  };
+}
