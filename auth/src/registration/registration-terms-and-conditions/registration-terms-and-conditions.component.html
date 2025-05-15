@@ -1,0 +1,32 @@
+@if (form(); as form) {
+  <div class="k-display-flex k-gap-10 k-flex-column">
+    <form [formGroup]="form">
+      <div class="k-display-flex k-flex-column k-gap-10">
+        <div class="k-display-flex k-flex-column k-gap-3 k-p-3 k-border k-border-solid k-border-divider-light k-rounded-xxl">
+          <span class="k-text-base k-color-body-dark">
+            {{ 'auth.terms_and_conditions_information' | transloco }}
+          </span>
+
+          <div>
+            <kendo-checkbox #checkbox formControlName="accepted" />
+            <kendo-label
+              class="k-checkbox-label"
+              [for]="checkbox"
+              [text]="'auth.read_and_understand_rules' | transloco"
+            />
+          </div>
+        </div>
+
+        <div class="k-display-flex k-justify-content-between">
+          <button kendoButton themeColor="secondary" (click)="onPreviousClick()">
+            {{ 'auth.previous' | transloco }}
+          </button>
+
+          <button kendoButton themeColor="primary" (click)="form.valid && onNextClick()">
+            {{ 'auth.finish' | transloco }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+}
