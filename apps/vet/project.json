@@ -1,0 +1,66 @@
+{
+  "name": "vet",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/vet/src",
+  "tags": ["type:app"],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "{workspaceRoot}/dist/{projectRoot}",
+        "index": "{projectRoot}/src/index.html",
+        "browser": "{projectRoot}/src/main.ts",
+        "server": "{projectRoot}/src/main.server.ts",
+        "ssr": {
+          "entry": "{projectRoot}/server.ts"
+        },
+        "polyfills": ["zone.js", "@angular/localize/init"],
+        "tsConfig": "{projectRoot}/tsconfig.app.json",
+        "assets": ["{projectRoot}/src/favicon.ico", "{projectRoot}/src/assets"],
+        "styles": ["{projectRoot}/src/styles.scss"],
+        "scripts": [],
+        "allowedCommonJsDependencies": ["dayjs"]
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "port": 4201
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "vet:build:production"
+        },
+        "development": {
+          "buildTarget": "vet:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "{projectRoot}/jest.config.ts"
+      }
+    }
+  }
+}

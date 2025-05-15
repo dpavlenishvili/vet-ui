@@ -1,0 +1,67 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+
+  --container-bg-color: #ffffff;
+  --container-border-radius: 1.25rem;
+  --container-padding: 1.25rem;
+
+  .step-content-container {
+    overflow: auto;
+    flex: 1;
+    height: 100%;
+    padding: var(--container-padding);
+    border-radius: var(--container-border-radius);
+    background-color: var(--container-bg-color);
+  }
+
+  .stepper-container {
+    width: 100%;
+    max-width: 4.5rem;
+    min-width: 4.5rem;
+    transition: all 200ms ease-in-out;
+    height: 100%;
+    padding: var(--container-padding);
+    border-radius: var(--container-border-radius);
+    background-color: var(--container-bg-color);
+
+    kendo-stepper {
+      max-width: 2rem;
+    }
+
+    &.expanded {
+      width: shared.$vet-sidebar-width-full;
+      min-width: shared.$vet-sidebar-width-full;
+      align-items: flex-start;
+    }
+  }
+}
+
+.sidebar-menu-toggle-container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 0.75rem;
+}
+
+.sidebar-menu-toggle {
+  background-color: shared.$tb-kendo-color-surface;
+  border-color: shared.$tb-kendo-color-surface;
+  width: 1.625rem;
+  height: 1.625rem;
+  transition: all 200ms ease-out;
+}
+
+.stepper-container.expanded {
+  justify-content: center;
+
+  .sidebar-menu-toggle-container {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .sidebar-menu-toggle {
+    width: 2rem;
+    height: 2rem;
+  }
+}

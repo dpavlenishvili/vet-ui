@@ -1,0 +1,231 @@
+@import '@vet/shared-styles/_styles.scss';
+
+/* Default Theme (applies to :root) */
+:root {
+  --main-bg: #f5f7f8;
+  --secondary-color: #4682b4;
+  --text-color: #000000;
+  --secondary-text-color: #626262;
+  // --text-color: #444444;
+  --text-secondary-color: #444444;
+  --link-color: #4682b4;
+  --nav-link-color: #ffffff;
+  --nav-link-color-visited: #cccccc;
+  --nav-bg-color: #4682b4;
+  --border-none: #b1b7bb;
+  --font-size: 1rem;
+}
+
+.theme-v1 {
+  --main-bg: #ffff54;
+  --secondary-color: #000000;
+  --text-color: #000000;
+  --secondary-text-color: #000000;
+  --link-color: #000000;
+  --nav-link-color: #ffff54;
+  --nav-link-color-visited: #e6e64d;
+  --nav-bg-color: #000000;
+  --border-none: #000000;
+}
+
+.theme-v2 {
+  --main-bg: #000000;
+  --secondary-color: #ffff54;
+  --text-color: #ffff54;
+  --secondary-text-color: #ffff54;
+  --link-color: #ffff54;
+  --nav-link-color: #000000;
+  --nav-link-color-visited: #333333;
+  --nav-bg-color: #ffff54;
+  --border-none: #ffff54;
+}
+
+.theme-v3 {
+  --main-bg: #ffffff;
+  --secondary-color: #0000f5;
+  --text-color: #0000f5;
+  --secondary-text-color: #0000f5;
+  --link-color: #0000f5;
+  --nav-link-color: #ffffff;
+  --nav-link-color-visited: #dddddd;
+  --nav-bg-color: #0000f5;
+  --border-none: #0000f5;
+}
+
+/* Apply Background Globally */
+body {
+  background-color: var(--main-bg);
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Base Styling */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'HelveticaNeue', Arial, sans-serif;
+}
+
+html,
+body {
+  min-height: 100%;
+  height: 100%;
+  background-color: var(--main-bg);
+  color: var(--text-color);
+  font-size: var(--font-size);
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.vet-text-base {
+  font-family: HelveticaNeue;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+  &.strong,
+  strong,
+  b {
+    font-weight: 500;
+    font-family: HelveticaNeueMedium;
+  }
+}
+
+.vet-text-sm {
+  font-family: HelveticaNeue;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+  &.strong,
+  strong,
+  b {
+    font-weight: 500;
+    font-family: HelveticaNeueMedium;
+  }
+}
+
+.vet-text-h2 {
+  font-family: HelveticaNeueMedium;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.375rem;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+.vet-bg-pink {
+  background-color: #e3c7c9;
+}
+
+.vet-bg-blue {
+  background-color: #eaf0ff;
+}
+
+.vet-grid-table {
+  display: grid;
+  border: 0.0625rem solid var(--kendo-color-border);
+
+  .vet-grid-cell {
+    padding: 1rem;
+    border-style: solid;
+    border-color: var(--kendo-color-border);
+    border-width: 0;
+    border-right-width: 0.0625rem;
+    border-bottom-width: 0.0625rem;
+    font-family: HelveticaNeue;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1rem;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+    &.vet-grid-header {
+      font-family: HelveticaNeueMedium;
+      font-weight: 500;
+      line-height: 0.915625rem;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  &.vet-grid-dense {
+    .vet-grid-cell {
+      padding: 0.625rem;
+    }
+  }
+
+  @for $i from 1 through 20 {
+    &.vet-grid-size-#{$i} {
+      grid-template-columns: repeat(#{$i}, 1fr);
+
+      .vet-grid-cell {
+        &:nth-child(#{$i}n) {
+          border-right: none;
+        }
+
+        &:nth-last-child(-n + #{$i}) {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}
+
+.vet-auth {
+  kendo-textbox {
+    height: 3.125rem;
+    margin-top: 0.75rem;
+  }
+
+  button {
+    height: 3.125rem;
+    width: 18.125rem;
+  }
+
+  kendo-textbox input.k-input-inner {
+    padding-block: 1rem !important;
+    padding-inline: 1rem !important;
+  }
+}
+
+.vet-registration {
+  kendo-textbox,
+  kendo-dropdownlist,
+  kendo-datepicker {
+    height: 3.125rem;
+    margin-top: 0.75rem;
+  }
+
+  button {
+    height: 3.125rem;
+  }
+
+  kendo-textbox input.k-input-inner {
+    padding-block: 1rem !important;
+    padding-inline: 1rem !important;
+  }
+}
+
+//.k-button {
+//    font-size: 0.9rem !important;
+//    padding: 1rem 1rem 1rem 1.1rem !important;
+//    border-radius: 0.625rem !important;
+//    font-weight: normal !important;
+//    border: none !important;
+//    color: white !important;
+//    cursor: pointer !important;
+//}

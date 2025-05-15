@@ -1,0 +1,38 @@
+<div class="k-display-flex k-flex-column k-gap-5">
+  <div class="k-display-flex k-justify-content-end k-gap-5">
+    @for (digit of digits(); track $index) {
+      <kendo-numerictextbox
+        #input
+        type="number"
+        [disabled]="disabled()"
+        [maxlength]="1"
+        [selectOnFocus]="true"
+        [spinners]="false"
+        [format]="'#'"
+        [ngModel]="digit"
+        [style.width.rem]="3.5"
+        [style.height.rem]="3.5"
+        [class.input-valid]="state() === 'valid'"
+        [class.input-invalid]="state() === 'invalid'"
+        (ngModelChange)="onDigitChange($index, $event, input)"
+        (keydown)="onKeyDown($event, $index)"
+      />
+    }
+  </div>
+  @if (errorMessage()) {
+    {{startTime()}}
+    <div class="k-display-flex k-justify-content-end">
+      <kendo-formerror>
+        {{ errorMessage() | transloco }}
+      </kendo-formerror>
+    </div>
+  }
+
+  <div>
+    <vet-registration-phone-timeout
+      [isPending]="isPending()"
+      [startTime]="startTime()"
+      (resend)="onSend()"
+    />
+  </div>
+</div>

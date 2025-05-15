@@ -1,0 +1,16 @@
+<div class="theme-sidebar" [class.open]="open()">
+  <div class="theme-switcher">
+    <label for="theme-select">Choose a Theme:</label>
+    <select id="theme-select" [value]="currentTheme" (change)="onThemeChange($event)">
+      <option value="default-theme">Default</option>
+      <option value="theme-v1">Theme V1</option>
+      <option value="theme-v2">Theme V2</option>
+      <option value="theme-v3">Theme V3</option>
+    </select>
+  </div>
+
+  <div class="font-size-controls">
+    <button (click)="zoomIn()">A+</button>
+    <button (click)="zoomOut()">A-</button>
+  </div>
+</div>

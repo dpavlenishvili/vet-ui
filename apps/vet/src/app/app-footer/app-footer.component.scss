@@ -1,0 +1,121 @@
+:host {
+  display: block;
+  --main-bg: #ffffff;
+  --container-max-width: 92.5rem;
+  --container-padding: 0 1.25rem 9.375rem 1.25rem;
+}
+
+.footer {
+  background: var(--main-bg);
+  .footer-content-container {
+    background: var(--main-bg);
+    max-width: var(--container-max-width);
+    width: 100%;
+    padding: 2rem 1.25rem;
+    margin: 0 auto;
+  }
+
+  .link-groups {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  .link-section {
+    display: flex;
+    flex-direction: column;
+    min-width: 15rem;
+    max-width: 18.5rem;
+
+    h6 {
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.875rem;
+      text-transform: uppercase;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--text-secondary-color);
+      font-size: 0.75rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: var(--link-color);
+      }
+
+      &:not(:first-of-type) {
+        margin-top: 0.8rem;
+      }
+    }
+  }
+
+  .divider {
+    border-top: 0.0625rem solid var(--border-none);
+    margin-top: 1.5rem;
+  }
+
+  .logos {
+    --main-bg: #f5f7f8;
+    background-color: var(--main-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+
+    &.contrast {
+      --main-bg: #ffffff;
+      background: var(--main-bg);
+    }
+
+    .logos-content-container {
+      margin: 0 auto;
+      max-width: var(--container-max-width);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .copyright {
+    text-align: center;
+    background: var(--nav-bg-color);
+    color: var(--nav-link-color);
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  @media (max-width: 48rem) {
+    .link-groups {
+      .link-section {
+        min-width: auto;
+        width: 100%;
+      }
+    }
+
+    .logos {
+      padding: 1rem 2rem;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+
+
+      .logos-content-container {
+        img:first-child {
+          width: 8.125rem;
+        }
+        img:nth-child(2) {
+          width: 11.875rem;
+        }
+      }
+    }
+  }
+}
