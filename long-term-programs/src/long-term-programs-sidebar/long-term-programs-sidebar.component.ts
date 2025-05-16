@@ -72,7 +72,7 @@ export class LongTermProgramsSidebarComponent {
         {
           id: uuid(),
           text: 'programs.testingCard',
-          url: null,
+          url: 'exam-card',
           isActive: false,
         },
         {

@@ -4,13 +4,13 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
-import { catchError, filter, finalize, of, switchMap, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { AuthorizationPageLocalStateService } from '../authorization-page-local-state.service';
 import { vetIcons } from '@vet/shared';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { RegistrationPhoneVerificationComponent } from '../../registration/registration-phone-verification/registration-phone-verification.component';
+import { RegistrationPhoneVerificationComponent } from '@vet/auth';
 
 @Component({
   selector: 'vet-auth-two-factor-page',
@@ -32,7 +32,7 @@ export class TwoFactorPageComponent implements OnInit {
     code: new FormControl<string>('', Validators.required),
   });
   protected readonly is2FaPending = signal(true);
-  protected readonly isSubmitButtonDisabled = signal(true);
+  protected readonly isSubmitButtonDisabled = signal(false);
   private readonly state = inject(AuthorizationPageLocalStateService);
 
   vetIcons = vetIcons;
@@ -43,6 +43,8 @@ export class TwoFactorPageComponent implements OnInit {
 
     return timeSent && !isNaN(Number(timeSent)) ? Number(timeSent) : Date.now();
   });
+  isValid = signal<boolean | null>(null);
+  errorMessage = signal<string | null>(null);
 
   ngOnInit() {
     this.validateCode();
@@ -57,21 +59,9 @@ export class TwoFactorPageComponent implements OnInit {
 
     codeControl?.valueChanges
       .pipe(
-        filter((code) => code?.length === 4),
-        switchMap((code) => {
-          if (code) {
-            return this.state.validate2FaCode(code).pipe(
-              tap(() => {
-                this.isSubmitButtonDisabled.set(false);
-              }),
-              catchError(() => {
-                this.isSubmitButtonDisabled.set(true);
-                return of(null);
-              }),
-            );
-          } else {
-            return of(null);
-          }
+        tap(() => {
+          this.isValid.set(null);
+          this.errorMessage.set(null);
         }),
       )
       .subscribe();
@@ -79,9 +69,25 @@ export class TwoFactorPageComponent implements OnInit {
 
   protected onSubmit() {
     if (this.confirmationForm.invalid) {
+      this.isValid.set(false);
       return;
     }
 
-    this.state.handleSuccessfulAuthentication();
+    const codeControl = this.confirmationForm.get('code');
+
+    this.state
+      .validate2FaCode(codeControl?.value as string)
+      .pipe(
+        tap({
+          next: () => {
+            this.state.handleSuccessfulAuthentication();
+          },
+          error: (error) => {
+            this.isValid.set(false);
+            this.errorMessage.set(error.error.error.message);
+          },
+        }),
+      )
+      .subscribe();
   }
 }

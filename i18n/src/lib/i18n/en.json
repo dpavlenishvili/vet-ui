@@ -39,7 +39,7 @@
     "errorOccurred": "An error occurred",
     "fieldIsRequired": "Field is required",
     "minOneFieldIsRequired": "Please select min one option",
-    "invalidPersonalNumber": "Invalid personal number",
+    "invalidPersonalNumber": "Personal number must be 11 digits only",
     "invalidGeorgianLetters": "Fill in the data in Georgian",
     "invalidPasswordPattern": "Password must include...",
     "passwordsDoNotMatch": "Passwords do not match",

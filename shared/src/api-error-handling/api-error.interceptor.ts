@@ -34,6 +34,8 @@ export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (key === translatedMessage) {
         translatedMessage = translocoService.translate(message ?? 'errors.server_error_0');
+      } else if (message) {
+        translatedMessage = translocoService.translate(message);
       }
 
       const resolvedError = {

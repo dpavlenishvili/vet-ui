@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { combineLatest, interval, map, of, startWith, switchMap, take, tap } from 'rxjs';
+import { combineLatest, interval, map, of, startWith, switchMap, take } from 'rxjs';
 import dayjs from 'dayjs/esm';
 import { default as duration } from 'dayjs/esm/plugin/duration';
 
-import { useAuthEnvironment } from '../../auth.providers';
+import { useAuthEnvironment } from '@vet/auth';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { Reloader } from '@vet/shared';
 import { RouterLink } from '@angular/router';
@@ -58,6 +58,6 @@ export class RegistrationPhoneTimeoutComponent {
   }
 
   getRemainingSeconds() {
-    return Math.max(this.timeoutSeconds - ((Date.now() - this.startTime()) / 1000), 0);
+    return Math.max(this.timeoutSeconds - (Date.now() - this.startTime()) / 1000, 0);
   }
 }

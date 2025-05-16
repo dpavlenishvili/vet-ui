@@ -13,12 +13,26 @@
         [style.width.rem]="3.5"
         [style.height.rem]="3.5"
         [class.input-valid]="state() === 'valid'"
-        [class.input-invalid]="state() === 'invalid'"
+        [class.input-invalid]="state() === 'invalid' || isInvalid()"
         (ngModelChange)="onDigitChange($index, $event, input)"
         (keydown)="onKeyDown($event, $index)"
+        (blur)="isTouched.set(true)"
       />
     }
   </div>
+  @if (errorMessage()) {
+    <div class="k-display-flex k-justify-content-end">
+      <kendo-formerror>
+        {{ errorMessage() | transloco }}
+      </kendo-formerror>
+    </div>
+  } @else if (isInvalid()) {
+    <div class="k-display-flex k-justify-content-end">
+      <kendo-formerror>
+        {{ 'shared.fieldIsRequired' | transloco }}
+      </kendo-formerror>
+    </div>
+  }
 
   <div>
     <vet-registration-phone-timeout

@@ -16,11 +16,11 @@ import {
   passwordMatchValidator,
   passwordPatternValidator,
   personalNumberValidator,
-  vetIcons,
   useAlert,
+  vetIcons,
 } from '@vet/shared';
 import { RegisterService, type UserReq } from '@vet/backend';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
@@ -54,6 +54,10 @@ export class RegistrationComponent implements OnInit {
   formGroup = this.createFormGroup();
   vetIcons = vetIcons;
   isExpanded = signal(true);
+  lastCitizenshipValue = '';
+  phoneVerified = signal(false);
+  personVerified = signal(false);
+
   steps = [
     {
       label: 'auth.citizenship_selection',
@@ -92,12 +96,46 @@ export class RegistrationComponent implements OnInit {
   CitizenshipType = Citizenship;
 
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
   private registrationService = inject(RegisterService);
 
   ngOnInit(): void {
     if (!this.router.url.includes('/citizenship_selection')) {
       void this.router.navigate(['/registration/citizenship_selection']);
     }
+
+    this.formGroup.controls.chooseCitizenship.valueChanges.subscribe(() => {
+      if (this.lastCitizenshipValue && this.lastCitizenshipValue !== this.citizenship) {
+        this.resetStepsFrom(1);
+        this.phoneVerified.set(false);
+        this.personVerified.set(false);
+      }
+      this.lastCitizenshipValue = this.citizenship as string;
+    });
+
+    const georgianIdentityForm = this.formGroup.controls.checkIdentity;
+    const foreignerIdentityForm = this.formGroup.controls.checkIdentityForeigner;
+
+    georgianIdentityForm.valueChanges.subscribe(() => {
+      if (this.currentStepIndex > 1 && this.personVerified()) {
+        this.personVerified.set(false);
+        this.resetStepsFrom(2);
+      }
+    });
+
+    foreignerIdentityForm.valueChanges.subscribe(() => {
+      if (this.currentStepIndex > 1 && this.personVerified()) {
+        this.personVerified.set(false);
+        this.resetStepsFrom(2);
+      }
+    });
+
+    this.formGroup.controls.phone.get('phoneNumber')?.valueChanges.subscribe(() => {
+      if (this.phoneVerified()) {
+        this.phoneVerified.set(false);
+        this.resetStepsFrom(3);
+      }
+    });
   }
 
   createFormGroup() {
@@ -145,7 +183,6 @@ export class RegistrationComponent implements OnInit {
     const passwords = this.formGroup.get('passwords') as FormGroup;
 
     const isForeigner = chooseCitizenship.get('citizenship')?.value === this.CitizenshipType.Foreigner;
-
     const identityGroup = isForeigner ? checkIdentityForeigner : checkIdentity;
 
     return {
@@ -168,12 +205,28 @@ export class RegistrationComponent implements OnInit {
 
   isStepValid(stepIndex: number): boolean {
     const step = this.steps[stepIndex];
-
     return step && !!step.form()?.valid;
   }
 
   onStepChange(event: StepperActivateEvent) {
-    if (this.isStepValid(this.currentStepIndex) || event.index < this.currentStepIndex) {
+    if (event.index < this.currentStepIndex) {
+      this.currentStepIndex = event.index;
+      this.currentStepSubject.next(this.currentStepIndex);
+      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
+      return;
+    }
+
+    if (this.isStepValid(this.currentStepIndex)) {
+      if (this.currentStepIndex === 1 && !this.personVerified()) {
+        event.preventDefault();
+        return;
+      }
+
+      if (this.currentStepIndex === 2 && !this.phoneVerified()) {
+        event.preventDefault();
+        return;
+      }
+
       this.currentStepIndex = event.index;
       this.currentStepSubject.next(this.currentStepIndex);
       void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
@@ -191,16 +244,49 @@ export class RegistrationComponent implements OnInit {
   }
 
   onNextClick() {
-    if (this.isStepValid(this.currentStepIndex)) {
-      if (this.currentStepIndex === this.steps.length - 1) {
-        const user = this.getUserReq();
-        this.registrationService.register(user).pipe(
+    if (this.currentStepIndex === 0 && this.isStepValid(this.currentStepIndex)) {
+      this.currentStepIndex++;
+      this.currentStepSubject.next(this.currentStepIndex);
+      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
+      return;
+    }
+
+    if (this.currentStepIndex === 1 && this.isStepValid(this.currentStepIndex)) {
+      if (this.personVerified()) {
+        this.currentStepIndex++;
+        this.currentStepSubject.next(this.currentStepIndex);
+        void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
+      }
+      return;
+    }
+
+    if (this.currentStepIndex === 2 && this.isStepValid(this.currentStepIndex)) {
+      if (this.phoneVerified()) {
+        this.currentStepIndex++;
+        this.currentStepSubject.next(this.currentStepIndex);
+        void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
+      }
+      return;
+    }
+
+    if (this.currentStepIndex === 3 && this.isStepValid(this.currentStepIndex)) {
+      this.currentStepIndex++;
+      this.currentStepSubject.next(this.currentStepIndex);
+      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
+      return;
+    }
+
+    if (this.currentStepIndex === this.steps.length - 1 && this.isStepValid(this.currentStepIndex)) {
+      const user = this.getUserReq();
+      this.registrationService
+        .register(user)
+        .pipe(
           tap({
             next: () => {
               void this.router.navigate(['/authorization'], {
                 queryParams: {
                   referrer: 'registration',
-                }
+                },
               });
             },
             error: (error) => {
@@ -209,25 +295,51 @@ export class RegistrationComponent implements OnInit {
                   this.alert.error(item);
                 }
               }
-            }
+            },
           }),
-        ).subscribe();
-      } else {
-        this.currentStepIndex++;
-        this.currentStepSubject.next(this.currentStepIndex);
-        void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-      }
+        )
+        .subscribe();
     }
   }
 
   onResetForm(citizenship: string) {
-    this.formGroup.reset()
+    this.formGroup.reset();
     this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(citizenship);
     this.formGroup.markAsPristine();
     this.formGroup.markAsUntouched();
+    this.resetStepsFrom(1);
+    this.phoneVerified.set(false);
+    this.personVerified.set(false);
+  }
+
+  resetStepsFrom(index: number) {
+    if (index <= 1) {
+      this.formGroup.controls.checkIdentity.reset();
+      this.formGroup.controls.checkIdentityForeigner.reset();
+    }
+
+    if (index <= 2) {
+      this.formGroup.controls.phone.reset();
+    }
+
+    if (index <= 3) {
+      this.formGroup.controls.passwords.reset();
+    }
+
+    if (index <= 4) {
+      this.formGroup.controls.termsAndConditions.reset();
+    }
   }
 
   onToggleExpansion() {
     this.isExpanded.update((value) => !value);
+  }
+
+  setPhoneVerified(verified: boolean) {
+    this.phoneVerified.set(verified);
+  }
+
+  setPersonVerified(verified: boolean) {
+    this.personVerified.set(verified);
   }
 }

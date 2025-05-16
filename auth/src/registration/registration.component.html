@@ -17,13 +17,13 @@
       (activate)="onStepChange($event)"
     >
       <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
-          <div
-            kendoTooltip
-            [title]="!isExpanded() ? (step.label | transloco) : ''"
-            [position]="'right'"
-          >
-            {{ index + 1 }}
-          </div>
+        <div
+          kendoTooltip
+          [title]="!isExpanded() ? (step.label | transloco) : ''"
+          [position]="'right'"
+        >
+          {{ index + 1 }}
+        </div>
       </ng-template>
 
       <ng-template kendoStepperLabelTemplate let-step>
@@ -53,6 +53,7 @@
                   [form]="formGroup.controls.checkIdentity"
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
+                  (personVerificationChange)="setPersonVerified($event)"
                 />
               }
               @case (CitizenshipType.Foreigner) {
@@ -60,6 +61,8 @@
                   [generalForm]="formGroup"
                   [identityForm]="formGroup.controls.checkIdentityForeigner"
                   (previousClick)="onPreviousClick()"
+                  (nextClick)="onNextClick()"
+                  (personVerificationChange)="setPersonVerified($event)"
                 />
               }
             }
@@ -69,6 +72,7 @@
               [form]="formGroup.controls.phone"
               (previousClick)="onPreviousClick()"
               (nextClick)="onNextClick()"
+              (phoneVerificationChange)="setPhoneVerified($event)"
             />
           }
           @case (3) {

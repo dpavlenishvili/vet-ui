@@ -143,6 +143,16 @@ export const longTermProgramsRoutes: Route[] = [
           { path: '/long-programs/commission-results', text: 'programs.commissionResults' },
         ]),
       },
+      {
+        path: 'exam-card',
+        loadComponent: () =>
+          import('./exam-card/exam-card.component').then((m) => m.ExamCardComponent),
+        pathMatch: 'full',
+        data: breadcrumb([
+          ...baseBreadcrumbItems,
+          { path: '/long-programs/exam-card', text: 'programs.testingCard' },
+        ]),
+      },
     ],
   },
 ];

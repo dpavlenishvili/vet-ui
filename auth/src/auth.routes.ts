@@ -33,15 +33,6 @@ export const authRoutes: Route[] = [
         ]),
       },
       {
-        path: 'id_verification',
-        loadComponent: () => import('./registration/registration.component').then((m) => m.RegistrationComponent),
-        data: breadcrumb([
-          ...baseBreadcrumbItems,
-          { path: '/registration/id_verification', text: 'auth.id_verification' },
-          { path: null, text: 'auth.registration' },
-        ]),
-      },
-      {
         path: 'phone_verification',
         loadComponent: () => import('./registration/registration.component').then((m) => m.RegistrationComponent),
         data: breadcrumb([

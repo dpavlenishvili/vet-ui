@@ -6,7 +6,7 @@
   <kendo-label [text]="'auth.id_or_passport_number' | transloco">
     <kendo-textbox [clearButton]="true" formControlName="pid" />
     @if (loginForm.controls['pid']; as control) {
-      @if (isLoginFormSubmitted()) {
+      @if (!control.untouched || control.value) {
         @if (control.errors?.['required']) {
           <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
         }
@@ -24,12 +24,12 @@
         </ng-template>
       </kendo-textbox>
       @if (loginForm.controls['password']; as control) {
-        @if (isLoginFormSubmitted()) {
+        @if (!control.untouched || control.value) {
           @if (control.errors?.['required']) {
             <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
           }
-          @if (control.errors?.['passwordError']) {
-            <kendo-formerror>{{ 'shared.invalidPersonalNumber' | transloco }}</kendo-formerror>
+          @if (control.errors?.['passwordPattern']) {
+            <kendo-formerror>{{ 'shared.invalidPasswordPattern' | transloco }}</kendo-formerror>
           }
         }
       }

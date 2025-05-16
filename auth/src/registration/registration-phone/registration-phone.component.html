@@ -20,10 +20,12 @@
         </div>
 
         <div class="k-flex-1">
-          @if (phase() !== 'initial' && formGroup.controls.phoneNumber.valid) {
+          @if (phase() === 'verifying' && formGroup.controls.phoneNumber.valid) {
             <vet-registration-phone-verification
               formControlName="verificationNumber"
               [isPending]="isPending()"
+              [isValid]="isValid()"
+              [errorMessage]="errorMessage()"
               (reload)="onSend()"
             />
           }

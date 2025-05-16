@@ -5,7 +5,7 @@ import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, tap } from 'rxjs';
-import { AuthenticationService } from '../../authentication.service';
+import { AuthenticationService } from '@vet/auth';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { UserLogin2FaResponseBody } from '@vet/backend';
@@ -14,7 +14,7 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { WA_SESSION_STORAGE } from '@ng-web-apis/common';
 import { CODE_2FA_SENT } from '../authorization.constants';
 import { useAuthEnvironment } from '@vet/auth';
-import { useAlert } from '@vet/shared';
+import { passwordPatternValidator, useAlert } from '@vet/shared';
 
 @Component({
   selector: 'vet-authorization-login',
@@ -26,12 +26,11 @@ export class LoginPageComponent implements OnInit {
   private readonly storage = inject(WA_SESSION_STORAGE);
 
   protected readonly loginForm = new FormGroup({
-    pid: new FormControl('', [Validators.required]),
-    password: new FormControl('', Validators.required),
+    pid: new FormControl('', Validators.required),
+    password: new FormControl('', [Validators.required, passwordPatternValidator]),
     remember: new FormControl(false),
   });
 
-  protected readonly isLoginFormSubmitted = signal(false);
   protected readonly isLoginLoading = signal(false);
   private readonly authenticationService = inject(AuthenticationService);
   private readonly activatedRoute = inject(ActivatedRoute);
@@ -48,18 +47,13 @@ export class LoginPageComponent implements OnInit {
           const { referrer: _, ...params } = this.activatedRoute.snapshot.queryParams;
           void this.router.navigate([], {
             queryParams: params,
-          })
+          });
         },
       });
     }
-
-    const rawSentCode = this.storage.getItem(CODE_2FA_SENT);
-
   }
 
   protected onSubmit() {
-    this.isLoginFormSubmitted.set(true);
-
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -88,10 +82,14 @@ export class LoginPageComponent implements OnInit {
         sentCode.pid === pid &&
         Date.now() - sentCode.time < this.timeoutSeconds * 1000
       ) {
-        this.authorizationPageLocalStateService.navigateTo2fa(sentCode.response, {
-          pid,
-          token: sentCode.token,
-        }, sentCode.time);
+        this.authorizationPageLocalStateService.navigateTo2fa(
+          sentCode.response,
+          {
+            pid,
+            token: sentCode.token,
+          },
+          sentCode.time,
+        );
         return;
       }
     }
@@ -115,10 +113,14 @@ export class LoginPageComponent implements OnInit {
                   response,
                 }),
               );
-              this.authorizationPageLocalStateService.navigateTo2fa(response, {
-                pid,
-                token: response.token,
-              }, time);
+              this.authorizationPageLocalStateService.navigateTo2fa(
+                response,
+                {
+                  pid,
+                  token: response.token,
+                },
+                time,
+              );
             }
           },
         }),

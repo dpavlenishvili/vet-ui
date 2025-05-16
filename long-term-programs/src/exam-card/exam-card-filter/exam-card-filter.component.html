@@ -1,0 +1,25 @@
+<div class="k-display-flex k-justify-content-between k-align-items-center k-gap-5">
+  <p class="content-header">{{ 'programs.testingCard' | transloco }}</p>
+
+  <div class="k-display-flex k-gap-2 k-align-items-center">
+    <form [formGroup]="filterForm">
+      <kendo-textbox formControlName="pid" [placeholder]="'programs.pid' | transloco" />
+    </form>
+
+    <button 
+      kendoButton 
+      type="secondary" 
+      [svgIcon]="vetIcons.xIcon" 
+      (click)="clearFilters()"
+    ></button>
+    
+    <button 
+      kendoButton 
+      themeColor="primary"
+      [svgIcon]="vetIcons.search" 
+      (click)="onSubmit()"
+    >
+      {{ 'shared.search' | transloco }}
+    </button>
+  </div>
+</div>
