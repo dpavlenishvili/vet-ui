@@ -13,10 +13,10 @@ import { LabelComponent } from '@progress/kendo-angular-label';
 import { KENDO_INPUTS, TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RegistrationPhoneVerificationComponent } from '../registration-phone-verification/registration-phone-verification.component';
+import { RegistrationPhoneVerificationComponent } from '@vet/auth';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, finalize, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { SmsService } from '@vet/backend';
 import { Reloader, ToastModule } from '@vet/shared';
 
@@ -46,6 +46,7 @@ export class RegistrationPhoneComponent implements OnInit {
   >();
   previousClick = output();
   nextClick = output();
+  phoneVerificationChange = output<boolean>();
 
   phase = signal<'initial' | 'verifying' | 'success' | null>(null);
   isPending = signal(false);
@@ -53,6 +54,9 @@ export class RegistrationPhoneComponent implements OnInit {
   errorMessage = signal<string | null>(null);
   verificationCodeReloader = new Reloader();
   protected readonly RegistrationPhoneVerificationComponent = viewChild(RegistrationPhoneVerificationComponent);
+
+  private lastVerifiedPhoneNumber = '';
+  private isPhoneVerified = false;
 
   constructor(
     private destroyRef: DestroyRef,
@@ -67,8 +71,15 @@ export class RegistrationPhoneComponent implements OnInit {
 
       form.controls.phoneNumber.valueChanges
         .pipe(
-          tap(() => this.phase.set('initial')),
-          tap(() => form.controls.verificationNumber.setValue('')),
+          tap((newPhoneNumber) => {
+            if (this.isPhoneVerified && this.lastVerifiedPhoneNumber !== newPhoneNumber) {
+              this.phase.set('initial');
+              this.isValid.set(null);
+              this.isPhoneVerified = false;
+              this.phoneVerificationChange.emit(false);
+              form.controls.verificationNumber.setValue('');
+            }
+          }),
           takeUntilDestroyed(this.destroyRef),
         )
         .subscribe();
@@ -86,53 +97,72 @@ export class RegistrationPhoneComponent implements OnInit {
   }
 
   ngOnInit() {
+    const phoneNumber = this.form()?.controls.phoneNumber.value;
+    const verificationNumber = this.form()?.controls.verificationNumber.value;
+
+    if (phoneNumber && verificationNumber) {
+      this.phase.set('success');
+      this.isPhoneVerified = true;
+      this.lastVerifiedPhoneNumber = phoneNumber;
+      this.phoneVerificationChange.emit(true);
+    } else if (phoneNumber) {
+      this.phase.set('verifying');
+    } else {
+      this.phase.set('initial');
+    }
+
     this.isPending.set(true);
     this.verificationCodeReloader
       .reloadable(() => {
         const currentForm = this.form();
 
-        // Check if we should skip SMS code sending
         if (!this.shouldSendVerificationCode(currentForm)) {
           return of();
         }
 
-        // Send the SMS code
-        return this.smsService.sendSmsCode({
-          phone: currentForm?.value.phoneNumber ?? '',
-        }).pipe(
-          catchError(error => {
-            console.error('Failed to send SMS verification code:', error);
-            return of({ status: false });
+        return this.smsService
+          .sendSmsCode({
+            phone: currentForm?.value.phoneNumber ?? '',
           })
-        );
+          .pipe(
+            catchError((error) => {
+              console.error('Failed to send SMS verification code:', error);
+              return of({ status: false });
+            }),
+          );
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }
 
   private shouldSendVerificationCode(form?: FormGroup | null): boolean {
-    // Check if form exists
     if (!form) {
       return false;
     }
 
-    // Check if we're in a phase where sending code makes sense
+    if (this.isPhoneVerified && form.controls['phoneNumber'].value === this.lastVerifiedPhoneNumber) {
+      return false;
+    }
+
     const currentPhase = this.phase();
     const isValidPhase = currentPhase === 'initial' || currentPhase === 'verifying';
 
-    // Check if form controls are valid
     const hasValidPhone = form.controls['phoneNumber']?.valid;
 
     return isValidPhase && hasValidPhone;
   }
 
   onSend() {
-    console.log('onSent setPending true');
     this.isPending.set(true);
     this.verificationCodeReloader.reload();
   }
 
   onPreviousClick() {
+    const phoneNumber = this.form()?.controls.phoneNumber.value;
+    const verificationNumber = this.form()?.controls.verificationNumber.value;
+    if (phoneNumber && !verificationNumber) {
+      this.form()?.controls.phoneNumber.reset();
+    }
     this.previousClick.emit();
   }
 
@@ -140,6 +170,11 @@ export class RegistrationPhoneComponent implements OnInit {
     const form = this.form();
 
     if (!form) {
+      return;
+    }
+
+    if (this.isPhoneVerified && this.lastVerifiedPhoneNumber === form.controls.phoneNumber.value) {
+      this.nextClick.emit();
       return;
     }
 
@@ -151,32 +186,43 @@ export class RegistrationPhoneComponent implements OnInit {
 
       const { phoneNumber, verificationNumber } = form.value;
 
-      this.smsService
-        .validateSms({
-          phone: phoneNumber ?? '',
-          sms_code: verificationNumber ?? '',
-        })
-        .pipe(
-          tap({
-            next: () => {
-              this.nextClick.emit();
-              this.phase.set('success');
-            },
-            error: (error) => {
-              // this.isPending.set(false);
-              this.isValid.set(false);
-              this.errorMessage.set(error.error.error.message);
-              // this.RegistrationPhoneVerificationComponent()?.reset();
-            },
-          }),
-        )
-        .subscribe();
+      if (phoneNumber && verificationNumber) {
+        this.smsService
+          .validateSms({
+            phone: phoneNumber ?? '',
+            sms_code: verificationNumber ?? '',
+          })
+          .pipe(
+            tap({
+              next: () => {
+                this.isPhoneVerified = true;
+                this.phoneVerificationChange.emit(true);
+                this.nextClick.emit();
+                this.phase.set('success');
+                this.lastVerifiedPhoneNumber = phoneNumber ?? '';
+              },
+              error: (error) => {
+                this.isValid.set(false);
+                this.errorMessage.set(error.error.error.message);
+              },
+            }),
+          )
+          .subscribe();
+      }
     };
 
     switch (this.phase()) {
       case 'initial':
         this.phase.set('verifying');
         this.onSend();
+        break;
+
+      case 'verifying':
+        if (form.value.phoneNumber && !form.value.verificationNumber) {
+          this.isValid.set(false);
+        } else if (form.value.phoneNumber && form.value.verificationNumber) {
+          defaultBehavior();
+        }
         break;
 
       default:

@@ -53,6 +53,7 @@
                   [form]="formGroup.controls.checkIdentity"
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
+                  (personVerificationChange)="setPersonVerified($event)"
                 />
               }
               @case (CitizenshipType.Foreigner) {
@@ -61,6 +62,7 @@
                   [identityForm]="formGroup.controls.checkIdentityForeigner"
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
+                  (personVerificationChange)="setPersonVerified($event)"
                 />
               }
             }
@@ -70,6 +72,7 @@
               [form]="formGroup.controls.phone"
               (previousClick)="onPreviousClick()"
               (nextClick)="onNextClick()"
+              (phoneVerificationChange)="setPhoneVerified($event)"
             />
           }
           @case (3) {

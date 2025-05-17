@@ -17,6 +17,8 @@
       formControlName="code"
       [timeSent]="timeSent()"
       [isPending]="is2FaPending()"
+      [isValid]="isValid()"
+      [errorMessage]="errorMessage()"
       (reload)="onSubmit()"
     />
   </div>

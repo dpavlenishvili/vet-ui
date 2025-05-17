@@ -51,6 +51,10 @@ export class RegistrationIdentityCitizenComponent {
   isPersonVerified = signal(false);
   previousClick = output();
   nextClick = output();
+  personVerificationChange = output<boolean>();
+
+  private lastVerifiedPID = '';
+  private lastVerifiedLastname = '';
 
   constructor(private registerService: RegisterService) {}
 
@@ -68,20 +72,43 @@ export class RegistrationIdentityCitizenComponent {
       return;
     }
 
+    const currentPID = form?.personalNumber as string;
+    const currentLastname = form?.lastname as string;
+
+    if (
+      this.lastVerifiedPID === currentPID &&
+      this.lastVerifiedLastname === currentLastname &&
+      this.isPersonVerified()
+    ) {
+      this.nextClick.emit();
+      return;
+    }
+
     this.registerService
-      .validatePerson({ pid: form?.personalNumber as string, last_name: form?.lastname as string }, {
-        context: this.createApiErrorHandlerContext(),
-      })
+      .validatePerson(
+        { pid: currentPID, last_name: currentLastname },
+        {
+          context: this.createApiErrorHandlerContext(),
+        },
+      )
       .pipe(
         tap({
           next: (personalInfo: User) => {
             this.isPersonVerified.set(true);
+            this.lastVerifiedPID = currentPID;
+            this.lastVerifiedLastname = currentLastname;
+
             this.form()?.controls.firstname.setValue(personalInfo.firstName ?? null);
             this.form()?.controls.dateOfBirth.setValue(
               personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
             );
-            this.form()?.controls.firstname.setValue(personalInfo.firstName ?? null);
             this.form()?.controls.gender.setValue(personalInfo.gender ?? null);
+
+            this.personVerificationChange.emit(true);
+          },
+          error: () => {
+            this.isPersonVerified.set(false);
+            this.personVerificationChange.emit(false);
           },
         }),
       )
@@ -90,5 +117,19 @@ export class RegistrationIdentityCitizenComponent {
 
   onNextClick() {
     this.nextClick.emit();
+  }
+
+  resetVerificationIfNeeded() {
+    const form = this.form()?.value;
+    const currentPID = form?.personalNumber as string;
+    const currentLastname = form?.lastname as string;
+
+    if (
+      this.isPersonVerified() &&
+      (this.lastVerifiedPID !== currentPID || this.lastVerifiedLastname !== currentLastname)
+    ) {
+      this.isPersonVerified.set(false);
+      this.personVerificationChange.emit(false);
+    }
   }
 }

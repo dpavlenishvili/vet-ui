@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -14,7 +14,7 @@ import {
   useApiErrorConditionalContextFactory,
   useToastApiErrorHandler,
 } from '@vet/shared';
-import { finalize, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { RegisterService, User } from '@vet/backend';
 import { Router } from '@angular/router';
 
@@ -57,21 +57,46 @@ export class RegistrationIdentityForeignerComponent implements OnInit {
   genders = genders;
   previousClick = output();
   nextClick = output();
+  personVerificationChange = output<boolean>();
+
   registerService = inject(RegisterService);
   router = inject(Router);
 
+  private lastVerifiedForm: {
+    pid?: string | null;
+    lastname?: string | null;
+    firstname?: string | null;
+    dateOfBirth?: Date | null;
+    gender?: string | null;
+    residential?: string | null;
+  } = {};
+
   ngOnInit(): void {
-    console.log(this.generalForm()?.controls?.['phone']);
-    this.isPersonVerified.set(!!this.generalForm()?.controls?.['phone']?.value.phoneNumber);
-    this.identityForm()
-      ?.valueChanges.pipe()
-      .subscribe((value) => {
-        if (this.generalForm()?.controls?.['phone']?.value.phoneNumber) {
-          console.log(value);
+    this.isPersonVerified.set(this.identityForm()?.valid as boolean);
+    this.identityForm()?.valueChanges.subscribe((value) => {
+      if (this.isPersonVerified()) {
+        const currentForm = {
+          pid: value.personalNumber,
+          lastname: value.lastname,
+          firstname: value.firstname,
+          dateOfBirth: value.dateOfBirth,
+          gender: value.gender,
+          residential: value.residential,
+        };
+
+        const fieldsChanged =
+          this.lastVerifiedForm.pid !== currentForm.pid || this.lastVerifiedForm.lastname !== currentForm.lastname;
+
+        if (fieldsChanged) {
           this.isPersonVerified.set(false);
-          this.generalForm()?.controls?.['phone'].reset();
+          this.personVerificationChange.emit(false);
+
+          if (this.generalForm()?.controls?.['phone']?.value.phoneNumber) {
+            this.generalForm()?.controls?.['phone'].reset();
+          }
         }
-      });
+      }
+    });
   }
 
   onPreviousClick() {
@@ -88,6 +113,15 @@ export class RegistrationIdentityForeignerComponent implements OnInit {
       return;
     }
 
+    if (
+      this.isPersonVerified() &&
+      this.lastVerifiedForm.pid === form?.personalNumber &&
+      this.lastVerifiedForm.lastname === form?.lastname
+    ) {
+      this.onNextClick();
+      return;
+    }
+
     this.registerService
       .validatePerson(
         { pid: form?.personalNumber as string, last_name: form?.lastname as string },
@@ -99,6 +133,17 @@ export class RegistrationIdentityForeignerComponent implements OnInit {
         tap({
           next: (personalInfo: User) => {
             this.isPersonVerified.set(true);
+            this.personVerificationChange.emit(true);
+
+            this.lastVerifiedForm = {
+              pid: form?.personalNumber,
+              lastname: form?.lastname,
+              firstname: personalInfo.firstName ?? null,
+              dateOfBirth: personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
+              gender: personalInfo.gender ?? null,
+              residential: 'GEO',
+            };
+
             this.identityForm()?.controls.firstname.setValue(personalInfo.firstName ?? null);
             this.identityForm()?.controls.dateOfBirth.setValue(
               personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
@@ -112,6 +157,18 @@ export class RegistrationIdentityForeignerComponent implements OnInit {
           },
           error: () => {
             if (this.identityForm()?.valid) {
+              this.isPersonVerified.set(true);
+              this.personVerificationChange.emit(true);
+
+              this.lastVerifiedForm = {
+                pid: form?.personalNumber,
+                lastname: form?.lastname,
+                firstname: form?.firstname,
+                dateOfBirth: form?.dateOfBirth,
+                gender: form?.gender,
+                residential: form?.residential,
+              };
+
               this.onNextClick();
             }
           },
