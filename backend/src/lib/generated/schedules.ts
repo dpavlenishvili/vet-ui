@@ -73,4 +73,18 @@ export class SchedulesService {
       };
     }>(`${this.baseUrl}/schedules/${id}/scores`, data, options);
   };
+  /**
+   * @description Set granted status * * @tags Schedules
+   * @name SchedulesGrant
+   * @summary Set grant of exam
+   * @request POST:/schedules/{id}/grant/{isGranted} */
+
+  schedulesGrant = (id: string, isGranted: boolean, options: HttpRequestOptions = {}) => {
+    return this.httpClient.post<{
+      data?: {
+        /** Indicates if the operation was successful */
+        status?: boolean;
+      };
+    }>(`${this.baseUrl}/schedules/${id}/grant/${isGranted}`, null, options);
+  };
 }

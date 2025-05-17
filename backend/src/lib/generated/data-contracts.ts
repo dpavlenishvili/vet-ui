@@ -182,6 +182,8 @@ export interface AdmissionReq {
   education_level?: string;
   education_level_id?: number;
   translate?: string;
+  rofficer_status?: string;
+  rofficer_doc?: string;
   translate_select?: string;
   actions?: KeyVal;
   status?: KeyVal;
@@ -190,6 +192,12 @@ export interface AdmissionReq {
    * Relations to programs
    */
   programs?: AdmissionPrograms[];
+}
+
+export interface CardPrograms {
+  programs?: LongTerm;
+  start_at?: string;
+  address?: string;
 }
 
 /**
@@ -619,6 +627,10 @@ export interface Schedule {
   user?: User;
   program?: LongTerm;
   selections?: Selections[];
+  spec_edu?: boolean;
+  spec_env?: string[];
+  rofficer?: string;
+  rofficer_doc?: string;
   select?: number;
   status?: string;
   canSelectStatus?: boolean;
@@ -907,14 +919,18 @@ export interface AdmissionsRes {
 }
 
 /** Page Resource */
+export interface CardDataRes {
+  status?: boolean;
+  msg?: string;
+  /** Page Resource */
+  data?: CardRes;
+}
+
+/** Page Resource */
 export interface CardRes {
   /** User model */
   user?: User;
-  program?: LongTerm;
-  admission?: AdmissionReq;
-  selection?: Selection;
-  start_at?: string;
-  address?: string;
+  programs?: CardPrograms[];
 }
 
 /**

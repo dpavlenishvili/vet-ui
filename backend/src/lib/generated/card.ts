@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { useBaseApiUrl, type HttpRequestOptions } from '@vet/shared';
 
-import type { CardRes } from './data-contracts';
+import type { CardDataRes } from './data-contracts';
 
 @Injectable({ providedIn: 'root' })
 export class CardService {
@@ -23,7 +23,7 @@ export class CardService {
     },
     options: HttpRequestOptions = {},
   ) => {
-    return this.httpClient.get<CardRes>(`${this.baseUrl}/exam-card`, {
+    return this.httpClient.get<CardDataRes>(`${this.baseUrl}/exam-card`, {
       params: query as unknown as Record<string, string>,
       ...options,
     });
