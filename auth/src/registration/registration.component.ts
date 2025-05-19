@@ -114,7 +114,6 @@ export class RegistrationComponent implements OnInit {
       void this.router.navigate(['/registration/citizenship_selection']);
     }
 
-    // Store the initial citizenship value if there is one
     if (this.citizenship) {
       this.lastCitizenshipValue = this.citizenship;
     }
@@ -195,7 +194,6 @@ export class RegistrationComponent implements OnInit {
 
   onStepChange(event: StepperActivateEvent) {
     if (event.index < this.currentStepIndex) {
-      // Moving backwards is always allowed
       this.currentStepIndex = event.index;
       this.currentStepSubject.next(this.currentStepIndex);
       void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
@@ -213,7 +211,6 @@ export class RegistrationComponent implements OnInit {
         return;
       }
 
-      // Check if citizenship changed - handle appropriately
       if (this.currentStepIndex === 0 && this.lastCitizenshipValue && this.lastCitizenshipValue !== this.citizenship) {
         this.personVerified.set(false);
         this.phoneVerified.set(false);
@@ -234,24 +231,13 @@ export class RegistrationComponent implements OnInit {
       this.currentStepIndex--;
       this.currentStepSubject.next(this.currentStepIndex);
       void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-
-      // If going back to citizenship or identity verification steps, reset validation statuses
-      if (this.currentStepIndex <= 0) {
-        // this.personVerified.set(false);
-        // this.phoneVerified.set(false);
-      } else if (this.currentStepIndex === 1) {
-        // this.personVerified.set(false);
-        // this.phoneVerified.set(false);
-      }
     }
   }
 
   handleSwitchToGeorgianCitizenship(personalInfo: User) {
-    // Switch the citizenship selection to Georgian
     this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(Citizenship.Georgian);
     this.lastCitizenshipValue = Citizenship.Georgian;
 
-    // Fill in the Georgian citizenship form with the validated info
     const georgianForm = this.formGroup.controls.checkIdentity;
     georgianForm.controls.personalNumber.setValue(personalInfo.pid || null);
     georgianForm.controls.lastName.setValue(personalInfo.lastName || null);
@@ -268,7 +254,6 @@ export class RegistrationComponent implements OnInit {
 
   onNextClick() {
     if (this.currentStepIndex === 0 && this.isStepValid(this.currentStepIndex)) {
-      // Save current citizenship selection before moving to the next step
       this.lastCitizenshipValue = this.citizenship as string;
       this.currentStepIndex++;
       this.currentStepSubject.next(this.currentStepIndex);
@@ -286,9 +271,7 @@ export class RegistrationComponent implements OnInit {
     }
 
     if (this.currentStepIndex === 2 && this.isStepValid(this.currentStepIndex)) {
-      // For phone verification, check if phone is already verified
       if (!this.phoneVerified() && this.phoneComponent) {
-        // If not verified and the phone number control is valid, trigger verification
         const phoneForm = this.formGroup.controls.phone;
         if (phoneForm.controls.phoneNumber.valid && !phoneForm.controls.verificationNumber.value) {
           this.phoneComponent.onNextClick();

@@ -50,14 +50,11 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
 
   isTouched = signal(false);
   isInvalid = computed(() => (this.isTouched() && !this.isComplete()) || this.isValid() === false);
-  // მასივი თითოეული ციფრისთვის - არის თუ არა შევსებული
   isDigitFilled = computed(() => {
     return this.digits().map((digit) => digit !== null);
   });
 
-  // თითოეული ციფრის ვალიდაცია
   isDigitInvalid = computed(() => {
-    // თითოეული ციფრის ვალიდაციისთვის გამოვიყენოთ isTouched და isDigitFilled
     return this.digits().map((_, index) => {
       return this.isTouched() && !this.isDigitFilled()[index];
     });
@@ -92,10 +89,9 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
           return [...digits];
         });
       }
-      // შესაბამისად განაახლე ფორმის კონტროლი
+
       this.onChange(this.input());
       if (index <= 1) {
-        // წაშლის დროს გაასუფთავე errorMessage
         this.clearErrorMessage();
         this.isValid.set(false);
         this.isTouched.set(false);
@@ -137,7 +133,6 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
     }
   }
 
-  // errorMessage-ის გასუფთავების მეთოდი
   clearErrorMessage() {
     console.log('clearErrorMessage', this.errorMessage());
     if (this.errorMessage()) {
@@ -180,7 +175,6 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
       this.digits.set(this.getDigitsArray().map((_, i) => digits[i] ?? null));
     } else {
       this.digits.set(this.getDigitsArray());
-      // ასევე გავასუფთავოთ ერორ მესიჯი და სტატუსი
       this.clearErrorMessage();
     }
   }

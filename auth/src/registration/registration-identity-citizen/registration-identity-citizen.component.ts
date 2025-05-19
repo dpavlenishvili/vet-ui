@@ -68,21 +68,15 @@ export class RegistrationIdentityCitizenComponent {
 
       identityForm.valueChanges
         .pipe(
-          // მხოლოდ ვერიფიცირებული პირისთვის რეაგირება
           filter(() => this.isPersonVerified()),
-          // დაყოვნება 300 მილიწამით, რომ ავირიდოთ სწრაფი ცვლილებებზე რეაგირება
           debounceTime(300),
-          // რეაგირება მხოლოდ მაშინ, როცა ფორმა რეალურად შეიცვალა
           distinctUntilChanged((prev, curr) => {
-            // შევადაროთ მთავარი ველები ვერიფიკაციისთვის
             return prev.personalNumber === curr.personalNumber && prev.lastName === curr.lastName;
           }),
           tap(() => {
-            // Reset verification status when form changes
             this.isPersonVerified.set(false);
             this.personVerificationChange.emit(false);
 
-            // Reset phone verification if necessary
             if (this.generalForm()?.controls?.['phone']?.value.phoneNumber) {
               this.generalForm()?.controls?.['phone'].reset();
             }
@@ -147,7 +141,6 @@ export class RegistrationIdentityCitizenComponent {
 
   onNextClick() {
     if (!this.isPersonVerified()) {
-      // If not verified, attempt verification first
       this.onCheckClick();
     } else {
       this.nextClick.emit();

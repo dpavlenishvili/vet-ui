@@ -71,11 +71,7 @@ export class RegistrationPhoneComponent implements OnInit {
       form
         .get('phoneNumber')
         ?.valueChanges.pipe(
-          // რეაგირება მხოლოდ როცა ტელეფონი ვერიფიცირებულია
-          // filter(() => this.isPhoneVerified()),
-          // დაყოვნება 300 მილიწამით
           debounceTime(300),
-          // რეაგირება მხოლოდ რეალური ცვლილებისას
           distinctUntilChanged(),
           tap(() => {
             this.resetVerification();
@@ -166,30 +162,23 @@ export class RegistrationPhoneComponent implements OnInit {
       return;
     }
 
-    // თუ უკვე ვერიფიცირებულია, გადადი შემდეგ ეტაპზე
     if (this.isPhoneVerified()) {
       this.nextClick.emit();
       return;
     }
 
-    // შეამოწმე ნომრის ვალიდურობა გაგრძელებამდე
     if (form.get('phoneNumber')?.invalid) {
       form.get('phoneNumber')?.markAsTouched();
       return;
     }
 
-    // Different behavior based on current phase
     switch (this.phase()) {
       case 'initial':
-        // If in initial phase, move to verifying and send code
         this.phase.set('verifying');
         this.onSend();
         break;
 
       case 'verifying':
-        // If in verifying phase, validate the code if provided
-        // form.get('verificationNumber')?.markAsTouched();
-        // form.get('verificationNumber')?.markAsDirty();
         if (form.get('phoneNumber')?.valid && form.get('verificationNumber')?.invalid) {
           this.isValid.set(false);
         } else if (form.get('phoneNumber')?.valid && form.get('verificationNumber')?.valid) {
@@ -198,7 +187,6 @@ export class RegistrationPhoneComponent implements OnInit {
         break;
 
       default:
-        // In any other case, try to validate if we have both phone and code
         if (form.get('phoneNumber')?.valid && form.get('verificationNumber')?.valid) {
           this.validateCode(form.get('phoneNumber')?.value as string, form.get('verificationNumber')?.value as string);
         }
@@ -206,7 +194,6 @@ export class RegistrationPhoneComponent implements OnInit {
     }
   }
 
-  // Validate the SMS code
   private validateCode(phoneNumber: string, verificationCode: string) {
     this.errorMessage.set(null);
     this.isValid.set(null);
