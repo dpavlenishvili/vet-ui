@@ -134,7 +134,6 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   }
 
   clearErrorMessage() {
-    console.log('clearErrorMessage', this.errorMessage());
     if (this.errorMessage()) {
       this.errorMessage.set(null);
     }

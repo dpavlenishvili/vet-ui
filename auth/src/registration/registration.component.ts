@@ -183,31 +183,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onStepChange(event: StepperActivateEvent) {
-    if (event.index < this.currentStepIndex) {
-      this.currentStepIndex = event.index;
-      this.currentStepSubject.next(this.currentStepIndex);
-      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-      return;
-    }
-
-    if (this.isStepValid(this.currentStepIndex)) {
-      if (this.currentStepIndex === 1 && !this.personVerified()) {
-        event.preventDefault();
-        return;
-      }
-
-      if (this.currentStepIndex === 2 || (this.currentStepIndex === 1 && !this.phoneVerified())) {
-        event.preventDefault();
-        return;
-      }
-
-      if (this.currentStepIndex === 0 && this.lastCitizenshipValue && this.lastCitizenshipValue !== this.citizenship) {
-        this.personVerified.set(false);
-        this.phoneVerified.set(false);
-        this.resetStepsFrom(1);
-        this.lastCitizenshipValue = this.citizenship as string;
-      }
-
+    if (this.isStepValid(this.currentStepIndex) || event.index < this.currentStepIndex) {
       this.currentStepIndex = event.index;
       this.currentStepSubject.next(this.currentStepIndex);
       void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
@@ -337,7 +313,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   setPhoneVerified(verified: boolean) {
-    console.log('setPhoneVerified', verified);
     this.phoneVerified.set(verified);
   }
 
