@@ -50,6 +50,18 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
 
   isTouched = signal(false);
   isInvalid = computed(() => (this.isTouched() && !this.isComplete()) || this.isValid() === false);
+  // მასივი თითოეული ციფრისთვის - არის თუ არა შევსებული
+  isDigitFilled = computed(() => {
+    return this.digits().map(digit => digit !== null);
+  });
+
+  // თითოეული ციფრის ვალიდაცია
+  isDigitInvalid = computed(() => {
+    // თითოეული ციფრის ვალიდაციისთვის გამოვიყენოთ isTouched და isDigitFilled
+    return this.digits().map((_, index) => {
+      return this.isTouched() && !this.isDigitFilled()[index];
+    });
+  });
 
   private onChange: (value: string) => void = noop;
   public onTouched: () => void = noop;
@@ -80,6 +92,14 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
           return [...digits];
         });
       }
+      // შესაბამისად განაახლე ფორმის კონტროლი
+      this.onChange(this.input());
+      if (index <= 1) {
+        // წაშლის დროს გაასუფთავე errorMessage
+        this.clearErrorMessage();
+        this.isValid.set(false);
+        this.isTouched.set(false);
+      }
       event.preventDefault();
     }
   }
@@ -98,7 +118,7 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
     const updatedValue = this.input();
     this.onChange(updatedValue);
 
-    // Mark as touched when a digit changes
+    this.isValid.set(null);
     if (!this.isTouched()) {
       this.isTouched.set(true);
       this.onTouched();
@@ -117,13 +137,20 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
     }
   }
 
-  // Clear all inputs and reset state
+  // errorMessage-ის გასუფთავების მეთოდი
+  clearErrorMessage() {
+    console.log('clearErrorMessage', this.errorMessage());
+    if (this.errorMessage()) {
+      this.errorMessage.set(null);
+    }
+  }
+
   reset() {
     this.startTime.set(Date.now());
     this.writeValue('');
     this.onChange(this.input());
     this.isTouched.set(false);
-    this.errorMessage.set(null);
+    this.clearErrorMessage();
     this.isValid.set(null);
   }
 
@@ -153,7 +180,13 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
       this.digits.set(this.getDigitsArray().map((_, i) => digits[i] ?? null));
     } else {
       this.digits.set(this.getDigitsArray());
+      // ასევე გავასუფთავოთ ერორ მესიჯი და სტატუსი
+      this.clearErrorMessage();
     }
+  }
+
+  onBlur() {
+    this.isTouched.set(true)
   }
 
   private getDigitsArray() {

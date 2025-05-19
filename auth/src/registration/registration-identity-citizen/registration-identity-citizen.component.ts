@@ -49,7 +49,8 @@ export class RegistrationIdentityCitizenComponent {
     else: useToastApiErrorHandler(),
   });
 
-  form = input<
+  generalForm = input<FormGroup>();
+  identityForm = input<
     FormGroup<{
       personalNumber: FormControl<string | null>;
       lastName: FormControl<string | null>;
@@ -69,13 +70,13 @@ export class RegistrationIdentityCitizenComponent {
     private destroyRef: DestroyRef,
   ) {
     effect(() => {
-      const form = this.form();
+      const identityForm = this.identityForm();
 
-      if (!form) {
+      if (!identityForm) {
         return;
       }
 
-      form.valueChanges
+      identityForm.valueChanges
         .pipe(
           // მხოლოდ ვერიფიცირებული პირისთვის რეაგირება
           filter(() => this.isPersonVerified()),
@@ -87,8 +88,14 @@ export class RegistrationIdentityCitizenComponent {
             return prev.personalNumber === curr.personalNumber && prev.lastName === curr.lastName;
           }),
           tap(() => {
+            // Reset verification status when form changes
             this.isPersonVerified.set(false);
             this.personVerificationChange.emit(false);
+
+            // Reset phone verification if necessary
+            if (this.generalForm()?.controls?.['phone']?.value.phoneNumber) {
+              this.generalForm()?.controls?.['phone'].reset();
+            }
           }),
           takeUntilDestroyed(this.destroyRef),
         )
@@ -101,12 +108,12 @@ export class RegistrationIdentityCitizenComponent {
   }
 
   onCheckClick() {
-    this.form()?.markAllAsTouched();
+    this.identityForm()?.markAllAsTouched();
 
-    const form = this.form()?.value;
+    const form = this.identityForm()?.value;
 
-    if (this.form()?.invalid) {
-      this.form()?.markAllAsTouched();
+    if (this.identityForm()?.invalid) {
+      this.identityForm()?.markAllAsTouched();
       return;
     }
 
@@ -130,12 +137,12 @@ export class RegistrationIdentityCitizenComponent {
           next: (personalInfo: User) => {
             this.isPersonVerified.set(true);
 
-            this.form()?.controls.firstName.setValue(personalInfo.firstName ?? null, { emitEvent: false });
-            this.form()?.controls.dateOfBirth.setValue(
+            this.identityForm()?.controls.firstName.setValue(personalInfo.firstName ?? null, { emitEvent: false });
+            this.identityForm()?.controls.dateOfBirth.setValue(
               personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
               { emitEvent: false },
             );
-            this.form()?.controls.gender.setValue(personalInfo.gender ?? null, { emitEvent: false });
+            this.identityForm()?.controls.gender.setValue(personalInfo.gender ?? null, { emitEvent: false });
 
             this.personVerificationChange.emit(true);
           },

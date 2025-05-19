@@ -50,7 +50,8 @@
             @switch (citizenship) {
               @case (CitizenshipType.Georgian) {
                 <vet-registration-identity-citizen
-                  [form]="formGroup.controls.checkIdentity"
+                  [generalForm]="formGroup"
+                  [identityForm]="formGroup.controls.checkIdentity"
                   [isPersonVerified]="personVerified()"
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
@@ -72,6 +73,7 @@
           @case (2) {
             <vet-registration-phone
               [form]="formGroup.controls.phone"
+              [isPhoneVerified]="phoneVerified()"
               (previousClick)="onPreviousClick()"
               (nextClick)="onNextClick()"
               (phoneVerificationChange)="setPhoneVerified($event)"

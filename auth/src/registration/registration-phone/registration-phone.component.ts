@@ -4,6 +4,7 @@ import {
   DestroyRef,
   effect,
   input,
+  model,
   type OnInit,
   output,
   signal,
@@ -44,6 +45,7 @@ export class RegistrationPhoneComponent implements OnInit {
       verificationNumber: FormControl<string | null>;
     }>
   >();
+  isPhoneVerified = model(false);
   previousClick = output();
   nextClick = output();
   phoneVerificationChange = output<boolean>();
@@ -54,7 +56,6 @@ export class RegistrationPhoneComponent implements OnInit {
   errorMessage = signal<string | null>(null);
   verificationCodeReloader = new Reloader();
   protected readonly verificationComponent = viewChild(RegistrationPhoneVerificationComponent);
-  isPhoneVerified = signal(false);
 
   constructor(
     private destroyRef: DestroyRef,
@@ -67,10 +68,10 @@ export class RegistrationPhoneComponent implements OnInit {
         return;
       }
 
-      form.valueChanges
+      form.get('phoneNumber')?.valueChanges
         .pipe(
           // რეაგირება მხოლოდ როცა ტელეფონი ვერიფიცირებულია
-          filter(() => this.isPhoneVerified()),
+          // filter(() => this.isPhoneVerified()),
           // დაყოვნება 300 მილიწამით
           debounceTime(300),
           // რეაგირება მხოლოდ რეალური ცვლილებისას
@@ -85,31 +86,31 @@ export class RegistrationPhoneComponent implements OnInit {
   }
 
   ngOnInit() {
-    const phoneNumber = this.form()?.controls.phoneNumber.value;
-    const verificationNumber = this.form()?.controls.verificationNumber.value;
+    const phoneNumber = this.form()?.get('phoneNumber')?.value;
+    const verificationNumber = this.form()?.get('verificationNumber')?.value;
 
-    if (phoneNumber && verificationNumber) {
+    if (phoneNumber && verificationNumber && this.isPhoneVerified()) {
       this.phase.set('success');
-      this.isPhoneVerified.set(true);
-      this.phoneVerificationChange.emit(true);
     } else if (phoneNumber) {
       this.phase.set('verifying');
+      this.isPhoneVerified.set(false);
     } else {
       this.phase.set('initial');
+      this.isPhoneVerified.set(false);
     }
 
     this.isPending.set(true);
     this.verificationCodeReloader
       .reloadable(() => {
-        const currentForm = this.form();
+        const form = this.form();
 
-        if (!this.shouldSendVerificationCode(currentForm)) {
+        if (!this.shouldSendVerificationCode(form)) {
           return of();
         }
 
         return this.smsService
           .sendSmsCode({
-            phone: currentForm?.value.phoneNumber ?? '',
+            phone: form?.get('phoneNumber')?.value ?? '',
           })
           .pipe(
             catchError((error) => {
@@ -125,9 +126,11 @@ export class RegistrationPhoneComponent implements OnInit {
   resetVerification() {
     this.phase.set('initial');
     this.isValid.set(null);
+    this.errorMessage.set(null);
     this.isPhoneVerified.set(false);
     this.phoneVerificationChange.emit(false);
-    this.form()?.controls.verificationNumber.setValue('');
+    this.form()?.get('verificationNumber')?.reset();
+    this.form()?.get('verificationNumber')?.markAsUntouched();
   }
 
   private shouldSendVerificationCode(form?: FormGroup | null): boolean {
@@ -137,7 +140,7 @@ export class RegistrationPhoneComponent implements OnInit {
 
     const currentPhase = this.phase();
     const isValidPhase = currentPhase === 'initial' || currentPhase === 'verifying';
-    const hasValidPhone = form.controls['phoneNumber']?.valid;
+    const hasValidPhone = form.get('phoneNumber')?.valid as boolean;
 
     return isValidPhase && hasValidPhone;
   }
@@ -148,10 +151,9 @@ export class RegistrationPhoneComponent implements OnInit {
   }
 
   onPreviousClick() {
-    const phoneNumber = this.form()?.controls.phoneNumber.value;
-    const verificationNumber = this.form()?.controls.verificationNumber.value;
-    if (phoneNumber && !verificationNumber) {
-      this.form()?.controls.phoneNumber.reset();
+    if (!this.isPhoneVerified()) {
+      this.form()?.get('phoneNumber')?.reset();
+      this.resetVerification();
     }
     this.previousClick.emit();
   }
@@ -170,8 +172,8 @@ export class RegistrationPhoneComponent implements OnInit {
     }
 
     // შეამოწმე ნომრის ვალიდურობა გაგრძელებამდე
-    if (!form.controls.phoneNumber.valid) {
-      form.controls.phoneNumber.markAsTouched();
+    if (form.get('phoneNumber')?.invalid) {
+      form.get('phoneNumber')?.markAsTouched();
       return;
     }
 
@@ -185,17 +187,19 @@ export class RegistrationPhoneComponent implements OnInit {
 
       case 'verifying':
         // If in verifying phase, validate the code if provided
-        if (form.value.phoneNumber && !form.value.verificationNumber) {
+        // form.get('verificationNumber')?.markAsTouched();
+        // form.get('verificationNumber')?.markAsDirty();
+        if (form.get('phoneNumber')?.valid && form.get('verificationNumber')?.invalid) {
           this.isValid.set(false);
-        } else if (form.value.phoneNumber && form.value.verificationNumber) {
-          this.validateCode(form.value.phoneNumber as string, form.value.verificationNumber as string);
+        } else if (form.get('phoneNumber')?.valid && form.get('verificationNumber')?.valid) {
+          this.validateCode(form.get('phoneNumber')?.value as string, form.get('verificationNumber')?.value as string);
         }
         break;
 
       default:
         // In any other case, try to validate if we have both phone and code
-        if (form.value.phoneNumber && form.value.verificationNumber) {
-          this.validateCode(form.value.phoneNumber as string, form.value.verificationNumber as string);
+        if (form.get('phoneNumber')?.valid && form.get('verificationNumber')?.valid) {
+          this.validateCode(form.get('phoneNumber')?.value as string, form.get('verificationNumber')?.value as string);
         }
         break;
     }
@@ -203,6 +207,8 @@ export class RegistrationPhoneComponent implements OnInit {
 
   // Validate the SMS code
   private validateCode(phoneNumber: string, verificationCode: string) {
+    this.errorMessage.set(null);
+    this.isValid.set(null);
     this.smsService
       .validateSms({
         phone: phoneNumber,
@@ -217,8 +223,8 @@ export class RegistrationPhoneComponent implements OnInit {
             this.phase.set('success');
           },
           error: (error) => {
-            this.isValid.set(false);
             this.errorMessage.set(error.error.error.message);
+            this.isValid.set(false);
             this.phase.set('verifying');
           },
         }),

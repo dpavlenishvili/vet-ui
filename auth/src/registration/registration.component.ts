@@ -24,6 +24,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import { useAuthEnvironment } from '@vet/auth';
 
 @Component({
   selector: 'vet-registration',
@@ -141,7 +142,7 @@ export class RegistrationComponent implements OnInit {
       }),
       phone: new FormGroup({
         phoneNumber: new FormControl('', [Validators.required, mobileNumberValidator]),
-        verificationNumber: new FormControl('', Validators.required),
+        verificationNumber: new FormControl('', [Validators.required, Validators.minLength(useAuthEnvironment().phoneVerificationNumberLength)]),
       }),
       passwords: new FormGroup(
         {
@@ -368,63 +369,11 @@ export class RegistrationComponent implements OnInit {
   }
 
   setPhoneVerified(verified: boolean) {
+    console.log('setPhoneVerified', verified);
     this.phoneVerified.set(verified);
   }
 
   setPersonVerified(verified: boolean) {
     this.personVerified.set(verified);
-  }
-
-  // Method to switch to Georgian citizenship if Georgian citizen is detected
-  switchToGeorgianCitizenship(personalInfo: any) {
-    this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(Citizenship.Georgian);
-    this.formGroup.controls.checkIdentity.reset();
-
-    // Fill checkIdentity form with the data from personInfo
-    this.formGroup.controls.checkIdentity.controls.firstName.setValue(personalInfo.firstName ?? null);
-    this.formGroup.controls.checkIdentity.controls.lastName.setValue(
-      personalInfo.lastName ?? personalInfo.last_name ?? null,
-    );
-    this.formGroup.controls.checkIdentity.controls.personalNumber.setValue(personalInfo.pid ?? null);
-    this.formGroup.controls.checkIdentity.controls.dateOfBirth.setValue(
-      personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
-    );
-    this.formGroup.controls.checkIdentity.controls.gender.setValue(personalInfo.gender ?? null);
-
-    this.lastCitizenshipValue = Citizenship.Georgian;
-
-    // Reset checkIdentityForeigner form
-    this.formGroup.controls.checkIdentityForeigner.reset();
-  }
-
-  // Check identity information for changes that would require re-verification
-  checkIdentityChanges() {
-    const currentCitizenship = this.citizenship;
-    const identityForm =
-      currentCitizenship === Citizenship.Georgian
-        ? this.formGroup.controls.checkIdentity
-        : this.formGroup.controls.checkIdentityForeigner;
-
-    // If any key identity fields have changed, reset verification status
-    if (this.personVerified()) {
-      const isChanged = this.isIdentityInformationChanged(identityForm);
-      if (isChanged) {
-        this.personVerified.set(false);
-        this.phoneVerified.set(false);
-        this.resetStepsFrom(2);
-      }
-    }
-  }
-
-  // Helper method to check if identity information has changed
-  isIdentityInformationChanged(identityForm: FormGroup): boolean {
-    // Implementation depends on how you track the original verified values
-    // Here, we're simply checking if the form is dirty as a basic implementation
-    return identityForm.dirty;
-  }
-
-  // Helper method to check if phone information has changed
-  isPhoneInformationChanged(): boolean {
-    return this.formGroup.controls.phone.dirty;
   }
 }
