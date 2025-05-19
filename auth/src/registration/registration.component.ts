@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, type OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
@@ -20,7 +20,7 @@ import {
   vetIcons,
 } from '@vet/shared';
 import { RegisterService, type User, type UserReq } from '@vet/backend';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
@@ -58,15 +58,6 @@ export class RegistrationComponent implements OnInit {
   lastCitizenshipValue = '';
   phoneVerified = signal(false);
   personVerified = signal(false);
-
-  @ViewChild(RegistrationIdentityCitizenComponent)
-  identityCitizenComponent?: RegistrationIdentityCitizenComponent;
-
-  @ViewChild(RegistrationIdentityForeignerComponent)
-  identityForeignerComponent?: RegistrationIdentityForeignerComponent;
-
-  @ViewChild(RegistrationPhoneComponent)
-  phoneComponent?: RegistrationPhoneComponent;
 
   steps = [
     {
@@ -106,7 +97,6 @@ export class RegistrationComponent implements OnInit {
   CitizenshipType = Citizenship;
 
   private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
   private registrationService = inject(RegisterService);
 
   ngOnInit(): void {
@@ -271,14 +261,6 @@ export class RegistrationComponent implements OnInit {
     }
 
     if (this.currentStepIndex === 2 && this.isStepValid(this.currentStepIndex)) {
-      if (!this.phoneVerified() && this.phoneComponent) {
-        const phoneForm = this.formGroup.controls.phone;
-        if (phoneForm.controls.phoneNumber.valid && !phoneForm.controls.verificationNumber.value) {
-          this.phoneComponent.onNextClick();
-          return;
-        }
-      }
-
       if (this.phoneVerified()) {
         this.currentStepIndex++;
         this.currentStepSubject.next(this.currentStepIndex);

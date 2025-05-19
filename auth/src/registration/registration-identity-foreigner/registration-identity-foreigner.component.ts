@@ -125,7 +125,7 @@ export class RegistrationIdentityForeignerComponent {
               pid: personalInfo.pid || (form?.personalNumber as string),
               firstName: personalInfo.firstName || (form?.firstName as string),
               lastName: personalInfo.lastName || (form?.lastName as string),
-              birthDate: personalInfo.birthDate || (form?.dateOfBirth as any),
+              birthDate: personalInfo.birthDate || (form?.dateOfBirth as unknown as string),
               gender: personalInfo.gender || (form?.gender as string),
             });
             this.personVerificationChange.emit(true);
