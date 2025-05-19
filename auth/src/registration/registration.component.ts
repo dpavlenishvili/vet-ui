@@ -142,7 +142,10 @@ export class RegistrationComponent implements OnInit {
       }),
       phone: new FormGroup({
         phoneNumber: new FormControl('', [Validators.required, mobileNumberValidator]),
-        verificationNumber: new FormControl('', [Validators.required, Validators.minLength(useAuthEnvironment().phoneVerificationNumberLength)]),
+        verificationNumber: new FormControl('', [
+          Validators.required,
+          Validators.minLength(useAuthEnvironment().phoneVerificationNumberLength),
+        ]),
       }),
       passwords: new FormGroup(
         {
@@ -205,7 +208,7 @@ export class RegistrationComponent implements OnInit {
         return;
       }
 
-      if (this.currentStepIndex === 2 || this.currentStepIndex === 1  && !this.phoneVerified()) {
+      if (this.currentStepIndex === 2 || (this.currentStepIndex === 1 && !this.phoneVerified())) {
         event.preventDefault();
         return;
       }

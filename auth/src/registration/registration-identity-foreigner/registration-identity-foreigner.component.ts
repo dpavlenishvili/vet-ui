@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  input,
-  OnInit,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -90,9 +80,11 @@ export class RegistrationIdentityForeignerComponent {
           // რეაგირება მხოლოდ მაშინ, როცა მნიშვნელოვანი ველები შეიცვალა
           distinctUntilChanged((prev, curr) => {
             // შევადაროთ მთავარი ველები ვერიფიკაციისთვის
-            return prev.personalNumber === curr.personalNumber &&
+            return (
+              prev.personalNumber === curr.personalNumber &&
               prev.lastName === curr.lastName &&
-              prev.residential === curr.residential;
+              prev.residential === curr.residential
+            );
           }),
           tap(() => {
             // Reset verification status when form changes

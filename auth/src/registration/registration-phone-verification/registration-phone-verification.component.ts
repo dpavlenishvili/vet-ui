@@ -52,7 +52,7 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   isInvalid = computed(() => (this.isTouched() && !this.isComplete()) || this.isValid() === false);
   // მასივი თითოეული ციფრისთვის - არის თუ არა შევსებული
   isDigitFilled = computed(() => {
-    return this.digits().map(digit => digit !== null);
+    return this.digits().map((digit) => digit !== null);
   });
 
   // თითოეული ციფრის ვალიდაცია
@@ -186,7 +186,7 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   }
 
   onBlur() {
-    this.isTouched.set(true)
+    this.isTouched.set(true);
   }
 
   private getDigitsArray() {

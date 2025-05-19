@@ -17,7 +17,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationPhoneVerificationComponent } from '@vet/auth';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, debounceTime, distinctUntilChanged, filter, of, tap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, of, tap } from 'rxjs';
 import { SmsService } from '@vet/backend';
 import { Reloader, ToastModule } from '@vet/shared';
 
@@ -68,8 +68,9 @@ export class RegistrationPhoneComponent implements OnInit {
         return;
       }
 
-      form.get('phoneNumber')?.valueChanges
-        .pipe(
+      form
+        .get('phoneNumber')
+        ?.valueChanges.pipe(
           // რეაგირება მხოლოდ როცა ტელეფონი ვერიფიცირებულია
           // filter(() => this.isPhoneVerified()),
           // დაყოვნება 300 მილიწამით
