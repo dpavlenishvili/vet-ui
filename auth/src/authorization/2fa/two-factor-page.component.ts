@@ -11,6 +11,7 @@ import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RegistrationPhoneVerificationComponent } from '@vet/auth';
+import { SmsService } from '@vet/backend';
 
 @Component({
   selector: 'vet-auth-two-factor-page',
@@ -45,6 +46,7 @@ export class TwoFactorPageComponent implements OnInit {
   });
   isValid = signal<boolean | null>(null);
   errorMessage = signal<string | null>(null);
+  smsService = inject(SmsService);
 
   ngOnInit() {
     this.validateCode();
@@ -65,6 +67,18 @@ export class TwoFactorPageComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  resendCode() {
+    this.smsService.sendSmsCode({token: this.state.get2FaCredentials()?.token})
+      .pipe(
+        tap({
+          error: (error) => {
+            this.isValid.set(false);
+            this.errorMessage.set(error.error.error.message);
+          },
+        }),
+      ).subscribe();
   }
 
   protected onSubmit() {

@@ -14,7 +14,7 @@ export const environment = {
   kendoDateTimePickerFormat: 'dd/MM/yyyy HH:mm:ss',
   modules: {
     auth: <AuthEnvironment>{
-      phoneVerificationNumberLength: 6,
+      phoneVerificationNumberLength: 4,
       phoneVerificationNumberTimeoutSeconds: 120,
       login2faTimeoutSeconds: 120,
     },

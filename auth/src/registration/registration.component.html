@@ -51,6 +51,7 @@
               @case (CitizenshipType.Georgian) {
                 <vet-registration-identity-citizen
                   [form]="formGroup.controls.checkIdentity"
+                  [isPersonVerified]="personVerified()"
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
                   (personVerificationChange)="setPersonVerified($event)"
@@ -63,6 +64,7 @@
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
                   (personVerificationChange)="setPersonVerified($event)"
+                  (switchToGeorgianCitizenship)="handleSwitchToGeorgianCitizenship($event)"
                 />
               }
             }

@@ -18,8 +18,8 @@
           </kendo-label>
 
           <kendo-label [text]="'auth.last_name' | transloco">
-            <kendo-textbox [clearButton]="true" formControlName="lastname" />
-            @if (form.controls['lastname']; as control) {
+            <kendo-textbox [clearButton]="true" formControlName="lastName" />
+            @if (form.controls['lastName']; as control) {
               @if (!control.untouched || control.value) {
                 @if (control.errors?.['required']) {
                   <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
@@ -35,7 +35,7 @@
         @if (isPersonVerified()) {
           <div class="k-display-flex k-gap-5">
             <kendo-label [text]="'auth.name' | transloco">
-              <kendo-textbox [clearButton]="true" [readonly]="true" formControlName="firstname" />
+              <kendo-textbox [clearButton]="true" [readonly]="true" formControlName="firstName" />
             </kendo-label>
 
             <kendo-label [text]="'auth.date_of_birth' | transloco">

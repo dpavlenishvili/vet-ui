@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  input,
+  model,
+  output,
+  signal,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -6,13 +16,14 @@ import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs'
 import { LabelModule } from '@progress/kendo-angular-label';
 import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
 import { RegisterService, type User } from '@vet/backend';
-import { tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import {
   ToastModule,
   useAlertApiErrorHandler,
   useApiErrorConditionalContextFactory,
   useToastApiErrorHandler,
 } from '@vet/shared';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-registration-identity-citizen',
@@ -41,22 +52,49 @@ export class RegistrationIdentityCitizenComponent {
   form = input<
     FormGroup<{
       personalNumber: FormControl<string | null>;
-      lastname: FormControl<string | null>;
-      firstname: FormControl<string | null>;
+      lastName: FormControl<string | null>;
+      firstName: FormControl<string | null>;
       dateOfBirth: FormControl<Date | null>;
       gender: FormControl<string | null>;
     }>
   >();
   gender = ['male', 'female'];
-  isPersonVerified = signal(false);
+  isPersonVerified = model(false);
   previousClick = output();
   nextClick = output();
   personVerificationChange = output<boolean>();
 
-  private lastVerifiedPID = '';
-  private lastVerifiedLastname = '';
+  constructor(
+    private registerService: RegisterService,
+    private destroyRef: DestroyRef,
+  ) {
+    effect(() => {
+      const form = this.form();
 
-  constructor(private registerService: RegisterService) {}
+      if (!form) {
+        return;
+      }
+
+      form.valueChanges
+        .pipe(
+          // მხოლოდ ვერიფიცირებული პირისთვის რეაგირება
+          filter(() => this.isPersonVerified()),
+          // დაყოვნება 300 მილიწამით, რომ ავირიდოთ სწრაფი ცვლილებებზე რეაგირება
+          debounceTime(300),
+          // რეაგირება მხოლოდ მაშინ, როცა ფორმა რეალურად შეიცვალა
+          distinctUntilChanged((prev, curr) => {
+            // შევადაროთ მთავარი ველები ვერიფიკაციისთვის
+            return prev.personalNumber === curr.personalNumber && prev.lastName === curr.lastName;
+          }),
+          tap(() => {
+            this.isPersonVerified.set(false);
+            this.personVerificationChange.emit(false);
+          }),
+          takeUntilDestroyed(this.destroyRef),
+        )
+        .subscribe();
+    });
+  }
 
   onPreviousClick() {
     this.previousClick.emit();
@@ -73,13 +111,9 @@ export class RegistrationIdentityCitizenComponent {
     }
 
     const currentPID = form?.personalNumber as string;
-    const currentLastname = form?.lastname as string;
+    const currentLastname = form?.lastName as string;
 
-    if (
-      this.lastVerifiedPID === currentPID &&
-      this.lastVerifiedLastname === currentLastname &&
-      this.isPersonVerified()
-    ) {
+    if (this.isPersonVerified()) {
       this.nextClick.emit();
       return;
     }
@@ -95,14 +129,13 @@ export class RegistrationIdentityCitizenComponent {
         tap({
           next: (personalInfo: User) => {
             this.isPersonVerified.set(true);
-            this.lastVerifiedPID = currentPID;
-            this.lastVerifiedLastname = currentLastname;
 
-            this.form()?.controls.firstname.setValue(personalInfo.firstName ?? null);
+            this.form()?.controls.firstName.setValue(personalInfo.firstName ?? null, { emitEvent: false });
             this.form()?.controls.dateOfBirth.setValue(
               personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
+              { emitEvent: false },
             );
-            this.form()?.controls.gender.setValue(personalInfo.gender ?? null);
+            this.form()?.controls.gender.setValue(personalInfo.gender ?? null, { emitEvent: false });
 
             this.personVerificationChange.emit(true);
           },
@@ -116,20 +149,11 @@ export class RegistrationIdentityCitizenComponent {
   }
 
   onNextClick() {
-    this.nextClick.emit();
-  }
-
-  resetVerificationIfNeeded() {
-    const form = this.form()?.value;
-    const currentPID = form?.personalNumber as string;
-    const currentLastname = form?.lastname as string;
-
-    if (
-      this.isPersonVerified() &&
-      (this.lastVerifiedPID !== currentPID || this.lastVerifiedLastname !== currentLastname)
-    ) {
-      this.isPersonVerified.set(false);
-      this.personVerificationChange.emit(false);
+    if (!this.isPersonVerified()) {
+      // If not verified, attempt verification first
+      this.onCheckClick();
+    } else {
+      this.nextClick.emit();
     }
   }
 }

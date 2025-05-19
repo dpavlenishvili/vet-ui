@@ -16,7 +16,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationPhoneVerificationComponent } from '@vet/auth';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, of, tap } from 'rxjs';
 import { SmsService } from '@vet/backend';
 import { Reloader, ToastModule } from '@vet/shared';
 
@@ -53,10 +53,8 @@ export class RegistrationPhoneComponent implements OnInit {
   isValid = signal<boolean | null>(null);
   errorMessage = signal<string | null>(null);
   verificationCodeReloader = new Reloader();
-  protected readonly RegistrationPhoneVerificationComponent = viewChild(RegistrationPhoneVerificationComponent);
-
-  private lastVerifiedPhoneNumber = '';
-  private isPhoneVerified = false;
+  protected readonly verificationComponent = viewChild(RegistrationPhoneVerificationComponent);
+  isPhoneVerified = signal(false);
 
   constructor(
     private destroyRef: DestroyRef,
@@ -69,26 +67,16 @@ export class RegistrationPhoneComponent implements OnInit {
         return;
       }
 
-      form.controls.phoneNumber.valueChanges
+      form.valueChanges
         .pipe(
-          tap((newPhoneNumber) => {
-            if (this.isPhoneVerified && this.lastVerifiedPhoneNumber !== newPhoneNumber) {
-              this.phase.set('initial');
-              this.isValid.set(null);
-              this.isPhoneVerified = false;
-              this.phoneVerificationChange.emit(false);
-              form.controls.verificationNumber.setValue('');
-            }
-          }),
-          takeUntilDestroyed(this.destroyRef),
-        )
-        .subscribe();
-
-      form.controls.verificationNumber.valueChanges
-        .pipe(
+          // რეაგირება მხოლოდ როცა ტელეფონი ვერიფიცირებულია
+          filter(() => this.isPhoneVerified()),
+          // დაყოვნება 300 მილიწამით
+          debounceTime(300),
+          // რეაგირება მხოლოდ რეალური ცვლილებისას
+          distinctUntilChanged(),
           tap(() => {
-            this.isValid.set(null);
-            this.errorMessage.set(null);
+            this.resetVerification();
           }),
           takeUntilDestroyed(this.destroyRef),
         )
@@ -102,8 +90,7 @@ export class RegistrationPhoneComponent implements OnInit {
 
     if (phoneNumber && verificationNumber) {
       this.phase.set('success');
-      this.isPhoneVerified = true;
-      this.lastVerifiedPhoneNumber = phoneNumber;
+      this.isPhoneVerified.set(true);
       this.phoneVerificationChange.emit(true);
     } else if (phoneNumber) {
       this.phase.set('verifying');
@@ -135,18 +122,21 @@ export class RegistrationPhoneComponent implements OnInit {
       .subscribe();
   }
 
+  resetVerification() {
+    this.phase.set('initial');
+    this.isValid.set(null);
+    this.isPhoneVerified.set(false);
+    this.phoneVerificationChange.emit(false);
+    this.form()?.controls.verificationNumber.setValue('');
+  }
+
   private shouldSendVerificationCode(form?: FormGroup | null): boolean {
     if (!form) {
       return false;
     }
 
-    if (this.isPhoneVerified && form.controls['phoneNumber'].value === this.lastVerifiedPhoneNumber) {
-      return false;
-    }
-
     const currentPhase = this.phase();
     const isValidPhase = currentPhase === 'initial' || currentPhase === 'verifying';
-
     const hasValidPhone = form.controls['phoneNumber']?.valid;
 
     return isValidPhase && hasValidPhone;
@@ -173,61 +163,66 @@ export class RegistrationPhoneComponent implements OnInit {
       return;
     }
 
-    if (this.isPhoneVerified && this.lastVerifiedPhoneNumber === form.controls.phoneNumber.value) {
+    // თუ უკვე ვერიფიცირებულია, გადადი შემდეგ ეტაპზე
+    if (this.isPhoneVerified()) {
       this.nextClick.emit();
       return;
     }
 
-    // @todo @tsomaia name this function properly and move it somewhere
-    const defaultBehavior = () => {
-      if (!form.valid) {
-        return;
-      }
+    // შეამოწმე ნომრის ვალიდურობა გაგრძელებამდე
+    if (!form.controls.phoneNumber.valid) {
+      form.controls.phoneNumber.markAsTouched();
+      return;
+    }
 
-      const { phoneNumber, verificationNumber } = form.value;
-
-      if (phoneNumber && verificationNumber) {
-        this.smsService
-          .validateSms({
-            phone: phoneNumber ?? '',
-            sms_code: verificationNumber ?? '',
-          })
-          .pipe(
-            tap({
-              next: () => {
-                this.isPhoneVerified = true;
-                this.phoneVerificationChange.emit(true);
-                this.nextClick.emit();
-                this.phase.set('success');
-                this.lastVerifiedPhoneNumber = phoneNumber ?? '';
-              },
-              error: (error) => {
-                this.isValid.set(false);
-                this.errorMessage.set(error.error.error.message);
-              },
-            }),
-          )
-          .subscribe();
-      }
-    };
-
+    // Different behavior based on current phase
     switch (this.phase()) {
       case 'initial':
+        // If in initial phase, move to verifying and send code
         this.phase.set('verifying');
         this.onSend();
         break;
 
       case 'verifying':
+        // If in verifying phase, validate the code if provided
         if (form.value.phoneNumber && !form.value.verificationNumber) {
           this.isValid.set(false);
         } else if (form.value.phoneNumber && form.value.verificationNumber) {
-          defaultBehavior();
+          this.validateCode(form.value.phoneNumber as string, form.value.verificationNumber as string);
         }
         break;
 
       default:
-        defaultBehavior();
+        // In any other case, try to validate if we have both phone and code
+        if (form.value.phoneNumber && form.value.verificationNumber) {
+          this.validateCode(form.value.phoneNumber as string, form.value.verificationNumber as string);
+        }
         break;
     }
+  }
+
+  // Validate the SMS code
+  private validateCode(phoneNumber: string, verificationCode: string) {
+    this.smsService
+      .validateSms({
+        phone: phoneNumber,
+        sms_code: verificationCode,
+      })
+      .pipe(
+        tap({
+          next: () => {
+            this.isPhoneVerified.set(true);
+            this.phoneVerificationChange.emit(true);
+            this.nextClick.emit();
+            this.phase.set('success');
+          },
+          error: (error) => {
+            this.isValid.set(false);
+            this.errorMessage.set(error.error.error.message);
+            this.phase.set('verifying');
+          },
+        }),
+      )
+      .subscribe();
   }
 }

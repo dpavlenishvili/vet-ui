@@ -42,7 +42,6 @@ export class AuthorizationPageLocalStateService {
   }
 
   validate2FaCode(code: string) {
-    console.log(code, this._2faResponseBody);
     return this._authenticationService.validate2FaCode({
       token: this._2faResponseBody?.token as string,
       code: code,

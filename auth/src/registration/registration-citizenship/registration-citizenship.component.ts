@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -34,21 +34,28 @@ export class RegistrationCitizenshipComponent {
   resetForm = output<string>();
 
   kendoIcons = kendoIcons;
-
   citizenship = Citizenship;
-  isWarningVisible = signal(false);
+
+  isFormTouched = signal(this.form()?.touched);
+  isFormValid = signal(this.form()?.valid);
+  isWarningVisible = computed(() => this.isFormTouched() && !this.isFormValid());
 
   onNextClick() {
-    this.form()?.markAllAsTouched();
-    if (this.form()?.valid) {
+    const form = this.form();
+    if (!form) return;
+
+    form.markAllAsTouched();
+    this.isFormTouched.set(true);
+    this.isFormValid.set(form.valid);
+    if (form.valid) {
       this.nextClick.emit();
-    } else {
-      this.isWarningVisible.set(true);
     }
   }
 
   onRadioChange(checked: boolean, value: string) {
     if (checked) {
+      this.isFormTouched.set(true);
+      this.isFormValid.set(true);
       this.resetForm.emit(value);
       this.form()?.controls['citizenship'].setValue(value);
       this.form()?.updateValueAndValidity();

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
@@ -19,7 +19,7 @@ import {
   useAlert,
   vetIcons,
 } from '@vet/shared';
-import { RegisterService, type UserReq } from '@vet/backend';
+import { RegisterService, type User, type UserReq } from '@vet/backend';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
@@ -57,6 +57,15 @@ export class RegistrationComponent implements OnInit {
   lastCitizenshipValue = '';
   phoneVerified = signal(false);
   personVerified = signal(false);
+
+  @ViewChild(RegistrationIdentityCitizenComponent)
+  identityCitizenComponent?: RegistrationIdentityCitizenComponent;
+
+  @ViewChild(RegistrationIdentityForeignerComponent)
+  identityForeignerComponent?: RegistrationIdentityForeignerComponent;
+
+  @ViewChild(RegistrationPhoneComponent)
+  phoneComponent?: RegistrationPhoneComponent;
 
   steps = [
     {
@@ -104,38 +113,10 @@ export class RegistrationComponent implements OnInit {
       void this.router.navigate(['/registration/citizenship_selection']);
     }
 
-    this.formGroup.controls.chooseCitizenship.valueChanges.subscribe(() => {
-      if (this.lastCitizenshipValue && this.lastCitizenshipValue !== this.citizenship) {
-        this.resetStepsFrom(1);
-        this.phoneVerified.set(false);
-        this.personVerified.set(false);
-      }
-      this.lastCitizenshipValue = this.citizenship as string;
-    });
-
-    const georgianIdentityForm = this.formGroup.controls.checkIdentity;
-    const foreignerIdentityForm = this.formGroup.controls.checkIdentityForeigner;
-
-    georgianIdentityForm.valueChanges.subscribe(() => {
-      if (this.currentStepIndex > 1 && this.personVerified()) {
-        this.personVerified.set(false);
-        this.resetStepsFrom(2);
-      }
-    });
-
-    foreignerIdentityForm.valueChanges.subscribe(() => {
-      if (this.currentStepIndex > 1 && this.personVerified()) {
-        this.personVerified.set(false);
-        this.resetStepsFrom(2);
-      }
-    });
-
-    this.formGroup.controls.phone.get('phoneNumber')?.valueChanges.subscribe(() => {
-      if (this.phoneVerified()) {
-        this.phoneVerified.set(false);
-        this.resetStepsFrom(3);
-      }
-    });
+    // Store the initial citizenship value if there is one
+    if (this.citizenship) {
+      this.lastCitizenshipValue = this.citizenship;
+    }
   }
 
   createFormGroup() {
@@ -144,16 +125,16 @@ export class RegistrationComponent implements OnInit {
         citizenship: new FormControl<string | null>(null, Validators.required),
       }),
       checkIdentity: new FormGroup({
-        lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
-        firstname: new FormControl(''),
+        lastName: new FormControl('', [Validators.required, georgianLettersValidator]),
+        firstName: new FormControl(''),
         personalNumber: new FormControl('', [Validators.required, personalNumberValidator]),
         dateOfBirth: new FormControl<Date | null>(null),
         gender: new FormControl(''),
       }),
       checkIdentityForeigner: new FormGroup({
         residential: new FormControl('', Validators.required),
-        lastname: new FormControl('', [Validators.required, georgianLettersValidator]),
-        firstname: new FormControl('', [Validators.required, georgianLettersValidator]),
+        lastName: new FormControl('', [Validators.required, georgianLettersValidator]),
+        firstName: new FormControl('', [Validators.required, georgianLettersValidator]),
         personalNumber: new FormControl('', Validators.required),
         dateOfBirth: new FormControl<Date | null>(null, Validators.required),
         gender: new FormControl('', Validators.required),
@@ -189,8 +170,8 @@ export class RegistrationComponent implements OnInit {
       pid: identityGroup.get('personalNumber')?.value,
       phone: phone.get('phoneNumber')?.value,
       sms_code: phone.get('verificationNumber')?.value,
-      first_name: identityGroup.get('firstname')?.value,
-      last_name: identityGroup.get('lastname')?.value,
+      first_name: identityGroup.get('firstName')?.value,
+      last_name: identityGroup.get('lastName')?.value,
       gender: identityGroup.get('gender')?.value,
       birth_date: identityGroup.get('dateOfBirth')?.value?.toISOString().split('T')[0],
       residential: isForeigner ? identityGroup.get('residential')?.value : chooseCitizenship.get('citizenship')?.value,
@@ -210,6 +191,7 @@ export class RegistrationComponent implements OnInit {
 
   onStepChange(event: StepperActivateEvent) {
     if (event.index < this.currentStepIndex) {
+      // Moving backwards is always allowed
       this.currentStepIndex = event.index;
       this.currentStepSubject.next(this.currentStepIndex);
       void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
@@ -222,9 +204,17 @@ export class RegistrationComponent implements OnInit {
         return;
       }
 
-      if (this.currentStepIndex === 2 && !this.phoneVerified()) {
+      if (this.currentStepIndex === 2 || this.currentStepIndex === 1  && !this.phoneVerified()) {
         event.preventDefault();
         return;
+      }
+
+      // Check if citizenship changed - handle appropriately
+      if (this.currentStepIndex === 0 && this.lastCitizenshipValue && this.lastCitizenshipValue !== this.citizenship) {
+        this.personVerified.set(false);
+        this.phoneVerified.set(false);
+        this.resetStepsFrom(1);
+        this.lastCitizenshipValue = this.citizenship as string;
       }
 
       this.currentStepIndex = event.index;
@@ -240,11 +230,42 @@ export class RegistrationComponent implements OnInit {
       this.currentStepIndex--;
       this.currentStepSubject.next(this.currentStepIndex);
       void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
+
+      // If going back to citizenship or identity verification steps, reset validation statuses
+      if (this.currentStepIndex <= 0) {
+        // this.personVerified.set(false);
+        // this.phoneVerified.set(false);
+      } else if (this.currentStepIndex === 1) {
+        // this.personVerified.set(false);
+        // this.phoneVerified.set(false);
+      }
     }
+  }
+
+  handleSwitchToGeorgianCitizenship(personalInfo: User) {
+    // Switch the citizenship selection to Georgian
+    this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(Citizenship.Georgian);
+    this.lastCitizenshipValue = Citizenship.Georgian;
+
+    // Fill in the Georgian citizenship form with the validated info
+    const georgianForm = this.formGroup.controls.checkIdentity;
+    georgianForm.controls.personalNumber.setValue(personalInfo.pid || null);
+    georgianForm.controls.lastName.setValue(personalInfo.lastName || null);
+    georgianForm.controls.firstName.setValue(personalInfo.firstName || null);
+    georgianForm.controls.dateOfBirth.setValue(personalInfo.birthDate ? new Date(personalInfo.birthDate) : null);
+    georgianForm.controls.gender.setValue(personalInfo.gender || null);
+
+    this.formGroup.controls.checkIdentityForeigner.reset();
+    this.personVerified.set(true);
+    this.currentStepIndex++;
+    this.currentStepSubject.next(this.currentStepIndex);
+    void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
   }
 
   onNextClick() {
     if (this.currentStepIndex === 0 && this.isStepValid(this.currentStepIndex)) {
+      // Save current citizenship selection before moving to the next step
+      this.lastCitizenshipValue = this.citizenship as string;
       this.currentStepIndex++;
       this.currentStepSubject.next(this.currentStepIndex);
       void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
@@ -261,6 +282,16 @@ export class RegistrationComponent implements OnInit {
     }
 
     if (this.currentStepIndex === 2 && this.isStepValid(this.currentStepIndex)) {
+      // For phone verification, check if phone is already verified
+      if (!this.phoneVerified() && this.phoneComponent) {
+        // If not verified and the phone number control is valid, trigger verification
+        const phoneForm = this.formGroup.controls.phone;
+        if (phoneForm.controls.phoneNumber.valid && !phoneForm.controls.verificationNumber.value) {
+          this.phoneComponent.onNextClick();
+          return;
+        }
+      }
+
       if (this.phoneVerified()) {
         this.currentStepIndex++;
         this.currentStepSubject.next(this.currentStepIndex);
@@ -307,6 +338,7 @@ export class RegistrationComponent implements OnInit {
     this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(citizenship);
     this.formGroup.markAsPristine();
     this.formGroup.markAsUntouched();
+    this.lastCitizenshipValue = citizenship;
     this.resetStepsFrom(1);
     this.phoneVerified.set(false);
     this.personVerified.set(false);
@@ -341,5 +373,58 @@ export class RegistrationComponent implements OnInit {
 
   setPersonVerified(verified: boolean) {
     this.personVerified.set(verified);
+  }
+
+  // Method to switch to Georgian citizenship if Georgian citizen is detected
+  switchToGeorgianCitizenship(personalInfo: any) {
+    this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(Citizenship.Georgian);
+    this.formGroup.controls.checkIdentity.reset();
+
+    // Fill checkIdentity form with the data from personInfo
+    this.formGroup.controls.checkIdentity.controls.firstName.setValue(personalInfo.firstName ?? null);
+    this.formGroup.controls.checkIdentity.controls.lastName.setValue(
+      personalInfo.lastName ?? personalInfo.last_name ?? null,
+    );
+    this.formGroup.controls.checkIdentity.controls.personalNumber.setValue(personalInfo.pid ?? null);
+    this.formGroup.controls.checkIdentity.controls.dateOfBirth.setValue(
+      personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
+    );
+    this.formGroup.controls.checkIdentity.controls.gender.setValue(personalInfo.gender ?? null);
+
+    this.lastCitizenshipValue = Citizenship.Georgian;
+
+    // Reset checkIdentityForeigner form
+    this.formGroup.controls.checkIdentityForeigner.reset();
+  }
+
+  // Check identity information for changes that would require re-verification
+  checkIdentityChanges() {
+    const currentCitizenship = this.citizenship;
+    const identityForm =
+      currentCitizenship === Citizenship.Georgian
+        ? this.formGroup.controls.checkIdentity
+        : this.formGroup.controls.checkIdentityForeigner;
+
+    // If any key identity fields have changed, reset verification status
+    if (this.personVerified()) {
+      const isChanged = this.isIdentityInformationChanged(identityForm);
+      if (isChanged) {
+        this.personVerified.set(false);
+        this.phoneVerified.set(false);
+        this.resetStepsFrom(2);
+      }
+    }
+  }
+
+  // Helper method to check if identity information has changed
+  isIdentityInformationChanged(identityForm: FormGroup): boolean {
+    // Implementation depends on how you track the original verified values
+    // Here, we're simply checking if the form is dirty as a basic implementation
+    return identityForm.dirty;
+  }
+
+  // Helper method to check if phone information has changed
+  isPhoneInformationChanged(): boolean {
+    return this.formGroup.controls.phone.dirty;
   }
 }

@@ -13,13 +13,14 @@
         [style.width.rem]="3.5"
         [style.height.rem]="3.5"
         [class.input-valid]="state() === 'valid'"
-        [class.input-invalid]="state() === 'invalid' || isInvalid()"
+        [class.input-invalid]="state() === 'invalid' || (isTouched() && digit === null)"
         (ngModelChange)="onDigitChange($index, $event, input)"
         (keydown)="onKeyDown($event, $index)"
-        (blur)="isTouched.set(true)"
+        (blur)="isTouched.set(true); onTouched()"
       />
     }
   </div>
+
   @if (errorMessage()) {
     <div class="k-display-flex k-justify-content-end">
       <kendo-formerror>
