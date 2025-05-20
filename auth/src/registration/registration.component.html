@@ -17,11 +17,7 @@
       (activate)="onStepChange($event)"
     >
       <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
-        <div
-          kendoTooltip
-          [title]="!isExpanded() ? (step.label | transloco) : ''"
-          [position]="'right'"
-        >
+        <div kendoTooltip [title]="!isExpanded() ? (step.label | transloco) : ''" [position]="'right'">
           {{ index + 1 }}
         </div>
       </ng-template>
@@ -50,7 +46,9 @@
             @switch (citizenship) {
               @case (CitizenshipType.Georgian) {
                 <vet-registration-identity-citizen
-                  [form]="formGroup.controls.checkIdentity"
+                  [generalForm]="formGroup"
+                  [identityForm]="formGroup.controls.checkIdentity"
+                  [isPersonVerified]="personVerified()"
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
                   (personVerificationChange)="setPersonVerified($event)"
@@ -63,6 +61,7 @@
                   (previousClick)="onPreviousClick()"
                   (nextClick)="onNextClick()"
                   (personVerificationChange)="setPersonVerified($event)"
+                  (switchToGeorgianCitizenship)="handleSwitchToGeorgianCitizenship($event)"
                 />
               }
             }
@@ -70,6 +69,7 @@
           @case (2) {
             <vet-registration-phone
               [form]="formGroup.controls.phone"
+              [isPhoneVerified]="phoneVerified()"
               (previousClick)="onPreviousClick()"
               (nextClick)="onNextClick()"
               (phoneVerificationChange)="setPhoneVerified($event)"

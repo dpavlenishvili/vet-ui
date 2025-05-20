@@ -38,6 +38,8 @@ export class RegistrationPasswordCreateComponent {
       return;
     }
 
+    form.markAllAsTouched();
+
     if (this.form()?.valid) {
       this.nextClick.emit();
     }

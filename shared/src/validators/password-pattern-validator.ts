@@ -22,7 +22,7 @@ export function passwordPatternValidator(control: AbstractControl): { [key: stri
 
 
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  if (!control.value) {
+  if (!control.value?.confirmPassword) {
     return null;
   }
   const password = control.get('password')?.value;

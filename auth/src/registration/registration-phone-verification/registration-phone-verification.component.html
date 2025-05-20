@@ -13,13 +13,14 @@
         [style.width.rem]="3.5"
         [style.height.rem]="3.5"
         [class.input-valid]="state() === 'valid'"
-        [class.input-invalid]="state() === 'invalid' || isInvalid()"
+        [class.input-invalid]="state() === 'invalid' ? state() : isDigitInvalid()[$index]"
         (ngModelChange)="onDigitChange($index, $event, input)"
         (keydown)="onKeyDown($event, $index)"
-        (blur)="isTouched.set(true)"
+        (blur)="onBlur()"
       />
     }
   </div>
+
   @if (errorMessage()) {
     <div class="k-display-flex k-justify-content-end">
       <kendo-formerror>
@@ -35,10 +36,6 @@
   }
 
   <div>
-    <vet-registration-phone-timeout
-      [isPending]="isPending()"
-      [startTime]="startTime()"
-      (resend)="onSend()"
-    />
+    <vet-registration-phone-timeout [isPending]="isPending()" [startTime]="startTime()" (resend)="onSend()" />
   </div>
 </div>

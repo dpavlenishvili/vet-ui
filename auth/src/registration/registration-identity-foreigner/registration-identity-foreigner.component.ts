@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -7,16 +7,16 @@ import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import {
-  Citizenship,
   countries,
   genders,
   useAlertApiErrorHandler,
   useApiErrorConditionalContextFactory,
   useToastApiErrorHandler,
 } from '@vet/shared';
-import { tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import { RegisterService, User } from '@vet/backend';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-registration-identity-foreigner',
@@ -35,7 +35,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class RegistrationIdentityForeignerComponent implements OnInit {
+export class RegistrationIdentityForeignerComponent {
   createApiErrorHandlerContext = useApiErrorConditionalContextFactory({
     when: ({ code }) => code === 1009,
     then: useAlertApiErrorHandler(),
@@ -46,9 +46,9 @@ export class RegistrationIdentityForeignerComponent implements OnInit {
   identityForm = input<
     FormGroup<{
       residential: FormControl<string | null>;
-      lastname: FormControl<string | null>;
+      lastName: FormControl<string | null>;
       personalNumber: FormControl<string | null>;
-      firstname: FormControl<string | null>;
+      firstName: FormControl<string | null>;
       dateOfBirth: FormControl<Date | null>;
       gender: FormControl<string | null>;
     }>
@@ -58,44 +58,41 @@ export class RegistrationIdentityForeignerComponent implements OnInit {
   previousClick = output();
   nextClick = output();
   personVerificationChange = output<boolean>();
+  switchToGeorgianCitizenship = output<User>();
 
   registerService = inject(RegisterService);
   router = inject(Router);
 
-  private lastVerifiedForm: {
-    pid?: string | null;
-    lastname?: string | null;
-    firstname?: string | null;
-    dateOfBirth?: Date | null;
-    gender?: string | null;
-    residential?: string | null;
-  } = {};
+  constructor(private destroyRef: DestroyRef) {
+    effect(() => {
+      const identityForm = this.identityForm();
 
-  ngOnInit(): void {
-    this.isPersonVerified.set(this.identityForm()?.valid as boolean);
-    this.identityForm()?.valueChanges.subscribe((value) => {
-      if (this.isPersonVerified()) {
-        const currentForm = {
-          pid: value.personalNumber,
-          lastname: value.lastname,
-          firstname: value.firstname,
-          dateOfBirth: value.dateOfBirth,
-          gender: value.gender,
-          residential: value.residential,
-        };
-
-        const fieldsChanged =
-          this.lastVerifiedForm.pid !== currentForm.pid || this.lastVerifiedForm.lastname !== currentForm.lastname;
-
-        if (fieldsChanged) {
-          this.isPersonVerified.set(false);
-          this.personVerificationChange.emit(false);
-
-          if (this.generalForm()?.controls?.['phone']?.value.phoneNumber) {
-            this.generalForm()?.controls?.['phone'].reset();
-          }
-        }
+      if (!identityForm) {
+        return;
       }
+
+      identityForm.valueChanges
+        .pipe(
+          filter(() => this.isPersonVerified()),
+          debounceTime(300),
+          distinctUntilChanged((prev, curr) => {
+            return (
+              prev.personalNumber === curr.personalNumber &&
+              prev.lastName === curr.lastName &&
+              prev.residential === curr.residential
+            );
+          }),
+          tap(() => {
+            this.isPersonVerified.set(false);
+            this.personVerificationChange.emit(false);
+
+            if (this.generalForm()?.controls?.['phone']?.value.phoneNumber) {
+              this.generalForm()?.controls?.['phone'].reset();
+            }
+          }),
+          takeUntilDestroyed(this.destroyRef),
+        )
+        .subscribe();
     });
   }
 
@@ -113,18 +110,9 @@ export class RegistrationIdentityForeignerComponent implements OnInit {
       return;
     }
 
-    if (
-      this.isPersonVerified() &&
-      this.lastVerifiedForm.pid === form?.personalNumber &&
-      this.lastVerifiedForm.lastname === form?.lastname
-    ) {
-      this.onNextClick();
-      return;
-    }
-
     this.registerService
       .validatePerson(
-        { pid: form?.personalNumber as string, last_name: form?.lastname as string },
+        { pid: form?.personalNumber as string, last_name: form?.lastName as string },
         {
           context: this.createApiErrorHandlerContext(),
         },
@@ -133,42 +121,24 @@ export class RegistrationIdentityForeignerComponent implements OnInit {
         tap({
           next: (personalInfo: User) => {
             this.isPersonVerified.set(true);
+            this.switchToGeorgianCitizenship.emit({
+              pid: personalInfo.pid || (form?.personalNumber as string),
+              firstName: personalInfo.firstName || (form?.firstName as string),
+              lastName: personalInfo.lastName || (form?.lastName as string),
+              birthDate: personalInfo.birthDate || (form?.dateOfBirth as unknown as string),
+              gender: personalInfo.gender || (form?.gender as string),
+            });
             this.personVerificationChange.emit(true);
 
-            this.lastVerifiedForm = {
-              pid: form?.personalNumber,
-              lastname: form?.lastname,
-              firstname: personalInfo.firstName ?? null,
-              dateOfBirth: personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
-              gender: personalInfo.gender ?? null,
-              residential: 'GEO',
-            };
-
-            this.identityForm()?.controls.firstname.setValue(personalInfo.firstName ?? null);
-            this.identityForm()?.controls.dateOfBirth.setValue(
-              personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
-            );
-            this.identityForm()?.controls.firstname.setValue(personalInfo.firstName ?? null);
-            this.identityForm()?.controls.gender.setValue(personalInfo.gender ?? null);
-            this.identityForm()?.controls.residential.setValue('GEO');
-            this.generalForm()?.get('chooseCitizenship')?.patchValue({
-              citizenship: Citizenship.Georgian,
-            });
+            this.onNextClick();
           },
-          error: () => {
-            if (this.identityForm()?.valid) {
+          error: (error) => {
+            if (error.error?.error?.can_register === false) {
+              this.isPersonVerified.set(false);
+              this.personVerificationChange.emit(false);
+            } else {
               this.isPersonVerified.set(true);
               this.personVerificationChange.emit(true);
-
-              this.lastVerifiedForm = {
-                pid: form?.personalNumber,
-                lastname: form?.lastname,
-                firstname: form?.firstname,
-                dateOfBirth: form?.dateOfBirth,
-                gender: form?.gender,
-                residential: form?.residential,
-              };
-
               this.onNextClick();
             }
           },

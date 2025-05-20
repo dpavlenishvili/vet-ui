@@ -26,7 +26,7 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   isPending = input(false);
   errorMessage = model<string | null>(null);
   timeSent = input(Date.now());
-  isValid = input<boolean | null>(null);
+  isValid = model<boolean | null>(null);
   reload = output();
 
   length = useAuthEnvironment().phoneVerificationNumberLength;
@@ -50,9 +50,18 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
 
   isTouched = signal(false);
   isInvalid = computed(() => (this.isTouched() && !this.isComplete()) || this.isValid() === false);
+  isDigitFilled = computed(() => {
+    return this.digits().map((digit) => digit !== null);
+  });
+
+  isDigitInvalid = computed(() => {
+    return this.digits().map((_, index) => {
+      return this.isTouched() && !this.isDigitFilled()[index];
+    });
+  });
 
   private onChange: (value: string) => void = noop;
-  private onTouched: () => void = noop;
+  public onTouched: () => void = noop;
 
   protected readonly inputs = viewChildren(NumericTextBoxComponent);
 
@@ -80,13 +89,18 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
           return [...digits];
         });
       }
+
+      this.onChange(this.input());
+      if (index <= 1) {
+        this.clearErrorMessage();
+        this.isValid.set(false);
+        this.isTouched.set(false);
+      }
       event.preventDefault();
     }
   }
 
   onDigitChange(index: number, value: number | null, input: NumericTextBoxComponent) {
-    this.isTouched.set(true);
-
     if (value !== null && (value < 0 || value > 9)) {
       value = Math.abs(value) % 10;
     }
@@ -99,7 +113,12 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
 
     const updatedValue = this.input();
     this.onChange(updatedValue);
-    this.onTouched();
+
+    this.isValid.set(null);
+    if (!this.isTouched()) {
+      this.isTouched.set(true);
+      this.onTouched();
+    }
 
     const inputElements = this.inputs();
     if (value === null) {
@@ -109,9 +128,14 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
       if (nextEmptyIndex >= 0 && nextEmptyIndex < inputElements.length) {
         inputElements[nextEmptyIndex].hostElement.nativeElement.querySelector('input')?.focus();
       } else if (index < inputElements.length - 1) {
-        this.isTouched.set(false);
         inputElements[index + 1].hostElement.nativeElement.querySelector('input')?.focus();
       }
+    }
+  }
+
+  clearErrorMessage() {
+    if (this.errorMessage()) {
+      this.errorMessage.set(null);
     }
   }
 
@@ -120,6 +144,8 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
     this.writeValue('');
     this.onChange(this.input());
     this.isTouched.set(false);
+    this.clearErrorMessage();
+    this.isValid.set(null);
   }
 
   onSend() {
@@ -142,14 +168,21 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   writeValue(value: string): void {
     if (value) {
       const digits = value
-        .slice(0, 4)
+        .slice(0, this.length)
         .split('')
         .map((c) => parseInt(c));
       this.digits.set(this.getDigitsArray().map((_, i) => digits[i] ?? null));
+    } else {
+      this.digits.set(this.getDigitsArray());
+      this.clearErrorMessage();
     }
   }
 
+  onBlur() {
+    this.isTouched.set(true);
+  }
+
   private getDigitsArray() {
-    return new Array<number | null>(4).fill(null);
+    return new Array<number | null>(this.length).fill(null);
   }
 }

@@ -11,6 +11,9 @@
             </kendo-textbox>
             @if (formGroup.controls['phoneNumber']; as control) {
               @if (control.touched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
                 @if (control.errors?.['mobileNumber']) {
                   <kendo-formerror>{{ 'errors.mobileNumber' | transloco }}</kendo-formerror>
                 }
