@@ -1,0 +1,38 @@
+@let dialogTitle = mode() === 'dates' ? 'programs.exam_dates_selection' : 'programs.result_reflection';
+
+<kendo-dialog [width]="650" [title]="dialogTitle | transloco" (close)="handleClose()">
+  <div class="k-display-flex k-flex-column k-gap-10">
+    @for (selection of selectionMethods(); track $index) {
+      @let form = formGroups()[$index]!;
+      <form [formGroup]="form">
+        @if (mode() === 'dates') {
+          <div class="k-display-flex k-justify-content-between k-gap-5">
+            <kendo-label [text]="selection.method?.category ?? ''">
+              <kendo-datetimepicker formControlName="start_at" />
+            </kendo-label>
+
+            <kendo-label [text]="'programs.address' | transloco">
+              <kendo-textbox formControlName="address" />
+            </kendo-label>
+          </div>
+        } @else {
+          <div class="k-display-flex k-justify-content-between k-align-items-center">
+            <p>{{ selection.method?.category }}</p>
+            <kendo-textbox formControlName="score" class="score-input" />
+          </div>
+        }
+      </form>
+    }
+  </div>
+  <kendo-dialog-actions>
+    <div class="k-display-flex k-justify-content-between k-p-2">
+      <button kendoButton (click)="handleClose()" themeColor="secondary">
+        {{ 'programs.close' | transloco }}
+      </button>
+
+      <button kendoButton themeColor="primary" look="default" (click)="handleSave()">
+        {{ 'programs.save' | transloco }}
+      </button>
+    </div>
+  </kendo-dialog-actions>
+</kendo-dialog>

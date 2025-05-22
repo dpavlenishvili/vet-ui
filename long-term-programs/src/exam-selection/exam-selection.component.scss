@@ -1,0 +1,25 @@
+:host {
+  display: block;
+
+  .selection-column {
+    display: flex;
+    width: 100%;
+  }
+
+  .selection-column-content {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1.25rem;
+    width: 100%;
+    gap: 2rem;
+  }
+}

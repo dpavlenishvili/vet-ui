@@ -21,39 +21,21 @@
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column
-        field="organisation.address"
-        [title]="'programs.implementation_location' | transloco"
-      >
+      <kendo-grid-column field="organisation.address" [title]="'programs.implementation_location' | transloco">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.program.organisation.address }}
         </ng-template>
       </kendo-grid-column>
 
-
       @if (isEditMode()) {
         <kendo-grid-column [title]="'programs.selection' | transloco" [width]="100">
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-align-items-center k-gap-0.5">
-              <button
-                kendoButton
-                fillMode="flat"
-                (click)="onPreviewProgramClick(item)">
-                <kendo-svg-icon
-                  [size]="'xlarge'"
-                  [icon]="vetIcons.eye"
-                  themeColor="info"
-                />
+              <button kendoButton fillMode="flat" (click)="onPreviewProgramClick(item)">
+                <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="info" />
               </button>
-              <button
-                kendoButton
-                fillMode="flat"
-                (click)="onDeleteClick(item.program)">
-                <kendo-svg-icon
-                  [size]="'large'"
-                  [icon]="vetIcons.minusCircleRed"
-                  themeColor="warning"
-                />
+              <button kendoButton fillMode="flat" (click)="onDeleteClick(item.program)">
+                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
               </button>
             </div>
           </ng-template>
@@ -75,4 +57,3 @@
     </kendo-dialog>
   }
 }
-

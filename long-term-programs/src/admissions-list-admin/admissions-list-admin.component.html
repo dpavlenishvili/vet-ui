@@ -2,10 +2,7 @@
   @let items = admissionList$.value()?.data || [];
 
   <div class="k-pb-5">
-    <vet-admissions-list-admin-filters
-      [itemsCount]="items.length"
-      (filtersChange)="onFiltersChange($event)"
-    />
+    <vet-admissions-list-admin-filters [itemsCount]="items.length" (filtersChange)="onFiltersChange($event)" />
   </div>
 
   @if (isBrowser) {

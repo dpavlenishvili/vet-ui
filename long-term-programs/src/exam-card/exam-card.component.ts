@@ -43,7 +43,7 @@ export class ExamCardComponent {
   });
 
   onFiltersChange(filters: ExamCardFilters) {
-    const filterString = filters.filters.pid as string
-    this.filters.set(filterString)
+    const filterString = filters.filters.pid as string;
+    this.filters.set(filterString);
   }
 }

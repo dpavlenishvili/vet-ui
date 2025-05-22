@@ -1,3 +1,4 @@
+import { calendarIcon } from './calendar';
 import { editIcon } from './edit';
 import { authInfo } from './auth-info';
 import { bin } from './bin';
@@ -102,7 +103,8 @@ export {
   acceptedDocumentIcon,
   blocked,
   minusCircleRed,
-  plusCircleGreen
+  plusCircleGreen,
+  calendarIcon
 };
 
 export * from './icons';
