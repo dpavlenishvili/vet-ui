@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, tap } from 'rxjs';
-import { AuthenticationService } from '@vet/auth';
+import { AuthenticationService, useAuthEnvironment } from '@vet/auth';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { UserLogin2FaResponseBody } from '@vet/backend';
@@ -13,8 +13,8 @@ import { AuthorizationPageLocalStateService } from '../authorization-page-local-
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { WA_SESSION_STORAGE } from '@ng-web-apis/common';
 import { CODE_2FA_SENT } from '../authorization.constants';
-import { useAuthEnvironment } from '@vet/auth';
 import { useAlert } from '@vet/shared';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-authorization-login',
@@ -24,20 +24,16 @@ import { useAlert } from '@vet/shared';
 })
 export class LoginPageComponent implements OnInit {
   private readonly storage = inject(WA_SESSION_STORAGE);
-
-  protected readonly loginForm = new FormGroup({
-    pid: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    remember: new FormControl(false),
-  });
-
-  protected readonly isLoginLoading = signal(false);
   private readonly authenticationService = inject(AuthenticationService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly alert = useAlert();
   private readonly authorizationPageLocalStateService = inject(AuthorizationPageLocalStateService);
-  timeoutSeconds = useAuthEnvironment().login2faTimeoutSeconds;
+  private readonly destroyRef = inject(DestroyRef);
+
+  readonly timeoutSeconds = useAuthEnvironment().login2faTimeoutSeconds;
+  readonly isLoading = signal(false);
+  readonly loginForm = signal(this.createFormGroup());
 
   ngOnInit() {
     if (this.activatedRoute.snapshot.queryParamMap.get('referrer') === 'registration') {
@@ -53,14 +49,22 @@ export class LoginPageComponent implements OnInit {
     }
   }
 
-  protected onSubmit() {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
+  createFormGroup() {
+    return new FormGroup({
+      pid: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      remember: new FormControl(false),
+    });
+  }
+
+  onSubmit() {
+    const form = this.loginForm();
+    if (form.invalid) {
+      form.markAllAsTouched();
       return;
     }
 
-    const value = this.loginForm.value;
-
+    const value = form.value;
     this.submitUserPassword(value.pid as string, value.password as string);
   }
 
@@ -94,7 +98,7 @@ export class LoginPageComponent implements OnInit {
       }
     }
 
-    this.isLoginLoading.set(true);
+    this.isLoading.set(true);
     this.authenticationService
       .login({ pid, password })
       .pipe(
@@ -124,7 +128,8 @@ export class LoginPageComponent implements OnInit {
             }
           },
         }),
-        finalize(() => this.isLoginLoading.set(false)),
+        finalize(() => this.isLoading.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }

@@ -3,7 +3,7 @@ import {
   AuthService,
   type UserLogin2FaResponseBody,
   UserLoginResponseBody,
-  ValidateCodeRequestBody
+  ValidateCodeRequestBody,
 } from '@vet/backend';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -22,15 +22,17 @@ const _authSkipCtx = useHttpContexts(skipAuthorizationCtx());
   providedIn: 'root',
 })
 export class AuthenticationService {
-  readonly isAuthenticated = computed(() => !!this.user());
-  readonly user = computed(() => this._user.value() || null);
-  readonly accessToken = computed(() => this._accessToken() || '');
   private readonly _authService = inject(AuthService);
   private readonly _ssrCookieService = inject(SsrCookieService);
 
   private readonly _accessToken = signal(this._ssrCookieService.get(ACCESS_TOKEN_STORAGE_KEY) || null);
   private readonly _refreshToken = signal(this._ssrCookieService.get(REFRESH_TOKEN_STORAGE_KEY) || null);
   private readonly twoFactorToken = signal('');
+
+  readonly isAuthenticated = computed(() => !!this.user());
+  readonly user = computed(() => this._user.value() || null);
+  readonly accessToken = computed(() => this._accessToken() || '');
+  readonly isLoading = computed(() => this._user.isLoading());
 
   private readonly _user = rxResource({
     request: () => this._accessToken(),
@@ -49,7 +51,7 @@ export class AuthenticationService {
     });
   }
 
-  login(request: { pid: string; password: string }) {
+  login(request: { pid: string; password: string }): Observable<UserLoginResponseBody> {
     return this._authService.loginUser(request, { context: _authSkipCtx }).pipe(
       map((userOr2Fa) => {
         this.twoFactorToken.set((userOr2Fa as UserLogin2FaResponseBody).token);
@@ -67,13 +69,13 @@ export class AuthenticationService {
   logout(): Observable<void> {
     return this._authService.logoutUser().pipe(
       finalize(() => {
-        this._accessToken.set('');
+        this.clearTokens();
       }),
       map(() => undefined),
     );
   }
 
-  validate2FaCode(req: ValidateCodeRequestBody) {
+  validate2FaCode(req: ValidateCodeRequestBody): Observable<UserLoginResponseBody> {
     if (!req.token) {
       req.token = this.twoFactorToken();
     }
@@ -82,7 +84,7 @@ export class AuthenticationService {
       .pipe(tap((user) => this.handleSuccessfulAuthorization(user)));
   }
 
-  refreshToken() {
+  refreshToken(): Observable<null> {
     const refreshToken = this._refreshToken();
 
     if (!refreshToken) {
@@ -100,19 +102,27 @@ export class AuthenticationService {
         tap((data) => this.handleSuccessfulAuthorization(data)),
         map(() => null),
         catchError((err: HttpErrorResponse) => {
-          this._accessToken.set('');
-          this._refreshToken.set('');
+          this.clearTokens();
           return throwError(() => err);
         }),
       );
   }
 
-  reloadUser() {
+  reloadUser(): void {
     this._user.reload();
   }
 
-  private handleSuccessfulAuthorization(userOr2Fa: UserLoginResponseBody) {
+  clearTokens(): void {
+    this._accessToken.set('');
+    this._refreshToken.set('');
+    this.twoFactorToken.set('');
+    this._ssrCookieService.deleteAll();
+  }
+
+  private handleSuccessfulAuthorization(userOr2Fa: UserLoginResponseBody): UserLoginResponseBody {
     this._accessToken.set(userOr2Fa.access_token);
     this._refreshToken.set(userOr2Fa.refresh_token);
+    this.twoFactorToken.set('');
+    return userOr2Fa;
   }
 }

@@ -7,7 +7,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import {BehaviorSubject, catchError, filter, finalize, Observable, switchMap, tap, throwError} from 'rxjs';
+import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, tap, throwError } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { authorizationSkipped } from '../skip-authorization-token-ctx';
 
@@ -19,10 +19,15 @@ function handleRequest(
   next: HttpHandlerFn,
   authenticationService: AuthenticationService,
 ): Observable<HttpEvent<unknown>> {
+  const token = authenticationService.accessToken();
+  if (!token) {
+    return next(req);
+  }
+
   return next(
     req.clone({
       setHeaders: {
-        Authorization: `Bearer ${authenticationService.accessToken()}`,
+        Authorization: `Bearer ${token}`,
       },
     }),
   );
@@ -50,10 +55,11 @@ export const authenticationInterceptor: HttpInterceptorFn = (
               },
               error: () => {
                 _refreshSuccess$.next(false);
+                authenticationService.clearTokens();
               },
             }),
             switchMap(() => handleRequest(req, next, authenticationService)),
-            catchError(refreshError => throwError(() => err)),
+            catchError(() => throwError(() => err)),
             finalize(() => {
               _refreshing$.next(false);
               _refreshSuccess$.next(null);
@@ -63,9 +69,7 @@ export const authenticationInterceptor: HttpInterceptorFn = (
         return _refreshing$.pipe(
           filter((refreshing) => !refreshing),
           switchMap(() => _refreshSuccess$),
-          filter((refreshSuccess) => {
-            return refreshSuccess !== null;
-          }),
+          filter((refreshSuccess) => refreshSuccess !== null),
           switchMap((refreshSuccess) => {
             if (refreshSuccess) {
               return handleRequest(req, next, authenticationService);

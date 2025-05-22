@@ -29,41 +29,43 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   isValid = model<boolean | null>(null);
   reload = output();
 
-  length = useAuthEnvironment().phoneVerificationNumberLength;
-  disabled = signal(false);
-  digits = signal(this.getDigitsArray());
-  input = computed(() =>
+  private readonly length = useAuthEnvironment().phoneVerificationNumberLength;
+  private readonly isTouched = signal(false);
+  private onChange: (value: string) => void = noop;
+  public onTouched: () => void = noop;
+
+  readonly disabled = signal(false);
+  readonly digits = signal(this.getDigitsArray());
+  readonly startTime = signal(this.timeSent());
+  readonly inputs = viewChildren(NumericTextBoxComponent);
+
+  readonly input = computed(() =>
     this.digits()
       .map((c) => c ?? '')
       .join(''),
   );
-  startTime = signal(this.timeSent());
-  state = computed<VerificationState>(() => {
+
+  readonly state = computed<VerificationState>(() => {
     if (this.isValid() === true) return 'valid';
     if (this.isValid() === false) return 'invalid';
     return 'default';
   });
 
-  isComplete = computed(() => {
+  readonly isComplete = computed(() => {
     return this.digits().every((digit) => digit !== null);
   });
 
-  isTouched = signal(false);
-  isInvalid = computed(() => (this.isTouched() && !this.isComplete()) || this.isValid() === false);
-  isDigitFilled = computed(() => {
+  readonly isInvalid = computed(() => (this.isTouched() && !this.isComplete()) || this.isValid() === false);
+
+  readonly isDigitFilled = computed(() => {
     return this.digits().map((digit) => digit !== null);
   });
 
-  isDigitInvalid = computed(() => {
+  readonly isDigitInvalid = computed(() => {
     return this.digits().map((_, index) => {
       return this.isTouched() && !this.isDigitFilled()[index];
     });
   });
-
-  private onChange: (value: string) => void = noop;
-  public onTouched: () => void = noop;
-
-  protected readonly inputs = viewChildren(NumericTextBoxComponent);
 
   constructor() {
     effect(() => {

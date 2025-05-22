@@ -1,25 +1,28 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, inject, viewChild, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { LabelComponent } from '@progress/kendo-angular-label';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormFieldModule, TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { passwordPatternValidator, vetIcons } from '@vet/shared';
+import { passwordMatchValidator, passwordPatternValidator, vetIcons } from '@vet/shared';
 import { AuthService } from '@vet/backend';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { DialogRef, DialogService } from '@progress/kendo-angular-dialog';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { RegistrationPhoneVerificationComponent } from '../registration/registration-phone-verification/registration-phone-verification.component';
+import { RegistrationPhoneVerificationComponent } from '@vet/auth';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { useAuthEnvironment } from '@vet/auth';
 
 @Component({
   selector: 'vet-password-reset',
@@ -41,31 +44,32 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordResetComponent {
-  vetIcons = vetIcons;
-  formGroup = this.createFormGroup();
-  successDialogContent = viewChild<TemplateRef<unknown>>('successDialogContent');
-  dialogRef: DialogRef | null = null;
-  isVerificationValid = signal<boolean | null>(null);
-
-  private readonly destroyRef = inject(DestroyRef);
   private readonly authService = inject(AuthService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly dialogService = inject(DialogService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
+  readonly vetIcons = vetIcons;
+  readonly isLoading = signal(false);
+  readonly isVerificationValid = signal<boolean | null>(null);
+  readonly dialogRef = signal<DialogRef | null>(null);
+  readonly successDialogContent = viewChild<TemplateRef<unknown>>('successDialogContent');
+  readonly formGroup = signal(this.createFormGroup());
+  readonly codeControl = computed(() => this.formGroup().get('code'));
 
   createFormGroup() {
-    return new FormGroup({
-      code: new FormControl('', Validators.required),
-      new_password: new FormControl('', [Validators.required, passwordPatternValidator]),
-      repeat_password: new FormControl(
-        '',
-        [
+    return new FormGroup(
+      {
+        code: new FormControl('', [
           Validators.required,
-          passwordPatternValidator,
-          this.passwordMatchValidator.bind(this)
-        ]
-      ),
-    });
+          Validators.minLength(useAuthEnvironment().phoneVerificationNumberLength),
+        ]),
+        new_password: new FormControl('', [Validators.required, passwordPatternValidator]),
+        repeat_password: new FormControl('', [Validators.required, passwordPatternValidator]),
+      },
+      { validators: passwordMatchValidator },
+    );
   }
 
   getPhoneMask() {
@@ -77,19 +81,14 @@ export class PasswordResetComponent {
     const pid = this.activatedRoute.snapshot.queryParams['pid'] ?? '';
 
     this.authService
-      .initForgetPassword({
-        pid: pid,
-        phone: phone,
-      })
+      .initForgetPassword({ pid, phone })
       .pipe(
         tap({
-          next: () =>
+          next: () => {
             this.router.navigate(['password/reset'], {
-              queryParams: {
-                pid,
-                phone,
-              },
-            }),
+              queryParams: { pid, phone },
+            });
+          },
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -97,16 +96,20 @@ export class PasswordResetComponent {
   }
 
   onSubmit() {
-    if (this.formGroup.invalid) {
-      this.formGroup.markAllAsTouched();
-      if (this.formGroup.get('code')?.invalid) {
+    const form = this.formGroup();
+    if (form.invalid) {
+      form.markAllAsTouched();
+      if (this.codeControl()?.invalid) {
         this.isVerificationValid.set(false);
       }
       return;
     }
 
-    const { code, new_password } = this.formGroup.value;
+    const { code, new_password } = form.value;
     const activateRouteSnapshot = this.activatedRoute.snapshot;
+
+    this.isLoading.set(true);
+
     this.authService
       .resetPassword({
         pid: activateRouteSnapshot.queryParams['pid'],
@@ -118,37 +121,28 @@ export class PasswordResetComponent {
         tap({
           next: () => {
             this.isVerificationValid.set(null);
-            this.dialogRef = this.dialogService.open({
+            const dialogRef = this.dialogService.open({
               content: this.successDialogContent(),
               cssClass: 'vet-password-reset-dialog',
             });
+            this.dialogRef.set(dialogRef);
           },
           error: (error) => {
             console.error('Failed to reset password:', error);
-          }
+            this.isVerificationValid.set(false);
+          },
         }),
+        finalize(() => this.isLoading.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
 
   onSuccessDialogClose() {
-    if (this.dialogRef) {
-      this.dialogRef.close();
+    const dialogRef = this.dialogRef();
+    if (dialogRef) {
+      dialogRef.close();
+      this.dialogRef.set(null);
     }
-  }
-
-  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const parent = control.parent;
-    const newPassword = parent?.get('new_password')?.value;
-    const confirmPassword = control.value;
-
-    if (!parent ||
-      confirmPassword.length <= 2 ||
-      confirmPassword.length === (newPassword?.length - 1) ||
-      confirmPassword === '' ||
-      control.errors?.['passwordPattern']) {
-      return null;
-    }
-    return newPassword === confirmPassword ? null : { passwordMismatch: true };
   }
 }

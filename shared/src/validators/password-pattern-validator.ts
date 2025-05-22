@@ -1,6 +1,6 @@
 import type { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function passwordPatternValidator(control: AbstractControl): { [key: string]: any } | null {
+export function passwordPatternValidator(control: AbstractControl): ValidationErrors | null {
   const patterns = [
     /.*[a-z]+.*/,
     /.*[A-Z]+.*/,
@@ -17,15 +17,23 @@ export function passwordPatternValidator(control: AbstractControl): { [key: stri
 
   return {
     passwordPattern: true,
-  }
+  };
 }
 
-
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  if (!control.value?.confirmPassword) {
+  const passwordControl = control.get('password') || control.get('new_password');
+  const confirmPasswordControl = control.get('confirmPassword') || control.get('repeat_password');
+
+  if (!passwordControl || !confirmPasswordControl) {
     return null;
   }
-  const password = control.get('password')?.value;
-  const confirmPassword = control.get('confirmPassword')?.value;
+
+  const password = passwordControl.value;
+  const confirmPassword = confirmPasswordControl.value;
+
+  if (!password || !confirmPassword) {
+    return null;
+  }
+
   return password === confirmPassword ? null : { passwordMismatch: true };
 };

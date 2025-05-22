@@ -1,11 +1,11 @@
 <form
-  [formGroup]="loginForm"
+  [formGroup]="loginForm()"
   (ngSubmit)="onSubmit()"
   class="k-display-flex k-flex-column k-gap-6 k-px-14 k-py-8 k-bg-white"
 >
   <kendo-label [text]="'auth.id_or_passport_number' | transloco">
     <kendo-textbox [clearButton]="true" formControlName="pid" />
-    @if (loginForm.controls['pid']; as control) {
+    @if (loginForm().controls['pid']; as control) {
       @if (!control.untouched || control.value) {
         @if (control.errors?.['required']) {
           <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
@@ -23,7 +23,7 @@
           }}</a>
         </ng-template>
       </kendo-textbox>
-      @if (loginForm.controls['password']; as control) {
+      @if (loginForm().controls['password']; as control) {
         @if (!control.untouched || control.value) {
           @if (control.errors?.['required']) {
             <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
@@ -46,9 +46,9 @@
         themeColor="primary"
         class="k-w-full"
         look="default"
-        [disabled]="isLoginLoading()"
+        [disabled]="isLoading()"
       >
-        @if (isLoginLoading()) {
+        @if (isLoading()) {
           <kendo-loader size="small" />
         }
         {{ 'auth.login' | transloco }}
@@ -58,7 +58,7 @@
     <a
       class="k-cursor-pointer k-text-base k-text-underline k-color-primary"
       [routerLink]="['/registration']"
-      [class.k-disabled]="isLoginLoading()"
+      [class.k-disabled]="isLoading()"
       >{{ 'auth.registration' | transloco }}</a
     >
   </div>

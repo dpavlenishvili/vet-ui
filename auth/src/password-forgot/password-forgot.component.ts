@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { LabelComponent } from '@progress/kendo-angular-label';
 import { ErrorComponent, TextBoxModule } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -6,11 +6,11 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@vet/backend';
-import { mobileNumberValidator, ToastModule } from '@vet/shared';
-import { tap } from 'rxjs';
+import { mobileNumberValidator, ToastModule, vetIcons } from '@vet/shared';
+import { finalize, tap } from 'rxjs';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { vetIcons } from '@vet/shared';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-password-forgot',
@@ -32,13 +32,13 @@ import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
   standalone: true,
 })
 export class PasswordForgotComponent {
-  formGroup = this.createFormGroup();
-  vetIcons = vetIcons;
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  readonly vetIcons = vetIcons;
+  readonly isLoading = signal(false);
+  readonly formGroup = signal(this.createFormGroup());
 
   createFormGroup() {
     return new FormGroup({
@@ -48,12 +48,15 @@ export class PasswordForgotComponent {
   }
 
   onSubmit() {
-    if (this.formGroup.invalid) {
-      this.formGroup.markAllAsTouched();
+    const form = this.formGroup();
+    if (form.invalid) {
+      form.markAllAsTouched();
       return;
     }
 
-    const { pid, phone } = this.formGroup.value;
+    const { pid, phone } = form.value;
+    this.isLoading.set(true);
+
     this.authService
       .initForgetPassword({
         pid: pid?.toString() ?? '',
@@ -61,14 +64,14 @@ export class PasswordForgotComponent {
       })
       .pipe(
         tap({
-          next: () =>
+          next: () => {
             this.router.navigate(['password/reset'], {
-              queryParams: {
-                pid,
-                phone,
-              },
-            }),
+              queryParams: { pid, phone },
+            });
+          },
         }),
+        finalize(() => this.isLoading.set(false)),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
