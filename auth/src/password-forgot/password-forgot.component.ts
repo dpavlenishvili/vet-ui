@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LabelComponent } from '@progress/kendo-angular-label';
-import { TextBoxModule } from '@progress/kendo-angular-inputs';
+import { ErrorComponent, TextBoxModule } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@vet/backend';
-import { ToastModule } from '@vet/shared';
+import { mobileNumberValidator, ToastModule } from '@vet/shared';
 import { tap } from 'rxjs';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { vetIcons } from '@vet/shared';
@@ -23,7 +23,8 @@ import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
     RouterLink,
     ToastModule,
     KENDO_SVGICON,
-    KENDO_TOOLTIP
+    KENDO_TOOLTIP,
+    ErrorComponent,
   ],
   templateUrl: './password-forgot.component.html',
   styleUrl: './password-forgot.component.scss',
@@ -41,13 +42,14 @@ export class PasswordForgotComponent {
 
   createFormGroup() {
     return new FormGroup({
-      pid: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
+      pid: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [Validators.required, mobileNumberValidator]),
     });
   }
 
   onSubmit() {
     if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
       return;
     }
 

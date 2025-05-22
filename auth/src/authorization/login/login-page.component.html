@@ -28,9 +28,6 @@
           @if (control.errors?.['required']) {
             <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
           }
-          @if (control.errors?.['passwordPattern']) {
-            <kendo-formerror>{{ 'shared.invalidPasswordPattern' | transloco }}</kendo-formerror>
-          }
         }
       }
     </kendo-label>

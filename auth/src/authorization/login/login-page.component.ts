@@ -14,7 +14,7 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { WA_SESSION_STORAGE } from '@ng-web-apis/common';
 import { CODE_2FA_SENT } from '../authorization.constants';
 import { useAuthEnvironment } from '@vet/auth';
-import { passwordPatternValidator, useAlert } from '@vet/shared';
+import { useAlert } from '@vet/shared';
 
 @Component({
   selector: 'vet-authorization-login',
@@ -27,7 +27,7 @@ export class LoginPageComponent implements OnInit {
 
   protected readonly loginForm = new FormGroup({
     pid: new FormControl('', Validators.required),
-    password: new FormControl('', [Validators.required, passwordPatternValidator]),
+    password: new FormControl('', Validators.required),
     remember: new FormControl(false),
   });
 

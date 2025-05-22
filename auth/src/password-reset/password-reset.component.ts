@@ -1,10 +1,17 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, inject, viewChild, signal } from '@angular/core';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { LabelComponent } from '@progress/kendo-angular-label';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { FormFieldModule, TextBoxComponent } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { vetIcons } from '@vet/shared';
+import { passwordPatternValidator, vetIcons } from '@vet/shared';
 import { AuthService } from '@vet/backend';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs';
@@ -38,6 +45,7 @@ export class PasswordResetComponent {
   formGroup = this.createFormGroup();
   successDialogContent = viewChild<TemplateRef<unknown>>('successDialogContent');
   dialogRef: DialogRef | null = null;
+  isVerificationValid = signal<boolean | null>(null);
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly authService = inject(AuthService);
@@ -48,23 +56,14 @@ export class PasswordResetComponent {
   createFormGroup() {
     return new FormGroup({
       code: new FormControl('', Validators.required),
-      new_password: new FormControl('', Validators.required),
+      new_password: new FormControl('', [Validators.required, passwordPatternValidator]),
       repeat_password: new FormControl(
         '',
-        Validators.compose([
+        [
           Validators.required,
-          (control) => {
-            const parent = control.parent;
-
-            if (parent && parent.value.new_password === control.value) {
-              return null;
-            }
-
-            return {
-              repeatPasswordInvalid: true,
-            };
-          },
-        ]),
+          passwordPatternValidator,
+          this.passwordMatchValidator.bind(this)
+        ]
       ),
     });
   }
@@ -99,6 +98,10 @@ export class PasswordResetComponent {
 
   onSubmit() {
     if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
+      if (this.formGroup.get('code')?.invalid) {
+        this.isVerificationValid.set(false);
+      }
       return;
     }
 
@@ -114,11 +117,15 @@ export class PasswordResetComponent {
       .pipe(
         tap({
           next: () => {
+            this.isVerificationValid.set(null);
             this.dialogRef = this.dialogService.open({
               content: this.successDialogContent(),
               cssClass: 'vet-password-reset-dialog',
             });
           },
+          error: (error) => {
+            console.error('Failed to reset password:', error);
+          }
         }),
       )
       .subscribe();
@@ -128,5 +135,20 @@ export class PasswordResetComponent {
     if (this.dialogRef) {
       this.dialogRef.close();
     }
+  }
+
+  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const parent = control.parent;
+    const newPassword = parent?.get('new_password')?.value;
+    const confirmPassword = control.value;
+
+    if (!parent ||
+      confirmPassword.length <= 2 ||
+      confirmPassword.length === (newPassword?.length - 1) ||
+      confirmPassword === '' ||
+      control.errors?.['passwordPattern']) {
+      return null;
+    }
+    return newPassword === confirmPassword ? null : { passwordMismatch: true };
   }
 }
