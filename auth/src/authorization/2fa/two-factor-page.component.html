@@ -31,9 +31,9 @@
         themeColor="primary"
         class="k-w-full"
         look="default"
-        [disabled]="isSubmitButtonDisabled()"
+        [disabled]="confirmationForm().invalid || isLoading()"
       >
-        @if (is2FaPending()) {
+        @if (isLoading()) {
           <kendo-loader size="small" />
         }
         {{ 'auth.login' | transloco }}
@@ -43,8 +43,8 @@
     <a
       class="k-cursor-pointer k-text-base k-text-underline k-color-primary"
       [routerLink]="['/registration']"
-      [class.k-disabled]="is2FaPending()"
-      >{{ 'auth.registration' | transloco }}</a
+      [class.k-disabled]="isLoading()"
+    >{{ 'auth.registration' | transloco }}</a
     >
   </div>
 </form>

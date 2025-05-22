@@ -30,6 +30,7 @@ export class RegistrationPhoneTimeoutComponent {
   timeoutSeconds = useAuthEnvironment().phoneVerificationNumberTimeoutSeconds;
   verificationCodeReloader = new Reloader();
   countdown$ = this.createCountdown();
+  timeoutExpired = output<void>();
 
   createCountdown() {
     return this.verificationCodeReloader.reloadable(() => {

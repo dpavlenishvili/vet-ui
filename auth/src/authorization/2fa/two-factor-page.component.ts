@@ -36,7 +36,6 @@ export class TwoFactorPageComponent {
 
   readonly vetIcons = vetIcons;
   readonly is2FaPending = signal(true);
-  readonly isSubmitButtonDisabled = signal(false);
   readonly isLoading = signal(false);
   readonly isValid = signal<boolean | null>(null);
   readonly errorMessage = signal<string | null>(null);
@@ -64,6 +63,8 @@ export class TwoFactorPageComponent {
   }
 
   resendCode() {
+    this.isValid.set(null);
+    this.errorMessage.set(null);
     this.smsService
       .sendSmsCode({ token: this.state.get2FaCredentials()?.token })
       .pipe(
@@ -81,6 +82,7 @@ export class TwoFactorPageComponent {
   onSubmit() {
     const form = this.confirmationForm();
     if (form.invalid) {
+      form.markAllAsTouched();
       this.isValid.set(false);
       return;
     }

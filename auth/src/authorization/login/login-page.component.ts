@@ -64,8 +64,8 @@ export class LoginPageComponent implements OnInit {
       return;
     }
 
-    const value = form.value;
-    this.submitUserPassword(value.pid as string, value.password as string);
+    const { pid, password } = form.value;
+    this.submitUserPassword(pid as string, password as string);
   }
 
   private submitUserPassword(pid: string, password: string) {

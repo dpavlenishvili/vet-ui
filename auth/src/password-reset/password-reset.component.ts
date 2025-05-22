@@ -19,10 +19,9 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, tap } from 'rxjs';
 import { DialogRef, DialogService } from '@progress/kendo-angular-dialog';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { RegistrationPhoneVerificationComponent } from '@vet/auth';
+import { RegistrationPhoneVerificationComponent, useAuthEnvironment } from '@vet/auth';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { useAuthEnvironment } from '@vet/auth';
 
 @Component({
   selector: 'vet-password-reset',
@@ -52,11 +51,12 @@ export class PasswordResetComponent {
 
   readonly vetIcons = vetIcons;
   readonly isLoading = signal(false);
-  readonly isVerificationValid = signal<boolean | null>(null);
   readonly dialogRef = signal<DialogRef | null>(null);
   readonly successDialogContent = viewChild<TemplateRef<unknown>>('successDialogContent');
   readonly formGroup = signal(this.createFormGroup());
   readonly codeControl = computed(() => this.formGroup().get('code'));
+  readonly isValid = signal<boolean | null>(null);
+  readonly errorMessage = signal<string | null>(null);
 
   createFormGroup() {
     return new FormGroup(
@@ -79,6 +79,8 @@ export class PasswordResetComponent {
   resendCode() {
     const phone = this.activatedRoute.snapshot.queryParams['phone'] ?? '';
     const pid = this.activatedRoute.snapshot.queryParams['pid'] ?? '';
+    this.isValid.set(null);
+    this.errorMessage.set(null);
 
     this.authService
       .initForgetPassword({ pid, phone })
@@ -88,6 +90,10 @@ export class PasswordResetComponent {
             this.router.navigate(['password/reset'], {
               queryParams: { pid, phone },
             });
+          },
+          error: (error) => {
+            this.isValid.set(false);
+            this.errorMessage.set(error.error.error.message);
           },
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -100,7 +106,8 @@ export class PasswordResetComponent {
     if (form.invalid) {
       form.markAllAsTouched();
       if (this.codeControl()?.invalid) {
-        this.isVerificationValid.set(false);
+        this.isValid.set(false);
+        this.errorMessage.set(null);
       }
       return;
     }
@@ -109,6 +116,8 @@ export class PasswordResetComponent {
     const activateRouteSnapshot = this.activatedRoute.snapshot;
 
     this.isLoading.set(true);
+    this.isValid.set(null);
+    this.errorMessage.set(null);
 
     this.authService
       .resetPassword({
@@ -120,7 +129,7 @@ export class PasswordResetComponent {
       .pipe(
         tap({
           next: () => {
-            this.isVerificationValid.set(null);
+            this.isValid.set(null);
             const dialogRef = this.dialogService.open({
               content: this.successDialogContent(),
               cssClass: 'vet-password-reset-dialog',
@@ -128,8 +137,8 @@ export class PasswordResetComponent {
             this.dialogRef.set(dialogRef);
           },
           error: (error) => {
-            console.error('Failed to reset password:', error);
-            this.isVerificationValid.set(false);
+            this.isValid.set(false);
+            this.errorMessage.set(error.error.error.message);
           },
         }),
         finalize(() => this.isLoading.set(false)),

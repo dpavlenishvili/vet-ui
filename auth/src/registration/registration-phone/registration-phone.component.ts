@@ -8,7 +8,6 @@ import {
   type OnInit,
   output,
   signal,
-  viewChild,
 } from '@angular/core';
 import { LabelComponent } from '@progress/kendo-angular-label';
 import { KENDO_INPUTS, TextBoxComponent } from '@progress/kendo-angular-inputs';
@@ -17,7 +16,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationPhoneVerificationComponent } from '@vet/auth';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, debounceTime, distinctUntilChanged, of, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, of, tap } from 'rxjs';
 import { SmsService } from '@vet/backend';
 import { Reloader, ToastModule } from '@vet/shared';
 
@@ -55,7 +54,6 @@ export class RegistrationPhoneComponent implements OnInit {
   isValid = signal<boolean | null>(null);
   errorMessage = signal<string | null>(null);
   verificationCodeReloader = new Reloader();
-  protected readonly verificationComponent = viewChild(RegistrationPhoneVerificationComponent);
 
   constructor(
     private destroyRef: DestroyRef,
@@ -110,9 +108,11 @@ export class RegistrationPhoneComponent implements OnInit {
             phone: form?.get('phoneNumber')?.value ?? '',
           })
           .pipe(
-            catchError((error) => {
-              console.error('Failed to send SMS verification code:', error);
-              return of({ status: false });
+            tap({
+              error: (error) => {
+                this.isValid.set(false);
+                this.errorMessage.set(error.error.error.message);
+              },
             }),
           );
       })
