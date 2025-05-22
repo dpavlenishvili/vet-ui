@@ -15,7 +15,7 @@
     <div class="filter-group filter-1">
       <div class="k-rounded-md k-border k-border-solid k-border-divider-light">
         <div class="k-display-flex k-justify-content-center k-align-items-center k-text-sm k-p-1.5 k-gap-2">
-          <img class="k-w-6 k-h-6" src="/assets/images/not-integrated.svg" alt="Integrated logo">
+          <img class="k-w-6 k-h-6" src="/assets/images/not-integrated.svg" alt="Integrated logo" />
           <p>{{ 'programs.integrated' | transloco }}</p>
           <kendo-switch
             formControlName="integrated"
@@ -30,7 +30,6 @@
 
   @if (isFilterExpanded()) {
     <div class="programs-additional-filters-container k-pb-5">
-
       <kendo-label [text]="'programs.region' | transloco">
         <kendo-dropdownlist
           [valuePrimitive]="true"
@@ -94,8 +93,8 @@
       [svgIcon]="isFilterExpanded() ? vetIcons.chevronUp : vetIcons.chevronDown"
       fillMode="outline"
       themeColor="primary"
-      (click)="onFilterExpandClick()">
-    </button>
+      (click)="onFilterExpandClick()"
+    ></button>
 
     <button
       size="large"
@@ -103,8 +102,8 @@
       [svgIcon]="vetIcons.xIcon"
       fillMode="outline"
       themeColor="primary"
-      (click)="clearFilters()">
-    </button>
+      (click)="clearFilters()"
+    ></button>
 
     <button
       size="large"
@@ -112,7 +111,8 @@
       [svgIcon]="kendoIcons.searchIcon"
       fillMode="solid"
       themeColor="primary"
-      (click)="onSubmit()">
+      (click)="onSubmit()"
+    >
       {{ 'programs.search' | transloco }}
     </button>
   </div>

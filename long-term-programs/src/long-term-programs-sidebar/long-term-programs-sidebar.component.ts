@@ -25,7 +25,7 @@ export interface LongTermProgramsSidebarMenuItem extends LongTermProgramsSidebar
   imports: [ButtonComponent, SVGIconComponent, RouterLink, TranslocoPipe, TooltipDirective],
   templateUrl: './long-term-programs-sidebar.component.html',
   styleUrl: './long-term-programs-sidebar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LongTermProgramsSidebarComponent {
   vetIcons = vetIcons;
@@ -48,7 +48,7 @@ export class LongTermProgramsSidebarComponent {
         {
           id: uuid(),
           text: 'programs.testingSchedule',
-          url: null,
+          url: 'exam-selection',
           isActive: false,
         },
         {

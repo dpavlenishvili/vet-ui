@@ -1,0 +1,97 @@
+<div class="main-container">
+  <vet-exam-selection-filters [numberOfRecords]="gridData().data.length" (filtersChange)="onFiltersChange($event)" />
+
+  <kendo-grid [data]="gridData().data" [loading]="schedules$.isLoading()">
+    <kendo-grid-column [title]="'programs.applicant_data' | transloco" [width]="200">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-flex-column k-gap-2">
+          <p>{{ item.user.name }}</p>
+          <p>{{ item.user.pid }}</p>
+          <vet-divider />
+          <div class="k-display-flex k-align-items-center">
+            <kendo-label class="k-text-sm" [for]="acceptance" [text]="'programs.got_acceptance' | transloco" />
+            <input type="checkbox" #acceptance />
+          </div>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [title]="'programs.selection_result' | transloco" [width]="500">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="selection-column">
+          @for (selection of item.selections; track $index) {
+            <div class="selection-column-content">
+              <p class="k-font-bold">{{ selection.selection.method.category }}</p>
+              <div class="k-display-flex k-gap-1">
+                <p class="k-font-bold">{{ 'programs.name' | transloco }}</p>
+                <p>{{ selection.selection.method.name }}</p>
+              </div>
+              <div class="k-display-flex k-gap-1">
+                <p class="k-font-bold">{{ 'programs.date_time' | transloco }}</p>
+                <p>{{ selection.start_at }}</p>
+              </div>
+              <div class="k-display-flex k-gap-1">
+                <p class="k-font-bold">{{ 'programs.result' | transloco }}</p>
+                <p>{{ selection.score }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [title]="'programs.status' | transloco" [width]="150">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-flex-column k-gap-2">
+          <div class="k-display-flex k-gap-1">
+            <p class="k-font-bold">{{ 'programs.ssm_status' | transloco }}</p>
+            <p>{{ item.rofficer ? ('shared.yes' | transloco) : ('shared.no' | transloco) }}</p>
+          </div>
+
+          <div class="k-display-flex k-gap-1">
+            <p class="k-font-bold">{{ 'programs.status' | transloco }}</p>
+            <p>{{ item.status }}</p>
+            <div kendoTooltip [tooltipWidth]="400">
+              <kendo-svg-icon
+                [title]="'programs.status_occupied_teritory_institution' | transloco"
+                [icon]="vetIcons.info"
+                class="k-mr-2"
+              />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [title]="'programs.other' | transloco" [width]="80">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-justify-content-between">
+          <button
+            kendoButton
+            [svgIcon]="vetIcons.calendarIcon"
+            fillMode="flat"
+            (click)="openSchedulesDialog(item, 'dates')"
+          ></button>
+          <button
+            kendoButton
+            [svgIcon]="vetIcons.editIcon"
+            fillMode="flat"
+            (click)="openSchedulesDialog(item, 'results')"
+          ></button>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+</div>
+
+@defer (when isSchedulesDialogOpen()) {
+  @if (isSchedulesDialogOpen()) {
+    <vet-exam-selection-dialog
+      (dialogClose)="closeSchedulesDialog()"
+      (reloadTableData)="reloadTableData()"
+      [selectionMethods]="selectionMethods"
+      [scheduleId]="selectedExamId"
+      [mode]="dialogMode()"
+    />
+  }
+}

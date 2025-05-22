@@ -38,7 +38,7 @@
       <kendo-grid-column [title]="'shared.status' | transloco" [width]="120">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.status.current }}
-          <br>
+          <br />
           {{ item.status.date | formatDateTime: { format: 'DD/MM/YYYY' } }}
         </ng-template>
       </kendo-grid-column>

@@ -27,16 +27,18 @@
               </div>
 
               @if (form.controls['spec_edu'].value) {
-                <vet-divider/>
+                <vet-divider />
 
                 <div
-                  class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base">
+                  class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base"
+                >
                   <div class="k-text-base k-color-body">
                     <b>{{ 'programs.ssm_contact_person_info' | transloco }}</b>
                   </div>
 
                   <div
-                    class="k-display-flex k-gap-4.5 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base">
+                    class="k-display-flex k-gap-4.5 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base"
+                  >
                     <div class="k-display-flex k-flex-column k-gap-4.5 k-flex-1">
                       <kendo-formfield>
                         <kendo-textbox
@@ -71,7 +73,6 @@
                     </div>
 
                     <div class="k-display-flex k-flex-column k-gap-4.5 k-flex-1">
-
                       <kendo-formfield>
                         <kendo-textbox
                           formControlName="e_lastname"
@@ -89,10 +90,7 @@
                       </kendo-formfield>
 
                       <kendo-formfield>
-                        <kendo-textbox
-                          [clearButton]="true"
-                          formControlName="e_phone"
-                        >
+                        <kendo-textbox [clearButton]="true" formControlName="e_phone">
                           <ng-template kendoTextBoxPrefixTemplate>
                             <span class="k-ml-2 k-color-black">+995</span>
                           </ng-template>
@@ -114,7 +112,8 @@
                 </div>
 
                 <div
-                  class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base">
+                  class="k-display-flex k-flex-column k-gap-4 k-flex-1 k-p-3.5 k-rounded-lg k-border k-border-solid k-border-divider-light k-text-base"
+                >
                   <div class="k-display-flex k-align-items-center k-gap-4.5">
                     <div class="k-text-base k-color-body">
                       <b>{{ 'programs.ssm_translator_requirement_question' | transloco }}</b>
@@ -164,7 +163,7 @@
                         form?.get('translate_select')?.invalid &&
                         !form?.get('translate_select')?.untouched &&
                         translateReq.checked
-                        ) {
+                      ) {
                         <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
                       }
                     </div>

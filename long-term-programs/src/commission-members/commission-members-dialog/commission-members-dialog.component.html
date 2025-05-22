@@ -9,11 +9,7 @@
             [placeholder]="'programs.id_passport_number' | transloco"
           />
 
-          <kendo-textbox
-            formControlName="name"
-            [size]="'large'"
-            [placeholder]="'programs.last_name' | transloco"
-          />
+          <kendo-textbox formControlName="name" [size]="'large'" [placeholder]="'programs.last_name' | transloco" />
         </div>
 
         <div class="k-display-flex k-align-self-end">
@@ -31,11 +27,7 @@
                 [placeholder]="'programs.first_name' | transloco"
               />
 
-              <kendo-textbox
-                formControlName="phone"
-                [size]="'large'"
-                [placeholder]="'programs.phone' | transloco"
-              />
+              <kendo-textbox formControlName="phone" [size]="'large'" [placeholder]="'programs.phone' | transloco" />
             </div>
 
             <div class="k-display-flex k-gap-4.5 k-flex-1">
@@ -57,7 +49,7 @@
         @if (isCommissionMembersGridVisible()) {
           <kendo-grid [data]="updatedCommissionMembers()">
             <ng-template kendoGridNoRecordsTemplate>
-              {{'programs.no_commission_members' | transloco}}
+              {{ 'programs.no_commission_members' | transloco }}
             </ng-template>
 
             <kendo-grid-column [title]="'programs.commission_members' | transloco">

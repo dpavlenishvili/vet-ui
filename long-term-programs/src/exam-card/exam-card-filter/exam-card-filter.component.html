@@ -6,19 +6,9 @@
       <kendo-textbox formControlName="pid" [placeholder]="'programs.pid' | transloco" />
     </form>
 
-    <button 
-      kendoButton 
-      type="secondary" 
-      [svgIcon]="vetIcons.xIcon" 
-      (click)="clearFilters()"
-    ></button>
-    
-    <button 
-      kendoButton 
-      themeColor="primary"
-      [svgIcon]="vetIcons.search" 
-      (click)="onSubmit()"
-    >
+    <button kendoButton type="secondary" [svgIcon]="vetIcons.xIcon" (click)="clearFilters()"></button>
+
+    <button kendoButton themeColor="primary" [svgIcon]="vetIcons.search" (click)="onSubmit()">
       {{ 'shared.search' | transloco }}
     </button>
   </div>

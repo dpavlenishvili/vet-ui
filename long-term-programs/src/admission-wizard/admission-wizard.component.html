@@ -17,11 +17,7 @@
       (activate)="onStepChange($event)"
     >
       <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
-        <div
-          kendoTooltip
-          [title]="!isExpanded() ? (step.label | transloco) : ''"
-          [position]="'right'"
-        >
+        <div kendoTooltip [title]="!isExpanded() ? (step.label | transloco) : ''" [position]="'right'">
           {{ index + 1 }}
         </div>
       </ng-template>

@@ -2,43 +2,27 @@
   @if (form(); as _form) {
     <div class="k-display-flex k-flex-column k-gap-10">
       <div>
-        <form
-          class="k-display-flex k-flex-column k-gap-10"
-          [formGroup]="_form"
-        >
+        <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="_form">
           <div class="k-display-flex k-flex-column k-gap-10">
             <div
               class="k-bg-divider-light k-border-b-solid k-border-white k-display-flex k-gap-6 k-p-4 k-rounded-lg k-w-full"
             >
-              <img
-                src="/assets/images/profile.png"
-                width="146"
-                height="120"
-                alt="Profile"
-              />
+              <img src="/assets/images/profile.png" width="146" height="120" alt="Profile" />
 
               <div class="k-display-flex k-flex-column k-gap-1 k-w-full">
-                <div
-                  class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full"
-                >
+                <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full">
                   <span>{{ 'programs.pid' | transloco }}:</span>
                   <span class="k-color-body-dark">{{ _user.pid }}</span>
                 </div>
-                <div
-                  class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full"
-                >
+                <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full">
                   <span>{{ 'programs.name_surname' | transloco }}:</span>
                   <span class="k-color-body-dark">{{ _user.name }}</span>
                 </div>
-                <div
-                  class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full"
-                >
+                <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full">
                   <span>{{ 'programs.mobile' | transloco }}:</span>
                   <span class="k-color-body-dark">{{ _user.phone }}</span>
                 </div>
-                <div
-                  class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full"
-                >
+                <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full">
                   <span>{{ 'programs.education' | transloco }}:</span>
                   <span class="k-color-body-dark">
                     {{ educationStatus.value()?.level }}
@@ -47,12 +31,8 @@
               </div>
             </div>
 
-            <div
-              class="k-border-divider-light k-border k-border-solid k-px-2 k-py-8 k-pos-relative k-rounded-lg"
-            >
-              <div
-                class="k-bg-white k-color-body k-pos-absolute k-p-2 k-text-md k-top-0 k-left-0 k-mt--5 k-ml-24"
-              >
+            <div class="k-border-divider-light k-border k-border-solid k-px-2 k-py-8 k-pos-relative k-rounded-lg">
+              <div class="k-bg-white k-color-body k-pos-absolute k-p-2 k-text-md k-top-0 k-left-0 k-mt--5 k-ml-24">
                 {{ 'programs.selected_programs' | transloco }}
               </div>
               <vet-admission-selected-programs
@@ -81,16 +61,8 @@
                 <div class="k-align-items-center k-display-flex k-gap-4">
                   @for (specialRequirement of specialRequirements(); track specialRequirement) {
                     <div class="k-align-items-center k-display-flex k-gap-2">
-                      <input
-                        kendoCheckBox
-                        type="checkbox"
-                        [checked]="true"
-                        [disabled]="true"
-                      />
-                      <kendo-label
-                        class="k-color-body-dark k-text-base"
-                        [text]="specialRequirement | transloco"
-                      />
+                      <input kendoCheckBox type="checkbox" [checked]="true" [disabled]="true" />
+                      <kendo-label class="k-color-body-dark k-text-base" [text]="specialRequirement | transloco" />
                     </div>
                   }
                 </div>
@@ -159,18 +131,14 @@
                         <b>{{ 'programs.ssm_person_requirement_info' | transloco }}</b>
                       </div>
 
-                      <div
-                        class="k-bg-white k-border-divider-light k-border k-border-solid k-p-2.5 k-rounded-lg"
-                      >
-                      <textarea
-                        class="k-outline-none k-border-none k-resize-y k-text-base k-w-full vet-ssm-textarea"
-                        [readOnly]="true"
-                        [value]="ssmForm.controls['spe_description'].value ?? ''"
-                      ></textarea>
+                      <div class="k-bg-white k-border-divider-light k-border k-border-solid k-p-2.5 k-rounded-lg">
+                        <textarea
+                          class="k-outline-none k-border-none k-resize-y k-text-base k-w-full vet-ssm-textarea"
+                          [readOnly]="true"
+                          [value]="ssmForm.controls['spe_description'].value ?? ''"
+                        ></textarea>
                         <div class="k-color-body-light k-display-flex k-justify-content-end k-text-xs">
-                          {{
-                            ssmForm.controls['spe_description'].value?.length ?? 0
-                          }}/{{ maxLengthOfRequirements }}
+                          {{ ssmForm.controls['spe_description'].value?.length ?? 0 }}/{{ maxLengthOfRequirements }}
                         </div>
                       </div>
                     </div>
@@ -246,13 +214,12 @@
             <div
               class="k-border-divider-light k-border-solid k-border k-color-body-dark k-display-flex k-flex-column k-gap-3 k-px-3.5 k-py-6 k-rounded-lg k-text-base"
             >
-              <div
-                class="k-border-b-solid k-display-flex k-gap-1 k-pb-3 k-text-base"
-              >
+              <div class="k-border-b-solid k-display-flex k-gap-1 k-pb-3 k-text-base">
                 {{
                   (ssmFormGroup()?.get('spec_edu')?.value
                     ? 'programs.ssm_disclaimer_summary'
-                    : 'programs.general_disclaimer_summary') | transloco
+                    : 'programs.general_disclaimer_summary'
+                  ) | transloco
                 }}
               </div>
 
@@ -261,7 +228,8 @@
                   {{
                     (ssmFormGroup()?.get('spec_edu')?.value
                       ? 'programs.ssm_disclaimer_documentation_title'
-                      : 'programs.general_disclaimer_documentation_title') | transloco
+                      : 'programs.general_disclaimer_documentation_title'
+                    ) | transloco
                   }}
                 </b>
               </div>
@@ -272,7 +240,8 @@
                     [innerHTML]="
                       (ssmFormGroup()?.get('spec_edu')?.value
                         ? 'programs.ssm_disclaimer_item_1'
-                        : 'programs.general_disclaimer_item_1') | transloco
+                        : 'programs.general_disclaimer_item_1'
+                      ) | transloco
                     "
                   ></li>
                   <li
@@ -280,7 +249,8 @@
                     [innerHTML]="
                       (ssmFormGroup()?.get('spec_edu')?.value
                         ? 'programs.ssm_disclaimer_item_2'
-                        : 'programs.general_disclaimer_item_2') | transloco
+                        : 'programs.general_disclaimer_item_2'
+                      ) | transloco
                     "
                   ></li>
                   <li
@@ -288,7 +258,8 @@
                     [innerHTML]="
                       (ssmFormGroup()?.get('spec_edu')?.value
                         ? 'programs.ssm_disclaimer_item_3'
-                        : 'programs.general_disclaimer_item_3') | transloco
+                        : 'programs.general_disclaimer_item_3'
+                      ) | transloco
                     "
                   ></li>
                   <li
@@ -296,7 +267,8 @@
                     [innerHTML]="
                       (ssmFormGroup()?.get('spec_edu')?.value
                         ? 'programs.ssm_disclaimer_item_4'
-                        : 'programs.general_disclaimer_item_4') | transloco
+                        : 'programs.general_disclaimer_item_4'
+                      ) | transloco
                     "
                   ></li>
                   <li
@@ -304,7 +276,8 @@
                     [innerHTML]="
                       (ssmFormGroup()?.get('spec_edu')?.value
                         ? 'programs.ssm_disclaimer_item_5'
-                        : 'programs.general_disclaimer_item_5') | transloco
+                        : 'programs.general_disclaimer_item_5'
+                      ) | transloco
                     "
                   ></li>
                 </ol>
@@ -324,20 +297,10 @@
             </button>
 
             <div class="k-align-items-center k-display-flex k-gap-5">
-              <button
-                kendoButton
-                themeColor="secondary"
-                type="button"
-                (click)="onPreviousClick()"
-              >
+              <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
                 {{ 'auth.previous' | transloco }}
               </button>
-              <button
-                kendoButton
-                themeColor="primary"
-                type="button"
-                (click)="onNextClick()"
-              >
+              <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
                 {{ 'programs.finish' | transloco }}
               </button>
             </div>

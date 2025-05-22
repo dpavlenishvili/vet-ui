@@ -145,12 +145,17 @@ export const longTermProgramsRoutes: Route[] = [
       },
       {
         path: 'exam-card',
-        loadComponent: () =>
-          import('./exam-card/exam-card.component').then((m) => m.ExamCardComponent),
+        loadComponent: () => import('./exam-card/exam-card.component').then((m) => m.ExamCardComponent),
+        pathMatch: 'full',
+        data: breadcrumb([...baseBreadcrumbItems, { path: '/long-programs/exam-card', text: 'programs.testingCard' }]),
+      },
+      {
+        path: 'exam-selection',
+        loadComponent: () => import('./exam-selection/exam-selection.component').then((m) => m.ExamSelectionComponent),
         pathMatch: 'full',
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/long-programs/exam-card', text: 'programs.testingCard' },
+          { path: '/long-programs/exam-selection', text: 'programs.examSelection' },
         ]),
       },
     ],

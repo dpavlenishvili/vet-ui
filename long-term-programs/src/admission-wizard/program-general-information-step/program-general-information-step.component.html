@@ -88,7 +88,7 @@
           @if (specEnvSwitch.checked) {
             <div class="checkbox-selection-container">
               <div class="k-mb-3 k-text-base">
-                {{ 'programs.please_select_your_requirement' | transloco}}
+                {{ 'programs.please_select_your_requirement' | transloco }}
               </div>
               <div class="k-d-flex k-gap-3 k-justify-content-between">
                 @for (specEnv of specEnvs(); track specEnv) {
@@ -110,7 +110,7 @@
                   !form?.get('spec_env')?.untouched &&
                   specEnvSwitch.checked &&
                   form?.get('spec_env')?.value?.length === 0
-                  ) {
+                ) {
                   <kendo-formerror>{{ 'shared.minOneFieldIsRequired' | transloco }}</kendo-formerror>
                 }
               </div>
@@ -133,7 +133,10 @@
               [disabled]="abroadSwitch.checked"
               #ocuSwitch
               (valueChange)="
-                toggleSwitcher($event, user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad')
+                toggleSwitcher(
+                  $event,
+                  user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad'
+                )
               "
               [checked]="isAbroadEnabled()"
             />
@@ -145,9 +148,11 @@
             <vet-file-upload
               [title]="'programs.uploadEducationDocument'"
               [uploadedFiles]="abroadDoc()?.getRawValue()"
-              [errorMessage]="!(abroadDoc()?.touched && abroadDoc()?.errors?.['required'])
-              ? null
-              : 'programs.uploadEducationDocument' | transloco"
+              [errorMessage]="
+                !(abroadDoc()?.touched && abroadDoc()?.errors?.['required'])
+                  ? null
+                  : ('programs.uploadEducationDocument' | transloco)
+              "
               (fileUploaded)="handleFileUpload($event, 'abroad_doc')"
               (fileRemoved)="handleRemoveFile($event, 'abroad_doc')"
             />
@@ -169,7 +174,10 @@
               [disabled]="ocuSwitch.checked"
               #abroadSwitch
               (valueChange)="
-                toggleSwitcher($event, user()?.residential === citizenship.Georgian ? 'ocu_doc' : 'complete_base_edu_abroad')
+                toggleSwitcher(
+                  $event,
+                  user()?.residential === citizenship.Georgian ? 'ocu_doc' : 'complete_base_edu_abroad'
+                )
               "
               [checked]="isOcuEnabled()"
             />
@@ -180,9 +188,11 @@
             </vet-info>
             <vet-file-upload
               [title]="'programs.uploadEducationDocument'"
-              [errorMessage]="!(ocuDoc()?.touched && ocuDoc()?.errors?.['required'])
-              ? null
-              : 'programs.uploadEducationDocument' | transloco"
+              [errorMessage]="
+                !(ocuDoc()?.touched && ocuDoc()?.errors?.['required'])
+                  ? null
+                  : ('programs.uploadEducationDocument' | transloco)
+              "
               [uploadedFiles]="ocuDoc()?.getRawValue()"
               (fileUploaded)="handleFileUpload($event, 'ocu_doc')"
               (fileRemoved)="handleRemoveFile($event, 'ocu_doc')"

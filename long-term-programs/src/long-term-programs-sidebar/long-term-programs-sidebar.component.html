@@ -1,7 +1,4 @@
-<div
-  class="sidebar-container"
-  [class.expanded]="isExpanded()"
->
+<div class="sidebar-container" [class.expanded]="isExpanded()">
   <div class="sidebar-menu-toggle-container">
     <button
       kendoButton
@@ -25,7 +22,7 @@
             <div class="sidebar-menu-item-content">
               <div class="sidebar-menu-item-content-left">
                 <div class="sidebar-menu-item-icon-container" [class.active]="item.isActive">
-                  <kendo-svg-icon [icon]="item.icon" class="medium"/>
+                  <kendo-svg-icon [icon]="item.icon" class="medium" />
                 </div>
 
                 @if (isExpanded()) {
@@ -42,10 +39,7 @@
             </div>
 
             @if (isExpanded()) {
-              <div
-                class="sidebar-menu-item-highlighter"
-                [class.active]="item.isActive && !item.isExpanded()"
-              ></div>
+              <div class="sidebar-menu-item-highlighter" [class.active]="item.isActive && !item.isExpanded()"></div>
             }
           </div>
         </a>

@@ -30,10 +30,12 @@ export class AdmissionsListAdminComponent {
   admissionList$ = rxResource({
     request: () => ({ role: this._userRolesService.selectedRole(), filters: this.filters() }),
     loader: ({ request: { role, filters } }) =>
-      this.admissionService.admissionList(filterEmptyValues({
-        role: role,
-        ...filters,
-      })),
+      this.admissionService.admissionList(
+        filterEmptyValues({
+          role: role,
+          ...filters,
+        }),
+      ),
   });
 
   router = inject(Router);

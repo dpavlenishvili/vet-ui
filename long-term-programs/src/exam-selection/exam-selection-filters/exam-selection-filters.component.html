@@ -1,0 +1,71 @@
+<form [formGroup]="filterForm">
+  <div class="filters-container">
+    <kendo-dropdownlist
+      [defaultItem]="{ name: 'programs.institution' | transloco, id: null }"
+      [textField]="'name'"
+      [valueField]="'id'"
+      [data]="organisationsRc$.value()"
+      formControlName="organisation"
+      [valuePrimitive]="true"
+    />
+
+    <kendo-dropdownlist
+      [defaultItem]="{ text: 'shared.program' | transloco, value: null }"
+      [textField]="'text'"
+      [valueField]="'value'"
+      formControlName="program"
+      [valuePrimitive]="true"
+    />
+
+    <kendo-textbox [placeholder]="'programs.pid' | transloco" formControlName="pid" />
+
+    <kendo-textbox [placeholder]="'programs.fullname' | transloco" formControlName="fullname" />
+
+    <div class="k-display-flex k-gap-2 k-justify-content-start">
+      <p>{{ 'programs.ssm_status' | transloco }}</p>
+      <kendo-switch size="small" />
+    </div>
+
+    <div class="k-display-flex k-gap-2 k-justify-content-start k-align-items-center">
+      <kendo-svg-icon
+        [icon]="vetIcons.info"
+        kendoPopoverAnchor
+        #anchor="kendoPopoverAnchor"
+        [popover]="detailsPopover"
+        showOn="hover"
+      />
+      <kendo-popover #detailsPopover position="top" class="k-bg-primary">
+        <ng-template kendoPopoverBodyTemplate>
+          <div class="k-display-flex k-flex-column k-text-base k-color-hint">
+            <p>
+              {{ 'programs.status_conditions' | transloco }}
+            </p>
+
+            <ul class="k-ml-5">
+              <li>
+                {{ 'programs.status_foreign_citizen' | transloco }}
+              </li>
+              <li>{{ 'programs.status_refugee' | transloco }}</li>
+              <li>{{ 'programs.status_foreign_institution' | transloco }}</li>
+              <li>{{ 'programs.status_occupied_teritory_institution' | transloco }}</li>
+            </ul>
+          </div>
+        </ng-template>
+      </kendo-popover>
+      <p>{{ 'programs.status' | transloco }}</p>
+      <kendo-switch size="small" />
+    </div>
+  </div>
+
+  <div class="k-display-flex k-justify-content-between k-align-items-center k-pt-5">
+    <p>{{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}</p>
+
+    <div class="k-display-flex k-justify-content-end k-gap-2">
+      <button kendoButton type="secondary" [svgIcon]="vetIcons.xIcon" (click)="clearFilters()"></button>
+
+      <button kendoButton themeColor="primary" [svgIcon]="vetIcons.search" (click)="onSubmit()">
+        {{ 'shared.search' | transloco }}
+      </button>
+    </div>
+  </div>
+</form>

@@ -7,6 +7,6 @@ import { LongTermProgramsSidebarComponent } from '../long-term-programs-sidebar/
   imports: [RouterOutlet, LongTermProgramsSidebarComponent],
   templateUrl: './long-term-programs-sidebar-layout.component.html',
   styleUrl: './long-term-programs-sidebar-layout.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LongTermProgramsSidebarLayoutComponent {}
