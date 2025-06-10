@@ -1,3 +1,15 @@
 :host {
   display: block;
+
+  .radio-buttons-container {
+    @media (max-width: 767px) {
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      gap: 2.5rem;
+    }
+  }
 }

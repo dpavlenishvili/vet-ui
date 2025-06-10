@@ -1,0 +1,109 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-shorts-card {
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.vet-shorts-card-header {
+  display: flex;
+  gap: 20px;
+  padding: 1.25rem 1.25rem 0;
+}
+
+.vet-shorts-card-icon {
+  width: 3.75rem;
+  height: 3.75rem;
+}
+
+.vet-shorts-card-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.vet-shorts-card-title {
+  @include shared.text-md();
+  color: shared.$kendo-color-body-extra-dark;
+}
+
+.vet-shorts-card-subtitle {
+  @include shared.text-base();
+  color: shared.$kendo-color-hint;
+}
+
+.vet-shorts-card-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.9375rem;
+  padding: 0 1.25rem;
+}
+
+.vet-shorts-card-detail-item {
+  @include shared.text-base();
+  width: 8.5rem;
+  height: 2.75rem;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  border-radius: 0.625rem;
+  border: 0.5px solid shared.$kendo-color-divider-light;
+  text-align: center;
+  line-height: 100%;
+  color: shared.$kendo-color-body;
+}
+
+.vet-shorts-card-field-container {
+  @include shared.text-base();
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: shared.$kendo-color-chip;
+  margin-top: 1.5625rem;
+  padding: 0.875rem 0.75rem;
+  line-height: 100%;
+
+  span {
+    color: shared.$kendo-color-body;
+  }
+
+  b {
+    color: shared.$kendo-color-body-dark;
+  }
+}
+
+.vet-shorts-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.875rem 1.25rem 0.3125rem;
+}
+
+.vet-shorts-card-location {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.vet-shorts-card-address {
+  @include shared.text-sm();
+  line-height: 100%;
+  color: shared.$kendo-color-body;
+}
+
+.vet-shorts-card-link {
+  @include shared.text-sm();
+  line-height: 100%;
+  color: shared.$kendo-color-primary;
+}

@@ -1,0 +1,152 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="vet-shorts-filters">
+    <div class="vet-shorts-filters-grid">
+      <div class="vet-shorts-filters-grid">
+        <div class="vet-shorts-filters-grid">
+          <kendo-textbox
+            class="vet-filter-input"
+            formControlName="search"
+            [placeholder]="'shorts.search' | transloco"
+          >
+            <ng-template kendoTextBoxSuffixTemplate>
+              <kendo-svg-icon
+                class="vet-filter-input-icon"
+                [icon]="vetIcons.search"
+              />
+            </ng-template>
+          </kendo-textbox>
+        </div>
+
+        @if (!isExpanded()) {
+          <div class="vet-shorts-filters-grid-spacer">
+            <ng-container *ngTemplateOutlet="buttons"/>
+          </div>
+        }
+      </div>
+
+      @if (isExpanded()) {
+        <div class="vet-shorts-filters-grid">
+          <kendo-textbox
+            class="vet-filter-input"
+            formControlName="program_name"
+            [placeholder]="'shorts.program_code_name' | transloco"
+          />
+
+          <vet-selector
+            class="vet-filter-input"
+            formControlName="field"
+            [placeholder]="'shorts.field' | transloco"
+          />
+        </div>
+      }
+    </div>
+
+    @if (isExpanded()) {
+      <div class="vet-shorts-filters-grid">
+        <div class="vet-shorts-filters-grid">
+          <vet-selector
+            class="vet-filter-input"
+            formControlName="region"
+            [placeholder]="'shorts.region' | transloco"
+            [options]="regionOptions()!"
+          />
+
+          <vet-selector
+            class="vet-filter-input"
+            formControlName="district"
+            [placeholder]="'shorts.district' | transloco"
+            [options]="districtOptions()!"
+          />
+        </div>
+
+        <div class="vet-shorts-filters-grid">
+          <vet-selector
+            class="vet-filter-input"
+            formControlName="organisation"
+            [placeholder]="'shorts.institution_name' | transloco"
+            [options]="institutionOptions()!"
+          />
+        </div>
+      </div>
+
+      <div class="vet-shorts-filters-grid">
+        <div class="vet-shorts-filters-grid">
+          <div class="vet-shorts-filters-grid">
+            <vet-selector
+              class="vet-filter-input"
+              formControlName="program_kind"
+              [placeholder]="'shorts.program_kind' | transloco"
+              [options]="programKindOptions()!"
+            />
+          </div>
+
+          <div class="vet-shorts-filters-grid">
+            <div class="vet-shorts-filters-grid">
+              <vet-switch
+                formControlName="current"
+                [label]="'shorts.current' | transloco"
+              />
+            </div>
+
+            <div class="vet-shorts-filters-grid">
+              <vet-switch
+                formControlName="planned"
+                [label]="'shorts.planned' | transloco"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="vet-shorts-filters-grid">
+          <div class="vet-shorts-filters-grid"></div>
+          <ng-container *ngTemplateOutlet="buttons"/>
+        </div>
+      </div>
+    }
+  </div>
+</form>
+
+<ng-template #buttons>
+  <div class="vet-shorts-filters-grid dense end">
+    @let toggleBtnIcon = isExpanded() ? vetIcons.arrowUp : vetIcons.arrowDown;
+    <button
+      kendoButton
+      class="vet-filter-button"
+      [svgIcon]="toggleBtnIcon"
+      fillMode="outline"
+      themeColor="primary"
+      type="button"
+      (click)="onToggleExpansion()"
+    ></button>
+
+    <button
+      kendoButton
+      class="vet-filter-button"
+      [svgIcon]="vetIcons.tweaker"
+      fillMode="outline"
+      themeColor="primary"
+      type="button"
+    ></button>
+
+    <button
+      kendoButton
+      class="vet-filter-button vet-filter-button-small"
+      [svgIcon]="vetIcons.close"
+      fillMode="outline"
+      themeColor="primary"
+      type="button"
+      (click)="onClearClick()"
+    ></button>
+
+    <button
+      kendoButton
+      class="vet-filter-button"
+      [svgIcon]="vetIcons.search"
+      fillMode="solid"
+      themeColor="primary"
+      type="submit"
+    >
+      {{ 'programs.search' | transloco }}
+    </button>
+  </div>
+</ng-template>

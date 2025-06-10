@@ -18,7 +18,7 @@ export default async function (options: SyncExecutorSchema, executorContext: Exe
       return acc;
     }
     Object.values(pathContent).forEach((methodSpecs) => {
-      methodSpecs.operationId = methodSpecs.operationId.replace(/\d+$/, '');
+      methodSpecs.operationId = methodSpecs.operationId.replace(/^\d+/, '');
     });
     if (paramRegex.test(path)) {
       path = path.replace(paramRegex, (match) => {

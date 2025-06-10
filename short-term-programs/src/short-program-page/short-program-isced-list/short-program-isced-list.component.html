@@ -1,0 +1,20 @@
+@let _iscedList = iscedList();
+
+<div class="vet-short-data-section">
+  <div class="k-display-flex k-align-items-center k-gap-2.5">
+    <kendo-svg-icon [icon]="vetIcons.briefcase"></kendo-svg-icon>
+    <span class="vet-short-data-section-title">{{ 'shorts.employment_field' | transloco }}</span>
+  </div>
+
+  <div class="vet-short-data-section-content dimmed">
+    @if (_iscedList?.length) {
+      @for (item of _iscedList; track $index) {
+        <div>{{ item }}</div>
+      }
+    } @else {
+      <div class="k-text-center k-text-base">
+        {{ 'shorts.no_isced_found' | transloco }}
+      </div>
+    }
+  </div>
+</div>

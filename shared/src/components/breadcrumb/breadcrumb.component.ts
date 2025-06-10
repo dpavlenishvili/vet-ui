@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, runInInjectionContext } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { BreadCrumbModule } from '@progress/kendo-angular-navigation';
 import { ActivatedRoute, ActivationEnd, NavigationEnd, Router, RouterLink } from '@angular/router';
@@ -18,6 +18,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
   standalone: true,
 })
 export class BreadcrumbComponent {
+  injector = inject(Injector);
   showTooltipTextSizeThreshold = 34;
   breadcrumbItems$: Observable<ResolvedBreadCrumbItem[]>;
   kendoIcons = kendoIcons;
@@ -33,15 +34,24 @@ export class BreadcrumbComponent {
       map((items: Array<AppBreadCrumbItem>) => {
         const params = collectParams(this.activatedRoute);
 
-        return items.map(
-          (item) =>
-            ({
-              path: item['path']
+        return runInInjectionContext(this.injector, () => {
+          return items.map((item) => {
+            const path = typeof item['path'] === 'function'
+              ? item['path'](this.activatedRoute.snapshot, params)
+              : item['path'];
+
+            const text = typeof item['text'] === 'function'
+              ? item['text'](this.activatedRoute.snapshot, params)
+              : item['text'];
+
+            return {
+              path: path
                 ?.split('/')
                 .map((segment) => (segment.startsWith(':') ? (params[segment.slice(1)] ?? '') : segment)),
-              text: typeof item['text'] === 'function' ? item['text'](this.activatedRoute.snapshot) : item['text'],
-            }) as ResolvedBreadCrumbItem,
-        );
+              text,
+            } as ResolvedBreadCrumbItem;
+          });
+        });
       }),
     );
   }

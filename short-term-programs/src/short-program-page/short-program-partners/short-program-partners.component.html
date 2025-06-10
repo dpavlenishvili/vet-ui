@@ -1,0 +1,30 @@
+@let _partners = partners();
+
+<div class="k-pos-relative k-mt-15 k-border-solid k-border-secondary k-p-5 k-pt-8">
+  <div class="k-pos-absolute k-top-0 k-left-14 k-mt--7.5 k-ml-14 k-bg-white k-p-5 vet-text-sm">
+    <strong>{{ 'shorts.partner_organizations' | transloco }}</strong>
+  </div>
+
+  @if (_partners?.length) {
+    <div class="vet-grid-table vet-grid-size-3">
+      <div class="vet-grid-cell vet-grid-header">{{ 'shorts.partner_organization' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-header">{{ 'shorts.organization_size' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-header">{{ 'shorts.economic_sector' | transloco }}</div>
+
+      @if (_partners?.length) {
+        @for (partner of _partners; track partner.id) {
+          <div class="vet-grid-cell">{{ partner.name }}</div>
+          <div class="vet-grid-cell">
+            <kendo-svg-icon [icon]="vetIcons.info" class="k-color-body-light" />
+            <span class="k-ml-2">{{ partner.size }}</span>
+          </div>
+          <div class="vet-grid-cell">{{ partner.sector }}</div>
+        }
+      }
+    </div>
+  } @else {
+    <div class="k-text-center k-text-base">
+      {{ 'shorts.no_partners_found' | transloco }}
+    </div>
+  }
+</div>

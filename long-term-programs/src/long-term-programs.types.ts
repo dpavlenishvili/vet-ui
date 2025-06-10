@@ -1,5 +1,5 @@
-import {FormGroup} from '@angular/forms';
-import {TemplateRef} from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { TemplateRef } from '@angular/core';
 
 export interface Criteria {
   id?: number | undefined;

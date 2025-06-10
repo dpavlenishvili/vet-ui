@@ -1,96 +1,184 @@
-<div class="vet-registration k-d-flex k-gap-4">
-  <div class="stepper-container" [class.expanded]="isExpanded()">
-    <div class="sidebar-menu-toggle-container">
-      <button
-        kendoButton
-        [svgIcon]="isExpanded() ? vetIcons.chevronLeft : vetIcons.chevronRight"
-        class="sidebar-menu-toggle"
-        (click)="onToggleExpansion()"
-      ></button>
+<!-- Mobile Layout -->
+@if (isMobile()) {
+  <div class="vet-registration-mobile">
+    <!-- Mobile stepper at top -->
+    <div class="mobile-stepper-container">
+      <kendo-stepper
+        [(currentStep)]="currentStepIndex"
+        [steps]="steps"
+        [stepType]="'indicator'"
+        [orientation]="stepperOrientation()"
+        (activate)="onStepChange($event)"
+      >
+        <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
+          <div>{{ index + 1 }}</div>
+        </ng-template>
+      </kendo-stepper>
     </div>
 
-    <kendo-stepper
-      [(currentStep)]="currentStepIndex"
-      [steps]="steps"
-      [stepType]="'full'"
-      [orientation]="'vertical'"
-      (activate)="onStepChange($event)"
-    >
-      <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
-        <div kendoTooltip [title]="!isExpanded() ? (step.label | transloco) : ''" [position]="'right'">
-          {{ index + 1 }}
-        </div>
-      </ng-template>
+    <!-- Mobile content -->
+    <div class="mobile-content-container">
+      <div class="k-display-flex k-gap-7.5 k-flex-column">
+        @if (steps[currentStepIndex]; as currentStep) {
+          <div class="k-text-md k-color-body">{{ currentStep.title | transloco }}</div>
 
-      <ng-template kendoStepperLabelTemplate let-step>
-        @if (isExpanded()) {
-          {{ step.label | transloco }}
-        }
-      </ng-template>
-    </kendo-stepper>
-  </div>
-  <div class="step-content-container">
-    <div class="k-display-flex k-gap-7.5 k-flex-column">
-      @if (steps[currentStepIndex]; as currentStep) {
-        <div class="k-text-md k-color-body">{{ currentStep.title | transloco }}</div>
-
-        @switch (currentStepIndex) {
-          @case (0) {
-            <vet-registration-citizenship
-              [form]="formGroup.controls.chooseCitizenship"
-              (nextClick)="onNextClick()"
-              (resetForm)="onResetForm($event)"
-            />
-          }
-          @case (1) {
-            @switch (citizenship) {
-              @case (CitizenshipType.Georgian) {
-                <vet-registration-identity-citizen
-                  [generalForm]="formGroup"
-                  [identityForm]="formGroup.controls.checkIdentity"
-                  [isPersonVerified]="personVerified()"
-                  (previousClick)="onPreviousClick()"
-                  (nextClick)="onNextClick()"
-                  (personVerificationChange)="setPersonVerified($event)"
-                />
-              }
-              @case (CitizenshipType.Foreigner) {
-                <vet-registration-identity-foreigner
-                  [generalForm]="formGroup"
-                  [identityForm]="formGroup.controls.checkIdentityForeigner"
-                  (previousClick)="onPreviousClick()"
-                  (nextClick)="onNextClick()"
-                  (personVerificationChange)="setPersonVerified($event)"
-                  (switchToGeorgianCitizenship)="handleSwitchToGeorgianCitizenship($event)"
-                />
+          @switch (currentStepIndex) {
+            @case (0) {
+              <vet-registration-citizenship
+                [form]="formGroup.controls.chooseCitizenship"
+                (nextClick)="onNextClick()"
+                (resetForm)="onResetForm($event)"
+              />
+            }
+            @case (1) {
+              @switch (citizenship) {
+                @case (CitizenshipType.Georgian) {
+                  <vet-registration-identity-citizen
+                    [generalForm]="formGroup"
+                    [identityForm]="formGroup.controls.checkIdentity"
+                    [isPersonVerified]="personVerified()"
+                    (previousClick)="onPreviousClick()"
+                    (nextClick)="onNextClick()"
+                    (personVerificationChange)="setPersonVerified($event)"
+                  />
+                }
+                @case (CitizenshipType.Foreigner) {
+                  <vet-registration-identity-foreigner
+                    [generalForm]="formGroup"
+                    [identityForm]="formGroup.controls.checkIdentityForeigner"
+                    (previousClick)="onPreviousClick()"
+                    (nextClick)="onNextClick()"
+                    (personVerificationChange)="setPersonVerified($event)"
+                    (switchToGeorgianCitizenship)="handleSwitchToGeorgianCitizenship($event)"
+                  />
+                }
               }
             }
-          }
-          @case (2) {
-            <vet-registration-phone
-              [form]="formGroup.controls.phone"
-              [isPhoneVerified]="phoneVerified()"
-              (previousClick)="onPreviousClick()"
-              (nextClick)="onNextClick()"
-              (phoneVerificationChange)="setPhoneVerified($event)"
-            />
-          }
-          @case (3) {
-            <vet-registration-password-create
-              [form]="formGroup.controls.passwords"
-              (previousClick)="onPreviousClick()"
-              (nextClick)="onNextClick()"
-            />
-          }
-          @case (4) {
-            <vet-registration-terms-and-conditions
-              [form]="formGroup.controls.termsAndConditions"
-              (previousClick)="onPreviousClick()"
-              (nextClick)="onNextClick()"
-            />
+            @case (2) {
+              <vet-registration-phone
+                [form]="formGroup.controls.phone"
+                [isPhoneVerified]="phoneVerified()"
+                (previousClick)="onPreviousClick()"
+                (nextClick)="onNextClick()"
+                (phoneVerificationChange)="setPhoneVerified($event)"
+              />
+            }
+            @case (3) {
+              <vet-registration-password-create
+                [form]="formGroup.controls.passwords"
+                (previousClick)="onPreviousClick()"
+                (nextClick)="onNextClick()"
+              />
+            }
+            @case (4) {
+              <vet-registration-terms-and-conditions
+                [form]="formGroup.controls.termsAndConditions"
+                (previousClick)="onPreviousClick()"
+                (nextClick)="onNextClick()"
+              />
+            }
           }
         }
-      }
+      </div>
     </div>
   </div>
-</div>
+} @else {
+  <!-- Desktop/Tablet Layout -->
+  <div class="vet-registration k-d-flex k-gap-4">
+    <div class="stepper-container" [class.expanded]="isExpanded()">
+      <div class="sidebar-menu-toggle-container">
+        <button
+          kendoButton
+          [svgIcon]="isExpanded() ? vetIcons.chevronLeft : vetIcons.chevronRight"
+          class="sidebar-menu-toggle"
+          (click)="onToggleExpansion()"
+        ></button>
+      </div>
+
+      <kendo-stepper
+        [(currentStep)]="currentStepIndex"
+        [steps]="steps"
+        [stepType]="'full'"
+        [orientation]="stepperOrientation()"
+        (activate)="onStepChange($event)"
+      >
+        <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
+          <div kendoTooltip [title]="!isExpanded() ? (step.label | transloco) : ''" [position]="'right'">
+            {{ index + 1 }}
+          </div>
+        </ng-template>
+
+        <ng-template kendoStepperLabelTemplate let-step>
+          @if (isExpanded()) {
+            {{ step.label | transloco }}
+          }
+        </ng-template>
+      </kendo-stepper>
+    </div>
+
+    <div class="step-content-container">
+      <div class="k-display-flex k-gap-7.5 k-flex-column">
+        @if (steps[currentStepIndex]; as currentStep) {
+          <div class="k-text-md k-color-body">{{ currentStep.title | transloco }}</div>
+
+          @switch (currentStepIndex) {
+            @case (0) {
+              <vet-registration-citizenship
+                [form]="formGroup.controls.chooseCitizenship"
+                (nextClick)="onNextClick()"
+                (resetForm)="onResetForm($event)"
+              />
+            }
+            @case (1) {
+              @switch (citizenship) {
+                @case (CitizenshipType.Georgian) {
+                  <vet-registration-identity-citizen
+                    [generalForm]="formGroup"
+                    [identityForm]="formGroup.controls.checkIdentity"
+                    [isPersonVerified]="personVerified()"
+                    (previousClick)="onPreviousClick()"
+                    (nextClick)="onNextClick()"
+                    (personVerificationChange)="setPersonVerified($event)"
+                  />
+                }
+                @case (CitizenshipType.Foreigner) {
+                  <vet-registration-identity-foreigner
+                    [generalForm]="formGroup"
+                    [identityForm]="formGroup.controls.checkIdentityForeigner"
+                    (previousClick)="onPreviousClick()"
+                    (nextClick)="onNextClick()"
+                    (personVerificationChange)="setPersonVerified($event)"
+                    (switchToGeorgianCitizenship)="handleSwitchToGeorgianCitizenship($event)"
+                  />
+                }
+              }
+            }
+            @case (2) {
+              <vet-registration-phone
+                [form]="formGroup.controls.phone"
+                [isPhoneVerified]="phoneVerified()"
+                (previousClick)="onPreviousClick()"
+                (nextClick)="onNextClick()"
+                (phoneVerificationChange)="setPhoneVerified($event)"
+              />
+            }
+            @case (3) {
+              <vet-registration-password-create
+                [form]="formGroup.controls.passwords"
+                (previousClick)="onPreviousClick()"
+                (nextClick)="onNextClick()"
+              />
+            }
+            @case (4) {
+              <vet-registration-terms-and-conditions
+                [form]="formGroup.controls.termsAndConditions"
+                (previousClick)="onPreviousClick()"
+                (nextClick)="onNextClick()"
+              />
+            }
+          }
+        }
+      </div>
+    </div>
+  </div>
+}

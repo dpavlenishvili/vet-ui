@@ -1,0 +1,17 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-shorts {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.vet-shorts-filters {
+  padding: 1.25rem 1rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+}

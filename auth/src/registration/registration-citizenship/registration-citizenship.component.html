@@ -1,44 +1,40 @@
 @if (form(); as form) {
-  <div class="k-display-flex k-gap-10 k-flex-column">
-    <div>
-      <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
-        <div class="k-formfield-wrap">
-          <div class="k-display-flex k-gap-10">
-            <div class="k-display-flex k-align-items-center k-gap-3">
-              <kendo-radiobutton
-                #georgian
-                formControlName="citizenship"
-                [value]="citizenship.Georgian"
-                (checkedChange)="onRadioChange($event, citizenship.Georgian)"
-              />
-              <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco" />
-            </div>
-
-            <div class="k-display-flex k-align-items-center k-gap-3">
-              <kendo-radiobutton
-                #foreigner
-                formControlName="citizenship"
-                [value]="citizenship.Foreigner"
-                (checkedChange)="onRadioChange($event, citizenship.Foreigner)"
-              />
-              <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco" />
-            </div>
-          </div>
-
-          @if (isWarningVisible()) {
-            <kendo-formerror class="k-display-flex k-gap-2 k-align-items-center">
-              <kendo-svg-icon [icon]="kendoIcons.warningCircleIcon" [size]="'small'" />
-              <span>{{ 'auth.choose_one' | transloco }}</span>
-            </kendo-formerror>
-          }
+  <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
+    <div class="k-formfield-wrap">
+      <div class="k-display-flex radio-buttons-container">
+        <div class="k-display-flex k-gap-3">
+          <kendo-radiobutton
+            #georgian
+            formControlName="citizenship"
+            [value]="citizenship.Georgian"
+            (checkedChange)="onRadioChange($event, citizenship.Georgian)"
+          />
+          <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco" />
         </div>
 
-        <div class="k-display-flex k-justify-content-end">
-          <button kendoButton themeColor="primary" (click)="onNextClick()">
-            {{ 'auth.next' | transloco }}
-          </button>
+        <div class="k-display-flex k-gap-3">
+          <kendo-radiobutton
+            #foreigner
+            formControlName="citizenship"
+            [value]="citizenship.Foreigner"
+            (checkedChange)="onRadioChange($event, citizenship.Foreigner)"
+          />
+          <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco" />
         </div>
-      </form>
+      </div>
+
+      @if (isWarningVisible()) {
+        <kendo-formerror class="k-display-flex k-gap-2 k-align-items-center">
+          <kendo-svg-icon [icon]="kendoIcons.warningCircleIcon" [size]="'small'" />
+          <span>{{ 'auth.choose_one' | transloco }}</span>
+        </kendo-formerror>
+      }
     </div>
-  </div>
+
+    <div class="k-display-flex k-justify-content-end">
+      <button kendoButton themeColor="primary" (click)="onNextClick()">
+        {{ 'auth.next' | transloco }}
+      </button>
+    </div>
+  </form>
 }

@@ -1,22 +1,50 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
+}
 
-  .container {
+.vet-exam-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+  width: 100%;
+}
+
+.vet-exam-card-warning {
+  border-radius: 0.625rem;
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vet-exam-card {
+  background-color: shared.$kendo-color-chip;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 0.625rem;
+
+  .vet-exam-card-info {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    justify-content: flex-start;
-    padding: 1rem;
-    background-color: white;
-    border-radius: 1.25rem;
     width: 100%;
-  }
 
-  .warning-container {
-    border-radius: 0.625rem;
-    display: flex;
-    padding: 1rem;
-    flex-direction: column;
-    gap: 1.5rem;
+    .vet-exam-card-info-row {
+      display: flex;
+      padding: 1rem;
+      border-bottom: 2px solid shared.$white;
+    }
+
+    p {
+      width: 50%;
+      color: shared.$kendo-color-body-dark;
+    }
   }
 }

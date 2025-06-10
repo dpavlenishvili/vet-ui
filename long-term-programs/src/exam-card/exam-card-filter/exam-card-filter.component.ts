@@ -1,11 +1,11 @@
-import {vetIcons} from '@vet/shared';
-import {ChangeDetectionStrategy, Component, output} from '@angular/core';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
-import {KENDO_GRID} from '@progress/kendo-angular-grid';
-import {KENDO_TEXTBOX} from '@progress/kendo-angular-inputs';
-import {ExamCardFilters} from '../exam-card.component';
+import { vetIcons } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
+import { ExamCardFilters } from '../exam-card.component';
 
 @Component({
   selector: 'vet-exam-card-filter',

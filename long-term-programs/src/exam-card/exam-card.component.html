@@ -1,48 +1,34 @@
 <div class="k-display-flex k-flex-column k-gap-10">
-  <div class="container">
+  <div class="vet-exam-card-container">
     <vet-exam-card-filter (filtersChange)="onFiltersChange($event)" />
 
     <div class="k-display-flex k-flex-column k-gap-5">
       @if (examCard$.value()?.data; as _examCard) {
-        <div
-          class="k-bg-divider-light k-border-b-solid k-border-white k-display-flex k-gap-6 k-p-4 k-rounded-lg k-w-full"
-        >
-          <img src="/assets/images/profile.png" width="146" height="120" alt="Profile" />
+        <div class="vet-exam-card">
+          <img src="/assets/images/profile.png" width="183" height="157" alt="Profile" />
 
-          <div class="k-display-flex k-flex-column k-gap-1 k-w-full">
-            <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-10 k-text-base k-w-full">
-              <div class="k-display-flex k-gap-2.5">
-                <span>{{ 'programs.pid' | transloco }}:</span>
-                <span class="k-color-body-dark">{{ _examCard.user?.pid }}</span>
-              </div>
+          <div class="vet-exam-card-info">
+            <div class="vet-exam-card-info-row">
+              <p>{{ 'programs.pid' | transloco }}: {{ _examCard.user?.pid }}</p>
+              <p>
+                {{ 'programs.gender' | transloco }}:
+                {{ 'programs.' + _examCard.user?.gender | transloco }}
+              </p>
+            </div>
 
-              <div class="k-display-flex k-gap-2.5">
-                <span>{{ 'programs.gender' | transloco }}:</span>
-                <span class="k-color-body-dark">{{ 'programs.' + _examCard.user?.gender | transloco }}</span>
-              </div>
+            <div class="vet-exam-card-info-row">
+              <p>{{ 'programs.name_surname' | transloco }}: {{ _examCard.user?.name }}</p>
+              <p>
+                {{ 'programs.citizenship' | transloco }}:
+                {{ _examCard.user?.residential | transloco }}
+              </p>
             </div>
-            <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full">
-              <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-10 k-text-base k-w-full">
-                <div class="k-display-flex k-gap-2.5">
-                  <span>{{ 'programs.name_surname' | transloco }}:</span>
-                  <span class="k-color-body-dark">{{ _examCard.user?.name }}</span>
-                </div>
 
-                <div class="k-display-flex k-gap-2.5">
-                  <span>{{ 'programs.citizenship' | transloco }}:</span>
-                  <span class="k-color-body-dark">{{ _examCard.user?.residential | transloco }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full">
-              <span>{{ 'programs.mobile' | transloco }}:</span>
-              <span class="k-color-body-dark">{{ _examCard.user?.phone }}</span>
-            </div>
-            <div class="k-border-b-solid k-border-white k-color-body k-display-flex k-gap-2.5 k-text-base k-w-full">
-              <span>{{ 'programs.education' | transloco }}:</span>
-              <span class="k-color-body-dark">
-                {{ 4 }}
-              </span>
+            <div class="vet-exam-card-info-row">
+              <p>
+                {{ 'programs.date_of_birth' | transloco }}:
+                {{ _examCard.user?.birthDate | date: 'dd.MM.yyyy' }}
+              </p>
             </div>
           </div>
         </div>
@@ -78,16 +64,20 @@
             </kendo-grid-column>
 
             <kendo-grid-column field="exam_center" [title]="'programs.exam_center' | transloco">
-              <ng-template kendoGridCellTemplate let-item> </ng-template>
+              <ng-template kendoGridCellTemplate let-item>
+                {{ item.address }}
+              </ng-template>
             </kendo-grid-column>
 
             <kendo-grid-column field="exam_date" [title]="'programs.exam_start_date' | transloco">
-              <ng-template kendoGridCellTemplate let-dataItem> </ng-template>
+              <ng-template kendoGridCellTemplate let-item>
+                {{ item.address | date: 'dd.MM.yyyy' }}
+              </ng-template>
             </kendo-grid-column>
           </kendo-grid>
         }
 
-        <div class="k-border k-border-solid k-border-warning warning-container">
+        <div class="k-border k-border-solid k-border-warning vet-exam-card-warning">
           <div class="k-display-flex k-gap-2 k-align-items-center">
             <kendo-svg-icon [icon]="vetIcons.infoWarning" />
             <p>{{ 'programs.note' | transloco }}</p>

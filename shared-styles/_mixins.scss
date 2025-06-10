@@ -1,79 +1,87 @@
-@mixin text-shared-properties($bold: false) {
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
+@function imp($important: false) {
+  @if($important) {
+    @return !important;
+  } @else {
+    @return null;
+  }
+}
+
+@mixin text-shared-properties($bold: false, $important: false) {
+  text-underline-position: from-font imp($important);
+  text-decoration-skip-ink: none imp($important);
 
   @if ($bold) {
-    font-weight: 500;
-    font-family: HelveticaNeueMedium;
+    font-weight: 500 imp($important);
+    font-family: HelveticaNeueMedium imp($important);
   } @else {
-    font-family: HelveticaNeue;
-    font-weight: 400;
+    font-family: HelveticaNeue imp($important);
+    font-weight: 400 imp($important);
 
     &strong,
     &b,
     strong,
     b {
-      font-weight: 500;
-      font-family: HelveticaNeueMedium;
+      font-weight: 500 imp($important);
+      font-family: HelveticaNeueMedium imp($important);
     }
   }
 }
 
-@mixin text-xs($bold: false) {
-  @include text-shared-properties($bold);
-  font-size: 0.6875rem;
-  line-height: 0.8125rem;
+@mixin text-xs($bold: false, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 0.6875rem imp($important);
+  line-height: 0.8125rem imp($important);
 }
 
-@mixin text-sm($bold: false) {
-  @include text-shared-properties($bold);
-  font-size: 0.75rem;
-  line-height: 0.90625rem;
+@mixin text-sm($bold: false, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 0.75rem imp($important);
+  line-height: 0.90625rem imp($important);
 
-  // bold line-height: 1.25rem;
+  // bold line-height: 1.25rem imp($important);
 }
 
-@mixin text-base($bold: false) {
-  @include text-shared-properties($bold);
-  font-size: 0.875rem;
-  line-height: 1.5rem;
+@mixin text-base($bold: false, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 0.875rem imp($important);
+  line-height: 1.5rem imp($important);
 }
 
-@mixin text-md($bold: false) {
-  @include text-shared-properties($bold);
-  font-size: 1rem;
-  line-height: 1.25rem;
+@mixin text-md($bold: false, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 1rem imp($important);
+  line-height: 1.25rem imp($important);
 }
 
-@mixin text-h3($bold: false) {
-  @include text-shared-properties($bold);
-  font-size: 1rem;
+@mixin text-h3($bold: false, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 1rem imp($important);
   font-weight: 500;
-  line-height: 1.375rem;
+  line-height: 1.375rem imp($important);
 }
 
-@mixin text-h2($bold: true) {
-  @include text-shared-properties($bold);
-  font-size: 1.125rem;
-  line-height: 1.375rem;
+@mixin text-h2($bold: true, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 1.125rem imp($important);
+  line-height: 1.375rem imp($important);
 }
 
-@mixin text-h1($bold: true) {
-  @include text-shared-properties($bold);
-  font-size: 1.25rem;
-  line-height: 1.375rem;
+@mixin text-h1($bold: true, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 1.25rem imp($important);
+  line-height: 1.375rem imp($important);
 }
 
-@mixin text-lg($bold: true) {
-  @include text-shared-properties($bold);
-  font-size: 1.5rem;
-  line-height: 1.875rem;
+@mixin text-lg($bold: true, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 1.5rem imp($important);
+  line-height: 1.875rem imp($important);
 }
 
-@mixin text-xxl($bold: true) {
-  @include text-shared-properties($bold);
-  font-size: 1.875rem;
-  line-height: 2.2875rem;
+@mixin text-xxl($bold: true, $important: false) {
+  @include text-shared-properties($bold, $important);
+  font-size: 1.875rem imp($important);
+  line-height: 2.2875rem imp($important);
 }
 
 @mixin anchor-reset() {

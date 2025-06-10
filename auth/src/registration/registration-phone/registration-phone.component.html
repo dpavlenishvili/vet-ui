@@ -1,55 +1,53 @@
 @if (form(); as formGroup) {
-  <form [formGroup]="formGroup">
-    <div class="k-display-flex k-flex-column k-gap-10">
-      <div class="k-display-flex k-gap-10">
-        <div class="k-flex-1">
-          <kendo-label [text]="'auth.phone_number' | transloco">
-            <kendo-textbox [clearButton]="true" formControlName="phoneNumber">
-              <ng-template kendoTextBoxPrefixTemplate>
-                <p class="k-ml-2 k-color-black">{{ 'auth.georgian_code' | transloco }}</p>
-              </ng-template>
-            </kendo-textbox>
-            @if (formGroup.controls['phoneNumber']; as control) {
-              @if (control.touched) {
-                @if (control.errors?.['required']) {
-                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                }
-                @if (control.errors?.['mobileNumber']) {
-                  <kendo-formerror>{{ 'errors.mobileNumber' | transloco }}</kendo-formerror>
-                }
+  <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="formGroup">
+    <div class="k-display-flex k-gap-10 phone-fields-container">
+      <div class="k-flex-1">
+        <kendo-label [text]="'auth.phone_number' | transloco">
+          <kendo-textbox [clearButton]="true" formControlName="phoneNumber">
+            <ng-template kendoTextBoxPrefixTemplate>
+              <p class="k-ml-2 k-color-black">{{ 'auth.georgian_code' | transloco }}</p>
+            </ng-template>
+          </kendo-textbox>
+          @if (formGroup.controls['phoneNumber']; as control) {
+            @if (control.touched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+              }
+              @if (control.errors?.['mobileNumber']) {
+                <kendo-formerror>{{ 'errors.mobileNumber' | transloco }}</kendo-formerror>
               }
             }
-          </kendo-label>
-        </div>
-
-        <div class="k-flex-1">
-          @if (phase() === 'verifying' && formGroup.controls.phoneNumber.valid) {
-            <vet-registration-phone-verification
-              formControlName="verificationNumber"
-              [isPending]="isPending()"
-              [isValid]="isValid()"
-              [errorMessage]="errorMessage()"
-              (reload)="onSend()"
-            />
           }
-        </div>
+        </kendo-label>
       </div>
 
-      <div class="k-display-flex k-justify-content-between">
-        <button kendoButton themeColor="secondary" look="default" type="button" (click)="onPreviousClick()">
-          {{ 'auth.previous' | transloco }}
-        </button>
-
-        <button
-          kendoButton
-          themeColor="primary"
-          [disabled]="formGroup.controls.phoneNumber.invalid"
-          type="button"
-          (click)="onNextClick()"
-        >
-          {{ phase() === 'initial' ? ('auth.check' | transloco) : ('auth.next' | transloco) }}
-        </button>
+      <div class="k-flex-1">
+        @if (phase() === 'verifying' && formGroup.controls.phoneNumber.valid) {
+          <vet-registration-phone-verification
+            formControlName="verificationNumber"
+            [isPending]="isPending()"
+            [isValid]="isValid()"
+            [errorMessage]="errorMessage()"
+            (reload)="onSend()"
+          />
+        }
       </div>
+    </div>
+
+    <div class="k-display-flex k-justify-content-between buttons-container">
+      <button kendoButton themeColor="secondary" look="default" type="button" (click)="onPreviousClick()">
+        {{ 'auth.previous' | transloco }}
+      </button>
+
+      <button
+        kendoButton
+        themeColor="primary"
+        [disabled]="formGroup.controls.phoneNumber.invalid"
+        type="button"
+        (click)="onNextClick()"
+      >
+        {{ phase() === 'initial' ? ('auth.check' | transloco) : ('auth.next' | transloco) }}
+      </button>
     </div>
   </form>
 }

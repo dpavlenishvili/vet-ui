@@ -1,47 +1,49 @@
 @if (selectedProgramsLoading()) {
-  <div>{{ 'programs.loading' | transloco }}</div>
+  <div class="loading-container">{{ 'programs.loading' | transloco }}</div>
 } @else {
   @if (selectedPrograms(); as _selectedPrograms) {
-    <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5">
-      <kendo-grid-column [title]="'programs.program_name' | transloco">
-        <ng-template kendoGridCellTemplate let-item>
-          {{ item.program.program_name }}
-        </ng-template>
-      </kendo-grid-column>
-
-      <kendo-grid-column [title]="'programs.level' | transloco">
-        <ng-template kendoGridCellTemplate let-item>
-          {{ item.program.education_level }}
-        </ng-template>
-      </kendo-grid-column>
-
-      <kendo-grid-column [title]="'programs.institution_name' | transloco">
-        <ng-template kendoGridCellTemplate let-item>
-          {{ item.program.organisation.name }}
-        </ng-template>
-      </kendo-grid-column>
-
-      <kendo-grid-column field="organisation.address" [title]="'programs.implementation_location' | transloco">
-        <ng-template kendoGridCellTemplate let-item>
-          {{ item.program.organisation.address }}
-        </ng-template>
-      </kendo-grid-column>
-
-      @if (isEditMode()) {
-        <kendo-grid-column [title]="'programs.selection' | transloco" [width]="100">
+    <div class="responsive-grid-container">
+      <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5">
+        <kendo-grid-column [title]="'programs.program_name' | transloco">
           <ng-template kendoGridCellTemplate let-item>
-            <div class="k-display-flex k-align-items-center k-gap-0.5">
-              <button kendoButton fillMode="flat" (click)="onPreviewProgramClick(item)">
-                <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="info" />
-              </button>
-              <button kendoButton fillMode="flat" (click)="onDeleteClick(item.program)">
-                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
-              </button>
-            </div>
+            {{ item.program.program_name }}
           </ng-template>
         </kendo-grid-column>
-      }
-    </kendo-grid>
+
+        <kendo-grid-column [title]="'programs.level' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            {{ item.program.education_level }}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [title]="'programs.institution_name' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            {{ item.program.organisation.name }}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="organisation.address" [title]="'programs.implementation_location' | transloco">
+          <ng-template kendoGridCellTemplate let-item>
+            {{ item.program.organisation.address }}
+          </ng-template>
+        </kendo-grid-column>
+
+        @if (isEditMode()) {
+          <kendo-grid-column [title]="'programs.selection' | transloco" [width]="100">
+            <ng-template kendoGridCellTemplate let-item>
+              <div class="k-display-flex k-align-items-center k-gap-0.5 grid-actions">
+                <button kendoButton fillMode="flat" (click)="onPreviewProgramClick(item)">
+                  <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="info" />
+                </button>
+                <button kendoButton fillMode="flat" (click)="onDeleteClick(item.program)">
+                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
+                </button>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+        }
+      </kendo-grid>
+    </div>
   }
 }
 
@@ -52,6 +54,7 @@
       [height]="900"
       [title]="'programs.program_description' | transloco"
       (close)="onCloseClick()"
+      class="program-dialog"
     >
       <vet-program [programId]="singleProgramId()" />
     </kendo-dialog>

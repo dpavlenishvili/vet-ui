@@ -5,8 +5,8 @@ const apiBaseUrl = process.env.CI_API_V4_URL;
 const mergeRequestApiUrl = `${apiBaseUrl}/projects/${projectId}/merge_requests/${mergeRequestId}`;
 const mergeRequestApprovalsApiUrl = `${mergeRequestApiUrl}/approvals`;
 
-const requiredApprovesQty = 2;
-const requiredApproverUserNames = new Set(['g.cheishvili']);
+let requiredApprovesQty = 2;
+const requiredApproverUserNames = new Set(['g.cheishvili', 'Tsomaia']);
 
 const requiredApproversString = () => JSON.stringify(Array.from(requiredApproverUserNames).map(name => `@${name}`));
 
@@ -20,6 +20,8 @@ Promise.all(
 ).then(
   ([mergeRequestResponse, approvalResponse]) => {
     console.log(`Required approvers: ${requiredApproversString()}`)
+    if (requiredApproverUserNames.has(mergeRequestResponse.author.username))
+      --requiredApprovesQty;
     requiredApproverUserNames.delete(mergeRequestResponse.author.username);
     console.log(`Merge request author '@${mergeRequestResponse.author.username}' removed from required approvers list, remaining approvers: ${requiredApproversString()}`);
     return approvalResponse;

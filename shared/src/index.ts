@@ -3,6 +3,8 @@ export * from './components/divider/divider.component';
 export * from './components/info/info.component';
 export * from './components/alert-dialog-outlet/alert-dialog-outlet.component';
 export * from './components/confirmation-dialog-outlet/confirmation-dialog-outlet.component';
+export * from './components/selector/selector.component';
+export * from './components/switch/switch.component';
 
 export * from './pipes/format-date.pipe';
 export * from './pipes/format-date-time.pipe';

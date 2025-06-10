@@ -1,0 +1,39 @@
+@let _program = program();
+
+<div class="vet-short-card">
+  <div class="vet-short-card-details">
+    <div>
+      {{ 'shorts.field' | transloco }}: <strong>{{ _program.qualification_name }}</strong>
+    </div>
+    <div>
+      {{ 'shorts.program_code' | transloco }}: <strong>{{ _program.program_code }}</strong>
+    </div>
+    <div>
+      {{ 'shorts.level' | transloco }}: <strong>{{ _program.education_level }}</strong>
+    </div>
+    <div>
+      {{ 'shorts.program_kind' | transloco }}: <strong>{{ _program.program_kind?.name }}</strong>
+    </div>
+    <div>
+      {{ 'shorts.program_duration' | transloco }}:
+      <strong>{{ 'shorts.duration_weeks' | transloco: { duration: _program.program_duration } }}</strong>
+    </div>
+    <div>
+      {{ 'shorts.admission_type' | transloco }}: <strong></strong>
+    </div>
+    <div>
+      {{ 'shorts.admission_prerequisite' | transloco }}: <strong></strong>
+    </div>
+    <div>
+      {{ 'shorts.implementation_location' | transloco }}: <strong>{{ _program.address }}</strong>
+    </div>
+  </div>
+
+  <div>
+    <kendo-svg-icon
+      [icon]="vetIcons.paletteBg"
+      [style.width]="'60px'"
+      [style.height]="'60px'"
+    />
+  </div>
+</div>

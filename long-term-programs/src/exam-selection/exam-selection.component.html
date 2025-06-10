@@ -44,12 +44,12 @@
       <ng-template kendoGridCellTemplate let-item>
         <div class="k-display-flex k-flex-column k-gap-2">
           <div class="k-display-flex k-gap-1">
-            <p class="k-font-bold">{{ 'programs.ssm_status' | transloco }}</p>
-            <p>{{ item.rofficer ? ('shared.yes' | transloco) : ('shared.no' | transloco) }}</p>
+            <p class="k-font-bold">{{ 'programs.ssm_status' | transloco }}:</p>
+            <p>{{ item.spec_edu ? ('shared.yes' | transloco) : ('shared.no' | transloco) }}</p>
           </div>
 
           <div class="k-display-flex k-gap-1">
-            <p class="k-font-bold">{{ 'programs.status' | transloco }}</p>
+            <p class="k-font-bold">{{ 'programs.status' | transloco }}:</p>
             <p>{{ item.status }}</p>
             <div kendoTooltip [tooltipWidth]="400">
               <kendo-svg-icon

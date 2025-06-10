@@ -1,0 +1,40 @@
+<div class="vet-short-registration-stepper">
+  <div class="vet-stepper-container" [class.expanded]="isExpanded()">
+    <div class="vet-stepper-toggle-container">
+      <button
+        kendoButton
+        [svgIcon]="isExpanded() ? vetIcons.chevronLeft : vetIcons.chevronRight"
+        class="vet-stepper-toggle"
+        (click)="onToggleExpansion()"
+      ></button>
+    </div>
+
+    <div class="vet-stepper-content">
+      <kendo-stepper
+        [steps]="steps()"
+        [stepType]="'full'"
+        [orientation]="'vertical'"
+        [currentStep]="stepIndex()"
+        (activate)="onStepChange($event)"
+      >
+        <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
+          <div kendoTooltip [title]="!isExpanded() ? (step.label | transloco) : ''" [position]="'right'">
+            {{ index + 1 }}
+          </div>
+        </ng-template>
+
+        <ng-template kendoStepperLabelTemplate let-step>
+          @if (isExpanded()) {
+            {{ step.label | transloco }}
+          }
+        </ng-template>
+      </kendo-stepper>
+    </div>
+  </div>
+
+  <div class="vet-short-registration-card">
+    @if (currentStep(); as _currentStep) {
+      <ng-template [ngTemplateOutlet]="_currentStep.template()" />
+    }
+  </div>
+</div>

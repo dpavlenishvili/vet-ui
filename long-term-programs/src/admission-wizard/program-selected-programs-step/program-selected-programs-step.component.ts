@@ -8,23 +8,21 @@ import {
   output,
   ResourceRef,
 } from '@angular/core';
-import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {InputsModule, RadioButtonModule} from '@progress/kendo-angular-inputs';
-import {ButtonModule} from '@progress/kendo-angular-buttons';
-import {LabelModule} from '@progress/kendo-angular-label';
-import {SVGIconModule} from '@progress/kendo-angular-icons';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
+import { ButtonModule } from '@progress/kendo-angular-buttons';
+import { LabelModule } from '@progress/kendo-angular-label';
+import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {useAlert, vetIcons} from '@vet/shared';
-import {AdmissionPrograms, AdmissionService, LongTerm} from '@vet/backend';
-import {
-  AdmissionSelectedProgramsComponent
-} from '../../admission-selected-programs/admission-selected-programs.component';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {tap} from 'rxjs';
-import {admissionProgramsResource} from '../admission-programs-resource';
-import {Router} from '@angular/router';
-import {ProgramSsmStep} from '../program-selection-step/program-selection-step.component';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { useAlert, vetIcons } from '@vet/shared';
+import { AdmissionPrograms, AdmissionService, LongTerm } from '@vet/backend';
+import { AdmissionSelectedProgramsComponent } from '../../admission-selected-programs/admission-selected-programs.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
+import { admissionProgramsResource } from '../admission-programs-resource';
+import { Router } from '@angular/router';
+import { ProgramSsmStep } from '../program-selection-step/program-selection-step.component';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 export type ProgramsSelectionStepFormGroup = FormGroup;

@@ -1,0 +1,40 @@
+<form class="vet-shorts-general-information-step" [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
+  <div>
+    {{ 'shorts.confirmation' | transloco }}
+  </div>
+
+  <div class="vet-shorts-step-footer">
+    <button
+      kendoButton
+      class="vet-form-button"
+      type="button"
+      themeColor="tertiary"
+      [svgIcon]="vetIcons.print"
+      (click)="onPrint()"
+    >
+      {{ 'shorts.print' | transloco }}
+    </button>
+
+    <div class="vet-shorts-step-footer-section">
+      <button
+        kendoButton
+        class="vet-form-button"
+        type="button"
+        themeColor="tertiary"
+        (click)="onBack()"
+      >
+        {{ 'shorts.go_back' | transloco }}
+      </button>
+
+      <button
+        kendoButton
+        class="vet-form-button"
+        type="submit"
+        themeColor="primary"
+        [disabled]="formGroup().invalid"
+      >
+        {{ 'shorts.complete' | transloco }}
+      </button>
+    </div>
+  </div>
+</form>

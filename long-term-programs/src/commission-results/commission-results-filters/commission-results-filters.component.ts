@@ -1,13 +1,16 @@
-import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
-import {InputsModule} from '@progress/kendo-angular-inputs';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
-import {KENDO_DIALOG} from '@progress/kendo-angular-dialog';
-import {KENDO_GRID} from '@progress/kendo-angular-grid';
-import {KENDO_DROPDOWNLIST} from '@progress/kendo-angular-dropdowns';
-import {CommissionReviewFilters, ResultFilters} from '../commission-results.component';
-import {vetIcons} from '@vet/shared';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
+import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
+import { vetIcons, withoutEmptyProperties } from '@vet/shared';
+import { GeneralsService } from '@vet/backend';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { map, filter } from 'rxjs';
+import { CommissionReviewFilters } from '../commission-results.component';
 
 @Component({
   selector: 'vet-commission-results-filters',
@@ -25,33 +28,43 @@ import {vetIcons} from '@vet/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommissionResultsFiltersComponent {
-  filters = input<ResultFilters[]>();
+  numberOfRecords = input<number>();
+  filters = input.required<CommissionReviewFilters>();
   filtersChange = output<CommissionReviewFilters>();
 
-  vetIcons = vetIcons;
-  filterForm = this.createFormGroup();
+  generalsService = inject(GeneralsService);
 
-  createFormGroup() {
+  vetIcons = vetIcons;
+  filterForm = this.createFilterForm();
+
+  organisationsRc$ = rxResource({
+    loader: () => this.generalsService.getOrganisationsList().pipe(map((response) => response.data)),
+  });
+
+  constructor() {
+    effect(() => {
+      this.filterForm.patchValue(this.filters());
+    });
+  }
+
+  createFilterForm() {
     return new FormGroup({
-      fullname: new FormControl<string | null>(null),
-      pid: new FormControl<string | null>(null),
-      program: new FormControl<string | null>(null),
+      program: new FormControl(),
+      pid: new FormControl(),
+      fullname: new FormControl(),
     });
   }
 
   clearFilters() {
     this.filterForm.reset();
+    this.filterForm.updateValueAndValidity();
     this.onSubmit();
   }
 
   onSubmit() {
-    const value = this.filterForm.value;
-    const filterData: CommissionReviewFilters['filters'] = {
-      program: value.program ?? null,
-      pid: value.pid ?? null,
-      fullname: value.fullname ?? null,
-    };
-
-    this.filtersChange.emit({ filters: filterData });
+    this.filtersChange.emit(
+      withoutEmptyProperties(this.filterForm.value) as CommissionReviewFilters
+    )
   }
+
 }

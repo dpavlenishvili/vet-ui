@@ -1,0 +1,8 @@
+<div class="vet-shorts-grid">
+  @for (item of items(); track item.id) {
+    <vet-short-term-program-card
+      class="vet-shorts-grid-item"
+      [program]="item"
+    />
+  }
+</div>

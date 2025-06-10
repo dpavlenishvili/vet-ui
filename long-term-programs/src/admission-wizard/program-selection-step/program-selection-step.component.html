@@ -1,7 +1,7 @@
-<div class="k-display-flex k-flex-column k-gap-10">
+<div class="program-selection-container">
   <vet-program-selection-filters [filters]="filters()" (filtersChange)="onFiltersChange($event)" />
 
-  <div class="k-display-flex k-gap-10 k-flex-column">
+  <div class="grid-section">
     <div class="responsive-grid-container">
       <kendo-grid
         [loading]="eligiblePrograms$.isLoading()"
@@ -33,7 +33,7 @@
 
         <kendo-grid-column [width]="90" [title]="'programs.selection' | transloco">
           <ng-template kendoGridCellTemplate let-item>
-            <div class="k-display-flex k-justify-content-around k-gap-1">
+            <div class="k-display-flex k-justify-content-around k-gap-1 grid-actions">
               <button kendoButton fillMode="flat" (click)="onPreviewProgramClick(item)">
                 <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="warning" />
               </button>
@@ -57,7 +57,7 @@
       </kendo-grid>
     </div>
 
-    <div class="k-display-flex k-justify-content-between">
+    <div class="k-display-flex k-justify-content-between buttons-container">
       <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
         {{ 'auth.back' | transloco }}
       </button>

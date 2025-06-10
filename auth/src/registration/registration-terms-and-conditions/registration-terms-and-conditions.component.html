@@ -1,14 +1,84 @@
 @if (form(); as form) {
   <div class="k-display-flex k-gap-10 k-flex-column">
     <form [formGroup]="form">
-      <div class="k-display-flex k-flex-column k-gap-10">
-        <div
-          class="k-display-flex k-flex-column k-gap-3 k-p-3 k-border k-border-solid k-border-divider-light k-rounded-xxl"
-        >
-          <span class="k-text-base k-color-body-dark">
-            {{ 'auth.terms_and_conditions_information' | transloco }}
-          </span>
+      <div class="k-display-flex k-flex-column k-gap-5">
+        <div class="privacy-notice-container k-p-4 k-border k-border-solid k-border-divider-light k-rounded-xxl">
+          <div class="privacy-notice-content">
+            <h2 class="k-text-md k-font-weight-bold k-color-body-dark k-mb-4">
+              {{ 'auth.terms_and_conditions_title' | transloco }}
+            </h2>
 
+            <p class="k-text-base k-color-body k-mb-4 k-line-height-lg">
+              {{ 'auth.terms_and_conditions_intro' | transloco }}
+            </p>
+
+            <div class="privacy-section k-mb-4">
+              <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
+                {{ 'auth.personal_data_title' | transloco }}
+              </h3>
+              <ul class="privacy-list k-ml-3">
+                @for (item of personalDataItems; track $index) {
+                  <li class="k-text-base k-color-body k-mb-1">{{ item | transloco }}</li>
+                }
+              </ul>
+            </div>
+
+            <div class="privacy-section k-mb-4">
+              <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
+                {{ 'auth.processing_purposes_title' | transloco }}
+              </h3>
+              <ul class="privacy-list k-ml-3">
+                @for (item of processingPurposesItems; track $index) {
+                  <li class="k-text-base k-color-body k-mb-1">{{ item | transloco }}</li>
+                }
+              </ul>
+            </div>
+
+            <div class="privacy-section k-mb-4">
+              <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
+                {{ 'auth.special_data_title' | transloco }}
+              </h3>
+              <ul class="privacy-list k-ml-3">
+                @for (item of specialDataItems; track $index) {
+                  <li class="k-text-base k-color-body k-mb-1">{{ item | transloco }}</li>
+                }
+              </ul>
+            </div>
+
+            <div class="privacy-section k-mb-4">
+              <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
+                {{ 'auth.special_data_purposes_title' | transloco }}
+              </h3>
+              <ul class="privacy-list k-ml-3">
+                @for (item of specialDataPurposesItems; track $index) {
+                  <li class="k-text-base k-color-body k-mb-1">{{ item | transloco }}</li>
+                }
+              </ul>
+            </div>
+
+            <div class="privacy-section k-mb-4">
+              <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
+                {{ 'auth.data_sources_title' | transloco }}
+              </h3>
+              <ul class="privacy-list k-ml-3">
+                @for (item of dataSourcesItems; track $index) {
+                  <li class="k-text-base k-color-body k-mb-1">{{ item | transloco }}</li>
+                }
+              </ul>
+            </div>
+
+            <div class="privacy-section">
+              <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
+                {{ 'auth.legal_basis_title' | transloco }}
+              </h3>
+              <p class="k-text-base k-color-body k-line-height-lg">
+                {{ 'auth.legal_basis_text' | transloco }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="k-display-flex k-flex-column k-gap-3 k-p-3 k-border k-border-solid k-border-divider-light k-rounded-xxl">
           <div>
             <kendo-checkbox #checkbox formControlName="accepted" />
             <kendo-label
@@ -19,12 +89,12 @@
           </div>
         </div>
 
-        <div class="k-display-flex k-justify-content-between">
-          <button kendoButton themeColor="secondary" (click)="onPreviousClick()">
+        <div class="k-display-flex k-justify-content-between k-flex-wrap k-gap-2">
+          <button kendoButton themeColor="secondary" (click)="onPreviousClick()" class="nav-button">
             {{ 'auth.previous' | transloco }}
           </button>
 
-          <button kendoButton themeColor="primary" (click)="form.valid && onNextClick()">
+          <button kendoButton themeColor="primary" (click)="form.valid && onNextClick()" class="nav-button">
             {{ 'auth.finish' | transloco }}
           </button>
         </div>

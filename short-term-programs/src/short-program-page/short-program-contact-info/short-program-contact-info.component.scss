@@ -1,0 +1,49 @@
+@use '../../../../node_modules/@vet/shared-styles/index' as shared;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.vet-contact-container {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-template-rows: auto auto;
+  row-gap: 1.5rem;
+  column-gap: 5.75rem;
+  padding: 1.25rem;
+  border-top: 1px solid shared.$kendo-color-border-alt;
+  border-bottom: 1px solid shared.$kendo-color-border-alt;
+
+  .vet-contact-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+
+    .vet-contact-item-icon {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    span {
+      @include shared.text-base();
+      color: shared.$kendo-color-body;
+      line-height: 100%;
+    }
+  }
+}
+
+.vet-responsible-person-contact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.25rem 2.5rem;
+
+  span, a {
+    @include shared.text-base();
+    color: shared.$kendo-color-body;
+    line-height: 100%;
+  }
+}

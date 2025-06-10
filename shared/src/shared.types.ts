@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 import type { BreadCrumbItem } from '@progress/kendo-angular-navigation';
-import { ActivatedRouteSnapshot } from '@angular/router';
-import { TemplateRef } from '@angular/core';
+import { ActivatedRouteSnapshot, Params } from '@angular/router';
+import { Signal, TemplateRef } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 export interface QueryParams {
   [key: string]: any; // Allow any value type
@@ -10,6 +11,11 @@ export interface QueryParams {
 export interface DictionaryType {
   id: number;
   name: string;
+}
+
+export interface IdValue {
+  id: string;
+  value: string;
 }
 
 export interface ValueLabel {
@@ -56,8 +62,8 @@ export interface ConfirmationDialogParams {
 }
 
 export interface AppBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
-  path: string | null
-  text: string | ((routeSnapshot: ActivatedRouteSnapshot) => string);
+  path: string | null | ((routeSnapshot: ActivatedRouteSnapshot, params: Params) => string | null)
+  text: string | ((routeSnapshot: ActivatedRouteSnapshot, params: Params) => string);
 }
 
 export interface ResolvedBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
@@ -81,4 +87,19 @@ export interface District {
   name?: string;
   region_id?: number;
   region_name?: string;
+}
+
+export interface SelectOption<T> {
+  label: string;
+  value: T | null;
+}
+
+export type FilterOptionsMap = Map<string, SelectOption<string>[]>;
+
+export interface WizardStepDefinition {
+  label: string;
+  title: string;
+  form: () => FormGroup;
+  template: Signal<TemplateRef<unknown>>;
+  path: string;
 }

@@ -1,4 +1,4 @@
-<div class="k-display-flex k-flex-column k-gap-10">
+<div class="selected-programs-container">
   <vet-admission-selected-programs
     isEditMode
     [selectedPrograms]="selectedPrograms.value()"
@@ -7,7 +7,7 @@
     (deleteClick)="onDeleteClick($event)"
   />
 
-  <div class="k-display-flex k-justify-content-between">
+  <div class="k-display-flex k-justify-content-between buttons-container">
     <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
       {{ 'auth.back' | transloco }}
     </button>

@@ -7,4 +7,163 @@
     align-items: center;
     justify-content: center;
   }
+
+  // Main container
+  .program-selection-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  // Grid section container
+  .grid-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  // Responsive grid container
+  .responsive-grid-container {
+    width: 100%;
+    overflow: auto;
+
+    // Mobile: make grid scrollable horizontally
+    @media (max-width: 767px) {
+      overflow-x: auto;
+
+      kendo-grid {
+        min-width: 800px; // Ensure minimum width for proper column display
+
+        // Smaller text on mobile for better fit
+        .k-grid-table {
+          font-size: 0.875rem;
+        }
+
+        // Hide less important columns on very small screens
+        @media (max-width: 479px) {
+          kendo-grid-column:nth-child(3) {
+            display: none; // Hide organisation address on very small screens
+          }
+        }
+      }
+    }
+
+    // Tablet and up: normal grid behavior
+    @media (min-width: 768px) {
+      kendo-grid {
+        .k-grid-table {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  // Grid actions styling
+  .grid-actions {
+    min-width: 80px;
+
+    button {
+      min-width: 32px;
+      min-height: 32px;
+      padding: 0.25rem;
+
+      // Mobile: larger touch targets
+      @media (max-width: 767px) and (pointer: coarse) {
+        min-width: 40px;
+        min-height: 40px;
+        padding: 0.5rem;
+      }
+    }
+  }
+
+  // Responsive buttons container
+  .buttons-container {
+    // Mobile: stack buttons vertically for better touch targets
+    @media (max-width: 479px) {
+      flex-direction: column;
+      gap: 0.75rem;
+
+      button {
+        width: 100%;
+        order: 2; // Primary button (Next) appears second
+
+        &[themeColor="secondary"] {
+          order: 1; // Secondary button (Back) appears first
+        }
+      }
+    }
+
+    // Small tablet and up: horizontal layout
+    @media (min-width: 480px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  // Enhanced grid styling for better mobile experience
+  @media (max-width: 767px) {
+    .responsive-grid-container {
+      // Add subtle shadow to indicate scrollable content
+      box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.1);
+      border-radius: 0.5rem;
+
+      kendo-grid {
+        // Better mobile grid spacing
+        .k-grid-header,
+        .k-grid-content {
+          .k-table-td,
+          .k-table-th {
+            padding: 0.5rem 0.25rem;
+            vertical-align: middle;
+          }
+        }
+
+        // Improve action buttons layout on mobile
+        .grid-actions {
+          gap: 0.25rem;
+          min-width: 60px;
+        }
+      }
+    }
+  }
+
+  // Large screen optimizations
+  @media (min-width: 1200px) {
+    .program-selection-container {
+      gap: 3rem;
+    }
+
+    .grid-section {
+      gap: 3rem;
+    }
+
+    .responsive-grid-container {
+      kendo-grid {
+        .k-grid-table {
+          font-size: 1rem;
+        }
+
+        .k-grid-header,
+        .k-grid-content {
+          .k-table-td,
+          .k-table-th {
+            padding: 1rem 0.75rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Dialog responsive adjustments
+  @media (max-width: 767px) {
+    :host ::ng-deep {
+      kendo-dialog {
+        .k-dialog {
+          margin: 1rem;
+          max-width: calc(100vw - 2rem);
+          max-height: calc(100vh - 2rem);
+        }
+      }
+    }
+  }
 }

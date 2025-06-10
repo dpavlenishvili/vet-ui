@@ -1,0 +1,11 @@
+<div class="vet-shorts">
+  @if (data.value()) {
+    <vet-short-term-programs-filters
+      class="vet-shorts-filters"
+      [filterOptionsMap]="filterOptionsMap()"
+      [filters]="filters()"
+      (filtersChange)="onFiltersChange($event)"
+    />
+    <vet-short-term-programs-grid [items]="programs()"/>
+  }
+</div>

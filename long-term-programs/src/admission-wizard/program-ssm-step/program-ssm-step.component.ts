@@ -1,16 +1,20 @@
-import {ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal} from '@angular/core';
-import {FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {InputsModule, RadioButtonModule} from '@progress/kendo-angular-inputs';
-import {ButtonModule} from '@progress/kendo-angular-buttons';
-import {LabelModule} from '@progress/kendo-angular-label';
-import {SVGIconModule} from '@progress/kendo-angular-icons';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
+import { ButtonModule } from '@progress/kendo-angular-buttons';
+import { LabelModule } from '@progress/kendo-angular-label';
+import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import {TranslocoPipe, TranslocoService} from '@jsverse/transloco';
-import {DividerComponent, georgianMobileValidator, InfoComponent} from '@vet/shared';
-import {DropDownListComponent, ItemTemplateDirective, ValueTemplateDirective,} from '@progress/kendo-angular-dropdowns';
-import {NgClass} from '@angular/common';
-import {GeneralsService} from '@vet/backend';
-import {rxResource} from '@angular/core/rxjs-interop';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { DividerComponent, georgianMobileValidator, InfoComponent } from '@vet/shared';
+import {
+  DropDownListComponent,
+  ItemTemplateDirective,
+  ValueTemplateDirective,
+} from '@progress/kendo-angular-dropdowns';
+import { NgClass } from '@angular/common';
+import { GeneralsService } from '@vet/backend';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 export type ProgramSsmStepFormGroup = FormGroup;
 
@@ -64,12 +68,18 @@ export class ProgramSsmStepComponent implements OnInit {
     ssmForm?.markAllAsTouched();
 
     const specEdu = ssmForm?.get('spec_edu')?.value;
-    if (!specEdu) {
-      ['e_name', 'e_lastname', 'e_phone'].forEach((controlName) => {
-        const control = ssmForm?.get(controlName);
-        control?.clearValidators();
-        control?.updateValueAndValidity();
-      });
+    if (!specEdu && ssmForm) {
+      const excludeControls = ['spec_edu', 'program_ids'];
+
+      Object.keys(ssmForm.controls)
+        .filter(controlName => !excludeControls.includes(controlName))
+        .forEach(controlName => {
+          const control = ssmForm.controls[controlName];
+          control.reset();
+          control.clearValidators();
+          control.updateValueAndValidity();
+        });
+      this.selectedLanguage.set(null);
     }
 
     if (ssmForm?.valid) {
@@ -97,12 +107,17 @@ export class ProgramSsmStepComponent implements OnInit {
       ssmForm.get('e_lastname')?.setValidators(Validators.required);
       ssmForm.get('e_phone')?.setValidators([Validators.required, georgianMobileValidator]);
     } else {
-      ssmForm.get('e_name')?.clearValidators();
-      ssmForm.get('e_lastname')?.clearValidators();
-      ssmForm.get('e_phone')?.clearValidators();
-      ssmForm.reset({
-        program_ids: [],
-      });
+      const excludeControls = ['spec_edu', 'program_ids'];
+
+      Object.keys(ssmForm.controls)
+        .filter(controlName => !excludeControls.includes(controlName))
+        .forEach(controlName => {
+          const control = ssmForm.controls[controlName];
+          control.reset();
+          control.clearValidators();
+          control.updateValueAndValidity();
+        });
+      this.selectedLanguage.set(null);
     }
 
     ssmForm.updateValueAndValidity();

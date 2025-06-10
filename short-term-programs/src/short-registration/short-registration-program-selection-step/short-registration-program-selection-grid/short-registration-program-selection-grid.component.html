@@ -1,0 +1,83 @@
+<kendo-grid [loading]="isLoading()" [data]="items()">
+  <ng-template kendoGridNoRecordsTemplate>
+    {{ 'shared.noRecords' | transloco }}
+  </ng-template>
+
+  <kendo-grid-column
+    [title]="'shorts.program' | transloco"
+    field="program_name"
+    [width]="200"
+  />
+
+  <kendo-grid-column
+    [title]="'shorts.institution' | transloco"
+    field="organisation.name"
+    [width]="200"
+  />
+
+  <kendo-grid-column
+    [title]="'shorts.registration_period' | transloco"
+    field="registration_period"
+    [width]="150"
+  />
+
+  <kendo-grid-column
+    [title]="'shorts.tuition_start_date' | transloco"
+    field="tuition_start_date"
+    [width]="150"
+  />
+
+  <kendo-grid-column
+    [title]="'shorts.implementation_location' | transloco"
+    field="organisation.address"
+    [width]="150"
+  />
+
+  <kendo-grid-column [width]="56" [title]="'programs.selection' | transloco">
+    <ng-template kendoGridCellTemplate let-item>
+      <div class="short-grid-action-buttons">
+        <button
+          kendoButton
+          type="button"
+          fillMode="flat"
+          class="short-grid-action-button"
+          (click)="onPreviewProgram(item)"
+        >
+          <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.eye" themeColor="warning" />
+        </button>
+
+        <button
+          kendoButton
+          type="button"
+          fillMode="flat"
+          class="short-grid-action-button"
+          (click)="onSelectProgram(item)"
+        >
+          <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
+        </button>
+      </div>
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>
+
+@if (isProgramPreviewDialogOpen()) {
+  <kendo-dialog
+    width="90%"
+    height="90%"
+    [title]="'programs.program_description' | transloco"
+    (close)="onCloseDialog()"
+  >
+    <vet-short-program-page [programId]="previewProgramId()" />
+  </kendo-dialog>
+}
+
+@if (isConfirmSelectionDialogOpen()) {
+  <kendo-dialog
+    [width]="574"
+    [height]="150"
+    [title]="'shared.informationMessage' | transloco"
+    (close)="onCloseDialog()"
+  >
+    {{ 'shorts.confirm_program_selection' | transloco }}
+  </kendo-dialog>
+}

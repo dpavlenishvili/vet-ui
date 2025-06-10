@@ -1,31 +1,23 @@
-import {CommissionResultsFiltersComponent} from './commission-results-filters/commission-results-filters.component';
-import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {TranslocoModule} from '@jsverse/transloco';
-import {ActivatedRoute} from '@angular/router';
-import {CommissionService, CommissionsReview, User} from '@vet/backend';
-import {DictionaryType, DividerComponent, filterNullValues, kendoIcons, vetIcons} from '@vet/shared';
-import {UserRolesService} from '@vet/auth';
-import {rxResource} from '@angular/core/rxjs-interop';
-import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
-import {KENDO_GRID} from '@progress/kendo-angular-grid';
-import {KENDO_CARD} from '@progress/kendo-angular-layout';
-import {SVGIconModule} from '@progress/kendo-angular-icons';
-import {KENDO_LOADER} from '@progress/kendo-angular-indicators';
-import {KENDO_TOOLTIP} from '@progress/kendo-angular-tooltip';
+import { CommissionResultsFiltersComponent } from './commission-results-filters/commission-results-filters.component';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@jsverse/transloco';
+import { ActivatedRoute } from '@angular/router';
+import { CommissionService, CommissionsReview, User } from '@vet/backend';
+import { DividerComponent, vetIcons, kendoIcons, useFilters, useFiltersUpdater } from '@vet/shared';
+import { UserRolesService } from '@vet/auth';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
+import { KENDO_CARD } from '@progress/kendo-angular-layout';
+import { SVGIconModule } from '@progress/kendo-angular-icons';
+import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
+import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 
 export type CommissionReviewFilters = {
-  filters: {
-    program?: string | null;
-    pid?: string | null;
-    fullname?: string | null;
-  };
-};
-
-export type ResultFilters = {
-  key: string;
-  type: string;
-  values?: DictionaryType[];
+  program?: string;
+  pid?: string;
+  fullname?: string;
 };
 
 @Component({
@@ -41,7 +33,6 @@ export type ResultFilters = {
     KENDO_TOOLTIP,
     SVGIconModule,
     CommissionResultsFiltersComponent,
-    // JsonPipe
   ],
   templateUrl: './commission-results.component.html',
   styleUrl: './commission-results.component.scss',
@@ -58,12 +49,8 @@ export class CommissionResultsComponent {
   userRolesService = inject(UserRolesService);
   commissionService = inject(CommissionService);
 
-  protected filters = signal<string | undefined>(undefined);
-
-  readonly filtersForComponent = computed(() => {
-    const data = this.commissionResults$.value();
-    return this.getFilters(data ?? {});
-  });
+  filters = useFilters<CommissionReviewFilters>();
+  updateFilters = useFiltersUpdater<CommissionReviewFilters>();
 
   commissionResults$ = rxResource({
     request: () => ({
@@ -71,16 +58,24 @@ export class CommissionResultsComponent {
       filters: this.filters(),
     }),
     loader: ({ request: { organisation, filters } }) => {
-      return this.commissionService.commissionResult({ organisation, filter: filters });
+      return this.commissionService.commissionResult({ organisation, filter: JSON.stringify(filters) });
     },
   });
 
-  getFilters(data: CommissionsReview) {
-    return data.filters as ResultFilters[];
-  }
+  readonly gridData = computed(() => {
+    const val = this.commissionResults$.value() as CommissionsReview & {
+      meta?: {
+        total?: number;
+      };
+    };
+
+    return {
+      data: val?.data || [],
+      total: val?.meta?.total || 0,
+    } as GridDataResult;
+  });
 
   onFiltersChange(filters: CommissionReviewFilters) {
-    const filterString = JSON.stringify(filterNullValues(filters.filters));
-    this.filters.set(filterString);
+    this.updateFilters(filters);
   }
 }

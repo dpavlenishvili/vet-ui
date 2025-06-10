@@ -1,22 +1,30 @@
 import * as R from 'ramda';
-import type { AppBreadCrumbItem, DictionaryType, Option, QueryParams } from './shared.types';
+import {
+  AppBreadCrumbItem,
+  DictionaryType,
+  FilterOptionsMap, IdValue,
+  Option,
+  QueryParams,
+  SelectOption, ValueLabel,
+  WizardStepDefinition
+} from './shared.types';
 import { map, Observable } from 'rxjs';
 import { ActivatedRoute, type Params } from '@angular/router';
 
 export const isEmptyOrUndefined = R.anyPass([R.isEmpty, R.isNil]);
 
-export function withoutEmptyProperties(params: Params) {
-  const filteredParams: Params = {};
+export function withoutEmptyProperties<T extends object = Params>(params: T) {
+  const filteredParams: Partial<T> = {};
 
   for (const [key, value] of Object.entries(params)) {
     if (isEmptyOrUndefined(value)) {
       continue;
     }
 
-    filteredParams[key] = value && typeof value === 'object' ? withoutEmptyProperties(value) : value;
+    filteredParams[key as keyof T] = value && typeof value === 'object' ? withoutEmptyProperties(value) : value;
   }
 
-  return filteredParams;
+  return filteredParams as T;
 }
 
 /**
@@ -216,4 +224,84 @@ export function formatDate(date: Date): string {
   const month = ('0' + (d.getMonth() + 1)).slice(-2);
   const day = ('0' + d.getDate()).slice(-2);
   return `${year}-${month}-${day}`;
+}
+
+export function toFilterOptionsMap(
+  filterData: Array<{ key?: string; values?: unknown; }>
+): FilterOptionsMap {
+  const pairs = filterData.filter(
+    (filterItem): filterItem is {
+      key: string;
+      values: Array<{ name: string; value: string }>
+    } => {
+      return !!filterItem.key && Array.isArray(filterItem.values);
+    },
+  ).map(filterItem => [
+    filterItem.key,
+    filterItem.values.map((option) => ({
+      label: option.name,
+      value: option.value,
+    }) as SelectOption<string>),
+  ] as const);
+
+  return new Map(pairs);
+}
+
+export function getCurrentStepIndex(
+  steps: WizardStepDefinition[],
+  requestedStepSegment: string | null | undefined,
+): {
+  requestedStepIndex: number;
+  currentStepIndex: number;
+} {
+  if (!requestedStepSegment) {
+    return {
+      requestedStepIndex: 0,
+      currentStepIndex: 0,
+    };
+  }
+
+
+  // Takes step segment and maps it into step index
+  // If a previous step of that index is valid - then we keep user on the requested step
+  // If not, we move user to previous step, and so forth, until user reaches valid step
+  // We move user to the first step if none of the steps were valid
+
+  const pathToIndex = steps.reduce(
+    (map, step, index) => {
+      map[step.path] = index;
+      return map;
+    },
+    {} as Record<string, number>,
+  );
+
+  const requestedStepIndex = pathToIndex[requestedStepSegment] ?? 0;
+
+  let currentStepIndex = requestedStepIndex;
+
+  while (currentStepIndex > 0) {
+    const step = steps[currentStepIndex - 1];
+
+    if (step.form().valid) {
+      break;
+    }
+
+    --currentStepIndex;
+  }
+
+  return {
+    requestedStepIndex,
+    currentStepIndex,
+  };
+}
+
+export function isValidIdValue(input: Partial<IdValue>): input is IdValue {
+  return input.id != null && input.value != null
+}
+
+export function mapIdValueToOption(idValue: IdValue): ValueLabel {
+  return {
+    value: idValue.id,
+    label: idValue.value,
+  };
 }

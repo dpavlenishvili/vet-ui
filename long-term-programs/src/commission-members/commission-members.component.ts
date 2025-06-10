@@ -1,18 +1,27 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
-import {KENDO_GRID} from '@progress/kendo-angular-grid';
-import {KENDO_CARD} from '@progress/kendo-angular-layout';
-import {DividerComponent, vetIcons} from '@vet/shared';
-import {CommissionMembersDialogComponent} from './commission-members-dialog/commission-members-dialog.component';
-import {UserRolesService} from '@vet/auth';
-import {CommissionService, ProgramWithCommission, User} from '@vet/backend';
-import {rxResource} from '@angular/core/rxjs-interop';
+import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import { KENDO_CARD } from '@progress/kendo-angular-layout';
+import { DividerComponent, vetIcons } from '@vet/shared';
+import { CommissionMembersDialogComponent } from './commission-members-dialog/commission-members-dialog.component';
+import { UserRolesService } from '@vet/auth';
+import { CommissionService, ProgramWithCommission, User } from '@vet/backend';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-commission-members',
-  imports: [KENDO_CARD, KENDO_GRID, KENDO_BUTTON, TranslocoPipe, CommissionMembersDialogComponent, DividerComponent],
+  imports: [
+    KENDO_CARD,
+    KENDO_GRID,
+    KENDO_BUTTON,
+    KENDO_SVGICON,
+    TranslocoPipe,
+    CommissionMembersDialogComponent,
+    DividerComponent,
+  ],
   templateUrl: './commission-members.component.html',
   styleUrl: './commission-members.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +29,7 @@ import {rxResource} from '@angular/core/rxjs-interop';
 export class CommissionMembersComponent {
   activatedRoute = inject(ActivatedRoute);
 
+  selectedProgramId = signal('');
   selectedProgramCode = signal('');
   selectedProgramName = signal('');
   selectedProgramCommissionMembers = signal<User[]>([]);
@@ -35,7 +45,8 @@ export class CommissionMembersComponent {
   });
 
   onMemberAddClick(item: ProgramWithCommission, commissionMembers: User[]) {
-    this.selectedProgramCode.set(String(item.program_id));
+    this.selectedProgramId.set(String(item.program_id));
+    this.selectedProgramCode.set(String(item.program_code));
     this.selectedProgramName.set(String(item.program_name));
     this.isMembersDialogOpen.set(true);
     this.selectedProgramCommissionMembers.set(commissionMembers);

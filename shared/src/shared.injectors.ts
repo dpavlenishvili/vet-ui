@@ -1,4 +1,4 @@
-import { Inject, inject, type InjectDecorator } from '@angular/core';
+import { computed, Inject, inject, type InjectDecorator } from '@angular/core';
 
 import {
   BASE_API_URL,
@@ -14,10 +14,15 @@ import {
   KENDO_DATE_TIME_PICKER_FORMAT,
 } from './shared.tokens';
 import { RouteParamsService } from './services/route-params.service';
-import { ActivatedRoute } from '@angular/router';
-import { getRouteNumberParam, getRouteParam } from './shared.utils';
+import { ActivatedRoute, Router } from '@angular/router';
+import { getRouteNumberParam, getRouteParam, withoutEmptyProperties } from './shared.utils';
 import { AlertDialogService } from './services/alert-dialog.service';
 import { ConfirmationDialogService } from './services/confirmation-dialog.service';
+import {
+  ShortTermProgramFilters
+} from '../../short-term-programs/src/short-term-programs-filters/short-term-programs-filters.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export function useBaseApiUrl(): string {
   return inject(BASE_API_URL);
@@ -81,13 +86,13 @@ export function useJsonQueryParam(name?: string) {
 export function useRouteParam(key: string) {
   const activatedRoute = inject(ActivatedRoute);
 
-  return getRouteParam(activatedRoute, key);
+  return toSignal(getRouteParam(activatedRoute, key));
 }
 
 export function useRouteNumberParam(key: string, fallback = NaN) {
   const activatedRoute = inject(ActivatedRoute);
 
-  return getRouteNumberParam(activatedRoute, key, fallback);
+  return toSignal(getRouteNumberParam(activatedRoute, key, fallback));
 }
 
 export function useAlert() {
@@ -96,4 +101,38 @@ export function useAlert() {
 
 export function useConfirm() {
   return inject(ConfirmationDialogService);
+}
+
+export function useFilters<T extends object>() {
+  const activatedRoute = inject(ActivatedRoute);
+  const queryParams = toSignal(activatedRoute.queryParamMap);
+
+  return computed<T>(() => {
+    return JSON.parse(queryParams()?.get('filters') ?? '{}');
+  });
+}
+
+export function useFiltersUpdater<T extends object>() {
+  const router = inject(Router);
+
+  return (filters: T) => {
+    void router.navigate([], {
+      queryParamsHandling: 'merge',
+      queryParams: {
+        filters: JSON.stringify(withoutEmptyProperties(filters)),
+      },
+    });
+  }
+}
+
+export function useSanitizedUrl(getUrl: () => string | null | undefined) {
+  const sanitizer = inject(DomSanitizer);
+
+  return computed(() => {
+    const videoUrl = getUrl();
+
+    return videoUrl
+      ? sanitizer.bypassSecurityTrustResourceUrl(videoUrl)
+      : undefined;
+  });
 }

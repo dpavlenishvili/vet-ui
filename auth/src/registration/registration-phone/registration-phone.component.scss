@@ -1,3 +1,49 @@
 :host {
   display: block;
+
+  .phone-fields-container {
+    @media (max-width: 767px) {
+      flex-direction: column;
+      gap: 1rem;
+
+      .k-flex-1 {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+
+      .k-flex-1 {
+        flex: 1;
+      }
+    }
+
+    .k-flex-1:last-child {
+      @media (max-width: 767px) {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+
+  .buttons-container {
+    @media (max-width: 479px) {
+      flex-direction: column;
+      gap: 0.75rem;
+
+      button {
+        width: 100%;
+        order: 2;
+
+        &[themeColor="secondary"] {
+          order: 1;
+        }
+      }
+    }
+
+    @media (min-width: 480px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
 }

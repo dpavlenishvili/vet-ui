@@ -1,0 +1,16 @@
+<div class="k-display-flex k-align-items-center k-gap-3.5">
+  <div class="k-text-sm k-color-body">
+    <b>{{ label() }}</b>
+  </div>
+  <div>
+    <kendo-switch
+      class="vet-filter-input"
+      size="small"
+      [onLabel]="'shared.yes' | transloco"
+      [offLabel]="'shared.no' | transloco"
+      [disabled]="isDisabled()"
+      [ngModel]="value()"
+      (ngModelChange)="handleChange($event)"
+    />
+  </div>
+</div>

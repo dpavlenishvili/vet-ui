@@ -1,3 +1,4 @@
+@use '@vet/shared-styles' as shared;
 @import '@vet/shared-styles/_styles.scss';
 
 /* Default Theme (applies to :root) */
@@ -138,8 +139,8 @@ a {
 
   .vet-grid-cell {
     padding: 1rem;
+    border-color: shared.$kendo-color-border-alt;
     border-style: solid;
-    border-color: var(--kendo-color-border);
     border-width: 0;
     border-right-width: 0.0625rem;
     border-bottom-width: 0.0625rem;
@@ -218,6 +219,10 @@ a {
     padding-block: 1rem !important;
     padding-inline: 1rem !important;
   }
+}
+
+.k-dialog-title {
+  text-align: center;
 }
 
 //.k-button {

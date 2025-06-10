@@ -6,62 +6,176 @@
   --container-bg-color: #ffffff;
   --container-border-radius: 1.25rem;
   --container-padding: 1.25rem;
+  --mobile-padding: 1rem;
 
-  .step-content-container {
-    overflow: auto;
-    flex: 1;
+  .vet-registration-mobile {
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    padding: var(--container-padding);
-    border-radius: var(--container-border-radius);
-    background-color: var(--container-bg-color);
-  }
 
-  .stepper-container {
-    width: 100%;
-    max-width: 4.5rem;
-    min-width: 4.5rem;
-    transition: all 200ms ease-in-out;
-    height: 100%;
-    padding: var(--container-padding);
-    border-radius: var(--container-border-radius);
-    background-color: var(--container-bg-color);
+    .mobile-stepper-container {
+      background-color: var(--container-bg-color);
+      border-radius: var(--container-border-radius);
+      padding: var(--mobile-padding);
+      margin-bottom: 1rem;
 
-    kendo-stepper {
-      max-width: 2rem;
+      kendo-stepper {
+        width: 100%;
+
+        .k-step {
+          min-height: 3rem;
+
+          .k-step-indicator {
+            min-width: 2rem;
+            min-height: 2rem;
+            font-size: 0.875rem;
+          }
+        }
+      }
     }
 
-    &.expanded {
-      width: shared.$vet-sidebar-width-full;
-      min-width: shared.$vet-sidebar-width-full;
-      align-items: flex-start;
+    .mobile-content-container {
+      flex: 1;
+      overflow: auto;
+      padding: var(--mobile-padding);
+      border-radius: var(--container-border-radius);
+      background-color: var(--container-bg-color);
     }
   }
-}
 
-.sidebar-menu-toggle-container {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 0.75rem;
-}
+  @media (min-width: 768px) {
+    .step-content-container {
+      overflow: auto;
+      flex: 1;
+      height: 100%;
+      padding: var(--container-padding);
+      border-radius: var(--container-border-radius);
+      background-color: var(--container-bg-color);
+    }
 
-.sidebar-menu-toggle {
-  background-color: shared.$tb-kendo-color-surface;
-  border-color: shared.$tb-kendo-color-surface;
-  width: 1.625rem;
-  height: 1.625rem;
-  transition: all 200ms ease-out;
-}
+    .stepper-container {
+      width: 100%;
+      max-width: 4.5rem;
+      min-width: 4.5rem;
+      transition: all 200ms ease-in-out;
+      height: 100%;
+      padding: var(--container-padding);
+      border-radius: var(--container-border-radius);
+      background-color: var(--container-bg-color);
 
-.stepper-container.expanded {
-  justify-content: center;
+      kendo-stepper {
+        max-width: 2rem;
+      }
 
-  .sidebar-menu-toggle-container {
-    width: 100%;
-    justify-content: flex-end;
+      &.expanded {
+        width: shared.$vet-sidebar-width-full;
+        min-width: shared.$vet-sidebar-width-full;
+        align-items: flex-start;
+      }
+    }
+
+    .sidebar-menu-toggle-container {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 0.75rem;
+    }
+
+    .sidebar-menu-toggle {
+      background-color: shared.$tb-kendo-color-surface;
+      border-color: shared.$tb-kendo-color-surface;
+      width: 1.625rem;
+      height: 1.625rem;
+      transition: all 200ms ease-out;
+    }
+
+    .stepper-container.expanded {
+      justify-content: center;
+
+      .sidebar-menu-toggle-container {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .sidebar-menu-toggle {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
   }
 
-  .sidebar-menu-toggle {
-    width: 2rem;
-    height: 2rem;
+  @media (min-width: 992px) {
+    .stepper-container {
+      &.expanded {
+        // Additional desktop-specific styles can go here
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .mobile-stepper-container {
+      kendo-stepper {
+        .k-stepper-steps {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .k-step {
+          flex: 1;
+
+          &.k-step-current {
+            .k-step-indicator {
+              background-color: shared.$tb-kendo-color-primary;
+              color: white;
+            }
+          }
+
+          &.k-step-done {
+            .k-step-indicator {
+              background-color: shared.$tb-kendo-color-primary;
+              color: white;
+            }
+          }
+
+          .k-step-indicator {
+            border: 2px solid shared.$tb-kendo-color-border;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin: 0 auto;
+          }
+        }
+
+        .k-step-label {
+          display: none;
+        }
+
+        .k-step-separator {
+          flex: 1;
+          height: 2px;
+          background-color: shared.$tb-kendo-color-border;
+          margin: 0 0.5rem;
+
+          &.k-step-separator-done {
+            background-color: shared.$tb-kendo-color-primary;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 767px) and (pointer: coarse) {
+    .mobile-stepper-container {
+      kendo-stepper {
+        .k-step-indicator {
+          min-width: 2.75rem;
+          min-height: 2.75rem;
+          font-size: 1rem;
+        }
+      }
+    }
   }
 }

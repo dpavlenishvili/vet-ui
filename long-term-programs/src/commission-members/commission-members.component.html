@@ -67,13 +67,14 @@
 
         <kendo-grid-column [title]="'programs.other' | transloco" [width]="60">
           <ng-template kendoGridCellTemplate let-item>
-            <div class="k-display-flex k-align-items-center">
+            <div class="k-display-flex k-align-items-center k-justify-content-center">
               <button
                 kendoButton
                 fillMode="flat"
-                [svgIcon]="vetIcons.plusCircled"
                 (click)="onMemberAddClick(item, item.commission_members)"
-              ></button>
+              >
+                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
+              </button>
             </div>
           </ng-template>
         </kendo-grid-column>
@@ -87,6 +88,7 @@
     (dialogClose)="closeDialog()"
     (reloadProgramsWithCommissionMembers)="reloadProgramsWithCommissionMembers()"
     [programCode]="selectedProgramCode()"
+    [programId]="selectedProgramId()"
     [programName]="selectedProgramName()"
     [commissionMembers]="selectedProgramCommissionMembers()"
   />

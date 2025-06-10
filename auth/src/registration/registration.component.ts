@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal, HostListener } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
@@ -58,6 +58,8 @@ export class RegistrationComponent implements OnInit {
   lastCitizenshipValue = '';
   phoneVerified = signal(false);
   personVerified = signal(false);
+  isMobile = signal(false);
+  stepperOrientation = signal<'horizontal' | 'vertical'>('horizontal');
 
   steps = [
     {
@@ -99,6 +101,11 @@ export class RegistrationComponent implements OnInit {
   private router = inject(Router);
   private registrationService = inject(RegisterService);
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.updateResponsiveState();
+  }
+
   ngOnInit(): void {
     if (!this.router.url.includes('/citizenship_selection')) {
       void this.router.navigate(['/registration/citizenship_selection']);
@@ -106,6 +113,26 @@ export class RegistrationComponent implements OnInit {
 
     if (this.citizenship) {
       this.lastCitizenshipValue = this.citizenship;
+    }
+
+    this.updateResponsiveState();
+  }
+
+  private updateResponsiveState(): void {
+    const width = window.innerWidth;
+    const mobile = width < 768;
+
+    this.isMobile.set(mobile);
+
+    if (mobile) {
+      this.stepperOrientation.set('horizontal');
+      this.isExpanded.set(false);
+    } else if (width < 992) {
+      this.stepperOrientation.set('vertical');
+      this.isExpanded.set(false);
+    } else {
+      this.stepperOrientation.set('vertical');
+      this.isExpanded.set(true);
     }
   }
 
@@ -309,7 +336,9 @@ export class RegistrationComponent implements OnInit {
   }
 
   onToggleExpansion() {
-    this.isExpanded.update((value) => !value);
+    if (!this.isMobile()) {
+      this.isExpanded.update((value) => !value);
+    }
   }
 
   setPhoneVerified(verified: boolean) {

@@ -1,17 +1,17 @@
-import {AdmissionPrograms, LongTerm} from '@vet/backend';
-import {ChangeDetectionStrategy, Component, input, output, signal} from '@angular/core';
-import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {InputsModule, RadioButtonModule} from '@progress/kendo-angular-inputs';
-import {ButtonModule} from '@progress/kendo-angular-buttons';
-import {LabelModule} from '@progress/kendo-angular-label';
-import {SVGIconModule} from '@progress/kendo-angular-icons';
+import { AdmissionPrograms, LongTerm } from '@vet/backend';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
+import { ButtonModule } from '@progress/kendo-angular-buttons';
+import { LabelModule } from '@progress/kendo-angular-label';
+import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {useConfirm, vetIcons} from '@vet/shared';
-import {KENDO_GRID} from '@progress/kendo-angular-grid';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {KENDO_DIALOG} from '@progress/kendo-angular-dialog';
-import {ProgramComponent} from '../../../programs/src/program/program.component';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { useConfirm, vetIcons } from '@vet/shared';
+import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
+import { ProgramComponent } from '../../../programs/src/program/program.component';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 

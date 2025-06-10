@@ -23,6 +23,7 @@
       "@vet/long-term-programs": ["long-term-programs/src/index.ts"],
       "@vet/programs": ["programs/src/index.ts"],
       "@vet/shared": ["shared/src/index.ts"],
+      "@vet/short-term-programs": ["short-term-programs/src/index.ts"],
       "@vet/user-profile": ["user-profile/src/index.ts"]
     },
     "noUnusedLocals": false

@@ -1,210 +1,210 @@
 @if (form(); as form) {
-  <div class="k-w-full">
-    <form [formGroup]="form">
-      <div class="container">
-        <div class="top-section">
-          <div class="k-d-flex k-gap-4">
-            <kendo-formfield>
-              <kendo-label [text]="'shared.education' | transloco">
-                <kendo-dropdownlist
-                  [data]="educations$.value()"
-                  textField="value"
-                  valueField="id"
-                  formControlName="education"
-                  (valueChange)="educationChange($event)"
-                  [valuePrimitive]="true"
-                />
-              </kendo-label>
-              @if (form.controls['education']; as control) {
-                @if (control.touched) {
-                  @if (control.errors?.['required']) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                }
+  <form class="form-container" [formGroup]="form">
+    <div class="top-section">
+      <div class="k-d-flex k-gap-4 form-fields-container">
+        <kendo-formfield>
+          <kendo-label [text]="'shared.education' | transloco">
+            <kendo-dropdownlist
+              [data]="educations$.value()"
+              textField="value"
+              valueField="id"
+              formControlName="education"
+              (valueChange)="educationChange($event)"
+              [valuePrimitive]="true"
+            />
+          </kendo-label>
+          @if (form.controls['education']; as control) {
+            @if (control.touched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
               }
-            </kendo-formfield>
+            }
+          }
+        </kendo-formfield>
 
-            <kendo-formfield>
-              <kendo-label [text]="'shared.testCity' | transloco">
-                <kendo-dropdownlist
-                  [data]="cities$.value()"
-                  textField="name"
-                  valueField="id"
-                  formControlName="district_id"
-                  (valueChange)="districtChange()"
-                  [valuePrimitive]="true"
-                />
-              </kendo-label>
-              @if (form.controls['district_id']; as control) {
-                @if (control.touched) {
-                  @if (control.errors?.['required']) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                }
-              }
-            </kendo-formfield>
-            <kendo-formfield>
-              <kendo-label [text]="'shared.testLanguage' | transloco">
-                <kendo-dropdownlist
-                  [data]="languages$.value()"
-                  textField="value"
-                  valueField="id"
-                  formControlName="language"
-                  (valueChange)="languageChange()"
-                  [valuePrimitive]="true"
-                />
-              </kendo-label>
-              @if (form.controls['language']; as control) {
-                @if (control.touched) {
-                  @if (control.errors?.['required']) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                }
-              }
-            </kendo-formfield>
-          </div>
-          @if (invalidStudentStatus()) {
-            <div class="k-mt-3">
-              <vet-file-upload
-                [title]="'programs.uploadEducationDocument'"
-                [uploadedFiles]="form?.get('doc')?.getRawValue()"
-                (fileUploaded)="handleFileUpload($event, 'doc')"
-                (fileRemoved)="handleRemoveFile($event, 'doc')"
-              />
-            </div>
-          }
-        </div>
-        <div class="section">
-          <div class="title k-text-md">
-            <span>{{ 'programs.needAdaptedEnvironment' | transloco }}</span>
-            <kendo-switch
-              [onLabel]="'shared.yes' | transloco"
-              [offLabel]="'shared.no' | transloco"
-              [checked]="form?.get('spec_env')?.getRawValue()?.length > 0"
-              (valueChange)="onSpecEnvSwitchChange($event)"
-              #specEnvSwitch
+        <kendo-formfield>
+          <kendo-label [text]="'shared.testCity' | transloco">
+            <kendo-dropdownlist
+              [data]="cities$.value()"
+              textField="name"
+              valueField="id"
+              formControlName="district_id"
+              (valueChange)="districtChange()"
+              [valuePrimitive]="true"
             />
-          </div>
-          @if (specEnvSwitch.checked) {
-            <div class="checkbox-selection-container">
-              <div class="k-mb-3 k-text-base">
-                {{ 'programs.please_select_your_requirement' | transloco }}
-              </div>
-              <div class="k-d-flex k-gap-3 k-justify-content-between">
-                @for (specEnv of specEnvs(); track specEnv) {
-                  <div>
-                    <input
-                      type="checkbox"
-                      kendoCheckBox
-                      #specEnvCheckBox
-                      [checked]="form?.get('spec_env')?.getRawValue().includes(specEnv)"
-                      (change)="onSpecEnvChange(specEnvCheckBox.checked, specEnv)"
-                    />
-                    <kendo-label class="k-checkbox-label" [for]="specEnvCheckBox" [text]="specEnv | transloco" />
-                  </div>
-                }
-              </div>
-              <div class="k-mt-3">
-                @if (
-                  form?.get('spec_env')?.invalid &&
-                  !form?.get('spec_env')?.untouched &&
-                  specEnvSwitch.checked &&
-                  form?.get('spec_env')?.value?.length === 0
-                ) {
-                  <kendo-formerror>{{ 'shared.minOneFieldIsRequired' | transloco }}</kendo-formerror>
-                }
-              </div>
-            </div>
+          </kendo-label>
+          @if (form.controls['district_id']; as control) {
+            @if (control.touched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+              }
+            }
           }
-        </div>
+        </kendo-formfield>
 
-        <div class="section">
-          <div class="title k-text-md">
-            <span>
-              @if (user()?.residential === citizenship.Georgian) {
-                {{ 'programs.completedForeignGeneralEducation' | transloco }}
-              } @else {
-                {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
+        <kendo-formfield>
+          <kendo-label [text]="'shared.testLanguage' | transloco">
+            <kendo-dropdownlist
+              [data]="languages$.value()"
+              textField="value"
+              valueField="id"
+              formControlName="language"
+              (valueChange)="languageChange()"
+              [valuePrimitive]="true"
+            />
+          </kendo-label>
+          @if (form.controls['language']; as control) {
+            @if (control.touched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
               }
-            </span>
-            <kendo-switch
-              [onLabel]="'shared.yes' | transloco"
-              [offLabel]="'shared.no' | transloco"
-              [disabled]="abroadSwitch.checked"
-              #ocuSwitch
-              (valueChange)="
-                toggleSwitcher(
-                  $event,
-                  user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad'
-                )
-              "
-              [checked]="isAbroadEnabled()"
-            />
-          </div>
-          @if (ocuSwitch.checked && !abroadSwitch.checked) {
-            <vet-info variant="warning">
-              {{ 'programs.switchWarning' | transloco }}
-            </vet-info>
-            <vet-file-upload
-              [title]="'programs.uploadEducationDocument'"
-              [uploadedFiles]="abroadDoc()?.getRawValue()"
-              [errorMessage]="
-                !(abroadDoc()?.touched && abroadDoc()?.errors?.['required'])
-                  ? null
-                  : ('programs.uploadEducationDocument' | transloco)
-              "
-              (fileUploaded)="handleFileUpload($event, 'abroad_doc')"
-              (fileRemoved)="handleRemoveFile($event, 'abroad_doc')"
-            />
+            }
           }
-        </div>
-
-        <div class="section">
-          <div class="title k-text-md">
-            <span>
-              @if (user()?.residential === citizenship.Georgian) {
-                {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
-              } @else {
-                {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
-              }
-            </span>
-            <kendo-switch
-              [onLabel]="'shared.yes' | transloco"
-              [offLabel]="'shared.no' | transloco"
-              [disabled]="ocuSwitch.checked"
-              #abroadSwitch
-              (valueChange)="
-                toggleSwitcher(
-                  $event,
-                  user()?.residential === citizenship.Georgian ? 'ocu_doc' : 'complete_base_edu_abroad'
-                )
-              "
-              [checked]="isOcuEnabled()"
-            />
-          </div>
-          @if (abroadSwitch.checked && !ocuSwitch.checked) {
-            <vet-info variant="warning">
-              {{ 'programs.switchWarning' | transloco }}
-            </vet-info>
-            <vet-file-upload
-              [title]="'programs.uploadEducationDocument'"
-              [errorMessage]="
-                !(ocuDoc()?.touched && ocuDoc()?.errors?.['required'])
-                  ? null
-                  : ('programs.uploadEducationDocument' | transloco)
-              "
-              [uploadedFiles]="ocuDoc()?.getRawValue()"
-              (fileUploaded)="handleFileUpload($event, 'ocu_doc')"
-              (fileRemoved)="handleRemoveFile($event, 'ocu_doc')"
-            />
-          }
-        </div>
+        </kendo-formfield>
       </div>
-      <div class="k-display-flex k-justify-content-end">
-        <button kendoButton themeColor="primary" (click)="onNextClick()">
-          {{ 'auth.next' | transloco }}
-        </button>
+
+      @if (invalidStudentStatus()) {
+        <div class="k-mt-3">
+          <vet-file-upload
+            [title]="'programs.uploadEducationDocument'"
+            [uploadedFiles]="form?.get('doc')?.getRawValue()"
+            (fileUploaded)="handleFileUpload($event, 'doc')"
+            (fileRemoved)="handleRemoveFile($event, 'doc')"
+          />
+        </div>
+      }
+    </div>
+
+    <div class="section">
+      <div class="title k-text-md">
+        <span>{{ 'programs.needAdaptedEnvironment' | transloco }}</span>
+        <kendo-switch
+          [onLabel]="'shared.yes' | transloco"
+          [offLabel]="'shared.no' | transloco"
+          [checked]="form?.get('spec_env')?.getRawValue()?.length > 0"
+          (valueChange)="onSpecEnvSwitchChange($event)"
+          #specEnvSwitch
+        />
       </div>
-    </form>
-  </div>
+      @if (specEnvSwitch.checked) {
+        <div class="checkbox-selection-container">
+          <div class="k-mb-3 k-text-base">
+            {{ 'programs.please_select_your_requirement' | transloco }}
+          </div>
+          <div class="k-d-flex k-gap-3 k-justify-content-between checkbox-container">
+            @for (specEnv of specEnvs(); track specEnv) {
+              <div>
+                <input
+                  type="checkbox"
+                  kendoCheckBox
+                  #specEnvCheckBox
+                  [checked]="form?.get('spec_env')?.getRawValue().includes(specEnv)"
+                  (change)="onSpecEnvChange(specEnvCheckBox.checked, specEnv)"
+                />
+                <kendo-label class="k-checkbox-label" [for]="specEnvCheckBox" [text]="specEnv | transloco" />
+              </div>
+            }
+          </div>
+          <div class="k-mt-3">
+            @if (
+              form?.get('spec_env')?.invalid &&
+              !form?.get('spec_env')?.untouched &&
+              specEnvSwitch.checked &&
+              form?.get('spec_env')?.value?.length === 0
+              ) {
+              <kendo-formerror>{{ 'shared.minOneFieldIsRequired' | transloco }}</kendo-formerror>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="section">
+      <div class="title k-text-md">
+        <span>
+          @if (user()?.residential === citizenship.Georgian) {
+            {{ 'programs.completedForeignGeneralEducation' | transloco }}
+          } @else {
+            {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
+          }
+        </span>
+        <kendo-switch
+          [onLabel]="'shared.yes' | transloco"
+          [offLabel]="'shared.no' | transloco"
+          [disabled]="abroadSwitch.checked"
+          #ocuSwitch
+          (valueChange)="
+            toggleSwitcher(
+              $event,
+              user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad'
+            )
+          "
+          [checked]="isAbroadEnabled()"
+        />
+      </div>
+      @if (ocuSwitch.checked && !abroadSwitch.checked) {
+        <vet-info variant="warning">
+          {{ 'programs.switchWarning' | transloco }}
+        </vet-info>
+        <vet-file-upload
+          [title]="'programs.uploadEducationDocument'"
+          [uploadedFiles]="abroadDoc()?.getRawValue()"
+          [errorMessage]="
+            !(abroadDoc()?.touched && abroadDoc()?.errors?.['required'])
+              ? null
+              : ('programs.uploadEducationDocument' | transloco)
+          "
+          (fileUploaded)="handleFileUpload($event, 'abroad_doc')"
+          (fileRemoved)="handleRemoveFile($event, 'abroad_doc')"
+        />
+      }
+    </div>
+
+    <div class="section">
+      <div class="title k-text-md">
+        <span>
+          @if (user()?.residential === citizenship.Georgian) {
+            {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
+          } @else {
+            {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
+          }
+        </span>
+        <kendo-switch
+          [onLabel]="'shared.yes' | transloco"
+          [offLabel]="'shared.no' | transloco"
+          [disabled]="ocuSwitch.checked"
+          #abroadSwitch
+          (valueChange)="
+            toggleSwitcher(
+              $event,
+              user()?.residential === citizenship.Georgian ? 'ocu_doc' : 'complete_base_edu_abroad'
+            )
+          "
+          [checked]="isOcuEnabled()"
+        />
+      </div>
+      @if (abroadSwitch.checked && !ocuSwitch.checked) {
+        <vet-info variant="warning">
+          {{ 'programs.switchWarning' | transloco }}
+        </vet-info>
+        <vet-file-upload
+          [title]="'programs.uploadEducationDocument'"
+          [errorMessage]="
+            !(ocuDoc()?.touched && ocuDoc()?.errors?.['required'])
+              ? null
+              : ('programs.uploadEducationDocument' | transloco)
+          "
+          [uploadedFiles]="ocuDoc()?.getRawValue()"
+          (fileUploaded)="handleFileUpload($event, 'ocu_doc')"
+          (fileRemoved)="handleRemoveFile($event, 'ocu_doc')"
+        />
+      }
+    </div>
+
+    <div class="k-display-flex k-justify-content-end buttons-container">
+      <button kendoButton themeColor="primary" (click)="onNextClick()">
+        {{ 'auth.next' | transloco }}
+      </button>
+    </div>
+  </form>
 }

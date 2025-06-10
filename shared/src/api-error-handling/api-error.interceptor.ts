@@ -43,7 +43,9 @@ export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
         message: translatedMessage,
       };
 
-      uiHandler(resolvedError)
+      if (code !== 1004) {
+        uiHandler(resolvedError)
+      }
 
       return throwError(() => error);
     }),

@@ -1,15 +1,40 @@
-<kendo-dialog [width]="600" [title]="'programs.add_commission_member' | transloco" (close)="handleClose()">
+<kendo-dialog [width]="650" [title]="'programs.add_commission_member' | transloco" (close)="handleClose()">
   @if (commissionMemberForm; as form) {
     <form [formGroup]="form">
       <div class="k-display-flex k-flex-column k-gap-5">
         <div class="k-display-flex k-gap-4.5 k-flex-1">
-          <kendo-textbox
-            formControlName="pid"
-            [size]="'large'"
-            [placeholder]="'programs.id_passport_number' | transloco"
-          />
+          <kendo-label>
+            <kendo-textbox
+              formControlName="pid"
+              [size]="'large'"
+              [placeholder]="'programs.id_passport_number' | transloco"
+            />
+            @if (form.controls['pid']; as control) {
+              @if (control.touched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              }
+            }
+          </kendo-label>
 
-          <kendo-textbox formControlName="name" [size]="'large'" [placeholder]="'programs.last_name' | transloco" />
+          <kendo-label>
+            <kendo-textbox 
+              formControlName="name" 
+              [size]="'large'" 
+              [placeholder]="'programs.last_name' | transloco" 
+            />
+            @if (form.controls['name']; as control) {
+              @if (control.touched || control.value) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+                @if (control.errors?.['georgianLettersError']) {
+                  <kendo-formerror>{{ 'shared.invalidGeorgianLetters' | transloco }}</kendo-formerror>
+                }
+              }
+            }
+          </kendo-label>
         </div>
 
         <div class="k-display-flex k-align-self-end">
@@ -46,43 +71,49 @@
           </div>
         }
 
-        @if (isCommissionMembersGridVisible()) {
-          <kendo-grid [data]="updatedCommissionMembers()">
-            <ng-template kendoGridNoRecordsTemplate>
-              {{ 'programs.no_commission_members' | transloco }}
-            </ng-template>
-
-            <kendo-grid-column [title]="'programs.commission_members' | transloco">
-              <ng-template kendoGridCellTemplate let-item>
-                <div class="k-display-flex k-gap-1">
-                  <p>{{ item.firstName }}</p>
-                  <p>{{ item.lastName }}</p>
-                </div>
-              </ng-template>
-            </kendo-grid-column>
-
-            <kendo-grid-column [title]="'programs.other' | transloco" [width]="65">
-              <ng-template kendoGridCellTemplate let-item>
-                <button
-                  kendoButton
-                  fillMode="flat"
-                  [svgIcon]="vetIcons.xCircled"
-                  (click)="removeCommissionMember(item)"
-                ></button>
-              </ng-template>
-            </kendo-grid-column>
-          </kendo-grid>
-
-          <vet-info variant="warning">
-            {{ 'programs.commission_add_warning' | transloco }}
-          </vet-info>
-
-          <div class="k-display-flex k-align-self-end">
-            <button kendoButton themeColor="primary" look="default" (click)="saveChanges()">
-              {{ 'programs.save' | transloco }}
-            </button>
+        @if (temporaryErrorMessage()) {
+          <div
+            @fadeInOut
+            class="k-text-error k-display-flex k-align-items-center error-message k-justify-content-center"
+          >
+            <p>{{ temporaryErrorMessage() | transloco }}</p>
           </div>
         }
+
+        <kendo-grid [data]="updatedCommissionMembers()">
+          <ng-template kendoGridNoRecordsTemplate>
+            {{ 'programs.no_commission_members' | transloco }}
+          </ng-template>
+
+          <kendo-grid-column [title]="'programs.commission_members' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              <div class="k-display-flex k-gap-1">
+                <p>{{ item.firstName }}</p>
+                <p>{{ item.lastName }}</p>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column [title]="'programs.other' | transloco" [width]="65">
+            <ng-template kendoGridCellTemplate let-item>
+              <div class="k-display-flex k-justify-content-center">
+                <button kendoButton fillMode="flat" (click)="removeCommissionMember(item)">
+                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
+                </button>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+        </kendo-grid>
+
+        <vet-info variant="warning">
+          {{ 'programs.commission_add_warning' | transloco }}
+        </vet-info>
+
+        <div class="k-display-flex k-align-self-end">
+          <button kendoButton themeColor="primary" look="default" (click)="saveChanges()">
+            {{ 'programs.save' | transloco }}
+          </button>
+        </div>
       </div>
     </form>
   }

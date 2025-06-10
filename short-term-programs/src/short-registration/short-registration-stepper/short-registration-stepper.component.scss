@@ -1,0 +1,70 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-short-registration-stepper {
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+}
+
+.vet-stepper-container {
+  min-width: 4.5rem;
+  max-width: 4.5rem;
+  padding: 1rem 0;
+  border-radius: 1.25rem;
+  background-color: shared.$white;
+
+  kendo-stepper {
+    max-width: 2rem;
+  }
+
+  .vet-stepper-toggle-container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.75rem;
+
+    .vet-stepper-toggle {
+      background-color: shared.$tb-kendo-color-surface;
+      border-color: shared.$tb-kendo-color-surface;
+      width: 1.625rem;
+      height: 1.625rem;
+      transition: all 200ms ease-out;
+    }
+  }
+
+  &.expanded {
+    min-width: 16rem;
+    max-width: 16rem;
+    align-items: flex-start;
+    justify-content: center;
+
+    .vet-stepper-toggle-container {
+      width: 100%;
+      justify-content: flex-end;
+
+      .vet-stepper-toggle {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+  }
+
+  .vet-stepper-content {
+    padding: 0 1rem;
+  }
+}
+
+.vet-short-registration-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  height: max-content;
+  gap: 1.25rem;
+  padding: 1rem 1rem 1.875rem;
+  border-radius: 1.25rem;
+  background-color: shared.$white;
+}

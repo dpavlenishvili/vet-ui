@@ -35,5 +35,12 @@ export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): V
     return null;
   }
 
+  const passwordHasPatternError = passwordControl.hasError('passwordPattern');
+  const confirmPasswordHasPatternError = confirmPasswordControl.hasError('passwordPattern');
+
+  if (passwordHasPatternError || confirmPasswordHasPatternError) {
+    return null;
+  }
+
   return password === confirmPassword ? null : { passwordMismatch: true };
 };

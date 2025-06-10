@@ -1,0 +1,30 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-shorts-general-information-step {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vet-shorts-selector {
+  width: 18.4375rem;
+}
+
+.vet-shorts-step-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.625rem;
+}
+
+.vet-shorts-step-footer-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+}

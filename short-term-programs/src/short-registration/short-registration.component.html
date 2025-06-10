@@ -1,0 +1,38 @@
+<div class="vet-short-registration">
+  <vet-short-registration-stepper
+    [steps]="steps"
+    [stepIndex]="stepIndex()"
+    (stepIndexChange)="onStepIndexChange($event)"
+  />
+</div>
+
+<ng-template #generalInformationStepTemplate>
+  <vet-short-registration-general-information-step
+    [formGroup]="formGroup.controls.general_information"
+    (next)="onNext()"
+  />
+</ng-template>
+
+<ng-template #programSelectionStepTemplate>
+  <vet-short-registration-program-selection-step
+    [formGroup]="formGroup.controls.program_selection"
+    (next)="onNext()"
+    (back)="onBack()"
+  />
+</ng-template>
+
+<ng-template #selectedProgramsStepTemplate>
+  <vet-short-registration-selected-programs-step
+    [formGroup]="formGroup.controls.program_selection"
+    (next)="onNext()"
+    (back)="onBack()"
+  />
+</ng-template>
+
+<ng-template #confirmationStepTemplate>
+  <vet-short-registration-confirmation-step
+    [formGroup]="formGroup.controls.program_selection"
+    (complete)="onSubmit()"
+    (back)="onBack()"
+  />
+</ng-template>

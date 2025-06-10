@@ -1,0 +1,27 @@
+<form [formGroup]="filterForm">
+  <div class="filters-container">
+    <kendo-dropdownlist
+      [defaultItem]="{ text: 'shared.program' | transloco, value: null }"
+      [textField]="'text'"
+      [valueField]="'value'"
+      formControlName="program"
+      [valuePrimitive]="true"
+    />
+
+    <kendo-textbox [placeholder]="'programs.pid' | transloco" formControlName="pid" />
+
+    <kendo-textbox [placeholder]="'programs.fullname' | transloco" formControlName="fullname" />
+  </div>
+
+  <div class="k-display-flex k-justify-content-between k-align-items-center k-pt-5">
+    <p>{{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}</p>
+
+    <div class="k-display-flex k-justify-content-end k-gap-2">
+      <button kendoButton type="secondary" [svgIcon]="vetIcons.xIcon" (click)="clearFilters()"></button>
+
+      <button kendoButton themeColor="primary" [svgIcon]="vetIcons.search" (click)="onSubmit()">
+        {{ 'shared.search' | transloco }}
+      </button>
+    </div>
+  </div>
+</form>

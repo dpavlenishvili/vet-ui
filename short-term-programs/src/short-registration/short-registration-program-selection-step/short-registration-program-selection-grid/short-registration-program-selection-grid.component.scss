@@ -1,0 +1,16 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.short-grid-action-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.short-grid-action-button {
+  padding: 0.25rem;
+}

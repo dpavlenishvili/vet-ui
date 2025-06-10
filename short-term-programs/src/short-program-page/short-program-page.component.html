@@ -1,0 +1,27 @@
+@let program = program$.value();
+
+@if (program$.isLoading()) {
+  <div class="vet-short-page">
+    {{ 'shorts.loading' | transloco }}
+  </div>
+} @else if (program) {
+  <div class="vet-short-page">
+    <div class="vet-short-page-main">
+      <vet-short-program-header [program]="program" />
+
+      <vet-short-program-section [title]="'shorts.program_description' | transloco">
+        {{ program.description }}
+      </vet-short-program-section>
+
+      <vet-short-program-section [title]="'shorts.program_goal' | transloco">
+        {{ program.goal }}
+      </vet-short-program-section>
+
+      <vet-short-program-isced-list [iscedList]="program.isced_description" />
+
+      <vet-short-program-gallery [videoUrl]="program.video_url" />
+    </div>
+
+    <vet-short-program-contact-info [program]="program" />
+  </div>
+}

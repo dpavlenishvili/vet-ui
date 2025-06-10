@@ -1,27 +1,50 @@
-import {KENDO_DIALOG} from '@progress/kendo-angular-dialog';
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal} from '@angular/core';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {InputsModule} from '@progress/kendo-angular-inputs';
-import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
-import {CommissionService, User} from '@vet/backend';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {tap} from 'rxjs';
-import {KENDO_GRID} from '@progress/kendo-angular-grid';
-import {InfoComponent, ToastService, vetIcons} from '@vet/shared';
-import {UserRolesService} from '@vet/auth';
+import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
+import { ChangeDetectionStrategy, Component, inject, input, output, DestroyRef, signal, OnInit } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { CommissionService, User } from '@vet/backend';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
+import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import { vetIcons, InfoComponent, ToastService, georgianLettersValidator, personalNumberValidator } from '@vet/shared';
+import { UserRolesService } from '@vet/auth';
+import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { KENDO_LABEL } from '@progress/kendo-angular-label';
 
 @Component({
   selector: 'vet-commission-members-dialog',
-  imports: [KENDO_DIALOG, TranslocoPipe, ReactiveFormsModule, InputsModule, KENDO_BUTTON, KENDO_GRID, InfoComponent],
+  imports: [
+    KENDO_DIALOG,
+    TranslocoPipe,
+    ReactiveFormsModule,
+    InputsModule,
+    KENDO_BUTTON,
+    KENDO_GRID,
+    InfoComponent,
+    KENDO_SVGICON,
+    KENDO_LABEL,
+  ],
   templateUrl: './commission-members-dialog.component.html',
   styleUrl: './commission-members-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(10px)' }))]),
+    ]),
+  ],
 })
 export class CommissionMembersDialogComponent implements OnInit {
   dialogClose = output();
   reloadProgramsWithCommissionMembers = output();
   programCode = input<string>();
+  programId = input<string>();
   programName = input<string>();
   commissionMembers = input<User[]>();
 
@@ -36,18 +59,34 @@ export class CommissionMembersDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCommissionMembersGridData();
+    this.clearTemporaryError();
+  }
+
+  showTemporaryError(error: string): void {
+    this.temporaryErrorMessage.set(error);
+  }
+
+  clearTemporaryError() {
+    this.commissionMemberForm.valueChanges
+      .pipe(
+        tap(() => {
+          this.temporaryErrorMessage.set(null);
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   isCommissionMemberValid = signal(false);
   updatedCommissionMembers = signal<User[]>([]);
+  temporaryErrorMessage = signal<string | null>(null);
 
   vetIcons = vetIcons;
-  isCommissionMembersGridVisible = signal(false);
 
   createFormGroup() {
     return new FormGroup({
-      pid: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
+      pid: new FormControl('', [Validators.required, personalNumberValidator]),
+      name: new FormControl('', [Validators.required, georgianLettersValidator]),
       first_name: new FormControl(),
       last_name: new FormControl(),
       phone: new FormControl(),
@@ -62,26 +101,32 @@ export class CommissionMembersDialogComponent implements OnInit {
 
   checkCommissionMember() {
     this.isCommissionMemberValid.set(false);
-
-    if (this.updatedCommissionMembers().length === 6) {
-      this.isCommissionMembersGridVisible.set(true);
-    }
+    this.commissionMemberForm.markAllAsTouched();
 
     const value = this.commissionMemberForm.value;
     this.commissionService
       .findCommissionMember({ pid: value.pid, name: value.name })
       .pipe(
-        tap((member) => {
-          this.isCommissionMemberValid.set(true);
-          this.commissionMemberForm.get('first_name')?.setValue(member.data?.first_name);
-          this.commissionMemberForm.get('last_name')?.setValue(member.data?.last_name);
-          this.commissionMemberForm.get('phone')?.setValue(member.data?.phone);
-          this.commissionMemberForm.get('program_code')?.setValue(this.programCode());
-          this.commissionMemberForm.get('program_name')?.setValue(`${this.programCode()} - ${this.programName()}`);
-          this.commissionMemberForm.get('first_name')?.disable();
-          this.commissionMemberForm.get('phone')?.disable();
-          this.commissionMemberForm.get('program_code')?.disable();
-          this.commissionMemberForm.get('program_name')?.disable();
+        tap({
+          next: (member) => {
+            if (this.validateCommissonMembers()) {
+              this.isCommissionMemberValid.set(true);
+              this.commissionMemberForm.patchValue({
+                first_name: member.data?.first_name,
+                last_name: member.data?.last_name,
+                phone: member.data?.phone,
+                program_code: this.programId(),
+                program_name: `${this.programCode()} - ${this.programName()}`,
+              });
+
+              ['first_name', 'phone', 'program_code', 'program_name'].forEach((field) => {
+                this.commissionMemberForm.get(field)?.disable();
+              });
+            }
+          },
+          error: () => {
+            this.showTemporaryError('programs.user_is_not_registered');
+          },
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -100,13 +145,9 @@ export class CommissionMembersDialogComponent implements OnInit {
     return this.updatedCommissionMembers().map((member) => member.pid);
   }
 
-  addCommissionMember() {
-    if (this.commissionMemberForm.invalid) {
-      return;
-    }
-
-    const formValue = this.commissionMemberForm.value;
-    const newMember: User = {
+  private getNewCommissionMember(): User {
+    const formValue = this.commissionMemberForm.getRawValue();
+    return {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       pid: formValue.pid!,
       firstName: formValue.first_name,
@@ -115,20 +156,42 @@ export class CommissionMembersDialogComponent implements OnInit {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       name: formValue.name!,
     };
+  }
 
-    if (this.updatedCommissionMembers().length < 6) {
-      this.updatedCommissionMembers.update((members) => {
-        const exists = members.some((member) => member.pid === newMember.pid);
-        return exists ? members : [...members, newMember];
-      });
+  validateCommissonMembers(): boolean {
+    const newMember = this.getNewCommissionMember();
+    const currentMembers = this.updatedCommissionMembers();
 
-      this.isCommissionMembersGridVisible.set(true);
-      this.isCommissionMemberValid.set(false);
-      this.commissionMemberForm.get('name')?.reset();
-      this.commissionMemberForm.get('pid')?.reset();
-    } else {
-      this.toastService.error('programs.commission_members_add_rules');
+    if (currentMembers.some((member) => member.pid === newMember.pid)) {
+      this.showTemporaryError('programs.member_already_added');
+      return false;
     }
+
+    if (currentMembers.length >= 6) {
+      this.showTemporaryError('programs.commission_member_maximum_warning');
+      return false;
+    }
+
+    if (currentMembers.length < 3) {
+      this.showTemporaryError('programs.commission_member_minimum_warning');
+      return false;
+    }
+
+    this.temporaryErrorMessage.set(null);
+    return true;
+  }
+
+  addCommissionMember() {
+    if (this.commissionMemberForm.invalid) {
+      return;
+    }
+
+    const newMember = this.getNewCommissionMember();
+
+    this.updatedCommissionMembers.update((members) => [...members, newMember]);
+    this.isCommissionMemberValid.set(false);
+    this.commissionMemberForm.get('name')?.reset();
+    this.commissionMemberForm.get('pid')?.reset();
   }
 
   removeCommissionMember(user: User) {
@@ -137,7 +200,7 @@ export class CommissionMembersDialogComponent implements OnInit {
 
   saveChanges() {
     const payload = {
-      program: this.programCode() as string,
+      program: this.programId() as string,
       pids: this.getCommissionMembersPids() as string[],
     };
 
@@ -146,7 +209,6 @@ export class CommissionMembersDialogComponent implements OnInit {
       .pipe(
         tap({
           next: () => {
-            this.isCommissionMembersGridVisible.set(true);
             this.reloadProgramsWithCommissionMembers.emit();
             this.dialogClose.emit();
           },

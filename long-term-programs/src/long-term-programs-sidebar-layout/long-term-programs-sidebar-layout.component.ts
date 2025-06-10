@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {LongTermProgramsSidebarComponent} from '../long-term-programs-sidebar/long-term-programs-sidebar.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { LongTermProgramsSidebarComponent } from '../long-term-programs-sidebar/long-term-programs-sidebar.component';
 
 @Component({
   selector: 'vet-long-term-programs-sidebar-layout',

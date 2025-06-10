@@ -1,0 +1,42 @@
+<form class="vet-shorts-general-information-step" [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
+  <div class="k-display-flex k-flex-column k-gap-11 k-pt-2">
+    <vet-short-term-programs-filters
+      [filterOptionsMap]="filterOptionsMap()"
+      [filters]="filters()"
+      (filtersChange)="onFiltersChange($event)"
+    />
+
+    <div class="k-display-flex k-gap-10 k-flex-column">
+      <div class="responsive-grid-container">
+        @if (isBrowser) {
+          <vet-short-registration-program-selection-grid
+            [items]="programs()"
+            [isLoading]="data.isLoading()"
+          />
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="vet-shorts-step-footer">
+    <button
+      kendoButton
+      class="vet-form-button"
+      type="button"
+      themeColor="tertiary"
+      (click)="onBack()"
+    >
+      {{ 'shorts.go_back' | transloco }}
+    </button>
+
+    <button
+      kendoButton
+      class="vet-form-button"
+      type="submit"
+      themeColor="primary"
+      [disabled]="formGroup().invalid"
+    >
+      {{ 'shorts.continue' | transloco }}
+    </button>
+  </div>
+</form>

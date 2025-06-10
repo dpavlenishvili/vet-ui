@@ -1,15 +1,15 @@
-import {ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal} from '@angular/core';
-import {AdmissionReq, AdmissionService} from '@vet/backend';
-import {Router} from '@angular/router';
-import {UserRolesService} from '@vet/auth';
-import {KENDO_GRID, PageChangeEvent} from '@progress/kendo-angular-grid';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {filterNullValues, FormatDateTimePipe, RouteParamsService, vetIcons} from '@vet/shared';
-import {ButtonComponent} from '@progress/kendo-angular-buttons';
-import {AdmissionsListFilterComponent} from './admissions-list-filter/admissions-list-filter.component';
-import {rxResource} from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
+import { AdmissionReq, AdmissionService } from '@vet/backend';
+import { Router } from '@angular/router';
+import { UserRolesService } from '@vet/auth';
+import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { filterNullValues, FormatDateTimePipe, RouteParamsService, vetIcons } from '@vet/shared';
+import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { AdmissionsListFilterComponent } from './admissions-list-filter/admissions-list-filter.component';
+import { rxResource } from '@angular/core/rxjs-interop';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import {isPlatformBrowser} from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 
 export type AdmissionListFilter = {
   search?: unknown | null;

@@ -8,6 +8,7 @@ import { userProfileRoutes } from '@vet/user-profile';
 import { authenticatedGuard, authRoutes, unAuthenticatedGuard } from '@vet/auth';
 import { homeRoutes } from '@vet/home';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { shortTermProgramsRoutes } from '@vet/short-term-programs';
 
 export const appRoutes: Routes = [
   {
@@ -18,6 +19,12 @@ export const appRoutes: Routes = [
         path: '',
         pathMatch: 'full',
         children: homeRoutes,
+      },
+      {
+        path: 'programs/short',
+        children: shortTermProgramsRoutes,
+        data: breadcrumb([]),
+        canActivate: [],
       },
       {
         path: 'programs',

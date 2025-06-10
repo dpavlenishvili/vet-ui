@@ -1,5 +1,5 @@
-import type {Route} from '@angular/router';
-import {type AppBreadCrumbItem, breadcrumb} from '@vet/shared';
+import type { Route } from '@angular/router';
+import { type AppBreadCrumbItem, breadcrumb } from '@vet/shared';
 
 const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }];
 

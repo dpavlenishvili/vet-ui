@@ -22,6 +22,46 @@ export class RegistrationTermsAndConditionsComponent {
   previousClick = output();
   nextClick = output();
 
+  personalDataItems = [
+    'auth.personal_data_name',
+    'auth.personal_data_id',
+    'auth.personal_data_birth_date',
+    'auth.personal_data_gender',
+    'auth.personal_data_citizenship',
+    'auth.personal_data_address',
+    'auth.personal_data_photo',
+    'auth.personal_data_contact',
+    'auth.personal_data_education'
+  ];
+
+  processingPurposesItems = [
+    'auth.processing_purpose_identification',
+    'auth.processing_purpose_citizenship',
+    'auth.processing_purpose_status',
+    'auth.processing_purpose_admission'
+  ];
+
+  specialDataItems = [
+    'auth.special_data_health',
+    'auth.special_data_social',
+    'auth.special_data_educational_needs',
+    'auth.special_data_veteran',
+    'auth.special_data_refugee'
+  ];
+
+  specialDataPurposesItems = [
+    'auth.special_purpose_disability',
+    'auth.special_purpose_migration',
+    'auth.special_purpose_legal'
+  ];
+
+  dataSourcesItems = [
+    'auth.data_source_registration',
+    'auth.data_source_state_services',
+    'auth.data_source_social_services',
+    'auth.data_source_education_systems'
+  ];
+
   onPreviousClick() {
     this.previousClick.emit();
   }

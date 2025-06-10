@@ -3,7 +3,7 @@
     @if (commissionCriteria$.value(); as _commissionCriteria) {
       @if (commissionScoresFormGroup; as formGroup) {
         <form [formGroup]="formGroup">
-          <div formArrayName="scores" class="k-display-flex k-flex-column k-gap-12">
+          <div formArrayName="scores" class="k-display-flex k-flex-column k-gap-5">
             @for (item of CommissionCriteria.controls; track $index) {
               <div [formGroup]="item" class="score-container">
                 <p>{{ _commissionCriteria?.data?.[$index]?.name }}</p>
@@ -19,6 +19,10 @@
         </form>
       }
     }
+
+    <vet-info variant="warning">
+      {{ 'programs.commission_review_warning' | transloco }}
+    </vet-info>
 
     <div class="k-display-flex k-justify-content-between">
       <button kendoButton themeColor="secondary" look="default" (click)="handleClose()">

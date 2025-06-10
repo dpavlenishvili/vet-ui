@@ -9,29 +9,26 @@ import {
   signal,
   TemplateRef,
   viewChild,
+  HostListener,
 } from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {KENDO_LAYOUT, StepperActivateEvent} from '@progress/kendo-angular-layout';
-import {NgTemplateOutlet} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { KENDO_LAYOUT, StepperActivateEvent } from '@progress/kendo-angular-layout';
+import { NgTemplateOutlet } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  ProgramGeneralInformationStepComponent
-} from './program-general-information-step/program-general-information-step.component';
-import {ProgramSsmStepComponent} from './program-ssm-step/program-ssm-step.component';
-import {ProgramSelectionStepComponent} from './program-selection-step/program-selection-step.component';
-import {
-  ProgramSelectedProgramsStepComponent
-} from './program-selected-programs-step/program-selected-programs-step.component';
-import {ProgramConfirmationStepComponent} from './program-confirmation-step/program-confirmation-step.component';
-import {TranslocoPipe} from '@jsverse/transloco';
+import { ProgramGeneralInformationStepComponent } from './program-general-information-step/program-general-information-step.component';
+import { ProgramSsmStepComponent } from './program-ssm-step/program-ssm-step.component';
+import { ProgramSelectionStepComponent } from './program-selection-step/program-selection-step.component';
+import { ProgramSelectedProgramsStepComponent } from './program-selected-programs-step/program-selected-programs-step.component';
+import { ProgramConfirmationStepComponent } from './program-confirmation-step/program-confirmation-step.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 
-import {AdmissionReq, type AdmissionRequest} from '@vet/backend';
-import {AuthenticationService} from '@vet/auth';
-import {Citizenship, georgianMobileValidator, vetIcons} from '@vet/shared';
-import {StepBody, StepDefinition} from '../long-term-programs.types';
-import {ButtonComponent} from '@progress/kendo-angular-buttons';
-import {TooltipDirective} from '@progress/kendo-angular-tooltip';
+import { AdmissionReq, type AdmissionRequest } from '@vet/backend';
+import { AuthenticationService } from '@vet/auth';
+import { Citizenship, georgianMobileValidator, vetIcons } from '@vet/shared';
+import { StepBody, StepDefinition } from '../long-term-programs.types';
+import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-admission-wizard',
@@ -47,7 +44,6 @@ import {TooltipDirective} from '@progress/kendo-angular-tooltip';
     ProgramSelectedProgramsStepComponent,
     ProgramConfirmationStepComponent,
     ButtonComponent,
-    TooltipDirective,
   ],
   templateUrl: './admission-wizard.component.html',
   styleUrl: './admission-wizard.component.scss',
@@ -65,6 +61,12 @@ export class AdmissionWizardComponent implements OnInit {
   protected readonly vetIcons = vetIcons;
   protected readonly currentStepIndex = signal(0);
   protected currentStep = computed(() => this.steps()[this.currentStepIndex()]);
+
+  // Responsive properties
+  protected isMobile = signal(false);
+  protected stepperOrientation = signal<'horizontal' | 'vertical'>('horizontal');
+  protected stepType = signal<'indicator' | 'label' | 'full'>('full');
+
   protected steps = computed((): StepDefinition[] => [
     {
       label: 'programs.general_information',
@@ -116,6 +118,11 @@ export class AdmissionWizardComponent implements OnInit {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private authService = inject(AuthenticationService);
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.updateResponsiveState();
+  }
 
   readonly createFormGroup = computed(() => {
     const generalInformationControls: { [key: string]: FormControl } = {
@@ -187,6 +194,29 @@ export class AdmissionWizardComponent implements OnInit {
         education_level: educationStatus.level ?? null,
         education_level_id: educationStatus.levelId ?? null,
       });
+    }
+
+    this.updateResponsiveState();
+  }
+
+  private updateResponsiveState(): void {
+    const width = window.innerWidth;
+    const mobile = width < 768;
+
+    this.isMobile.set(mobile);
+
+    if (mobile) {
+      // Mobile: horizontal stepper at top, always collapsed
+      this.stepperOrientation.set('horizontal');
+      this.isExpanded.set(false);
+    } else if (width < 992) {
+      // Tablet: vertical stepper sidebar, collapsed by default
+      this.stepperOrientation.set('vertical');
+      this.isExpanded.set(false);
+    } else {
+      // Desktop: vertical stepper sidebar, expanded by default
+      this.stepperOrientation.set('vertical');
+      this.isExpanded.set(true);
     }
   }
 
@@ -312,7 +342,11 @@ export class AdmissionWizardComponent implements OnInit {
     });
   }
 
-  onToggleExpansion() {
-    this.isExpanded.update((value) => !value);
+  protected onToggleExpansion() {
+    // Only allow toggle on desktop/tablet, not mobile
+    if (!this.isMobile()) {
+      this.isExpanded.update((value) => !value);
+      this.stepType.set(this.isExpanded() ? 'full' : 'indicator');
+    }
   }
 }

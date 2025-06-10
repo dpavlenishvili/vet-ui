@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
-import {Router} from '@angular/router';
-import {type AdmissionRequest, AdmissionService} from '@vet/backend';
-import {useConfirm} from '@vet/shared';
-import {AdmissionWizardComponent} from '../admission-wizard/admission-wizard.component';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { type AdmissionRequest, AdmissionService } from '@vet/backend';
+import { useConfirm } from '@vet/shared';
+import { AdmissionWizardComponent } from '../admission-wizard/admission-wizard.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-admission-registration',
