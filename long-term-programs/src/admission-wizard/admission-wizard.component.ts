@@ -10,24 +10,28 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { KENDO_LAYOUT, StepperActivateEvent } from '@progress/kendo-angular-layout';
-import { NgTemplateOutlet } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {KENDO_LAYOUT, StepperActivateEvent} from '@progress/kendo-angular-layout';
+import {NgTemplateOutlet} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { ProgramGeneralInformationStepComponent } from './program-general-information-step/program-general-information-step.component';
-import { ProgramSsmStepComponent } from './program-ssm-step/program-ssm-step.component';
-import { ProgramSelectionStepComponent } from './program-selection-step/program-selection-step.component';
-import { ProgramSelectedProgramsStepComponent } from './program-selected-programs-step/program-selected-programs-step.component';
-import { ProgramConfirmationStepComponent } from './program-confirmation-step/program-confirmation-step.component';
-import { TranslocoPipe } from '@jsverse/transloco';
+import {
+  ProgramGeneralInformationStepComponent
+} from './program-general-information-step/program-general-information-step.component';
+import {ProgramSsmStepComponent} from './program-ssm-step/program-ssm-step.component';
+import {ProgramSelectionStepComponent} from './program-selection-step/program-selection-step.component';
+import {
+  ProgramSelectedProgramsStepComponent
+} from './program-selected-programs-step/program-selected-programs-step.component';
+import {ProgramConfirmationStepComponent} from './program-confirmation-step/program-confirmation-step.component';
+import {TranslocoPipe} from '@jsverse/transloco';
 
-import { AdmissionReq, type AdmissionRequest } from '@vet/backend';
-import { AuthenticationService } from '@vet/auth';
-import { Citizenship, georgianMobileValidator, vetIcons } from '@vet/shared';
-import { StepBody, StepDefinition } from '../long-term-programs.types';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import {AdmissionReq, type AdmissionRequest} from '@vet/backend';
+import {AuthenticationService} from '@vet/auth';
+import {Citizenship, georgianMobileValidator, vetIcons} from '@vet/shared';
+import {StepBody, StepDefinition} from '../long-term-programs.types';
+import {ButtonComponent} from '@progress/kendo-angular-buttons';
+import {TooltipDirective} from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-admission-wizard',

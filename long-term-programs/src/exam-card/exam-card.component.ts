@@ -1,14 +1,13 @@
-import { vetIcons } from '@vet/shared';
-import { CardService } from '@vet/backend';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ExamCardFilterComponent } from './exam-card-filter/exam-card-filter.component';
-import { KENDO_CARD } from '@progress/kendo-angular-layout';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { of } from 'rxjs';
-import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { JsonPipe } from '@angular/common';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import {vetIcons} from '@vet/shared';
+import {CardService} from '@vet/backend';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ExamCardFilterComponent} from './exam-card-filter/exam-card-filter.component';
+import {KENDO_CARD} from '@progress/kendo-angular-layout';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {rxResource} from '@angular/core/rxjs-interop';
+import {of} from 'rxjs';
+import {KENDO_SVGICON} from '@progress/kendo-angular-icons';
+import {KENDO_GRID} from '@progress/kendo-angular-grid';
 
 export type ExamCardFilters = {
   filters: {

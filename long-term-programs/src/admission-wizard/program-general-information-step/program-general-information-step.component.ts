@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
-import { ButtonModule } from '@progress/kendo-angular-buttons';
-import { LabelModule } from '@progress/kendo-angular-label';
-import { SVGIconModule } from '@progress/kendo-angular-icons';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { GeneralsService } from '@vet/backend';
-import { Citizenship, FileUploadComponent, InfoComponent, kendoIcons, UploadedFile, useConfirm } from '@vet/shared';
-import { delay, map, tap } from 'rxjs';
-import { AuthenticationService } from '@vet/auth';
-import { rxResource } from '@angular/core/rxjs-interop';
+import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output, signal} from '@angular/core';
+import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {InputsModule, RadioButtonModule} from '@progress/kendo-angular-inputs';
+import {ButtonModule} from '@progress/kendo-angular-buttons';
+import {LabelModule} from '@progress/kendo-angular-label';
+import {SVGIconModule} from '@progress/kendo-angular-icons';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {KENDO_DROPDOWNLIST} from '@progress/kendo-angular-dropdowns';
+import {GeneralsService} from '@vet/backend';
+import {Citizenship, FileUploadComponent, InfoComponent, kendoIcons, UploadedFile, useConfirm} from '@vet/shared';
+import {delay, map, tap} from 'rxjs';
+import {AuthenticationService} from '@vet/auth';
+import {rxResource} from '@angular/core/rxjs-interop';
 
 export type ProgramGeneralInformationStepFormGroup = FormGroup;
 

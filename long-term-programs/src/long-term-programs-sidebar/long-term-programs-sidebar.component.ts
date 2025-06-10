@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, signal, WritableSignal } from '@angular/core';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { vetIcons } from '@vet/shared';
-import { SVGIcon, SVGIconComponent } from '@progress/kendo-angular-icons';
-import { RouterLink } from '@angular/router';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { v4 as uuid } from 'uuid';
-import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import {ChangeDetectionStrategy, Component, signal, WritableSignal} from '@angular/core';
+import {ButtonComponent} from '@progress/kendo-angular-buttons';
+import {vetIcons} from '@vet/shared';
+import {SVGIcon, SVGIconComponent} from '@progress/kendo-angular-icons';
+import {RouterLink} from '@angular/router';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {v4 as uuid} from 'uuid';
+import {TooltipDirective} from '@progress/kendo-angular-tooltip';
 
 export interface LongTermProgramsSidebarMenuItemBase {
   id: string;

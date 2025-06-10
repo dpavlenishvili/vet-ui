@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { AdmissionListFilter } from '../admissions-list.component';
-import { TextBoxComponent, TextBoxSuffixTemplateDirective } from '@progress/kendo-angular-inputs';
-import { LabelComponent } from '@progress/kendo-angular-label';
-import { kendoIcons, vetIcons } from '@vet/shared';
-import { GeneralsService } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
-import { DropDownListComponent } from '@progress/kendo-angular-dropdowns';
-import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core';
+import {ButtonComponent} from '@progress/kendo-angular-buttons';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {AdmissionListFilter} from '../admissions-list.component';
+import {TextBoxComponent, TextBoxSuffixTemplateDirective} from '@progress/kendo-angular-inputs';
+import {LabelComponent} from '@progress/kendo-angular-label';
+import {kendoIcons, vetIcons} from '@vet/shared';
+import {GeneralsService} from '@vet/backend';
+import {rxResource} from '@angular/core/rxjs-interop';
+import {map} from 'rxjs';
+import {DropDownListComponent} from '@progress/kendo-angular-dropdowns';
+import {SVGIconComponent} from '@progress/kendo-angular-icons';
+import {TooltipDirective} from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-admissions-list-filter',

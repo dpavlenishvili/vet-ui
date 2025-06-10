@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { KENDO_CARD } from '@progress/kendo-angular-layout';
-import { DividerComponent, vetIcons } from '@vet/shared';
-import { UserRolesService } from '@vet/auth';
-import { CommissionService } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { CommissionReviewDialogComponent } from './commission-review-dialog/commission-review-dialog.component';
-import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
+import {KENDO_GRID} from '@progress/kendo-angular-grid';
+import {KENDO_CARD} from '@progress/kendo-angular-layout';
+import {DividerComponent, vetIcons} from '@vet/shared';
+import {UserRolesService} from '@vet/auth';
+import {CommissionService} from '@vet/backend';
+import {rxResource} from '@angular/core/rxjs-interop';
+import {CommissionReviewDialogComponent} from './commission-review-dialog/commission-review-dialog.component';
+import {KENDO_TOOLTIP} from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-commission-review',

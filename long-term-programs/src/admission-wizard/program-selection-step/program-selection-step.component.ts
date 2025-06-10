@@ -9,21 +9,21 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
-import { ButtonModule } from '@progress/kendo-angular-buttons';
-import { LabelModule } from '@progress/kendo-angular-label';
-import { SVGIconModule } from '@progress/kendo-angular-icons';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { AdmissionService, LongTerm } from '@vet/backend';
-import { filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons } from '@vet/shared'; // Import RouteParamsService
-import { GridDataResult, GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { ProgramComponent } from 'programs/src/program/program.component';
-import { DialogModule } from '@progress/kendo-angular-dialog';
-import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';
-import { ProgramSelectionFiltersComponent } from './program-selection-filters/program-selection-filters.component';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
+import {FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {InputsModule, RadioButtonModule} from '@progress/kendo-angular-inputs';
+import {ButtonModule} from '@progress/kendo-angular-buttons';
+import {LabelModule} from '@progress/kendo-angular-label';
+import {SVGIconModule} from '@progress/kendo-angular-icons';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {AdmissionService, LongTerm} from '@vet/backend';
+import {filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons} from '@vet/shared'; // Import RouteParamsService
+import {GridDataResult, GridModule, KENDO_GRID, PageChangeEvent} from '@progress/kendo-angular-grid';
+import {ProgramComponent} from 'programs/src/program/program.component';
+import {DialogModule} from '@progress/kendo-angular-dialog';
+import {EducationLevel} from 'long-term-programs/src/enums/education-level.enum';
+import {ProgramSelectionFiltersComponent} from './program-selection-filters/program-selection-filters.component';
+import {rxResource, takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {tap} from 'rxjs';
 
 export type ProgramSelectionStepFormGroup = FormGroup;
 export type ProgramSsmStep = FormGroup;

@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { KENDO_CARD } from '@progress/kendo-angular-layout';
-import { DividerComponent, vetIcons } from '@vet/shared';
-import { CommissionMembersDialogComponent } from './commission-members-dialog/commission-members-dialog.component';
-import { UserRolesService } from '@vet/auth';
-import { CommissionService, ProgramWithCommission, User } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
+import {KENDO_GRID} from '@progress/kendo-angular-grid';
+import {KENDO_CARD} from '@progress/kendo-angular-layout';
+import {DividerComponent, vetIcons} from '@vet/shared';
+import {CommissionMembersDialogComponent} from './commission-members-dialog/commission-members-dialog.component';
+import {UserRolesService} from '@vet/auth';
+import {CommissionService, ProgramWithCommission, User} from '@vet/backend';
+import {rxResource} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-commission-members',

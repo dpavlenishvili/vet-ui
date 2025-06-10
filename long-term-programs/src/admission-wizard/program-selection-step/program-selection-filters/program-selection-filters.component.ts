@@ -1,20 +1,20 @@
-import { District, vetIcons } from '@vet/shared';
-import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonModule } from '@progress/kendo-angular-buttons';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { SVGIconModule } from '@progress/kendo-angular-icons';
-import { InputsModule } from '@progress/kendo-angular-inputs';
-import { LabelModule } from '@progress/kendo-angular-label';
-import { CardModule } from '@progress/kendo-angular-layout';
+import {District, vetIcons} from '@vet/shared';
+import {ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output, signal} from '@angular/core';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {ButtonModule} from '@progress/kendo-angular-buttons';
+import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
+import {SVGIconModule} from '@progress/kendo-angular-icons';
+import {InputsModule} from '@progress/kendo-angular-inputs';
+import {LabelModule} from '@progress/kendo-angular-label';
+import {CardModule} from '@progress/kendo-angular-layout';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { GeneralsService } from '@vet/backend';
-import { debounceTime, map } from 'rxjs/operators';
-import { ProgramSelectionFilter } from '../program-selection-step.component';
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import {GeneralsService} from '@vet/backend';
+import {debounceTime, map} from 'rxjs/operators';
+import {ProgramSelectionFilter} from '../program-selection-step.component';
+import {DateInputsModule} from '@progress/kendo-angular-dateinputs';
+import {rxResource, takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {TooltipDirective} from '@progress/kendo-angular-tooltip';
 
 interface Organisations {
   id?: number;

@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { InputsModule } from '@progress/kendo-angular-inputs';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { CommissionReviewFilters, ResultFilters } from '../commission-results.component';
-import { vetIcons } from '@vet/shared';
+import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
+import {InputsModule} from '@progress/kendo-angular-inputs';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
+import {KENDO_DIALOG} from '@progress/kendo-angular-dialog';
+import {KENDO_GRID} from '@progress/kendo-angular-grid';
+import {KENDO_DROPDOWNLIST} from '@progress/kendo-angular-dropdowns';
+import {CommissionReviewFilters, ResultFilters} from '../commission-results.component';
+import {vetIcons} from '@vet/shared';
 
 @Component({
   selector: 'vet-commission-results-filters',

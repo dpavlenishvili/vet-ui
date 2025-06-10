@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, output } from '@angular/core';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { InputsModule } from '@progress/kendo-angular-inputs';
-import { UserRolesService } from '@vet/auth';
-import { CommissionService } from '@vet/backend';
-import { tap } from 'rxjs';
-import { Criteria, ScorePayload } from 'long-term-programs/src/long-term-programs.types';
-import { scoreValidator } from '@vet/shared';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, output} from '@angular/core';
+import {rxResource, takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
+import {KENDO_DIALOG} from '@progress/kendo-angular-dialog';
+import {KENDO_GRID} from '@progress/kendo-angular-grid';
+import {InputsModule} from '@progress/kendo-angular-inputs';
+import {UserRolesService} from '@vet/auth';
+import {CommissionService} from '@vet/backend';
+import {tap} from 'rxjs';
+import {Criteria, ScorePayload} from 'long-term-programs/src/long-term-programs.types';
+import {scoreValidator} from '@vet/shared';
 
 @Component({
   selector: 'vet-commission-review-dialog',

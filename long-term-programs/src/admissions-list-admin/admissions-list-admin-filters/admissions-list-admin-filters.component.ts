@@ -1,15 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
+import {ButtonComponent} from '@progress/kendo-angular-buttons';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { AdmissionListFilter } from '../admissions-list-admin.component';
-import { TextBoxComponent } from '@progress/kendo-angular-inputs';
-import {
-  DropDownListComponent,
-  ItemTemplateDirective,
-  ValueTemplateDirective,
-} from '@progress/kendo-angular-dropdowns';
+import {TranslocoPipe, TranslocoService} from '@jsverse/transloco';
+import {AdmissionListFilter} from '../admissions-list-admin.component';
+import {TextBoxComponent} from '@progress/kendo-angular-inputs';
+import {DropDownListComponent, ItemTemplateDirective, ValueTemplateDirective,} from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'vet-admissions-list-admin-filters',

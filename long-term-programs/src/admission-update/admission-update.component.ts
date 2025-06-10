@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AdmissionReq, type AdmissionRequest, AdmissionService } from '@vet/backend';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AdmissionWizardComponent } from '../admission-wizard/admission-wizard.component';
-import { UserRolesService } from '@vet/auth';
-import { StepBody } from '../long-term-programs.types';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AdmissionReq, type AdmissionRequest, AdmissionService} from '@vet/backend';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {AdmissionWizardComponent} from '../admission-wizard/admission-wizard.component';
+import {UserRolesService} from '@vet/auth';
+import {StepBody} from '../long-term-programs.types';
 
 @Component({
   selector: 'vet-admission-update',

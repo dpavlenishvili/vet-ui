@@ -1,20 +1,16 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
-import { ButtonModule } from '@progress/kendo-angular-buttons';
-import { LabelModule } from '@progress/kendo-angular-label';
-import { SVGIconModule } from '@progress/kendo-angular-icons';
+import {ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal} from '@angular/core';
+import {FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {InputsModule, RadioButtonModule} from '@progress/kendo-angular-inputs';
+import {ButtonModule} from '@progress/kendo-angular-buttons';
+import {LabelModule} from '@progress/kendo-angular-label';
+import {SVGIconModule} from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { DividerComponent, georgianMobileValidator, InfoComponent } from '@vet/shared';
-import {
-  DropDownListComponent,
-  ItemTemplateDirective,
-  ValueTemplateDirective,
-} from '@progress/kendo-angular-dropdowns';
-import { NgClass } from '@angular/common';
-import { GeneralsService } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
+import {TranslocoPipe, TranslocoService} from '@jsverse/transloco';
+import {DividerComponent, georgianMobileValidator, InfoComponent} from '@vet/shared';
+import {DropDownListComponent, ItemTemplateDirective, ValueTemplateDirective,} from '@progress/kendo-angular-dropdowns';
+import {NgClass} from '@angular/common';
+import {GeneralsService} from '@vet/backend';
+import {rxResource} from '@angular/core/rxjs-interop';
 
 export type ProgramSsmStepFormGroup = FormGroup;
 

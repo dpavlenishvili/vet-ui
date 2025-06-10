@@ -1,14 +1,14 @@
-import { SchedulesService, Selection } from '@vet/backend';
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, output } from '@angular/core';
-import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { KENDO_DATETIMEPICKER } from '@progress/kendo-angular-dateinputs';
-import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
-import { KENDO_LABEL } from '@progress/kendo-angular-label';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { iif, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {SchedulesService, Selection} from '@vet/backend';
+import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, output} from '@angular/core';
+import {KENDO_DIALOG} from '@progress/kendo-angular-dialog';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {KENDO_DATETIMEPICKER} from '@progress/kendo-angular-dateinputs';
+import {KENDO_TEXTBOX} from '@progress/kendo-angular-inputs';
+import {KENDO_LABEL} from '@progress/kendo-angular-label';
+import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
+import {iif, tap} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-exam-selection-dialog',

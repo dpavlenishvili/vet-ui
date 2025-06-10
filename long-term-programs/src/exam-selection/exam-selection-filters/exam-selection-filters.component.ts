@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { KENDO_SWITCH, KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
-import { KENDO_POPOVER } from '@progress/kendo-angular-tooltip';
-import { GeneralsService } from '@vet/backend';
-import { vetIcons } from '@vet/shared';
-import { map } from 'rxjs';
-import { SchedulesFilters } from '../exam-selection.component';
+import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
+import {rxResource} from '@angular/core/rxjs-interop';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {KENDO_BUTTON} from '@progress/kendo-angular-buttons';
+import {KENDO_DROPDOWNLIST} from '@progress/kendo-angular-dropdowns';
+import {KENDO_SVGICON} from '@progress/kendo-angular-icons';
+import {KENDO_SWITCH, KENDO_TEXTBOX} from '@progress/kendo-angular-inputs';
+import {KENDO_POPOVER} from '@progress/kendo-angular-tooltip';
+import {GeneralsService} from '@vet/backend';
+import {vetIcons} from '@vet/shared';
+import {map} from 'rxjs';
+import {SchedulesFilters} from '../exam-selection.component';
 
 @Component({
   selector: 'vet-exam-selection-filters',
