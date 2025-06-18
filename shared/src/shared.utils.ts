@@ -10,6 +10,7 @@ import {
 } from './shared.types';
 import { map, Observable } from 'rxjs';
 import { ActivatedRoute, type Params } from '@angular/router';
+import { ShortProgramAdmission } from '@vet/backend';
 
 export const isEmptyOrUndefined = R.anyPass([R.isEmpty, R.isNil]);
 
@@ -41,7 +42,7 @@ export const flattenQueryParams = (obj: QueryParams, prefix?: string): Record<st
       const nestedKey = prefix ? `${prefix}[${key.toString()}]` : key.toString();
 
       if (!R.is(Object, value)) {
-        return value === undefined
+        return (value === undefined || value === false)
           ? red
           : {
               ...red,
@@ -299,9 +300,28 @@ export function isValidIdValue(input: Partial<IdValue>): input is IdValue {
   return input.id != null && input.value != null
 }
 
+export function isValidDictionaryItem(input: Partial<DictionaryType>): input is DictionaryType {
+  return input.id != null && input.name != null
+}
+
 export function mapIdValueToOption(idValue: IdValue): ValueLabel {
   return {
     value: idValue.id,
     label: idValue.value,
   };
+}
+
+export function mapDictionaryItemToOption(item: DictionaryType): ValueLabel {
+  return {
+    value: item.id,
+    label: item.name,
+  };
+}
+
+export function getUniqueItems<T, I>(items: T[], getUniqueId: (item: T) => I): T[] {
+  return Array.from(
+    new Map<I, T>(
+      items.map(item => [getUniqueId(item), item] as const)
+    ).values()
+  );
 }

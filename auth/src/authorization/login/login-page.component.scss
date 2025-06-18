@@ -1,0 +1,73 @@
+:host {
+  display: block;
+}
+
+// Password field styling
+.password-toggle-btn {
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0.25rem;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:focus {
+    outline: 2px solid var(--kendo-color-primary);
+    outline-offset: -2px;
+  }
+}
+
+// Forgot password and login button alignment
+.forgot-password-link {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: 2px solid var(--kendo-color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  &.k-disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+}
+
+.login-btn {
+  min-width: 6rem;
+  width: 100%;
+  white-space: nowrap;
+}
+
+// Mobile responsive adjustments
+@media (max-width: 479px) {
+  .k-w-full.k-px-16.k-display-flex.k-justify-content-between {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+
+    .forgot-password-link {
+      text-align: center;
+      order: 2;
+    }
+
+    .login-btn {
+      order: 1;
+      width: 100%;
+    }
+  }
+}
+
+// Ensure consistent password field height
+kendo-textbox {
+  .k-input-inner {
+    min-height: 2.5rem;
+  }
+}

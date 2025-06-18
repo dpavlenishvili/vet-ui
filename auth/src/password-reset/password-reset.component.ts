@@ -22,6 +22,7 @@ import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { RegistrationPhoneVerificationComponent, useAuthEnvironment } from '@vet/auth';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import * as kendoIcons from '@progress/kendo-svg-icons';
 
 @Component({
   selector: 'vet-password-reset',
@@ -58,6 +59,14 @@ export class PasswordResetComponent {
   readonly isValid = signal<boolean | null>(null);
   readonly errorMessage = signal<string | null>(null);
 
+  // Password visibility state
+  readonly showNewPassword = signal(false);
+  readonly showRepeatPassword = signal(false);
+
+  // Icons for password visibility toggle
+  readonly eyeIcon = kendoIcons.eyeIcon;
+  readonly eyeSlashIcon = kendoIcons.eyeSlashIcon;
+
   createFormGroup() {
     return new FormGroup(
       {
@@ -74,6 +83,14 @@ export class PasswordResetComponent {
 
   getPhoneMask() {
     return this.activatedRoute.snapshot.queryParams['phone'];
+  }
+
+  toggleNewPasswordVisibility(): void {
+    this.showNewPassword.update(current => !current);
+  }
+
+  toggleRepeatPasswordVisibility(): void {
+    this.showRepeatPassword.update(current => !current);
   }
 
   resendCode() {

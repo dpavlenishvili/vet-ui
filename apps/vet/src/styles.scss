@@ -1,5 +1,6 @@
 @use '@vet/shared-styles' as shared;
 @import '@vet/shared-styles/_styles.scss';
+@import 'bpg-mrgvlovani-caps/css/bpg-mrgvlovani-caps.css';
 
 /* Default Theme (applies to :root) */
 :root {
@@ -83,6 +84,11 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+
+.vet-text-uppercase {
+  font-family: "BPG Mrgvlovani Caps", sans-serif;
+  text-transform: uppercase;
 }
 
 .vet-text-base {
@@ -192,11 +198,6 @@ a {
     margin-top: 0.75rem;
   }
 
-  button {
-    height: 3.125rem;
-    width: 18.125rem;
-  }
-
   kendo-textbox input.k-input-inner {
     padding-block: 1rem !important;
     padding-inline: 1rem !important;
@@ -209,10 +210,6 @@ a {
   kendo-datepicker {
     height: 3.125rem;
     margin-top: 0.75rem;
-  }
-
-  button {
-    height: 3.125rem;
   }
 
   kendo-textbox input.k-input-inner {

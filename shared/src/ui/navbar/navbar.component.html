@@ -2,9 +2,7 @@
   <div class="v-ui-navbar-container">
     <div class="v-ui-navbar-logo">
       <a routerLink="/">
-        <img src="/assets/images/evet-logo.svg" width="60" height="26" />
-        <div class="v-ui-navbar-logo-divider"></div>
-        <div class="v-ui-navbar-logo-text">{{ 'app.logo_text' | transloco }}</div>
+        <img src="/assets/images/evet-logo.svg" width="257" height="32" />
       </a>
     </div>
 
@@ -16,7 +14,7 @@
             class="v-ui-navbar-menu-link k-text-base"
             (click)="isMobileMenuOpen.set(false)"
           >
-            {{ item.title }}
+            <p class="vet-text-uppercase">{{ item.title }}</p>
           </a>
         </li>
         @if (!$last) {
@@ -24,7 +22,7 @@
         }
       } @empty {
         <li class="v-ui-navbar-menu-item">
-          <span class="k-text-base">{{ 'shared.numberOfRecords' | transloco: { count: 0 } }}</span>
+          <span class="k-text-base">{{ 'shared.number_of_records' | transloco: { count: 0 } }}</span>
         </li>
       }
     </ul>
@@ -138,7 +136,7 @@
         } @empty {
           <li class="v-ui-navbar-menu-mobile-item">
             <span>
-                <span class="k-text-base">{{ 'shared.numberOfRecords' | transloco: { count: 0 } }}</span>
+                <span class="k-text-base">{{ 'shared.number_of_records' | transloco: { count: 0 } }}</span>
             </span>
           </li>
         }

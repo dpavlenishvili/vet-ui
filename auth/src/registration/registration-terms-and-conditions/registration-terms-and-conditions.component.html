@@ -86,6 +86,14 @@
               [for]="checkbox"
               [text]="'auth.read_and_understand_rules' | transloco"
             />
+
+            @if (form.controls['accepted']; as control) {
+              @if (control.touched) {
+                @if (control.errors?.['required']) {
+                  <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+                }
+              }
+            }
           </div>
         </div>
 
@@ -94,7 +102,7 @@
             {{ 'auth.previous' | transloco }}
           </button>
 
-          <button kendoButton themeColor="primary" (click)="form.valid && onNextClick()" class="nav-button">
+          <button kendoButton themeColor="primary" (click)="onNextClick()" class="nav-button">
             {{ 'auth.finish' | transloco }}
           </button>
         </div>

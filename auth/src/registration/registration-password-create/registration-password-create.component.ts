@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { LabelComponent } from '@progress/kendo-angular-label';
-import { KENDO_INPUTS, TextBoxComponent } from '@progress/kendo-angular-inputs';
+import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 
@@ -23,9 +23,14 @@ export class RegistrationPasswordCreateComponent {
   >();
   previousClick = output();
   nextClick = output();
-  eyeIcon = kendoIcons.eyeIcon;
 
-  allowedKeys = new Set(['backspace', 'delete', 'arrowleft', 'arrowright', 'tab', 'enter']);
+  // Password visibility state
+  readonly showPassword = signal(false);
+  readonly showConfirmPassword = signal(false);
+
+  // Icons for password visibility toggle
+  readonly eyeIcon = kendoIcons.eyeIcon;
+  readonly eyeSlashIcon = kendoIcons.eyeSlashIcon;
 
   onPreviousClick() {
     this.previousClick.emit();
@@ -45,29 +50,11 @@ export class RegistrationPasswordCreateComponent {
     }
   }
 
-  restrictInput(event: KeyboardEvent) {
-    const key = event.key.toLowerCase();
-
-    const unicodeLetter = /[\p{L}]/u;
-    const englishLetter = /^[a-zA-Z]$/;
-
-    if (this.allowedKeys.has(key)) {
-      return;
-    }
-
-    if (unicodeLetter.test(key) && !englishLetter.test(key)) {
-      event.preventDefault();
-    }
+  togglePasswordVisibility(): void {
+    this.showPassword.update(current => !current);
   }
 
-  togglePasswordVisibility(passwordTextBox: TextBoxComponent) {
-    const passwordInput = passwordTextBox.input.nativeElement;
-    if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-      this.eyeIcon = kendoIcons.eyeSlashIcon;
-    } else {
-      passwordInput.type = 'password';
-      this.eyeIcon = kendoIcons.eyeIcon;
-    }
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword.update(current => !current);
   }
 }

@@ -14,11 +14,22 @@
 
   <div class="k-display-flex k-flex-column k-gap-3">
     <kendo-label [text]="'auth.password' | transloco">
-      <kendo-textbox formControlName="password" type="password">
-        <ng-template kendoTextBoxSuffixTemplate class="k-bg-primary">
-          <a class="k-cursor-pointer k-text-sm k-color-primary k-mr-4" [routerLink]="['/password/forgot']">{{
-              'auth.forgot_password' | transloco
-            }}</a>
+      <kendo-textbox
+        #passwordInput
+        formControlName="password"
+        [type]="showPassword() ? 'text' : 'password'"
+        autocomplete="current-password">
+        <ng-template kendoTextBoxSuffixTemplate>
+          <button
+            kendoButton
+            type="button"
+            look="clear"
+            size="small"
+            [svgIcon]="showPassword() ? eyeSlashIcon : eyeIcon"
+            [attr.aria-label]="showPassword() ? ('auth.hide_password' | transloco) : ('auth.show_password' | transloco)"
+            (click)="togglePasswordVisibility()"
+            class="password-toggle-btn">
+          </button>
         </ng-template>
       </kendo-textbox>
       @if (loginForm().controls['password']; as control) {
@@ -31,19 +42,25 @@
     <div class="k-display-flex k-align-items-center k-gap-3">
       <kendo-checkbox #remember formControlName="remember" />
       <kendo-label class="k-text-sm" [for]="remember" [text]="'auth.remember' | transloco" />
+
+      <a
+        class="forgot-password-link k-text-sm k-color-primary k-text-underline k-cursor-pointer"
+        [routerLink]="['/password/forgot']"
+        [class.k-disabled]="isLoading()">
+        {{ 'auth.forgot_password' | transloco }}
+      </a>
     </div>
   </div>
 
   <div class="k-display-flex k-flex-column k-align-items-center k-mt-4 k-gap-3">
-    <div class="k-w-full k-px-16">
+    <div class="k-w-full k-px-16 k-display-flex k-justify-content-between k-align-items-center">
       <button
         kendoButton
         type="submit"
         themeColor="primary"
-        class="k-w-full"
         look="default"
         [disabled]="isLoading()"
-      >
+        class="login-btn">
         @if (isLoading()) {
           <kendo-loader size="small" />
         }
@@ -51,7 +68,8 @@
       </button>
     </div>
 
-    <a class="k-cursor-pointer k-text-base k-text-underline k-color-primary"
+    <a
+      class="k-cursor-pointer k-text-base k-text-underline k-color-primary"
       [routerLink]="['/registration']"
       [class.k-disabled]="isLoading()">
       {{ 'auth.registration' | transloco }}

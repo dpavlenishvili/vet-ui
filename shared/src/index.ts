@@ -31,6 +31,7 @@ export * from './validators/score-pattern-validator';
 export * from './shared.injectors';
 export * from './shared.interceptors';
 export * from './shared.providers';
+export * from './shared.signals';
 export * from './shared.types';
 export * from './shared.enums';
 export * from './shared.utils';

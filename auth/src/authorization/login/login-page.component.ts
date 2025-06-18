@@ -15,11 +15,13 @@ import { WA_SESSION_STORAGE } from '@ng-web-apis/common';
 import { CODE_2FA_SENT } from '../authorization.constants';
 import { useAlert } from '@vet/shared';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import * as kendoIcons from '@progress/kendo-svg-icons';
 
 @Component({
   selector: 'vet-authorization-login',
   imports: [TranslocoPipe, ReactiveFormsModule, RouterLink, KENDO_LABEL, KENDO_INPUTS, KENDO_BUTTON, KENDO_LOADER],
   templateUrl: './login-page.component.html',
+  styleUrl: './login-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent implements OnInit {
@@ -34,6 +36,11 @@ export class LoginPageComponent implements OnInit {
   readonly timeoutSeconds = useAuthEnvironment().login2faTimeoutSeconds;
   readonly isLoading = signal(false);
   readonly loginForm = signal(this.createFormGroup());
+  readonly showPassword = signal(false);
+
+  // Icons for password visibility toggle
+  readonly eyeIcon = kendoIcons.eyeIcon;
+  readonly eyeSlashIcon = kendoIcons.eyeSlashIcon;
 
   ngOnInit() {
     if (this.activatedRoute.snapshot.queryParamMap.get('referrer') === 'registration') {
@@ -55,6 +62,10 @@ export class LoginPageComponent implements OnInit {
       password: new FormControl('', Validators.required),
       remember: new FormControl(false),
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword.update(current => !current);
   }
 
   onSubmit() {

@@ -157,7 +157,9 @@
     "logout": "Logout",
     "forgot_password": "Forgot Password",
     "georgian_code": "+995",
-    "choose_one": "Choose one of the above"
+    "choose_one": "Choose one of the above",
+    "show_password": "Show password",
+    "hide_password": "Hide password"
   },
   "contact": {
     "title": "Contact Us",
@@ -263,7 +265,8 @@
     "warningMinTwoProgramShouldBeSelected": "Min 2/two program should be selected",
     "educationChangeInfoMessage": "Please note that in the event of a change in education, your selected programs will be automatically cleared and you will need to re-select the program(s).",
     "admissionFilterSearchTooltip": "Search: Application ID, Program Name and Type.",
-    "admissionProgramSelectionFilterSearchTooltip": "Search: Title, Program Description, Employment Field, Organization Name, Organization Size, Organization Economic Sector, Program Duration"
+    "admissionProgramSelectionFilterSearchTooltip": "Search: Title, Program Description, Employment Field, Organization Name, Organization Size, Organization Economic Sector, Program Duration",
+    "selected_language": "Selected language"
   },
   "profile": {
     "actual_address": "Actual address",

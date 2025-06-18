@@ -30,11 +30,6 @@
     text-decoration: none;
   }
 
-  img {
-    width: 3.75rem;
-    height: 1.625rem;
-  }
-
   .v-ui-navbar-logo-divider {
     border-radius: 1.25rem;
     width: 0.125rem;
@@ -77,10 +72,6 @@
     &.active {
       font-weight: bold;
       text-decoration: underline;
-    }
-
-    &:visited {
-      color: var(--nav-link-color-visited, var(--nav-link-color));
     }
   }
 }

@@ -350,6 +350,7 @@ ul.k-list-style-circle {
 kendo-grid.k-grid {
   border-radius: 0.625rem;
   border-color: #ECECEC;
+  overflow: hidden;
 
   .k-grid-aria-root {
     border-color: #ECECEC;
