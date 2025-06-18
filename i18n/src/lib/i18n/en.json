@@ -266,7 +266,16 @@
     "educationChangeInfoMessage": "Please note that in the event of a change in education, your selected programs will be automatically cleared and you will need to re-select the program(s).",
     "admissionFilterSearchTooltip": "Search: Application ID, Program Name and Type.",
     "admissionProgramSelectionFilterSearchTooltip": "Search: Title, Program Description, Employment Field, Organization Name, Organization Size, Organization Economic Sector, Program Duration",
-    "selected_language": "Selected language"
+    "selected_language": "Selected language",
+    "changeEducationLevel": "Change Education Level",
+    "testLocationChange": "Test Location Change",
+    "testLanguageChange": "Test Language Change",
+    "removeProgramSelection": "Remove Program Selection",
+    "enrollmentStatus": "Enrollment Status",
+    "remove": "Remove",
+    "continue": "Continue",
+    "viewAdmissions": "View Admissions",
+    "understood": "Understood"
   },
   "profile": {
     "actual_address": "Actual address",

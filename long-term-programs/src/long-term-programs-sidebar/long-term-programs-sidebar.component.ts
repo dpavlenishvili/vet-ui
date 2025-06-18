@@ -78,7 +78,7 @@ export class LongTermProgramsSidebarComponent {
         {
           id: uuid(),
           text: 'programs.statistics',
-          url: null,
+          url: 'statistics',
           isActive: false,
         },
       ],

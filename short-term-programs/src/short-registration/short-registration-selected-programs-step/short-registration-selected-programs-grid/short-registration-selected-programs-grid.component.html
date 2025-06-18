@@ -1,0 +1,85 @@
+<kendo-grid [data]="selectedPrograms()">
+  <ng-template kendoGridNoRecordsTemplate>
+    {{ 'shared.noRecords' | transloco }}
+  </ng-template>
+
+  <kendo-grid-column title="#" [width]="20">
+    <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+      {{ rowIndex + 1 }}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column
+    [title]="'shorts.program' | transloco"
+    field="program.name"
+    [width]="200"
+  />
+
+  <kendo-grid-column
+    [title]="'shorts.institution' | transloco"
+    field="program.organisation.name"
+    [width]="200"
+  />
+
+  <kendo-grid-column
+    [title]="'shorts.registration_period' | transloco"
+    [width]="150"
+  >
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.registration_start_date | formatDate }} - {{ item.registration_end_date | formatDate }}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column
+    [title]="'shorts.tuition_start_date' | transloco"
+    [width]="150"
+  >
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.study_start_date | formatDate }}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column
+    [title]="'shorts.implementation_location' | transloco"
+    field="program.organisation.address"
+    [width]="150"
+  />
+
+  <kendo-grid-column [width]="56" [title]="'programs.selection' | transloco">
+    <ng-template kendoGridCellTemplate let-item>
+      <div class="short-grid-action-buttons">
+        <button
+          kendoButton
+          type="button"
+          fillMode="flat"
+          class="short-grid-action-button"
+          (click)="onPreviewProgram(item)"
+        >
+          <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.eye" themeColor="warning" />
+        </button>
+
+        <button
+          kendoButton
+          type="button"
+          fillMode="flat"
+          class="short-grid-action-button"
+          [disabled]="selectedPrograms().length < 2"
+          (click)="onUnselectProgram(item)"
+        >
+          <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.minusCircleRed" themeColor="error" />
+        </button>
+      </div>
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>
+
+@if (isProgramPreviewDialogOpen()) {
+  <kendo-dialog
+    width="90%"
+    height="90%"
+    [title]="'programs.program_description' | transloco"
+    (close)="onClosePreviewDialog()"
+  >
+    <vet-short-program-page [programId]="previewProgramId()" />
+  </kendo-dialog>
+}

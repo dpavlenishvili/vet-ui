@@ -1,3 +1,4 @@
+import { LongTermStatisticsComponent } from './long-term-statistics/long-term-statistics.component';
 import type { Route } from '@angular/router';
 import { type AppBreadCrumbItem, breadcrumb } from '@vet/shared';
 
@@ -156,6 +157,16 @@ export const longTermProgramsRoutes: Route[] = [
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/long-programs/exam-selection', text: 'programs.examSelection' },
+        ]),
+      },
+      {
+        path: 'statistics',
+        loadComponent: () =>
+          import('./long-term-statistics/long-term-statistics.component').then((m) => m.LongTermStatisticsComponent),
+        pathMatch: 'full',
+        data: breadcrumb([
+          ...baseBreadcrumbItems,
+          { path: '/long-programs/exam-selection', text: 'programs.statistics' },
         ]),
       },
     ],

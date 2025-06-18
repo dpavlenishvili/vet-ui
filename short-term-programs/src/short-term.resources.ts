@@ -1,25 +1,70 @@
 import { rxResource } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { inject } from '@angular/core';
 import { GeneralsService } from '@vet/backend';
-import { isValidIdValue, mapIdValueToOption } from '@vet/shared';
+import {
+  DictionaryType,
+  isValidDictionaryItem,
+  isValidIdValue,
+  mapDictionaryItemToOption,
+  mapIdValueToOption, withoutEmptyProperties
+} from '@vet/shared';
 
-export function useDictionary(key: string) {
+export function useSeparateDictionary(fetch: (generals: GeneralsService) => Observable<{
+  data?: Partial<DictionaryType>[] | undefined;
+}>) {
   const generalsService = inject(GeneralsService);
 
   return rxResource({
     defaultValue: [],
-    loader: () => generalsService
-      .getAllConfigs({ key: key })
-      .pipe(
-        map((data) => data[key as keyof typeof data]
-          ?.filter(isValidIdValue)
-          .map(item => mapIdValueToOption(item)) ?? []
-        )
+    loader: () =>
+      fetch(generalsService).pipe(
+        map((response) => {
+          return response.data
+            ?.filter(isValidDictionaryItem)
+            .map((item) => mapDictionaryItemToOption(item)) ?? [];
+        }),
       ),
   });
 }
 
+export function useConfigDictionary(
+  key: string,
+  programType?: 'short-term' | 'long-term',
+  organisation?: string,
+) {
+  const generalsService = inject(GeneralsService);
+
+  return rxResource({
+    defaultValue: [],
+    loader: () =>
+      generalsService
+        .getAllConfigs(withoutEmptyProperties({ key: key, program_type: programType, organisation }))
+        .pipe(
+          map(
+            (data) =>
+              data[key as keyof typeof data]?.filter(isValidIdValue).map((item) => mapIdValueToOption(item)) ?? [],
+          ),
+        ),
+  });
+}
+
 export function useEducationLevels() {
-  return useDictionary('education_levels');
+  return useConfigDictionary('education_levels', 'short-term');
+}
+
+export function useProgramKinds() {
+  return useConfigDictionary('program_types', 'short-term');
+}
+
+export function useRegions() {
+  return useSeparateDictionary(generals => generals.getRegionsList({}));
+}
+
+export function useDistricts() {
+  return useSeparateDictionary(generals => generals.getDistrictsList({}));
+}
+
+export function useInstitutionsDictionary() {
+  return useSeparateDictionary(generals => generals.getOrganisationsList({}));
 }

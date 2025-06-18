@@ -1,0 +1,33 @@
+<form [formGroup]="filterForm">
+  <div class="vet-filters-container">
+    <vet-selector
+      class="vet-filter-input"
+      formControlName="program"
+      [placeholder]="'programs.exam_program' | transloco"
+      [options]="programsOptions.value()"
+    />
+
+    <vet-selector
+      class="vet-filter-input"
+      formControlName="kind"
+      [placeholder]="'programs.form' | transloco"
+      [options]="ProgramKindsOptions.value()"
+    />
+
+    <div class="vet-switch-border">
+      <vet-switch formControlName="integrated" [label]="'programs.integrated' | transloco" />
+    </div>
+  </div>
+
+  <div class="vet-filters-actions">
+    <p>{{ 'shared.number_of_records' | transloco: { count: numberOfRecords() } }}</p>
+
+    <div class="k-display-flex k-justify-content-end k-gap-2">
+      <button kendoButton type="secondary" [svgIcon]="vetIcons.xIcon" (click)="clearFilters()"></button>
+
+      <button kendoButton themeColor="primary" [svgIcon]="vetIcons.search" (click)="onSubmit()">
+        {{ 'shared.search' | transloco }}
+      </button>
+    </div>
+  </div>
+</form>

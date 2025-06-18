@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
-import { vetIcons } from '@vet/shared';
-import { ShortProgram } from '@vet/backend';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { FormatDatePipe, useConfirm, vetIcons } from '@vet/shared';
+import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import {
   CellTemplateDirective,
@@ -25,6 +25,7 @@ import { ShortProgramPageComponent } from '../../../short-program-page/short-pro
     SVGIconComponent,
     TranslocoPipe,
     ShortProgramPageComponent,
+    FormatDatePipe,
   ],
   templateUrl: './short-registration-program-selection-grid.component.html',
   styleUrl: './short-registration-program-selection-grid.component.scss',
@@ -32,24 +33,42 @@ import { ShortProgramPageComponent } from '../../../short-program-page/short-pro
   standalone: true,
 })
 export class ShortRegistrationProgramSelectionGridComponent {
-  items = input.required<ShortProgram[]>();
+  items = input.required<ShortProgramAdmission[]>();
   isLoading = input.required<boolean>();
-  vetIcons = vetIcons;
+  selectedProgramIds = input.required<number[]>();
+  itemSelect = output<ShortProgramAdmission>();
+  itemUnselect = output<ShortProgramAdmission>();
+
   previewProgramId = signal(0);
   isProgramPreviewDialogOpen = signal(false);
-  isConfirmSelectionDialogOpen = signal(false);
+  selectionConfirmation = useConfirm();
+  unselectionConfirmation = useConfirm();
+  vetIcons = vetIcons;
 
-  onPreviewProgram(program: ShortProgram) {
-    this.previewProgramId.set(Number(program.id));
+  isProgramSelected(item: ShortProgramAdmission) {
+    return item.id && this.selectedProgramIds().includes(item.id);
+  }
+
+  onPreviewProgram(program: ShortProgramAdmission) {
+    this.previewProgramId.set(Number(program.program?.id));
     this.isProgramPreviewDialogOpen.set(true);
   }
 
   onSelectProgram(program: ShortProgram) {
-    this.isConfirmSelectionDialogOpen.set(true);
+    this.selectionConfirmation.show({
+      content: 'shorts.confirm_program_selection',
+      onConfirm: () => this.itemSelect.emit(program),
+    });
   }
 
-  onCloseDialog() {
+  onUnselectProgram(program: ShortProgram) {
+    this.unselectionConfirmation.show({
+      content: 'shorts.confirm_program_unselection',
+      onConfirm: () => this.itemUnselect.emit(program),
+    });
+  }
+
+  onClosePreviewDialog() {
     this.isProgramPreviewDialogOpen.set(false);
-    this.isConfirmSelectionDialogOpen.set(false);
   }
 }

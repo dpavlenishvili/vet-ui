@@ -131,8 +131,23 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     if (!control || !this.previousEducationId()) {
       return;
     }
-    this.confirm.show({
+    // this.confirm.show({
+    //   content: 'programs.educationChangeNote',
+    //   onConfirm: () => {
+    //     control?.setValue(educationId);
+    //     this.clearSelectedPrograms.emit();
+    //     this.previousEducationId.set(educationId);
+    //   },
+    //   onDismiss: () => {
+    //     control?.setValue(this.previousEducationId()?.toString(), { emitEvent: false });
+    //   },
+    // });
+
+    this.confirm.warning({
+      title: 'programs.changeEducationLevel',
       content: 'programs.educationChangeNote',
+      confirmButtonText: 'programs.continue',
+      dismissButtonText: 'shared.cancel',
       onConfirm: () => {
         control?.setValue(educationId);
         this.clearSelectedPrograms.emit();
@@ -145,18 +160,22 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   }
 
   districtChange() {
-    this.confirm.show({
+    this.confirm.info({
+      title: 'programs.testLocationChange',
       content: 'programs.testReallocationNote',
       showYesNoButtons: false,
-      onConfirm: () => {},
+      singleTypeDialogActionText: 'shared.understood',
+      onConfirm: () => {}
     });
   }
 
   languageChange() {
-    this.confirm.show({
+    this.confirm.info({
+      title: 'programs.testLanguageChange',
       content: 'programs.georgianModuleNote',
       showYesNoButtons: false,
-      onConfirm: () => {},
+      singleTypeDialogActionText: 'shared.understood',
+      onConfirm: () => {}
     });
   }
 

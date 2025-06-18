@@ -1,0 +1,449 @@
+// ===============================================
+// KENDO UI MANUAL OVERRIDES CONSOLIDATION
+// ===============================================
+// This file contains all manually written Kendo UI component overrides
+// that were previously scattered across multiple SCSS files.
+//
+// Purpose: Centralize manual overrides to prepare for ThemeBuilder migration
+// TODO: Replace these manual overrides with ThemeBuilder-generated styles
+// ===============================================
+
+@use '@vet/shared-styles' as shared;
+
+// ===============================================
+// BASIC COMPONENT OVERRIDES
+// ===============================================
+
+kendo-label {
+  width: 100%;
+}
+
+// Dropdown Lists
+.k-dropdownlist {
+  width: 100%;
+  height: 2.375rem;
+}
+
+// Text Inputs
+.k-textbox {
+  height: 2.375rem;
+
+  .k-input-inner {
+    padding-block: 8px;
+  }
+}
+
+// Floating Labels
+.k-floating-label-container {
+  width: 100%;
+}
+
+// Drawer Components
+.k-drawer-wrapper {
+  height: 100%;
+}
+
+// Form Fields
+.k-form-field {
+  width: 100%;
+}
+
+// ===============================================
+// STEPPER COMPONENT CUSTOMIZATIONS
+// ===============================================
+
+.k-stepper .k-step-label .k-step-text {
+  max-width: 100%;
+}
+
+.k-step-list-vertical .k-step {
+  min-height: auto;
+}
+
+.k-stepper .k-step-list {
+  row-gap: 3rem;
+}
+
+// ===============================================
+// CARD AND LAYOUT COMPONENTS
+// ===============================================
+
+.k-rounded-card {
+  border-radius: 1.25rem;
+}
+
+.k-rounded-xl {
+  padding: 1.25rem;
+}
+
+// ===============================================
+// SCROLLVIEW COMPONENT
+// ===============================================
+
+.k-scrollview {
+  border-radius: 20px;
+  border: none;
+
+  .k-scrollview-wrap {
+    background: #fdf8ff;
+  }
+
+  .k-scrollview-elements {
+    .k-scrollview-next {
+      color: #b1b7bb;
+      right: 20px;
+
+      &:hover {
+        color: #b1b7bb;
+      }
+    }
+
+    .k-scrollview-prev {
+      color: #b1b7bb;
+      left: 20px;
+
+      &:hover {
+        color: #b1b7bb;
+      }
+    }
+
+    .k-scrollview-nav-wrap {
+      .k-scrollview-nav {
+        span.k-link {
+          border: 1px solid #c3c3c3;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            width: 20px;
+            border-radius: 10px;
+          }
+        }
+
+        span.k-link.k-primary {
+          width: 20px;
+          border-radius: 10px;
+          background: #c3c3c3;
+        }
+      }
+    }
+  }
+}
+
+// ===============================================
+// GRID COMPONENT CUSTOMIZATIONS
+// ===============================================
+
+kendo-grid.k-grid {
+  .k-grid-aria-root {
+    .k-grid-header {
+      thead:first-of-type {
+        th {
+          padding: 1.125rem 0.4rem !important;
+        }
+      }
+    }
+
+    .k-grid-container {
+      table {
+        tbody {
+          tr {
+            td {
+              padding: 0.4rem 0.4rem !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Advanced Grid Styling - Originally from: shared-styles/_custom-kendo-utilities.scss
+kendo-grid.k-grid {
+  border-radius: 0.625rem;
+  border-color: #ececec;
+  overflow: hidden;
+
+  .k-grid-aria-root {
+    border-color: #ececec;
+
+    .k-grid-header {
+      border-bottom-color: #ececec;
+
+      thead:first-of-type {
+        background: transparent;
+        border-top-left-radius: 0.625rem;
+        border-top-right-radius: 0.625rem;
+        border-color: #ececec;
+
+        th {
+          padding: 1.125rem 0.75rem;
+
+          .k-cell-inner {
+            .k-column-title {
+              @include shared.text-sm(true);
+              color: shared.$kendo-color-body-dark;
+            }
+          }
+        }
+
+        th:first-of-type {
+          border-top-left-radius: 0.625rem;
+
+          .k-cell-inner {
+            border-top-left-radius: 0.625rem;
+          }
+        }
+
+        th:last-of-type {
+          .k-cell-inner {
+            border-top-right-radius: 0.625rem;
+          }
+        }
+      }
+    }
+
+    .k-grid-container {
+      table {
+        tbody {
+          tr {
+            td {
+              @include shared.text-sm();
+              color: shared.$kendo-color-body;
+              padding: 0.5rem 0.75rem !important;
+              border-color: #ececec !important;
+            }
+          }
+
+          tr:first-of-type {
+            td {
+              border-top: none !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  kendo-pager {
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+    @include shared.text-sm();
+  }
+}
+
+// ===============================================
+// INPUT COMPONENT CUSTOMIZATIONS
+// ===============================================
+
+
+
+// Filter Input Styling
+kendo-textbox.vet-filter-input {
+  width: 100%;
+
+  > input {
+    @include shared.text-sm(false, true);
+    color: shared.$kendo-color-hint;
+
+    &::placeholder {
+      @include shared.text-sm(false, true);
+      color: shared.$kendo-color-hint;
+    }
+  }
+
+  .vet-filter-input-icon {
+    color: shared.$kendo-color-body-light;
+  }
+}
+
+// Filter Dropdown Styling
+.vet-filter-input kendo-dropdownlist {
+  width: 100%;
+  height: 2.375rem !important;
+  border-color: shared.$kendo-color-border-alt !important;
+
+  .k-input-inner {
+    .k-input-value-text {
+      @include shared.text-sm(false, true);
+      color: shared.$kendo-color-hint;
+    }
+  }
+
+  > .k-button {
+    display: none !important;
+  }
+
+  .k-input-value-text {
+    display: flex !important;
+  }
+}
+
+// Form Input Styling
+.vet-form-input kendo-dropdownlist {
+  width: 100%;
+  height: 3.125rem !important;
+  border-radius: 0.625rem !important;
+  border-color: shared.$kendo-color-divider-light !important;
+
+  .k-input-inner {
+    .k-input-value-text {
+      @include shared.text-base(true, true);
+      color: shared.$kendo-color-body !important;
+    }
+  }
+
+  > .k-button {
+    display: none !important;
+  }
+
+  .k-input-value-text {
+    display: flex !important;
+  }
+}
+
+// ===============================================
+// BUTTON COMPONENT CUSTOMIZATIONS
+// ===============================================
+
+
+.vet-form-button.k-button {
+  border-radius: 0.625rem !important;
+  height: 3.125rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.vet-filter-button.k-button {
+  height: 2.375rem !important;
+  border-radius: 0.625rem !important;
+
+  &.k-icon-button {
+    width: 2.875rem !important;
+    height: 2.375rem !important;
+
+    kendo-svgicon {
+      min-width: 12px !important;
+      min-height: 12px !important;
+    }
+
+    &.vet-filter-button-small {
+      kendo-svgicon {
+        width: 0.75rem;
+        height: 0.75rem;
+      }
+    }
+  }
+}
+
+// ===============================================
+// SWITCH COMPONENT CUSTOMIZATIONS
+// ===============================================
+
+
+.vet-filter-input kendo-switch {
+  width: 3.375rem;
+}
+
+// ===============================================
+// PLACEHOLDER AND INPUT OVERRIDES
+// ===============================================
+
+
+input::-moz-placeholder,
+.k-picker::-moz-placeholder {
+  color: shared.$kendo-color-body !important;
+  opacity: 1 !important;
+  font-family: HelveticaNeue !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 24px !important;
+  text-underline-position: from-font !important;
+  text-decoration-skip-ink: none !important;
+}
+
+input::placeholder,
+.k-input::placeholder,
+.k-picker::placeholder {
+  color: shared.$kendo-color-body !important;
+  opacity: 1 !important;
+  font-family: HelveticaNeue !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 24px !important;
+  text-underline-position: from-font !important;
+  text-decoration-skip-ink: none !important;
+}
+
+// ===============================================
+// ICON CUSTOMIZATIONS
+// ===============================================
+
+
+kendo-svg-icon.tiny {
+  display: block !important;
+  width: 4px !important;
+
+  svg {
+    width: 4px !important;
+    height: 8px !important;
+  }
+}
+
+kendo-svg-icon.medium {
+  display: block !important;
+  width: 22px;
+  height: 22px !important;
+
+  svg {
+    height: 100% !important;
+  }
+}
+
+kendo-svg-icon.large {
+  display: block !important;
+  width: 46px !important;
+  height: 46px !important;
+
+  svg {
+    height: 46px !important;
+  }
+}
+
+// ===============================================
+// APPLICATION-SPECIFIC OVERRIDES
+// ===============================================
+
+// Originally from: apps/vet/src/styles.scss
+
+// Authentication Forms
+.vet-auth {
+  kendo-textbox {
+    height: 3.125rem;
+    margin-top: 0.75rem;
+  }
+
+  kendo-textbox input.k-input-inner {
+    padding-block: 1rem !important;
+    padding-inline: 1rem !important;
+  }
+}
+
+// Registration Forms
+.vet-registration {
+  kendo-textbox,
+  kendo-dropdownlist,
+  kendo-datepicker {
+    height: 3.125rem;
+    margin-top: 0.75rem;
+  }
+
+  kendo-textbox input.k-input-inner {
+    padding-block: 1rem !important;
+    padding-inline: 1rem !important;
+  }
+}
+
+// Dialog Customizations
+.k-dialog-title {
+  text-align: center;
+}

@@ -26,7 +26,7 @@
                 </div>
 
                 @if (isExpanded()) {
-                  <span class="sidebar-menu-item-button-text">{{ item.text | transloco }}</span>
+                  <p class="vet-text-uppercase k-text-sm">{{ item.text | transloco }}</p>
                 }
               </div>
 
@@ -50,7 +50,7 @@
               @for (child of item.children; track child.id) {
                 <li class="sidebar-menu-children-list-item" [class.active]="child.isActive">
                   <a [routerLink]="child.url ? [child.url] : []">
-                    {{ child.text | transloco }}
+                    <p class="vet-text-uppercase">{{ child.text | transloco }}</p>
                   </a>
                 </li>
               }

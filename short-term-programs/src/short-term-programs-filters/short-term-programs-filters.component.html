@@ -48,14 +48,14 @@
             class="vet-filter-input"
             formControlName="region"
             [placeholder]="'shorts.region' | transloco"
-            [options]="regionOptions()!"
+            [options]="regionOptions.value()"
           />
 
           <vet-selector
             class="vet-filter-input"
             formControlName="district"
             [placeholder]="'shorts.district' | transloco"
-            [options]="districtOptions()!"
+            [options]="districtOptions.value()"
           />
         </div>
 
@@ -64,7 +64,7 @@
             class="vet-filter-input"
             formControlName="organisation"
             [placeholder]="'shorts.institution_name' | transloco"
-            [options]="institutionOptions()!"
+            [options]="institutionOptions.value()"
           />
         </div>
       </div>
@@ -76,7 +76,7 @@
               class="vet-filter-input"
               formControlName="program_kind"
               [placeholder]="'shorts.program_kind' | transloco"
-              [options]="programKindOptions()!"
+              [options]="programKindOptions.value()"
             />
           </div>
 

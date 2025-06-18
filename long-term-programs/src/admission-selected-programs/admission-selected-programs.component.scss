@@ -1,203 +1,203 @@
-:host {
-  display: block;
-
-  // Loading container
-  .loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    font-size: 1.1rem;
-    color: #666;
-  }
-
-  // Responsive grid container
-  .responsive-grid-container {
-    width: 100%;
-    overflow: auto;
-
-    // Mobile: make grid scrollable horizontally
-    @media (max-width: 767px) {
-      overflow-x: auto;
-
-      kendo-grid {
-        min-width: 700px; // Ensure minimum width for proper column display
-
-        // Smaller text on mobile for better fit
-        .k-grid-table {
-          font-size: 0.875rem;
-        }
-
-        // Hide less important columns on very small screens
-        @media (max-width: 479px) {
-          kendo-grid-column:nth-child(4) {
-            display: none; // Hide implementation location on very small screens
-          }
-        }
-      }
-    }
-
-    // Tablet and up: normal grid behavior
-    @media (min-width: 768px) {
-      kendo-grid {
-        .k-grid-table {
-          font-size: 1rem;
-        }
-      }
-    }
-  }
-
-  // Grid actions styling
-  .grid-actions {
-    min-width: 80px;
-
-    button {
-      min-width: 32px;
-      min-height: 32px;
-      padding: 0.25rem;
-
-      // Mobile: larger touch targets
-      @media (max-width: 767px) and (pointer: coarse) {
-        min-width: 40px;
-        min-height: 40px;
-        padding: 0.5rem;
-      }
-    }
-
-    // Mobile: stack action buttons vertically for better UX
-    @media (max-width: 479px) {
-      flex-direction: column;
-      gap: 0.25rem;
-      min-width: 60px;
-    }
-  }
-
-  // Enhanced grid styling for better mobile experience
-  @media (max-width: 767px) {
-    .responsive-grid-container {
-      // Add subtle shadow to indicate scrollable content
-      box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.1);
-      border-radius: 0.5rem;
-
-      kendo-grid {
-        // Better mobile grid spacing
-        .k-grid-header,
-        .k-grid-content {
-          .k-table-td,
-          .k-table-th {
-            padding: 0.5rem 0.25rem;
-            vertical-align: middle;
-          }
-        }
-
-        // Ensure rounded corners are maintained
-        .k-rounded-2\.5 {
-          border-radius: 0.625rem;
-          overflow: hidden;
-        }
-      }
-    }
-  }
-
-  // Large screen optimizations
-  @media (min-width: 1200px) {
-    .responsive-grid-container {
-      kendo-grid {
-        .k-grid-table {
-          font-size: 1rem;
-        }
-
-        .k-grid-header,
-        .k-grid-content {
-          .k-table-td,
-          .k-table-th {
-            padding: 1rem 0.75rem;
-          }
-        }
-      }
-    }
-  }
-
-  // Dialog responsive adjustments
-  .program-dialog {
-    // Mobile: full screen dialog
-    @media (max-width: 767px) {
-      :host ::ng-deep {
-        .k-dialog {
-          margin: 0.5rem;
-          max-width: calc(100vw - 1rem);
-          max-height: calc(100vh - 1rem);
-          width: calc(100vw - 1rem) !important;
-          height: calc(100vh - 1rem) !important;
-        }
-      }
-    }
-
-    // Tablet: smaller but still reasonable size
-    @media (min-width: 768px) and (max-width: 1199px) {
-      :host ::ng-deep {
-        .k-dialog {
-          width: 90vw !important;
-          height: 80vh !important;
-          max-width: 900px;
-          max-height: 700px;
-        }
-      }
-    }
-  }
-
-  // Empty state styling (when no programs selected)
-  @media (max-width: 767px) {
-    :host ::ng-deep {
-      kendo-grid {
-        .k-grid-norecords {
-          padding: 2rem 1rem;
-          text-align: center;
-          font-size: 1rem;
-        }
-      }
-    }
-  }
-
-  // Better visual feedback for selected programs
-  .responsive-grid-container {
-    kendo-grid {
-      // Highlight selected programs with subtle background
-      .k-grid-content {
-        .k-table-tbody {
-          .k-table-row {
-            transition: background-color 0.2s ease;
-
-            &:hover {
-              background-color: rgba(0, 123, 255, 0.05);
-            }
-          }
-        }
-      }
-
-      // Enhanced action button styling
-      .grid-actions {
-        button {
-          transition: transform 0.2s ease;
-
-          &:hover {
-            transform: scale(1.1);
-          }
-
-          &:active {
-            transform: scale(0.95);
-          }
-        }
-      }
-    }
-  }
-
-  // Improved accessibility for screen readers
-  .grid-actions {
-    button {
-      &[aria-label] {
-        // Add proper ARIA labels for screen readers
-      }
-    }
-  }
-}
+//:host {
+//  display: block;
+//
+//  // Loading container
+//  .loading-container {
+//    display: flex;
+//    justify-content: center;
+//    align-items: center;
+//    padding: 2rem;
+//    font-size: 1.1rem;
+//    color: #666;
+//  }
+//
+//  // Responsive grid container
+//  .responsive-grid-container {
+//    width: 100%;
+//    overflow: auto;
+//
+//    // Mobile: make grid scrollable horizontally
+//    @media (max-width: 767px) {
+//      overflow-x: auto;
+//
+//      kendo-grid {
+//        min-width: 700px; // Ensure minimum width for proper column display
+//
+//        // Smaller text on mobile for better fit
+//        .k-grid-table {
+//          font-size: 0.875rem;
+//        }
+//
+//        // Hide less important columns on very small screens
+//        @media (max-width: 479px) {
+//          kendo-grid-column:nth-child(4) {
+//            display: none; // Hide implementation location on very small screens
+//          }
+//        }
+//      }
+//    }
+//
+//    // Tablet and up: normal grid behavior
+//    @media (min-width: 768px) {
+//      kendo-grid {
+//        .k-grid-table {
+//          font-size: 1rem;
+//        }
+//      }
+//    }
+//  }
+//
+//  // Grid actions styling
+//  .grid-actions {
+//    min-width: 80px;
+//
+//    button {
+//      min-width: 32px;
+//      min-height: 32px;
+//      padding: 0.25rem;
+//
+//      // Mobile: larger touch targets
+//      @media (max-width: 767px) and (pointer: coarse) {
+//        min-width: 40px;
+//        min-height: 40px;
+//        padding: 0.5rem;
+//      }
+//    }
+//
+//    // Mobile: stack action buttons vertically for better UX
+//    @media (max-width: 479px) {
+//      flex-direction: column;
+//      gap: 0.25rem;
+//      min-width: 60px;
+//    }
+//  }
+//
+//  // Enhanced grid styling for better mobile experience
+//  @media (max-width: 767px) {
+//    .responsive-grid-container {
+//      // Add subtle shadow to indicate scrollable content
+//      box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.1);
+//      border-radius: 0.5rem;
+//
+//      kendo-grid {
+//        // Better mobile grid spacing
+//        .k-grid-header,
+//        .k-grid-content {
+//          .k-table-td,
+//          .k-table-th {
+//            padding: 0.5rem 0.25rem;
+//            vertical-align: middle;
+//          }
+//        }
+//
+//        // Ensure rounded corners are maintained
+//        .k-rounded-2\.5 {
+//          border-radius: 0.625rem;
+//          overflow: hidden;
+//        }
+//      }
+//    }
+//  }
+//
+//  // Large screen optimizations
+//  @media (min-width: 1200px) {
+//    .responsive-grid-container {
+//      kendo-grid {
+//        .k-grid-table {
+//          font-size: 1rem;
+//        }
+//
+//        .k-grid-header,
+//        .k-grid-content {
+//          .k-table-td,
+//          .k-table-th {
+//            padding: 1rem 0.75rem;
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  // Dialog responsive adjustments
+//  .program-dialog {
+//    // Mobile: full screen dialog
+//    @media (max-width: 767px) {
+//      :host ::ng-deep {
+//        .k-dialog {
+//          margin: 0.5rem;
+//          max-width: calc(100vw - 1rem);
+//          max-height: calc(100vh - 1rem);
+//          width: calc(100vw - 1rem) !important;
+//          height: calc(100vh - 1rem) !important;
+//        }
+//      }
+//    }
+//
+//    // Tablet: smaller but still reasonable size
+//    @media (min-width: 768px) and (max-width: 1199px) {
+//      :host ::ng-deep {
+//        .k-dialog {
+//          width: 90vw !important;
+//          height: 80vh !important;
+//          max-width: 900px;
+//          max-height: 700px;
+//        }
+//      }
+//    }
+//  }
+//
+//  // Empty state styling (when no programs selected)
+//  @media (max-width: 767px) {
+//    :host ::ng-deep {
+//      kendo-grid {
+//        .k-grid-norecords {
+//          padding: 2rem 1rem;
+//          text-align: center;
+//          font-size: 1rem;
+//        }
+//      }
+//    }
+//  }
+//
+//  // Better visual feedback for selected programs
+//  .responsive-grid-container {
+//    kendo-grid {
+//      // Highlight selected programs with subtle background
+//      .k-grid-content {
+//        .k-table-tbody {
+//          .k-table-row {
+//            transition: background-color 0.2s ease;
+//
+//            &:hover {
+//              background-color: rgba(0, 123, 255, 0.05);
+//            }
+//          }
+//        }
+//      }
+//
+//      // Enhanced action button styling
+//      .grid-actions {
+//        button {
+//          transition: transform 0.2s ease;
+//
+//          &:hover {
+//            transform: scale(1.1);
+//          }
+//
+//          &:active {
+//            transform: scale(0.95);
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  // Improved accessibility for screen readers
+//  .grid-actions {
+//    button {
+//      &[aria-label] {
+//        // Add proper ARIA labels for screen readers
+//      }
+//    }
+//  }
+//}

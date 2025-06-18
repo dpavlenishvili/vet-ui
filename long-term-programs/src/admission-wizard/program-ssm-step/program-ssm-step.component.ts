@@ -12,7 +12,6 @@ import {
   ItemTemplateDirective,
   ValueTemplateDirective,
 } from '@progress/kendo-angular-dropdowns';
-import { NgClass } from '@angular/common';
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 
@@ -31,7 +30,6 @@ export type ProgramSsmStepFormGroup = FormGroup;
     InfoComponent,
     DividerComponent,
     DropDownListComponent,
-    NgClass,
     ItemTemplateDirective,
     ValueTemplateDirective,
   ],

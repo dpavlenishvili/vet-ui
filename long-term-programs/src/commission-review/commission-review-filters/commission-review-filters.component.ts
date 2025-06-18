@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
@@ -6,9 +6,9 @@ import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_TEXTBOX, KENDO_SWITCH } from '@progress/kendo-angular-inputs';
 import { KENDO_POPOVER } from '@progress/kendo-angular-tooltip';
-import { vetIcons } from '@vet/shared';
-import { GeneralsService } from '@vet/backend';
+import { SelectorComponent, vetIcons, withoutEmptyProperties } from '@vet/shared';
 import { ReviewFilters } from '../commission-review.component';
+import { usePrograms } from 'long-term-programs/src/long-term.resources';
 
 @Component({
   selector: 'vet-commission-review-filters',
@@ -19,6 +19,7 @@ import { ReviewFilters } from '../commission-review.component';
     KENDO_SWITCH,
     KENDO_SVGICON,
     KENDO_POPOVER,
+    SelectorComponent,
     ReactiveFormsModule,
     TranslocoPipe,
   ],
@@ -27,14 +28,20 @@ import { ReviewFilters } from '../commission-review.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommissionReviewFiltersComponent {
-  vetIcons = vetIcons;
-
   numberOfRecords = input<number>();
+  filters = input.required<ReviewFilters>();
   filtersChange = output<ReviewFilters>();
 
+  vetIcons = vetIcons;
   filterForm = this.createFilterForm();
 
-  generalsService = inject(GeneralsService);
+  programsOptions = usePrograms();
+
+  constructor() {
+    effect(() => {
+      this.filterForm.patchValue(this.filters());
+    });
+  }
 
   createFilterForm() {
     return new FormGroup({
@@ -51,14 +58,9 @@ export class CommissionReviewFiltersComponent {
   }
 
   onSubmit() {
-    const value = this.filterForm.value;
-
-    const filterData: ReviewFilters = {
-      program: value.program ?? null,
-      pid: value.pid ?? null,
-      fullname: value.fullname ?? null,
-    };
-
-    this.filtersChange.emit(filterData);
+    this.filtersChange.emit(
+      withoutEmptyProperties(this.filterForm.value) as ReviewFilters
+    )
   }
+
 }

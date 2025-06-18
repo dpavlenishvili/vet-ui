@@ -55,9 +55,12 @@ export class AdmissionSelectedProgramsComponent {
   }
 
   onDeleteClick(item: LongTerm) {
-    this.confirm.show({
+    this.confirm.warning({
+      title: 'programs.removeProgramSelection',
       content: 'programs.confirm_program_selection_delete',
-      onConfirm: () => this.deleteClick.emit(item),
+      confirmButtonText: 'programs.remove',
+      dismissButtonText: 'shared.cancel',
+      onConfirm: () => this.deleteClick.emit(item)
     });
   }
 }

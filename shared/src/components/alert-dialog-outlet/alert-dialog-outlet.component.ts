@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Signal, HostListener } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
@@ -61,6 +61,16 @@ export class AlertDialogOutletComponent {
 
   constructor() {
     this.params = this.alertDialogService.currentDialogParams;
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  public onKeydown(event: KeyboardEvent): void {
+    // Enhanced: Allow ESC key to close alert dialogs
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      this.close();
+    }
   }
 
   protected getIconByVariant(variant: DialogVariant) {

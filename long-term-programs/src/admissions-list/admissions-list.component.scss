@@ -1,3 +1,101 @@
 :host {
   display: block;
+
+  // Optimized action buttons
+  .action-buttons {
+    min-width: 100px;
+    justify-content: space-between;
+
+    button {
+      min-width: 24px;
+      min-height: 24px;
+      padding: 0.125rem;
+
+      // Mobile: larger touch targets
+      @media (max-width: 767px) and (pointer: coarse) {
+        min-width: 32px;
+        min-height: 32px;
+        padding: 0.25rem;
+      }
+    }
+  }
+
+  // Compact status cell
+  .status-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    line-height: 1.2;
+  }
+
+  // Enhanced no records state
+  .k-grid-norecords {
+    .k-empty-data {
+      padding: 2rem;
+
+      @media (max-width: 767px) {
+        padding: 1rem;
+      }
+    }
+  }
+
+  // Responsive grid improvements
+  @media (max-width: 767px) {
+    .k-grid {
+      font-size: 0.875rem;
+
+      .k-grid-header,
+      .k-grid-content {
+        .k-table-td,
+        .k-table-th {
+          padding: 0.5rem 0.25rem;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  // Large screen optimizations
+  @media (min-width: 1200px) {
+    .k-grid {
+      .k-grid-header,
+      .k-grid-content {
+        .k-table-td,
+        .k-table-th {
+          padding: 0.75rem 0.5rem;
+        }
+      }
+    }
+  }
 }
+
+
+::ng-deep .main-grid.k-grid {
+  // Hierarchy cell styles
+  .k-hierarchy-cell {
+    width: 0;
+
+    .k-icon {
+      display: none;
+    }
+  }
+
+  // Header-specific hierarchy cell
+  .k-header.k-hierarchy-cell {
+    border: none;
+  }
+
+  // Hierarchy column width
+  .k-hierarchy-col {
+    width: 1px;
+  }
+
+  // Remove left border from second column (adjacent to hierarchy)
+  .k-table-row {
+    .k-table-td:nth-child(2),
+    .k-table-th:nth-child(2) {
+      border-left: none !important;
+    }
+  }
+}
+

@@ -202,6 +202,7 @@ export class AdmissionWizardComponent implements OnInit {
   private updateResponsiveState(): void {
     const width = window.innerWidth;
     const mobile = width < 768;
+    const stepperPanelExpanded = width < 993;
 
     this.isMobile.set(mobile);
 
@@ -217,6 +218,12 @@ export class AdmissionWizardComponent implements OnInit {
       // Desktop: vertical stepper sidebar, expanded by default
       this.stepperOrientation.set('vertical');
       this.isExpanded.set(true);
+    }
+
+    if (stepperPanelExpanded) {
+      this.stepType.set('indicator');
+    } else {
+      this.stepType.set('full');
     }
   }
 

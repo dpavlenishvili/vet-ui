@@ -1,5 +1,9 @@
 <div class="main-container">
-  <vet-exam-selection-filters [numberOfRecords]="gridData().data.length" (filtersChange)="onFiltersChange($event)" />
+  <vet-exam-selection-filters
+    [filters]="filters()"
+    [numberOfRecords]="gridData().data.length"
+    (filtersChange)="onFiltersChange($event)"
+  />
 
   <kendo-grid [data]="gridData().data" [loading]="schedules$.isLoading()">
     <kendo-grid-column [title]="'programs.applicant_data' | transloco" [width]="200">
@@ -19,20 +23,27 @@
     <kendo-grid-column [title]="'programs.selection_result' | transloco" [width]="500">
       <ng-template kendoGridCellTemplate let-item>
         <div class="selection-column">
-          @for (selection of item.selections; track $index) {
+          @let selections = item.selections?.length ? item.selections : item.program?.admission?.selection;
+
+          @for (selection of selections; track $index) {
             <div class="selection-column-content">
-              <p class="k-font-bold">{{ selection.selection.method.category }}</p>
+              <p class="k-font-bold">
+                {{ item.selections?.length ? selection?.selection?.method?.category : selection?.method?.category }}
+              </p>
+
               <div class="k-display-flex k-gap-1">
-                <p class="k-font-bold">{{ 'programs.name' | transloco }}</p>
-                <p>{{ selection.selection.method.name }}</p>
+                <p class="k-font-bold">{{ 'programs.name' | transloco }}:</p>
+                <p>{{ item.selections?.length ? selection?.selection?.method?.name : selection?.method?.name }}</p>
               </div>
+
               <div class="k-display-flex k-gap-1">
-                <p class="k-font-bold">{{ 'programs.date_time' | transloco }}</p>
-                <p>{{ selection.start_at }}</p>
+                <p class="k-font-bold">{{ 'programs.date_time' | transloco }}:</p>
+                <p>{{ selection?.start_at }}</p>
               </div>
+
               <div class="k-display-flex k-gap-1">
-                <p class="k-font-bold">{{ 'programs.result' | transloco }}</p>
-                <p>{{ selection.score }}</p>
+                <p class="k-font-bold">{{ 'programs.result' | transloco }}:</p>
+                <p>{{ selection?.score }}</p>
               </div>
             </div>
           }
@@ -50,14 +61,14 @@
 
           <div class="k-display-flex k-gap-1">
             <p class="k-font-bold">{{ 'programs.status' | transloco }}:</p>
-            <p>{{ item.status }}</p>
-            <div kendoTooltip [tooltipWidth]="400">
-              <kendo-svg-icon
-                [title]="'programs.status_occupied_teritory_institution' | transloco"
-                [icon]="vetIcons.info"
-                class="k-mr-2"
-              />
-            </div>
+            @if (hasSpecialStatus(item)) {
+              <p>{{ 'shared.yes' | transloco }}</p>
+              <div kendoTooltip>
+                <kendo-svg-icon [title]="getSpecialStatusTooltip(item)" [icon]="vetIcons.info" class="k-mr-2" />
+              </div>
+            } @else {
+              <p>{{ 'shared.no' | transloco }}</p>
+            }
           </div>
         </div>
       </ng-template>

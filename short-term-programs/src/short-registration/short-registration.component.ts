@@ -9,6 +9,7 @@ import { ShortRegistrationGeneralInformationStepComponent } from './short-regist
 import { ShortRegistrationProgramSelectionStepComponent } from './short-registration-program-selection-step/short-registration-program-selection-step.component';
 import { ShortRegistrationSelectedProgramsStepComponent } from './short-registration-selected-programs-step/short-registration-selected-programs-step.component';
 import { ShortRegistrationConfirmationStepComponent } from './short-registration-confirmation-step/short-registration-confirmation-step.component';
+import { ShortProgramAdmission } from '@vet/backend';
 
 @Component({
   selector: 'vet-short-registration',
@@ -52,7 +53,7 @@ export class ShortRegistrationComponent {
     {
       label: 'shorts.selected-programs',
       title: 'shorts.selected-programs',
-      form: () => this.formGroup.controls.selected_programs,
+      form: () => this.formGroup.controls.program_selection,
       template: this.selectedProgramsStepTemplate,
       path: 'selected-programs',
     },
@@ -82,16 +83,18 @@ export class ShortRegistrationComponent {
   createFormGroup() {
     return new FormGroup({
       general_information: new FormGroup({
-        education: new FormControl<number | null>(1, Validators.required),
+        education_level: new FormControl<number | null>(1, Validators.required),
       }),
-      program_selection: new FormGroup({}),
-      selected_programs: new FormGroup({}),
+      program_selection: new FormGroup({
+        selected_programs: new FormControl<ShortProgramAdmission[]>([], Validators.required),
+      }),
       confirmation: new FormGroup({}),
     });
   }
 
   onNext() {
     if (this.stepIndex() < this.steps.length - 1) {
+      console.log(this.formGroup.value);
       this.onStepIndexChange(this.stepIndex() + 1);
     }
   }

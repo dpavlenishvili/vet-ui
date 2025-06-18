@@ -34,12 +34,14 @@ export class AdmissionRegistrationComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => {
         if (!res.is_eligible) {
-          this.confirm.show({
+          this.confirm.info({
+            title: 'programs.enrollmentStatus',
             content: 'shared.alreadyEnrolled',
             showYesNoButtons: false,
+            singleTypeDialogActionText: 'programs.viewAdmissions',
             onConfirm: () => {
               this.router.navigate(['long-term-programs', 'list']);
-            },
+            }
           });
         }
       });

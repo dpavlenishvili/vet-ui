@@ -4,6 +4,10 @@
   @if (selectedPrograms(); as _selectedPrograms) {
     <div class="responsive-grid-container">
       <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5">
+        <ng-template kendoGridNoRecordsTemplate>
+          {{ 'shared.noRecords' | transloco }}
+        </ng-template>
+
         <kendo-grid-column [title]="'programs.program_name' | transloco">
           <ng-template kendoGridCellTemplate let-item>
             {{ item.program.program_name }}

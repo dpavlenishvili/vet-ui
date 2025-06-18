@@ -9,8 +9,16 @@
     "generate": {
       "executor": "@vet/backend:sync",
       "options": {
-        "openApiFilePath": "https://dev-api-vet.emis.ge/docs/api-docs.json",
+        "openApiFilePath": "https://dev-api-vet.emis.ge/docs?api-docs.json",
         "outputDir": "{projectRoot}/src/lib/generated"
+      },
+      "configurations": {
+        "development": {
+          "openApiFilePath": "https://dev-api-vet.emis.ge/docs?api-docs.json"
+        },
+        "production": {
+          "openApiFilePath": "https://dev-api-vet.emis.ge/docs?api-docs.json"
+        }
       }
     },
     "test": {

@@ -1,29 +1,36 @@
 <form [formGroup]="filterForm">
   <div class="filters-container">
-    <kendo-dropdownlist
-      [defaultItem]="{ name: 'programs.institution' | transloco, id: null }"
-      [textField]="'name'"
-      [valueField]="'id'"
-      [data]="organisationsRc$.value()"
+    <vet-selector
+      class="vet-filter-input"
       formControlName="organisation"
-      [valuePrimitive]="true"
+      [placeholder]="'programs.institution' | transloco"
+      [options]="institutionOptions.value()"
     />
 
-    <kendo-dropdownlist
-      [defaultItem]="{ text: 'shared.program' | transloco, value: null }"
-      [textField]="'text'"
-      [valueField]="'value'"
+    <vet-selector
+      class="vet-filter-input"
       formControlName="program"
-      [valuePrimitive]="true"
+      [placeholder]="'shared.program' | transloco"
+      [options]="programsOptions.value()"
     />
 
-    <kendo-textbox [placeholder]="'programs.pid' | transloco" formControlName="pid" />
+    <kendo-textbox 
+      class="vet-filter-input" 
+      [placeholder]="'programs.pid' | transloco" 
+      formControlName="pid" 
+    />
 
-    <kendo-textbox [placeholder]="'programs.fullname' | transloco" formControlName="fullname" />
+    <kendo-textbox
+      class="vet-filter-input" 
+      [placeholder]="'programs.fullname' | transloco" 
+      formControlName="fullname" 
+    />
 
     <div class="k-display-flex k-gap-2 k-justify-content-start">
-      <p>{{ 'programs.ssm_status' | transloco }}</p>
-      <kendo-switch size="small" />
+      <vet-switch
+        formControlName="spec"
+        [label]="'programs.ssm_status' | transloco"
+      />
     </div>
 
     <div class="k-display-flex k-gap-2 k-justify-content-start k-align-items-center">
@@ -52,13 +59,15 @@
           </div>
         </ng-template>
       </kendo-popover>
-      <p>{{ 'programs.status' | transloco }}</p>
-      <kendo-switch size="small" />
+      
+      <vet-switch
+        [label]="'programs.status' | transloco"
+      />
     </div>
   </div>
 
   <div class="k-display-flex k-justify-content-between k-align-items-center k-pt-5">
-    <p>{{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}</p>
+    <p>{{ 'shared.number_of_records' | transloco: { count: numberOfRecords() } }}</p>
 
     <div class="k-display-flex k-justify-content-end k-gap-2">
       <button kendoButton type="secondary" [svgIcon]="vetIcons.xIcon" (click)="clearFilters()"></button>

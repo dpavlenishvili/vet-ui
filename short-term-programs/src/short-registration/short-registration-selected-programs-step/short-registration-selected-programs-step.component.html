@@ -1,6 +1,11 @@
 <form class="vet-shorts-general-information-step" [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
   <div>
-    {{ 'shorts.selected-programs' | transloco }}
+    @if (isBrowser) {
+      <vet-short-registration-selected-programs-grid
+        [selectedPrograms]="selectedPrograms()"
+        (itemUnselect)="onUnselectProgram($event)"
+      />
+    }
   </div>
 
   <div class="vet-shorts-step-footer">

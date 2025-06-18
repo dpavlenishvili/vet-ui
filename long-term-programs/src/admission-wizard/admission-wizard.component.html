@@ -1,68 +1,54 @@
-<!-- Mobile Layout -->
-@if (isMobile()) {
-  <div class="vet-admission-mobile">
-    <!-- Mobile stepper at top -->
-    <div class="mobile-stepper-container">
-      <kendo-stepper
-        [(currentStep)]="currentStepIndex"
-        [steps]="steps()"
-        [stepType]="'indicator'"
-        [orientation]="stepperOrientation()"
-        (activate)="onStepChange($event)"
-      >
-        <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
-          <div>{{ index + 1 }}</div>
-        </ng-template>
-      </kendo-stepper>
-    </div>
-
-    <!-- Mobile content -->
-    <div class="mobile-content-container">
-      <div class="k-display-flex k-gap-5 k-flex-column">
-        @if (currentStep(); as _currentStep) {
-          <div class="k-text-md k-color-body">{{ _currentStep.title | transloco }}</div>
-          <ng-template [ngTemplateOutlet]="_currentStep.template" />
-        }
-      </div>
-    </div>
-  </div>
-} @else {
-  <!-- Desktop/Tablet Layout -->
-  <div class="vet-admission k-d-flex k-gap-4">
-    <div class="stepper-container" [class.expanded]="isExpanded()">
-      <div class="stepper-container-toggle-container">
+<!-- Unified Layout for Both Mobile and Desktop -->
+<div class="vet-admission-wizard">
+  <!-- Stepper Container -->
+  <div class="stepper-container" [class.expanded]="isExpanded()" [class.mobile]="isMobile()">
+    <!-- Stepper Toggle (Desktop/Tablet only) -->
+    @if (!isMobile()) {
+      <div class="stepper-toggle-container">
         <button
           kendoButton
           [svgIcon]="isExpanded() ? vetIcons.chevronLeft : vetIcons.chevronRight"
-          class="stepper-container-toggle"
+          class="stepper-toggle"
           (click)="onToggleExpansion()"
         ></button>
       </div>
+    }
 
-      <kendo-stepper
-        [(currentStep)]="currentStepIndex"
-        [steps]="steps()"
-        [stepType]="stepType()"
-        [orientation]="stepperOrientation()"
-        (activate)="onStepChange($event)"
-      >
-
+    <!-- Stepper -->
+    <kendo-stepper
+      [(currentStep)]="currentStepIndex"
+      [steps]="steps()"
+      [stepType]="stepType()"
+      [orientation]="stepperOrientation()"
+      (activate)="onStepChange($event)"
+      class="wizard-stepper"
+    >
+      @if (!isMobile()) {
         <ng-template kendoStepperLabelTemplate let-step>
           {{ step.label | transloco }}
         </ng-template>
-      </kendo-stepper>
-    </div>
+      } @else {
+        <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
+          <div class="step-indicator">{{ index + 1 }}</div>
+        </ng-template>
+      }
+    </kendo-stepper>
+  </div>
 
-    <div class="step-content-container">
-      <div class="k-display-flex k-gap-5 k-flex-column">
-        @if (currentStep(); as _currentStep) {
-          <div class="k-text-md k-color-body">{{ _currentStep.title | transloco }}</div>
+  <!-- Step Content Container -->
+  <div class="step-content-container">
+    <div class="step-content">
+      @if (currentStep(); as _currentStep) {
+<!--        <div class="step-header">-->
+<!--          <h2 class="step-title">{{ _currentStep.title | transloco }}</h2>-->
+<!--        </div>-->
+        <div class="step-body">
           <ng-template [ngTemplateOutlet]="_currentStep.template" />
-        }
-      </div>
+        </div>
+      }
     </div>
   </div>
-}
+</div>
 
 <!-- Step Templates -->
 <ng-template #programGeneralInformationStepTmpl>

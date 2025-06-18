@@ -131,6 +131,7 @@ a {
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 }
+
 .vet-bg-pink {
   background-color: #e3c7c9;
 }
@@ -192,42 +193,4 @@ a {
   }
 }
 
-.vet-auth {
-  kendo-textbox {
-    height: 3.125rem;
-    margin-top: 0.75rem;
-  }
-
-  kendo-textbox input.k-input-inner {
-    padding-block: 1rem !important;
-    padding-inline: 1rem !important;
-  }
-}
-
-.vet-registration {
-  kendo-textbox,
-  kendo-dropdownlist,
-  kendo-datepicker {
-    height: 3.125rem;
-    margin-top: 0.75rem;
-  }
-
-  kendo-textbox input.k-input-inner {
-    padding-block: 1rem !important;
-    padding-inline: 1rem !important;
-  }
-}
-
-.k-dialog-title {
-  text-align: center;
-}
-
-//.k-button {
-//    font-size: 0.9rem !important;
-//    padding: 1rem 1rem 1rem 1.1rem !important;
-//    border-radius: 0.625rem !important;
-//    font-weight: normal !important;
-//    border: none !important;
-//    color: white !important;
-//    cursor: pointer !important;
-//}
+// Note: Kendo UI component overrides have been moved to _custom-kendo-overrides.scss

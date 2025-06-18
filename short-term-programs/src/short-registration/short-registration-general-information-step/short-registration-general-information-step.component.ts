@@ -6,7 +6,7 @@ import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { useEducationLevels } from '../../short-term.resources';
 
 export type ShortRegistrationGeneralInformationStepFormGroup = FormGroup<{
-  education: FormControl<number | null>;
+  education_level: FormControl<number | null>;
 }>;
 
 @Component({

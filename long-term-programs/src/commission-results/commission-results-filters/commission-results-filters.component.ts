@@ -6,11 +6,11 @@ import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { vetIcons, withoutEmptyProperties } from '@vet/shared';
+import { SelectorComponent, vetIcons, withoutEmptyProperties } from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { map, filter } from 'rxjs';
 import { CommissionReviewFilters } from '../commission-results.component';
+import { UserRolesService } from '@vet/auth';
+import { usePrograms } from 'long-term-programs/src/long-term.resources';
 
 @Component({
   selector: 'vet-commission-results-filters',
@@ -19,6 +19,7 @@ import { CommissionReviewFilters } from '../commission-results.component';
     TranslocoPipe,
     ReactiveFormsModule,
     InputsModule,
+    SelectorComponent,
     KENDO_BUTTON,
     KENDO_GRID,
     KENDO_DROPDOWNLIST,
@@ -32,14 +33,10 @@ export class CommissionResultsFiltersComponent {
   filters = input.required<CommissionReviewFilters>();
   filtersChange = output<CommissionReviewFilters>();
 
-  generalsService = inject(GeneralsService);
-
   vetIcons = vetIcons;
   filterForm = this.createFilterForm();
 
-  organisationsRc$ = rxResource({
-    loader: () => this.generalsService.getOrganisationsList().pipe(map((response) => response.data)),
-  });
+  programsOptions = usePrograms();
 
   constructor() {
     effect(() => {

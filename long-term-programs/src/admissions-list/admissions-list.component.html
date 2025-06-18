@@ -9,9 +9,13 @@
   </div>
 </div>
 <div class="k-bg-white k-p-5 k-rounded-lg">
-  <div class="k-pb-5">
-    <vet-admissions-list-filter (filtersChange)="onFiltersChange($event)" />
-  </div>
+
+<!--  &lt;!&ndash; Total Records Display &ndash;&gt;-->
+<!--  <div class="k-pb-3">-->
+<!--    <span class="k-text-sm k-color-body">-->
+<!--      {{ 'shared.numberOfRecords' | transloco: { count: admissionList$.value()?.meta?.total || 0 } }}-->
+<!--    </span>-->
+<!--  </div>-->
 
   @if (isBrowser) {
     <kendo-grid
@@ -21,61 +25,99 @@
       [pageable]="true"
       [pageSize]="admissionList$.value()?.meta?.per_page"
       (dataStateChange)="handlePageChange($event)"
+      (cellClick)="onCellClick($event)"
+      class="main-grid"
     >
-      <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" [width]="100" />
-      <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" [width]="90" />
-      <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" [width]="110" />
-      <kendo-grid-column field="registered_at" [title]="'programs.registration_date' | transloco" [width]="160">
+      <!-- Optimized Column Widths -->
+      <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" [width]="80" />
+      <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" [width]="70" />
+      <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" [width]="80" />
+      <kendo-grid-column field="registered_at" [title]="'programs.registration_date' | transloco" [width]="100">
         <ng-template kendoGridCellTemplate let-item>
           {{ item.registered_at | formatDateTime: { format: 'DD/MM/YYYY' } }}
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column [title]="'programs.ssm_status' | transloco" [width]="100">
+      <kendo-grid-column [title]="'programs.ssm_status' | transloco" [width]="60">
         <ng-template kendoGridCellTemplate let-item>
           {{ (item?.spec_edu ? 'shared.yes' : 'shared.no') | transloco }}
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column [title]="'shared.status' | transloco" [width]="120">
+      <kendo-grid-column [title]="'shared.status' | transloco" [width]="100">
         <ng-template kendoGridCellTemplate let-item>
-          {{ item.status.current }}
-          <br />
-          {{ item.status.date | formatDateTime: { format: 'DD/MM/YYYY' } }}
+          <div class="status-cell">
+            <span>{{ item.status.current }}:</span>
+            <small class="k-text-xs">
+              {{ item.status.date | formatDateTime: { format: 'DD/MM/YYYY' } }}
+            </small>
+          </div>
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column [title]="''" [width]="190">
+      <kendo-grid-column [width]="80">
         <ng-template kendoGridCellTemplate let-item>
-          <div class="k-display-flex k-justify-content-between">
+          <div class="k-display-flex k-gap-1 action-buttons">
             <button
               kendoButton
               fillMode="flat"
+              size="small"
               [svgIcon]="vetIcons.editIcon"
+              [title]="'programs.edit' | transloco"
+              kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.edit"
             ></button>
             <button
               kendoButton
               fillMode="flat"
+              size="small"
               [svgIcon]="vetIcons.emptyDocumentIcon"
+              [title]="'programs.choose' | transloco"
+              kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.choose"
             ></button>
             <button
               kendoButton
               fillMode="flat"
+              size="small"
               [svgIcon]="vetIcons.readDocumentIcon"
+              [title]="'programs.view' | transloco"
+              kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.view"
             ></button>
             <button
               kendoButton
               fillMode="flat"
+              size="small"
               [svgIcon]="vetIcons.acceptedDocumentIcon"
+              [title]="'programs.result' | transloco"
+              kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.result"
             ></button>
           </div>
         </ng-template>
       </kendo-grid-column>
+
+      <ng-template kendoGridNoRecordsTemplate>
+        {{ 'shared.noRecords' | transloco }}
+      </ng-template>
+
+      <ng-template kendoGridDetailTemplate let-item>
+        @if (item?.programs && item.programs.length > 0) {
+          <div class="k-p-2">
+            <vet-admission-selected-programs
+              [selectedPrograms]="item.programs"
+              [selectedProgramsLoading]="false"
+              [isEditMode]="false"
+            />
+          </div>
+        } @else {
+          <div class="k-p-4 k-text-center k-color-body-light">
+            {{ 'programs.no_programs_selected' | transloco }}
+          </div>
+        }
+      </ng-template>
     </kendo-grid>
   }
 </div>

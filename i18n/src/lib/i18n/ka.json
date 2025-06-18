@@ -69,6 +69,8 @@
     "exceedFileLimitError": "შეყვანილი ფაილების რაოდენობა იზიდავს, შეგიძლიათ მხოლოდ {{remaining}} მეტი ფაილი ატვირთოთ.",
     "invalidFileTypeError": "ფაილის ტიპი არ არის დებულებული: {{fileName}}",
     "met": "გავეცანი",
+    "understood": "გავეცანი",
+    "cancel": "გაუქმება",
     "alreadyEnrolled": "თქვენ უკვე ჩარიცხული ხართ სხვა პროგრამაზე",
     "requestId": "განაცხადი ID",
     "search": "ძებნა",
@@ -438,7 +440,16 @@
     "commission_member_not_added": "კომისიის წევრი პროგრამაზე არ დაემატა",
     "spec_registered_count": "სსსმ აპლიკანტები",
     "space_count": "გამოცხადებული ადგილების რაოდენობა",
-    "registered_count": "რეგისტრირებული აპლიკანტები"
+    "registered_count": "რეგისტრირებული აპლიკანტები",
+    "changeEducationLevel": "განათლების დონის შეცვლა",
+    "testLocationChange": "ტესტის მდებარეობის შეცვლა",
+    "testLanguageChange": "ტესტის ენის შეცვლა",
+    "removeProgramSelection": "პროგრამის არჩევანის წაშლა",
+    "enrollmentStatus": "დარეგისტრირების სტატუსი",
+    "remove": "წაშლა",
+    "continue": "გაგრძელება",
+    "viewAdmissions": "ჩარიცხვების ნახვა",
+    "understood": "გასაგებია"
   },
   "profile": {
     "actual_address": "ფაქტობრივი მისამართი",

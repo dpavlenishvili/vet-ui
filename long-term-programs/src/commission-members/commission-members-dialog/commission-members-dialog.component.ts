@@ -125,7 +125,11 @@ export class CommissionMembersDialogComponent implements OnInit {
             }
           },
           error: () => {
-            this.showTemporaryError('programs.user_is_not_registered');
+            const commissionMember = this.commissionMemberForm.value;
+
+            if (commissionMember.pid && commissionMember.name) {
+              this.showTemporaryError('programs.user_is_not_registered');
+            }
           },
         }),
         takeUntilDestroyed(this.destroyRef),

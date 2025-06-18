@@ -29,15 +29,15 @@ $variant-colors: (
       overflow: hidden;
 
       .k-window-content.k-dialog-content {
-        padding: 2.5rem;
+        padding: 1.5rem;
         position: relative;
       }
     }
 
     .dialog-header {
       position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
+      top: 0.3rem;
+      right: 0.3rem;
       z-index: 1;
 
       .dialog-close-btn {

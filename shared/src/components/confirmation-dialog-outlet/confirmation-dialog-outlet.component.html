@@ -1,26 +1,45 @@
-@if (params(); as params) {
-  <kendo-dialog [title]="params.title ? (params.title | transloco) : ''" [width]="661" (close)="close()">
-    <div>
-      {{ params.content ? (params.content | transloco) : '' }}
+@if (resolvedParams(); as params) {
+  <kendo-dialog
+    class="vet-confirmation-dialog"
+    [title]="params.title ? (params.title | transloco) : ''"
+    [width]="dialogWidth"
+    (close)="close()"
+    [ngClass]="params.variant"
+  >
+    <div class="dialog-header">
+      <button kendoButton class="dialog-close-btn" (click)="close()" aria-label="Close" type="button" fillMode="flat">
+        <kendo-svg-icon [icon]="vetIcons.dialogClose" [size]="'xlarge'" />
+      </button>
     </div>
 
-    <kendo-dialog-actions>
+    <div class="dialog-content">
+      @if (params.variant && params.variant !== 'default') {
+        <div class="dialog-icon">
+          <kendo-svg-icon [icon]="getIconByVariant(params.variant)" size="xxlarge" />
+        </div>
+      }
 
-      <div class="k-display-flex k-justify-content-end k-gap-4">
-        @if (params.showYesNoButtons) {
-          <button kendoButton (click)="dismiss()">
-            {{ params.confirmButtonText ? (params.confirmButtonText | transloco) : ('shared.no' | transloco) }}
-          </button>
+      @if (params.content) {
+        <div class="dialog-message">
+          <span>{{ params.content | transloco }}</span>
+        </div>
+      }
+    </div>
 
-          <button kendoButton themeColor="primary" look="default" (click)="confirm()">
-            {{ params.confirmButtonText ? (params.confirmButtonText | transloco) : ('shared.yes' | transloco) }}
-          </button>
-        } @else {
-          <button kendoButton themeColor="primary" look="default" (click)="confirm()">
-            {{ params.singleTypeDialogActionText ? (params.singleTypeDialogActionText | transloco) : ('shared.met' | transloco) }}
-          </button>
-        }
-      </div>
-    </kendo-dialog-actions>
+    <div class="dialog-actions">
+      @if (params.showYesNoButtons) {
+        <button kendoButton themeColor="secondary" (click)="dismiss()">
+          {{ params.dismissButtonText ? (params.dismissButtonText | transloco) : ('shared.no' | transloco) }}
+        </button>
+
+        <button kendoButton themeColor="primary" (click)="confirm()">
+          {{ params.confirmButtonText ? (params.confirmButtonText | transloco) : ('shared.yes' | transloco) }}
+        </button>
+      } @else {
+        <button kendoButton themeColor="primary" (click)="confirm()">
+          {{ params.singleTypeDialogActionText ? (params.singleTypeDialogActionText | transloco) : ('shared.met' | transloco) }}
+        </button>
+      }
+    </div>
   </kendo-dialog>
 }

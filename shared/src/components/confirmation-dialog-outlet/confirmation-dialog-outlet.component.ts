@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostListener, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostListener, Signal } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
 import { IconModule, SVGIconModule } from '@progress/kendo-angular-icons';
@@ -6,8 +7,9 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { ConfirmationDialogService } from '../../services/confirmation-dialog.service';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
-import { ConfirmationDialogParams } from '../../shared.types';
+import { ConfirmationDialogParams, DialogVariant } from '../../shared.types';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { vetIcons } from '../../shared.icons';
 
 @Component({
   selector: 'vet-confirmation-dialog-outlet',
@@ -22,15 +24,46 @@ import { TranslocoPipe } from '@jsverse/transloco';
     SwitchModule,
     ButtonsModule,
     DialogsModule,
+    NgClass,
   ],
   templateUrl: './confirmation-dialog-outlet.component.html',
+  styleUrl: './confirmation-dialog-outlet.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmationDialogOutletComponent {
-  params: Signal<ConfirmationDialogParams | null>;
+  protected readonly vetIcons = vetIcons;
+  protected readonly dialogWidth = 523;
+
+  readonly params: Signal<ConfirmationDialogParams | null>;
+  readonly resolvedParams = computed(() => {
+    const params = this.params();
+
+    if (!params) {
+      return undefined;
+    }
+
+    // Add default variant if not specified (backward compatible)
+    return {
+      ...params,
+      variant: params.variant ?? 'default',
+      showYesNoButtons: params.showYesNoButtons ?? true,
+    };
+  });
 
   constructor(private confirmationDialogService: ConfirmationDialogService) {
     this.params = this.confirmationDialogService.currentDialogParams;
+  }
+
+  protected getIconByVariant(variant: DialogVariant | 'default') {
+    const iconMap = {
+      success: this.vetIcons.successCircle,
+      error: this.vetIcons.errorCircle,
+      info: this.vetIcons.info,
+      warning: this.vetIcons.infoWarning,
+      default: this.vetIcons.info, // default fallback
+    };
+
+    return iconMap[variant] || iconMap.default;
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -38,14 +71,16 @@ export class ConfirmationDialogOutletComponent {
     if (event.key === 'Escape') {
       event.preventDefault();
       event.stopImmediatePropagation();
+      this.close();
     }
   }
 
-  close() {
+  protected close() {
+    this.resolvedParams()?.onDismiss?.();
     this.confirmationDialogService.close();
   }
 
-  confirm() {
+  protected confirm() {
     const result = this.params()?.onConfirm();
 
     if (result) {
@@ -58,7 +93,7 @@ export class ConfirmationDialogOutletComponent {
     }
   }
 
-  dismiss() {
+  protected dismiss() {
     const result = this.params()?.onDismiss?.();
 
     if (result) {

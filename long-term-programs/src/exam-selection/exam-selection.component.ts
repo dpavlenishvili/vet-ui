@@ -1,18 +1,17 @@
 import { ExamSelectionFiltersComponent } from './exam-selection-filters/exam-selection-filters.component';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { KENDO_CARD } from '@progress/kendo-angular-layout';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { UserRolesService } from '@vet/auth';
 import { Schedule, SchedulesService, Selection } from '@vet/backend';
-import { DividerComponent, filterNullValues, vetIcons, RouteParamsService } from '@vet/shared';
+import { DividerComponent, vetIcons, RouteParamsService, useFilters, useFiltersUpdater } from '@vet/shared';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { ExamSelectionDialogComponent } from './exam-selection-dialog/exam-selection-dialog.component';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
-import { JsonPipe } from '@angular/common';
 
 export type SchedulesFilters = {
   program?: string | null;
@@ -20,6 +19,14 @@ export type SchedulesFilters = {
   organisation?: number | null;
   spec?: string | null;
   fullname?: string | null;
+};
+
+export type ScheduleItem = {
+  ocu_doc?: string[];
+  abroad_doc?: string[];
+  complete_base_edu_abroad?: boolean;
+  complete_edu_abroad?: boolean;
+  spec_edu?: boolean;
 };
 
 @Component({
@@ -45,6 +52,7 @@ export class ExamSelectionComponent {
   userRolesService = inject(UserRolesService);
   schedulesService = inject(SchedulesService);
   routeParamsService = inject(RouteParamsService);
+  translocoService = inject(TranslocoService);
 
   vetIcons = vetIcons;
   isSchedulesDialogOpen = signal(false);
@@ -52,15 +60,16 @@ export class ExamSelectionComponent {
   selectedExamId = '';
   dialogMode = signal<'dates' | 'results'>('dates');
 
-  protected filters = signal<string | undefined>(undefined);
+  filters = useFilters<SchedulesFilters>();
+  updateFilters = useFiltersUpdater<SchedulesFilters>();
 
   schedules$ = rxResource({
     request: () => ({
       organisation: this.userRolesService.getOrganisation(),
       filter: this.filters(),
     }),
-    loader: ({ request }) => {
-      return this.schedulesService.schedules(request);
+    loader: ({ request: { organisation, filter } }) => {
+      return this.schedulesService.schedules({ organisation, filter: JSON.stringify(filter) });
     },
   });
 
@@ -69,6 +78,32 @@ export class ExamSelectionComponent {
     return { data: val?.data || [], total: val?.meta?.total || 0 } as GridDataResult;
   });
 
+  hasSpecialStatus(item: ScheduleItem): boolean {
+    return (
+      !!item?.ocu_doc?.length ||
+      !!item?.abroad_doc?.length ||
+      !!item?.complete_base_edu_abroad ||
+      !!item?.complete_edu_abroad
+    );
+  }
+
+  getSpecialStatusTooltip(item: ScheduleItem): string {
+    const lines = [];
+    if (item?.ocu_doc?.length) {
+      lines.push(this.translocoService.translate('programs.status_occupied_teritory_institution'));
+    }
+    if (item?.abroad_doc?.length) {
+      lines.push(this.translocoService.translate('programs.status_foreign_citizen'));
+    }
+    if (item?.complete_base_edu_abroad) {
+      lines.push(this.translocoService.translate('programs.status_foreign_institution'));
+    }
+    if (item?.complete_edu_abroad) {
+      lines.push(this.translocoService.translate('programs.status_foreign_institution'));
+    }
+    return lines.join('\n');
+  }
+
   openSchedulesDialog(item: Schedule, dialogMode: 'dates' | 'results') {
     this.selectionMethods = item.program?.admission?.selection ?? [];
     this.selectedExamId = String(item.id);
@@ -76,9 +111,8 @@ export class ExamSelectionComponent {
     this.isSchedulesDialogOpen.set(true);
   }
 
-  onFiltersChange(filterValue: SchedulesFilters) {
-    const filterString = JSON.stringify(filterNullValues(filterValue));
-    this.filters.set(filterString);
+  onFiltersChange(filters: SchedulesFilters) {
+    this.updateFilters(filters);
   }
 
   reloadTableData() {

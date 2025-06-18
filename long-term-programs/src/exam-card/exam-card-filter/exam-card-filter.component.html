@@ -3,7 +3,11 @@
 
   <div class="k-display-flex k-gap-2 k-align-items-center">
     <form [formGroup]="filterForm">
-      <kendo-textbox formControlName="pid" [placeholder]="'programs.pid' | transloco" />
+      <kendo-textbox 
+        class="vet-filter-input" 
+        formControlName="pid" 
+        [placeholder]="'programs.pid' | transloco" 
+      />
     </form>
 
     <button kendoButton type="secondary" [svgIcon]="vetIcons.xIcon" (click)="clearFilters()"></button>

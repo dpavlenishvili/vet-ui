@@ -1,0 +1,22 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+  width: 100%;
+}
+
+.vet-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}

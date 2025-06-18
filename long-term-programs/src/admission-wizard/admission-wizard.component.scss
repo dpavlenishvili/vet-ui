@@ -2,199 +2,209 @@
 
 :host {
   display: block;
-
-  --container-bg-color: #ffffff;
-  --container-border-radius: 1.25rem;
+  height: 100%;
+  --stepper-width-collapsed: 4.5rem;
+  --stepper-width-expanded: 16rem;
+  --container-bg: #ffffff;
+  --container-radius: 1.25rem;
   --container-padding: 1.25rem;
-  --mobile-padding: 1rem;
+  --gap-base: 1.5rem;
+}
 
-  // Mobile Layout Styles
-  .vet-admission-mobile {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+// Main wizard container
+.vet-admission-wizard {
+  display: flex;
+  height: 100%;
+  gap: var(--gap-base);
 
-    .mobile-stepper-container {
-      background-color: var(--container-bg-color);
-      border-radius: var(--container-border-radius);
-      padding: var(--mobile-padding);
-      margin-bottom: 1rem;
-
-      kendo-stepper {
-        width: 100%;
-
-        // Mobile stepper styling
-        .k-step {
-          min-height: 3rem;
-
-          .k-step-indicator {
-            min-width: 2rem;
-            min-height: 2rem;
-            font-size: 0.875rem;
-          }
-        }
-      }
-    }
-
-    .mobile-content-container {
-      flex: 1;
-      overflow: auto;
-      padding: var(--mobile-padding);
-      border-radius: var(--container-border-radius);
-      background-color: var(--container-bg-color);
-    }
-  }
-
-  // Desktop/Tablet Layout Styles (768px+)
-  @media (min-width: 768px) {
-    .step-content-container {
-      overflow: auto;
-      flex: 1;
-      height: 100%;
-      padding: var(--container-padding);
-      border-radius: var(--container-border-radius);
-      background-color: var(--container-bg-color);
-    }
-
-    .stepper-container {
-      width: 100%;
-      max-width: 4.5rem;
-      min-width: 4.5rem;
-      transition: all 200ms ease-in-out;
-      height: 100%;
-      padding: var(--container-padding);
-      border-radius: var(--container-border-radius);
-      background-color: var(--container-bg-color);
-
-      kendo-stepper {
-        max-width: 2rem;
-      }
-
-      &.expanded {
-        min-width: 16rem;
-        max-width: 16rem;
-        align-items: flex-start;
-      }
-    }
-
-    .stepper-container-toggle-container {
-      display: flex;
-      justify-content: center;
-      padding-bottom: 0.75rem;
-    }
-
-    .stepper-container-toggle {
-      background-color: shared.$tb-kendo-color-surface;
-      border-color: shared.$tb-kendo-color-surface;
-      width: 1.625rem;
-      height: 1.625rem;
-      transition: all 200ms ease-out;
-    }
-
-    .stepper-container.expanded {
-      justify-content: center;
-
-      .stepper-container-toggle-container {
-        width: 100%;
-        justify-content: flex-end;
-      }
-
-      .stepper-container-toggle {
-        width: 2rem;
-        height: 2rem;
-      }
-    }
-  }
-
-  // Large Desktop Styles (992px+)
-  @media (min-width: 992px) {
-    .stepper-container {
-      &.expanded {
-        // Additional desktop-specific enhancements
-      }
-    }
-  }
-
-  // Enhanced mobile stepper styling
+  // Mobile: vertical layout
   @media (max-width: 767px) {
-    .mobile-stepper-container {
-      kendo-stepper {
-        .k-stepper-steps {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  // Desktop/Tablet: horizontal layout
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+// Stepper container
+.stepper-container {
+  background-color: var(--container-bg);
+  border-radius: var(--container-radius);
+  padding: var(--container-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 200ms ease-in-out;
+  height: fit-content;
+
+  // Mobile: full width, horizontal stepper
+  &.mobile {
+    width: 100%;
+    padding: 1rem;
+
+    .wizard-stepper {
+      .k-step {
+        flex: 1;
+        .k-step-indicator {
+          min-width: 2rem;
+          min-height: 2rem;
+          font-size: 0.875rem;
+          border-radius: 50%;
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          gap: 0.5rem;
-        }
+          justify-content: center;
+          font-weight: 600;
+          border: 2px solid shared.$tb-kendo-color-border;
 
-        .k-step {
-          flex: 1;
-
-          &.k-step-current {
-            .k-step-indicator {
-              background-color: shared.$tb-kendo-color-primary;
-              color: white;
-            }
-          }
-
+          &.k-step-current,
           &.k-step-done {
-            .k-step-indicator {
-              background-color: shared.$tb-kendo-color-primary;
-              color: white;
-            }
-          }
-
-          .k-step-indicator {
-            border: 2px solid shared.$tb-kendo-color-border;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            margin: 0 auto;
+            background-color: shared.$tb-kendo-color-primary;
+            color: white;
+            border-color: shared.$tb-kendo-color-primary;
           }
         }
 
-        // Hide step labels on mobile for cleaner look
+        // Hide labels on mobile
         .k-step-label {
           display: none;
         }
-
-        // Mobile connector styling
-        .k-step-separator {
-          flex: 1;
-          height: 2px;
-          background-color: shared.$tb-kendo-color-border;
-          margin: 0 0.5rem;
-
-          &.k-step-separator-done {
-            background-color: shared.$tb-kendo-color-primary;
-          }
-        }
       }
     }
   }
 
-  // Touch-friendly improvements for mobile
-  @media (max-width: 767px) and (pointer: coarse) {
-    .mobile-stepper-container {
-      kendo-stepper {
-        .k-step-indicator {
-          min-width: 2.75rem;
-          min-height: 2.75rem;
-          font-size: 1rem;
-        }
+  // Desktop/Tablet: sidebar behavior
+  @media (min-width: 768px) {
+    width: var(--stepper-width-collapsed);
+    min-width: var(--stepper-width-collapsed);
+
+    &.expanded {
+      width: var(--stepper-width-expanded);
+      min-width: var(--stepper-width-expanded);
+    }
+  }
+}
+
+// Stepper toggle
+.stepper-toggle-container {
+  display: flex;
+  justify-content: center;
+
+  .stepper-container.expanded & {
+    justify-content: flex-end;
+  }
+}
+
+.stepper-toggle {
+  background-color: shared.$tb-kendo-color-surface;
+  border-color: shared.$tb-kendo-color-surface;
+  width: 1.625rem;
+  height: 1.625rem;
+  transition: all 200ms ease-out;
+
+  .stepper-container.expanded & {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+// Stepper styling
+.wizard-stepper {
+  width: 100%;
+
+  // Mobile horizontal stepper
+  @media (max-width: 767px) {
+    .k-stepper-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .k-step-separator {
+      flex: 1;
+      height: 2px;
+      background-color: shared.$tb-kendo-color-border;
+      margin: 0 0.5rem;
+
+      &.k-step-separator-done {
+        background-color: shared.$tb-kendo-color-primary;
       }
     }
   }
 
-  // High DPI displays optimization
-  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .vet-admission-mobile {
-      .mobile-stepper-container kendo-stepper .k-step-separator {
-        height: 1px;
-        transform: scaleY(2);
-        transform-origin: center;
-      }
+  // Desktop vertical stepper
+  @media (min-width: 768px) {
+    max-width: 2rem;
+
+    .stepper-container.expanded & {
+      max-width: none;
+    }
+  }
+}
+
+// Step content container
+.step-content-container {
+  flex: 1;
+  background-color: var(--container-bg);
+  border-radius: var(--container-radius);
+  padding: var(--container-padding);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+
+  @media (max-width: 767px) {
+    padding: 1rem;
+  }
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-base);
+  height: 100%;
+}
+
+.step-header {
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: shared.$kendo-color-body-dark;
+    margin: 0;
+
+    @media (max-width: 767px) {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+.step-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+// Touch-friendly improvements
+@media (max-width: 767px) and (pointer: coarse) {
+  .stepper-container.mobile {
+    .wizard-stepper .k-step .k-step-indicator {
+      min-width: 2.75rem;
+      min-height: 2.75rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+// High DPI displays
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .stepper-container.mobile {
+    .wizard-stepper .k-step-separator {
+      height: 1px;
+      transform: scaleY(2);
+      transform-origin: center;
     }
   }
 }

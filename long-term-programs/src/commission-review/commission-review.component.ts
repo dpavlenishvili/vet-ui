@@ -3,7 +3,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { KENDO_CARD } from '@progress/kendo-angular-layout';
-import { DividerComponent, filterNullValues, useAlert, vetIcons } from '@vet/shared';
+import { DividerComponent, filterNullValues, useAlert, useFilters, useFiltersUpdater, vetIcons } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { CommissionService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -27,7 +27,7 @@ export type ReviewFilters = {
     TranslocoPipe,
     DividerComponent,
     CommissionReviewDialogComponent,
-    CommissionReviewFiltersComponent
+    CommissionReviewFiltersComponent,
   ],
   templateUrl: './commission-review.component.html',
   styleUrl: './commission-review.component.scss',
@@ -46,16 +46,28 @@ export class CommissionReviewComponent {
   selectedProgramId = signal(0);
   selectedAdmissionId = signal(0);
 
+  filters = useFilters<ReviewFilters>();
+  updateFilters = useFiltersUpdater<ReviewFilters>();
+
   private alert = useAlert();
-  protected filters = signal<string | undefined>(undefined);
 
   programsWithCommissionReview$ = rxResource({
     request: () => ({
       organisation: this.userRolesService.getOrganisation(),
-      filter: this.filters(),
+      filters: this.filters(),
     }),
-    loader: ({ request }) => {
-      return this.commissionService.commissionReview(request);
+    loader: ({ request: { organisation, filters } }) => {
+      return this.commissionService.commissionReview({ organisation, filter: JSON.stringify(filters) });
+    },
+  });
+
+  commissionResults$ = rxResource({
+    request: () => ({
+      organisation: this.userRolesService.getOrganisation(),
+      filters: this.filters(),
+    }),
+    loader: ({ request: { organisation, filters } }) => {
+      return this.commissionService.commissionResult({ organisation, filter: JSON.stringify(filters) });
     },
   });
 
@@ -86,8 +98,7 @@ export class CommissionReviewComponent {
     this.programsWithCommissionReview$.reload();
   }
 
-  onFiltersChange(filterValue: ReviewFilters) {
-    const filterString = JSON.stringify(filterNullValues(filterValue));
-    this.filters.set(filterString);
+  onFiltersChange(filters: ReviewFilters) {
+    this.updateFilters(filters);
   }
 }
