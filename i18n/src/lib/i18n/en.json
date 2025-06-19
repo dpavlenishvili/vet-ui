@@ -67,7 +67,11 @@
     "error": "Error",
     "startDate": "Start date",
     "endDate": "End date",
-    "noRecords": "No Records"
+    "noRecords": "No Records",
+    "edit": "Edit",
+    "choose": "Choose",
+    "view": "View",
+    "result": "Result"
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",
@@ -184,6 +188,7 @@
   "programs": {
     "field": "Field",
     "program_code": "Program Code",
+    "program_code_name": "Program Code/Name",
     "level": "Level",
     "program_kind": "Program Type",
     "program_duration": "Program Duration",
@@ -275,7 +280,8 @@
     "remove": "Remove",
     "continue": "Continue",
     "viewAdmissions": "View Admissions",
-    "understood": "Understood"
+    "understood": "Understood",
+    "programNotAllowed": "Program is not allowed due to education level restriction"
   },
   "profile": {
     "actual_address": "Actual address",

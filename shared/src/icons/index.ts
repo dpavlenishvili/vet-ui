@@ -51,6 +51,7 @@ import { acceptedDocumentIcon } from './accepted-document';
 import { blocked } from './blocked';
 import { minusCircleRed } from './minus-circle-red';
 import { plusCircleGreen } from './plus-circle-green';
+import { integrated } from './integrated';
 
 export {
   bin,
@@ -104,7 +105,8 @@ export {
   blocked,
   minusCircleRed,
   plusCircleGreen,
-  calendarIcon
+  calendarIcon,
+  integrated
 };
 
 export * from './icons';

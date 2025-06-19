@@ -82,10 +82,14 @@
     "error": "შეცდომა",
     "startDate": "დაწყების თარიღი",
     "endDate": "დასრულების თარიღი",
-    "emailFormatError": "არასწორი მეილის ფორმატი",
+    "emailFormatError": "არასწორი ელფოსტის ფორმატი",
     "numberOfRecords": "სულ {{count}} ჩანაწერი",
-    "noRecords": "ჩანაწერი ვერ მოიძებნა",
-    "short_term_programs": "მომზადება/გადამზადება"
+    "noRecords": "ჩანაწერები არ მოიძებნა",
+    "short_term_programs": "მომზადება/გადამზადება",
+    "edit": "რედაქტირება",
+    "choose": "არჩევა",
+    "view": "ნახვა",
+    "result": "შედეგი"
   },
   "auth": {
     "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
@@ -203,6 +207,7 @@
   "programs": {
     "field": "სფერო",
     "program_code": "პროგრამის კოდი",
+    "program_code_name": "პროგრამის კოდი/დასახელება",
     "level": "დონე",
     "program_kind": "პროგრამის სახე",
     "program_duration": "პროგრამის ხანგრძლივობა",
@@ -449,7 +454,8 @@
     "remove": "წაშლა",
     "continue": "გაგრძელება",
     "viewAdmissions": "ჩარიცხვების ნახვა",
-    "understood": "გასაგებია"
+    "understood": "გასაგებია",
+    "programNotAllowed": "პროგრამა არ არის დასაშვები, განათლების დონის შეზღუდვა"
   },
   "profile": {
     "actual_address": "ფაქტობრივი მისამართი",
