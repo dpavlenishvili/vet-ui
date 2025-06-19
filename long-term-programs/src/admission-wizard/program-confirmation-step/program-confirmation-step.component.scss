@@ -222,7 +222,7 @@
     padding: 0.5rem;
     background: white;
     border: 1px solid var(--section-border);
-    border-radius: var(--kendo-border-radius-lg, 0.5rem);;
+    border-radius: var(--kendo-border-radius-lg, 0.5rem);
 
     .label {
       font-size: 0.875rem;
@@ -375,7 +375,7 @@
         width: 100%;
         order: 2;
 
-        &[themeColor="secondary"] {
+        &[themeColor='secondary'] {
           order: 1;
         }
       }

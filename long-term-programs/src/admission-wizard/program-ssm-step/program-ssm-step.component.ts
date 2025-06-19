@@ -70,8 +70,8 @@ export class ProgramSsmStepComponent implements OnInit {
       const excludeControls = ['spec_edu', 'program_ids'];
 
       Object.keys(ssmForm.controls)
-        .filter(controlName => !excludeControls.includes(controlName))
-        .forEach(controlName => {
+        .filter((controlName) => !excludeControls.includes(controlName))
+        .forEach((controlName) => {
           const control = ssmForm.controls[controlName];
           control.reset();
           control.clearValidators();
@@ -103,13 +103,14 @@ export class ProgramSsmStepComponent implements OnInit {
     if (checked) {
       ssmForm.get('e_name')?.setValidators(Validators.required);
       ssmForm.get('e_lastname')?.setValidators(Validators.required);
+      ssmForm.get('e_email')?.setValidators(Validators.email);
       ssmForm.get('e_phone')?.setValidators([Validators.required, georgianMobileValidator]);
     } else {
       const excludeControls = ['spec_edu', 'program_ids'];
 
       Object.keys(ssmForm.controls)
-        .filter(controlName => !excludeControls.includes(controlName))
-        .forEach(controlName => {
+        .filter((controlName) => !excludeControls.includes(controlName))
+        .forEach((controlName) => {
           const control = ssmForm.controls[controlName];
           control.reset();
           control.clearValidators();

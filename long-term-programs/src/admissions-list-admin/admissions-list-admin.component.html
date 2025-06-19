@@ -14,6 +14,10 @@
       [pageSize]="admissionList$.value()?.meta?.per_page"
       (dataStateChange)="handlePageChange($event)"
     >
+      <ng-template kendoGridNoRecordsTemplate>
+        {{ 'shared.noRecords' | transloco }}
+      </ng-template>
+
       <kendo-grid-column [title]="'programs.applicant_data' | transloco">
         <ng-template kendoGridCellTemplate let-item>
           <div>{{ item.user?.name }}</div>

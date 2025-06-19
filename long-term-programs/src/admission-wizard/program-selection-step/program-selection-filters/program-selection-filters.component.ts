@@ -82,6 +82,7 @@ export class ProgramSelectionFiltersComponent {
 
   constructor() {
     this.watchRegionChanges();
+    this.initializeOrganisations();
     effect(() => this.patchIncomingFilters());
   }
 
@@ -96,6 +97,15 @@ export class ProgramSelectionFiltersComponent {
       financing_type: new FormControl(),
       region: new FormControl(),
       district: new FormControl(),
+    });
+  }
+
+  initializeOrganisations() {
+    effect(() => {
+      const allOrganisations = this.organisationsRc$.value();
+      if (allOrganisations && this.filteredOrganisations().length === 0) {
+        this.filteredOrganisations.set(allOrganisations);
+      }
     });
   }
 
@@ -122,18 +132,19 @@ export class ProgramSelectionFiltersComponent {
       this.filterForm.get('district')?.reset();
       this.filterForm.get('organisation')?.reset();
     }
+
+    const allDistricts = this.districtsRc$.value() || [];
+    const allOrganisations = this.organisationsRc$.value() || [];
+
     if (!regionId) {
       this.filterForm.get('district')?.disable();
-      this.filterForm.get('district')?.reset();
       this.filterForm.get('organisation')?.disable();
-      this.filterForm.get('organisation')?.reset();
       this.filteredDistricts.set([]);
-      this.filteredOrganisations.set([]);
+      this.filteredOrganisations.set(allOrganisations);
     } else {
       this.filterForm.get('district')?.enable();
       this.filterForm.get('organisation')?.enable();
-      const allDistricts = this.districtsRc$.value() || [];
-      const allOrganisations = this.organisationsRc$.value() || [];
+
       this.filteredDistricts.set(allDistricts.filter((district: District) => district.region_id === regionId));
       this.filteredOrganisations.set(
         allOrganisations.filter((organisation: Organisations) => organisation.region_id === regionId),
@@ -147,6 +158,14 @@ export class ProgramSelectionFiltersComponent {
 
   clearFilters() {
     this.filterForm.reset();
+
+    this.filteredDistricts.set([]);
+    const allOrganisations = this.organisationsRc$.value() || [];
+    this.filteredOrganisations.set(allOrganisations);
+
+    this.filterForm.get('district')?.disable();
+    this.filterForm.get('organisation')?.disable();
+
     this.filterForm.updateValueAndValidity();
     this.onSubmit();
   }

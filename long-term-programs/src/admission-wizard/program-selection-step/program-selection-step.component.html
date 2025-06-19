@@ -1,82 +1,107 @@
 <div class="program-selection-container">
-  <vet-program-selection-filters [filters]="filters()" (filtersChange)="onFiltersChange($event)" />
+  <vet-program-selection-filters (filtersChange)="onFiltersChange($event)" [filters]="filters()" />
 
   <div class="grid-section">
     <div class="responsive-grid-container">
       <div class="k-pb-3">
-    <span class="k-text-sm k-color-body">
-      {{ 'shared.numberOfRecords' | transloco: { count: eligiblePrograms$.value()?.meta?.total || 0 } }}
-    </span>
+        <span class="k-text-sm k-color-body">
+          {{ 'shared.numberOfRecords' | transloco: { count: eligiblePrograms$.value()?.meta?.total || 0 } }}
+        </span>
       </div>
-            <kendo-grid
-              [loading]="eligiblePrograms$.isLoading()"
-              [data]="gridData()"
-              [skip]="skip()"
-              [pageable]="true"
-              [pageSize]="pageSize()"
-              (dataStateChange)="handlePageChange($event)"
-            >
-              <ng-template kendoGridNoRecordsTemplate>
-                {{ 'shared.noRecords' | transloco }}
-              </ng-template>
+      <kendo-grid
+        (dataStateChange)="handlePageChange($event)"
+        [data]="gridData()"
+        [loading]="eligiblePrograms$.isLoading()"
+        [pageSize]="pageSize()"
+        [pageable]="true"
+        [skip]="skip()"
+      >
+        <ng-template kendoGridNoRecordsTemplate>
+          {{ 'shared.noRecords' | transloco }}
+        </ng-template>
 
-              <kendo-grid-column [width]="200" field="program_name" [title]="'programs.program_name' | transloco" />
+        <kendo-grid-column [title]="'programs.program_name' | transloco" [width]="200" field="program_name">
+          <ng-template kendoGridCellTemplate let-item>
+            <div class="k-display-flex k-align-items-center k-gap-2">
+              <span>{{ item.program_name }}</span>
+              @if (item.is_integrated) {
+                <kendo-svg-icon
+                  [icon]="vetIcons.integrated"
+                  [size]="'small'"
+                  [title]="'programs.integrated' | transloco"
+                />
+              }
+            </div>
+          </ng-template>
+        </kendo-grid-column>
 
-              <kendo-grid-column [width]="60" field="education_level" [title]="'programs.level' | transloco" />
+        <kendo-grid-column [title]="'programs.level' | transloco" [width]="60" field="education_level" />
 
-              <kendo-grid-column [width]="250" field="organisation.name" [title]="'programs.institution_name' | transloco" />
+        <kendo-grid-column [title]="'programs.institution_name' | transloco" [width]="250" field="organisation.name" />
 
-              <kendo-grid-column
-                [width]="250"
-                field="organisation.address"
-                [title]="'programs.implementation_location' | transloco"
-              />
+        <kendo-grid-column
+          [title]="'programs.implementation_location' | transloco"
+          [width]="250"
+          field="organisation.address"
+        />
 
-              <kendo-grid-column [width]="90" [title]="'programs.selection' | transloco">
-                <ng-template kendoGridCellTemplate let-item>
-                  <div class="k-display-flex k-justify-content-around k-gap-1 grid-actions">
-                    <button kendoButton fillMode="flat" (click)="onPreviewProgramClick(item)">
-                      <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="warning" />
-                    </button>
-                    <button
-                      kendoButton
-                      fillMode="flat"
-                      [disabled]="!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)"
-                      (click)="toggleProgramSelection(item)"
-                    >
-                      @if (selectedPrograms().includes(item.program_id)) {
-                        <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
-                      } @else if (!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)) {
-                        <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
-                      } @else {
-                        <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
-                      }
-                    </button>
-                  </div>
-                </ng-template>
-              </kendo-grid-column>
-            </kendo-grid>
-          </div>
+        <kendo-grid-column [title]="'programs.selection' | transloco" [width]="90">
+          <ng-template kendoGridCellTemplate let-item>
+            @if (!item.is_eligible) {
+              <div
+                class="k-display-flex k-justify-content-center"
+                kendoTooltip
+                [title]="'programs.programNotAllowed' | transloco"
+              >
+                <button fillMode="flat" kendoButton [disabled]="true">
+                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
+                </button>
+              </div>
+            } @else {
+              <div class="k-display-flex k-justify-content-around k-gap-1 grid-actions">
+                <button (click)="onPreviewProgramClick(item)" fillMode="flat" kendoButton>
+                  <kendo-svg-icon [icon]="vetIcons.eye" [size]="'xlarge'" themeColor="warning" />
+                </button>
+                <button
+                  (click)="toggleProgramSelection(item)"
+                  [disabled]="!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)"
+                  fillMode="flat"
+                  kendoButton
+                >
+                  @if (selectedPrograms().includes(item.program_id)) {
+                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
+                  } @else if (!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)) {
+                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
+                  } @else {
+                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
+                  }
+                </button>
+              </div>
+            }
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+    </div>
 
-          <div class="k-display-flex k-justify-content-between buttons-container">
-            <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
-              {{ 'auth.back' | transloco }}
-            </button>
-            <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
-              {{ 'auth.next' | transloco }}
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="k-display-flex k-justify-content-between buttons-container">
+      <button (click)="onPreviousClick()" kendoButton themeColor="secondary" type="button">
+        {{ 'auth.back' | transloco }}
+      </button>
+      <button (click)="onNextClick()" kendoButton themeColor="primary" type="button">
+        {{ 'auth.next' | transloco }}
+      </button>
+    </div>
+  </div>
+</div>
 
-      @if (isProgramDialogOpen()) {
-        <kendo-dialog width="90%" height="90%" [title]="'programs.program_description' | transloco" (close)="onCloseClick()">
-          <vet-program [programId]="singleProgramId()" />
-        </kendo-dialog>
-      }
+@if (isProgramDialogOpen()) {
+  <kendo-dialog width="90%" height="90%" [title]="'programs.program_description' | transloco" (close)="onCloseClick()">
+    <vet-program [programId]="singleProgramId()" />
+  </kendo-dialog>
+}
 
-      @if (isSelectionWarningDialogOpen()) {
-        <kendo-dialog [width]="574" [height]="150" [title]="'shared.informationMessage' | transloco" (close)="onCloseClick()">
-          {{ selectionWarningDialogText() | transloco }}
-        </kendo-dialog>
-      }
+@if (isSelectionWarningDialogOpen()) {
+  <kendo-dialog [width]="574" [height]="150" [title]="'shared.informationMessage' | transloco" (close)="onCloseClick()">
+    {{ selectionWarningDialogText() | transloco }}
+  </kendo-dialog>
+}

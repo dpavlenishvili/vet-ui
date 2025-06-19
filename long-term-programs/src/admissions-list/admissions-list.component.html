@@ -1,5 +1,5 @@
 <div class="k-bg-white k-p-5 k-mb-4 k-rounded-lg">
-  <div class="k-d-flex k-justify-content-between">
+  <div class="k-d-flex k-justify-content-between k-align-items-center">
     <span>
       {{ 'shared.informationMessage' | transloco }}
     </span>
@@ -9,14 +9,6 @@
   </div>
 </div>
 <div class="k-bg-white k-p-5 k-rounded-lg">
-
-<!--  &lt;!&ndash; Total Records Display &ndash;&gt;-->
-<!--  <div class="k-pb-3">-->
-<!--    <span class="k-text-sm k-color-body">-->
-<!--      {{ 'shared.numberOfRecords' | transloco: { count: admissionList$.value()?.meta?.total || 0 } }}-->
-<!--    </span>-->
-<!--  </div>-->
-
   @if (isBrowser) {
     <kendo-grid
       [loading]="admissionList$.isLoading()"
@@ -28,7 +20,9 @@
       (cellClick)="onCellClick($event)"
       class="main-grid"
     >
-      <!-- Optimized Column Widths -->
+      <ng-template kendoGridNoRecordsTemplate>
+        {{ 'shared.noRecords' | transloco }}
+      </ng-template>
       <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" [width]="80" />
       <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" [width]="70" />
       <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" [width]="80" />
@@ -60,7 +54,7 @@
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.editIcon"
-              [title]="'programs.edit' | transloco"
+              [title]="'shared.edit' | transloco"
               kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.edit"
@@ -70,7 +64,7 @@
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.emptyDocumentIcon"
-              [title]="'programs.choose' | transloco"
+              [title]="'shared.choose' | transloco"
               kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.choose"
@@ -80,7 +74,7 @@
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.readDocumentIcon"
-              [title]="'programs.view' | transloco"
+              [title]="'shared.view' | transloco"
               kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.view"
@@ -90,7 +84,7 @@
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.acceptedDocumentIcon"
-              [title]="'programs.result' | transloco"
+              [title]="'shared.result' | transloco"
               kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.result"

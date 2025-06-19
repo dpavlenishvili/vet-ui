@@ -111,7 +111,7 @@
               !form?.get('spec_env')?.untouched &&
               specEnvSwitch.checked &&
               form?.get('spec_env')?.value?.length === 0
-              ) {
+            ) {
               <kendo-formerror>{{ 'shared.minOneFieldIsRequired' | transloco }}</kendo-formerror>
             }
           </div>
@@ -134,10 +134,7 @@
           [disabled]="abroadSwitch.checked"
           #ocuSwitch
           (valueChange)="
-            toggleSwitcher(
-              $event,
-              user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad'
-            )
+            toggleSwitcher($event, user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad')
           "
           [checked]="isAbroadEnabled()"
         />

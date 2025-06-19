@@ -165,7 +165,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
       content: 'programs.testReallocationNote',
       showYesNoButtons: false,
       singleTypeDialogActionText: 'shared.understood',
-      onConfirm: () => {}
+      onConfirm: () => {},
     });
   }
 
@@ -175,7 +175,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
       content: 'programs.georgianModuleNote',
       showYesNoButtons: false,
       singleTypeDialogActionText: 'shared.understood',
-      onConfirm: () => {}
+      onConfirm: () => {},
     });
   }
 

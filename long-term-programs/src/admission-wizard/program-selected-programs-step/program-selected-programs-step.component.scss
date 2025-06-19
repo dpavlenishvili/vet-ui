@@ -19,7 +19,7 @@
         width: 100%;
         order: 2; // Primary button (Next) appears second
 
-        &[themeColor="secondary"] {
+        &[themeColor='secondary'] {
           order: 1; // Secondary button (Back) appears first
         }
       }
@@ -35,7 +35,7 @@
   // Enhanced spacing for larger screens
   @media (min-width: 1200px) {
     .selected-programs-container {
-      gap: 3rem;
+      gap: 1rem;
     }
   }
 }

@@ -87,7 +87,7 @@
         width: 100%;
         order: 2; // Primary button (Next) appears second
 
-        &[themeColor="secondary"] {
+        &[themeColor='secondary'] {
           order: 1; // Secondary button (Back) appears first
         }
       }
@@ -129,14 +129,6 @@
 
   // Large screen optimizations
   @media (min-width: 1200px) {
-    .program-selection-container {
-      gap: 3rem;
-    }
-
-    .grid-section {
-      gap: 3rem;
-    }
-
     .responsive-grid-container {
       kendo-grid {
         .k-grid-table {

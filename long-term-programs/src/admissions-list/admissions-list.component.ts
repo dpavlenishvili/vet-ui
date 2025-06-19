@@ -6,7 +6,6 @@ import { CellClickEvent, GridComponent, KENDO_GRID, PageChangeEvent } from '@pro
 import { TranslocoPipe } from '@jsverse/transloco';
 import { filterNullValues, FormatDateTimePipe, RouteParamsService, vetIcons } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { AdmissionsListFilterComponent } from './admissions-list-filter/admissions-list-filter.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { AdmissionSelectedProgramsComponent } from '../admission-selected-programs/admission-selected-programs.component';
@@ -86,7 +85,6 @@ export class AdmissionsListComponent {
     console.log(event);
   }
 
-
   onCellClick(event: CellClickEvent) {
     console.log(event);
 
@@ -101,22 +99,21 @@ export class AdmissionsListComponent {
   }
 
   toggleRowExpansion(dataItem: AdmissionReq) {
-    // Check if using ID-based expansion or data item-based expansion
-    // Adjust based on your expandDetailsBy function
-    const expandKey = dataItem.id; // or just dataItem if expandDetailsBy expects the full object
+    const expandKey = dataItem.id;
+    const rowIndex = this.admissionList$?.value()?.data?.findIndex((item) => item.id === dataItem.id) ?? -1;
 
-    const index = this.expandedDetailKeys.findIndex(key =>
-      typeof key === 'object' ? key === dataItem.id : key === dataItem.id
-    );
+    if (rowIndex === -1) {
+      return;
+    }
 
+    const expandedIndex = this.expandedDetailKeys.findIndex((key) => key === expandKey);
 
-
-    if (index >= 0) {
-      this.expandedDetailKeys.splice(index, 1);
-      this.grid.collapseRow(0);
+    if (expandedIndex >= 0) {
+      this.expandedDetailKeys.splice(expandedIndex, 1);
+      this.grid.collapseRow(rowIndex);
     } else {
-      this.grid.expandRow(0);
       this.expandedDetailKeys.push(expandKey as number);
+      this.grid.expandRow(rowIndex);
     }
   }
 }

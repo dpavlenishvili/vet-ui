@@ -24,6 +24,7 @@ import { EducationLevel } from 'long-term-programs/src/enums/education-level.enu
 import { ProgramSelectionFiltersComponent } from './program-selection-filters/program-selection-filters.component';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
+import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 
 export type ProgramSelectionStepFormGroup = FormGroup;
 export type ProgramSsmStep = FormGroup;
@@ -59,6 +60,7 @@ export type ProgramSelectionFilter = {
     ProgramComponent,
     DialogModule,
     ProgramSelectionFiltersComponent,
+    KENDO_TOOLTIP,
   ],
   templateUrl: './program-selection-step.component.html',
   styleUrl: './program-selection-step.component.scss',
@@ -83,12 +85,9 @@ export class ProgramSelectionStepComponent implements OnInit {
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;
   previewProgram: LongTerm | null = null;
-
+  readonly skip = signal(0);
   private alert = useAlert();
   private admissionService = inject(AdmissionService);
-  private destroyRef = inject(DestroyRef);
-  private routeParamsService = inject(RouteParamsService);
-
   eligiblePrograms$ = rxResource({
     request: () => ({
       admissionId: this.admissionId(),
@@ -101,34 +100,19 @@ export class ProgramSelectionStepComponent implements OnInit {
       return this.admissionService.eligibleProgramsList(admissionId, filters);
     },
   });
-
   readonly gridData = computed(() => {
     const val = this.eligiblePrograms$.value();
     return { data: val?.data || [], total: val?.meta?.total || 0 } as GridDataResult;
   });
   readonly pageSize = computed(() => this.eligiblePrograms$.value()?.meta?.per_page || 5);
-  readonly skip = signal(0);
+  private destroyRef = inject(DestroyRef);
+  private routeParamsService = inject(RouteParamsService);
 
   ngOnInit() {
     const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
     this.selectedPrograms.set(programs);
     this.selectedProgramsCount.set(programs.length);
     this.loadRouteParams();
-  }
-
-  private loadRouteParams() {
-    this.routeParamsService
-      .get<{ filters: ProgramSelectionFilter; skip: number }>()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params) => {
-        console.log(params);
-        if (params.filters) {
-          this.filters.set(params.filters);
-        }
-        if (params.skip !== undefined && params.skip !== this.skip()) {
-          this.skip.set(Number(params.skip));
-        }
-      });
   }
 
   onPreviewProgramClick(item: LongTerm) {
@@ -237,6 +221,21 @@ export class ProgramSelectionStepComponent implements OnInit {
     this.skip.set(0);
 
     this.updateRouteParams(filterValue, 0);
+  }
+
+  private loadRouteParams() {
+    this.routeParamsService
+      .get<{ filters: ProgramSelectionFilter; skip: number }>()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        console.log(params);
+        if (params.filters) {
+          this.filters.set(params.filters);
+        }
+        if (params.skip !== undefined && params.skip !== this.skip()) {
+          this.skip.set(Number(params.skip));
+        }
+      });
   }
 
   private updateRouteParams(filters: ProgramSelectionFilter, skip: number) {

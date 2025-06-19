@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  HostListener,
   inject,
   input,
   OnInit,
@@ -9,7 +10,6 @@ import {
   signal,
   TemplateRef,
   viewChild,
-  HostListener,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT, StepperActivateEvent } from '@progress/kendo-angular-layout';
@@ -28,7 +28,6 @@ import { AuthenticationService } from '@vet/auth';
 import { Citizenship, georgianMobileValidator, vetIcons } from '@vet/shared';
 import { StepBody, StepDefinition } from '../long-term-programs.types';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-admission-wizard',
@@ -150,7 +149,7 @@ export class AdmissionWizardComponent implements OnInit {
         spec_edu: new FormControl(false),
         e_name: new FormControl(''),
         e_lastname: new FormControl(''),
-        e_email: new FormControl('', [Validators.email]),
+        e_email: new FormControl('', Validators.email),
         e_phone: new FormControl('', georgianMobileValidator),
         spe_description: new FormControl(''),
         program_ids: new FormControl<number[]>([]),
@@ -291,6 +290,7 @@ export class AdmissionWizardComponent implements OnInit {
     if (formGroupName === 'program_selection') {
       this.formGroup.controls.selected_programs.patchValue(this.formGroup.controls.program_selection.getRawValue());
     }
+    console.log(this.formGroup.get('selected_programs')?.value.program_ids);
     if (this.isStepValid(this.currentStepIndex())) {
       let value = this.formGroup.get(formGroupName)?.getRawValue();
       if (formGroupName === 'confirmation') {
@@ -300,6 +300,7 @@ export class AdmissionWizardComponent implements OnInit {
           program_ids: this.formGroup.get('selected_programs')?.value.program_ids ?? [],
         };
       }
+      console.log(this.formGroup.get('selected_programs')?.value.program_ids);
       const lastIndex = this.steps().length - 1;
       const isLast = this.currentStepIndex() === lastIndex;
 

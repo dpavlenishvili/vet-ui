@@ -129,7 +129,7 @@
 
                     @if (ssmForm.controls['translate'].value) {
                       <div class="info-row">
-<!--                        <span class="label">{{ 'programs.custom_language' | transloco }}:</span>-->
+                        <!--                        <span class="label">{{ 'programs.custom_language' | transloco }}:</span>-->
                         <span class="value">{{ ssmForm.controls['translate'].value }}</span>
                       </div>
                     }
@@ -226,8 +226,8 @@
           <div class="disclaimer-summary">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
-                  ? 'programs.ssm_disclaimer_summary'
-                  : 'programs.general_disclaimer_summary'
+                ? 'programs.ssm_disclaimer_summary'
+                : 'programs.general_disclaimer_summary'
               ) | transloco
             }}
           </div>
@@ -235,8 +235,8 @@
           <div class="disclaimer-title">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
-                  ? 'programs.ssm_disclaimer_documentation_title'
-                  : 'programs.general_disclaimer_documentation_title'
+                ? 'programs.ssm_disclaimer_documentation_title'
+                : 'programs.general_disclaimer_documentation_title'
               ) | transloco
             }}
           </div>
