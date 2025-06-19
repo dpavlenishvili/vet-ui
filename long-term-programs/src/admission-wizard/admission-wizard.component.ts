@@ -96,9 +96,6 @@ export class AdmissionWizardComponent implements OnInit {
   // Form group - initialized once
   protected readonly formGroup: any = this.createFormGroup();
 
-  // Citizenship type for template
-  protected readonly CitizenshipType = Citizenship;
-
   // Steps configuration
   protected readonly steps = computed((): StepDefinition[] => [
     {
@@ -166,9 +163,6 @@ export class AdmissionWizardComponent implements OnInit {
 
   private initializeRouting(): void {
     if (!this.admissionData()) {
-      if (!this.router.url.includes('/citizenship_selection')) {
-        void this.router.navigate(['/registration/citizenship_selection']);
-      }
       return;
     }
 
