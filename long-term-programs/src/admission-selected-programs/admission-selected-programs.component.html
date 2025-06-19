@@ -8,29 +8,30 @@
           {{ 'shared.noRecords' | transloco }}
         </ng-template>
 
-        <kendo-grid-column [title]="'programs.program_name' | transloco">
+        <kendo-grid-column [title]="'programs.program_name' | transloco" [width]="200" field="program_name">
           <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.program_name }}
+            <div class="k-display-flex k-align-items-center k-gap-2">
+              <span>{{ item.program.program_name }}</span>
+              @if (item.program.is_integrated) {
+                <kendo-svg-icon
+                  [icon]="vetIcons.integrated"
+                  [size]="'small'"
+                  [title]="'programs.integrated' | transloco"
+                />
+              }
+            </div>
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-column [title]="'programs.level' | transloco">
-          <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.education_level }}
-          </ng-template>
-        </kendo-grid-column>
+        <kendo-grid-column [title]="'programs.level' | transloco" [width]="60" field="program.education_level" />
 
-        <kendo-grid-column [title]="'programs.institution_name' | transloco">
-          <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.organisation.name }}
-          </ng-template>
-        </kendo-grid-column>
+        <kendo-grid-column [title]="'programs.institution_name' | transloco" [width]="250" field="program.organisation.name" />
 
-        <kendo-grid-column field="organisation.address" [title]="'programs.implementation_location' | transloco">
-          <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.organisation.address }}
-          </ng-template>
-        </kendo-grid-column>
+        <kendo-grid-column
+          [title]="'programs.implementation_location' | transloco"
+          [width]="250"
+          field="program.organisation.address"
+        />
 
         @if (isEditMode()) {
           <kendo-grid-column [title]="'programs.selection' | transloco" [width]="100">

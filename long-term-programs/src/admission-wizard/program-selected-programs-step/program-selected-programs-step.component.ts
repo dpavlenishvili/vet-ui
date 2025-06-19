@@ -4,9 +4,9 @@ import {
   DestroyRef,
   effect,
   inject,
-  input,
+  input, OnInit,
   output,
-  ResourceRef,
+  ResourceRef
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
@@ -43,7 +43,7 @@ export type ProgramsSelectionStepFormGroup = FormGroup;
   styleUrl: './program-selected-programs-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProgramSelectedProgramsStepComponent {
+export class ProgramSelectedProgramsStepComponent implements OnInit {
   nextClick = output();
   previousClick = output();
   readonly admissionId = input.required<string | null>();
@@ -65,6 +65,10 @@ export class ProgramSelectedProgramsStepComponent {
     effect(() => {
       this.selectedPrograms.reload();
     });
+  }
+
+  ngOnInit(): void {
+    this.selectedPrograms.reload();
   }
 
   onPreviousClick() {

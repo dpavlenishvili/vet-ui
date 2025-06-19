@@ -16,20 +16,27 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
-import { filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons } from '@vet/shared'; // Import RouteParamsService
+import { filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons } from '@vet/shared';
 import { GridDataResult, GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { ProgramComponent } from 'programs/src/program/program.component';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';
 import { ProgramSelectionFiltersComponent } from './program-selection-filters/program-selection-filters.component';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
+import { debounceTime, tap } from 'rxjs';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+
+// Constants
+const MAX_PROGRAMS = 3;
+const MIN_PROGRAMS_SSM = 2;
+const MIN_PROGRAMS_REGULAR = 1;
+const DEFAULT_PAGE_SIZE = 5;
 
 export type ProgramSelectionStepFormGroup = FormGroup;
 export type ProgramSsmStep = FormGroup;
 export type SelectedProgramsStepForm = FormGroup;
 export type GeneralInformationStepFromGroup = FormGroup;
+
 export type ProgramSelectionFilter = {
   search?: string | null;
   organisation?: string | null;
@@ -67,27 +74,43 @@ export type ProgramSelectionFilter = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramSelectionStepComponent implements OnInit {
-  nextClick = output<void>();
-  previousClick = output<void>();
-  form = input<ProgramSelectionStepFormGroup>();
-  ssmStepForm = input<ProgramSsmStep>();
-  generalInformationFrom = input<GeneralInformationStepFromGroup>();
-  selectedProgramsForm = input<SelectedProgramsStepForm>();
-  admissionId = input<string | null>();
+  // Outputs
+  readonly nextClick = output<void>();
+  readonly previousClick = output<void>();
 
-  isProgramDialogOpen = signal(false);
-  isSelectionWarningDialogOpen = signal(false);
-  selectionWarningDialogText = signal('');
-  singleProgramId = signal(0);
-  selectedPrograms = signal<number[]>([]);
-  selectedProgramsCount = signal<number>(0);
-  filters = signal<ProgramSelectionFilter>({});
-  vetIcons = vetIcons;
-  kendoIcons = kendoIcons;
-  previewProgram: LongTerm | null = null;
+  // Form inputs
+  readonly form = input<ProgramSelectionStepFormGroup>();
+  readonly ssmStepForm = input<ProgramSsmStep>();
+  readonly generalInformationFrom = input<GeneralInformationStepFromGroup>();
+  readonly selectedProgramsForm = input<SelectedProgramsStepForm>();
+  readonly admissionId = input<string | null>();
+
+  // UI State
+  readonly isProgramDialogOpen = signal(false);
+  readonly isSelectionWarningDialogOpen = signal(false);
+  readonly selectionWarningDialogText = signal('');
+  readonly singleProgramId = signal(0);
+
+  // Selection state - single source of truth
+  private readonly _selectedPrograms = signal<number[]>([]);
+  readonly selectedPrograms = this._selectedPrograms.asReadonly();
+  readonly selectedProgramsCount = computed(() => this._selectedPrograms().length);
+
+  // Filter state
+  readonly filters = signal<ProgramSelectionFilter>({});
   readonly skip = signal(0);
-  private alert = useAlert();
-  private admissionService = inject(AdmissionService);
+
+  // Icons
+  readonly vetIcons = vetIcons;
+  readonly kendoIcons = kendoIcons;
+
+  // Dependencies
+  private readonly alert = useAlert();
+  private readonly admissionService = inject(AdmissionService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly routeParamsService = inject(RouteParamsService);
+
+  // Data resource
   eligiblePrograms$ = rxResource({
     request: () => ({
       admissionId: this.admissionId(),
@@ -100,53 +123,71 @@ export class ProgramSelectionStepComponent implements OnInit {
       return this.admissionService.eligibleProgramsList(admissionId, filters);
     },
   });
-  readonly gridData = computed(() => {
-    const val = this.eligiblePrograms$.value();
-    return { data: val?.data || [], total: val?.meta?.total || 0 } as GridDataResult;
-  });
-  readonly pageSize = computed(() => this.eligiblePrograms$.value()?.meta?.per_page || 5);
-  private destroyRef = inject(DestroyRef);
-  private routeParamsService = inject(RouteParamsService);
 
-  ngOnInit() {
-    const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
-    this.selectedPrograms.set(programs);
-    this.selectedProgramsCount.set(programs.length);
+  readonly gridData = computed((): GridDataResult => {
+    const data = this.eligiblePrograms$.value()?.data || [];
+    const total = this.eligiblePrograms$.value()?.meta?.total || 0;
+    return { data, total };
+  });
+
+  readonly pageSize = computed(() => this.eligiblePrograms$.value()?.meta?.per_page || DEFAULT_PAGE_SIZE);
+
+  ngOnInit(): void {
+    this.initializeSelection();
     this.loadRouteParams();
   }
 
-  onPreviewProgramClick(item: LongTerm) {
-    this.singleProgramId.set(Number(item.id));
-    this.isProgramDialogOpen.set(true);
-    this.previewProgram = item;
+  private initializeSelection(): void {
+    const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
+    this._selectedPrograms.set([...programs]);
   }
 
-  isAddButtonDisabled(item: LongTerm) {
-    const maxReached = this.selectedProgramsCount() >= 3;
+  private loadRouteParams(): void {
+    this.routeParamsService
+      .get<{ filters: ProgramSelectionFilter; skip: number }>()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        if (params.filters) {
+          this.filters.set(params.filters);
+        }
+        if (params.skip !== undefined && params.skip !== this.skip()) {
+          this.skip.set(Number(params.skip));
+        }
+      });
+  }
+
+  onPreviewProgramClick(item: LongTerm): void {
+    this.singleProgramId.set(Number(item.id));
+    this.isProgramDialogOpen.set(true);
+  }
+
+  isAddButtonDisabled(item: LongTerm): boolean {
+    const maxReached = this.selectedProgramsCount() >= MAX_PROGRAMS;
     const educationLevel = this.generalInformationFrom()?.get('education_level')?.value;
-    const isIntegrated = !!item.is_integrated;
+    const isIntegrated = Boolean(item.is_integrated);
     const isBasicEducation = isIntegrated && educationLevel === EducationLevel.Basic;
     const isCollegeEducation = isIntegrated && educationLevel === EducationLevel.ProfessionalBasic;
+
     return maxReached || isBasicEducation || isCollegeEducation;
   }
 
-  onCloseClick() {
+  onCloseClick(): void {
     this.isProgramDialogOpen.set(false);
     this.isSelectionWarningDialogOpen.set(false);
   }
 
-  onPreviousClick() {
+  onPreviousClick(): void {
     this.previousClick.emit();
   }
 
-  toggleProgramSelection(item: LongTerm) {
-    if (!item.program_id) {
-      return;
-    }
-    const currentSelected = this.selectedPrograms();
+  toggleProgramSelection(item: LongTerm): void {
+    if (!item.program_id) return;
+
+    const currentSelected = [...this._selectedPrograms()];
     const isSelected = currentSelected.includes(item.program_id);
-    let actionStatusText;
-    let updatedSelection;
+
+    let updatedSelection: number[];
+    let actionStatusText: string;
 
     if (isSelected) {
       updatedSelection = currentSelected.filter((id) => id !== item.program_id);
@@ -163,22 +204,48 @@ export class ProgramSelectionStepComponent implements OnInit {
       actionStatusText = 'programs.programAdded';
     }
 
+    // Update local state immediately for UI responsiveness
+    this._selectedPrograms.set(updatedSelection);
+    this.updateFormState(updatedSelection);
+
+    // Persist to server with debounce to avoid race conditions
+    this.persistSelection(updatedSelection, actionStatusText, isSelected);
+  }
+
+  private updateFormState(programIds: number[]): void {
+    // Update all related forms
+    this.form()?.get('program_ids')?.setValue(programIds, { emitEvent: false });
+    this.selectedProgramsForm()?.get('program_ids')?.setValue(programIds, { emitEvent: false });
+  }
+
+  private persistSelection(updatedSelection: number[], actionStatusText: string, wasSelected: boolean): void {
+    const admissionId = this.admissionId();
+    if (!admissionId) return;
+
+    const payload = {
+      ...this.form()?.getRawValue(),
+      program_ids: updatedSelection,
+    };
+
     this.admissionService
-      .editAdmission(this.admissionId() as string, {
-        ...this.form()?.getRawValue(),
-        program_ids: updatedSelection,
-      })
+      .editAdmission(admissionId, payload)
       .pipe(
+        debounceTime(300),
         tap({
           next: () => {
-            this.selectedPrograms.set(updatedSelection);
             this.alert.show({
               text: actionStatusText,
-              variant: this.selectedPrograms().length > this.selectedProgramsCount() ? 'success' : 'warning',
+              variant: wasSelected ? 'warning' : 'success',
             });
-            this.selectedProgramsCount.set(this.selectedPrograms().length);
-            this.form()?.get('program_ids')?.patchValue(this.selectedPrograms());
-            this.form()?.get('program_ids')?.updateValueAndValidity();
+          },
+          error: () => {
+            // Revert on error
+            const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
+            this._selectedPrograms.set(programs);
+            this.alert.show({
+              text: 'shared.errorOccurred',
+              variant: 'error',
+            });
           },
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -186,62 +253,54 @@ export class ProgramSelectionStepComponent implements OnInit {
       .subscribe();
   }
 
-  onNextClick() {
+  onNextClick(): void {
     this.form()?.markAllAsTouched();
-    if (this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms().length < 2) {
+
+    const minRequired = this.getMinRequiredPrograms();
+    const currentCount = this.selectedProgramsCount();
+
+    if (currentCount < minRequired) {
+      const messageKey =
+        minRequired === MIN_PROGRAMS_SSM
+          ? 'programs.warningMinTwoProgramShouldBeSelected'
+          : 'programs.warningMinOneProgramShouldBeSelected';
+
       this.alert.show({
-        text: 'programs.warningMinTwoProgramShouldBeSelected',
+        text: messageKey,
         variant: 'warning',
       });
-    } else if (!this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms().length < 1) {
-      this.alert.show({
-        text: 'programs.warningMinOneProgramShouldBeSelected',
-        variant: 'warning',
-      });
-    } else if (this.form()?.valid) {
+      return;
+    }
+
+    if (this.form()?.valid) {
       this.nextClick.emit();
     }
   }
 
-  handlePageChange(event: PageChangeEvent) {
+  private getMinRequiredPrograms(): number {
+    const hasSsmContact = Boolean(this.ssmStepForm()?.get('e_name')?.value);
+    return hasSsmContact ? MIN_PROGRAMS_SSM : MIN_PROGRAMS_REGULAR;
+  }
+
+  handlePageChange(event: PageChangeEvent): void {
     const page = event.skip / event.take + 1;
-    this.skip.set(Number(event.skip));
+    this.skip.set(event.skip);
 
     const updatedFilters = {
       ...this.filters(),
-      page: page,
+      page,
     };
     this.filters.set(updatedFilters);
-
     this.updateRouteParams(updatedFilters, event.skip);
   }
 
-  onFiltersChange(filterValue: ProgramSelectionFilter) {
-    this.filters.set(filterValue ?? {});
+  onFiltersChange(filterValue: ProgramSelectionFilter): void {
+    this.filters.set(filterValue || {});
     this.skip.set(0);
-
     this.updateRouteParams(filterValue, 0);
   }
 
-  private loadRouteParams() {
-    this.routeParamsService
-      .get<{ filters: ProgramSelectionFilter; skip: number }>()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params) => {
-        console.log(params);
-        if (params.filters) {
-          this.filters.set(params.filters);
-        }
-        if (params.skip !== undefined && params.skip !== this.skip()) {
-          this.skip.set(Number(params.skip));
-        }
-      });
-  }
-
-  private updateRouteParams(filters: ProgramSelectionFilter, skip: number) {
-    this.routeParamsService.update({
-      filters,
-      skip,
-    });
+  private updateRouteParams(filters: ProgramSelectionFilter, skip: number): void {
+    this.routeParamsService.update({ filters, skip });
   }
 }
