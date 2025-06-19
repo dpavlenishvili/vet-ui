@@ -106,10 +106,6 @@ export class ProgramSelectedProgramsStepComponent {
       .pipe(
         tap({
           next: () => {
-            this.alert.show({
-              text: 'programs.programRemoved',
-              variant: 'warning',
-            });
             this.selectedPrograms.reload();
             if (this.selectedPrograms.value()?.length === 0) {
               this.router.navigate(['long-term-programs', 'update-admission', this.admissionId(), 'program_selection']);

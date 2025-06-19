@@ -83,8 +83,8 @@
     "startDate": "დაწყების თარიღი",
     "endDate": "დასრულების თარიღი",
     "emailFormatError": "არასწორი მეილის ფორმატი",
-    "number_of_records": "სულ {{count}} ჩანაწერი",
-    "noRecords": "ჩანაწერები არ მოიძებნა",
+    "numberOfRecords": "სულ {{count}} ჩანაწერი",
+    "noRecords": "ჩანაწერი ვერ მოიძებნა",
     "short_term_programs": "მომზადება/გადამზადება"
   },
   "auth": {
