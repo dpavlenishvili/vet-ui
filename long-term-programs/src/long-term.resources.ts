@@ -24,26 +24,47 @@ export function useSeparateDictionary(
     loader: () =>
       fetch(generalsService).pipe(
         map((response) => {
-          return response.data?.filter(isValidDictionaryItem).map((item) => mapDictionaryItemToOption(item)) ?? [];
-        }),
+          if (!response.data || !Array.isArray(response.data)) {
+            return [];
+          }
+          return response.data
+            .filter(isValidDictionaryItem)
+            .map((item) => mapDictionaryItemToOption(item));
+        })
       ),
   });
 }
 
-export function useConfigDictionary(key: string, organisation?: string, program_type?: string) {
+export function useConfigDictionary(
+  key: string,
+  organisation?: string,
+  program_type?: string
+) {
   const generalsService = inject(GeneralsService);
 
   return rxResource({
     defaultValue: [],
-    loader: () =>
-      generalsService
-        .getAllConfigs(withoutEmptyProperties({ key: key, organisation, program_type }))
+    loader: () => {
+      const params = withoutEmptyProperties({
+        key,
+        organisation,
+        program_type
+      });
+
+      return generalsService
+        .getAllConfigs(params)
         .pipe(
-          map(
-            (data) =>
-              data[key as keyof typeof data]?.filter(isValidIdValue).map((item) => mapIdValueToOption(item)) ?? [],
-          ),
-        ),
+          map((data) => {
+            const configData = data[key as keyof typeof data];
+            if (!Array.isArray(configData)) {
+              return [];
+            }
+            return configData
+              .filter(isValidIdValue)
+              .map((item) => mapIdValueToOption(item));
+          })
+        );
+    },
   });
 }
 

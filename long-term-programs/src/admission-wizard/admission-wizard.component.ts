@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   HostListener,
   inject,
   input,
@@ -10,13 +11,11 @@ import {
   signal,
   TemplateRef,
   viewChild,
-  DestroyRef,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT, StepperActivateEvent } from '@progress/kendo-angular-layout';
 import { NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ProgramGeneralInformationStepComponent } from './program-general-information-step/program-general-information-step.component';
 import { ProgramSsmStepComponent } from './program-ssm-step/program-ssm-step.component';
@@ -84,7 +83,9 @@ export class AdmissionWizardComponent implements OnInit {
   private readonly _programSelectedProgramsStepTmpl = viewChild.required('programSelectedProgramsStepTmpl', {
     read: TemplateRef,
   });
-  private readonly _programConfirmationStepTmpl = viewChild.required('programConfirmationStepTmpl', { read: TemplateRef });
+  private readonly _programConfirmationStepTmpl = viewChild.required('programConfirmationStepTmpl', {
+    read: TemplateRef,
+  });
 
   // Dependencies
   private readonly router = inject(Router);
@@ -298,9 +299,7 @@ export class AdmissionWizardComponent implements OnInit {
 
   private extractProgramIds(programs?: AdmissionReq['programs']): number[] {
     if (!programs) return [];
-    return programs
-      .map((p) => p.program?.program_id)
-      .filter((id): id is number => typeof id === 'number');
+    return programs.map((p) => p.program?.program_id).filter((id): id is number => typeof id === 'number');
   }
 
   protected isStepValid(index: number): boolean {
@@ -381,7 +380,7 @@ export class AdmissionWizardComponent implements OnInit {
     const emptyProgramIds: number[] = [];
 
     // Clear program IDs in all form groups
-    ['general_information', 'ssm_status', 'program_selection', 'selected_programs', 'confirmation'].forEach(key => {
+    ['general_information', 'ssm_status', 'program_selection', 'selected_programs', 'confirmation'].forEach((key) => {
       const control = this.formGroup.get(key);
       if (control) {
         const currentValue = control.value;

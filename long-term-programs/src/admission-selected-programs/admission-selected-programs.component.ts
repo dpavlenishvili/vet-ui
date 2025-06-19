@@ -34,27 +34,28 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdmissionSelectedProgramsComponent {
-  isEditMode = input(false, { transform: coerceBooleanProperty });
-  selectedPrograms = input<AdmissionPrograms[] | undefined>();
-  selectedProgramsLoading = input<boolean>();
-  selectedProgramsError = input<Error>();
-  deleteClick = output<LongTerm>();
-  isProgramDialogOpen = signal(false);
-  singleProgramId = signal(0);
-  kendoIcons = kendoIcons;
-  vetIcons = vetIcons;
-  confirm = useConfirm();
+  readonly isEditMode = input(false, { transform: coerceBooleanProperty });
+  readonly selectedPrograms = input<AdmissionPrograms[] | undefined>();
+  readonly selectedProgramsLoading = input<boolean>(false);
+  readonly selectedProgramsError = input<Error | null>(null);
+  readonly deleteClick = output<LongTerm>();
 
-  onPreviewProgramClick(item: LongTerm) {
+  protected readonly isProgramDialogOpen = signal(false);
+  protected readonly singleProgramId = signal(0);
+  protected readonly kendoIcons = kendoIcons;
+  protected readonly vetIcons = vetIcons;
+  protected readonly confirm = useConfirm();
+
+  protected onPreviewProgramClick(item: LongTerm): void {
     this.singleProgramId.set(Number(item.id));
     this.isProgramDialogOpen.set(true);
   }
 
-  onCloseClick() {
+  protected onCloseClick(): void {
     this.isProgramDialogOpen.set(false);
   }
 
-  onDeleteClick(item: LongTerm) {
+  protected onDeleteClick(item: LongTerm): void {
     this.confirm.warning({
       title: 'programs.removeProgramSelection',
       content: 'programs.confirm_program_selection_delete',

@@ -5,7 +5,7 @@ import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { DividerComponent, georgianMobileValidator, InfoComponent } from '@vet/shared';
 import {
   DropDownListComponent,
@@ -38,106 +38,118 @@ export type ProgramSsmStepFormGroup = FormGroup;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramSsmStepComponent implements OnInit {
-  form = input<ProgramSsmStepFormGroup>();
-  nextClick = output();
-  previousClick = output();
+  readonly form = input<ProgramSsmStepFormGroup>();
+  readonly nextClick = output();
+  readonly previousClick = output();
 
-  translocoService = inject(TranslocoService);
-  generalsService = inject(GeneralsService);
-  kendoIcons = kendoIcons;
+  private readonly generalsService = inject(GeneralsService);
 
-  languages$ = rxResource({
+  protected readonly kendoIcons = kendoIcons;
+  protected readonly selectedLanguage = signal<string | null>(null);
+  protected readonly maxLengthOfRequirements = 2000;
+
+  protected readonly languages$ = rxResource({
     loader: () => this.generalsService.translate(),
   });
-  selectedLanguage = signal<string | null>(null);
-  maxLengthOfRequirements = 2000;
 
-  ngOnInit() {
-    this.selectedLanguage.set(this.form()?.get('translate_select')?.value);
-    this.onSpecEduSwitchChange(this.form()?.get('spec_edu')?.getRawValue());
+  ngOnInit(): void {
+    this.initializeFormState();
   }
 
-  onPreviousClick() {
+  private initializeFormState(): void {
+    const form = this.form();
+    if (!form) return;
+
+    const translateSelect = form.get('translate_select')?.value;
+    this.selectedLanguage.set(translateSelect || null);
+
+    const specEdu = form.get('spec_edu')?.getRawValue();
+    this.onSpecEduSwitchChange(specEdu);
+  }
+
+  protected onPreviousClick(): void {
     this.previousClick.emit();
   }
 
-  onNextClick() {
-    const ssmForm = this.form();
-    ssmForm?.markAllAsTouched();
+  protected onNextClick(): void {
+    const form = this.form();
+    if (!form) return;
 
-    const specEdu = ssmForm?.get('spec_edu')?.value;
-    if (!specEdu && ssmForm) {
-      const excludeControls = ['spec_edu', 'program_ids'];
+    form.markAllAsTouched();
 
-      Object.keys(ssmForm.controls)
-        .filter((controlName) => !excludeControls.includes(controlName))
-        .forEach((controlName) => {
-          const control = ssmForm.controls[controlName];
-          control.reset();
-          control.clearValidators();
-          control.updateValueAndValidity();
-        });
+    const specEdu = form.get('spec_edu')?.value;
+    if (!specEdu) {
+      this.clearNonSpecEduFields(form);
       this.selectedLanguage.set(null);
     }
 
-    if (ssmForm?.valid) {
+    if (form.valid) {
       this.nextClick.emit();
     }
   }
 
-  onSelectedLanguageChange(value: string | null) {
-    const form = this.form();
+  private clearNonSpecEduFields(form: FormGroup): void {
+    const excludeControls = ['spec_edu', 'program_ids'];
 
-    if (!form) {
-      return;
-    }
+    Object.keys(form.controls)
+      .filter((controlName) => !excludeControls.includes(controlName))
+      .forEach((controlName) => {
+        const control = form.controls[controlName];
+        control.reset();
+        control.clearValidators();
+        control.updateValueAndValidity();
+      });
+  }
+
+  protected onSelectedLanguageChange(value: string | null): void {
+    const form = this.form();
+    if (!form) return;
 
     this.selectedLanguage.set(value);
     form.controls['translate'].reset();
   }
 
-  onSpecEduSwitchChange(checked: boolean) {
-    const ssmForm = this.form();
-    if (!ssmForm) return;
+  protected onSpecEduSwitchChange(checked: boolean): void {
+    const form = this.form();
+    if (!form) return;
 
     if (checked) {
-      ssmForm.get('e_name')?.setValidators(Validators.required);
-      ssmForm.get('e_lastname')?.setValidators(Validators.required);
-      ssmForm.get('e_email')?.setValidators(Validators.email);
-      ssmForm.get('e_phone')?.setValidators([Validators.required, georgianMobileValidator]);
+      this.setRequiredValidators(form);
     } else {
-      const excludeControls = ['spec_edu', 'program_ids'];
-
-      Object.keys(ssmForm.controls)
-        .filter((controlName) => !excludeControls.includes(controlName))
-        .forEach((controlName) => {
-          const control = ssmForm.controls[controlName];
-          control.reset();
-          control.clearValidators();
-          control.updateValueAndValidity();
-        });
+      this.clearNonSpecEduFields(form);
       this.selectedLanguage.set(null);
     }
 
-    ssmForm.updateValueAndValidity();
-    ssmForm.markAsUntouched();
+    form.updateValueAndValidity();
+    form.markAsUntouched();
   }
 
-  onLanguageSwitchChange(checked: boolean) {
-    const translateSelectControl = this.form()?.get('translate_select');
-    const translateControl = this.form()?.get('translate');
+  private setRequiredValidators(form: FormGroup): void {
+    form.get('e_name')?.setValidators(Validators.required);
+    form.get('e_lastname')?.setValidators(Validators.required);
+    form.get('e_email')?.setValidators(Validators.email);
+    form.get('e_phone')?.setValidators([Validators.required, georgianMobileValidator]);
+  }
+
+  protected onLanguageSwitchChange(checked: boolean): void {
+    const form = this.form();
+    if (!form) return;
+
+    const translateSelectControl = form.get('translate_select');
+    const translateControl = form.get('translate');
 
     if (!translateSelectControl) return;
 
     if (checked) {
-      translateSelectControl?.markAsUntouched();
-      translateSelectControl?.setValidators(Validators.required);
+      translateSelectControl.markAsUntouched();
+      translateSelectControl.setValidators(Validators.required);
     } else {
       translateSelectControl.reset();
       translateControl?.reset();
       this.selectedLanguage.set(null);
-      translateSelectControl?.removeValidators(Validators.required);
+      translateSelectControl.removeValidators(Validators.required);
     }
+
     translateSelectControl.updateValueAndValidity();
     translateControl?.updateValueAndValidity();
   }

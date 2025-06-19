@@ -10,6 +10,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { AdmissionSelectedProgramsComponent } from '../admission-selected-programs/admission-selected-programs.component';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import { catchError, of } from 'rxjs';
 
 export type AdmissionListFilter = {
   search?: unknown | null;
@@ -35,73 +36,91 @@ export type AdmissionListFilter = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdmissionsListComponent {
-  admissionList$ = rxResource({
-    request: () => ({ role: this._userRolesService.selectedRole(), filters: this.filters() }),
-    loader: ({ request: { role, filters } }) =>
-      this.admissionService.admissionList({
-        role: role,
-        ...filters,
-      }),
-  });
-
-  router = inject(Router);
-  vetIcons = vetIcons;
-  admissionService = inject(AdmissionService);
-  routeParamsService = inject(RouteParamsService);
-  platformId = inject(PLATFORM_ID);
-  isBrowser = isPlatformBrowser(this.platformId);
-  protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
-  private readonly _userRolesService = inject(UserRolesService);
   @ViewChild(GridComponent) grid!: GridComponent;
 
-  // Expandable rows functionality
-  public expandedDetailKeys: number[] = [];
+  private readonly router = inject(Router);
+  private readonly admissionService = inject(AdmissionService);
+  private readonly routeParamsService = inject(RouteParamsService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly userRolesService = inject(UserRolesService);
 
-  public expandDetailsBy = (dataItem: AdmissionReq): any => {
-    return dataItem ? dataItem.id : 80;
+  protected readonly vetIcons = vetIcons;
+  protected readonly isBrowser = isPlatformBrowser(this.platformId);
+  protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
+
+  // Expandable rows functionality
+  protected expandedDetailKeys: number[] = [];
+
+  protected readonly admissionList$ = rxResource({
+    request: () => ({
+      role: this.userRolesService.selectedRole(),
+      filters: this.filters()
+    }),
+    loader: ({ request: { role, filters } }) => {
+      const params = {
+        role: role,
+        ...filters,
+      };
+
+      return this.admissionService.admissionList(params).pipe(
+        catchError((error) => {
+          console.error('Failed to load admissions list:', error);
+          return of({ data: [], meta: { total: 0, per_page: 10 } });
+        })
+      );
+    },
+  });
+
+  protected expandDetailsBy = (dataItem: AdmissionReq): number => {
+    return dataItem?.id || 0;
   };
 
-  onRegisterClick() {
+  protected onRegisterClick(): void {
     this.router.navigate(['long-term-programs', 'register-admission', 'general_information']);
   }
 
-  onViewClick(item: AdmissionReq) {
+  protected onViewClick(item: AdmissionReq): void {
+    if (!item.id) {
+      console.error('Cannot navigate to admission without ID');
+      return;
+    }
     this.router.navigate(['long-term-programs', 'update-admission', item.id, 'general_information']);
   }
 
-  handlePageChange(event: PageChangeEvent) {
+  protected handlePageChange(event: PageChangeEvent): void {
     this.routeParamsService.update({
       page: event.skip / event.take + 1,
     });
   }
 
-  onFiltersChange(filters: AdmissionListFilter) {
+  protected onFiltersChange(filters: AdmissionListFilter): void {
     this.routeParamsService.update(filters);
     this.filters.set(filterNullValues(filters));
   }
 
-  // Handle row click for expand/collapse
-  onRowClick(event: any) {
-    console.log(event);
-  }
-
-  onCellClick(event: CellClickEvent) {
-    console.log(event);
-
+  protected onCellClick(event: CellClickEvent): void {
     // Don't expand if clicking on action buttons column
     if (event.column && !event.column.field) {
       return;
     }
 
-    // Use the existing toggleRowExpansion method
+    // Toggle row expansion
     this.toggleRowExpansion(event.dataItem);
-    console.log(this.expandedDetailKeys);
   }
 
-  toggleRowExpansion(dataItem: AdmissionReq) {
-    const expandKey = dataItem.id;
-    const rowIndex = this.admissionList$?.value()?.data?.findIndex((item) => item.id === dataItem.id) ?? -1;
+  protected toggleRowExpansion(dataItem: AdmissionReq): void {
+    if (!dataItem?.id || !this.grid) {
+      return;
+    }
 
+    const expandKey = dataItem.id;
+    const admissionData = this.admissionList$.value()?.data;
+
+    if (!admissionData) {
+      return;
+    }
+
+    const rowIndex = admissionData.findIndex((item) => item.id === dataItem.id);
     if (rowIndex === -1) {
       return;
     }
@@ -109,10 +128,12 @@ export class AdmissionsListComponent {
     const expandedIndex = this.expandedDetailKeys.findIndex((key) => key === expandKey);
 
     if (expandedIndex >= 0) {
+      // Collapse row
       this.expandedDetailKeys.splice(expandedIndex, 1);
       this.grid.collapseRow(rowIndex);
     } else {
-      this.expandedDetailKeys.push(expandKey as number);
+      // Expand row
+      this.expandedDetailKeys.push(expandKey);
       this.grid.expandRow(rowIndex);
     }
   }
