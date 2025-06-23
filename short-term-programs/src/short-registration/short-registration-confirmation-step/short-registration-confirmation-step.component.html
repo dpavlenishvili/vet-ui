@@ -9,32 +9,19 @@
       class="vet-form-button"
       type="button"
       themeColor="tertiary"
-      [svgIcon]="vetIcons.print"
-      (click)="onPrint()"
+      (click)="onBack()"
     >
-      {{ 'shorts.print' | transloco }}
+      {{ 'shorts.go_back' | transloco }}
     </button>
 
-    <div class="vet-shorts-step-footer-section">
-      <button
-        kendoButton
-        class="vet-form-button"
-        type="button"
-        themeColor="tertiary"
-        (click)="onBack()"
-      >
-        {{ 'shorts.go_back' | transloco }}
-      </button>
-
-      <button
-        kendoButton
-        class="vet-form-button"
-        type="submit"
-        themeColor="primary"
-        [disabled]="formGroup().invalid"
-      >
-        {{ 'shorts.complete' | transloco }}
-      </button>
-    </div>
+    <button
+      kendoButton
+      class="vet-form-button"
+      type="submit"
+      themeColor="primary"
+      [disabled]="formGroup().invalid"
+    >
+      {{ 'shorts.complete' | transloco }}
+    </button>
   </div>
 </form>

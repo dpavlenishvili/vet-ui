@@ -1,11 +1,13 @@
 <form [formGroup]="filterForm">
   <div class="filters-container">
-    <vet-selector
-      class="vet-filter-input"
-      formControlName="organisation"
-      [placeholder]="'programs.institution' | transloco"
-      [options]="institutionOptions.value()"
-    />
+    @if (hasOrganisationsField()) {
+      <vet-selector
+        class="vet-filter-input"
+        formControlName="organisation"
+        [placeholder]="'programs.institution' | transloco"
+        [options]="institutionOptions.value()"
+      />
+    }
 
     <vet-selector
       class="vet-filter-input"
@@ -62,6 +64,7 @@
 
       <vet-switch
         [label]="'programs.status' | transloco"
+        formControlName="status"
       />
     </div>
   </div>

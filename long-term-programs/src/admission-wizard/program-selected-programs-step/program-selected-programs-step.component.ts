@@ -48,15 +48,14 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
   nextClick = output();
   previousClick = output();
   readonly admissionId = input.required<string | null>();
-  protected readonly selectedPrograms: ResourceRef<AdmissionPrograms[] | undefined> = admissionProgramsResource(
-    this.admissionId,
-  );
   form = input<ProgramSelectedProgramsStepFormGroup>();
   ssmStepForm = input<ProgramSsmStep>();
   selectionProgramsForm = input<ProgramsSelectionStepFormGroup>();
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
-
+  protected readonly selectedPrograms: ResourceRef<AdmissionPrograms[] | undefined> = admissionProgramsResource(
+    this.admissionId,
+  );
   private readonly admissionService = inject(AdmissionService);
   private readonly alert = useAlert();
   private readonly router = inject(Router);
@@ -111,13 +110,9 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
       .pipe(
         tap({
           next: () => {
-            this.alert.show({
-              text: 'programs.programRemoved',
-              variant: 'warning',
-            });
             this.selectedPrograms.reload();
             if (this.selectedPrograms.value()?.length === 0) {
-              this.router.navigate(['long-term-programs', 'update-admission', this.admissionId(), 'program_selection']);
+              // this.router.navigate(['long-term-programs', 'update-admission', this.admissionId(), 'program_selection']);
             }
           },
         }),

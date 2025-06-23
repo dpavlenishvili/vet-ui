@@ -35,25 +35,28 @@
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [title]="'programs.exam_program' | transloco" [width]="150">
+      <kendo-grid-column [title]="'programs.exam_program' | transloco" [width]="300">
         <ng-template kendoGridCellTemplate let-item>
           <p class="k-p-3">{{ item.program_name }}</p>
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [title]="'programs.spec_registered_count' | transloco" [width]="150">
-        <ng-template kendoGridCellTemplate let-item>
-          <p class="k-p-3">{{ item.registered.spec_count ? ('shared.yes' | transloco) : ('shared.no' | transloco) }}</p>
-        </ng-template>
-      </kendo-grid-column>
-
       <kendo-grid-column [title]="'programs.space_count' | transloco" [width]="300">
+        <ng-template kendoGridHeaderTemplate>
+          <p >{{ 'programs.spec_registered_count' | transloco }}</p>
+        </ng-template>
         <ng-template kendoGridCellTemplate let-item>
           <p class="k-p-3">{{ item.admission.students_limit }}</p>
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [title]="'programs.registered_count' | transloco" [width]="300">
+      <kendo-grid-column [title]="'programs.spec_registered_count' | transloco" [width]="150">
+        <ng-template kendoGridCellTemplate let-item>
+          <p class="k-p-3">{{ item.admission.inclusive_students_limit }}</p>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column [title]="'programs.registered_count' | transloco" [width]="150">
         <ng-template kendoGridCellTemplate let-item>
           <p class="k-p-3">{{ item.registered.count }}</p>
         </ng-template>

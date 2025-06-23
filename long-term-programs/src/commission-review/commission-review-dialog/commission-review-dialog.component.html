@@ -1,4 +1,4 @@
-<kendo-dialog [width]="600" [title]="'programs.grading' | transloco" (close)="handleClose()">
+<kendo-dialog [width]="600" [title]="'programs.grading' | transloco" (close)="handleCloseWithWarning()">
   <div class="k-display-flex k-flex-column k-gap-12">
     @if (commissionCriteria$.value(); as _commissionCriteria) {
       @if (commissionScoresFormGroup; as formGroup) {
@@ -25,7 +25,7 @@
     </vet-info>
 
     <div class="k-display-flex k-justify-content-between">
-      <button kendoButton themeColor="secondary" look="default" (click)="handleClose()">
+      <button kendoButton themeColor="secondary" look="default" (click)="handleCloseWithWarning()">
         {{ 'programs.close' | transloco }}
       </button>
 

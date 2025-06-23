@@ -1,13 +1,13 @@
 :host {
   display: block;
 
-  // Main form container
+
   .filters-form {
     display: flex;
     flex-direction: column;
   }
 
-  // Main filters container (search + integrated)
+
   .main-filters-container {
     display: flex;
     align-items: end;
@@ -25,7 +25,7 @@
       flex: 1;
     }
 
-    // Mobile: stack main filters vertically
+
     @media (max-width: 767px) {
       flex-direction: column;
       align-items: stretch;
@@ -41,16 +41,16 @@
       }
     }
 
-    // Tablet and up: horizontal layout (default)
+
     @media (min-width: 768px) {
       flex-direction: row;
       gap: 1rem;
     }
   }
 
-  // Integrated filter responsive styling
+
   .integrated-filter {
-    // Mobile: full width with better spacing
+
     @media (max-width: 767px) {
       .k-display-flex {
         p {
@@ -64,7 +64,7 @@
       }
     }
 
-    // Desktop: horizontal layout (default)
+
     @media (min-width: 768px) {
       .k-display-flex {
         flex-direction: row;
@@ -74,7 +74,7 @@
     }
   }
 
-  // Additional filters container (already has responsive grid)
+
   .additional-filters-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -90,7 +90,7 @@
       grid-template-columns: 1fr;
     }
 
-    // Enhanced mobile styling for form fields
+
     @media (max-width: 767px) {
       gap: 1rem;
 
@@ -105,28 +105,28 @@
     }
   }
 
-  // Filter action buttons container
+
   .filter-actions-container {
-    // Mobile: stack buttons or make them smaller
+
     @media (max-width: 479px) {
       flex-direction: column;
       gap: 0.75rem;
 
       button {
         width: 100%;
-        order: 3; // Search button appears last
+        order: 3;
 
         &:first-child {
-          order: 1; // Expand/collapse button first
+          order: 1;
         }
 
         &:nth-child(2) {
-          order: 2; // Clear button second
+          order: 2;
         }
       }
     }
 
-    // Small mobile landscape: keep horizontal but smaller
+
     @media (max-width: 640px) and (min-width: 480px) {
       gap: 0.5rem;
 
@@ -134,14 +134,14 @@
         padding: 0.5rem;
         min-width: auto;
 
-        // Hide text on smaller screens, keep only icons
+
         span:not(.k-svg-icon) {
           display: none;
         }
       }
     }
 
-    // Tablet and up: horizontal layout (default)
+
     @media (min-width: 641px) {
       flex-direction: row;
       justify-content: flex-end;
@@ -149,7 +149,7 @@
     }
   }
 
-  // Enhanced form field styling
+
   @media (max-width: 767px) {
     .main-filters-container {
       .filter-group {
@@ -164,11 +164,11 @@
     }
   }
 
-  // Touch-friendly improvements for mobile devices
+
   @media (max-width: 767px) and (pointer: coarse) {
     .integrated-filter {
       kendo-switch {
-        // Larger touch target for switch
+
         padding: 0.25rem;
       }
     }
@@ -180,7 +180,7 @@
       }
     }
 
-    // Larger touch targets for form fields
+
     .main-filters-container,
     .additional-filters-container {
       kendo-label {
@@ -192,7 +192,7 @@
     }
   }
 
-  // Large screen optimizations
+
   @media (min-width: 1200px) {
     .filters-form {
       gap: 1rem;
@@ -211,7 +211,7 @@
     }
   }
 
-  // Improved spacing for medium screens
+
   @media (min-width: 768px) and (max-width: 1199px) {
     .main-filters-container {
       gap: 1rem;

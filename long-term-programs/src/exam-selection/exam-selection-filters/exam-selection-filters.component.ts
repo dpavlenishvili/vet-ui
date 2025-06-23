@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, effect, inject, input, output, DestroyRef, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
@@ -8,7 +8,10 @@ import { KENDO_SWITCH, KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
 import { KENDO_POPOVER } from '@progress/kendo-angular-tooltip';
 import { SelectorComponent, VetSwitchComponent, vetIcons } from '@vet/shared';
 import { SchedulesFilters } from '../exam-selection.component';
-import { useInstitutionsDictionary, usePrograms } from 'long-term-programs/src/long-term.resources';
+import { useInstitutionsDictionary, usePrograms, useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
+import { UserRolesService } from '@vet/auth';
+import { startWith, switchMap, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-exam-selection-filters',
@@ -28,7 +31,7 @@ import { useInstitutionsDictionary, usePrograms } from 'long-term-programs/src/l
   styleUrl: './exam-selection-filters.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExamSelectionFiltersComponent {
+export class ExamSelectionFiltersComponent implements OnInit {
   vetIcons = vetIcons;
 
   numberOfRecords = input<number>();
@@ -37,13 +40,37 @@ export class ExamSelectionFiltersComponent {
 
   filterForm = this.createFilterForm();
 
-  programsOptions = usePrograms();
+  userRolesService = inject(UserRolesService);
+  destroyRef = inject(DestroyRef);
+
+  selectedOrganisation = signal<string | null>(this.userRolesService.organisation());
+  
+  programsOptions = useProgramsWithOrganisation(this.selectedOrganisation);
   institutionOptions = useInstitutionsDictionary();
 
   constructor() {
     effect(() => {
       this.filterForm.patchValue(this.filters());
     });
+  }
+
+  ngOnInit(): void {
+    this.handleInstitutionChange();
+  }
+
+  handleInstitutionChange() {
+    this.filterForm
+      .get('organisation')
+      ?.valueChanges.pipe(
+        tap((organisation) => {
+          this.selectedOrganisation.set(organisation);
+        })
+      )
+      .subscribe();
+  }
+
+  hasOrganisationsField() {
+    return this.userRolesService.hasRole('Default User') || this.userRolesService.hasRole('Super Admin');
   }
 
   createFilterForm() {
@@ -53,6 +80,7 @@ export class ExamSelectionFiltersComponent {
       organisation: new FormControl(),
       spec: new FormControl(),
       fullname: new FormControl(),
+      status: new FormControl(),
     });
   }
 
@@ -71,6 +99,7 @@ export class ExamSelectionFiltersComponent {
       organisation: value.organisation ?? null,
       spec: value.spec ?? null,
       fullname: value.fullname ?? null,
+      status: value.status ?? null,
     };
 
     this.filtersChange.emit(filterData);

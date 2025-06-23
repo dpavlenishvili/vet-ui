@@ -1,19 +1,23 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { vetIcons } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, input, output, ResourceRef } from '@angular/core';
+import { PaginatedGridResult, vetIcons } from '@vet/shared';
 import { ShortTermProgram } from '../short-term-programs.types';
 import { ShortTermProgramCardComponent } from '../short-term-program-card/short-term-program-card.component';
 import { ShortProgram } from '@vet/backend';
+import { PagerComponent } from '@progress/kendo-angular-pager';
+import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'vet-short-term-programs-grid',
-  imports: [ShortTermProgramCardComponent],
+  imports: [ShortTermProgramCardComponent, PagerComponent],
   templateUrl: './short-term-programs-grid.component.html',
   styleUrl: './short-term-programs-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class ShortTermProgramsGridComponent {
-  items = input.required<ShortProgram[]>();
+  data = input.required<ResourceRef<PaginatedGridResult<ShortProgram>>>();
+  pageChange = output<number>();
+
   vetIcons = vetIcons;
 
   items_: ShortTermProgram[] = [
@@ -120,4 +124,8 @@ export class ShortTermProgramsGridComponent {
       `,
     },
   ];
+
+  onPageChange(event: PageChangeEvent) {
+    this.pageChange.emit(event.skip / event.take + 1);
+  }
 }

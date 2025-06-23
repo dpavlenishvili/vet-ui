@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
-import { FormatDatePipe, useConfirm, vetIcons } from '@vet/shared';
+import { DialogComponent, FormatDatePipe, InfoComponent, useConfirm, vetIcons } from '@vet/shared';
 import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import {
@@ -8,7 +8,6 @@ import {
   GridComponent,
   NoRecordsTemplateDirective,
 } from '@progress/kendo-angular-grid';
-import { DialogComponent } from '@progress/kendo-angular-dialog';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ShortProgramPageComponent } from '../../../short-program-page/short-program-page.component';
@@ -19,13 +18,14 @@ import { ShortProgramPageComponent } from '../../../short-program-page/short-pro
     ButtonComponent,
     CellTemplateDirective,
     ColumnComponent,
-    DialogComponent,
     GridComponent,
     NoRecordsTemplateDirective,
     SVGIconComponent,
     TranslocoPipe,
     ShortProgramPageComponent,
     FormatDatePipe,
+    DialogComponent,
+    InfoComponent,
   ],
   templateUrl: './short-registration-selected-programs-grid.component.html',
   styleUrl: './short-registration-selected-programs-grid.component.scss',

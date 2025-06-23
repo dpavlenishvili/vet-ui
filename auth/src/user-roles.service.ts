@@ -2,7 +2,7 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RolesService } from '@vet/backend';
-import { Observable, of } from 'rxjs';
+import { finalize, map, Observable, of, tap } from 'rxjs';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { AuthPermission, AuthRole, UserAccount } from './auth.types';
 
@@ -23,24 +23,45 @@ export class UserRolesService {
   readonly selectedRole = computed((): AuthRole => this.selectedAccount()?.roles?.[0] ?? DEFAULT_ROLE);
   readonly userAccounts = computed((): UserAccount[] => this._userAccounts.value() ?? []);
   readonly currentAccountName = computed(() => this._savedAccountName());
+  readonly organisation = computed(() => {
+    const account = this.selectedAccount();
+    return account?.organisation ?? null;
+  });
+  readonly isUserAccountsLoaded = signal(false);
 
   private readonly _cookieService = inject(SsrCookieService);
   private readonly _authenticationService = inject(AuthenticationService);
   private readonly _rolesService = inject(RolesService);
   private readonly _userAccounts = rxResource({
-    request: () => this._authenticationService.isAuthenticated(),
-    loader: ({ request: isAuthenticated }): Observable<UserAccount[]> => {
-      if (isAuthenticated) {
-        return this._rolesService.roles() as unknown as Observable<UserAccount[]>;
+    request: () => ({
+      isAuthenticated: this._authenticationService.isAuthenticated()
+    }),
+    loader: ({ request: { isAuthenticated } }): Observable<UserAccount[]> => {
+      const setLoaded = () => this.isUserAccountsLoaded.set(true);
+
+      if (!isAuthenticated) {
+        setLoaded();
+        return of([]);
       }
-      return of([]);
+
+      return this._rolesService.roles().pipe(
+        map((roles) => roles as UserAccount[]),
+        tap((accounts) => {
+          const firstAccount = accounts?.[0];
+          if (firstAccount?.name && firstAccount.name !== this._savedAccountName()) {
+            this._cookieService.set(USER_SELECTED_ACCOUNT_NAME, firstAccount.name, undefined, '/');
+            this._savedAccountName.set(firstAccount.name);
+          }
+        }),
+        finalize(setLoaded)
+      );
     },
   });
   private readonly _savedAccountName = signal(this._cookieService.get(USER_SELECTED_ACCOUNT_NAME) ?? null);
 
   constructor() {
     effect(() => {
-      this._cookieService.set(USER_SELECTED_ACCOUNT_NAME, this._savedAccountName());
+      this._cookieService.set(USER_SELECTED_ACCOUNT_NAME, this._savedAccountName(), undefined, '/');
     });
   }
 

@@ -1,0 +1,37 @@
+<kendo-dialog
+  class="vet-dialog"
+  [class.disable-padding]="disablePadding()"
+  [class.transparent]="transparent()"
+  [width]="width()"
+  [height]="height()"
+>
+  <kendo-dialog-titlebar class="vet-dialog-header-container" [class.hidden]="!showHeader()">
+    <div class="vet-dialog-header">
+      <div class="vet-dialog-spacer"></div>
+
+      <div class="vet-dialog-title">
+        {{ title() }}
+      </div>
+
+      <div class="vet-dialog-header-actions">
+        <button class="vet-dialog-close" (click)="onClose()">
+          <kendo-svg-icon
+            class="vet-dialog-close-icon"
+            [icon]="vetIcons.closeX"
+          />
+        </button>
+      </div>
+    </div>
+  </kendo-dialog-titlebar>
+
+  <div>
+    <ng-content/>
+    <ng-content select="[content]"/>
+  </div>
+
+  @if (showActionsBar()) {
+    <kendo-dialog-actions class="vet-dialog-actions">
+      <ng-content select="[actions]" />
+    </kendo-dialog-actions>
+  }
+</kendo-dialog>

@@ -83,19 +83,15 @@
 
                 <div class="contact-info-grid">
                   <div class="info-row">
-                    <span class="label">{{ 'programs.ssm_contact_person_first_name' | transloco }}:</span>
                     <span class="value">{{ ssmForm.controls['e_name'].value || '-' }}</span>
                   </div>
                   <div class="info-row">
-                    <span class="label">{{ 'programs.ssm_contact_person_last_name' | transloco }}:</span>
                     <span class="value">{{ ssmForm.controls['e_lastname'].value || '-' }}</span>
                   </div>
                   <div class="info-row">
-                    <span class="label">{{ 'programs.ssm_contact_person_email' | transloco }}:</span>
                     <span class="value">{{ ssmForm.controls['e_email'].value || '-' }}</span>
                   </div>
                   <div class="info-row">
-                    <span class="label">{{ 'programs.mobile' | transloco }}:</span>
                     <span class="value">
                       @if (ssmForm.controls['e_phone'].value) {
                         +995 {{ ssmForm.controls['e_phone'].value }}
@@ -123,7 +119,6 @@
                 @if (ssmForm.controls['translate_select'].value) {
                   <div class="translator-info">
                     <div class="info-row">
-                      <span class="label">{{ 'programs.selected_language' | transloco }}:</span>
                       <span class="value">{{ ssmForm.controls['translate_select'].value | transloco }}</span>
                     </div>
 
@@ -226,8 +221,8 @@
           <div class="disclaimer-summary">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
-                ? 'programs.ssm_disclaimer_summary'
-                : 'programs.general_disclaimer_summary'
+                  ? 'programs.ssm_disclaimer_summary'
+                  : 'programs.general_disclaimer_summary'
               ) | transloco
             }}
           </div>
@@ -235,8 +230,8 @@
           <div class="disclaimer-title">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
-                ? 'programs.ssm_disclaimer_documentation_title'
-                : 'programs.general_disclaimer_documentation_title'
+                  ? 'programs.ssm_disclaimer_documentation_title'
+                  : 'programs.general_disclaimer_documentation_title'
               ) | transloco
             }}
           </div>

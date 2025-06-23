@@ -86,6 +86,9 @@
     "numberOfRecords": "სულ {{count}} ჩანაწერი",
     "noRecords": "ჩანაწერები არ მოიძებნა",
     "short_term_programs": "მომზადება/გადამზადება",
+    "operation_success": "ოპერაცია წარმატებით დასრულდა",
+    "operation_fail": "ოპერაცია დასრულდა წარუმატებლად",
+    "confirm_action": "დარწმუნებული ხართ რომ გსურთ ოპერაციის შესრულება?",
     "edit": "რედაქტირება",
     "choose": "არჩევა",
     "view": "ნახვა",
@@ -383,7 +386,7 @@
     "add": "დამატება",
     "save": "შენახვა",
     "commission_add_warning": "გთხოვთ, დაამატოთ მინიმუმ 3 და მაქსიმუმ 6 კომისიის წევრი",
-    "no_commission_members": "კომისიის წევრები არ არის არჩეული",
+    "no_commission_members": "ჩანაწერი არ არის",
     "applicant_data": "აპლიკანტის მონაცემები",
     "grading": "შეფასება",
     "close": "დახურვა",
@@ -531,6 +534,17 @@
     "registration_period": "რეგისტრაციის პერიოდი",
     "tuition_start_date": "სწავლის დაწყების თარიღი",
     "confirm_program_selection": "ნამდვილად გსურთ პროგრამის არჩევა?",
-    "confirm_program_unselection": "ნამდვილად გსურთ პროგრამის წაშლა?"
+    "confirm_program_unselection": "ნამდვილად გსურთ პროგრამის წაშლა?",
+    "program_selection_success": "პროგრამა დაემატა 'არჩეული პროგრამები'-ს საფეხურზე",
+    "clear_filters": "ფილტრის გასუფთავება",
+    "search_filters": "ძებნა",
+    "search_filters_pending": "იძებნება...",
+    "tuition_period_start_date": "სწავლის პერიოდი - დაწყების თარიღი",
+    "tuition_period_end_date": "სწავლის პერიოდი - დასრულების თარიღი",
+    "financing_type": "დაფინანსება",
+    "partners": "პარტნიორი ორგანიზაციები",
+    "no_programs_selected": "არ გაქვთ არჩეული პროგრამები",
+    "no_programs_selected_warning": "თქვენ არცერთი პროგრამა გაქვთ არჩეული, გთხოვთ დაბრუნდეთ 'პროგრამების არჩევის' გვერდზე",
+    "search_found": "ნახე {{found}} შედეგი"
   }
 }

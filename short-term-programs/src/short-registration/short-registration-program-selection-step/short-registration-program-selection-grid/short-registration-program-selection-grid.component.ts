@@ -1,14 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
-import { FormatDatePipe, useConfirm, vetIcons } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, input, output, ResourceRef, signal } from '@angular/core';
+import { DialogComponent, FormatDatePipe, PaginatedGridResult, useConfirm, useToast, vetIcons } from '@vet/shared';
 import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import {
   CellTemplateDirective,
   ColumnComponent,
   GridComponent,
-  NoRecordsTemplateDirective,
+  NoRecordsTemplateDirective, PageChangeEvent
 } from '@progress/kendo-angular-grid';
-import { DialogComponent } from '@progress/kendo-angular-dialog';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ShortProgramPageComponent } from '../../../short-program-page/short-program-page.component';
@@ -26,6 +25,7 @@ import { ShortProgramPageComponent } from '../../../short-program-page/short-pro
     TranslocoPipe,
     ShortProgramPageComponent,
     FormatDatePipe,
+    DialogComponent,
   ],
   templateUrl: './short-registration-program-selection-grid.component.html',
   styleUrl: './short-registration-program-selection-grid.component.scss',
@@ -33,15 +33,15 @@ import { ShortProgramPageComponent } from '../../../short-program-page/short-pro
   standalone: true,
 })
 export class ShortRegistrationProgramSelectionGridComponent {
-  items = input.required<ShortProgramAdmission[]>();
-  isLoading = input.required<boolean>();
+  data = input.required<ResourceRef<PaginatedGridResult>>();
   selectedProgramIds = input.required<number[]>();
   itemSelect = output<ShortProgramAdmission>();
   itemUnselect = output<ShortProgramAdmission>();
+  pageChange = output<number>();
 
   previewProgramId = signal(0);
   isProgramPreviewDialogOpen = signal(false);
-  selectionConfirmation = useConfirm();
+  toast = useToast();
   unselectionConfirmation = useConfirm();
   vetIcons = vetIcons;
 
@@ -55,10 +55,8 @@ export class ShortRegistrationProgramSelectionGridComponent {
   }
 
   onSelectProgram(program: ShortProgram) {
-    this.selectionConfirmation.show({
-      content: 'shorts.confirm_program_selection',
-      onConfirm: () => this.itemSelect.emit(program),
-    });
+    this.itemSelect.emit(program);
+    this.toast.success('shorts.program_selection_success');
   }
 
   onUnselectProgram(program: ShortProgram) {
@@ -70,5 +68,9 @@ export class ShortRegistrationProgramSelectionGridComponent {
 
   onClosePreviewDialog() {
     this.isProgramPreviewDialogOpen.set(false);
+  }
+
+  onPageChange(event: PageChangeEvent) {
+    this.pageChange.emit(event.skip / event.take + 1);
   }
 }

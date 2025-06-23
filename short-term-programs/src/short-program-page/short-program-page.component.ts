@@ -28,6 +28,7 @@ import { ShortProgramHeaderComponent } from './short-program-header/short-progra
 })
 export class ShortProgramPageComponent {
   programId = input<number>();
+  showGallery = input<boolean>(true);
 
   readonly programsService = inject(ProgramsService);
 

@@ -41,30 +41,16 @@ export class ProgramSsmStepComponent implements OnInit {
   readonly form = input<ProgramSsmStepFormGroup>();
   readonly nextClick = output();
   readonly previousClick = output();
-
-  private readonly generalsService = inject(GeneralsService);
-
   protected readonly kendoIcons = kendoIcons;
   protected readonly selectedLanguage = signal<string | null>(null);
   protected readonly maxLengthOfRequirements = 2000;
-
+  private readonly generalsService = inject(GeneralsService);
   protected readonly languages$ = rxResource({
     loader: () => this.generalsService.translate(),
   });
 
   ngOnInit(): void {
     this.initializeFormState();
-  }
-
-  private initializeFormState(): void {
-    const form = this.form();
-    if (!form) return;
-
-    const translateSelect = form.get('translate_select')?.value;
-    this.selectedLanguage.set(translateSelect || null);
-
-    const specEdu = form.get('spec_edu')?.getRawValue();
-    this.onSpecEduSwitchChange(specEdu);
   }
 
   protected onPreviousClick(): void {
@@ -86,19 +72,6 @@ export class ProgramSsmStepComponent implements OnInit {
     if (form.valid) {
       this.nextClick.emit();
     }
-  }
-
-  private clearNonSpecEduFields(form: FormGroup): void {
-    const excludeControls = ['spec_edu', 'program_ids'];
-
-    Object.keys(form.controls)
-      .filter((controlName) => !excludeControls.includes(controlName))
-      .forEach((controlName) => {
-        const control = form.controls[controlName];
-        control.reset();
-        control.clearValidators();
-        control.updateValueAndValidity();
-      });
   }
 
   protected onSelectedLanguageChange(value: string | null): void {
@@ -124,13 +97,6 @@ export class ProgramSsmStepComponent implements OnInit {
     form.markAsUntouched();
   }
 
-  private setRequiredValidators(form: FormGroup): void {
-    form.get('e_name')?.setValidators(Validators.required);
-    form.get('e_lastname')?.setValidators(Validators.required);
-    form.get('e_email')?.setValidators(Validators.email);
-    form.get('e_phone')?.setValidators([Validators.required, georgianMobileValidator]);
-  }
-
   protected onLanguageSwitchChange(checked: boolean): void {
     const form = this.form();
     if (!form) return;
@@ -152,5 +118,36 @@ export class ProgramSsmStepComponent implements OnInit {
 
     translateSelectControl.updateValueAndValidity();
     translateControl?.updateValueAndValidity();
+  }
+
+  private initializeFormState(): void {
+    const form = this.form();
+    if (!form) return;
+
+    const translateSelect = form.get('translate_select')?.value;
+    this.selectedLanguage.set(translateSelect || null);
+
+    const specEdu = form.get('spec_edu')?.getRawValue();
+    this.onSpecEduSwitchChange(specEdu);
+  }
+
+  private clearNonSpecEduFields(form: FormGroup): void {
+    const excludeControls = ['spec_edu', 'program_ids'];
+
+    Object.keys(form.controls)
+      .filter((controlName) => !excludeControls.includes(controlName))
+      .forEach((controlName) => {
+        const control = form.controls[controlName];
+        control.reset();
+        control.clearValidators();
+        control.updateValueAndValidity();
+      });
+  }
+
+  private setRequiredValidators(form: FormGroup): void {
+    form.get('e_name')?.setValidators(Validators.required);
+    form.get('e_lastname')?.setValidators(Validators.required);
+    form.get('e_email')?.setValidators(Validators.email);
+    form.get('e_phone')?.setValidators([Validators.required, georgianMobileValidator]);
   }
 }

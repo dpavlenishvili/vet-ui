@@ -12,7 +12,7 @@
   --subsection-border: #e9ecef;
 }
 
-// Main confirmation container
+
 .confirmation-container {
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@
   height: 100%;
 }
 
-// Section cards
+
 .confirmation-section {
   background: var(--section-bg);
   border: 1px solid var(--section-border);
@@ -34,7 +34,7 @@
     padding: 1.25rem;
   }
 
-  // Section headers
+
   .section-header {
     display: flex;
     align-items: center;
@@ -70,7 +70,7 @@
   }
 }
 
-// User profile section
+
 .user-profile {
   background-color: var(--user-profile-bg);
   border: 1px solid white;
@@ -138,7 +138,7 @@
   }
 }
 
-// Programs section with badge
+
 .programs-section {
   position: relative;
 
@@ -162,7 +162,7 @@
   }
 }
 
-// Requirements list
+
 .requirements-list {
   display: flex;
   flex-wrap: wrap;
@@ -181,7 +181,7 @@
   }
 }
 
-// SSM section styling
+
 .ssm-section {
   .ssm-subsection {
     border: 1px solid var(--subsection-border);
@@ -204,7 +204,7 @@
   }
 }
 
-// Contact info grid
+
 .contact-info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -237,7 +237,7 @@
   }
 }
 
-// Translator info
+
 .translator-info {
   .info-row {
     display: flex;
@@ -261,7 +261,7 @@
   }
 }
 
-// Description display
+
 .description-display {
   background: white;
   border: 1px solid var(--section-border);
@@ -283,7 +283,7 @@
   }
 }
 
-// Disclaimer section
+
 .disclaimer-section {
   border-color: var(--section-border);
   color: #333;
@@ -348,7 +348,7 @@
   }
 }
 
-// Action buttons
+
 .confirmation-actions {
   display: flex;
   align-items: center;
@@ -413,7 +413,7 @@
   }
 }
 
-// Touch-friendly improvements
+
 @media (max-width: 767px) and (pointer: coarse) {
   .confirmation-section .section-header kendo-switch {
     padding: 0.25rem;
@@ -433,7 +433,7 @@
   }
 }
 
-// Large screen optimizations
+
 @media (min-width: 1200px) {
   .confirmation-container {
     gap: 2rem;
@@ -449,7 +449,7 @@
   }
 }
 
-// Print-specific styles
+
 @media print {
   .confirmation-actions {
     display: none;

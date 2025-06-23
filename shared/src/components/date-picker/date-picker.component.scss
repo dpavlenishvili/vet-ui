@@ -1,0 +1,21 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+kendo-textbox.vet-date-picker {
+  border-color: shared.$kendo-color-border-alt !important;
+}
+
+.vet-date-picker.vet-has-error {
+  border-color: shared.$kendo-color-error !important;
+}
+
+.vet-error-message {
+  @include shared.text-sm();
+  color: shared.$kendo-color-error;
+  margin-top: 0.25rem;
+  margin-left: 0.625rem;
+}

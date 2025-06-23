@@ -1,21 +1,24 @@
-@let _programs = programs();
-
 <div class="vet-shorts">
   <vet-short-term-programs-filters
     class="vet-shorts-filters"
     [filters]="filters()"
+    [foundResultsCount]="foundProgramsCount"
     (filtersChange)="onFiltersChange($event)"
+    (dialogFiltersChangeRealtime)="onDialogFiltersChangeRealtime($event)"
   />
 
   @if (data.isLoading()) {
     <div class="vet-empty vet-loading">
       {{ 'shared.loading' | transloco }}
     </div>
-  } @else if (_programs.length === 0) {
+  } @else if (data.value().data.length === 0) {
     <div class="vet-empty vet-not-found">
       {{ 'shared.noRecords' | transloco }}
     </div>
   } @else {
-    <vet-short-term-programs-grid [items]="programs()"/>
+    <vet-short-term-programs-grid
+      [data]="data"
+      (pageChange)="onPageChange($event)"
+    />
   }
 </div>

@@ -42,6 +42,7 @@ import { KENDO_LABEL } from '@progress/kendo-angular-label';
 })
 export class CommissionMembersDialogComponent implements OnInit {
   dialogClose = output();
+  dialogCloseWithWarning = output();
   reloadProgramsWithCommissionMembers = output();
   programCode = input<string>();
   programId = input<string>();
@@ -97,6 +98,10 @@ export class CommissionMembersDialogComponent implements OnInit {
 
   handleClose() {
     this.dialogClose.emit();
+  }
+
+  handleCloseWithWarning() {
+    this.dialogCloseWithWarning.emit();
   }
 
   checkCommissionMember() {
@@ -176,11 +181,6 @@ export class CommissionMembersDialogComponent implements OnInit {
       return false;
     }
 
-    if (currentMembers.length < 3) {
-      this.showTemporaryError('programs.commission_member_minimum_warning');
-      return false;
-    }
-
     this.temporaryErrorMessage.set(null);
     return true;
   }
@@ -203,6 +203,13 @@ export class CommissionMembersDialogComponent implements OnInit {
   }
 
   saveChanges() {
+    const currentMembers = this.updatedCommissionMembers();
+    
+    if (currentMembers.length < 3) {
+      this.showTemporaryError('programs.commission_member_minimum_warning');
+      return;
+    }
+
     const payload = {
       program: this.programId() as string,
       pids: this.getCommissionMembersPids() as string[],

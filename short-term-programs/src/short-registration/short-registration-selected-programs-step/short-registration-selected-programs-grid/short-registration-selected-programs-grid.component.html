@@ -1,6 +1,12 @@
+@if (selectedPrograms().length === 0) {
+  <vet-info variant="warning" class="k-mb-4">
+    {{ 'shorts.no_programs_selected_warning' | transloco }}
+  </vet-info>
+}
+
 <kendo-grid [data]="selectedPrograms()">
   <ng-template kendoGridNoRecordsTemplate>
-    {{ 'shared.noRecords' | transloco }}
+    {{ 'shorts.no_programs_selected' | transloco }}
   </ng-template>
 
   <kendo-grid-column title="#" [width]="20">
@@ -63,7 +69,6 @@
           type="button"
           fillMode="flat"
           class="short-grid-action-button"
-          [disabled]="selectedPrograms().length < 2"
           (click)="onUnselectProgram(item)"
         >
           <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.minusCircleRed" themeColor="error" />
@@ -74,12 +79,15 @@
 </kendo-grid>
 
 @if (isProgramPreviewDialogOpen()) {
-  <kendo-dialog
+  <vet-dialog
     width="90%"
     height="90%"
     [title]="'programs.program_description' | transloco"
     (close)="onClosePreviewDialog()"
   >
-    <vet-short-program-page [programId]="previewProgramId()" />
-  </kendo-dialog>
+    <vet-short-program-page
+      [programId]="previewProgramId()"
+      [showGallery]="false"
+    />
+  </vet-dialog>
 }

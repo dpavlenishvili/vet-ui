@@ -11,7 +11,7 @@ import {
 } from '@vet/shared';
 
 export function useSeparateDictionary(fetch: (generals: GeneralsService) => Observable<{
-  data?: Partial<DictionaryType>[] | undefined;
+  data?: Partial<DictionaryType<number | string>>[] | undefined;
 }>) {
   const generalsService = inject(GeneralsService);
 
@@ -57,6 +57,14 @@ export function useProgramKinds() {
   return useConfigDictionary('program_types', 'short-term');
 }
 
+export function useFinancingTypes() {
+  return useConfigDictionary('financing_types', 'short-term');
+}
+
+export function usePartners() {
+  return useConfigDictionary('partners', 'short-term');
+}
+
 export function useRegions() {
   return useSeparateDictionary(generals => generals.getRegionsList({}));
 }
@@ -66,5 +74,12 @@ export function useDistricts() {
 }
 
 export function useInstitutionsDictionary() {
-  return useSeparateDictionary(generals => generals.getOrganisationsList({}));
+  return useSeparateDictionary(generals => generals.getOrganisationsList({}).pipe(
+    map(items => ({
+      data: items.data?.map(item => ({
+        id: item.name,
+        name: item.name,
+      }))
+    }))
+  ));
 }

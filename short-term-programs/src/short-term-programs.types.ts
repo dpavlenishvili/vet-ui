@@ -1,6 +1,5 @@
 import { SVGIcon } from '@progress/kendo-angular-icons';
-import { Signal, TemplateRef, WritableSignal } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { WritableSignal } from '@angular/core';
 
 export interface ShortTermProgram {
   id: number;
@@ -25,4 +24,20 @@ export interface ShortRegistrationSidebarMenuItem extends ShortRegistrationSideb
   icon: SVGIcon;
   isExpanded: WritableSignal<boolean>;
   children?: ShortRegistrationSidebarMenuItemBase[];
+}
+
+export interface ShortTermProgramFilters {
+  search?: string | null;
+  program_name_or_code?: string | null;
+  field?: string | null;
+  region?: string | null;
+  district?: string | null;
+  organisation_name?: string | null;
+  program_kind?: string | null;
+  tuition_start_date?: string | null;
+  tuition_end_date?: string | null;
+  financing_type?: string | null;
+  partner?: string | null;
+  current?: boolean | null;
+  planned?: boolean | null;
 }

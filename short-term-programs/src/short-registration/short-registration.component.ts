@@ -1,15 +1,29 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal, TemplateRef, viewChild } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ShortRegistrationStepperComponent } from './short-registration-stepper/short-registration-stepper.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { of } from 'rxjs';
-import { getCurrentStepIndex, WizardStepDefinition } from '@vet/shared';
-import { ShortRegistrationGeneralInformationStepComponent } from './short-registration-general-information-step/short-registration-general-information-step.component';
-import { ShortRegistrationProgramSelectionStepComponent } from './short-registration-program-selection-step/short-registration-program-selection-step.component';
+import { getCurrentStepIndex, useRouterParams, useSessionValue, WizardStepDefinition } from '@vet/shared';
+import {
+  ShortRegistrationGeneralInformationStepComponent,
+  ShortRegistrationGeneralInformationStepFormData,
+} from './short-registration-general-information-step/short-registration-general-information-step.component';
+import {
+  ShortRegistrationProgramSelectionStepComponent,
+  ShortRegistrationProgramSelectionStepFormData,
+} from './short-registration-program-selection-step/short-registration-program-selection-step.component';
 import { ShortRegistrationSelectedProgramsStepComponent } from './short-registration-selected-programs-step/short-registration-selected-programs-step.component';
-import { ShortRegistrationConfirmationStepComponent } from './short-registration-confirmation-step/short-registration-confirmation-step.component';
+import {
+  ShortRegistrationConfirmationStepComponent,
+  ShortRegistrationConfirmationStepFormData,
+} from './short-registration-confirmation-step/short-registration-confirmation-step.component';
 import { ShortProgramAdmission } from '@vet/backend';
+import { SHORT_REGISTRATION_DATA, SHORT_REGISTRATION_STEP_INDEX } from '../short-term.constants';
+
+export interface ShortRegistrationFormData {
+  general_information: ShortRegistrationGeneralInformationStepFormData;
+  program_selection: ShortRegistrationProgramSelectionStepFormData;
+  confirmation: ShortRegistrationConfirmationStepFormData;
+}
 
 @Component({
   selector: 'vet-short-registration',
@@ -27,8 +41,7 @@ import { ShortProgramAdmission } from '@vet/backend';
 })
 export class ShortRegistrationComponent {
   router = inject(Router);
-  activatedRoute = inject(ActivatedRoute);
-  params = toSignal(this.activatedRoute.firstChild?.params ?? of({} as Params));
+  params = useRouterParams();
 
   formGroup = this.createFormGroup();
   generalInformationStepTemplate = viewChild.required<TemplateRef<unknown>>('generalInformationStepTemplate');
@@ -65,10 +78,29 @@ export class ShortRegistrationComponent {
       path: 'confirmation',
     },
   ];
-  stepIndex = signal(0);
+  isInitialized = signal(false);
+  stepIndex = useSessionValue(SHORT_REGISTRATION_STEP_INDEX, 0);
+  initialValues = useSessionValue<ShortRegistrationFormData>(
+    SHORT_REGISTRATION_DATA,
+    {
+      general_information: {
+        education_level: null,
+      },
+      program_selection: {
+        selected_programs: [],
+      },
+      confirmation: {},
+    },
+    60 * 60 * 1000,
+  );
 
   constructor() {
     effect(() => {
+      if (!this.isInitialized()) {
+        this.formGroup.patchValue(this.initialValues());
+        this.isInitialized.set(true);
+      }
+
       const requestedStepPath = this.params()?.['step'];
       const { requestedStepIndex, currentStepIndex } = getCurrentStepIndex(this.steps, requestedStepPath);
 
@@ -83,7 +115,7 @@ export class ShortRegistrationComponent {
   createFormGroup() {
     return new FormGroup({
       general_information: new FormGroup({
-        education_level: new FormControl<number | null>(1, Validators.required),
+        education_level: new FormControl<number | null>(null, Validators.required),
       }),
       program_selection: new FormGroup({
         selected_programs: new FormControl<ShortProgramAdmission[]>([], Validators.required),
@@ -94,7 +126,6 @@ export class ShortRegistrationComponent {
 
   onNext() {
     if (this.stepIndex() < this.steps.length - 1) {
-      console.log(this.formGroup.value);
       this.onStepIndexChange(this.stepIndex() + 1);
     }
   }
@@ -111,6 +142,7 @@ export class ShortRegistrationComponent {
 
   onStepIndexChange(stepIndex: number) {
     this.stepIndex.set(stepIndex);
+    this.initialValues.set(this.formGroup.value as ShortRegistrationFormData);
     this.navigateUserToStep(stepIndex);
   }
 

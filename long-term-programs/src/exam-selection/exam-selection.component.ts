@@ -7,11 +7,20 @@ import { KENDO_CARD } from '@progress/kendo-angular-layout';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { UserRolesService } from '@vet/auth';
 import { Schedule, SchedulesService, Selection } from '@vet/backend';
-import { DividerComponent, vetIcons, RouteParamsService, useFilters, useFiltersUpdater } from '@vet/shared';
+import {
+  DividerComponent,
+  vetIcons,
+  RouteParamsService,
+  useFilters,
+  useFiltersUpdater,
+  useAlert,
+  useConfirm,
+} from '@vet/shared';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { ExamSelectionDialogComponent } from './exam-selection-dialog/exam-selection-dialog.component';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+import { tap } from 'rxjs';
 
 export type SchedulesFilters = {
   program?: string | null;
@@ -19,6 +28,7 @@ export type SchedulesFilters = {
   organisation?: number | null;
   spec?: string | null;
   fullname?: string | null;
+  status?: string | null;
 };
 
 export type ScheduleItem = {
@@ -62,6 +72,9 @@ export class ExamSelectionComponent {
 
   filters = useFilters<SchedulesFilters>();
   updateFilters = useFiltersUpdater<SchedulesFilters>();
+
+  private alert = useAlert();
+  private confirm = useConfirm();
 
   schedules$ = rxResource({
     request: () => ({
@@ -109,6 +122,43 @@ export class ExamSelectionComponent {
     this.selectedExamId = String(item.id);
     this.dialogMode.set(dialogMode);
     this.isSchedulesDialogOpen.set(true);
+  }
+
+  onAcceptanceChange(item: Schedule, event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const scheduleId = String(item.id);
+
+    const proceed = () => {
+      this.schedulesService
+        .schedulesGrant(scheduleId, checked)
+        .pipe(
+          tap({
+            next: () => {
+              this.alert.show({
+                text: 'shared.operation_success',
+                variant: 'success',
+              });
+              this.reloadTableData();
+            },
+            error: () => {
+              this.alert.show({
+                text: 'shared.operation_fail',
+                variant: 'error',
+              });
+            },
+          }),
+        )
+        .subscribe();
+    };
+
+    if (!checked) {
+      this.confirm.show({
+        content: 'shared.confirm_action',
+        onConfirm: proceed,
+      });
+    } else {
+      proceed();
+    }
   }
 
   onFiltersChange(filters: SchedulesFilters) {

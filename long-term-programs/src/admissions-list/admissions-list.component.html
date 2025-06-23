@@ -3,7 +3,7 @@
     <span>
       {{ 'shared.informationMessage' | transloco }}
     </span>
-    <button kendoButton themeColor="primary" (click)="onRegisterClick()">
+    <button (click)="onRegisterClick()" kendoButton themeColor="primary">
       {{ 'shared.registration' | transloco }}
     </button>
   </div>
@@ -13,10 +13,6 @@
     <kendo-grid
       [loading]="admissionList$.isLoading()"
       [data]="admissionList$.value()?.data || []"
-      [skip]="0"
-      [pageable]="true"
-      [pageSize]="admissionList$.value()?.meta?.per_page"
-      (dataStateChange)="handlePageChange($event)"
       (cellClick)="onCellClick($event)"
       class="main-grid"
     >

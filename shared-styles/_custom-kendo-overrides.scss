@@ -1,30 +1,14 @@
-// ===============================================
-// KENDO UI MANUAL OVERRIDES CONSOLIDATION
-// ===============================================
-// This file contains all manually written Kendo UI component overrides
-// that were previously scattered across multiple SCSS files.
-//
-// Purpose: Centralize manual overrides to prepare for ThemeBuilder migration
-// TODO: Replace these manual overrides with ThemeBuilder-generated styles
-// ===============================================
-
 @use '@vet/shared-styles' as shared;
-
-// ===============================================
-// BASIC COMPONENT OVERRIDES
-// ===============================================
 
 kendo-label {
   width: 100%;
 }
 
-// Dropdown Lists
 .k-dropdownlist {
   width: 100%;
   height: 2.375rem;
 }
 
-// Text Inputs
 .k-textbox {
   height: 2.375rem;
 
@@ -33,24 +17,17 @@ kendo-label {
   }
 }
 
-// Floating Labels
 .k-floating-label-container {
   width: 100%;
 }
 
-// Drawer Components
 .k-drawer-wrapper {
   height: 100%;
 }
 
-// Form Fields
 .k-form-field {
   width: 100%;
 }
-
-// ===============================================
-// STEPPER COMPONENT CUSTOMIZATIONS
-// ===============================================
 
 .k-stepper .k-step-label .k-step-text {
   max-width: 100%;
@@ -64,10 +41,6 @@ kendo-label {
   row-gap: 3rem;
 }
 
-// ===============================================
-// CARD AND LAYOUT COMPONENTS
-// ===============================================
-
 .k-rounded-card {
   border-radius: 1.25rem;
 }
@@ -75,10 +48,6 @@ kendo-label {
 .k-rounded-xl {
   padding: 1.25rem;
 }
-
-// ===============================================
-// SCROLLVIEW COMPONENT
-// ===============================================
 
 .k-scrollview {
   border-radius: 20px;
@@ -129,10 +98,6 @@ kendo-label {
   }
 }
 
-// ===============================================
-// GRID COMPONENT CUSTOMIZATIONS
-// ===============================================
-
 kendo-grid.k-grid {
   .k-grid-aria-root {
     .k-grid-header {
@@ -157,7 +122,6 @@ kendo-grid.k-grid {
   }
 }
 
-// Advanced Grid Styling - Originally from: shared-styles/_custom-kendo-utilities.scss
 kendo-grid.k-grid {
   border-radius: 0.625rem;
   border-color: #ececec;
@@ -231,13 +195,6 @@ kendo-grid.k-grid {
   }
 }
 
-// ===============================================
-// INPUT COMPONENT CUSTOMIZATIONS
-// ===============================================
-
-
-
-// Filter Input Styling
 kendo-textbox.vet-filter-input {
   width: 100%;
 
@@ -256,7 +213,6 @@ kendo-textbox.vet-filter-input {
   }
 }
 
-// Filter Dropdown Styling
 .vet-filter-input kendo-dropdownlist {
   width: 100%;
   height: 2.375rem !important;
@@ -278,7 +234,6 @@ kendo-textbox.vet-filter-input {
   }
 }
 
-// Form Input Styling
 .vet-form-input kendo-dropdownlist {
   width: 100%;
   height: 3.125rem !important;
@@ -300,11 +255,6 @@ kendo-textbox.vet-filter-input {
     display: flex !important;
   }
 }
-
-// ===============================================
-// BUTTON COMPONENT CUSTOMIZATIONS
-// ===============================================
-
 
 .vet-form-button.k-button {
   border-radius: 0.625rem !important;
@@ -335,19 +285,9 @@ kendo-textbox.vet-filter-input {
   }
 }
 
-// ===============================================
-// SWITCH COMPONENT CUSTOMIZATIONS
-// ===============================================
-
-
 .vet-filter-input kendo-switch {
   width: 3.375rem;
 }
-
-// ===============================================
-// PLACEHOLDER AND INPUT OVERRIDES
-// ===============================================
-
 
 input::-moz-placeholder,
 .k-picker::-moz-placeholder {
@@ -373,11 +313,6 @@ input::placeholder,
   text-underline-position: from-font !important;
   text-decoration-skip-ink: none !important;
 }
-
-// ===============================================
-// ICON CUSTOMIZATIONS
-// ===============================================
-
 
 kendo-svg-icon.tiny {
   display: block !important;
@@ -409,17 +344,9 @@ kendo-svg-icon.large {
   }
 }
 
-// ===============================================
-// APPLICATION-SPECIFIC OVERRIDES
-// ===============================================
-
-// Originally from: apps/vet/src/styles.scss
-
-// Authentication Forms
 .vet-auth {
   kendo-textbox {
     height: 3.125rem;
-    margin-top: 0.75rem;
   }
 
   kendo-textbox input.k-input-inner {
@@ -428,13 +355,11 @@ kendo-svg-icon.large {
   }
 }
 
-// Registration Forms
 .vet-registration {
   kendo-textbox,
   kendo-dropdownlist,
   kendo-datepicker {
     height: 3.125rem;
-    margin-top: 0.75rem;
   }
 
   kendo-textbox input.k-input-inner {
@@ -443,7 +368,6 @@ kendo-svg-icon.large {
   }
 }
 
-// Dialog Customizations
 .k-dialog-title {
   text-align: center;
 }

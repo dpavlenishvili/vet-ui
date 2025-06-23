@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
@@ -8,7 +8,9 @@ import { KENDO_TEXTBOX, KENDO_SWITCH } from '@progress/kendo-angular-inputs';
 import { KENDO_POPOVER } from '@progress/kendo-angular-tooltip';
 import { SelectorComponent, vetIcons, withoutEmptyProperties } from '@vet/shared';
 import { ReviewFilters } from '../commission-review.component';
-import { usePrograms } from 'long-term-programs/src/long-term.resources';
+import { usePrograms, useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
+import { UserRolesService } from '@vet/auth';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-commission-review-filters',
@@ -27,7 +29,7 @@ import { usePrograms } from 'long-term-programs/src/long-term.resources';
   styleUrl: './commission-review-filters.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommissionReviewFiltersComponent {
+export class CommissionReviewFiltersComponent implements OnInit{
   numberOfRecords = input<number>();
   filters = input.required<ReviewFilters>();
   filtersChange = output<ReviewFilters>();
@@ -35,12 +37,31 @@ export class CommissionReviewFiltersComponent {
   vetIcons = vetIcons;
   filterForm = this.createFilterForm();
 
-  programsOptions = usePrograms();
+  userRolesService = inject(UserRolesService);
+
+  selectedOrganisation = signal<string | null>(this.userRolesService.organisation());
+  
+  programsOptions = useProgramsWithOrganisation(this.selectedOrganisation);
 
   constructor() {
     effect(() => {
       this.filterForm.patchValue(this.filters());
     });
+  }
+
+  ngOnInit(): void {
+    this.handleInstitutionChange();
+  }
+
+  handleInstitutionChange() {
+    this.filterForm
+      .get('organisation')
+      ?.valueChanges.pipe(
+        tap((organisation) => {
+          this.selectedOrganisation.set(organisation);
+        })
+      )
+      .subscribe();
   }
 
   createFilterForm() {

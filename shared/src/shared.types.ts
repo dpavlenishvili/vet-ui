@@ -2,14 +2,15 @@ import { Observable } from 'rxjs';
 import type { BreadCrumbItem } from '@progress/kendo-angular-navigation';
 import { ActivatedRouteSnapshot, Params } from '@angular/router';
 import { Signal, TemplateRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 export interface QueryParams {
   [key: string]: any; // Allow any value type
 }
 
-export interface DictionaryType {
-  id: number;
+export interface DictionaryType<ID = number> {
+  id: ID
   name: string;
 }
 
@@ -103,4 +104,41 @@ export interface WizardStepDefinition {
   form: () => FormGroup;
   template: Signal<TemplateRef<unknown>>;
   path: string;
+}
+
+export interface Storage {
+  has(key: string): boolean
+  get(key: string): string | null
+  set(key: string, value: string): void
+  remove(key: string): void
+  getJSON(key: string): unknown | null
+  setJSON(key: string, value: object): void
+}
+
+export interface StoredStateItem<T> {
+  value: T
+  timestamp: number
+  ttl?: number
+}
+
+export interface FrozenStoredSignal<T> {
+  (): T
+}
+
+export interface StoredSignal<T> {
+  (): T
+  set(value: T): void
+  update(cb: (prev: T) => T): void
+  asReadonly(): FrozenStoredSignal<T>
+}
+
+export type FormControls<T extends object> = {
+  [K in keyof T]: FormControl<T[K]>
+}
+
+export interface PaginatedGridResult<T = any> {
+  data: T[];
+  size: number;
+  skip: number;
+  total: number;
 }

@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { WA_WINDOW } from '@ng-web-apis/common';
-import { vetIcons } from '@vet/shared';
+import { FormControls, vetIcons } from '@vet/shared';
 
-export type ShortRegistrationConfirmationStepFormGroup = FormGroup<{}>;
+export interface ShortRegistrationConfirmationStepFormData {}
+
+export type ShortRegistrationConfirmationStepFormGroup = FormGroup<
+  FormControls<ShortRegistrationConfirmationStepFormData>
+>;
 
 @Component({
   selector: 'vet-short-registration-confirmation-step',
@@ -20,8 +23,6 @@ export class ShortRegistrationConfirmationStepComponent {
   complete = output();
   back = output();
 
-  window = inject(WA_WINDOW);
-
   onSubmit() {
     this.formGroup().markAllAsTouched();
 
@@ -32,10 +33,6 @@ export class ShortRegistrationConfirmationStepComponent {
 
   onBack() {
     this.back.emit();
-  }
-
-  onPrint() {
-    this.window.print();
   }
 
   protected readonly vetIcons = vetIcons;

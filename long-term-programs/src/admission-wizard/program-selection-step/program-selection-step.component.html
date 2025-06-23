@@ -26,8 +26,9 @@
               <span>{{ item.program_name }}</span>
               @if (item.is_integrated) {
                 <kendo-svg-icon
+                  kendoTooltip
                   [icon]="vetIcons.integrated"
-                  [size]="'small'"
+                  [size]="'medium'"
                   [title]="'programs.integrated' | transloco"
                 />
               }
@@ -37,22 +38,27 @@
 
         <kendo-grid-column [title]="'programs.level' | transloco" [width]="60" field="education_level" />
 
+        <kendo-grid-column [title]="'programs.form' | transloco" [width]="120" field="program_kind.name" />
+
         <kendo-grid-column [title]="'programs.institution_name' | transloco" [width]="250" field="organisation.name" />
 
-        <kendo-grid-column
-          [title]="'programs.implementation_location' | transloco"
-          [width]="250"
-          field="organisation.address"
-        />
+        <kendo-grid-column [title]="'programs.implementation_location' | transloco" [width]="160">
+          <ng-template kendoGridCellTemplate let-item>
+            {{item.region.name + ', ' + item.district.name}}
+          </ng-template>
+        </kendo-grid-column>
 
         <kendo-grid-column [title]="'programs.selection' | transloco" [width]="90">
           <ng-template kendoGridCellTemplate let-item>
             @if (!item.is_eligible) {
               <div
-                class="k-display-flex k-justify-content-center"
+                class="k-display-flex k-justify-content-around k-gap-1 grid-actions"
                 kendoTooltip
                 [title]="'programs.programNotAllowed' | transloco"
               >
+                <button (click)="onPreviewProgramClick(item)" fillMode="flat" kendoButton>
+                  <kendo-svg-icon [icon]="vetIcons.eye" [size]="'xlarge'" themeColor="warning" />
+                </button>
                 <button fillMode="flat" kendoButton [disabled]="true">
                   <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
                 </button>

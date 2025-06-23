@@ -1,4 +1,14 @@
-<kendo-grid [loading]="isLoading()" [data]="items()">
+@let _data = data();
+@let _value = _data.value();
+
+<kendo-grid
+  [loading]="_data.isLoading()"
+  [data]="_value"
+  [skip]="_value.skip"
+  [pageSize]="_value.size"
+  [pageable]="_value.total > _value.data.length"
+  (pageChange)="onPageChange($event)"
+>
   <ng-template kendoGridNoRecordsTemplate>
     {{ 'shared.noRecords' | transloco }}
   </ng-template>
@@ -79,13 +89,16 @@
 </kendo-grid>
 
 @if (isProgramPreviewDialogOpen()) {
-  <kendo-dialog
+  <vet-dialog
     width="90%"
     height="90%"
     [title]="'programs.program_description' | transloco"
     (close)="onClosePreviewDialog()"
   >
-    <vet-short-program-page [programId]="previewProgramId()" />
-  </kendo-dialog>
+    <vet-short-program-page
+      [programId]="previewProgramId()"
+      [showGallery]="false"
+    />
+  </vet-dialog>
 }
 

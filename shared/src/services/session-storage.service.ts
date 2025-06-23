@@ -1,0 +1,32 @@
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Storage } from '../shared.types';
+
+@Injectable({ providedIn: 'root' })
+export class SessionStorageService implements Storage {
+  constructor(@Inject(DOCUMENT) private document: Document) {}
+
+  has(key: string) {
+    return this.document.defaultView?.sessionStorage.getItem(key) !== null;
+  }
+
+  get(key: string) {
+    return this.document.defaultView?.sessionStorage.getItem(key) ?? null;
+  }
+
+  set(key: string, value: string) {
+    this.document.defaultView?.sessionStorage.setItem(key, value);
+  }
+
+  remove(key: string) {
+    this.document.defaultView?.sessionStorage.removeItem(key);
+  }
+
+  getJSON(key: string) {
+    return this.has(key) ? JSON.parse(this.get(key) as string) : null;
+  }
+
+  setJSON(key: string, value: object) {
+    this.set(key, JSON.stringify(value));
+  }
+}

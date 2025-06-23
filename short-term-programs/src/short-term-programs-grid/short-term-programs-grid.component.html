@@ -1,8 +1,20 @@
+@let _data = data();
+@let _value = _data.value();
+
 <div class="vet-shorts-grid">
-  @for (item of items(); track item.id) {
+  @for (item of _data.value().data; track item.id) {
     <vet-short-term-program-card
       class="vet-shorts-grid-item"
       [program]="item"
     />
   }
 </div>
+
+@if (_value.data.length < _value.total) {
+  <kendo-pager
+    class="k-mt-8"
+    [skip]="_value.skip"
+    [pageSize]="_value.size"
+    (pageChange)="onPageChange($event)"
+  />
+}

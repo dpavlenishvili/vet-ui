@@ -7,17 +7,19 @@
 
   <div class="card-list">
     @for (card of cards; track card) {
-      <a
-        class="card-list__item k-display-flex k-gap-9"
-        [ngClass]="'card-list__item--' + card.color"
-        [routerLink]="card.url"
-      >
-        <div class="card-list__icon">
-          <kendo-svg-icon [icon]="card.icon"/>
-        </div>
+      @if (!authenticated() || (authenticated() && (card.permission && (card.permission | can)))) {
+        <a
+          class="card-list__item k-display-flex k-gap-9"
+          [ngClass]="'card-list__item--' + card.color"
+          [routerLink]="card.url"
+        >
+          <div class="card-list__icon">
+            <kendo-svg-icon [icon]="card.icon" />
+          </div>
 
-        <p class="k-text-base k-color-body-dark vet-text-uppercase">{{ card.text | transloco }}</p>
-      </a>
+          <p class="k-text-base k-color-body-dark vet-text-uppercase">{{ card.text | transloco }}</p>
+        </a>
+      }
     }
   </div>
 </div>

@@ -28,7 +28,7 @@
         <div class="vet-shorts-filters-grid">
           <kendo-textbox
             class="vet-filter-input"
-            formControlName="program_name"
+            formControlName="program_name_or_code"
             [placeholder]="'shorts.program_code_name' | transloco"
           />
 
@@ -62,7 +62,7 @@
         <div class="vet-shorts-filters-grid">
           <vet-selector
             class="vet-filter-input"
-            formControlName="organisation"
+            formControlName="organisation_name"
             [placeholder]="'shorts.institution_name' | transloco"
             [options]="institutionOptions.value()"
           />
@@ -126,6 +126,7 @@
       fillMode="outline"
       themeColor="primary"
       type="button"
+      (click)="onOpenFiltersDialog()"
     ></button>
 
     <button
@@ -146,7 +147,19 @@
       themeColor="primary"
       type="submit"
     >
-      {{ 'programs.search' | transloco }}
+      {{ 'shorts.search_filters' | transloco }}
     </button>
   </div>
 </ng-template>
+
+@defer (when isFiltersDialogOpen()) {
+  @if (isFiltersDialogOpen()) {
+    <vet-short-term-programs-filters-dialog
+      [filters]="filters()"
+      [foundResultsCount]="foundResultsCount()"
+      (filtersChange)="onDialogFiltersChange($event)"
+      (filtersChangeRealtime)="onDialogFiltersChangeRealtime($event)"
+      (dialogClose)="onCloseFiltersDialog()"
+    />
+  }
+}

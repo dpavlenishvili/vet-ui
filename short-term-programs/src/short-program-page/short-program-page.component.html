@@ -19,7 +19,9 @@
 
       <vet-short-program-isced-list [iscedList]="program.isced_description" />
 
-      <vet-short-program-gallery [videoUrl]="program.video_url" />
+      @if (showGallery()) {
+        <vet-short-program-gallery [videoUrl]="program.video_url" />
+      }
     </div>
 
     <vet-short-program-contact-info [program]="program" />

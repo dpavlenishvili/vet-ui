@@ -138,12 +138,10 @@ export class ProgramSelectionFiltersComponent {
 
     if (!regionId) {
       this.filterForm.get('district')?.disable();
-      this.filterForm.get('organisation')?.disable();
       this.filteredDistricts.set([]);
       this.filteredOrganisations.set(allOrganisations);
     } else {
       this.filterForm.get('district')?.enable();
-      this.filterForm.get('organisation')?.enable();
 
       this.filteredDistricts.set(allDistricts.filter((district: District) => district.region_id === regionId));
       this.filteredOrganisations.set(
@@ -161,10 +159,10 @@ export class ProgramSelectionFiltersComponent {
 
     this.filteredDistricts.set([]);
     const allOrganisations = this.organisationsRc$.value() || [];
+    console.log(allOrganisations);
     this.filteredOrganisations.set(allOrganisations);
 
     this.filterForm.get('district')?.disable();
-    this.filterForm.get('organisation')?.disable();
 
     this.filterForm.updateValueAndValidity();
     this.onSubmit();

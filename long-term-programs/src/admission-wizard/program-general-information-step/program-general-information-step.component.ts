@@ -45,14 +45,11 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   previousEducationId = signal<null | number>(null);
   abroadDoc = computed(() => this.form()?.get('abroad_doc'));
   ocuDoc = computed(() => this.form()?.get('ocu_doc'));
-  protected user = inject(AuthenticationService).user;
-
   kendoIcons = kendoIcons;
   citizenship = Citizenship;
   specEnvs = signal(['programs.elevatorRamp', 'programs.testTimeExtension', 'programs.testFontSizeIncrease']);
   generalsService = inject(GeneralsService);
   confirm = useConfirm();
-
   educations$ = rxResource({
     loader: () =>
       this.generalsService.getAllConfigs({ key: 'education_levels' }).pipe(
@@ -77,6 +74,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   languages$ = rxResource({
     loader: () => this.generalsService.getAllConfigs({ key: 'languages' }).pipe(map((res) => res.languages)),
   });
+  protected user = inject(AuthenticationService).user;
 
   onNextClick() {
     this.form()?.markAllAsTouched();
@@ -131,17 +129,6 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     if (!control || !this.previousEducationId()) {
       return;
     }
-    // this.confirm.show({
-    //   content: 'programs.educationChangeNote',
-    //   onConfirm: () => {
-    //     control?.setValue(educationId);
-    //     this.clearSelectedPrograms.emit();
-    //     this.previousEducationId.set(educationId);
-    //   },
-    //   onDismiss: () => {
-    //     control?.setValue(this.previousEducationId()?.toString(), { emitEvent: false });
-    //   },
-    // });
 
     this.confirm.warning({
       title: 'programs.changeEducationLevel',

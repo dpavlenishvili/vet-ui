@@ -73,5 +73,4 @@ export type AuthPermission =
   | 'viewNonFormalEducationStats'
   | 'updateNonFormalEducationStats'
   | 'createNonFormalEducationStats'
-  | 'deleteNonFormalEducationStats'
 ;

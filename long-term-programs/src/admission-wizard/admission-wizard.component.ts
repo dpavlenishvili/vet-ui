@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
+  effect,
   HostListener,
   inject,
   input,
@@ -10,7 +10,7 @@ import {
   output,
   signal,
   TemplateRef,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT, StepperActivateEvent } from '@progress/kendo-angular-layout';
@@ -29,8 +29,8 @@ import { AuthenticationService } from '@vet/auth';
 import { Citizenship, georgianMobileValidator, vetIcons } from '@vet/shared';
 import { StepBody, StepDefinition } from '../long-term-programs.types';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 
-// Constants
 const MOBILE_BREAKPOINT = 768;
 const TABLET_BREAKPOINT = 992;
 const STEPPER_PANEL_BREAKPOINT = 993;
@@ -49,13 +49,13 @@ const STEPPER_PANEL_BREAKPOINT = 993;
     ProgramSelectedProgramsStepComponent,
     ProgramConfirmationStepComponent,
     ButtonComponent,
+    KENDO_LOADER,
   ],
   templateUrl: './admission-wizard.component.html',
   styleUrl: './admission-wizard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdmissionWizardComponent implements OnInit {
-  // Inputs and Outputs
   readonly admissionId = input<string | null>(null);
   readonly admissionData = input<AdmissionReq | null>(null);
   readonly educationStatus = input<{ level?: string; levelId?: number } | null>(null);
@@ -63,18 +63,14 @@ export class AdmissionWizardComponent implements OnInit {
   readonly createAdmission = output<AdmissionRequest>();
   readonly updateAdmission = output<StepBody<AdmissionRequest>>();
 
-  // UI State
+  protected readonly formGroup = signal<FormGroup | null | any>(null);
   protected readonly isExpanded = signal(true);
   protected readonly vetIcons = vetIcons;
   protected readonly currentStepIndex = signal(0);
-  protected readonly currentStep = computed(() => this.steps()[this.currentStepIndex()]);
-
-  // Responsive properties
   protected readonly isMobile = signal(false);
   protected readonly stepperOrientation = signal<'horizontal' | 'vertical'>('horizontal');
   protected readonly stepType = signal<'indicator' | 'label' | 'full'>('full');
 
-  // Template references
   private readonly _programGeneralInformationStepTmpl = viewChild.required('programGeneralInformationStepTmpl', {
     read: TemplateRef,
   });
@@ -87,53 +83,77 @@ export class AdmissionWizardComponent implements OnInit {
     read: TemplateRef,
   });
 
-  // Dependencies
+  protected readonly steps = computed((): StepDefinition[] => {
+    const form = this.formGroup();
+
+    if (!form ||
+      !this._programGeneralInformationStepTmpl() ||
+      !this._programSsmStepTmpl() ||
+      !this._programSelectionStepTmpl() ||
+      !this._programSelectedProgramsStepTmpl() ||
+      !this._programConfirmationStepTmpl()) {
+      return [];
+    }
+
+    return [
+      {
+        label: 'programs.general_information',
+        title: 'programs.general_information',
+        form: () => form.controls['general_information'] as FormGroup,
+        template: this._programGeneralInformationStepTmpl(),
+        path: 'general_information',
+      },
+      {
+        label: 'programs.ssm_status',
+        title: 'programs.ssm_status',
+        form: () => form.controls['ssm_status'] as FormGroup,
+        template: this._programSsmStepTmpl(),
+        path: 'ssm_status',
+      },
+      {
+        label: 'programs.program_selection',
+        title: 'programs.program_selection',
+        form: () => form.controls['program_selection'] as FormGroup,
+        template: this._programSelectionStepTmpl(),
+        path: 'program_selection',
+      },
+      {
+        label: 'programs.selected_programs',
+        title: 'programs.selected_programs',
+        form: () => form.controls['selected_programs'] as FormGroup,
+        template: this._programSelectedProgramsStepTmpl(),
+        path: 'selected_programs',
+      },
+      {
+        label: 'programs.confirmation',
+        title: 'programs.confirmation',
+        form: () => form.controls['confirmation'] as FormGroup,
+        template: this._programConfirmationStepTmpl(),
+        path: 'confirmation',
+      },
+    ];
+  });
+
+  protected readonly currentStep = computed(() => this.steps()[this.currentStepIndex()]);
+
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthenticationService);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly isFormInitialized = signal(false);
 
-  // Form group - initialized once
-  protected readonly formGroup: any = this.createFormGroup();
+  constructor() {
+    effect(() => {
+      const user = this.authService.user();
+      if (user && !this.isFormInitialized()) {
+        const form = this.createFormGroup();
+        this.formGroup.set(form);
+        this.isFormInitialized.set(true);
 
-  // Steps configuration
-  protected readonly steps = computed((): StepDefinition[] => [
-    {
-      label: 'programs.general_information',
-      title: 'programs.general_information',
-      form: () => this.formGroup.controls.general_information,
-      template: this._programGeneralInformationStepTmpl(),
-      path: 'general_information',
-    },
-    {
-      label: 'programs.ssm_status',
-      title: 'programs.ssm_status',
-      form: () => this.formGroup.controls.ssm_status,
-      template: this._programSsmStepTmpl(),
-      path: 'ssm_status',
-    },
-    {
-      label: 'programs.program_selection',
-      title: 'programs.program_selection',
-      form: () => this.formGroup.controls.program_selection,
-      template: this._programSelectionStepTmpl(),
-      path: 'program_selection',
-    },
-    {
-      label: 'programs.selected_programs',
-      title: 'programs.selected_programs',
-      form: () => this.formGroup.controls.selected_programs,
-      template: this._programSelectedProgramsStepTmpl(),
-      path: 'selected_programs',
-    },
-    {
-      label: 'programs.confirmation',
-      title: 'programs.confirmation',
-      form: () => this.formGroup.controls.confirmation,
-      template: this._programConfirmationStepTmpl(),
-      path: 'confirmation',
-    },
-  ]);
+        this.initializeFormData();
+        this.initializeRouting();
+      }
+    });
+  }
 
   @HostListener('window:resize')
   onResize(): void {
@@ -141,12 +161,81 @@ export class AdmissionWizardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeFormData();
-    this.initializeRouting();
     this.updateResponsiveState();
   }
 
+  protected isStepValid(index: number): boolean {
+    const step = this.steps()[index];
+    return step?.form()?.valid ?? false;
+  }
+
+  protected onStepChange(event: StepperActivateEvent): void {
+    if (this.isStepValid(this.currentStepIndex()) || event.index < this.currentStepIndex()) {
+      this.currentStepIndex.set(event.index);
+      this.navigateToStep(event.index);
+    } else {
+      event.preventDefault();
+    }
+  }
+
+  protected onPreviousClick(): void {
+    const currentIndex = this.currentStepIndex();
+    if (currentIndex > 0) {
+      this.currentStepIndex.set(currentIndex - 1);
+      this.navigateToStep(currentIndex - 1);
+    }
+  }
+
+  protected onNextClick(formGroupName: string): void {
+    const form = this.formGroup();
+    if (!form) return;
+
+    if (formGroupName === 'program_selection') {
+      const programIds = form.controls['program_selection'].value.program_ids;
+      form.controls['selected_programs'].patchValue({ program_ids: programIds });
+    }
+
+    if (!this.isStepValid(this.currentStepIndex())) {
+      return;
+    }
+
+    const payload = this.preparePayload(formGroupName);
+    const currentIndex = this.currentStepIndex();
+    const isLastStep = currentIndex === this.steps().length - 1;
+
+    if (!isLastStep) {
+      this.currentStepIndex.set(currentIndex + 1);
+    }
+
+    this.emitUpdate(payload, formGroupName);
+  }
+
+  protected clearSelectedPrograms(): void {
+    const form = this.formGroup();
+    if (!form) return;
+
+    const emptyProgramIds: number[] = [];
+
+    ['general_information', 'ssm_status', 'program_selection', 'selected_programs', 'confirmation'].forEach((key) => {
+      const control = form.get(key);
+      if (control) {
+        const currentValue = control.value;
+        control.patchValue({ ...currentValue, program_ids: emptyProgramIds });
+      }
+    });
+  }
+
+  protected onToggleExpansion(): void {
+    if (!this.isMobile()) {
+      this.isExpanded.update((value) => !value);
+      this.stepType.set(this.isExpanded() ? 'full' : 'indicator');
+    }
+  }
+
   private initializeFormData(): void {
+    const form = this.formGroup();
+    if (!form) return;
+
     const admissionData = this.admissionData();
     if (admissionData) {
       this.patchAdmission(admissionData);
@@ -154,7 +243,7 @@ export class AdmissionWizardComponent implements OnInit {
 
     const educationStatus = this.educationStatus();
     if (educationStatus) {
-      this.formGroup.get('general_information')?.patchValue({
+      form.get('general_information')?.patchValue({
         education_level: educationStatus.level ?? null,
         education_level_id: educationStatus.levelId ?? null,
       });
@@ -166,7 +255,6 @@ export class AdmissionWizardComponent implements OnInit {
       return;
     }
 
-    // Set initial step based on route
     let routeSnapshot = this.activatedRoute.snapshot;
     while (routeSnapshot.firstChild) {
       routeSnapshot = routeSnapshot.firstChild;
@@ -253,11 +341,14 @@ export class AdmissionWizardComponent implements OnInit {
   }
 
   private patchAdmission(data: AdmissionReq): void {
+    const form = this.formGroup();
+    if (!form) return;
+
     const programIds = this.extractProgramIds(data.programs);
     const user = this.authService.user();
     const isForeigner = user?.residential !== Citizenship.Georgian;
 
-    this.formGroup.patchValue({
+    form.patchValue({
       general_information: {
         education: data.education?.id ?? null,
         district_id: data.district?.id ?? null,
@@ -296,58 +387,17 @@ export class AdmissionWizardComponent implements OnInit {
     return programs.map((p) => p.program?.program_id).filter((id): id is number => typeof id === 'number');
   }
 
-  protected isStepValid(index: number): boolean {
-    const step = this.steps()[index];
-    return step?.form()?.valid ?? false;
-  }
-
-  protected onStepChange(event: StepperActivateEvent): void {
-    if (this.isStepValid(this.currentStepIndex()) || event.index < this.currentStepIndex()) {
-      this.currentStepIndex.set(event.index);
-      this.navigateToStep(event.index);
-    } else {
-      event.preventDefault();
-    }
-  }
-
-  protected onPreviousClick(): void {
-    const currentIndex = this.currentStepIndex();
-    if (currentIndex > 0) {
-      this.currentStepIndex.set(currentIndex - 1);
-      this.navigateToStep(currentIndex - 1);
-    }
-  }
-
-  protected onNextClick(formGroupName: string): void {
-    // Sync program selection to selected programs
-    if (formGroupName === 'program_selection') {
-      const programIds = this.formGroup.controls.program_selection.value.program_ids;
-      this.formGroup.controls.selected_programs.patchValue({ program_ids: programIds });
-    }
-
-    if (!this.isStepValid(this.currentStepIndex())) {
-      return;
-    }
-
-    const payload = this.preparePayload(formGroupName);
-    const currentIndex = this.currentStepIndex();
-    const isLastStep = currentIndex === this.steps().length - 1;
-
-    if (!isLastStep) {
-      this.currentStepIndex.set(currentIndex + 1);
-    }
-
-    this.emitUpdate(payload, formGroupName);
-  }
-
   private preparePayload(formGroupName: string): AdmissionRequest {
-    let value = this.formGroup.get(formGroupName)?.getRawValue();
+    const form = this.formGroup();
+    if (!form) return {} as AdmissionRequest;
+
+    let value = form.get(formGroupName)?.getRawValue();
 
     if (formGroupName === 'confirmation') {
       value = {
         ...value,
         status: 'registered',
-        program_ids: this.formGroup.get('selected_programs')?.value.program_ids ?? [],
+        program_ids: form.get('selected_programs')?.value.program_ids ?? [],
       };
     }
 
@@ -367,26 +417,6 @@ export class AdmissionWizardComponent implements OnInit {
       });
     } else {
       this.createAdmission.emit(payload);
-    }
-  }
-
-  protected clearSelectedPrograms(): void {
-    const emptyProgramIds: number[] = [];
-
-    // Clear program IDs in all form groups
-    ['general_information', 'ssm_status', 'program_selection', 'selected_programs', 'confirmation'].forEach((key) => {
-      const control = this.formGroup.get(key);
-      if (control) {
-        const currentValue = control.value;
-        control.patchValue({ ...currentValue, program_ids: emptyProgramIds });
-      }
-    });
-  }
-
-  protected onToggleExpansion(): void {
-    if (!this.isMobile()) {
-      this.isExpanded.update((value) => !value);
-      this.stepType.set(this.isExpanded() ? 'full' : 'indicator');
     }
   }
 

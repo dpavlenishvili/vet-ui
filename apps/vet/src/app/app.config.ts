@@ -1,5 +1,5 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import {ApplicationConfig, importProvidersFrom, inject} from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, inject } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
@@ -7,6 +7,7 @@ import { provideAngularSvgIcon } from 'angular-svg-icon';
 
 import { dynamicPagesInitializer } from '@vet/dynamic-pages';
 import {
+  apiErrorInterceptor,
   provideBaseApiUrl,
   provideBaseUrl,
   provideDefaultDateFallback,
@@ -18,6 +19,7 @@ import {
   provideEnvironment,
   provideKendoDatePickerFormat,
   provideKendoDateTimePickerFormat,
+  ToastModule,
 } from '@vet/shared';
 
 import { environment } from '../environments/environment';
@@ -25,8 +27,7 @@ import { environment } from '../environments/environment';
 import { acceptLanguageInterceptor } from './accept-language.interceptor';
 import { appRoutes } from './app.routes';
 import { initializeTransolco } from '@vet/i18n';
-import { provideAuthEnvironment, authenticationInterceptor } from '@vet/auth';
-import { apiErrorInterceptor, ToastModule } from '@vet/shared';
+import { authenticationInterceptor, provideAuthEnvironment } from '@vet/auth';
 import { NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { provideKendoDateSettings } from './kendo-date-config.provider';
@@ -62,7 +63,7 @@ export const appConfig: ApplicationConfig = {
       useFactory: () => {
         const _window = inject(WA_WINDOW);
         return { nativeElement: _window.document.body };
-      }
-    }
+      },
+    },
   ],
 };

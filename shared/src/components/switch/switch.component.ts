@@ -3,10 +3,12 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModu
 import { noop } from 'lodash-es';
 import { SwitchComponent } from '@progress/kendo-angular-inputs';
 import { TranslocoPipe } from '@jsverse/transloco';
+import type { SVGIcon } from '@progress/kendo-svg-icons';
+import { SVGIconComponent } from '@progress/kendo-angular-icons';
 
 @Component({
   selector: 'vet-switch',
-  imports: [FormsModule, ReactiveFormsModule, SwitchComponent, TranslocoPipe],
+  imports: [FormsModule, ReactiveFormsModule, SwitchComponent, TranslocoPipe, SVGIconComponent],
   templateUrl: './switch.component.html',
   styleUrl: './switch.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +22,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
   ],
 })
 export class VetSwitchComponent implements ControlValueAccessor {
+  icon = input<SVGIcon | null | undefined>(null);
   label = input('');
 
   value = signal(false);

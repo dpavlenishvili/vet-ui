@@ -25,13 +25,15 @@
 
         <kendo-grid-column [title]="'programs.level' | transloco" [width]="60" field="program.education_level" />
 
+        <kendo-grid-column [title]="'programs.form' | transloco" [width]="120" field="program.program_kind.name" />
+
         <kendo-grid-column [title]="'programs.institution_name' | transloco" [width]="250" field="program.organisation.name" />
 
-        <kendo-grid-column
-          [title]="'programs.implementation_location' | transloco"
-          [width]="250"
-          field="program.organisation.address"
-        />
+        <kendo-grid-column [title]="'programs.implementation_location' | transloco" [width]="160">
+          <ng-template kendoGridCellTemplate let-item>
+            {{item.program.region.name + ', ' + item.program.district.name}}
+          </ng-template>
+        </kendo-grid-column>
 
         @if (isEditMode()) {
           <kendo-grid-column [title]="'programs.selection' | transloco" [width]="100">

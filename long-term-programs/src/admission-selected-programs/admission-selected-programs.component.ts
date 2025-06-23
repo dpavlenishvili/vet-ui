@@ -12,6 +12,7 @@ import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { ProgramComponent } from '../../../programs/src/program/program.component';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 
@@ -61,7 +62,7 @@ export class AdmissionSelectedProgramsComponent {
       content: 'programs.confirm_program_selection_delete',
       confirmButtonText: 'programs.remove',
       dismissButtonText: 'shared.cancel',
-      onConfirm: () => this.deleteClick.emit(item)
+      onConfirm: () => this.deleteClick.emit(item),
     });
   }
 }

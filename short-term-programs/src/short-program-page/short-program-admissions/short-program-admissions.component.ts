@@ -3,6 +3,7 @@ import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { kendoIcons, vetIcons } from '@vet/shared';
 import { Admission } from '@vet/backend';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { useIsUserLoaded, useUser } from '@vet/auth';
 
 @Component({
   selector: 'vet-short-program-admissions',
@@ -13,6 +14,8 @@ import { TranslocoPipe } from '@jsverse/transloco';
   standalone: true,
 })
 export class ShortProgramAdmissionsComponent {
+  user = useUser();
+  isUserLoaded = useIsUserLoaded();
   admissions = input.required<Admission[] | undefined>();
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;

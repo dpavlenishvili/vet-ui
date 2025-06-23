@@ -75,12 +75,16 @@ export class LoginPageComponent implements OnInit {
       return;
     }
 
-    const { pid, password } = form.value;
-    this.submitUserPassword(pid as string, password as string);
+    const { pid, password, remember } = form.value;
+    this.submitUserPassword(pid as string, password as string, !!remember);
   }
 
-  private submitUserPassword(pid: string, password: string) {
+  private submitUserPassword(pid: string, password: string, remember: boolean) {
     const rawSentCode = this.storage.getItem(CODE_2FA_SENT);
+
+    if (remember) {
+      this.authenticationService.setRemember(remember);
+    }
 
     if (rawSentCode) {
       const sentCode = JSON.parse(rawSentCode) as {

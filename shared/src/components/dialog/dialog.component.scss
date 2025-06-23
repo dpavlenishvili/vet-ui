@@ -1,0 +1,88 @@
+@use '@vet/shared-styles' as shared;
+
+.vet-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vet-dialog-title {
+  @include shared.text-base(true);
+}
+
+.vet-dialog-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 100%;
+  background-color: shared.$kendo-color-chip;
+  cursor: pointer;
+
+  &:hover {
+    background-color: shared.$kendo-button-light;
+  }
+
+  .vet-dialog-close-icon {
+    color: shared.$kendo-color-body-light;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.vet-dialog-header-container.hidden {
+  display: none;
+}
+
+::ng-deep {
+  .vet-dialog {
+    .k-overlay {
+      background-color: #0000004D;
+    }
+
+    .k-window.k-dialog {
+      border-radius: 0.625rem;
+      border: none;
+
+      .k-window-titlebar.k-dialog-titlebar {
+        height: 60px;
+        padding: 1px 1.25rem;
+        border-color: shared.$kendo-color-border-alt;
+
+        .k-window-title.k-dialog-title {
+          display: block;
+        }
+
+        .k-window-titlebar-actions.k-dialog-titlebar-actions {
+          display: none;
+        }
+      }
+
+      .k-window-content.k-dialog-content {
+        padding: 1.25rem 1.25rem 0.625rem;
+      }
+
+      .vet-dialog-actions.k-actions {
+        padding: 0.75rem 1.25rem;
+        border-color: shared.$kendo-color-border-alt;
+      }
+    }
+
+    &.disable-padding {
+      .k-window.k-dialog {
+        .k-window-content.k-dialog-content {
+          padding: 0;
+        }
+      }
+    }
+
+    &.transparent {
+      .k-window.k-dialog {
+        background: transparent;
+      }
+    }
+  }
+}

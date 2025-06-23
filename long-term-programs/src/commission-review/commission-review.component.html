@@ -91,7 +91,8 @@
 
 @if (isCommissionReviewDialogOpen()) {
   <vet-commission-review-dialog
-    (dialogClose)="closeCommissionReviewDialog()"
+    (dialogClose)="closeDialog()"
+    (dialogCloseWithWarning)="closeDialogWithWarning()"
     (reloadProgramsWithCommissionReview)="reloadCommissionReview()"
     [admissionId]="this.selectedAdmissionId()"
     [programId]="this.selectedProgramId()"

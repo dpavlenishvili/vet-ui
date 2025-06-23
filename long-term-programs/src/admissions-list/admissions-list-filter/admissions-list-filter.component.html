@@ -3,8 +3,8 @@
     <div class="k-d-flex k-gap-4 k-w-full">
       <kendo-label [text]="'shared.search' | transloco">
         <kendo-textbox formControlName="search">
-          <ng-template kendoTextBoxSuffixTemplate class="k-bg-primary">
-            <div kendoTooltip [title]="'programs.admissionFilterSearchTooltip' | transloco">
+          <ng-template class="k-bg-primary" kendoTextBoxSuffixTemplate>
+            <div [title]="'programs.admissionFilterSearchTooltip' | transloco" kendoTooltip>
               <kendo-svg-icon [icon]="vetIcons.info" />
             </div>
           </ng-template>
@@ -14,24 +14,24 @@
       <kendo-label [text]="'shared.status' | transloco">
         <kendo-dropdownlist
           [data]="admissionStatus$.value()"
+          [valuePrimitive]="true"
+          formControlName="status"
           textField="value"
           valueField="id"
-          formControlName="status"
-          [valuePrimitive]="true"
         />
       </kendo-label>
     </div>
   </div>
   <div class="k-display-flex k-justify-content-end k-gap-4">
     <button
-      kendoButton
+      (click)="clearFilters()"
       [svgIcon]="kendoIcons.xIcon"
       fillMode="outline"
+      kendoButton
       themeColor="primary"
-      (click)="clearFilters()"
     ></button>
 
-    <button kendoButton [svgIcon]="kendoIcons.searchIcon" fillMode="solid" themeColor="primary" (click)="onSubmit()">
+    <button (click)="onSubmit()" [svgIcon]="kendoIcons.searchIcon" fillMode="solid" kendoButton themeColor="primary">
       {{ 'shared.search' | transloco }}
     </button>
   </div>

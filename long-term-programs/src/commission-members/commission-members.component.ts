@@ -58,11 +58,15 @@ export class CommissionMembersComponent {
     this.programsWithCommissionMembers$.reload();
   }
 
-  closeDialog() {
+  closeDialogWithWarning() {
     this.isMembersDialogOpen.set(false);
     this.alert.show({
       text: 'programs.commission_member_not_added',
       variant: 'warning',
     });
+  }
+
+  closeDialog() {
+    this.isMembersDialogOpen.set(false);
   }
 }

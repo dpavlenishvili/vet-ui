@@ -86,7 +86,11 @@ export class CommissionReviewComponent {
     this.isCommissionReviewDialogOpen.set(true);
   }
 
-  closeCommissionReviewDialog() {
+  closeDialog() {
+    this.isCommissionReviewDialogOpen.set(false);
+  }
+
+  closeDialogWithWarning() {
     this.isCommissionReviewDialogOpen.set(false);
     this.alert.show({
       text: 'programs.review_not_added',

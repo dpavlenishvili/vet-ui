@@ -1,13 +1,17 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { InfoComponent, SelectorComponent } from '@vet/shared';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControls, InfoComponent, SelectorComponent } from '@vet/shared';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { useEducationLevels } from '../../short-term.resources';
 
-export type ShortRegistrationGeneralInformationStepFormGroup = FormGroup<{
-  education_level: FormControl<number | null>;
-}>;
+export interface ShortRegistrationGeneralInformationStepFormData {
+  education_level: number | null;
+}
+
+export type ShortRegistrationGeneralInformationStepFormGroup = FormGroup<
+  FormControls<ShortRegistrationGeneralInformationStepFormData>
+>;
 
 @Component({
   selector: 'vet-short-registration-general-information-step',

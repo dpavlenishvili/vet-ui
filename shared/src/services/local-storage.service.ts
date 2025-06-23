@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Storage } from '../shared.types';
 
 @Injectable({ providedIn: 'root' })
-export class LocalStorageService {
+export class LocalStorageService implements Storage {
   constructor(@Inject(DOCUMENT) private document: Document) {}
 
   has(key: string) {

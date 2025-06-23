@@ -1,18 +1,18 @@
 <div class="selected-programs-container">
   <vet-admission-selected-programs
-    isEditMode
-    [selectedPrograms]="selectedPrograms.value()"
-    [selectedProgramsLoading]="selectedPrograms.isLoading()"
-    [selectedProgramsError]="$any(selectedPrograms.error())"
     (deleteClick)="onDeleteClick($event)"
+    [selectedProgramsError]="$any(selectedPrograms.error())"
+    [selectedProgramsLoading]="selectedPrograms.isLoading()"
+    [selectedPrograms]="selectedPrograms.value()"
+    isEditMode
   />
 
   <div class="k-display-flex k-justify-content-between buttons-container">
-    <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
+    <button (click)="onPreviousClick()" kendoButton themeColor="secondary" type="button">
       {{ 'auth.back' | transloco }}
     </button>
 
-    <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
+    <button (click)="onNextClick()" kendoButton themeColor="primary" type="button">
       {{ 'auth.next' | transloco }}
     </button>
   </div>

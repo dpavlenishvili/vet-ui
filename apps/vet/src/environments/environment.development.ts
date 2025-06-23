@@ -17,6 +17,7 @@ export const environment = {
       phoneVerificationNumberLength: 4,
       phoneVerificationNumberTimeoutSeconds: 120,
       login2faTimeoutSeconds: 120,
+      authDataTtlInSeconds: 30 * 24 * 60 * 60,
     },
   },
 };

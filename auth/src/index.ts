@@ -13,6 +13,7 @@ export * from './pipes/role.pipe';
 export * from './auth.routes';
 export * from './auth.providers';
 export * from './authentication.service';
+export * from './auth.signals';
 export * from './user-roles.service';
 export * from './skip-authorization-token-ctx';
 export * from './authenticated.guard';

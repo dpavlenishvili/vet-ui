@@ -5,6 +5,8 @@ export * from './components/alert-dialog-outlet/alert-dialog-outlet.component';
 export * from './components/confirmation-dialog-outlet/confirmation-dialog-outlet.component';
 export * from './components/selector/selector.component';
 export * from './components/switch/switch.component';
+export * from './components/dialog/dialog.component';
+export * from './components/date-picker/date-picker.component';
 
 export * from './pipes/format-date.pipe';
 export * from './pipes/format-date-time.pipe';
@@ -16,7 +18,7 @@ export * from './services/alert-dialog.service';
 export * from './services/confirmation-dialog.service';
 export * from './services/route-params.service';
 export * from './services/local-storage.service';
-export * from './services/stored-state.service';
+export * from './services/local-stored-state.service';
 export * from './services/reloader';
 
 export * from './api-error-handling';

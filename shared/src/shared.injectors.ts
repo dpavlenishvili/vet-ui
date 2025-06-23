@@ -18,11 +18,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { getRouteNumberParam, getRouteParam, withoutEmptyProperties } from './shared.utils';
 import { AlertDialogService } from './services/alert-dialog.service';
 import { ConfirmationDialogService } from './services/confirmation-dialog.service';
-import {
-  ShortTermProgramFilters
-} from '../../short-term-programs/src/short-term-programs-filters/short-term-programs-filters.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ShortTermProgramFilters } from '../../short-term-programs/src/short-term-programs.types';
+import { ToastService } from './services/toast.service';
 
 export function useBaseApiUrl(): string {
   return inject(BASE_API_URL);
@@ -103,6 +102,10 @@ export function useConfirm() {
   return inject(ConfirmationDialogService);
 }
 
+export function useToast() {
+  return inject(ToastService);
+}
+
 export function useFilters<T extends object>() {
   const activatedRoute = inject(ActivatedRoute);
   const queryParams = toSignal(activatedRoute.queryParamMap);
@@ -112,15 +115,35 @@ export function useFilters<T extends object>() {
   });
 }
 
+export function usePage() {
+  const activatedRoute = inject(ActivatedRoute);
+  const queryParams = toSignal(activatedRoute.queryParamMap);
+
+  return computed<number>(() => Number(queryParams()?.get('page') ?? 1));
+}
+
 export function useFiltersUpdater<T extends object>() {
   const router = inject(Router);
 
   return (filters: T) => {
     void router.navigate([], {
       queryParamsHandling: 'merge',
-      queryParams: {
+      queryParams: withoutEmptyProperties({
         filters: JSON.stringify(withoutEmptyProperties(filters)),
-      },
+      }),
+    });
+  }
+}
+
+export function usePageUpdater() {
+  const router = inject(Router);
+
+  return (page: number | null | undefined) => {
+    void router.navigate([], {
+      queryParamsHandling: 'merge',
+      queryParams: withoutEmptyProperties({
+        page,
+      }),
     });
   }
 }

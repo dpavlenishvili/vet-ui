@@ -9,27 +9,45 @@
   --container-radius: 1.25rem;
   --container-padding: 1.25rem;
   --gap-base: 1.5rem;
+
+  .loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+
+    .loading-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+
+      p {
+        margin: 0;
+        color: var(--kendo-color-body);
+      }
+    }
+  }
 }
 
-// Main wizard container
+
 .vet-admission-wizard {
   display: flex;
   height: 100%;
   gap: var(--gap-base);
 
-  // Mobile: vertical layout
+
   @media (max-width: 767px) {
     flex-direction: column;
     gap: 1rem;
   }
 
-  // Desktop/Tablet: horizontal layout
+
   @media (min-width: 768px) {
     flex-direction: row;
   }
 }
 
-// Stepper container
 .stepper-container {
   background-color: var(--container-bg);
   border-radius: var(--container-radius);
@@ -40,7 +58,7 @@
   transition: all 200ms ease-in-out;
   height: fit-content;
 
-  // Mobile: full width, horizontal stepper
+
   &.mobile {
     width: 100%;
     padding: 1rem;
@@ -48,6 +66,7 @@
     .wizard-stepper {
       .k-step {
         flex: 1;
+
         .k-step-indicator {
           min-width: 2rem;
           min-height: 2rem;
@@ -67,7 +86,7 @@
           }
         }
 
-        // Hide labels on mobile
+
         .k-step-label {
           display: none;
         }
@@ -75,7 +94,7 @@
     }
   }
 
-  // Desktop/Tablet: sidebar behavior
+
   @media (min-width: 768px) {
     width: var(--stepper-width-collapsed);
     min-width: var(--stepper-width-collapsed);
@@ -87,7 +106,6 @@
   }
 }
 
-// Stepper toggle
 .stepper-toggle-container {
   display: flex;
   justify-content: center;
@@ -110,11 +128,10 @@
   }
 }
 
-// Stepper styling
 .wizard-stepper {
   width: 100%;
 
-  // Mobile horizontal stepper
+
   @media (max-width: 767px) {
     .k-stepper-steps {
       display: flex;
@@ -135,7 +152,7 @@
     }
   }
 
-  // Desktop vertical stepper
+
   @media (min-width: 768px) {
     max-width: 2rem;
 
@@ -145,7 +162,6 @@
   }
 }
 
-// Step content container
 .step-content-container {
   flex: 1;
   background-color: var(--container-bg);
@@ -187,7 +203,6 @@
   flex-direction: column;
 }
 
-// Touch-friendly improvements
 @media (max-width: 767px) and (pointer: coarse) {
   .stepper-container.mobile {
     .wizard-stepper .k-step .k-step-indicator {
@@ -198,7 +213,6 @@
   }
 }
 
-// High DPI displays
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .stepper-container.mobile {
     .wizard-stepper .k-step-separator {

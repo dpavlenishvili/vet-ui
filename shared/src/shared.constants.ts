@@ -1,4 +1,4 @@
-export const STORED_STATE_STORAGE_KEY = '@shared/stored_state';
+export const STORED_STATE_STORAGE_KEY = '@shared/stored_state_2';
 export const BREAKPOINTS = {
   desktop: 1920,
   largeDesktop: 1750,

@@ -1,0 +1,36 @@
+<div>
+  <kendo-textbox
+    class="vet-filter-input vet-date-picker"
+    [class.vet-has-error]="hasError()"
+    [ngModel]="displayValue()"
+    fillMode="outline"
+    inputmode="flat"
+    [placeholder]="placeholder()"
+    [readonly]="true"
+    [clearButton]="true"
+    [disabled]="isDisabled()"
+    (focus)="datePicker.toggle(true)"
+  >
+    <ng-template kendoTextBoxSuffixTemplate>
+      <kendo-svgicon [icon]="vetIcons.scheduleIcon"/>
+    </ng-template>
+  </kendo-textbox>
+
+  <div class="k-w-0 k-h-0 k-overflow-hidden">
+    <kendo-datepicker
+      #datePicker
+      class="k-h-0"
+      [fillMode]="'outline'"
+      [format]="kendoDatePickerFormat"
+      [ngModel]="value()"
+      [disabled]="isDisabled()"
+      (ngModelChange)="handleChange($event)"
+    />
+  </div>
+
+  @if (hasError()) {
+    <div class="vet-error-message">
+      {{ errorMessage() | transloco }}
+    </div>
+  }
+</div>

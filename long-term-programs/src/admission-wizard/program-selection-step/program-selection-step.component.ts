@@ -26,7 +26,6 @@ import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, tap } from 'rxjs';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 
-// Constants
 const MAX_PROGRAMS = 3;
 const MIN_PROGRAMS_SSM = 2;
 const MIN_PROGRAMS_REGULAR = 1;
@@ -74,43 +73,34 @@ export type ProgramSelectionFilter = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramSelectionStepComponent implements OnInit {
-  // Outputs
   readonly nextClick = output<void>();
   readonly previousClick = output<void>();
 
-  // Form inputs
   readonly form = input<ProgramSelectionStepFormGroup>();
   readonly ssmStepForm = input<ProgramSsmStep>();
   readonly generalInformationFrom = input<GeneralInformationStepFromGroup>();
   readonly selectedProgramsForm = input<SelectedProgramsStepForm>();
   readonly admissionId = input<string | null>();
 
-  // UI State
   readonly isProgramDialogOpen = signal(false);
   readonly isSelectionWarningDialogOpen = signal(false);
   readonly selectionWarningDialogText = signal('');
   readonly singleProgramId = signal(0);
-
-  // Selection state - single source of truth
+  readonly filters = signal<ProgramSelectionFilter>({});
+  readonly skip = signal(0);
+  readonly vetIcons = vetIcons;
+  readonly kendoIcons = kendoIcons;
+  readonly gridData = computed((): GridDataResult => {
+    const data = this.eligiblePrograms$.value()?.data || [];
+    const total = this.eligiblePrograms$.value()?.meta?.total || 0;
+    return { data, total };
+  });
+  readonly pageSize = computed(() => this.eligiblePrograms$.value()?.meta?.per_page || DEFAULT_PAGE_SIZE);
   private readonly _selectedPrograms = signal<number[]>([]);
   readonly selectedPrograms = this._selectedPrograms.asReadonly();
   readonly selectedProgramsCount = computed(() => this._selectedPrograms().length);
-
-  // Filter state
-  readonly filters = signal<ProgramSelectionFilter>({});
-  readonly skip = signal(0);
-
-  // Icons
-  readonly vetIcons = vetIcons;
-  readonly kendoIcons = kendoIcons;
-
-  // Dependencies
   private readonly alert = useAlert();
   private readonly admissionService = inject(AdmissionService);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly routeParamsService = inject(RouteParamsService);
-
-  // Data resource
   eligiblePrograms$ = rxResource({
     request: () => ({
       admissionId: this.admissionId(),
@@ -123,37 +113,12 @@ export class ProgramSelectionStepComponent implements OnInit {
       return this.admissionService.eligibleProgramsList(admissionId, filters);
     },
   });
-
-  readonly gridData = computed((): GridDataResult => {
-    const data = this.eligiblePrograms$.value()?.data || [];
-    const total = this.eligiblePrograms$.value()?.meta?.total || 0;
-    return { data, total };
-  });
-
-  readonly pageSize = computed(() => this.eligiblePrograms$.value()?.meta?.per_page || DEFAULT_PAGE_SIZE);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly routeParamsService = inject(RouteParamsService);
 
   ngOnInit(): void {
     this.initializeSelection();
     this.loadRouteParams();
-  }
-
-  private initializeSelection(): void {
-    const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
-    this._selectedPrograms.set([...programs]);
-  }
-
-  private loadRouteParams(): void {
-    this.routeParamsService
-      .get<{ filters: ProgramSelectionFilter; skip: number }>()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params) => {
-        if (params.filters) {
-          this.filters.set(params.filters);
-        }
-        if (params.skip !== undefined && params.skip !== this.skip()) {
-          this.skip.set(Number(params.skip));
-        }
-      });
   }
 
   onPreviewProgramClick(item: LongTerm): void {
@@ -204,53 +169,10 @@ export class ProgramSelectionStepComponent implements OnInit {
       actionStatusText = 'programs.programAdded';
     }
 
-    // Update local state immediately for UI responsiveness
     this._selectedPrograms.set(updatedSelection);
     this.updateFormState(updatedSelection);
 
-    // Persist to server with debounce to avoid race conditions
     this.persistSelection(updatedSelection, actionStatusText, isSelected);
-  }
-
-  private updateFormState(programIds: number[]): void {
-    // Update all related forms
-    this.form()?.get('program_ids')?.setValue(programIds, { emitEvent: false });
-    this.selectedProgramsForm()?.get('program_ids')?.setValue(programIds, { emitEvent: false });
-  }
-
-  private persistSelection(updatedSelection: number[], actionStatusText: string, wasSelected: boolean): void {
-    const admissionId = this.admissionId();
-    if (!admissionId) return;
-
-    const payload = {
-      ...this.form()?.getRawValue(),
-      program_ids: updatedSelection,
-    };
-
-    this.admissionService
-      .editAdmission(admissionId, payload)
-      .pipe(
-        debounceTime(300),
-        tap({
-          next: () => {
-            this.alert.show({
-              text: actionStatusText,
-              variant: wasSelected ? 'warning' : 'success',
-            });
-          },
-          error: () => {
-            // Revert on error
-            const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
-            this._selectedPrograms.set(programs);
-            this.alert.show({
-              text: 'shared.errorOccurred',
-              variant: 'error',
-            });
-          },
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
   }
 
   onNextClick(): void {
@@ -277,11 +199,6 @@ export class ProgramSelectionStepComponent implements OnInit {
     }
   }
 
-  private getMinRequiredPrograms(): number {
-    const hasSsmContact = Boolean(this.ssmStepForm()?.get('e_name')?.value);
-    return hasSsmContact ? MIN_PROGRAMS_SSM : MIN_PROGRAMS_REGULAR;
-  }
-
   handlePageChange(event: PageChangeEvent): void {
     const page = event.skip / event.take + 1;
     this.skip.set(event.skip);
@@ -298,6 +215,69 @@ export class ProgramSelectionStepComponent implements OnInit {
     this.filters.set(filterValue || {});
     this.skip.set(0);
     this.updateRouteParams(filterValue, 0);
+  }
+
+  private initializeSelection(): void {
+    const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
+    this._selectedPrograms.set([...programs]);
+  }
+
+  private loadRouteParams(): void {
+    this.routeParamsService
+      .get<{ filters: ProgramSelectionFilter; skip: number }>()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        if (params.filters) {
+          this.filters.set(params.filters);
+        }
+        if (params.skip !== undefined && params.skip !== this.skip()) {
+          this.skip.set(Number(params.skip));
+        }
+      });
+  }
+
+  private updateFormState(programIds: number[]): void {
+    this.form()?.get('program_ids')?.setValue(programIds, { emitEvent: false });
+    this.selectedProgramsForm()?.get('program_ids')?.setValue(programIds, { emitEvent: false });
+  }
+
+  private persistSelection(updatedSelection: number[], actionStatusText: string, wasSelected: boolean): void {
+    const admissionId = this.admissionId();
+    if (!admissionId) return;
+
+    const payload = {
+      ...this.form()?.getRawValue(),
+      program_ids: updatedSelection,
+    };
+
+    this.admissionService
+      .editAdmission(admissionId, payload)
+      .pipe(
+        debounceTime(300),
+        tap({
+          next: () => {
+            this.alert.show({
+              text: actionStatusText,
+              variant: wasSelected ? 'warning' : 'success',
+            });
+          },
+          error: () => {
+            const programs = (this.form()?.get('program_ids')?.value as number[]) || [];
+            this._selectedPrograms.set(programs);
+            this.alert.show({
+              text: 'shared.errorOccurred',
+              variant: 'error',
+            });
+          },
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
+  }
+
+  private getMinRequiredPrograms(): number {
+    const hasSsmContact = Boolean(this.ssmStepForm()?.get('e_name')?.value);
+    return hasSsmContact ? MIN_PROGRAMS_SSM : MIN_PROGRAMS_REGULAR;
   }
 
   private updateRouteParams(filters: ProgramSelectionFilter, skip: number): void {

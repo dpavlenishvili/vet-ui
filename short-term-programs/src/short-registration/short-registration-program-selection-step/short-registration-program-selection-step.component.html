@@ -2,16 +2,18 @@
   <div class="k-display-flex k-flex-column k-gap-11 k-pt-2">
     <vet-short-term-programs-filters
       [filters]="filters()"
+      [foundResultsCount]="foundProgramsCount"
       (filtersChange)="onFiltersChange($event)"
+      (dialogFiltersChangeRealtime)="onDialogFiltersChangeRealtime($event)"
     />
 
     @if (isBrowser) {
       <vet-short-registration-program-selection-grid
-        [items]="programs()"
-        [isLoading]="data.isLoading()"
+        [data]="data"
         [selectedProgramIds]="selectedProgramIds()"
         (itemSelect)="onSelectProgram($event)"
         (itemUnselect)="onUnselectProgram($event)"
+        (pageChange)="onPageChange($event)"
       />
     }
   </div>

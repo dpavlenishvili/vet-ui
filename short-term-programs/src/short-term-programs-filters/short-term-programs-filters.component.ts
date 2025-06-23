@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  input,
+  output,
+  ResourceRef,
+  signal
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TextBoxComponent, TextBoxSuffixTemplateDirective } from '@progress/kendo-angular-inputs';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
@@ -7,18 +16,8 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { NgTemplateOutlet } from '@angular/common';
 import { useDistricts, useInstitutionsDictionary, useProgramKinds, useRegions } from '../short-term.resources';
-
-export interface ShortTermProgramFilters {
-  search?: string | null;
-  program_name_or_code?: string | null;
-  field?: string | null;
-  region?: string | null;
-  district?: string | null;
-  organisation_name?: string | null;
-  program_kind?: string | null;
-  current?: boolean | null;
-  planned?: boolean | null;
-}
+import { ShortTermProgramFilters } from '../short-term-programs.types';
+import { ShortTermProgramsFiltersDialogComponent } from '../short-term-programs-filters-dialog/short-term-programs-filters-dialog.component';
 
 @Component({
   selector: 'vet-short-term-programs-filters',
@@ -32,6 +31,7 @@ export interface ShortTermProgramFilters {
     VetSwitchComponent,
     ButtonComponent,
     NgTemplateOutlet,
+    ShortTermProgramsFiltersDialogComponent,
   ],
   templateUrl: './short-term-programs-filters.component.html',
   styleUrl: './short-term-programs-filters.component.scss',
@@ -40,7 +40,9 @@ export interface ShortTermProgramFilters {
 })
 export class ShortTermProgramsFiltersComponent {
   filters = input.required<ShortTermProgramFilters>();
+  foundResultsCount = input.required<ResourceRef<number | null>>();
   filtersChange = output<ShortTermProgramFilters>();
+  dialogFiltersChangeRealtime = output<ShortTermProgramFilters>();
 
   hasExtraFilters = computed(() => Object.keys(this.filters()).filter((key) => key !== 'search').length > 0);
   formGroup = this.createFormGroup();
@@ -49,8 +51,9 @@ export class ShortTermProgramsFiltersComponent {
   regionOptions = useRegions();
   districtOptions = useDistricts();
   programKindOptions = useProgramKinds();
+  isFiltersDialogOpen = signal(false);
 
-  protected readonly vetIcons = vetIcons;
+  vetIcons = vetIcons;
 
   constructor() {
     effect(() => {
@@ -64,13 +67,17 @@ export class ShortTermProgramsFiltersComponent {
 
   createFormGroup() {
     return new FormGroup({
-      search: new FormControl(''),
+      search: new FormControl<string>(''),
       program_name_or_code: new FormControl(''),
       field: new FormControl<string | null>(null),
       region: new FormControl<string | null>(null),
       district: new FormControl<string | null>(null),
-      organisation_name: new FormControl<string | null>(null),
+      organisation_name: new FormControl(''),
       program_kind: new FormControl<string | null>(null),
+      tuition_start_date: new FormControl<string | null>(null),
+      tuition_end_date: new FormControl<string | null>(null),
+      financing_type: new FormControl<string | null>(null),
+      partner: new FormControl<string | null>(null),
       current: new FormControl(false),
       planned: new FormControl(false),
     });
@@ -85,7 +92,38 @@ export class ShortTermProgramsFiltersComponent {
   }
 
   onClearClick() {
-    this.formGroup.reset();
+    this.formGroup.patchValue({
+      search: '',
+      program_name_or_code: '',
+      organisation_name: '',
+      field: null,
+      region: null,
+      district: null,
+      program_kind: null,
+      tuition_start_date: null,
+      tuition_end_date: null,
+      financing_type: null,
+      partner: null,
+      current: null,
+      planned: null,
+    });
     this.onSubmit();
+  }
+
+  onDialogFiltersChange(filters: ShortTermProgramFilters) {
+    this.formGroup.patchValue(filters);
+    this.onSubmit();
+  }
+
+  onDialogFiltersChangeRealtime(filters: ShortTermProgramFilters) {
+    this.dialogFiltersChangeRealtime.emit(filters);
+  }
+
+  onOpenFiltersDialog() {
+    return this.isFiltersDialogOpen.set(true);
+  }
+
+  onCloseFiltersDialog() {
+    return this.isFiltersDialogOpen.set(false);
   }
 }

@@ -21,6 +21,7 @@ import { InfoComponent, scoreValidator } from '@vet/shared';
 })
 export class CommissionReviewDialogComponent {
   dialogClose = output();
+  dialogCloseWithWarning = output();
   reloadProgramsWithCommissionReview = output();
   programId = input();
   admissionId = input();
@@ -73,6 +74,10 @@ export class CommissionReviewDialogComponent {
 
   handleClose() {
     this.dialogClose.emit();
+  }
+
+  handleCloseWithWarning() {
+    this.dialogCloseWithWarning.emit();
   }
 
   handleSave() {

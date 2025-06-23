@@ -300,7 +300,7 @@ export function isValidIdValue(input: Partial<IdValue>): input is IdValue {
   return input.id != null && input.value != null
 }
 
-export function isValidDictionaryItem(input: Partial<DictionaryType>): input is DictionaryType {
+export function isValidDictionaryItem(input: Partial<DictionaryType<number | string>>): input is DictionaryType {
   return input.id != null && input.name != null
 }
 

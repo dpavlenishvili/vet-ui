@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal, ViewCh
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
-import { CellClickEvent, GridComponent, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { CellClickEvent, GridComponent, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { filterNullValues, FormatDateTimePipe, RouteParamsService, vetIcons } from '@vet/shared';
+import { FormatDateTimePipe, RouteParamsService, vetIcons } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
@@ -37,24 +37,19 @@ export type AdmissionListFilter = {
 })
 export class AdmissionsListComponent {
   @ViewChild(GridComponent) grid!: GridComponent;
-
+  protected readonly vetIcons = vetIcons;
+  protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
+  protected expandedDetailKeys: number[] = [];
   private readonly router = inject(Router);
   private readonly admissionService = inject(AdmissionService);
   private readonly routeParamsService = inject(RouteParamsService);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly userRolesService = inject(UserRolesService);
-
-  protected readonly vetIcons = vetIcons;
   protected readonly isBrowser = isPlatformBrowser(this.platformId);
-  protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
-
-  // Expandable rows functionality
-  protected expandedDetailKeys: number[] = [];
-
+  private readonly userRolesService = inject(UserRolesService);
   protected readonly admissionList$ = rxResource({
     request: () => ({
       role: this.userRolesService.selectedRole(),
-      filters: this.filters()
+      filters: this.filters(),
     }),
     loader: ({ request: { role, filters } }) => {
       const params = {
@@ -66,14 +61,10 @@ export class AdmissionsListComponent {
         catchError((error) => {
           console.error('Failed to load admissions list:', error);
           return of({ data: [], meta: { total: 0, per_page: 10 } });
-        })
+        }),
       );
     },
   });
-
-  protected expandDetailsBy = (dataItem: AdmissionReq): number => {
-    return dataItem?.id || 0;
-  };
 
   protected onRegisterClick(): void {
     this.router.navigate(['long-term-programs', 'register-admission', 'general_information']);
@@ -87,24 +78,11 @@ export class AdmissionsListComponent {
     this.router.navigate(['long-term-programs', 'update-admission', item.id, 'general_information']);
   }
 
-  protected handlePageChange(event: PageChangeEvent): void {
-    this.routeParamsService.update({
-      page: event.skip / event.take + 1,
-    });
-  }
-
-  protected onFiltersChange(filters: AdmissionListFilter): void {
-    this.routeParamsService.update(filters);
-    this.filters.set(filterNullValues(filters));
-  }
-
   protected onCellClick(event: CellClickEvent): void {
-    // Don't expand if clicking on action buttons column
     if (event.column && !event.column.field) {
       return;
     }
 
-    // Toggle row expansion
     this.toggleRowExpansion(event.dataItem);
   }
 
@@ -121,18 +99,16 @@ export class AdmissionsListComponent {
     }
 
     const rowIndex = admissionData.findIndex((item) => item.id === dataItem.id);
-    if (rowIndex === -1) {
+    if (rowIndex === -1 || !admissionData[rowIndex]?.programs) {
       return;
     }
 
     const expandedIndex = this.expandedDetailKeys.findIndex((key) => key === expandKey);
 
     if (expandedIndex >= 0) {
-      // Collapse row
       this.expandedDetailKeys.splice(expandedIndex, 1);
       this.grid.collapseRow(rowIndex);
     } else {
-      // Expand row
       this.expandedDetailKeys.push(expandKey);
       this.grid.expandRow(rowIndex);
     }
