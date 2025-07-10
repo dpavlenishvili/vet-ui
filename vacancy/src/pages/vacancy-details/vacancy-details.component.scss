@@ -1,0 +1,17 @@
+@use '@vet/shared-styles' as shared;
+// @use '@vetshared/variables' as variables;
+
+.vacancy-details {
+  padding-bottom: var(--kendo-spacing-2);
+  background-color: shared.$kendo-color-white;
+
+  border-radius: var(--kendo-border-radius-xl);
+}
+.contact-info {
+  padding: var(--kendo-spacing-4);
+  border-top: 1px solid shared.$kendo-color-border-light-gray;
+
+  display: flex;
+  gap: 4rem;
+  color: shared.$kendo-color-light-gray;
+}

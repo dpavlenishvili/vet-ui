@@ -2,9 +2,7 @@
   <vet-short-term-programs-filters
     class="vet-shorts-filters"
     [filters]="filters()"
-    [foundResultsCount]="foundProgramsCount"
     (filtersChange)="onFiltersChange($event)"
-    (dialogFiltersChangeRealtime)="onDialogFiltersChangeRealtime($event)"
   />
 
   @if (data.isLoading()) {

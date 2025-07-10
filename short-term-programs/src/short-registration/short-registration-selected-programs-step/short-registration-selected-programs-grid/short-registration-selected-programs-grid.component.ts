@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
-import { DialogComponent, FormatDatePipe, InfoComponent, useConfirm, vetIcons } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { FormatDatePipe, InfoComponent, useConfirm, vetIcons } from '@vet/shared';
 import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import {
@@ -10,7 +10,7 @@ import {
 } from '@progress/kendo-angular-grid';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ShortProgramPageComponent } from '../../../short-program-page/short-program-page.component';
+import { useProgramDialog } from '../../../short-term-programs.signals';
 
 @Component({
   selector: 'vet-short-registration-selected-programs-grid',
@@ -22,9 +22,7 @@ import { ShortProgramPageComponent } from '../../../short-program-page/short-pro
     NoRecordsTemplateDirective,
     SVGIconComponent,
     TranslocoPipe,
-    ShortProgramPageComponent,
     FormatDatePipe,
-    DialogComponent,
     InfoComponent,
   ],
   templateUrl: './short-registration-selected-programs-grid.component.html',
@@ -33,17 +31,17 @@ import { ShortProgramPageComponent } from '../../../short-program-page/short-pro
   standalone: true,
 })
 export class ShortRegistrationSelectedProgramsGridComponent {
+  isEditMode = input(true);
   selectedPrograms = input.required<ShortProgramAdmission[]>();
   itemUnselect = output<ShortProgramAdmission>();
 
-  previewProgramId = signal(0);
-  isProgramPreviewDialogOpen = signal(false);
+  programDialog = useProgramDialog();
   unselectionConfirmation = useConfirm();
   vetIcons = vetIcons;
 
   onPreviewProgram(program: ShortProgramAdmission) {
-    this.previewProgramId.set(Number(program.program?.id));
-    this.isProgramPreviewDialogOpen.set(true);
+    const programId = Number(program.program?.id);
+    this.programDialog.show({ programId });
   }
 
   onUnselectProgram(program: ShortProgram) {
@@ -53,9 +51,5 @@ export class ShortRegistrationSelectedProgramsGridComponent {
         onConfirm: () => this.itemUnselect.emit(program),
       });
     }
-  }
-
-  onClosePreviewDialog() {
-    this.isProgramPreviewDialogOpen.set(false);
   }
 }

@@ -58,6 +58,10 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
           const educationLevel = this.form()?.get('education_level')?.getRawValue();
           const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
           this.invalidStudentStatus.set(!(educationLevel && educationLevelId));
+          if (this.invalidStudentStatus()) {
+            this.form()?.get('doc')?.setValidators(Validators.required);
+            this.form()?.get('doc')?.updateValueAndValidity();
+          }
         }),
         map((res) => {
           const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
@@ -78,6 +82,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
 
   onNextClick() {
     this.form()?.markAllAsTouched();
+    console.log(this.form());
     if (this.form()?.valid) {
       this.nextClick.emit();
     }
@@ -147,7 +152,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   }
 
   districtChange() {
-    this.confirm.info({
+    this.confirm.warning({
       title: 'programs.testLocationChange',
       content: 'programs.testReallocationNote',
       showYesNoButtons: false,
@@ -157,7 +162,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   }
 
   languageChange() {
-    this.confirm.info({
+    this.confirm.warning({
       title: 'programs.testLanguageChange',
       content: 'programs.georgianModuleNote',
       showYesNoButtons: false,

@@ -1,46 +1,58 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { finalize, tap } from 'rxjs';
-import { AuthenticationService, useAuthEnvironment } from '@vet/auth';
+import { RegistrationPhoneVerificationComponent, useAuthEnvironment } from '@vet/auth';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { UserLogin2FaResponseBody } from '@vet/backend';
-import { AuthorizationPageLocalStateService } from '../authorization-page-local-state.service';
-import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
-import { WA_SESSION_STORAGE } from '@ng-web-apis/common';
-import { CODE_2FA_SENT } from '../authorization.constants';
-import { useAlert } from '@vet/shared';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as kendoIcons from '@progress/kendo-svg-icons';
+import {
+  ButtonComponent,
+  conditionalValidator,
+  IconButtonComponent,
+  InfoComponent,
+  InputComponent,
+  useAlert,
+  useToast,
+  useToggleState,
+  VetCheckboxComponent,
+  withSignalValidation,
+} from '@vet/shared';
+import { useAuthorizationSession } from '../signals/useAuthorizationSession';
+import { AuthorizationError } from '../../auth.types';
 
 @Component({
   selector: 'vet-authorization-login',
-  imports: [TranslocoPipe, ReactiveFormsModule, RouterLink, KENDO_LABEL, KENDO_INPUTS, KENDO_BUTTON, KENDO_LOADER],
+  imports: [
+    TranslocoPipe,
+    ReactiveFormsModule,
+    RouterLink,
+    KENDO_LOADER,
+    InputComponent,
+    IconButtonComponent,
+    VetCheckboxComponent,
+    ButtonComponent,
+    RegistrationPhoneVerificationComponent,
+    InfoComponent,
+  ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent implements OnInit {
-  private readonly storage = inject(WA_SESSION_STORAGE);
-  private readonly authenticationService = inject(AuthenticationService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly alert = useAlert();
-  private readonly authorizationPageLocalStateService = inject(AuthorizationPageLocalStateService);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly toast = useToast();
+  readonly authEnvironment = useAuthEnvironment();
+  readonly isPasswordVisible = useToggleState(false);
+  readonly twoFaError = signal<string | null>(null);
 
-  readonly timeoutSeconds = useAuthEnvironment().login2faTimeoutSeconds;
-  readonly isLoading = signal(false);
-  readonly loginForm = signal(this.createFormGroup());
-  readonly showPassword = signal(false);
+  readonly auth = useAuthorizationSession({
+    onLogin: () => void this.router.navigate(['/']),
+    onError: (error) => this.onError(error),
+    onReset: () => this.onReset(),
+  });
 
-  // Icons for password visibility toggle
-  readonly eyeIcon = kendoIcons.eyeIcon;
-  readonly eyeSlashIcon = kendoIcons.eyeSlashIcon;
+  readonly formGroup = this.createFormGroup();
 
   ngOnInit() {
     if (this.activatedRoute.snapshot.queryParamMap.get('referrer') === 'registration') {
@@ -61,91 +73,105 @@ export class LoginPageComponent implements OnInit {
       pid: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       remember: new FormControl(false),
+      code: withSignalValidation(
+        new FormControl<string | null>(
+          null,
+          conditionalValidator({
+            when: () => this.auth.is2FaSessionActive(),
+            then: () =>
+              Validators.compose([
+                Validators.required,
+                Validators.minLength(this.authEnvironment.phoneVerificationNumberLength),
+              ]),
+          }),
+        ),
+        [this.auth.is2FaSessionActive],
+      ),
     });
   }
 
-  togglePasswordVisibility(): void {
-    this.showPassword.update(current => !current);
-  }
-
   onSubmit() {
-    const form = this.loginForm();
+    const form = this.formGroup;
+    const { pid, password, remember, code } = this.formGroup.value;
+
     if (form.invalid) {
       form.markAllAsTouched();
       return;
     }
 
-    const { pid, password, remember } = form.value;
-    this.submitUserPassword(pid as string, password as string, !!remember);
+    if (!this.auth.is2FaSessionActive()) {
+      void this.auth.submitCredentials({
+        pid: pid as string,
+        password: password as string,
+        remember: remember as boolean,
+      });
+    } else {
+      void this.auth.validate2FaCode(code as string);
+    }
   }
 
-  private submitUserPassword(pid: string, password: string, remember: boolean) {
-    const rawSentCode = this.storage.getItem(CODE_2FA_SENT);
+  goBackToLogin() {
+    this.auth.resetAuthorizationSession();
+    this.formGroup.patchValue({
+      code: '',
+    });
+  }
 
-    if (remember) {
-      this.authenticationService.setRemember(remember);
+  private onError(error: AuthorizationError) {
+    console.log('error', error);
+
+    switch (error.code) {
+      case 'INVALID_CREDENTIALS':
+        this.toast.error('auth.invalid_credentials');
+        break;
+
+      case 'TEMPORARILY_LOCKED':
+        this.onAuthorizationTemporarilyLocked((error.attributes?.['lockedForSeconds'] as number) ?? null);
+        break;
+
+      case '2FA_RESEND_FAILED':
+        this.twoFaError.set('auth.resend_failed');
+        break;
+
+      case '2FA_SESSION_EXPIRED':
+        this.twoFaError.set('auth.2fa_session_expired');
+        break;
+
+      case 'INVALID_2FA_SESSION':
+        this.twoFaError.set('auth.2fa_used');
+        break;
+
+      case 'INVALID_2FA_CODE':
+        this.twoFaError.set('auth.invalid_2fa_code');
+        this.formGroup.controls.code.patchValue('');
+        break;
+
+      case '2FA_CODE_EXPIRED':
+        this.twoFaError.set('auth.2fa_code_expired');
+        this.formGroup.controls.code.patchValue('');
+        break;
+
+      case '2FA_VALIDATION_FAILED':
+        this.twoFaError.set('auth.2fa_validation_failed');
+        break;
+
+      default:
+        this.toast.error('auth.auth_error');
+        break;
     }
+  }
 
-    if (rawSentCode) {
-      const sentCode = JSON.parse(rawSentCode) as {
-        pid: string;
-        token: string;
-        time: number;
-        response: UserLogin2FaResponseBody;
-      };
+  private onReset() {
+    this.twoFaError.set(null);
+  }
 
-      if (
-        sentCode.pid &&
-        sentCode.time &&
-        sentCode.response &&
-        sentCode.pid === pid &&
-        Date.now() - sentCode.time < this.timeoutSeconds * 1000
-      ) {
-        this.authorizationPageLocalStateService.navigateTo2fa(
-          sentCode.response,
-          {
-            pid,
-            token: sentCode.token,
-          },
-          sentCode.time,
-        );
-        return;
-      }
+  private onAuthorizationTemporarilyLocked(lockedForSeconds: number | null) {
+    if (lockedForSeconds) {
+      this.toast.error('auth.please_wait_n_seconds_before_login', {
+        translateParams: { seconds: lockedForSeconds },
+      });
+    } else {
+      this.toast.error('auth.please_wait_before_login');
     }
-
-    this.isLoading.set(true);
-    this.authenticationService
-      .login({ pid, password })
-      .pipe(
-        tap({
-          next: () => this.authorizationPageLocalStateService.handleSuccessfulAuthentication(),
-          error: (err: HttpErrorResponse) => {
-            if (err.status === HttpStatusCode.Forbidden || err.status === HttpStatusCode.NotAcceptable) {
-              const response = err.error as UserLogin2FaResponseBody;
-              const time = Date.now();
-              this.storage.setItem(
-                CODE_2FA_SENT,
-                JSON.stringify({
-                  pid,
-                  token: response.token,
-                  time,
-                  response,
-                }),
-              );
-              this.authorizationPageLocalStateService.navigateTo2fa(
-                response,
-                {
-                  pid,
-                  token: response.token,
-                },
-                time,
-              );
-            }
-          },
-        }),
-        finalize(() => this.isLoading.set(false)),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
   }
 }

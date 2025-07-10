@@ -1,0 +1,137 @@
+<form class="flex-container" [formGroup]="addPositionFormGroup">
+  <div class="flex-item">
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      rounded="large"
+      [text]="'vacancy.add_position_type' | transloco"
+    />
+    <kendo-dropdownlist
+      class="vacancy-control"
+      [data]="positionTypes"
+      [size]="'large'"
+      formControlName="position_type"
+      [valuePrimitive]="true"
+      [textField]="'text'"
+      [valueField]="'id'"
+    />
+  </div>
+
+  <div class="flex-item">
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      rounded="large"
+      [text]="'vacancy.add_position_name' | transloco"
+    />
+
+    <kendo-textbox class="vacancy-control" formControlName="position" />
+  </div>
+
+  <div class="grid-container__check-group flex-item k-d-flex k-align-items-center k-gap-2">
+    <input type="checkbox" #checked kendoCheckBox formControlName="teaching_professional_programs" />
+    <kendo-label class="k-checkbox-label" [for]="checked" [text]="'vacancy.add_study_text' | transloco" />
+  </div>
+
+  <div class="grid-container__check-group flex-item k-d-flex k-align-items-center k-gap-2">
+    <input type="checkbox" #checked2 kendoCheckBox formControlName="teaching_short_term_programs" />
+    <kendo-label class="k-checkbox-label" [for]="checked2" [text]="'vacancy.add_study_text' | transloco" />
+  </div>
+
+  @if (addPositionFormGroup.get('teaching_short_term_programs')?.value) {
+    <div class="flex-item full-item">
+      <kendo-label
+        class="k-display-block k-mb-2 form-label"
+        rounded="large"
+        [text]="'vacancy.add_programs' | transloco"
+      />
+
+      <kendo-multiselect
+        class="vacancy-control"
+        [size]="'large'"
+        [checkboxes]="true"
+        [autoClose]="false"
+        [data]="programsList"
+        [textField]="'text'"
+        [valueField]="'id'"
+        [valuePrimitive]="true"
+        formControlName="programs"
+      />
+    </div>
+  }
+  @if (addPositionFormGroup.get('teaching_professional_programs')?.value) {
+    <div class="flex-item full-item">
+      <kendo-label
+        class="k-display-block k-mb-2 form-label"
+        rounded="large"
+        [text]="'vacancy.list_modul' | transloco"
+      />
+      <kendo-multiselect
+        class="vacancy-control"
+        [size]="'large'"
+        [checkboxes]="true"
+        [autoClose]="false"
+        [data]="modulslist"
+        [textField]="'text'"
+        [valueField]="'id'"
+        [valuePrimitive]="true"
+        formControlName="modules"
+      />
+    </div>
+  }
+  @if (
+    addPositionFormGroup.get('teaching_short_term_programs')?.value ||
+    addPositionFormGroup.get('teaching_professional_programs')?.value
+  ) {
+    <div class="flex-item full-item">
+      <kendo-label class="k-display-block k-mb-2 form-label" rounded="large" [text]="'vacancy.add_place' | transloco" />
+      <kendo-dropdownlist
+        class="vacancy-control"
+        [data]="addresses"
+        [valuePrimitive]="true"
+        formControlName="address"
+      />
+    </div>
+
+    <div class="flex-item">
+      <kendo-label
+        class="k-display-block k-mb-2 form-label"
+        rounded="large"
+        [text]="'vacancy.add_contact_person' | transloco"
+      />
+      <kendo-dropdownlist
+        class="vacancy-control"
+        [data]="modulslist"
+        [valuePrimitive]="true"
+        [textField]="'text'"
+        [valueField]="'id'"
+        formControlName="contact_person"
+      />
+    </div>
+    <div class="flex-item">
+      <kendo-label
+        class="k-display-block k-mb-2 form-label"
+        rounded="large"
+        [text]="'vacancy.add_start_date' | transloco"
+      />
+      <kendo-textbox class="vacancy-control" formControlName="start_date" />
+    </div>
+  }
+
+  <div class="flex-item full-item k-d-flex k-justify-content-between">
+    <button
+      (click)="clickBack.emit()"
+      kendoButton
+      [size]="'large'"
+      [themeColor]="'secondary'"
+      rounded="large"
+      [disabled]="true"
+    >
+      {{ 'vacancy.add_back' | transloco }}
+    </button>
+    <button (click)="onValidate()" kendoButton [size]="'large'" [themeColor]="'primary'" rounded="large">
+      {{ 'vacancy.add_next' | transloco }}
+      @if (loader()) {
+        <kendo-loader size="medium" [themeColor]="'secondary'" />
+      }
+    </button>
+  </div>
+</form>

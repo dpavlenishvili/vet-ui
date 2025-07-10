@@ -1,0 +1,37 @@
+@let _leadingIcon = leadingIcon();
+@let _trailingIcon = trailingIcon();
+@let _version = version();
+@let _iconSize = iconSize() || (_version === 'fat' ? 'medium' : 'small');
+
+<button
+  kendoButton
+  class="vet-button vet-button-{{ _version }}"
+  [type]="type()"
+  [fillMode]="mode()"
+  [themeColor]="variant()"
+  [disabled]="disabled()"
+>
+  <ng-content select="[prefix]" />
+
+  @if (_leadingIcon) {
+    <vet-icon
+      class="vet-button-icon vet-icon-leading"
+      [icon]="_leadingIcon"
+      [size]="_iconSize"
+    />
+  }
+
+  <span>
+    <ng-content />
+  </span>
+
+  @if (_trailingIcon) {
+    <vet-icon
+      class="vet-button-icon vet-icon-trailing"
+      [icon]="_trailingIcon"
+      [size]="_iconSize"
+    />
+  }
+
+  <ng-content select="[suffix]" />
+</button>

@@ -4,14 +4,75 @@
   display: block;
 }
 
-.vet-shorts-general-information-step {
+.vet-shorts-confirmation-step {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-.vet-shorts-selector {
-  width: 18.4375rem;
+.vet-shorts-confirmation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vet-shorts-confirmation-details-container {
+  display: flex;
+  gap: 1.625rem;
+  padding: 1rem;
+  background-color: shared.$kendo-color-chip;
+  border-radius: 0.625rem;
+}
+
+.vet-shorts-confirmation-profile-picture {
+  width: 9.125rem;
+  height: 7.5rem;
+  border-radius: 0.625rem;
+}
+
+.vet-shorts-confirmation-details {
+  flex: 1;
+}
+
+.vet-shorts-confirmation-detail {
+  @include shared.text-base();
+  line-height: 1rem;
+  display: flex;
+  gap: 0.625rem;
+  padding: 0.5rem 0 0.4375rem;
+  border-bottom: 1px solid shared.$white;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  .vet-shorts-confirmation-detail-label {
+    color: shared.$kendo-color-body;
+  }
+
+  .vet-shorts-confirmation-detail-value {
+    color: shared.$kendo-color-body-dark;
+  }
+}
+
+.vet-shorts-confirmation-selected-programs-container {
+  position: relative;
+  margin-top: 1.25rem;
+  padding: 2rem 0.625rem;
+  border: 1px solid shared.$kendo-color-divider-light;
+  border-radius: 0.625rem;
+}
+
+.vet-shorts-confirmation-selected-programs-container-title {
+  @include shared.text-md();
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: 6rem;
+  margin-top: -1.25rem;
+  padding: 0.5rem;
+  background-color: shared.$white;
+  color: shared.$kendo-color-body;
 }
 
 .vet-shorts-step-footer {

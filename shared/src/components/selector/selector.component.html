@@ -1,41 +1,39 @@
-<div>
-  <kendo-dropdownlist
-    class="vet-selector"
-    [class.vet-has-error]="hasError()"
-    [data]="options()"
-    valueField="value"
-    textField="label"
-    [valuePrimitive]="true"
-    [defaultItem]="defaultItem()"
-    [disabled]="isDisabled()"
-    [ngModel]="value()"
-    (ngModelChange)="handleChange($event)"
-  >
-    <ng-template kendoDropDownListValueTemplate let-item>
-      <div class="k-w-full k-display-flex k-justify-content-between k-align-items-center">
-        <div class="k-display-flex k-align-items-center k-gap-2 k-m-1">
-          <ng-content select="[before]"/>
-          <span>{{ item.label | transloco }}</span>
-          <ng-content select="[after]"/>
-        </div>
-
-        <kendo-svg-icon
-          class="k-color-body-light"
-          [icon]="vetIcons.chevronDown"
-          [style.width.px]="10"
-          [style.height.px]="6"
-        />
+<kendo-dropdownlist
+  class="vet-selector vet-selector-{{ version() }}"
+  [class.vet-has-error]="hasError()"
+  [data]="options()"
+  valueField="value"
+  textField="label"
+  [valuePrimitive]="true"
+  [defaultItem]="defaultItem()"
+  [disabled]="isDisabled()"
+  [ngModel]="value()"
+  (ngModelChange)="handleChange($event)"
+>
+  <ng-template kendoDropDownListValueTemplate let-item>
+    <div class="k-w-full k-display-flex k-justify-content-between k-align-items-center">
+      <div class="k-display-flex k-align-items-center k-gap-2 k-m-1">
+        <ng-content select="[before]"/>
+        <span>{{ item.label | transloco }}</span>
+        <ng-content select="[after]"/>
       </div>
-    </ng-template>
 
-    <ng-template kendoDropDownListItemTemplate let-item>
-      {{ item.label | transloco }}
-    </ng-template>
-  </kendo-dropdownlist>
-
-  @if (hasError()) {
-    <div class="vet-error-message">
-      {{ errorMessage() | transloco }}
+      <kendo-svg-icon
+        class="k-color-body-light"
+        [icon]="vetIcons.chevronDown"
+        [style.width.px]="10"
+        [style.height.px]="6"
+      />
     </div>
-  }
-</div>
+  </ng-template>
+
+  <ng-template kendoDropDownListItemTemplate let-item>
+    {{ item.label | transloco }}
+  </ng-template>
+</kendo-dropdownlist>
+
+@if (hasError()) {
+  <div class="vet-error-message">
+    {{ errorMessage() | transloco }}
+  </div>
+}

@@ -1,34 +1,35 @@
-<form [formGroup]="filterForm">
-  <div class="vet-filters-container">
-    <vet-selector
-      class="vet-filter-input"
-      formControlName="program"
-      [placeholder]="'shared.program' | transloco"
-      [options]="programsOptions.value()"
-    />
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-selector
+        formControlName="program"
+        [placeholder]="'shared.program' | transloco"
+        [options]="programsOptions.value()"
+      />
 
-    <kendo-textbox
-      class="vet-filter-input"
-      [placeholder]="'programs.pid' | transloco"
-      formControlName="pid"
-    />
+      <vet-input
+        [placeholder]="'programs.pid' | transloco"
+        formControlName="pid"
+      />
 
-    <kendo-textbox
-      class="vet-filter-input"
-      [placeholder]="'programs.fullname' | transloco"
-      formControlName="fullname"
-    />
-  </div>
+      <vet-input
+        [placeholder]="'programs.fullname' | transloco"
+        formControlName="fullname"
+      />
+    </div>
 
-  <div class="k-display-flex k-justify-content-between k-align-items-center k-pt-5">
-    <p>{{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}</p>
+    <div vet-line space-between align-center>
+      <p class="k-text-sm k-color-body">
+        {{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}
+      </p>
 
-    <div class="k-display-flex k-justify-content-end k-gap-2">
-      <button kendoButton type="secondary" [svgIcon]="vetIcons.xIcon" (click)="clearFilters()"></button>
+      <div vet-line gap-dense content-right>
+        <vet-icon-button icon="close" (click)="clearFilters()" />
 
-      <button kendoButton themeColor="primary" [svgIcon]="vetIcons.search" (click)="onSubmit()">
-        {{ 'shared.search' | transloco }}
-      </button>
+        <vet-button leadingIcon="search" type="submit">
+          {{ 'shared.search' | transloco }}
+        </vet-button>
+      </div>
     </div>
   </div>
 </form>

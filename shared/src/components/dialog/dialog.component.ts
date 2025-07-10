@@ -32,8 +32,8 @@ export class DialogComponent {
   showActionsBar = input<boolean>(true);
   disablePadding = input<boolean>(false);
   transparent = input<boolean>(false);
-  width = input<string | number>(500);
-  height = input<string | number>(400);
+  width = input<string | number | null | undefined>(500);
+  height = input<string | number | null | undefined>(400);
   // eslint-disable-next-line @angular-eslint/no-output-native
   close = output();
 

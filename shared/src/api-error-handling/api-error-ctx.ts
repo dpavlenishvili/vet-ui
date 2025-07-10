@@ -32,7 +32,7 @@ const defaultApiErrorHandler: ApiErrorHandler = (err: HttpErrorResponse): ApiErr
     code: code ?? 0,
     message: message || 'errors.server_error_0',
     translate: !message,
-    excludedStatuses: [HttpStatusCode.Forbidden/*, HttpStatusCode.Unauthorized*/],
+    excludedStatuses: [HttpStatusCode.Forbidden],
   };
 }
 

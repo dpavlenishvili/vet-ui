@@ -9,24 +9,12 @@
   </div>
 
   <div class="vet-shorts-step-footer">
-    <button
-      kendoButton
-      class="vet-form-button"
-      type="button"
-      themeColor="tertiary"
-      (click)="onBack()"
-    >
+    <vet-button version="fat" variant="tertiary" (click)="onBack()">
       {{ 'shorts.go_back' | transloco }}
-    </button>
+    </vet-button>
 
-    <button
-      kendoButton
-      class="vet-form-button"
-      type="submit"
-      themeColor="primary"
-      [disabled]="formGroup().invalid"
-    >
+    <vet-button type="submit" version="fat" [disabled]="formGroup().invalid">
       {{ 'shorts.continue' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </form>

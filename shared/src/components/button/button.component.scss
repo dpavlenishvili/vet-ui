@@ -1,0 +1,36 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+button.k-button.vet-button {
+  width: 100%;
+
+  &.vet-button-fat {
+    @include shared.text-base(true);
+    height: 3.125rem;
+    border-radius: 0.625rem !important;
+    padding: 1.125rem 1rem;
+  }
+
+  &.vet-button-thin {
+    @include shared.text-sm();
+    height: 2.375rem;
+    border-radius: 0.625rem;
+    padding: 0.875rem 1.375rem;
+  }
+
+  .vet-icon.vet-button-icon {
+
+  }
+}
+
+::ng-deep {
+  button.k-button.vet-button .k-button-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.625rem;
+  }
+}

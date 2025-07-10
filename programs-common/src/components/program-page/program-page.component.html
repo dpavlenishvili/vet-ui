@@ -1,0 +1,37 @@
+@let _program = program();
+
+@if (isLoading()) {
+  <div class="vet-program-page">
+    {{ 'shared.loading' | transloco }}
+  </div>
+} @else if (program()) {
+  <div class="vet-program-page">
+    <div class="vet-program-page-main">
+      <vet-program-header [program]="_program" [details]="details()">
+        <ng-container admissions>
+          <ng-content select="[admissions]" />
+        </ng-container>
+      </vet-program-header>
+
+      @for (section of sections(); track section.title) {
+        <vet-program-section [title]="section.title | trans">
+          {{ section.content }}
+
+          @if (section.template) {
+            <ng-container *ngTemplateOutlet="section.template" />
+          }
+        </vet-program-section>
+      }
+
+      <vet-program-isced-list [iscedList]="_program?.isced_description" />
+
+      @if (showGallery()) {
+        <vet-program-gallery [videoUrl]="_program?.video_url" />
+      }
+    </div>
+
+    <vet-program-contact-info [program]="_program">
+      <ng-content select="[contact-footer]" />
+    </vet-program-contact-info>
+  </div>
+}

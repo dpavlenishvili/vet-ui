@@ -215,10 +215,66 @@ $measurements: (
   }
 }
 
+//input::-moz-placeholder,
+//.k-picker::-moz-placeholder,
+//.k-picker::-moz-placeholder, {
+//  color: $kendo-color-body !important;
+//  opacity: 1 !important;
+//  font-family: HelveticaNeue !important;
+//  font-size: 14px !important;
+//  font-weight: 400 !important;
+//  line-height: 24px !important;
+//  text-underline-position: from-font !important;
+//  text-decoration-skip-ink: none !important;
+//}
+//
+//input::placeholder,
+//.k-input::placeholder,
+//.k-picker::placeholder {
+//  color: $kendo-color-body !important;
+//  opacity: 1 !important;
+//  font-family: HelveticaNeue !important;
+//  font-size: 14px !important;
+//  font-weight: 400 !important;
+//  line-height: 24px !important;
+//  text-underline-position: from-font !important;
+//  text-decoration-skip-ink: none !important;
+//}
+
 kendo-label {
   @include text-base();
   color: $kendo-color-body;
 }
+
+//kendo-svg-icon.tiny {
+//  display: block !important;
+//  width: 4px !important;
+//
+//  svg {
+//    width: 4px !important;
+//    height: 8px !important;
+//  }
+//}
+//
+//kendo-svg-icon.medium {
+//  display: block !important;
+//  width: 22px;
+//  height: 22px !important;
+//
+//  svg {
+//    height: 100% !important;
+//  }
+//}
+//
+//kendo-svg-icon.large {
+//  display: block !important;
+//  width: 46px !important;
+//  height: 46px !important;
+//
+//  svg {
+//    height: 46px !important;
+//  }
+//}
 
 .k-anchor-reset {
   @include anchor-reset();
@@ -226,4 +282,182 @@ kendo-label {
 
 ul.k-list-style-circle {
   list-style: circle;
+}
+
+//.k-grid-table {
+//  display: grid;
+//  //border: 1px solid var(--kendo-color-border);
+//
+//  .k-grid-cell {
+//    padding: 0.75rem 1rem;
+//    //border-style: solid;
+//    //border-color: var(--kendo-color-border);
+//    //border-width: 0;
+//    //border-right-width: 1px;
+//    //border-bottom-width: 1px;
+//    font-family: HelveticaNeue;
+//    font-size: 12px;
+//    font-weight: 400;
+//    line-height: 16px;
+//    text-align: left;
+//    text-underline-position: from-font;
+//    text-decoration-skip-ink: none;
+//
+//    &.k-grid-header {
+//      background-color: #ffffff;
+//      margin-bottom: 1.25rem;
+//      font-family: HelveticaNeueMedium;
+//      font-weight: 500;
+//      line-height: 14.65px;
+//      border-radius: 0.25rem;
+//      border: 1px solid var(--kendo-button-border);
+//
+//      &:not(:first-child) {
+//        margin-left: 1.25rem;
+//      }
+//    }
+//
+//    //&:last-child {
+//    //  border-right: none;
+//    //}
+//  }
+//
+//  &.k-grid-dense {
+//    .k-grid-cell {
+//      padding: 0.625rem;
+//    }
+//  }
+//
+//  @for $i from 1 through 20 {
+//    &.k-grid-size-#{$i} {
+//      grid-template-columns: repeat(#{$i}, 1fr);
+//
+//      //.k-grid-cell {
+//      //  &:nth-child(#{$i}n) {
+//      //    border-right: none;
+//      //  }
+//      //
+//      //  &:nth-last-child(-n+#{$i}) {
+//      //    border-bottom: none;
+//      //  }
+//      //}
+//
+//      @include zebra-rows($i, max-rows());
+//    }
+//  }
+//}
+
+kendo-grid.k-grid {
+  border-radius: 0.625rem;
+  border-color: #ECECEC;
+  overflow: hidden;
+
+  .k-grid-aria-root {
+    border-color: #ECECEC;
+
+    .k-grid-header {
+      border-bottom-color: #ECECEC;
+
+      thead:first-of-type {
+        background: transparent;
+        border-top-left-radius: 0.625rem;
+        border-top-right-radius: 0.625rem;
+        border-color: #ECECEC;
+
+        th {
+          padding: 1.125rem 0.75rem;
+
+          .k-cell-inner {
+            .k-column-title {
+              @include text-sm(true);
+              color: $kendo-color-body-dark;
+            }
+          }
+        }
+
+        th:first-of-type {
+          border-top-left-radius: 0.625rem;
+          .k-cell-inner {
+            border-top-left-radius: 0.625rem;
+          }
+        }
+
+        th:last-of-type {
+          .k-cell-inner {
+            border-top-right-radius: 0.625rem;
+          }
+        }
+      }
+    }
+
+    .k-grid-container {
+      table {
+        tbody {
+          tr {
+            td {
+              @include text-sm();
+              color: $kendo-color-body;
+              padding: 0.5rem 0.75rem !important;
+              border-color: #ECECEC !important;
+            }
+          }
+
+          tr:first-of-type {
+            td {
+              border-top: none !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  kendo-pager {
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+    @include text-sm();
+  }
+}
+
+kendo-textbox.vet-filter-input {
+  width: 100%;
+
+  > input {
+    @include text-sm(false, true);
+    color: $kendo-color-hint;
+
+    &::placeholder {
+      @include text-sm(false, true);
+      color: $kendo-color-hint;
+    }
+  }
+
+  .vet-filter-input-icon {
+    color: $kendo-color-body-light;
+  }
+}
+
+.vet-filter-input kendo-dropdownlist {
+  width: 100%;
+  height: 2.375rem !important;
+  border-color: $kendo-color-border-alt !important;
+
+  .k-input-inner {
+    .k-input-value-text {
+      @include text-sm(false, true);
+      color: $kendo-color-hint;
+    }
+  }
+
+  > .k-button {
+    display: none !important;
+  }
+
+  .k-input-value-text {
+    display: flex !important;
+  }
+}
+
+.vet-filter-input kendo-switch {
+  width: 3.375rem;
 }

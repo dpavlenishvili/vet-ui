@@ -26,7 +26,7 @@ $variant-colors: (
       border-radius: 1.25rem;
       border-left-width: 0.75rem;
       border-left-style: solid;
-      border-left-color: shared.$kendo-color-primary; // default color
+      border-left-color: shared.$kendo-color-primary; 
       box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
       overflow: hidden;
 
@@ -105,7 +105,7 @@ $variant-colors: (
         }
       }
 
-      // Mobile responsiveness
+      
       @media (max-width: 480px) {
         flex-direction: column-reverse;
         gap: 0.75rem;
@@ -117,12 +117,12 @@ $variant-colors: (
       }
     }
 
-    // Override default dialog title styling
+    
     .k-window-titlebar {
       display: none;
     }
 
-    // Ensure proper spacing when no title
+    
     &:not([title]) .k-window-content.k-dialog-content {
       padding-top: 3rem;
     }

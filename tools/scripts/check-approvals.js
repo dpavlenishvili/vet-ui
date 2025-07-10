@@ -6,7 +6,7 @@ const mergeRequestApiUrl = `${apiBaseUrl}/projects/${projectId}/merge_requests/$
 const mergeRequestApprovalsApiUrl = `${mergeRequestApiUrl}/approvals`;
 
 const requiredApprovesQty = 2;
-const requiredApproverUserNames = new Set(['g.cheishvili']);
+const requiredApproverUserNames = new Set(['g.cheishvili', 'Tsomaia']);
 
 const requiredApproversString = () => JSON.stringify(Array.from(requiredApproverUserNames).map(name => `@${name}`));
 
@@ -34,7 +34,7 @@ Promise.all(
     }
 
     const approverUserNames = new Set(approvalResponse.approved_by.map(a => a.user.username));
-    const missingApprovers = Array.from(requiredApproverUserNames).filter(u => !approverUserNames.has(u));
+    const missingApprovers = Array.from(requiredApproverUserNames).some(u => !approverUserNames.has(u));
     if (missingApprovers.length > 0) {
       throw new Error(`Missing approvers: ${missingApprovers.join(', ')}`);
     }

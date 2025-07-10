@@ -9,16 +9,10 @@
   .ssm-question-container {
 
     @media (max-width: 479px) {
-      flex-direction: column;
-      align-items: flex-start;
       gap: 1rem;
 
       > div:first-child {
         width: 100%;
-      }
-
-      > div:last-child {
-        align-self: flex-end;
       }
     }
   }
@@ -49,16 +43,10 @@
   .translator-question-container {
 
     @media (max-width: 479px) {
-      flex-direction: column;
-      align-items: flex-start;
       gap: 1rem;
 
       > div:first-child {
         width: 100%;
-      }
-
-      > div:last-child {
-        align-self: flex-end;
       }
     }
   }

@@ -1,0 +1,18 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-unauthorised-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: -1.25rem;
+
+  .vet-unauthorised-grid-item {
+    flex: 0 0 calc(50% - 0.625rem);
+    box-sizing: border-box;
+    margin-top: 1.25rem;
+  }
+}

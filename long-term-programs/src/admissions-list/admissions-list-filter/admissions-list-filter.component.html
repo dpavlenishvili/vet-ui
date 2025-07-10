@@ -1,38 +1,27 @@
-<form [formGroup]="filterForm">
-  <div class="k-d-flex k-gap-4 k-pb-5 k-flex-wrap">
-    <div class="k-d-flex k-gap-4 k-w-full">
-      <kendo-label [text]="'shared.search' | transloco">
-        <kendo-textbox formControlName="search">
-          <ng-template class="k-bg-primary" kendoTextBoxSuffixTemplate>
-            <div [title]="'programs.admissionFilterSearchTooltip' | transloco" kendoTooltip>
-              <kendo-svg-icon [icon]="vetIcons.info" />
-            </div>
-          </ng-template>
-        </kendo-textbox>
-      </kendo-label>
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-input
+        formControlName="search"
+        leadingIcon="info"
+        trailingIcon="search"
+        [placeholder]="'shorts.search' | transloco"
+        [leadingIconTooltip]="'programs.admissionFilterSearchTooltip' | transloco"
+      />
 
-      <kendo-label [text]="'shared.status' | transloco">
-        <kendo-dropdownlist
-          [data]="admissionStatus$.value()"
-          [valuePrimitive]="true"
-          formControlName="status"
-          textField="value"
-          valueField="id"
-        />
-      </kendo-label>
+      <vet-selector
+        formControlName="program"
+        [placeholder]="'shared.program' | transloco"
+        [options]="admissionStatus$.value()"
+      />
     </div>
-  </div>
-  <div class="k-display-flex k-justify-content-end k-gap-4">
-    <button
-      (click)="clearFilters()"
-      [svgIcon]="kendoIcons.xIcon"
-      fillMode="outline"
-      kendoButton
-      themeColor="primary"
-    ></button>
 
-    <button (click)="onSubmit()" [svgIcon]="kendoIcons.searchIcon" fillMode="solid" kendoButton themeColor="primary">
-      {{ 'shared.search' | transloco }}
-    </button>
+    <div vet-line gap-dense content-right>
+      <vet-icon-button icon="close" (click)="clearFilters()" />
+
+      <vet-button leadingIcon="search" type="submit">
+        {{ 'shared.search' | transloco }}
+      </vet-button>
+    </div>
   </div>
 </form>

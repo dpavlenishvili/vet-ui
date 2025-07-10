@@ -20,13 +20,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdmissionRegistrationComponent implements OnInit {
+  loading = signal<boolean>(true);
+  educationStatus = signal<{ level?: string; levelId?: number } | null>(null);
   private admissionService = inject(AdmissionService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private confirm = useConfirm();
-
-  loading = signal<boolean>(true);
-  educationStatus = signal<{ level?: string; levelId?: number } | null>(null);
 
   ngOnInit() {
     this.admissionService
@@ -34,14 +33,16 @@ export class AdmissionRegistrationComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => {
         if (!res.is_eligible) {
-          this.confirm.info({
+          this.confirm.warning({
             title: 'programs.enrollmentStatus',
             content: 'shared.alreadyEnrolled',
             showYesNoButtons: false,
+            preventCloseOnKeyDown: true,
             singleTypeDialogActionText: 'programs.viewAdmissions',
             onConfirm: () => {
+              this.confirm.close();
               this.router.navigate(['long-term-programs', 'list']);
-            }
+            },
           });
         }
       });

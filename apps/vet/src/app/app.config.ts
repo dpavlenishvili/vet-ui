@@ -1,5 +1,5 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, inject } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
@@ -7,7 +7,6 @@ import { provideAngularSvgIcon } from 'angular-svg-icon';
 
 import { dynamicPagesInitializer } from '@vet/dynamic-pages';
 import {
-  apiErrorInterceptor,
   provideBaseApiUrl,
   provideBaseUrl,
   provideDefaultDateFallback,
@@ -31,15 +30,20 @@ import { authenticationInterceptor, provideAuthEnvironment } from '@vet/auth';
 import { NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { provideKendoDateSettings } from './kendo-date-config.provider';
+import { TranslocoService } from '@jsverse/transloco';
+import { firstValueFrom, take } from 'rxjs';
+
+async function initTranslations() {
+  const transloco = inject(TranslocoService);
+
+  return await firstValueFrom(transloco.selectTranslation('en').pipe(take(1)));
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     provideRouter(appRoutes, withComponentInputBinding()),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([acceptLanguageInterceptor, authenticationInterceptor, apiErrorInterceptor]),
-    ),
+    provideHttpClient(withFetch(), withInterceptors([acceptLanguageInterceptor, authenticationInterceptor])),
     importProvidersFrom(ToastModule),
     provideEnvironment(environment),
     initializeTransolco(),
@@ -58,6 +62,7 @@ export const appConfig: ApplicationConfig = {
     provideAuthEnvironment(environment.modules.auth),
     dynamicPagesInitializer(),
     provideKendoDateSettings(),
+    provideAppInitializer(initTranslations),
     {
       provide: NOTIFICATION_CONTAINER,
       useFactory: () => {

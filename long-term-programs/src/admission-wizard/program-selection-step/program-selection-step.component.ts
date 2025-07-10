@@ -18,13 +18,13 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
 import { filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons } from '@vet/shared';
 import { GridDataResult, GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { ProgramComponent } from 'programs/src/program/program.component';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';
 import { ProgramSelectionFiltersComponent } from './program-selection-filters/program-selection-filters.component';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, tap } from 'rxjs';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+import { UnauthorisedProgramPageComponent } from '@vet/unauthorised-programs';
 
 const MAX_PROGRAMS = 3;
 const MIN_PROGRAMS_SSM = 2;
@@ -63,7 +63,7 @@ export type ProgramSelectionFilter = {
     TranslocoPipe,
     KENDO_GRID,
     GridModule,
-    ProgramComponent,
+    UnauthorisedProgramPageComponent,
     DialogModule,
     ProgramSelectionFiltersComponent,
     KENDO_TOOLTIP,
@@ -90,12 +90,6 @@ export class ProgramSelectionStepComponent implements OnInit {
   readonly skip = signal(0);
   readonly vetIcons = vetIcons;
   readonly kendoIcons = kendoIcons;
-  readonly gridData = computed((): GridDataResult => {
-    const data = this.eligiblePrograms$.value()?.data || [];
-    const total = this.eligiblePrograms$.value()?.meta?.total || 0;
-    return { data, total };
-  });
-  readonly pageSize = computed(() => this.eligiblePrograms$.value()?.meta?.per_page || DEFAULT_PAGE_SIZE);
   private readonly _selectedPrograms = signal<number[]>([]);
   readonly selectedPrograms = this._selectedPrograms.asReadonly();
   readonly selectedProgramsCount = computed(() => this._selectedPrograms().length);
@@ -113,6 +107,12 @@ export class ProgramSelectionStepComponent implements OnInit {
       return this.admissionService.eligibleProgramsList(admissionId, filters);
     },
   });
+  readonly gridData = computed((): GridDataResult => {
+    const data = this.eligiblePrograms$.value()?.data || [];
+    const total = this.eligiblePrograms$.value()?.meta?.total || 0;
+    return { data, total };
+  });
+  readonly pageSize = computed(() => this.eligiblePrograms$.value()?.meta?.per_page || DEFAULT_PAGE_SIZE);
   private readonly destroyRef = inject(DestroyRef);
   private readonly routeParamsService = inject(RouteParamsService);
 

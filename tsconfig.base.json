@@ -17,14 +17,19 @@
     "paths": {
       "@vet/auth": ["auth/src/index.ts"],
       "@vet/backend": ["backend/src/index.ts"],
+      "@vet/dashboard": ["dashboard/src/index.ts"],
       "@vet/dynamic-pages": ["dynamic-pages/src/index.ts"],
       "@vet/home": ["home/src/index.ts"],
       "@vet/i18n": ["i18n/src/index.ts"],
       "@vet/long-term-programs": ["long-term-programs/src/index.ts"],
       "@vet/programs": ["programs/src/index.ts"],
+      "@vet/programs-common": ["programs-common/src/index.ts"],
       "@vet/shared": ["shared/src/index.ts"],
+      "@vet/shared-resources": ["shared-resources/src/index.ts"],
       "@vet/short-term-programs": ["short-term-programs/src/index.ts"],
-      "@vet/user-profile": ["user-profile/src/index.ts"]
+      "@vet/unauthorised-programs": ["unauthorised-programs/src/index.ts"],
+      "@vet/user-profile": ["user-profile/src/index.ts"],
+      "@vet/vacancy": ["vacancy/src/index.ts"]
     },
     "noUnusedLocals": false
   },

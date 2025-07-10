@@ -1,0 +1,75 @@
+<div class="vet-dashboard-sidebar {{ isExpanded() ? 'expanded' : 'collapsed' }}">
+  <div class="vet-dashboard-sidebar-content-container">
+    <div class="vet-dashboard-sidebar-content">
+      <div class="vet-dashboard-sidebar-toggle-container">
+        <vet-icon-button
+          mode="solid"
+          variant="secondary"
+          [icon]="isExpanded() ? 'chevronLeft' : 'chevronRight'"
+          iconSize="tiny"
+          (click)="onToggleExpansion()"
+        ></vet-icon-button>
+      </div>
+
+      <div class="vet-dashboard-sidebar-item-list">
+        @for (item of items(); track item.id) {
+          @if (item.accessControl | hasAccess) {
+            @let isItemActive = isActive(item);
+            @let isHighlighted = isItemActive && isItemHighlighted(item);
+
+            <div class="vet-dashboard-sidebar-item" [class.active]="isItemActive" [class.highlighted]="isHighlighted">
+              <a
+                kendoTooltip
+                [title]="!isExpanded() ? (item.text | transloco) : ''"
+                [position]="'right'"
+                [routerLink]="item.url ? [item.url] : []"
+                class="vet-dashboard-sidebar-item-anchor{{ isItemActive ? ' active' : '' }}"
+              >
+                <div class="vet-dashboard-sidebar-item-button" (click)="onItemClick(item)">
+                  <div class="vet-dashboard-sidebar-item-content">
+                    <div class="vet-dashboard-sidebar-item-content-left">
+                      <div class="vet-dashboard-sidebar-item-icon-container" [class.active]="isItemActive">
+                        <vet-icon [icon]="item.icon" class="medium" />
+                      </div>
+
+                      <p class="vet-dashboard-sidebar-item-text vet-text-uppercase k-text-sm">{{ item.text | transloco }}</p>
+                    </div>
+
+                    @if (isExpanded() && item.children && item.children.length > 0) {
+                      <vet-icon
+                        [icon]="item.isExpanded() ? 'chevronBottomXs' : 'chevronLeftXs'"
+                        class="tiny"
+                      />
+                    }
+                  </div>
+
+                  @if (isExpanded()) {
+                    <div class="vet-dashboard-sidebar-item-highlighter" [class.active]="isItemActive && !item.isExpanded()"></div>
+                  }
+                </div>
+              </a>
+
+              @if (item.children?.length) {
+                <div class="vet-dashboard-sidebar-children-list-container{{ item.isExpanded() ? ' expanded' : ' collapsed' }}">
+                  <ul class="vet-dashboard-sidebar-children-list">
+                    @for (child of item.children; track child.id) {
+                      @if (child.accessControl | hasAccess) {
+                        @let isChildActive = isActive(child);
+
+                        <li class="vet-dashboard-sidebar-children-list-item{{ isChildActive ? ' active' : '' }}">
+                          <a [routerLink]="child.url ? [child.url] : []">
+                            <p class="vet-text-uppercase">{{ child.text | transloco }}</p>
+                          </a>
+                        </li>
+                      }
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

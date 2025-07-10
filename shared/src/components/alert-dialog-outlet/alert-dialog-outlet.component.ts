@@ -65,7 +65,7 @@ export class AlertDialogOutletComponent {
 
   @HostListener('window:keydown', ['$event'])
   public onKeydown(event: KeyboardEvent): void {
-    // Enhanced: Allow ESC key to close alert dialogs
+    
     if (event.key === 'Escape') {
       event.preventDefault();
       event.stopImmediatePropagation();

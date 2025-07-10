@@ -4,6 +4,10 @@ kendo-label {
   width: 100%;
 }
 
+.k-virtual-content {
+  overflow: auto;
+}
+
 .k-dropdownlist {
   width: 100%;
   height: 2.375rem;
@@ -126,6 +130,10 @@ kendo-grid.k-grid {
   border-radius: 0.625rem;
   border-color: #ececec;
   overflow: hidden;
+
+  kendo-pager-info {
+    display: none;
+  }
 
   .k-grid-aria-root {
     border-color: #ececec;
@@ -371,3 +379,5 @@ kendo-svg-icon.large {
 .k-dialog-title {
   text-align: center;
 }
+
+.k-grid-header {  padding-right: 0 !important;}

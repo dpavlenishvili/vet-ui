@@ -1,16 +1,16 @@
 <form class="vet-shorts-general-information-step" [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
   <div class="k-display-flex k-flex-column k-gap-11 k-pt-2">
     <vet-short-term-programs-filters
+      class="vet-shorts-filters"
       [filters]="filters()"
-      [foundResultsCount]="foundProgramsCount"
       (filtersChange)="onFiltersChange($event)"
-      (dialogFiltersChangeRealtime)="onDialogFiltersChangeRealtime($event)"
     />
 
     @if (isBrowser) {
       <vet-short-registration-program-selection-grid
         [data]="data"
         [selectedProgramIds]="selectedProgramIds()"
+        [isSelectionDisabled]="isProgramSelectionDisabled()"
         (itemSelect)="onSelectProgram($event)"
         (itemUnselect)="onUnselectProgram($event)"
         (pageChange)="onPageChange($event)"
@@ -19,24 +19,12 @@
   </div>
 
   <div class="vet-shorts-step-footer">
-    <button
-      kendoButton
-      class="vet-form-button"
-      type="button"
-      themeColor="tertiary"
-      (click)="onBack()"
-    >
+    <vet-button version="fat" variant="tertiary" (click)="onBack()">
       {{ 'shorts.go_back' | transloco }}
-    </button>
+    </vet-button>
 
-    <button
-      kendoButton
-      class="vet-form-button"
-      type="submit"
-      themeColor="primary"
-      [disabled]="formGroup().invalid"
-    >
+    <vet-button type="submit" version="fat">
       {{ 'shorts.continue' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </form>

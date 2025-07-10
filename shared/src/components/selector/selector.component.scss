@@ -5,6 +5,22 @@
   width: 100%;
 }
 
+kendo-dropdownlist.vet-selector {
+  width: 100%;
+
+  &.vet-selector-fat {
+    height: 3.125rem !important;
+    border-radius: 0.625rem !important;
+    border-color: shared.$kendo-color-divider-light !important;
+  }
+
+  &.vet-selector-thin {
+    height: 2.375rem !important;
+    border-radius: 0.375rem;
+    border-color: shared.$kendo-color-border-alt !important;
+  }
+}
+
 .vet-selector.vet-has-error {
   border-color: shared.$kendo-color-error !important;
 }
@@ -14,4 +30,35 @@
   color: shared.$kendo-color-error;
   margin-top: 0.25rem;
   margin-left: 0.625rem;
+}
+
+::ng-deep {
+  kendo-dropdownlist.vet-selector {
+
+    &.vet-selector-fat {
+      .k-input-inner {
+        .k-input-value-text {
+          @include shared.text-base(true, true);
+          color: shared.$kendo-color-body !important;
+        }
+      }
+    }
+
+    &.vet-selector-thin {
+      .k-input-inner {
+        .k-input-value-text {
+          @include shared.text-sm(false, true);
+          color: shared.$kendo-color-hint;
+        }
+      }
+    }
+
+    > .k-button {
+      display: none !important;
+    }
+
+    .k-input-value-text {
+      display: flex !important;
+    }
+  }
 }

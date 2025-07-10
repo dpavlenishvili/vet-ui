@@ -1,0 +1,38 @@
+<div class="vacancy-table__block">
+  <table class="vacancy-table">
+    <thead>
+      <tr class="vacancy-table__tr">
+        @for (item of headData(); track item.name) {
+          <th class="vacancy-table__tr-th">{{ item?.name | transloco }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of bodyData(); track item.id) {
+        <tr class="vacancy-table__body-tr">
+          <td class="vacancy-table__tr-td">{{ item.id }}</td>
+          <td class="vacancy-table__tr-td">{{ item.position }}</td>
+          <td class="vacancy-table__tr-td">
+            @for (module of item.modules | textArrayFromIds: modulesList(); track module) {
+              {{ module }}
+              @if (!$last) {
+                ,
+              }
+            }
+          </td>
+          <td class="vacancy-table__tr-td">{{ item.district ?? '---' }}</td>
+          <td class="vacancy-table__tr-td">{{ item.institution ?? '---' }}</td>
+          <td class="vacancy-table__tr-td">{{ item.publish_date | date: 'dd.MM.yyyy' }}</td>
+          <td class="vacancy-table__tr-td">{{ item.deadline_date | date: 'dd.MM.yyyy' }}</td>
+          <td class="vacancy-table__tr-td">
+            <vet-vacancy-action-menu
+              [id]="item.id ?? 0"
+              (editAction)="editAction.emit($event)"
+              (deleteAction)="deleteAction.emit($event)"
+            />
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

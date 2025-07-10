@@ -1,0 +1,6 @@
+@for (dialog of openedDialogs(); track dialog.id) {
+  <vet-single-dialog-outlet
+    [params]="dialog"
+    (hide)="onClose(dialog.id)"
+  />
+}

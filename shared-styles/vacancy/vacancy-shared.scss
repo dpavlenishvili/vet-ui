@@ -1,0 +1,11 @@
+@use '../variables' as variables;
+
+.vacancy-control {
+  min-height: 48px;
+  border-radius: var(--kendo-border-radius-xl);
+}
+
+.native-button {
+  border: none;
+  background-color: transparent;
+}

@@ -1,0 +1,21 @@
+@let _program = program();
+
+<div>
+  <h1 class="vet-program-institution">{{ organisation?.name }}</h1>
+  <h2 class="vet-program-name">{{ _program?.program_name }}</h2>
+
+  <div class="vet-program-cards-container">
+    <div class="vet-program-card-container">
+      <vet-program-details
+        [program]="_program"
+        [items]="details()"
+      />
+    </div>
+
+    <div class="vet-program-card-container">
+      <ng-content select="[admissions]" />
+    </div>
+  </div>
+
+  <vet-program-partners [partners]="_program?.partners" />
+</div>

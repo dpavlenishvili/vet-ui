@@ -1,0 +1,28 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.vet-program-data-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+
+  .vet-program-data-section-title {
+    @include shared.text-h2();
+  }
+
+  .vet-program-data-section-content {
+    @include shared.text-base();
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    &.dimmed {
+      color: shared.$kendo-color-body;
+    }
+  }
+}

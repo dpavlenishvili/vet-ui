@@ -1,0 +1,23 @@
+<header>
+  <vet-ui-navbar [pages]="pages$()" [user]="user()" (logout)="logout()" />
+</header>
+
+<main class="vet-dashboard-layout">
+  <vet-breadcrumb />
+
+  <div class="vet-dashboard-container">
+    <div class="vet-sidebar-container">
+      <vet-dashboard-sidebar />
+    </div>
+
+    <div class="vet-content-container">
+      @if (isBrowser) {
+        @defer (on immediate) {
+          <router-outlet />
+        }
+      }
+    </div>
+  </div>
+</main>
+
+<vet-app-footer />

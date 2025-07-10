@@ -1,0 +1,19 @@
+@let _registeredListeners = registeredListeners.value();
+
+<vet-short-term-registered-listeners-filters
+  [numberOfRecords]="_registeredListeners.length"
+  [filters]="filters()"
+  (filtersChange)="updateFilters($event)"
+/>
+
+<kendo-grid [data]="_registeredListeners" [loading]="registeredListeners.isLoading()">
+  <kendo-grid-column [title]="'shorts.pid' | transloco" />
+  <kendo-grid-column [title]="'shorts.name_surname' | transloco" />
+  <kendo-grid-column [title]="'shorts.phone' | transloco" />
+  <kendo-grid-column [title]="'shorts.email' | transloco" />
+  <kendo-grid-column [title]="'shorts.status' | transloco">
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.status }}
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

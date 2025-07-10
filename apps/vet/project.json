@@ -28,6 +28,14 @@
         "production": {
           "outputHashing": "all"
         },
+        "qwerty": {
+          "fileReplacements": [
+            {
+              "replace": "apps/vet/src/environments/environment.ts",
+              "with": "apps/vet/src/environments/environment.qwerty.ts"
+            }
+          ]
+        },
         "development": {
           "optimization": false,
           "extractLicenses": false,
@@ -47,6 +55,9 @@
         },
         "development": {
           "buildTarget": "vet:build:development"
+        },
+        "qwerty": {
+          "buildTarget": "vet:build:qwerty"
         }
       },
       "defaultConfiguration": "development"

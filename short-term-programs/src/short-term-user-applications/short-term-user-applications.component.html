@@ -1,0 +1,83 @@
+@let _registeredListeners = applications.value();
+
+<div class="vet-short-card">
+  <div class="vet-short-card-row">
+    <div class="vet-short-info">
+      {{ 'shorts.information_message' | transloco }}
+    </div>
+
+    <div class="vet-short-actions">
+      <a [routerLink]="['/programs/short/registration']">
+        <vet-button version="fat">
+          {{ 'shorts.register' | transloco }}
+        </vet-button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="vet-short-card">
+  <kendo-grid
+    [data]="_registeredListeners"
+    [loading]="applications.isLoading()"
+  >
+    <ng-template kendoGridNoRecordsTemplate>
+      <div class="vet-no-records-template">
+        {{ 'shared.noRecords' | transloco }}
+      </div>
+    </ng-template>
+    
+    <kendo-grid-column
+      [title]="'shorts.program' | transloco"
+      field="programAdmission.program.name"
+    />
+
+    <kendo-grid-column
+      [title]="'shorts.institution' | transloco"
+      field="programAdmission.program.organisation.name"
+    />
+
+    <kendo-grid-column
+      [title]="'shorts.program_kind' | transloco"
+      field="programAdmission.program.program_kind.name"
+    />
+
+    <kendo-grid-column [title]="'shorts.tuition_start_date' | transloco">
+      <ng-template kendoGridCellTemplate let-item>
+        {{ item.programAdmission.study_start_date | formatDate }}
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'shorts.status' | transloco">
+      <ng-template kendoGridCellTemplate let-item>
+        {{ item.status.name }}<br/>
+        {{ item.status.value | formatDate }}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column
+      [title]="'shorts.action' | transloco" [width]="80">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-align-items-center k-gap-1">
+          <vet-icon-button
+            kendoTooltip
+            icon="eye"
+            mode="flat"
+            version="minimal"
+            (click)="onPreviewProgram(item)"
+            [title]="'shorts.see' | transloco"
+          />
+          <vet-icon-button
+            kendoTooltip
+            icon="bin"
+            mode="flat"
+            version="minimal"
+            [disabled]="!item.can_delete"
+            (click)="onDeleteProgram(item)"
+            [title]="'shorts.cancel' | transloco"
+          />
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+</div>

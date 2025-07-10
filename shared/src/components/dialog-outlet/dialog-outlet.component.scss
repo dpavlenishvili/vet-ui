@@ -1,0 +1,92 @@
+@use '@vet/shared-styles' as shared;
+
+$variant-colors: (
+  success: shared.$kendo-color-success,
+  error: shared.$kendo-color-error,
+  info: shared.$kendo-color-info,
+  warning: shared.$kendo-color-warning,
+);
+
+::ng-deep {
+  kendo-dialog.vet-alert-dialog {
+    @each $variant, $color in $variant-colors {
+      &.#{$variant} {
+        .k-window.k-dialog {
+          border-left-color: $color;
+
+          .dialog-icon kendo-svg-icon {
+            color: $color;
+          }
+        }
+      }
+    }
+
+    .k-window.k-dialog {
+      border-radius: 1.25rem;
+      border-left-width: 0.75rem;
+      border-left-style: solid;
+      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+
+      .k-window-content.k-dialog-content {
+        padding: 1.5rem;
+        position: relative;
+      }
+    }
+
+    .dialog-header {
+      position: absolute;
+      top: 0.3rem;
+      right: 0.3rem;
+      z-index: 1;
+
+      .dialog-close-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0.25rem;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+    }
+
+    .dialog-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      width: 100%;
+
+      .dialog-icon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .dialog-message {
+        text-align: center;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: shared.$kendo-color-body-dark;
+        word-break: break-word;
+        width: 100%;
+
+        a {
+          color: shared.$kendo-color-link;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .dialog-template {
+        width: 100%;
+      }
+    }
+  }
+}

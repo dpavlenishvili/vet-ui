@@ -1,0 +1,38 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-selector
+        self-grow
+        formControlName="organisation_name"
+        [placeholder]="'shorts.institution_name' | transloco"
+        [options]="institutionOptions.value()"
+      />
+
+      <vet-input
+        self-grow
+        formControlName="program_name_or_code"
+        [placeholder]="'shorts.program_code_name' | transloco"
+      />
+
+      <vet-date-picker
+        self-grow
+        formControlName="tuition_start_date"
+        [placeholder]="'shorts.stream_tuition_period_start_date' | transloco"
+      />
+    </div>
+
+    <div vet-line space-between align-center>
+      <p class="k-text-sm k-color-body">
+        {{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}
+      </p>
+
+      <div vet-line gap-dense content-right>
+        <vet-icon-button icon="close" (click)="onClearClick()" />
+
+        <vet-button leadingIcon="search" type="submit">
+          {{ 'shared.search' | transloco }}
+        </vet-button>
+      </div>
+    </div>
+  </div>
+</form>

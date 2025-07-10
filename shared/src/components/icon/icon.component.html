@@ -1,0 +1,32 @@
+@let _class = class();
+@let _popover = popover();
+@let _tooltip = tooltip();
+
+@if (_popover) {
+  <kendo-svg-icon
+    class="vet-icon vet-icon-{{ size() }}{{ _class ? ' ' + _class : '' }}"
+    [icon]="vetIcons[icon()]"
+    kendoPopoverAnchor
+    #anchor="kendoPopoverAnchor"
+    [popover]="popoverTemplate"
+    showOn="hover"
+  />
+} @else if (_tooltip) {
+  <kendo-svg-icon
+    class="vet-icon vet-icon-{{ size() }}{{ _class ? ' ' + _class : '' }}"
+    [icon]="vetIcons[icon()]"
+    kendoTooltip
+    [title]="_tooltip"
+  />
+} @else {
+  <kendo-svg-icon
+    class="vet-icon vet-icon-{{ size() }}{{ _class ? ' ' + _class : '' }}"
+    [icon]="vetIcons[icon()]"
+  />
+}
+
+<kendo-popover #popoverTemplate position="top" class="k-bg-primary">
+  <ng-template kendoPopoverBodyTemplate>
+    <ng-container *ngTemplateOutlet="_popover" />
+  </ng-template>
+</kendo-popover>

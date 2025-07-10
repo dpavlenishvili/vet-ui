@@ -3,19 +3,30 @@
 } @else {
   @if (selectedPrograms(); as _selectedPrograms) {
     <div class="responsive-grid-container">
-      <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5">
+      <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5" [resizable]="true">
         <ng-template kendoGridNoRecordsTemplate>
-          {{ 'shared.noRecords' | transloco }}
+          <div class="k-p-4 k-text-center k-color-body-light">
+            {{ 'shared.noRecords' | transloco }}
+          </div>
         </ng-template>
 
-        <kendo-grid-column [title]="'programs.program_name' | transloco" [width]="200" field="program_name">
+
+        <kendo-grid-column
+          [title]="'programs.program' | transloco"
+          [width]="250"
+          [minResizableWidth]="200"
+          [maxResizableWidth]="400"
+        >
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-align-items-center k-gap-2">
-              <span>{{ item.program.program_name }}</span>
+              <span>
+                {{ item.program.program_name }}
+              </span>
               @if (item.program.is_integrated) {
                 <kendo-svg-icon
                   [icon]="vetIcons.integrated"
-                  [size]="'small'"
+                  class="integrated-icon"
+                  kendoTooltip
                   [title]="'programs.integrated' | transloco"
                 />
               }
@@ -23,26 +34,58 @@
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-column [title]="'programs.level' | transloco" [width]="60" field="program.education_level" />
 
-        <kendo-grid-column [title]="'programs.form' | transloco" [width]="120" field="program.program_kind.name" />
+        <kendo-grid-column
+          [title]="'programs.level' | transloco"
+          field="program.education_level"
+          [width]="60"
+        />
 
-        <kendo-grid-column [title]="'programs.institution_name' | transloco" [width]="250" field="program.organisation.name" />
 
-        <kendo-grid-column [title]="'programs.implementation_location' | transloco" [width]="160">
+        <kendo-grid-column
+          [title]="'programs.form' | transloco"
+          field="program.program_kind.name"
+          [width]="170"
+        />
+
+
+        <kendo-grid-column
+          [title]="'programs.institution_name' | transloco"
+          field="program.organisation.name"
+          [width]="200"
+          [minResizableWidth]="150"
+          [maxResizableWidth]="350"
+        />
+
+
+        <kendo-grid-column
+          [title]="'programs.implementation_location' | transloco"
+          [width]="180"
+          [minResizableWidth]="140"
+          [maxResizableWidth]="220"
+        >
           <ng-template kendoGridCellTemplate let-item>
-            {{item.program.region.name + ', ' + item.program.district.name}}
+            <span class="k-text-nowrap">
+              {{ item.program.region.name + ', ' + item.program.district.name }}
+            </span>
           </ng-template>
         </kendo-grid-column>
 
         @if (isEditMode()) {
-          <kendo-grid-column [title]="'programs.selection' | transloco" [width]="100">
+
+          <kendo-grid-column
+            [title]="'programs.selection' | transloco"
+            [width]="80"
+            [minResizableWidth]="80"
+            [maxResizableWidth]="80"
+            [resizable]="false"
+          >
             <ng-template kendoGridCellTemplate let-item>
-              <div class="k-display-flex k-align-items-center k-gap-0.5 grid-actions">
+              <div class="k-display-flex k-justify-content-center k-gap-1 grid-actions">
                 <button kendoButton fillMode="flat" (click)="onPreviewProgramClick(item)">
                   <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="info" />
                 </button>
-                <button kendoButton fillMode="flat" (click)="onDeleteClick(item.program)">
+                <button kendoButton fillMode="flat" (click)="onDeleteClick(item)">
                   <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
                 </button>
               </div>
@@ -54,16 +97,8 @@
   }
 }
 
-@defer (when isProgramDialogOpen()) {
-  @if (isProgramDialogOpen()) {
-    <kendo-dialog
-      [width]="1100"
-      [height]="900"
-      [title]="'programs.program_description' | transloco"
-      (close)="onCloseClick()"
-      class="program-dialog"
-    >
-      <vet-program [programId]="singleProgramId()" />
-    </kendo-dialog>
-  }
+@if (isProgramDialogOpen()) {
+  <kendo-dialog width="90%" height="90%" [title]="'programs.program_description' | transloco" (close)="onCloseClick()">
+    <vet-unauthorised-program-page [programId]="singleProgramId()"/>
+  </kendo-dialog>
 }

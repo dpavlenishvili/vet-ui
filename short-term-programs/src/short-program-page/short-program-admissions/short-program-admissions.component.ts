@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { kendoIcons, vetIcons } from '@vet/shared';
+import { FormatDatePipe, kendoIcons, vetIcons } from '@vet/shared';
 import { Admission } from '@vet/backend';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useIsUserLoaded, useUser } from '@vet/auth';
 
 @Component({
   selector: 'vet-short-program-admissions',
-  imports: [KENDO_ICONS, TranslocoPipe],
+  imports: [KENDO_ICONS, TranslocoPipe, FormatDatePipe],
   templateUrl: './short-program-admissions.component.html',
   styleUrl: './short-program-admissions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

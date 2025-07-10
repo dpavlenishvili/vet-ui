@@ -1,0 +1,5 @@
+<div class="vacancy-container">
+  <vet-vacancy-form (emitForm)="onFiltersChange($event)" />
+  @let favoriteVacancyItems = favoriteVacancies.value().data;
+  <vet-vacancy-table [headData]="headData" [bodyData]="favoriteVacancyItems" />
+</div>

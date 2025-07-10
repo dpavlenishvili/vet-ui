@@ -1,5 +1,3 @@
-@let _foundResultsCount = foundResultsCount();
-
 <vet-dialog
   class="vet-dialog"
   [width]="648"
@@ -9,102 +7,86 @@
 >
   <ng-container content>
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-      <div class="vet-shorts-filters">
-        <div class="vet-shorts-filters-grid">
-          <div class="vet-shorts-filters-grid-cell">
+      <div vet-container>
+        <div vet-row>
+          <div vet-line gap-wide>
             <vet-switch
-              [icon]="vetIcons.currentIcon"
               formControlName="current"
+              icon="currentIcon"
               [label]="'shorts.current' | transloco"
             />
 
             <vet-switch
-              [icon]="vetIcons.scheduleIcon"
               formControlName="planned"
+              icon="scheduleIcon"
               [label]="'shorts.planned' | transloco"
             />
           </div>
         </div>
 
-        <div class="vet-shorts-filters-grid">
-          <kendo-textbox
-            class="vet-filter-input"
+        <div vet-row>
+          <vet-input
             formControlName="search"
+            trailingIcon="search"
             [placeholder]="'shorts.search' | transloco"
-          >
-            <ng-template kendoTextBoxSuffixTemplate>
-              <kendo-svg-icon
-                class="vet-filter-input-icon"
-                [icon]="vetIcons.search"
-              />
-            </ng-template>
-          </kendo-textbox>
+          />
         </div>
 
-        <div class="vet-shorts-filters-grid">
+        <div vet-row>
           <vet-selector
-            class="vet-filter-input"
             formControlName="region"
             [placeholder]="'shorts.region' | transloco"
             [options]="regionOptions.value()"
           />
 
           <vet-selector
-            class="vet-filter-input"
             formControlName="district"
             [placeholder]="'shorts.district' | transloco"
-            [options]="districtOptions.value()"
+            [options]="filteredDistricts()"
           />
         </div>
 
-        <div class="vet-shorts-filters-grid">
+        <div vet-row>
           <vet-selector
-            class="vet-filter-input"
             formControlName="organisation_name"
             [placeholder]="'shorts.institution_name' | transloco"
             [options]="institutionOptions.value()"
           />
         </div>
 
-        <div class="vet-shorts-filters-grid">
-          <kendo-textbox
-            class="vet-filter-input"
+        <div vet-row>
+          <vet-input
             formControlName="program_name_or_code"
             [placeholder]="'shorts.program_code_name' | transloco"
           />
 
           <vet-selector
-            class="vet-filter-input"
             formControlName="program_kind"
             [placeholder]="'shorts.program_kind' | transloco"
             [options]="programKindOptions.value()"
           />
         </div>
 
-        <div class="vet-shorts-filters-grid">
+        <div vet-row>
           <vet-date-picker
-            class="vet-filter-input"
-            formControlName="financing_type"
+            formControlName="start_study"
             [placeholder]="'shorts.tuition_period_start_date' | transloco"
           />
 
           <vet-date-picker
-            class="vet-filter-input"
-            formControlName="partner"
+            formControlName="end_study"
             [placeholder]="'shorts.tuition_period_end_date' | transloco"
           />
         </div>
 
-        <div class="vet-shorts-filters-grid">
+        <div vet-row>
           <vet-selector
-            class="vet-filter-input"
             formControlName="financing_type"
             [placeholder]="'shorts.financing_type' | transloco"
             [options]="financingTypeOptions.value()"
           />
 
           <vet-selector
-            class="vet-filter-input"
             formControlName="partner"
             [placeholder]="'shorts.partners' | transloco"
             [options]="partnerOptions.value()"
@@ -115,36 +97,30 @@
   </ng-container>
 
   <ng-container actions>
-    <div class="k-display-flex k-justify-content-between">
-      <button
-        kendoButton
-        class="vet-filter-button vet-shorts-clear"
-        type="button"
-        fillMode="flat"
-        themeColor="error"
+    <div vet-row space-between>
+      <vet-button
+        mode="flat"
+        variant="error"
+        leadingIcon="closeX"
+        iconSize="tiny"
         (click)="onClearClick()"
       >
-        <kendo-svg-icon class="vet-shorts-clear-icon" [icon]="vetIcons.closeX" />
-        <span class="vet-shorts-clear-text">{{ 'shorts.clear_filters' | transloco }}</span>
-      </button>
+        {{ 'shorts.clear_filters' | transloco }}
+      </vet-button>
 
-      <button
-        kendoButton
-        class="vet-filter-button"
-        fillMode="solid"
-        themeColor="primary"
+      <vet-button
         type="submit"
-        [disabled]="_foundResultsCount.isLoading()"
+        [disabled]="foundResultsCount.isLoading()"
         (click)="onSubmit()"
       >
-        @if (_foundResultsCount.hasValue() === null) {
+        @if (foundResultsCount.hasValue() === null) {
           {{ 'shorts.search_filters' | transloco }}
-        } @else if (_foundResultsCount.isLoading()) {
+        } @else if (foundResultsCount.isLoading()) {
           {{ 'shorts.search_filters_pending' | transloco }}
         } @else {
-          {{ 'shorts.search_found' | transloco : { found: _foundResultsCount.value() } }}
+          {{ 'shorts.search_found' | transloco : { found: foundResultsCount.value() } }}
         }
-      </button>
+      </vet-button>
     </div>
   </ng-container>
 </vet-dialog>

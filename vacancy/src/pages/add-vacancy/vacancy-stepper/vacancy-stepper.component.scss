@@ -1,0 +1,82 @@
+@use '@vet/shared-styles' as shared;
+
+* {
+  font-family: HelveticaNeue;
+  transition: 0.3s;
+}
+.stepper {
+  background-color: shared.$kendo-color-white;
+  border-radius: 20px;
+  padding: var(--kendo-spacing-3);
+  max-width: 300px;
+  min-width: 300px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: var(--kendo-spacing-3);
+    cursor: pointer;
+    text-decoration: none !important;
+
+    .stepper__item-circle {
+      background-color: var(--border-none);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: shared.$kendo-color-white;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: -47px;
+        width: 2px;
+        height: 40px;
+        background-color: var(--border-none);
+        border-radius: 30px;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 55px;
+    }
+
+    &:last-child {
+      .stepper__item-circle {
+        &::after {
+          display: none;
+        }
+      }
+    }
+
+    &--active {
+      .stepper__item-circle {
+        background-color: shared.$tb-kendo-color-primary-on-surface;
+
+        &::after {
+          background-color: shared.$tb-kendo-color-primary-on-surface;
+        }
+      }
+      .stepper__item-text {
+        color: shared.$tb-kendo-color-primary-on-surface;
+      }
+    }
+    &--active-row {
+      .stepper__item-circle {
+        &::after {
+          width: 3px;
+        }
+      }
+    }
+  }
+
+  &__item-text {
+    font-size: 14px;
+    color: shared.$kendo-color-hint;
+    text-transform: uppercase;
+  }
+}

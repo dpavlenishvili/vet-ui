@@ -1,17 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionListFilter } from '../admissions-list.component';
-import { TextBoxComponent, TextBoxSuffixTemplateDirective } from '@progress/kendo-angular-inputs';
-import { LabelComponent } from '@progress/kendo-angular-label';
-import { kendoIcons, vetIcons } from '@vet/shared';
+import {
+  ButtonComponent,
+  IconButtonComponent,
+  InputComponent,
+  isValidIdValue,
+  kendoIcons,
+  mapIdValueToOption,
+  SelectorComponent,
+  vetIcons
+} from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { DropDownListComponent } from '@progress/kendo-angular-dropdowns';
-import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-admissions-list-filter',
@@ -24,12 +27,10 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
     FormsModule,
     ReactiveFormsModule,
     TranslocoPipe,
-    TextBoxComponent,
-    LabelComponent,
-    DropDownListComponent,
-    TextBoxSuffixTemplateDirective,
-    SVGIconComponent,
-    TooltipDirective,
+    InputComponent,
+    SelectorComponent,
+    ButtonComponent,
+    IconButtonComponent,
   ],
 })
 export class AdmissionsListFilterComponent {
@@ -39,13 +40,14 @@ export class AdmissionsListFilterComponent {
   filtersChange = output<AdmissionListFilter>();
   generalsService = inject(GeneralsService);
   admissionStatus$ = rxResource({
+    defaultValue: [],
     loader: () =>
       this.generalsService.getAllConfigs({ key: 'admission_status' }).pipe(
         map((res) => {
           // ტიპი არის დასამატებელი, აღსაწერია სვაგერი სწორად.
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
-          return res['admission_status'];
+          return res['admission_status']?.filter(isValidIdValue).map(mapIdValueToOption) ?? [];
         }),
       ),
   });

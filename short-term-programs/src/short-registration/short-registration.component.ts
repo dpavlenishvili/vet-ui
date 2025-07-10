@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, signal, TemplateRef
 import { Router } from '@angular/router';
 import { ShortRegistrationStepperComponent } from './short-registration-stepper/short-registration-stepper.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { getCurrentStepIndex, useRouterParams, useSessionValue, WizardStepDefinition } from '@vet/shared';
+import { getCurrentStepIndex, useAlert, useRouterParams, useSessionValue, WizardStepDefinition } from '@vet/shared';
 import {
   ShortRegistrationGeneralInformationStepComponent,
   ShortRegistrationGeneralInformationStepFormData,
@@ -12,17 +12,14 @@ import {
   ShortRegistrationProgramSelectionStepFormData,
 } from './short-registration-program-selection-step/short-registration-program-selection-step.component';
 import { ShortRegistrationSelectedProgramsStepComponent } from './short-registration-selected-programs-step/short-registration-selected-programs-step.component';
-import {
-  ShortRegistrationConfirmationStepComponent,
-  ShortRegistrationConfirmationStepFormData,
-} from './short-registration-confirmation-step/short-registration-confirmation-step.component';
-import { ShortProgramAdmission } from '@vet/backend';
+import { ShortRegistrationConfirmationStepComponent } from './short-registration-confirmation-step/short-registration-confirmation-step.component';
+import { type ApplicationRequest, ProgramsService, ShortProgramAdmission } from '@vet/backend';
 import { SHORT_REGISTRATION_DATA, SHORT_REGISTRATION_STEP_INDEX } from '../short-term.constants';
+import { tap } from 'rxjs';
 
 export interface ShortRegistrationFormData {
   general_information: ShortRegistrationGeneralInformationStepFormData;
   program_selection: ShortRegistrationProgramSelectionStepFormData;
-  confirmation: ShortRegistrationConfirmationStepFormData;
 }
 
 @Component({
@@ -42,6 +39,8 @@ export interface ShortRegistrationFormData {
 export class ShortRegistrationComponent {
   router = inject(Router);
   params = useRouterParams();
+  alert = useAlert();
+  programs = inject(ProgramsService);
 
   formGroup = this.createFormGroup();
   generalInformationStepTemplate = viewChild.required<TemplateRef<unknown>>('generalInformationStepTemplate');
@@ -73,7 +72,7 @@ export class ShortRegistrationComponent {
     {
       label: 'shorts.confirmation',
       title: 'shorts.confirmation',
-      form: () => this.formGroup.controls.confirmation,
+      form: () => this.formGroup.controls.program_selection,
       template: this.confirmationStepTemplate,
       path: 'confirmation',
     },
@@ -89,7 +88,6 @@ export class ShortRegistrationComponent {
       program_selection: {
         selected_programs: [],
       },
-      confirmation: {},
     },
     60 * 60 * 1000,
   );
@@ -120,7 +118,6 @@ export class ShortRegistrationComponent {
       program_selection: new FormGroup({
         selected_programs: new FormControl<ShortProgramAdmission[]>([], Validators.required),
       }),
-      confirmation: new FormGroup({}),
     });
   }
 
@@ -137,7 +134,39 @@ export class ShortRegistrationComponent {
   }
 
   onSubmit() {
-    alert('Complete!');
+    if (!this.formGroup.valid) {
+      return
+    }
+
+    const value = this.formGroup.value;
+    const admissionIds = value
+      .program_selection
+      ?.selected_programs
+      ?.map((admission) => admission.id).filter(Boolean) as number[] ?? [];
+
+    this.programs.programsShortApplicationsStore({
+      education_level_id: Number(value.general_information?.education_level),
+      admission_ids: admissionIds,
+    } as unknown as ApplicationRequest).pipe(
+      tap({
+        next: () => {
+          this.alert.success('shorts.registration_success');
+          void this.router.navigate(['/dashboard/programs/short']);
+          this.stepIndex.set(0);
+          this.initialValues.set({
+            general_information: {
+              education_level: null,
+            },
+            program_selection: {
+              selected_programs: [],
+            },
+          });
+        },
+        error: () => {
+          this.alert.error('shorts.registration_error');
+        },
+      })
+    ).subscribe();
   }
 
   onStepIndexChange(stepIndex: number) {

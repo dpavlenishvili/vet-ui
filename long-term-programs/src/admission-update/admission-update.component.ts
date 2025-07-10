@@ -23,19 +23,19 @@ import { StepBody } from '../long-term-programs.types';
   imports: [AdmissionWizardComponent],
 })
 export class AdmissionUpdateComponent implements OnInit {
+  protected readonly admissionData = signal<AdmissionReq | null>(null);
+  protected readonly educationStatus = signal<{ level?: string; levelId?: number } | null>(null);
   private readonly admissionService = inject(AdmissionService);
   private readonly route = inject(ActivatedRoute);
+  protected readonly admissionId = signal(this.route.snapshot.paramMap.get('admissionId'));
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly userRolesService = inject(UserRolesService);
 
-  protected readonly admissionId = signal(this.route.snapshot.paramMap.get('admissionId'));
-  protected readonly admissionData = signal<AdmissionReq | null>(null);
-  protected readonly educationStatus = signal<{ level?: string; levelId?: number } | null>(null);
-
   ngOnInit(): void {
     const id = this.admissionId();
     if (!id) {
+      console.log('dasdasdasd');
       this.router.navigate(['long-term-programs', 'list']);
       return;
     }
@@ -44,15 +44,35 @@ export class AdmissionUpdateComponent implements OnInit {
     this.loadEducationStatus();
   }
 
+  protected onUpdate(event: StepBody<AdmissionRequest>): void {
+    const admissionId = this.admissionId();
+    if (!admissionId) {
+      return;
+    }
+
+    this.admissionService
+      .editAdmission(admissionId, event.body.payload)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((response) => {
+        if (!response) {
+          return;
+        }
+
+        if (event.step === 'confirmation' && event.body.payload.status === 'registered') {
+          this.router.navigate(['long-term-programs', 'list']);
+        } else {
+          void this.router.navigate([`long-term-programs/update-admission/${admissionId}/${event.step}`]);
+        }
+      });
+  }
+
   private loadAdmissionData(id: string): void {
     this.admissionService
       .admissionList({
         role: this.userRolesService.selectedRole(),
         number: id,
       })
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
         const admission = response.data?.[0] ?? null;
         if (!admission) {
@@ -66,35 +86,9 @@ export class AdmissionUpdateComponent implements OnInit {
   private loadEducationStatus(): void {
     this.admissionService
       .educationStatus()
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
         this.educationStatus.set(response);
-      });
-  }
-
-  protected onUpdate(event: StepBody<AdmissionRequest>): void {
-    const admissionId = this.admissionId();
-    if (!admissionId) {
-      return;
-    }
-
-    this.admissionService
-      .editAdmission(admissionId, event.body.payload)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe((response) => {
-        if (!response) {
-          return;
-        }
-
-        if (event.step === 'confirmation' && event.body.payload.status === 'registered') {
-          this.router.navigate(['long-term-programs', 'list']);
-        } else {
-          void this.router.navigate([`long-term-programs/update-admission/${admissionId}/${event.step}`]);
-        }
       });
   }
 }

@@ -59,11 +59,11 @@ export class PasswordResetComponent {
   readonly isValid = signal<boolean | null>(null);
   readonly errorMessage = signal<string | null>(null);
 
-  // Password visibility state
+  
   readonly showNewPassword = signal(false);
   readonly showRepeatPassword = signal(false);
 
-  // Icons for password visibility toggle
+  
   readonly eyeIcon = kendoIcons.eyeIcon;
   readonly eyeSlashIcon = kendoIcons.eyeSlashIcon;
 

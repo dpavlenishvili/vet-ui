@@ -19,10 +19,10 @@
           </kendo-label>
 
           <kendo-label>
-            <kendo-textbox 
-              formControlName="name" 
-              [size]="'large'" 
-              [placeholder]="'programs.last_name' | transloco" 
+            <kendo-textbox
+              formControlName="name"
+              [size]="'large'"
+              [placeholder]="'programs.last_name' | transloco"
             />
             @if (form.controls['name']; as control) {
               @if (control.touched || control.value) {
@@ -59,7 +59,7 @@
               <kendo-textbox
                 formControlName="program_name"
                 [size]="'large'"
-                [placeholder]="'programs.program_name' | transloco"
+                [placeholder]="'programs.program_code_name' | transloco"
               />
             </div>
           </div>

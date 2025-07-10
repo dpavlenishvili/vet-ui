@@ -34,10 +34,16 @@ export interface ShortTermProgramFilters {
   district?: string | null;
   organisation_name?: string | null;
   program_kind?: string | null;
-  tuition_start_date?: string | null;
-  tuition_end_date?: string | null;
+  start_study?: string | null;
+  end_study?: string | null;
   financing_type?: string | null;
   partner?: string | null;
   current?: boolean | null;
   planned?: boolean | null;
+}
+
+export interface ShortTermRegisteredListenersFilters {
+  organisation_name?: string | null;
+  program_name_or_code?: string | null;
+  tuition_start_date?: string | null;
 }

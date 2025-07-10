@@ -1,0 +1,18 @@
+<div class="stepper">
+  @for (item of stepsList(); track item.id) {
+    @let steperCount = $index + 1;
+    <a
+      class="stepper__item"
+      [ngClass]="{
+        'stepper__item--active': activeIndex() >= steperCount,
+        'stepper__item--active-row': activeIndex() === steperCount,
+      }"
+      (click)="changeStep.emit(steperCount)"
+    >
+      <div class="stepper__item-circle k-text-sm">
+        {{ steperCount }}
+      </div>
+      <span class="stepper__item-text"> {{ item.name }} </span>
+    </a>
+  }
+</div>

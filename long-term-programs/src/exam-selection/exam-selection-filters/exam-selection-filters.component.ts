@@ -1,31 +1,30 @@
 import { ChangeDetectionStrategy, Component, OnInit, effect, inject, input, output, DestroyRef, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { KENDO_SWITCH, KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
-import { KENDO_POPOVER } from '@progress/kendo-angular-tooltip';
-import { SelectorComponent, VetSwitchComponent, vetIcons } from '@vet/shared';
+import {
+  SelectorComponent,
+  VetSwitchComponent,
+  vetIcons,
+  InputComponent,
+  ButtonComponent,
+  IconButtonComponent
+} from '@vet/shared';
 import { SchedulesFilters } from '../exam-selection.component';
-import { useInstitutionsDictionary, usePrograms, useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
+import { useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
 import { UserRolesService } from '@vet/auth';
-import { startWith, switchMap, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
+import { useInstitutionsDictionary } from '@vet/shared-resources';
 
 @Component({
   selector: 'vet-exam-selection-filters',
   imports: [
-    KENDO_TEXTBOX,
-    KENDO_DROPDOWNLIST,
-    KENDO_BUTTON,
-    KENDO_SWITCH,
-    KENDO_SVGICON,
-    KENDO_POPOVER,
     SelectorComponent,
     VetSwitchComponent,
     ReactiveFormsModule,
     TranslocoPipe,
+    InputComponent,
+    ButtonComponent,
+    IconButtonComponent,
   ],
   templateUrl: './exam-selection-filters.component.html',
   styleUrl: './exam-selection-filters.component.scss',
@@ -44,7 +43,7 @@ export class ExamSelectionFiltersComponent implements OnInit {
   destroyRef = inject(DestroyRef);
 
   selectedOrganisation = signal<string | null>(this.userRolesService.organisation());
-  
+
   programsOptions = useProgramsWithOrganisation(this.selectedOrganisation);
   institutionOptions = useInstitutionsDictionary();
 
@@ -64,7 +63,7 @@ export class ExamSelectionFiltersComponent implements OnInit {
       ?.valueChanges.pipe(
         tap((organisation) => {
           this.selectedOrganisation.set(organisation);
-        })
+        }),
       )
       .subscribe();
   }

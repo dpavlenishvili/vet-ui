@@ -1,33 +1,42 @@
-<form [formGroup]="filterForm">
-  <div class="vet-filters-container">
-    <vet-selector
-      class="vet-filter-input"
-      formControlName="program"
-      [placeholder]="'programs.exam_program' | transloco"
-      [options]="programsOptions.value()"
-    />
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-selector
+        formControlName="program"
+        [placeholder]="'programs.exam_program' | transloco"
+        [options]="programsOptions.value()"
+      />
 
-    <vet-selector
-      class="vet-filter-input"
-      formControlName="kind"
-      [placeholder]="'programs.form' | transloco"
-      [options]="ProgramKindsOptions.value()"
-    />
-
-    <div class="vet-switch-border">
-      <vet-switch formControlName="integrated" [label]="'programs.integrated' | transloco" />
+      <vet-selector
+        formControlName="kind"
+        [placeholder]="'programs.form' | transloco"
+        [options]="ProgramKindsOptions.value()"
+      />
     </div>
-  </div>
 
-  <div class="vet-filters-actions">
-    <p>{{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}</p>
+    <div vet-row>
+      <vet-switch
+        self-grow
+        formControlName="integrated"
+        icon="integratedIcon"
+        mode="outline"
+        [label]="'programs.integrated' | transloco"
+      />
+      <div vet-row></div>
+    </div>
 
-    <div class="k-display-flex k-justify-content-end k-gap-2">
-      <button kendoButton type="secondary" [svgIcon]="vetIcons.xIcon" (click)="clearFilters()"></button>
+    <div vet-line space-between align-center>
+      <p class="k-text-sm k-color-body">
+        {{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}
+      </p>
 
-      <button kendoButton themeColor="primary" [svgIcon]="vetIcons.search" (click)="onSubmit()">
-        {{ 'shared.search' | transloco }}
-      </button>
+      <div vet-line gap-dense content-right>
+        <vet-icon-button icon="close" (click)="clearFilters()" />
+
+        <vet-button leadingIcon="search" type="submit">
+          {{ 'shared.search' | transloco }}
+        </vet-button>
+      </div>
     </div>
   </div>
 </form>

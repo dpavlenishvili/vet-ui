@@ -6,20 +6,15 @@
 
   <vet-selector
     formControlName="education_level"
-    class="vet-form-input vet-shorts-selector"
+    class="vet-shorts-selector"
+    version="fat"
     [placeholder]="'shorts.education' | transloco"
-    [options]="educationLevels.value()"
+    [options]="educationLevelOptions()"
   />
 
   <div class="vet-shorts-step-footer">
-    <button
-      kendoButton
-      class="vet-form-button"
-      type="submit"
-      themeColor="primary"
-      [disabled]="formGroup().invalid"
-    >
+    <vet-button type="submit" version="fat" [disabled]="formGroup().invalid">
       {{ 'shorts.continue' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </form>

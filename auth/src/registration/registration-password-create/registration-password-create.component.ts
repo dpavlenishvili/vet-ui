@@ -24,11 +24,11 @@ export class RegistrationPasswordCreateComponent {
   previousClick = output();
   nextClick = output();
 
-  // Password visibility state
+  
   readonly showPassword = signal(false);
   readonly showConfirmPassword = signal(false);
 
-  // Icons for password visibility toggle
+  
   readonly eyeIcon = kendoIcons.eyeIcon;
   readonly eyeSlashIcon = kendoIcons.eyeSlashIcon;
 

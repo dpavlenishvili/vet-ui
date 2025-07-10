@@ -1,40 +1,41 @@
-import { ChangeDetectionStrategy, Component, effect, input, output, ResourceRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  ButtonComponent,
   DatePickerComponent,
   DialogComponent,
-  SelectorComponent, useControlValue, useDebounceValue,
+  InputComponent,
+  isDate,
+  SelectorComponent,
+  useControlValue,
   vetIcons,
   VetSwitchComponent,
-  withoutEmptyProperties
 } from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import {
   useDistricts,
+  useFilteredDistricts,
   useFinancingTypes,
-  useInstitutionsDictionary, usePartners,
+  useInstitutionsDictionary,
+  usePartners,
   useProgramKinds,
-  useRegions
-} from '../short-term.resources';
+  useRegions,
+} from '@vet/shared-resources';
 import { ShortTermProgramFilters } from '../short-term-programs.types';
-import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { TextBoxComponent, TextBoxSuffixTemplateDirective } from '@progress/kendo-angular-inputs';
+import { useFoundProgramsCount } from '../short-term.resources';
 
 @Component({
   selector: 'vet-short-term-programs-filters-dialog',
   imports: [
     ReactiveFormsModule,
     TranslocoPipe,
-    ButtonComponent,
     FormsModule,
     DialogComponent,
-    SVGIconComponent,
-    TextBoxComponent,
-    TextBoxSuffixTemplateDirective,
     SelectorComponent,
     VetSwitchComponent,
     DatePickerComponent,
+    InputComponent,
+    ButtonComponent,
   ],
   templateUrl: './short-term-programs-filters-dialog.component.html',
   styleUrl: './short-term-programs-filters-dialog.component.scss',
@@ -43,35 +44,30 @@ import { TextBoxComponent, TextBoxSuffixTemplateDirective } from '@progress/kend
 })
 export class ShortTermProgramsFiltersDialogComponent {
   filters = input.required<ShortTermProgramFilters>();
-  foundResultsCount = input.required<ResourceRef<number | null>>();
   filtersChange = output<ShortTermProgramFilters>();
-  filtersChangeRealtime = output<ShortTermProgramFilters>();
   dialogClose = output();
+
+  readonly normalizedFilters = computed(() =>
+    this.normalizeFilters(this.formValue())
+  );
 
   formGroup = this.createFormGroup();
   institutionOptions = useInstitutionsDictionary();
   regionOptions = useRegions();
   districtOptions = useDistricts();
-  programKindOptions = useProgramKinds();
-  financingTypeOptions = useFinancingTypes();
-  partnerOptions = usePartners();
+  programKindOptions = useProgramKinds('short-term');
+  financingTypeOptions = useFinancingTypes('short-term');
+  partnerOptions = usePartners('short-term');
   formValue = useControlValue(this.formGroup);
-  debouncedFormValue = useDebounceValue<ShortTermProgramFilters>(
-    this.formValue,
-    300,
-    (a, b) => JSON.stringify(a) === JSON.stringify(b),
-  );
+  selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
+  filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
+  foundResultsCount = useFoundProgramsCount(this.normalizedFilters);
 
   vetIcons = vetIcons;
 
   constructor() {
     effect(() => {
       this.formGroup.patchValue(this.filters());
-    });
-
-    effect(() => {
-      const filters = withoutEmptyProperties(this.debouncedFormValue());
-      this.filtersChangeRealtime.emit(filters);
     });
   }
 
@@ -84,8 +80,8 @@ export class ShortTermProgramsFiltersDialogComponent {
       district: new FormControl<string | null>(null),
       organisation_name: new FormControl(''),
       program_kind: new FormControl<string | null>(null),
-      tuition_start_date: new FormControl<string | null>(null),
-      tuition_end_date: new FormControl<string | null>(null),
+      start_study: new FormControl<string | null>(null),
+      end_study: new FormControl<string | null>(null),
       financing_type: new FormControl<string | null>(null),
       partner: new FormControl<string | null>(null),
       current: new FormControl(false),
@@ -93,12 +89,26 @@ export class ShortTermProgramsFiltersDialogComponent {
     });
   }
 
+  normalizeFilters(filterValue: ShortTermProgramFilters) {
+    return {
+      ...filterValue,
+      start_study: isDate(filterValue.start_study)
+        ? filterValue.start_study.toISOString()
+        : filterValue.start_study,
+
+      end_study: isDate(filterValue.end_study)
+        ? filterValue.end_study.toISOString()
+        : filterValue.end_study,
+    } as ShortTermProgramFilters;
+  }
+
   onSubmit() {
     if (this.formGroup.valid) {
-      this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as ShortTermProgramFilters);
+      this.filtersChange.emit(this.normalizedFilters());
       this.onClose();
     }
   }
+  
 
   onClearClick() {
     this.formGroup.patchValue({
@@ -109,8 +119,8 @@ export class ShortTermProgramsFiltersDialogComponent {
       region: null,
       district: null,
       program_kind: null,
-      tuition_start_date: null,
-      tuition_end_date: null,
+      start_study: null,
+      end_study: null,
       financing_type: null,
       partner: null,
       current: null,

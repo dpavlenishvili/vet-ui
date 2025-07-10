@@ -1,0 +1,21 @@
+@let _data = data();
+@let _value = _data.value();
+
+<div class="vet-unauthorised-grid">
+  @for (item of _data.value().data; track item.id) {
+    <vet-program-card
+      class="vet-unauthorised-grid-item"
+      [program]="item"
+      [programDetailsPath]="'/programs'"
+    />
+  }
+</div>
+
+@if (_value.data.length < _value.total) {
+  <kendo-pager
+    class="k-mt-8"
+    [skip]="_value.skip"
+    [pageSize]="_value.size"
+    (pageChange)="onPageChange($event)"
+  />
+}

@@ -1,0 +1,50 @@
+@let _user = user();
+@let _admissions = admissions();
+
+@if (_admissions?.length) {
+  <div class="k-pos-relative k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-primary k-h-full">
+    <div class="k-pos-absolute k-top-0 k-left-17 k-mt--4 k-ml-0.5 k-bg-white k-px-5 k-py-1 vet-text-sm">
+      <strong class="k-color-primary">{{ 'programs.admission_open' | transloco }}</strong>
+    </div>
+
+    <div class="vet-admission-table vet-grid-table vet-grid-size-6 vet-grid-dense k-mt-10">
+      <div class="vet-grid-cell vet-grid-header">{{ 'programs.registration_period' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_start_date' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-header">{{ 'programs.number_of_vacant_positions' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_fee' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-header">{{ 'programs.grant_status' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-header">{{ 'programs.listener_fee' | transloco }}</div>
+
+      @for (admission of _admissions; track admission.admission_id) {
+        <div class="vet-grid-cell">
+          {{ admission.registration_start_date }} / {{ admission.registration_end_date }}
+        </div>
+        <div class="vet-grid-cell">{{ admission.study_start_date }}</div>
+        <div class="vet-grid-cell">{{ admission.students_limit }}</div>
+        <div class="vet-grid-cell">{{ admission.program_fee }}</div>
+        <div class="vet-grid-cell">-</div>
+        <div class="vet-grid-cell">{{ admission.student_fee ?? '-' }}</div>
+      }
+    </div>
+
+    @if (isUserLoaded() && !_user) {
+      <div class="vet-text-base k-mt-7">
+        <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="vet-short-card">
+    <div class="vet-short-card-no-admission-container">
+      <kendo-svg-icon
+        [icon]="vetIcons.searchBg"
+        [style.width]="'40px'"
+        [style.height]="'40px'"
+      />
+
+      <div>
+        {{ 'shorts.no_admission' | transloco }}
+      </div>
+    </div>
+  </div>
+}

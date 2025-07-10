@@ -1,16 +1,7 @@
 import * as R from 'ramda';
-import {
-  AppBreadCrumbItem,
-  DictionaryType,
-  FilterOptionsMap, IdValue,
-  Option,
-  QueryParams,
-  SelectOption, ValueLabel,
-  WizardStepDefinition
-} from './shared.types';
+import { AppBreadCrumbItem, FilterOptionsMap, QueryParams, SelectOption, WizardStepDefinition } from './shared.types';
 import { map, Observable } from 'rxjs';
 import { ActivatedRoute, type Params } from '@angular/router';
-import { ShortProgramAdmission } from '@vet/backend';
 
 export const isEmptyOrUndefined = R.anyPass([R.isEmpty, R.isNil]);
 
@@ -42,7 +33,7 @@ export const flattenQueryParams = (obj: QueryParams, prefix?: string): Record<st
       const nestedKey = prefix ? `${prefix}[${key.toString()}]` : key.toString();
 
       if (!R.is(Object, value)) {
-        return (value === undefined || value === false)
+        return value === undefined || value === false
           ? red
           : {
               ...red,
@@ -99,13 +90,6 @@ export const toQueryString = (obj: QueryParams): string =>
 
 export function extractData<T extends { data: unknown }>(): (source: Observable<T>) => Observable<T['data']> {
   return (source: Observable<T>) => source.pipe(map(({ data }) => data));
-}
-
-export function dictionaryItemToOption(dictionaryItem: DictionaryType): Option {
-  return {
-    value: dictionaryItem.id,
-    label: dictionaryItem.name,
-  };
 }
 
 export function getRouteParam(activatedRoute: ActivatedRoute, key: string): Observable<string | null>;
@@ -218,7 +202,6 @@ export function filterEmptyValues<T extends object>(obj: T): T {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null && v.trim() !== '')) as T;
 }
 
-
 export function formatDate(date: Date): string {
   const d = new Date(date);
   const year = d.getFullYear();
@@ -227,23 +210,31 @@ export function formatDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export function toFilterOptionsMap(
-  filterData: Array<{ key?: string; values?: unknown; }>
-): FilterOptionsMap {
-  const pairs = filterData.filter(
-    (filterItem): filterItem is {
-      key: string;
-      values: Array<{ name: string; value: string }>
-    } => {
-      return !!filterItem.key && Array.isArray(filterItem.values);
-    },
-  ).map(filterItem => [
-    filterItem.key,
-    filterItem.values.map((option) => ({
-      label: option.name,
-      value: option.value,
-    }) as SelectOption<string>),
-  ] as const);
+export function toFilterOptionsMap(filterData: Array<{ key?: string; values?: unknown }>): FilterOptionsMap {
+  const pairs = filterData
+    .filter(
+      (
+        filterItem,
+      ): filterItem is {
+        key: string;
+        values: Array<{ name: string; value: string }>;
+      } => {
+        return !!filterItem.key && Array.isArray(filterItem.values);
+      },
+    )
+    .map(
+      (filterItem) =>
+        [
+          filterItem.key,
+          filterItem.values.map(
+            (option) =>
+              ({
+                label: option.name,
+                value: option.value,
+              }) as SelectOption<string>,
+          ),
+        ] as const,
+    );
 
   return new Map(pairs);
 }
@@ -261,7 +252,6 @@ export function getCurrentStepIndex(
       currentStepIndex: 0,
     };
   }
-
 
   // Takes step segment and maps it into step index
   // If a previous step of that index is valid - then we keep user on the requested step
@@ -296,32 +286,51 @@ export function getCurrentStepIndex(
   };
 }
 
-export function isValidIdValue(input: Partial<IdValue>): input is IdValue {
-  return input.id != null && input.value != null
-}
-
-export function isValidDictionaryItem(input: Partial<DictionaryType<number | string>>): input is DictionaryType {
-  return input.id != null && input.name != null
-}
-
-export function mapIdValueToOption(idValue: IdValue): ValueLabel {
-  return {
-    value: idValue.id,
-    label: idValue.value,
-  };
-}
-
-export function mapDictionaryItemToOption(item: DictionaryType): ValueLabel {
-  return {
-    value: item.id,
-    label: item.name,
-  };
-}
-
 export function getUniqueItems<T, I>(items: T[], getUniqueId: (item: T) => I): T[] {
-  return Array.from(
-    new Map<I, T>(
-      items.map(item => [getUniqueId(item), item] as const)
-    ).values()
-  );
+  return Array.from(new Map<I, T>(items.map((item) => [getUniqueId(item), item] as const)).values());
+}
+
+export function getDifferenceInSeconds(millisecondsA: number | null, millisecondsB: number | null): number | null {
+  return millisecondsA != null && millisecondsB != null ? Math.ceil((millisecondsA - millisecondsB) / 1000) : null;
+}
+
+const APP_TRANSLATABLE = Symbol('APP_TRANSLATABLE');
+
+export type TranslatableParams = Record<string, string | number | null | undefined | false>;
+
+export type Translatable = {
+  [K in typeof APP_TRANSLATABLE]: {
+    key: string;
+    params?: TranslatableParams;
+  };
+};
+
+export type TranslatableInput = string | number | null | undefined | false | Translatable;
+
+export function isTranslatable(input: unknown): input is Translatable {
+  return typeof input === 'object' && input !== null && APP_TRANSLATABLE in input;
+}
+
+export function getTranslatableKey(input: Translatable): string {
+  return input[APP_TRANSLATABLE].key;
+}
+
+export function getTranslatableParams(input: Translatable): TranslatableParams | undefined {
+  return input[APP_TRANSLATABLE].params;
+}
+
+export function trans(key: string, params?: TranslatableParams): Translatable {
+  return {
+    [APP_TRANSLATABLE]: {
+      key,
+      params,
+    },
+  };
+}
+
+/**
+ * Type guard to check if a value is a valid Date object.
+ */
+export function isDate(value: unknown): value is Date {
+  return Object.prototype.toString.call(value) === '[object Date]' && !isNaN((value as Date).getTime());
 }

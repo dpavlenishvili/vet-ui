@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  flex-shrink: 0;
+}
+
+.vet-dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 0 auto;
+  padding: 0 1.25rem 1.25rem;
+  width: 100%;
+  max-width: 92.5rem;
+  background: var(--container-bg);
+  border-bottom: 0.0625rem solid var(--container-divider-color, transparent);
+
+  .vet-dashboard-container {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-height: 0;
+    gap: 1.25rem;
+
+    .vet-sidebar-container {
+      height: 100%;
+    }
+
+    .vet-content-container {
+      flex: 1;
+      overflow: auto;
+      width: 100%;
+      isolation: isolate;
+      contain: layout style paint;
+      transform: translateZ(0);
+    }
+  }
+}

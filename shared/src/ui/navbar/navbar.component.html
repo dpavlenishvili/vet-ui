@@ -36,28 +36,33 @@
           </button>
         </div>
         <div class="v-ui-navbar-guest-auth">
-          <button
-            class="!k-border-none"
-            kendoButton
-            themeColor="light"
-            fillMode="outline"
-            (click)="navigateTo('authorization')"
-          >
+          <a [routerLink]="['/authorization']">
+            <button
+              class="!k-border-none"
+              kendoButton
+              themeColor="light"
+              fillMode="outline"
+              (click)="isMobileMenuOpen.set(false)"
+            >
             <span class="k-text-base">
               {{ 'auth.authorization' | transloco }}
             </span>
-          </button>
-          <button
-            class="!k-border-none k-bg-button-light"
-            kendoButton
-            themeColor="light"
-            fillMode="outline"
-            (click)="navigateTo('registration')"
-          >
+            </button>
+          </a>
+
+          <a [routerLink]="['/registration']">
+            <button
+              class="!k-border-none k-bg-button-light"
+              kendoButton
+              themeColor="light"
+              fillMode="outline"
+              (click)="isMobileMenuOpen.set(false)"
+            >
             <span class="k-text-base k-color-button-light-contrast">
               {{ 'auth.registration' | transloco }}
             </span>
-          </button>
+            </button>
+          </a>
         </div>
       } @else {
         <div class="v-ui-navbar-user-notif-lang">
@@ -152,28 +157,33 @@
             </button>
           </div>
           <div class="v-ui-navbar-guest-auth-mobile">
-            <button
-              class="!k-border-none"
-              kendoButton
-              themeColor="light"
-              fillMode="outline"
-              (click)="navigateTo('authorization')"
-            >
-            <span class="k-text-base">
-              {{ 'auth.authorization' | transloco }}
-            </span>
-            </button>
-            <button
-              class="!k-border-none k-bg-button-light"
-              kendoButton
-              themeColor="light"
-              fillMode="outline"
-              (click)="navigateTo('registration')"
-            >
-            <span class="k-text-base k-color-button-light-contrast">
-              {{ 'auth.registration' | transloco }}
-            </span>
-            </button>
+            <a [routerLink]="['/authorization']">
+              <button
+                class="!k-border-none"
+                kendoButton
+                themeColor="light"
+                fillMode="outline"
+                (click)="isMobileMenuOpen.set(false)"
+              >
+              <span class="k-text-base">
+                {{ 'auth.authorization' | transloco }}
+              </span>
+              </button>
+            </a>
+
+            <a [routerLink]="['/registration']">
+              <button
+                class="!k-border-none k-bg-button-light"
+                kendoButton
+                themeColor="light"
+                fillMode="outline"
+                (click)="isMobileMenuOpen.set(false)"
+              >
+              <span class="k-text-base k-color-button-light-contrast">
+                {{ 'auth.registration' | transloco }}
+              </span>
+              </button>
+            </a>
           </div>
         } @else {
           <div class="v-ui-navbar-user-notif-lang-mobile">

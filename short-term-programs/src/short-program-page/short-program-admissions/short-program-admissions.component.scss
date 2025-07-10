@@ -1,4 +1,4 @@
-@use '../../../../node_modules/@vet/shared-styles/index' as shared;
+@use '@vet/shared-styles' as shared;
 
 :host {
   display: block;
@@ -7,7 +7,7 @@
 }
 
 .vet-admission-table {
-  max-width: 38.125rem;
+  max-width: 40.125rem;
 }
 
 .vet-short-card {

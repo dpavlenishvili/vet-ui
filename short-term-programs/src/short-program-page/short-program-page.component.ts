@@ -1,26 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { useRouteNumberParam, vetIcons } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { trans, useRouteNumberParam, vetIcons } from '@vet/shared';
 import { ProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
-import { TranslocoPipe } from '@jsverse/transloco';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ShortProgramContactInfoComponent } from './short-program-contact-info/short-program-contact-info.component';
-import { ShortProgramISCEDListComponent } from './short-program-isced-list/short-program-isced-list.component';
-import { ShortProgramSectionComponent } from './short-program-section/short-program-section.component';
-import { ShortProgramGalleryComponent } from './short-program-gallery/short-program-gallery.component';
-import { ShortProgramHeaderComponent } from './short-program-header/short-program-header.component';
+import { ProgramDetailItem, ProgramPageComponent, ProgramSectionItem } from '@vet/programs-common';
+import { ShortProgramAdmissionsComponent } from './short-program-admissions/short-program-admissions.component';
+import { SVGIconComponent } from '@progress/kendo-angular-icons';
+import { TranslocoPipe } from '@jsverse/transloco';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'vet-short-program-page',
-  imports: [
-    TranslocoPipe,
-    ShortProgramContactInfoComponent,
-    ShortProgramISCEDListComponent,
-    ShortProgramSectionComponent,
-    ShortProgramGalleryComponent,
-    ShortProgramHeaderComponent,
-  ],
+  imports: [ProgramPageComponent, ShortProgramAdmissionsComponent, SVGIconComponent, TranslocoPipe],
   templateUrl: './short-program-page.component.html',
   styleUrl: './short-program-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,8 +28,68 @@ export class ShortProgramPageComponent {
   vetIcons = vetIcons;
   routeProgramId = useRouteNumberParam('programId', 0);
 
-  program$ = rxResource({
+  program = rxResource({
     request: () => this.programId() ?? this.routeProgramId(),
     loader: ({ request: id }) => this.programsService.programShort(id).pipe(map((r) => r.data)),
+  });
+
+  details = computed<ProgramDetailItem[]>(() => {
+    const program = this.program.value();
+
+    if (!program) {
+      return [];
+    }
+
+    return [
+      { label: trans('shorts.field'), value: '' },
+      { label: trans('shorts.program_code'), value: program.program_code },
+      { label: trans('shorts.level'), value: program.education_level as unknown as string },
+      { label: trans('shorts.program_kind'), value: program.program_kind?.name },
+      {
+        label: trans('shorts.program_duration'),
+        value: trans('shorts.duration_weeks', {
+          duration: program.program_duration,
+        }),
+      },
+      { label: trans('shorts.admission_type'), value: '' },
+      { label: trans('shorts.admission_prerequisite'), value: '' },
+      { label: trans('shorts.implementation_location'), value: program.address },
+    ];
+  });
+
+  sections = computed<ProgramSectionItem[]>(() => {
+    const program = this.program.value();
+
+    if (!program) {
+      return [];
+    }
+
+    return [
+      { title: trans('shorts.program_description'), content: program.description },
+      { title: trans('shorts.program_goal'), content: program.goal },
+    ];
+  });
+
+  activeAdmissions = computed(() => {
+    const program = this.program.value();
+
+    if (!program?.admissions) {
+      return [];
+    }
+
+    return program.admissions.filter(admission => {
+      const registrationStartDate = admission.registration_start_date
+        ? dayjs(admission.registration_start_date).toDate().getTime()
+        : null;
+      const registrationEndDate = admission.registration_end_date
+        ? dayjs(admission.registration_end_date).toDate().getTime()
+        : null;
+
+      if (registrationEndDate != null) {
+        return registrationEndDate > Date.now();
+      }
+
+      return registrationStartDate != null && registrationStartDate > Date.now();
+    });
   });
 }

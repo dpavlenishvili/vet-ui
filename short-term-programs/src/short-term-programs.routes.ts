@@ -1,10 +1,10 @@
 import { Route } from '@angular/router';
 import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
 
-const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }];
+const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
 const baseRegistrationItems: AppBreadCrumbItem[] = [
   ...baseBreadcrumbItems,
-  { path: '/programs/short', text: 'shorts.short_term_programs' },
+  { path: '/dashboard/programs/short', text: 'shorts.short_term_programs' },
   { path: '/programs/short/registration', text: 'shorts.registration' },
 ];
 

@@ -15,36 +15,89 @@
       [data]="admissionList$.value()?.data || []"
       (cellClick)="onCellClick($event)"
       class="main-grid"
+      [resizable]="true"
     >
       <ng-template kendoGridNoRecordsTemplate>
-        {{ 'shared.noRecords' | transloco }}
+        <div class="k-p-4 k-text-center k-color-body-light">
+          {{ 'shared.noRecords' | transloco }}
+        </div>
       </ng-template>
-      <kendo-grid-column field="code" [title]="'shared.requestId' | transloco" [width]="80" />
-      <kendo-grid-column field="education.name" [title]="'shared.education' | transloco" [width]="70" />
-      <kendo-grid-column field="language.name" [title]="'shared.testLanguage' | transloco" [width]="80" />
-      <kendo-grid-column field="registered_at" [title]="'programs.registration_date' | transloco" [width]="100">
+
+      <kendo-grid-column
+        field="code"
+        [title]="'shared.requestId' | transloco"
+        [width]="120"
+        [minResizableWidth]="100"
+        [maxResizableWidth]="150"
+      />
+
+      <kendo-grid-column
+        field="education.name"
+        [title]="'shared.education' | transloco"
+        [width]="100"
+        [minResizableWidth]="80"
+        [maxResizableWidth]="220"
+      />
+
+      <kendo-grid-column
+        field="language.name"
+        [title]="'shared.testLanguage' | transloco"
+        [width]="120"
+        [minResizableWidth]="100"
+        [maxResizableWidth]="160"
+      />
+
+      <kendo-grid-column
+        field="registered_at"
+        [title]="'programs.registration_date' | transloco"
+        [width]="160"
+        [minResizableWidth]="160"
+        [maxResizableWidth]="160"
+      >
         <ng-template kendoGridCellTemplate let-item>
-          {{ item.registered_at | formatDateTime: { format: 'DD/MM/YYYY' } }}
+          <span class="k-text-nowrap">
+            {{ item.registered_at | formatDateTime: { format: 'DD/MM/YYYY' } }}
+          </span>
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column [title]="'programs.ssm_status' | transloco" [width]="60">
+
+      <kendo-grid-column
+        [title]="'programs.ssm_status' | transloco"
+        [width]="100"
+        [minResizableWidth]="80"
+        [maxResizableWidth]="120"
+      >
         <ng-template kendoGridCellTemplate let-item>
-          {{ (item?.spec_edu ? 'shared.yes' : 'shared.no') | transloco }}
+          <span class="k-text-nowrap">
+            {{ (item?.spec_edu ? 'shared.yes' : 'shared.no') | transloco }}
+          </span>
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column [title]="'shared.status' | transloco" [width]="100">
+
+      <kendo-grid-column
+        [title]="'shared.status' | transloco"
+        [width]="180"
+        [minResizableWidth]="160"
+        [maxResizableWidth]="250"
+      >
         <ng-template kendoGridCellTemplate let-item>
           <div class="status-cell">
-            <span>{{ item.status.current }}:</span>
-            <small class="k-text-xs">
+            <span class="k-font-weight-bold">{{ item.status.current }}</span>
+            <small class="k-text-xs k-color-body-light k-text-nowrap">
               {{ item.status.date | formatDateTime: { format: 'DD/MM/YYYY' } }}
             </small>
           </div>
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column [width]="100">
+
+      <kendo-grid-column
+        [width]="130"
+        [minResizableWidth]="130"
+        [maxResizableWidth]="130"
+        [resizable]="false"
+      >
         <ng-template kendoGridCellTemplate let-item>
-          <div class="k-display-flex k-gap-1 action-buttons">
+          <div class="k-display-flex k-gap-1 k-justify-content-center action-buttons">
             <button
               kendoButton
               fillMode="flat"
@@ -54,6 +107,7 @@
               kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.edit"
+              class="action-btn"
             ></button>
             <button
               kendoButton
@@ -64,6 +118,7 @@
               kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.choose"
+              class="action-btn"
             ></button>
             <button
               kendoButton
@@ -74,6 +129,7 @@
               kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.view"
+              class="action-btn"
             ></button>
             <button
               kendoButton
@@ -84,14 +140,11 @@
               kendoTooltip
               (click)="onViewClick(item)"
               [disabled]="!item.actions.result"
+              class="action-btn"
             ></button>
           </div>
         </ng-template>
       </kendo-grid-column>
-
-      <ng-template kendoGridNoRecordsTemplate>
-        {{ 'shared.noRecords' | transloco }}
-      </ng-template>
 
       <ng-template kendoGridDetailTemplate let-item>
         @if (item?.programs && item.programs.length > 0) {

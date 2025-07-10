@@ -14,21 +14,31 @@
         [loading]="eligiblePrograms$.isLoading()"
         [pageSize]="pageSize()"
         [pageable]="true"
+        [resizable]="true"
         [skip]="skip()"
       >
         <ng-template kendoGridNoRecordsTemplate>
-          {{ 'shared.noRecords' | transloco }}
+          <div class="k-p-4 k-text-center k-color-body-light">
+            {{ 'shared.noRecords' | transloco }}
+          </div>
         </ng-template>
 
-        <kendo-grid-column [title]="'programs.program_name' | transloco" [width]="200" field="program_name">
+        <kendo-grid-column
+          [maxResizableWidth]="400"
+          [minResizableWidth]="200"
+          [title]="'programs.program' | transloco"
+          [width]="250"
+        >
           <ng-template kendoGridCellTemplate let-item>
             <div class="k-display-flex k-align-items-center k-gap-2">
-              <span>{{ item.program_name }}</span>
+              <span>
+                {{ item.program_name }}
+              </span>
               @if (item.is_integrated) {
                 <kendo-svg-icon
-                  kendoTooltip
                   [icon]="vetIcons.integrated"
-                  [size]="'medium'"
+                  class="integrated-icon"
+                  kendoTooltip
                   [title]="'programs.integrated' | transloco"
                 />
               }
@@ -36,23 +46,54 @@
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-column [title]="'programs.level' | transloco" [width]="60" field="education_level" />
 
-        <kendo-grid-column [title]="'programs.form' | transloco" [width]="120" field="program_kind.name" />
+        <kendo-grid-column
+          [title]="'programs.level' | transloco"
+          [width]="60"
+          field="education_level"
+        />
 
-        <kendo-grid-column [title]="'programs.institution_name' | transloco" [width]="250" field="organisation.name" />
 
-        <kendo-grid-column [title]="'programs.implementation_location' | transloco" [width]="160">
+        <kendo-grid-column
+          [title]="'programs.form' | transloco"
+          [width]="170"
+          field="program_kind.name"
+        />
+
+
+        <kendo-grid-column
+          [maxResizableWidth]="350"
+          [minResizableWidth]="150"
+          [title]="'programs.institution_name' | transloco"
+          [width]="200"
+          field="organisation.name"
+        />
+
+
+        <kendo-grid-column
+          [maxResizableWidth]="220"
+          [minResizableWidth]="140"
+          [title]="'programs.implementation_location' | transloco"
+          [width]="180"
+        >
           <ng-template kendoGridCellTemplate let-item>
-            {{item.region.name + ', ' + item.district.name}}
+            <span>
+              {{ item.region.name }}, {{ item.district.name }}
+            </span>
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-column [title]="'programs.selection' | transloco" [width]="90">
+        <kendo-grid-column
+          [maxResizableWidth]="80"
+          [minResizableWidth]="80"
+          [resizable]="false"
+          [title]="'programs.selection' | transloco"
+          [width]="80"
+        >
           <ng-template kendoGridCellTemplate let-item>
             @if (!item.is_eligible) {
               <div
-                class="k-display-flex k-justify-content-around k-gap-1 grid-actions"
+                class="k-display-flex k-justify-content-center k-gap-1 grid-actions"
                 kendoTooltip
                 [title]="'programs.programNotAllowed' | transloco"
               >
@@ -64,7 +105,7 @@
                 </button>
               </div>
             } @else {
-              <div class="k-display-flex k-justify-content-around k-gap-1 grid-actions">
+              <div class="k-display-flex k-justify-content-center k-gap-1 grid-actions">
                 <button (click)="onPreviewProgramClick(item)" fillMode="flat" kendoButton>
                   <kendo-svg-icon [icon]="vetIcons.eye" [size]="'xlarge'" themeColor="warning" />
                 </button>
@@ -88,21 +129,21 @@
         </kendo-grid-column>
       </kendo-grid>
     </div>
+  </div>
 
-    <div class="k-display-flex k-justify-content-between buttons-container">
-      <button (click)="onPreviousClick()" kendoButton themeColor="secondary" type="button">
-        {{ 'auth.back' | transloco }}
-      </button>
-      <button (click)="onNextClick()" kendoButton themeColor="primary" type="button">
-        {{ 'auth.next' | transloco }}
-      </button>
-    </div>
+  <div class="k-display-flex k-justify-content-between buttons-container">
+    <button (click)="onPreviousClick()" kendoButton themeColor="secondary" type="button">
+      {{ 'auth.back' | transloco }}
+    </button>
+    <button (click)="onNextClick()" kendoButton themeColor="primary" type="button">
+      {{ 'auth.next' | transloco }}
+    </button>
   </div>
 </div>
 
 @if (isProgramDialogOpen()) {
   <kendo-dialog width="90%" height="90%" [title]="'programs.program_description' | transloco" (close)="onCloseClick()">
-    <vet-program [programId]="singleProgramId()" />
+    <vet-unauthorised-program-page [programId]="singleProgramId()"/>
   </kendo-dialog>
 }
 

@@ -1,4 +1,5 @@
 @use 'tokens' as *;
+@use 'variables' as *;
 @use '@progress/kendo-theme-bootstrap/scss/index.scss' as * with (
 
   $kendo-colors: (
@@ -24,6 +25,7 @@
     tertiary-on-subtle: $tb-kendo-color-tertiary-on-subtle,
     tertiary-on-surface: $tb-kendo-color-tertiary-on-surface,
     border-alt: #ECECEC,
+    error-on-surface: $kendo-color-error,
   ),
     $kendo-font-family: $tb-kendo-font-family,
   $kendo-font-size: $tb-kendo-font-size,
@@ -55,3 +57,4 @@
 @import 'helvetica-neue-font';
 @import 'custom-kendo-utilities';
 @import 'custom-kendo-overrides';
+@import 'layout';

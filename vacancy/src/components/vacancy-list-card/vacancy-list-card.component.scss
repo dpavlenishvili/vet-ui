@@ -1,0 +1,87 @@
+@use '@vet/shared-styles' as shared;
+@use '@vet/shared-styles/vacancy';
+
+* {
+  font-family: HelveticaNeue;
+}
+
+.vacancy-list-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.625rem;
+
+  &__item {
+    border: 1px solid #f0f0f0;
+    padding: var(--kendo-spacing-4);
+    border-radius: var(--kendo-border-radius-lg);
+    background-color: shared.$kendo-color-white;
+  }
+
+  &__item-head-left {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+
+  &__item-head-texts {
+    margin-left: 0.375rem;
+  }
+
+  &__item-head-title {
+    color: shared.$kendo-color-body-extra-dark;
+    font-weight: 500;
+    font-size: 0.75rem;
+    margin-bottom: 0.375rem;
+  }
+
+  &__item-footer-location {
+    color: shared.$kendo-color-body;
+    font-size: 0.5625rem;
+    line-height: 0.6625rem;
+  }
+
+  &__item-footer-full {
+    cursor: pointer;
+    color: shared.$tb-kendo-color-primary;
+    font-size: 0.5625rem;
+    line-height: 0.6625rem;
+  }
+
+  &__item-head-desc {
+    color: shared.$kendo-color-hint;
+    font-weight: 400;
+    font-size: 0.625rem;
+  }
+
+  &__item-head {
+    display: flex;
+    align-items: start;
+  }
+
+  &__info-title {
+    color: shared.$kendo-color-body;
+    font-size: 0.625rem;
+    margin-bottom: var(--kendo-spacing-2);
+  }
+
+  &__info-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--kendo-spacing-2) var(--kendo-spacing-4);
+    border-radius: var(--kendo-border-radius-lg);
+    border: 0.03125rem solid #e0e0e0;
+    font-size: 0.625rem;
+    color: shared.$kendo-color-body;
+  }
+
+  &__info-icon {
+    width: 0.625rem;
+  }
+
+  &__logo {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}

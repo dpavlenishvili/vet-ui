@@ -10,7 +10,7 @@ import {
   output,
   signal,
   TemplateRef,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT, StepperActivateEvent } from '@progress/kendo-angular-layout';
@@ -70,7 +70,7 @@ export class AdmissionWizardComponent implements OnInit {
   protected readonly isMobile = signal(false);
   protected readonly stepperOrientation = signal<'horizontal' | 'vertical'>('horizontal');
   protected readonly stepType = signal<'indicator' | 'label' | 'full'>('full');
-
+  protected readonly currentStep = computed(() => this.steps()[this.currentStepIndex()]);
   private readonly _programGeneralInformationStepTmpl = viewChild.required('programGeneralInformationStepTmpl', {
     read: TemplateRef,
   });
@@ -82,16 +82,17 @@ export class AdmissionWizardComponent implements OnInit {
   private readonly _programConfirmationStepTmpl = viewChild.required('programConfirmationStepTmpl', {
     read: TemplateRef,
   });
-
   protected readonly steps = computed((): StepDefinition[] => {
     const form = this.formGroup();
 
-    if (!form ||
+    if (
+      !form ||
       !this._programGeneralInformationStepTmpl() ||
       !this._programSsmStepTmpl() ||
       !this._programSelectionStepTmpl() ||
       !this._programSelectedProgramsStepTmpl() ||
-      !this._programConfirmationStepTmpl()) {
+      !this._programConfirmationStepTmpl()
+    ) {
       return [];
     }
 
@@ -133,9 +134,6 @@ export class AdmissionWizardComponent implements OnInit {
       },
     ];
   });
-
-  protected readonly currentStep = computed(() => this.steps()[this.currentStepIndex()]);
-
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthenticationService);

@@ -1,0 +1,156 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-program-page {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.25rem;
+  background-color: shared.$white;
+}
+
+.vet-program-page-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.25rem;
+}
+
+.vet-program-institution {
+  @include shared.text-base();
+  color: shared.$kendo-color-hint;
+  text-align: center;
+}
+
+.vet-program-name {
+  @include shared.text-md(true);
+  color: shared.$kendo-color-body-extra-dark;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.vet-program-cards-container {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+
+.vet-program-card {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  gap: 1.25rem;
+  flex: 1;
+  min-width: 0;
+  padding: 1.25rem;
+  border-radius: 1.25rem;
+  border: 2px solid shared.$kendo-color-chip;
+
+  .vet-program-card-details {
+    @include shared.text-base();
+    display: flex;
+    flex-direction: column;;
+    gap: 0.875rem;
+  }
+}
+
+.vet-program-card-no-admission-container {
+  @include shared.text-md();
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.875rem;
+  flex: 1;
+  height: 100%;
+  color: shared.$kendo-color-primary;
+}
+
+.vet-program-data-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+
+  .vet-program-data-section-title {
+    @include shared.text-h2();
+  }
+
+  .vet-program-data-section-content {
+    @include shared.text-base();
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    &.dimmed {
+      color: shared.$kendo-color-body;
+    }
+  }
+}
+
+.vet-admission-table {
+  max-width: 38.125rem;
+}
+
+.vet-video-card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding: 0 2.9375rem;
+}
+
+.vet-video-card {
+  flex: 1;
+  padding: 1.875rem 1.75rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 0.25rem 0.25rem 0 shared.$kendo-color-shadow;
+}
+
+.vet-divider {
+  height: 0.125rem;
+  background-color: shared.$kendo-color-border-alt;
+}
+
+.vet-contact-container {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-template-rows: auto auto;
+  row-gap: 1.5rem;
+  column-gap: 5.75rem;
+  padding: 1.25rem;
+  border-top: 1px solid shared.$kendo-color-border-alt;
+  border-bottom: 1px solid shared.$kendo-color-border-alt;
+
+  .vet-contact-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+
+    .vet-contact-item-icon {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    span {
+      @include shared.text-base();
+      color: shared.$kendo-color-body;
+      line-height: 100%;
+    }
+  }
+}
+
+.vet-responsible-person-contact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.25rem 2.5rem;
+
+  span {
+    @include shared.text-base();
+    color: shared.$kendo-color-body;
+  }
+}

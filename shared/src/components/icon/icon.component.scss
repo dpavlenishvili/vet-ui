@@ -1,0 +1,29 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: contents;
+}
+
+.vet-icon {
+  box-sizing: content-box;
+}
+
+.vet-icon.vet-icon-large {
+  max-width: 1rem;
+  width: 1rem;
+}
+
+.vet-icon.vet-icon-medium {
+  max-width: 0.875rem;
+  width: 0.875rem;
+}
+
+.vet-icon.vet-icon-small {
+  max-width: 0.75rem;
+  width: 0.75rem;
+}
+
+.vet-icon.vet-icon-tiny {
+  max-width: 0.625rem;
+  width: 0.625rem;
+}

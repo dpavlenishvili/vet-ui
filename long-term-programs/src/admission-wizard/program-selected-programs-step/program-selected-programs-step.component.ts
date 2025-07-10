@@ -22,7 +22,6 @@ import { AdmissionSelectedProgramsComponent } from '../../admission-selected-pro
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { admissionProgramsResource } from '../admission-programs-resource';
-import { Router } from '@angular/router';
 import { ProgramSsmStep } from '../program-selection-step/program-selection-step.component';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
@@ -58,7 +57,6 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
   );
   private readonly admissionService = inject(AdmissionService);
   private readonly alert = useAlert();
-  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
@@ -69,6 +67,7 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedPrograms.reload();
+    console.log(this.selectedPrograms.value());
   }
 
   onPreviousClick() {
@@ -111,9 +110,6 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
         tap({
           next: () => {
             this.selectedPrograms.reload();
-            if (this.selectedPrograms.value()?.length === 0) {
-              // this.router.navigate(['long-term-programs', 'update-admission', this.admissionId(), 'program_selection']);
-            }
           },
         }),
         takeUntilDestroyed(this.destroyRef),

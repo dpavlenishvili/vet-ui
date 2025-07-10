@@ -110,7 +110,7 @@ export class CommissionMembersDialogComponent implements OnInit {
 
     const value = this.commissionMemberForm.value;
     this.commissionService
-      .findCommissionMember({ pid: value.pid, name: value.name })
+      .findCommissionMember({ pid: value.pid, name: value.name, program: this.programId() })
       .pipe(
         tap({
           next: (member) => {
@@ -204,7 +204,7 @@ export class CommissionMembersDialogComponent implements OnInit {
 
   saveChanges() {
     const currentMembers = this.updatedCommissionMembers();
-    
+
     if (currentMembers.length < 3) {
       this.showTemporaryError('programs.commission_member_minimum_warning');
       return;

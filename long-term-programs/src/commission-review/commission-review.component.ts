@@ -3,7 +3,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { KENDO_CARD } from '@progress/kendo-angular-layout';
-import { DividerComponent, filterNullValues, useAlert, useFilters, useFiltersUpdater, vetIcons } from '@vet/shared';
+import { DividerComponent, useAlert, useFilters, useFiltersUpdater, vetIcons } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { CommissionService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';

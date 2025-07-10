@@ -68,6 +68,11 @@
           <vet-file-upload
             [title]="'programs.uploadEducationDocument'"
             [uploadedFiles]="form?.get('doc')?.getRawValue()"
+            [errorMessage]="
+              (form?.get('doc')?.touched && form?.get('doc')?.errors?.['required'])
+                ? ('programs.uploadEducationDocument' | transloco)
+                : null
+            "
             (fileUploaded)="handleFileUpload($event, 'doc')"
             (fileRemoved)="handleRemoveFile($event, 'doc')"
           />
@@ -137,7 +142,7 @@
           [checked]="isAbroadEnabled()"
         />
       </div>
-      @if (ocuSwitch.checked && !abroadSwitch.checked) {
+      @if (ocuSwitch.checked && !abroadSwitch.checked && user()?.residential === citizenship.Georgian) {
         <vet-info variant="warning">
           {{ 'programs.switchWarning' | transloco }}
         </vet-info>
@@ -178,7 +183,7 @@
           [checked]="isOcuEnabled()"
         />
       </div>
-      @if (abroadSwitch.checked && !ocuSwitch.checked) {
+      @if (abroadSwitch.checked && !ocuSwitch.checked && user()?.residential === citizenship.Georgian) {
         <vet-info variant="warning">
           {{ 'programs.switchWarning' | transloco }}
         </vet-info>

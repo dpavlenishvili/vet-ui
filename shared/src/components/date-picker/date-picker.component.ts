@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   DestroyRef,
-  HostListener,
   inject,
   input,
   OnInit,
@@ -20,7 +19,6 @@ import { DatePickerComponent as KendoDatePickerComponent } from '@progress/kendo
 import { TextBoxComponent, TextBoxSuffixTemplateDirective } from '@progress/kendo-angular-inputs';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { useDefaultDisplayDateFormat, useDefaultDateFormat, useKendoDatePickerFormat } from '../../shared.injectors';
-import { hasParentWithClass } from '../../shared.utils';
 import dayjs from 'dayjs';
 
 @Component({
@@ -110,17 +108,6 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
     this.value.set(value);
     this.onChange?.(this.setValue(value));
     this.onTouched();
-  }
-
-  @HostListener('window:click', ['$event'])
-  handleWindowClick(event: FocusEvent) {
-    if (
-      !hasParentWithClass(event.target as HTMLElement, 'k-datetime-container') &&
-      !hasParentWithClass(event.target as HTMLElement, 'k-calendar') &&
-      !hasParentWithClass(event.target as HTMLElement, 'stats-datepicker')
-    ) {
-      this.datePicker()?.toggle(false);
-    }
   }
 
   private setValue(value: string | number | Date | null) {

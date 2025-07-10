@@ -12,6 +12,7 @@ import { vetIcons } from '../../shared.icons';
 import { SelectOption } from '../../shared.types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
+import { SelectorVersion } from './selector.component.types';
 
 @Component({
   selector: 'vet-selector',
@@ -29,6 +30,7 @@ import { tap } from 'rxjs';
   standalone: true,
 })
 export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
+  version = input<SelectorVersion>('thin');
   placeholder = input('');
   options = input<Array<SelectOption<T>>>([]);
 

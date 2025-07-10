@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, PLATFORM_ID } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { ShortProgramAdmission } from '@vet/backend';
-import { FormControls, useControlValue } from '@vet/shared';
+import { ButtonComponent, FormControls, useControlValue } from '@vet/shared';
 import { isPlatformBrowser } from '@angular/common';
 import { ShortRegistrationSelectedProgramsGridComponent } from './short-registration-selected-programs-grid/short-registration-selected-programs-grid.component';
 
@@ -17,7 +16,13 @@ export type ShortRegistrationSelectedProgramsStepFormGroup = FormGroup<
 
 @Component({
   selector: 'vet-short-registration-selected-programs-step',
-  imports: [TranslocoPipe, ReactiveFormsModule, ButtonComponent, ShortRegistrationSelectedProgramsGridComponent],
+  imports: [
+    TranslocoPipe,
+    ReactiveFormsModule,
+    ButtonComponent,
+    ShortRegistrationSelectedProgramsGridComponent,
+    ButtonComponent,
+  ],
   templateUrl: './short-registration-selected-programs-step.component.html',
   styleUrl: './short-registration-selected-programs-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

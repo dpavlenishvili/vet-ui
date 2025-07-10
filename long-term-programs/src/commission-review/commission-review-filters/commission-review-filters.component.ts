@@ -1,35 +1,34 @@
-import { ChangeDetectionStrategy, Component, OnInit, effect, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { KENDO_TEXTBOX, KENDO_SWITCH } from '@progress/kendo-angular-inputs';
-import { KENDO_POPOVER } from '@progress/kendo-angular-tooltip';
-import { SelectorComponent, vetIcons, withoutEmptyProperties } from '@vet/shared';
+import {
+  ButtonComponent,
+  IconButtonComponent,
+  InputComponent,
+  SelectorComponent,
+  vetIcons,
+  withoutEmptyProperties,
+} from '@vet/shared';
 import { ReviewFilters } from '../commission-review.component';
-import { usePrograms, useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
+import { useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
 import { UserRolesService } from '@vet/auth';
 import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-commission-review-filters',
   imports: [
-    KENDO_TEXTBOX,
-    KENDO_DROPDOWNLIST,
-    KENDO_BUTTON,
-    KENDO_SWITCH,
-    KENDO_SVGICON,
-    KENDO_POPOVER,
     SelectorComponent,
     ReactiveFormsModule,
     TranslocoPipe,
+    IconButtonComponent,
+    ButtonComponent,
+    InputComponent,
   ],
   templateUrl: './commission-review-filters.component.html',
   styleUrl: './commission-review-filters.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommissionReviewFiltersComponent implements OnInit{
+export class CommissionReviewFiltersComponent implements OnInit {
   numberOfRecords = input<number>();
   filters = input.required<ReviewFilters>();
   filtersChange = output<ReviewFilters>();
@@ -40,7 +39,7 @@ export class CommissionReviewFiltersComponent implements OnInit{
   userRolesService = inject(UserRolesService);
 
   selectedOrganisation = signal<string | null>(this.userRolesService.organisation());
-  
+
   programsOptions = useProgramsWithOrganisation(this.selectedOrganisation);
 
   constructor() {
@@ -59,7 +58,7 @@ export class CommissionReviewFiltersComponent implements OnInit{
       ?.valueChanges.pipe(
         tap((organisation) => {
           this.selectedOrganisation.set(organisation);
-        })
+        }),
       )
       .subscribe();
   }
@@ -79,9 +78,6 @@ export class CommissionReviewFiltersComponent implements OnInit{
   }
 
   onSubmit() {
-    this.filtersChange.emit(
-      withoutEmptyProperties(this.filterForm.value) as ReviewFilters
-    )
+    this.filtersChange.emit(withoutEmptyProperties(this.filterForm.value) as ReviewFilters);
   }
-
 }

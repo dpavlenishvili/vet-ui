@@ -43,6 +43,7 @@ import { xIcon } from './x-icon';
 import { chevronUp } from './chevron-up';
 import { download } from './download';
 import { print } from './print';
+export * from './vacancy-icons';
 import { xCircled } from './xCircled';
 export * from './icons';
 import { emptyDocumentIcon } from './empty-document';
@@ -51,7 +52,9 @@ import { acceptedDocumentIcon } from './accepted-document';
 import { blocked } from './blocked';
 import { minusCircleRed } from './minus-circle-red';
 import { plusCircleGreen } from './plus-circle-green';
+import { webIcon } from './web';
 import { integrated } from './integrated';
+import { checkProgram } from './check-program';
 
 export {
   bin,
@@ -106,7 +109,9 @@ export {
   minusCircleRed,
   plusCircleGreen,
   calendarIcon,
-  integrated
+  integrated,
+  webIcon,
+  checkProgram
 };
 
 export * from './icons';

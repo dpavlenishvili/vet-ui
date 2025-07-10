@@ -1,11 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
 import { KENDO_DIALOGS } from '@progress/kendo-angular-dialog';
-import {
-  AlertDialogOutletComponent,
-  ConfirmationDialogOutletComponent
-} from '@vet/shared';
+import { AlertDialogOutletComponent, ConfirmationDialogOutletComponent, DialogOutletComponent } from '@vet/shared';
 import { AuthenticationService, UserRolesService } from '@vet/auth';
 
 @Component({
@@ -16,10 +13,11 @@ import { AuthenticationService, UserRolesService } from '@vet/auth';
     KENDO_DIALOGS,
     ConfirmationDialogOutletComponent,
     AlertDialogOutletComponent,
+    DialogOutletComponent,
   ],
   selector: 'vet-root',
   template: `
-    @if (authService.isUserLoaded() && userRolesService.isUserAccountsLoaded()) {
+    @if (isAppReady()) {
       <button class="toggle-container-button" (click)="toggleAppContainer()">
         <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="23" cy="23" r="23" fill="#4CAEE8" />
@@ -43,6 +41,7 @@ import { AuthenticationService, UserRolesService } from '@vet/auth';
       <div kendoDialogContainer></div>
       <vet-confirmation-dialog-outlet />
       <vet-alert-dialog-outlet />
+      <vet-dialog-outlet />
     }
   `,
   styles: [
@@ -76,6 +75,11 @@ export class AppComponent {
   isOpen = signal(false);
   authService = inject(AuthenticationService);
   userRolesService = inject(UserRolesService);
+  isAppReady = computed(() => {
+    const authReady = this.authService.isReady();
+    const rolesLoaded = this.userRolesService.isUserAccountsLoaded();
+    return authReady && rolesLoaded;
+  });
 
   toggleAppContainer(): void {
     this.isOpen.set(!this.isOpen());

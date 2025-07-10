@@ -19,7 +19,7 @@
       "routing": "true",
       "changeDetection": "OnPush",
       "flat": true,
-      "directory": "@"
+      "directory": "."
     },
     "@nx/angular:component": {
       "style": "scss",
@@ -68,5 +68,12 @@
     }
   },
   "defaultProject": "vet",
-  "useLegacyCache": true
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  }
 }

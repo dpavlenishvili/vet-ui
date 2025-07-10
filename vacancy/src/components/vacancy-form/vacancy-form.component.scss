@@ -1,0 +1,48 @@
+@use '@vet/shared-styles' as shared;
+@use '@vet/shared-styles/vacancy';
+
+.vacancy-form {
+  &.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kendo-spacing-4);
+    background-color: shared.$kendo-color-white;
+    padding: var(--kendo-spacing-5);
+    border-radius: 1.25rem;
+    margin-top: var(--kendo-spacing-5);
+  }
+
+  &.dropdown-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  &.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--kendo-spacing-4);
+  }
+
+  .k-textbox,
+  .k-dropdownlist {
+    background-color: shared.$kendo-color-white !important;
+    border: 1px solid #ccc !important;
+    width: 100%;
+    color: shared.$kendo-color-body;
+  }
+
+  kendo-textbox .k-input-inner::placeholder {
+    color: shared.$kendo-color-body;
+    font-family: HelveticaNeue;
+  }
+  .download-icon {
+    width: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.5px solid shared.$tb-kendo-color-primary-on-surface;
+    border-radius: var(--kendo-border-radius-xl);
+    cursor: pointer;
+  }
+}

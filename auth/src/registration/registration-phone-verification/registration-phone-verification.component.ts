@@ -1,4 +1,15 @@
-import { Component, computed, effect, forwardRef, input, model, output, signal, viewChildren } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  model,
+  output,
+  signal,
+  viewChildren
+} from '@angular/core';
 import { ErrorComponent, NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 import { type ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { useAuthEnvironment } from '../../auth.providers';
@@ -70,6 +81,10 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
   constructor() {
     effect(() => {
       this.startTime.set(this.timeSent());
+    });
+
+    afterNextRender(() => {
+      this.focusFirstInput();
     });
   }
 
@@ -186,5 +201,14 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
 
   private getDigitsArray() {
     return new Array<number | null>(this.length).fill(null);
+  }
+
+  private focusFirstInput() {
+    const firstInput = this.inputs()[0];
+
+    if (firstInput) {
+      const inputElement = firstInput.hostElement.nativeElement.querySelector('input');
+      inputElement?.focus();
+    }
   }
 }

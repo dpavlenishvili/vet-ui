@@ -1,12 +1,12 @@
 <form [formGroup]="form">
-  <div class="overview-container">
-    <div class="k-display-flex k-align-items-center k-gap-9">
+  <div class="vet-overview-container">
+    <div class="vet-profile-container">
       <img
         src="https://png.pngtree.com/png-clipart/20220720/original/pngtree-handsome-boy-for-profile-picture-png-image_8390953.png"
         alt="user"
-        class="profile-picture"
+        class="vet-profile-picture"
       />
-      <p>
+      <p class="vet-text-base">
         {{
           selectedAccountName() && selectedAccountName() !== form.get('name')?.value
             ? selectedAccountName() + ' (' + form.get('name')?.value + ')'
@@ -15,132 +15,99 @@
       </p>
     </div>
 
-    <div class="k-display-flex k-flex-column k-gap-5">
-      <div class="user-info">
-        <div
-          class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
-          (click)="onAddressExpandClick()"
-        >
-          <p>{{ 'profile.actual_address' | transloco }}</p>
-          <kendo-svg-icon [icon]="isAddressExpanded() ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
+    <div vet-container>
+      <div class="vet-user-info">
+        <div class="vet-content-box">
+          <p class="vet-text-base">{{ 'profile.actual_address' | transloco }}</p>
+          <vet-icon-button 
+            [icon]="isAddressExpanded() ? 'arrowUp' : 'arrowDown'" 
+            (click)="onAddressExpandClick()"
+            version="minimal"
+            mode="clear"
+            variant="tertiary"
+          />
         </div>
 
         @if (isAddressExpanded()) {
-          <div class="form-fields-container">
-            <kendo-label [text]="'profile.region' | transloco">
-              <kendo-dropdownlist
-                [data]="regionsResource.value()"
-                valueField="name"
-                textField="name"
-                [valuePrimitive]="true"
+          <div vet-container>
+            <div vet-row>
+              <vet-selector
                 formControlName="region"
+                [placeholder]="'profile.region' | transloco"
+                [options]="regionsOptions.value()"
               />
-              @if (form.controls['region']; as control) {
-                @if (!control.untouched) {
-                  @if (control.errors?.['required']) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                }
-              }
-            </kendo-label>
-
-            <kendo-label [text]="'profile.district' | transloco">
-              <kendo-dropdownlist
-                [data]="filteredDistricts()"
-                valueField="name"
-                textField="name"
-                [valuePrimitive]="true"
+  
+              <vet-selector
                 formControlName="city"
+                [placeholder]="'profile.district' | transloco"
+                [options]="filteredDistricts()"
               />
-              @if (form.controls['district']; as control) {
-                @if (!control.untouched) {
-                  @if (control.errors?.['required']) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                }
-              }
-            </kendo-label>
+            </div>
 
-            <kendo-label [text]="'profile.address' | transloco">
-              <kendo-textbox formControlName="address">
-                <ng-template kendoTextBoxSuffixTemplate>
-                  <img src="/assets/images/edit.svg" alt="edit icon" />
-                </ng-template>
-              </kendo-textbox>
-              @if (form.controls['address']; as control) {
-                @if (!control.untouched) {
-                  @if (control.errors?.['required']) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                }
-              }
-            </kendo-label>
+            <div vet-row>
+              <vet-input
+                self-grow
+                formControlName="address"
+                trailingIcon="editIcon"
+                [placeholder]="'profile.address' | transloco"
+              />
+
+              <div vet-row></div>
+            </div>
           </div>
         }
       </div>
 
-      <div class="user-info">
-        <div
-          class="k-display-flex k-justify-content-between k-w-full k-cursor-pointer"
-          (click)="onContactInfoExpandClick()"
-        >
-          <p>{{ 'profile.contact_info' | transloco }}</p>
-          <kendo-svg-icon [icon]="isContactInfoExpanded() ? kendoIcons.chevronUpIcon : kendoIcons.chevronDownIcon" />
+      <div class="vet-user-info">
+        <div class="vet-content-box">
+          <p class="vet-text-base">{{ 'profile.contact_info' | transloco }}</p>
+          <vet-icon-button 
+            [icon]="isContactInfoExpanded() ? 'arrowUp' : 'arrowDown'" 
+            (click)="onContactInfoExpandClick()"
+            version="minimal"
+            mode="clear"
+            variant="tertiary"
+          />
         </div>
 
         @if (isContactInfoExpanded()) {
-          <div class="form-fields-container">
-            <kendo-label [text]="'profile.email' | transloco">
-              <kendo-textbox formControlName="email">
-                <ng-template kendoTextBoxSuffixTemplate>
-                  <img src="/assets/images/edit.svg" alt="edit icon" />
-                </ng-template>
-              </kendo-textbox>
-              @if (form.controls['email']; as control) {
-                @if (!control.untouched) {
-                  @if (control.errors?.['required']) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                }
-              }
-            </kendo-label>
-
-            <kendo-label [text]="'profile.phone' | transloco">
-              <kendo-textbox formControlName="phone">
-                <ng-template kendoTextBoxPrefixTemplate>
-                  <p class="k-ml-2 k-color-black">{{ 'auth.georgian_code' | transloco }}</p>
-                </ng-template>
-                <ng-template kendoTextBoxSuffixTemplate>
-                  <img src="/assets/images/edit.svg" alt="edit icon" />
-                </ng-template>
-              </kendo-textbox>
-              @if (form.controls['phone']; as control) {
-                @if (!control.untouched) {
-                  @if (control.errors?.['required']) {
-                    <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-                  }
-                }
-              }
-            </kendo-label>
-          </div>
-
-          @if (isSmsCodeSent()) {
-            <div class="k-display-flex k-justify-content-end k-mt-5">
-              <vet-registration-phone-verification
-                formControlName="sms_code"
-                [isPending]="true"
-                (reload)="resendCode()"
+          <div vet-container>
+            <div vet-row>
+              <vet-input
+                self-grow
+                formControlName="email"
+                trailingIcon="editIcon"
+                [placeholder]="'profile.email' | transloco"
+              />
+  
+              <vet-input
+                self-grow
+                formControlName="phone"
+                trailingIcon="editIcon"
+                [placeholder]="'profile.phone' | transloco"
               />
             </div>
-          }
+
+            @if (isSmsCodeSent()) {
+              <div vet-row content-right>
+                <vet-registration-phone-verification
+                  formControlName="sms_code"
+                  [isPending]="true"
+                  (reload)="resendCode()"
+                />
+              </div>
+            }
+          </div>
         }
       </div>
     </div>
 
-    <div class="k-display-flex k-align-self-end">
-      <button kendoButton themeColor="primary" look="default" (click)="handleSave()">
+    <div vet-row content-right>
+      <vet-button
+       (click)="handleSave()"
+      >
         {{ 'profile.save' | transloco }}
-      </button>
+      </vet-button>
     </div>
   </div>
 </form>

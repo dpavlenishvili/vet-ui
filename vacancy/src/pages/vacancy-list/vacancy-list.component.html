@@ -1,0 +1,35 @@
+<div class="vacancy-container">
+  <vet-vacancy-form (emitForm)="onFiltersChange($event)" />
+  <div class="k-d-flex k-justify-content-end k-mt-4">
+    <button class="native-button" (click)="gridMode = true">
+      <kendo-svg-icon
+        class="k-cursor-pointer swithc-icon"
+        [icon]="icons.gridMode"
+        [ngClass]="{ 'swithc-icon--active': gridMode }"
+      />
+    </button>
+    <button class="native-button" (click)="gridMode = false">
+      <kendo-svg-icon
+        class="k-cursor-pointer k-ml-1 swithc-icon"
+        [icon]="icons.cardMode"
+        [ngClass]="{ 'swithc-icon--active': !gridMode }"
+      />
+    </button>
+  </div>
+  @let vacancyItems = vacancyList.value().data;
+  @if (!gridMode) {
+    <vet-vacancy-table
+      [headData]="headData"
+      [bodyData]="vacancyItems"
+      (editAction)="onClickEdit($event)"
+      (deleteAction)="deleteRow($event)"
+    />
+  } @else {
+    <vet-vacancy-list-card
+      [headData]="headData"
+      [bodyData]="vacancyItems"
+      (editAction)="onClickEdit($event)"
+      (deleteAction)="deleteRow($event)"
+    />
+  }
+</div>

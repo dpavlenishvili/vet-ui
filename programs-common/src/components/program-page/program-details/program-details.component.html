@@ -1,0 +1,17 @@
+<div class="vet-program-card">
+  <div class="vet-program-card-details">
+    @for (item of items(); track item.label) {
+      <div>
+        {{ item.label | trans }}: <strong>{{ item.value | trans }}</strong>
+      </div>
+    }
+  </div>
+
+  <div>
+    <kendo-svg-icon
+      [icon]="vetIcons.paletteBg"
+      [style.width]="'60px'"
+      [style.height]="'60px'"
+    />
+  </div>
+</div>

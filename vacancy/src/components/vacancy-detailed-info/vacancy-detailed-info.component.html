@@ -1,0 +1,190 @@
+<div class="result k-pt-4">
+  @if (vacancyData()?.position_type) {
+    <h3 class="subtitle vet-text-base">
+      {{ vacancyData()?.position_type | textFromId: positionTypes() }}
+    </h3>
+  }
+  <h2 class="title vet-text-h2">
+    {{ vacancyData()?.position }}
+  </h2>
+
+  <div class="k-d-flex k-justify-content-between k-align-items-stretch k-p-4">
+    <div class="block">
+      <h4 class="block-title vet-text-sm">
+        <strong>{{ 'vacancy.add_position_detail' | transloco }}</strong>
+      </h4>
+      <h6 class="block-subtitle vet-text-sm">
+        <strong>{{ 'vacancy.add_position_detail' | transloco }}</strong>
+      </h6>
+      @if (vacancyData()?.modules?.length) {
+        <div class="block-list-info vet-text-base">
+          {{ 'vacancy.programs' | transloco }}:
+          <strong>
+            @for (module of vacancyData()?.modules | textArrayFromIds: modulesList(); track module) {
+              {{ module }}
+              @if (!$last) {
+                ,
+              }
+            }
+          </strong>
+        </div>
+      }
+      @if (vacancyData()?.programs?.length) {
+        <div class="block-list-info vet-text-base">
+          {{ 'vacancy.prepare' | transloco }}:
+          <strong>
+            @for (
+              program of vacancyData()?.programs | textArrayFromIds: programList();
+              track program;
+              let last = $last
+            ) {
+              {{ program }}
+              @if (!last) {
+                ,
+              }
+            }
+          </strong>
+        </div>
+      }
+
+      <h6 class="block-subtitle k-mt-3 vet-text-sm">
+        <strong>{{ 'vacancy.add_position_detail_title' | transloco }}</strong>
+      </h6>
+
+      <div class="block-list-info vet-text-base">
+        {{ 'vacancy.start_date' | transloco }}:
+        <strong>
+          {{ vacancyData()?.start_date | date: 'dd.MM.yyyy' }}
+        </strong>
+      </div>
+
+      <div class="block-list-info vet-text-base">
+        {{ 'vacancy.end_date' | transloco }}:
+        <strong>
+          {{ vacancyData()?.deadline_date | date: 'dd.MM.yyyy' }}
+        </strong>
+      </div>
+
+      <div class="block-list-info vet-text-base">
+        {{ 'vacancy.hour_pay' | transloco }}:
+        <strong>
+          {{
+            'vacancy.add_amount_range'
+              | transloco
+                : {
+                    from: vacancyData()?.hourly_pay_from,
+                    to: vacancyData()?.hourly_pay_to,
+                  }
+          }}
+        </strong>
+      </div>
+
+      <div class="block-list-info vet-text-base">
+        {{ 'vacancy.sum_hour_pay' | transloco }}:
+        <strong>
+          {{
+            'vacancy.add_hour_range'
+              | transloco
+                : {
+                    from: vacancyData()?.hourly_workload_from,
+                    to: vacancyData()?.hourly_workload_to,
+                  }
+          }}
+        </strong>
+      </div>
+    </div>
+
+    <div class="block">
+      <h4 class="block-title vet-text-sm">
+        <strong>{{ 'vacancy.add_choose_detail_title' | transloco }}</strong>
+      </h4>
+
+      @for (stage of vacancyData()?.selection_stages; track $index) {
+        <div class="block-list-info vet-text-base">
+          {{ 'vacancy.add_stage_step' | transloco: { count: $index + 1 } }}:
+          <strong>
+            {{ stage | textFromId: positionTypes() }}
+          </strong>
+        </div>
+      }
+
+      <div class="block-list-info vet-text-base">
+        {{ 'vacancy.add_vacancy_count' | transloco }}:
+        <strong>
+          <strong> {{ vacancyData()?.vacant_places }} </strong>
+        </strong>
+      </div>
+
+      <div class="block-list-info vet-text-base">
+        {{ 'vacancy.add_work_format' | transloco }}
+        <strong>
+          {{ vacancyData()?.work_format | textFromId: positions() }}
+        </strong>
+      </div>
+      @if (!actionStyle()) {
+        <div class="block-action k-mt-4 k-pt-4">
+          <button (click)="clickNext.emit()" kendoButton [size]="'large'" [themeColor]="'primary'" rounded="large">
+            {{ 'vacancy.send' | transloco }}
+            @if (loader()) {
+              <kendo-loader size="medium" [themeColor]="'secondary'" />
+            }
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="func">
+    <div>
+      <h4 class="vet-text-sm k-mb-3">
+        <strong>{{ 'vacancy.add_func' | transloco }}</strong>
+      </h4>
+      <h6 class="vet-text-base k-pb-7">
+        {{ vacancyData()?.responsibilities }}
+      </h6>
+    </div>
+
+    <div>
+      <h4 class="vet-text-sm k-mb-3">
+        <strong>{{ 'vacancy.add_qualified_specific_base' | transloco }}</strong>
+      </h4>
+      <h6 class="vet-text-base k-pb-7">
+        {{ vacancyData()?.basic_requirements }}
+      </h6>
+    </div>
+
+    <div>
+      <h4 class="vet-text-sm k-mb-3">
+        <strong>{{ 'vacancy.add_qualified_specific' | transloco }}</strong>
+      </h4>
+      <h6 class="vet-text-base k-pb-7">
+        {{ vacancyData()?.optional_requirements }}
+      </h6>
+    </div>
+
+    <div>
+      <h4 class="vet-text-sm k-mb-3">
+        <strong>{{ 'vacancy.add_extra_info' | transloco }}</strong>
+      </h4>
+      <h6 class="vet-text-base k-pb-7">
+        {{ vacancyData()?.additional_information }}
+      </h6>
+    </div>
+  </div>
+
+  @if (actionStyle()) {
+    <div class="flex-item full-item k-d-flex k-justify-content-between flex-container k-p-5">
+      <button (click)="clickBack.emit()" kendoButton [size]="'large'" [themeColor]="'secondary'" rounded="large">
+        {{ 'vacancy.add_back' | transloco }}
+      </button>
+      <button (click)="clickNext.emit()" kendoButton [size]="'large'" [themeColor]="'primary'" rounded="large">
+        {{ 'vacancy.add_confirm' | transloco }}
+        @if (loader()) {
+          <kendo-loader size="medium" [themeColor]="'secondary'" />
+        }
+      </button>
+    </div>
+  } @else {
+    <ng-content />
+  }
+</div>

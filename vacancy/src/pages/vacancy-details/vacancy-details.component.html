@@ -1,0 +1,49 @@
+<div class="vacancy-details">
+  <vet-vacancy-detailed-info [vacancyData]="vacancyData()" [actionStyle]="false">
+    <div class="contact-info">
+      <div class="contact-block k-gap-5 k-d-grid vet-text-base">
+        <span>
+          <kendo-svgicon [icon]="vetIcons.phone" size="medium" class="k-mr-2" />
+          {{ contactInfo().phone }}
+        </span>
+        <span>
+          <kendo-svgicon [icon]="vetIcons.webIcon" size="medium" class="k-mr-2" />
+          {{ contactInfo().webLink }}
+        </span>
+      </div>
+      <div class="contact-block k-gap-5 k-d-grid vet-text-base">
+        <span>
+          <kendo-svgicon [icon]="vetIcons.mail" size="medium" class="k-mr-2" />
+          {{ contactInfo().email }}
+        </span>
+        <span>
+          <kendo-svgicon [icon]="vetIcons.locationMini" size="medium" class="k-mr-2" />
+          {{ contactInfo().adress }}
+        </span>
+      </div>
+      <div class="contact-block vet-text-base">
+        <span>
+          {{ 'vacancy.add_release_date' | transloco }}
+          <strong>
+            {{ contactInfo().releaseDate }}
+          </strong>
+          /
+          {{ 'vacancy.add_last_date' | transloco }}
+          <strong>
+            {{ contactInfo().endDate }}
+          </strong>
+        </span>
+      </div>
+    </div>
+    <div class="contact-info">
+      <div class="contact-block k-gap-5 k-d-grid vet-text-base">
+        <span>
+          <kendo-svgicon [icon]="vetIcons.personMini" size="medium" class="k-mr-2" />
+          {{ 'vacancy.add_contact_person_phone' | transloco }}
+          {{ contactInfo().contactPersonPhone }}
+        </span>
+      </div>
+      <div class="contact-block k-gap-5 k-d-grid vet-text-base"></div>
+    </div>
+  </vet-vacancy-detailed-info>
+</div>

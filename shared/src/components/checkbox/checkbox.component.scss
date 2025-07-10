@@ -1,0 +1,53 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-checkbox-container {
+  &.vet-checkbox-container-flat {
+    .vet-checkbox-label {
+      @include shared.text-sm(true);
+      color: shared.$kendo-color-body;
+    }
+  }
+
+  &.vet-checkbox-container-outline {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid;
+
+    &.vet-checkbox-container-fat {
+      height: 3.125rem;
+      border-radius: 0.625rem;
+      border-color: shared.$kendo-color-divider-light;
+      padding: 1rem;
+
+      .vet-checkbox-label {
+        @include shared.text-base(true);
+        color: shared.$kendo-color-body;
+        flex: 1;
+      }
+    }
+
+    &.vet-checkbox-container-thin {
+      height: 2.375rem;
+      border-radius: 0.375rem;
+      border-color: shared.$kendo-color-border-alt;
+      padding: 0.5rem;
+
+      .vet-checkbox-label {
+        @include shared.text-sm();
+        color: shared.$kendo-color-hint;
+        flex: 1;
+      }
+    }
+  }
+}
+
+kendo-label.vet-label.vet-checkbox-label {
+  height: 0.875rem !important;
+  line-height: 100% !important;
+}

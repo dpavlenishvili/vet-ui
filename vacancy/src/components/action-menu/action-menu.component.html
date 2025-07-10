@@ -1,0 +1,17 @@
+<div #target class="k-display-flex k-justify-content-center">
+  <kendo-svg-icon class="icon k-cursor-pointer" [icon]="icons.threeDot" />
+</div>
+<kendo-contextmenu [target]="target" [items]="[]" showOn="click" #menu>
+  <ng-template kendoContextMenuTemplate>
+    <div class="dropdown">
+      <button class="dropdown__item native-button" (click)="menu.hide(); deleteAction.emit(id())">
+        <kendo-svg-icon class="icon dropdown__icon" [icon]="icons.listDelete" />
+        {{ 'vacancy.delete' | transloco }}
+      </button>
+      <button class="dropdown__item native-button" (click)="menu.hide(); editAction.emit(id())">
+        <kendo-svg-icon class="icon dropdown__icon" [icon]="icons.listEdit" />
+        {{ 'vacancy.edit' | transloco }}
+      </button>
+    </div>
+  </ng-template>
+</kendo-contextmenu>

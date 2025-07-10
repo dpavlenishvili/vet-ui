@@ -1,0 +1,14 @@
+@let _program = program.value();
+
+@if (_program) {
+  <vet-program-page
+    [showGallery]="true"
+    [program]="_program"
+    [details]="details()"
+    [sections]="sections()"
+  >
+    <ng-container admissions>
+      <vet-long-program-admission [admissions]="_program.admission" />
+    </ng-container>
+  </vet-program-page>
+}

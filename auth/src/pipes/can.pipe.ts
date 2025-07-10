@@ -1,6 +1,6 @@
-import { computed, inject, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { AuthPermission } from '../auth.types';
-import { UserRolesService } from '@vet/auth';
+import { useCan } from '../auth.signals';
 
 @Pipe({
   name: 'can',
@@ -8,11 +8,9 @@ import { UserRolesService } from '@vet/auth';
   standalone: true,
 })
 export class CanPipe implements PipeTransform {
-  private readonly userRolesService = inject(UserRolesService);
+  private readonly can = useCan();
 
   transform(permission: AuthPermission): boolean {
-    const value = computed(() => this.userRolesService.can(permission));
-
-    return value();
+    return this.can(permission)();
   }
 }

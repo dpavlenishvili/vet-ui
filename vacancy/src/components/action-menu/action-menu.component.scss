@@ -1,0 +1,30 @@
+@use '@vet/shared-styles' as shared;
+
+.dropdown {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: var(--kendo-spacing-2);
+  border-radius: 25px;
+
+  &__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: var(--kendo-spacing-2);
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    min-height: 2.5rem;
+    min-width: 9rem;
+    font-size: 0.75rem;
+    &:first-child {
+      border-bottom: 1px solid #f9f9f9;
+      margin-bottom: var(--kendo-spacing-2);
+      padding-bottom: var(--kendo-spacing-2);
+    }
+  }
+}

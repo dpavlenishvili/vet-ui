@@ -42,23 +42,14 @@
     gap: 1rem;
 
     .section-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: shared.$kendo-color-body-dark;
       margin: 0;
     }
 
     @media (max-width: 479px) {
-      flex-direction: column;
-      align-items: flex-start;
       gap: 0.75rem;
 
       .section-title {
         width: 100%;
-      }
-
-      kendo-switch {
-        align-self: flex-end;
       }
     }
   }
@@ -132,7 +123,6 @@
 
       .value {
         color: shared.$kendo-color-body-dark;
-        font-weight: 500;
       }
     }
   }
@@ -144,13 +134,11 @@
 
   .section-title-badge {
     position: absolute;
-    top: -1.125rem;
+    top: -1.3rem;
     left: 3rem;
     background-color: white;
     color: #666;
     padding: 0.5rem;
-    font-size: 1rem;
-    font-weight: 500;
 
     @media (max-width: 767px) {
       left: 50%;
@@ -196,9 +184,6 @@
     }
 
     .subsection-title {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: shared.$kendo-color-body-dark;
       margin: 0;
     }
   }
@@ -269,7 +254,6 @@
   padding: 0.75rem;
 
   .description-text {
-    color: shared.$kendo-color-body;
     line-height: 1.5;
     margin-bottom: 0.5rem;
     white-space: pre-wrap;
@@ -286,7 +270,6 @@
 
 .disclaimer-section {
   border-color: var(--section-border);
-  color: #333;
 
   .disclaimer-content {
     display: flex;
@@ -302,21 +285,14 @@
     .disclaimer-summary {
       border-bottom: 1px solid var(--section-border);
       padding-bottom: 0.75rem;
-      font-size: 1rem;
 
       @media (max-width: 767px) {
-        font-size: 0.95rem;
         line-height: 1.4;
       }
     }
 
     .disclaimer-title {
-      font-weight: 600;
       margin-bottom: 0.5rem;
-
-      @media (max-width: 767px) {
-        font-size: 0.95rem;
-      }
     }
 
     .disclaimer-list {
@@ -335,7 +311,6 @@
           line-height: 1.5;
 
           @media (max-width: 767px) {
-            font-size: 0.9rem;
             line-height: 1.6;
           }
 
@@ -353,7 +328,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: var(--section-gap);
   margin-top: auto;
 
   @media (max-width: 479px) {
@@ -436,16 +410,12 @@
 
 @media (min-width: 1200px) {
   .confirmation-container {
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .ssm-subsection {
     padding: 1.5rem;
     gap: 1.5rem;
-  }
-
-  .confirmation-actions {
-    padding-top: 2rem;
   }
 }
 

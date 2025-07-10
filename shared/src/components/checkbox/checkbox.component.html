@@ -1,0 +1,31 @@
+@let _iconPopover = iconPopover();
+@let _iconTooltip = iconTooltip();
+
+<div
+  class="vet-checkbox-container vet-checkbox-container-{{ version() }} vet-checkbox-container-{{ mode() }} k-display-flex k-align-items-center k-gap-3">
+  @if (icon(); as _icon) {
+    <div class="k-text-sm k-color-body">
+      <vet-icon
+        class="k-color-body-light"
+        [style.height]="16"
+        [icon]="_icon"
+        [popover]="_iconPopover"
+        [tooltip]="_iconTooltip"
+      />
+    </div>
+  }
+  <div class="k-display-flex k-align-items-center k-gap-3">
+    <kendo-checkbox
+      #checkbox
+      class="vet-checkbox"
+      [disabled]="isDisabled()"
+      [ngModel]="value()"
+      (ngModelChange)="handleChange($event)"
+    />
+    <kendo-label
+      class="vet-label vet-checkbox-label"
+      [for]="checkbox"
+      [text]="label()"
+    />
+  </div>
+</div>

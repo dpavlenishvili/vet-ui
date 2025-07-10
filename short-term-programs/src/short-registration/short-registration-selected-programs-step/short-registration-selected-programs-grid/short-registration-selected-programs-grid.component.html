@@ -28,6 +28,12 @@
   />
 
   <kendo-grid-column
+    [title]="'shorts.implementation_location' | transloco"
+    field="program.organisation.address"
+    [width]="150"
+  />
+
+  <kendo-grid-column
     [title]="'shorts.registration_period' | transloco"
     [width]="150"
   >
@@ -45,49 +51,31 @@
     </ng-template>
   </kendo-grid-column>
 
-  <kendo-grid-column
-    [title]="'shorts.implementation_location' | transloco"
-    field="program.organisation.address"
-    [width]="150"
-  />
+  @if (isEditMode()) {
+    <kendo-grid-column [width]="56" [title]="'programs.selection' | transloco">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="short-grid-action-buttons">
+          <button
+            kendoButton
+            type="button"
+            fillMode="flat"
+            class="short-grid-action-button"
+            (click)="onPreviewProgram(item)"
+          >
+            <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.eye" themeColor="warning" />
+          </button>
 
-  <kendo-grid-column [width]="56" [title]="'programs.selection' | transloco">
-    <ng-template kendoGridCellTemplate let-item>
-      <div class="short-grid-action-buttons">
-        <button
-          kendoButton
-          type="button"
-          fillMode="flat"
-          class="short-grid-action-button"
-          (click)="onPreviewProgram(item)"
-        >
-          <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.eye" themeColor="warning" />
-        </button>
-
-        <button
-          kendoButton
-          type="button"
-          fillMode="flat"
-          class="short-grid-action-button"
-          (click)="onUnselectProgram(item)"
-        >
-          <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.minusCircleRed" themeColor="error" />
-        </button>
-      </div>
-    </ng-template>
-  </kendo-grid-column>
+          <button
+            kendoButton
+            type="button"
+            fillMode="flat"
+            class="short-grid-action-button"
+            (click)="onUnselectProgram(item)"
+          >
+            <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.minusCircleRed" themeColor="error" />
+          </button>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  }
 </kendo-grid>
-
-@if (isProgramPreviewDialogOpen()) {
-  <vet-dialog
-    width="90%"
-    height="90%"
-    [title]="'programs.program_description' | transloco"
-    (close)="onClosePreviewDialog()"
-  >
-    <vet-short-program-page
-      [programId]="previewProgramId()"
-      [showGallery]="false"
-    />
-  </vet-dialog>
-}

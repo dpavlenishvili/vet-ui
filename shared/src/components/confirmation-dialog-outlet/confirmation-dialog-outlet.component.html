@@ -36,7 +36,7 @@
           {{ params.confirmButtonText ? (params.confirmButtonText | transloco) : ('shared.yes' | transloco) }}
         </button>
       } @else {
-        <button kendoButton themeColor="primary" (click)="confirm()">
+        <button kendoButton themeColor="base" (click)="confirm()">
           {{ params.singleTypeDialogActionText ? (params.singleTypeDialogActionText | transloco) : ('shared.met' | transloco) }}
         </button>
       }

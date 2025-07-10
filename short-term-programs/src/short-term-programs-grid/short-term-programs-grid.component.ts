@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, input, output, ResourceRef } from '@angular/core';
 import { PaginatedGridResult, vetIcons } from '@vet/shared';
-import { ShortTermProgram } from '../short-term-programs.types';
-import { ShortTermProgramCardComponent } from '../short-term-program-card/short-term-program-card.component';
 import { ShortProgram } from '@vet/backend';
 import { PagerComponent } from '@progress/kendo-angular-pager';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
+import { ProgramCardComponent } from '@vet/programs-common';
+import { ShortTermProgram } from '../short-term-programs.types';
 
 @Component({
   selector: 'vet-short-term-programs-grid',
-  imports: [ShortTermProgramCardComponent, PagerComponent],
+  imports: [ProgramCardComponent, PagerComponent],
   templateUrl: './short-term-programs-grid.component.html',
   styleUrl: './short-term-programs-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

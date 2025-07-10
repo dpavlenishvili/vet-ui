@@ -1,0 +1,65 @@
+<form class="grid-container" [formGroup]="agreementFormGroup">
+  <div>
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      rounded="large"
+      [text]="'vacancy.add_hourly_pay' | transloco"
+    />
+    <kendo-textbox class="vacancy-control" formControlName="hourly_pay_from" />
+  </div>
+  <div>
+    <kendo-label class="k-display-block k-mb-2 form-label" rounded="large" [text]="'vacancy.add_gell' | transloco" />
+    <kendo-textbox class="vacancy-control" formControlName="hourly_pay_to" />
+  </div>
+  <div>
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      rounded="large"
+      [text]="'vacancy.add_hourly_work' | transloco"
+    />
+    <kendo-textbox class="vacancy-control" formControlName="hourly_workload_from" />
+  </div>
+  <div>
+    <kendo-label class="k-display-block k-mb-2 form-label" rounded="large" [text]="'vacancy.add_hout' | transloco" />
+    <kendo-textbox class="vacancy-control" formControlName="hourly_workload_to" />
+  </div>
+  <div>
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      rounded="large"
+      [text]="'vacancy.add_release_date' | transloco"
+    />
+    <kendo-datepicker
+      class="vacancy-control"
+      [format]="'yyyy-MM-dd'"
+      [size]="'medium'"
+      formControlName="publish_date"
+    />
+  </div>
+  <div>
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      rounded="large"
+      [text]="'vacancy.add_last_date' | transloco"
+    />
+    <kendo-datepicker
+      class="vacancy-control"
+      [format]="'yyyy-MM-dd'"
+      [size]="'large'"
+      formControlName="deadline_date"
+    />
+  </div>
+  <div>
+    <button (click)="clicBack.emit()" kendoButton [size]="'large'" [themeColor]="'secondary'" rounded="large">
+      {{ 'vacancy.add_back' | transloco }}
+    </button>
+  </div>
+  <div class="k-d-flex k-justify-content-end">
+    <button (click)="onValidate()" kendoButton [size]="'large'" [themeColor]="'primary'" rounded="large">
+      {{ 'vacancy.add_next' | transloco }}
+      @if (loader()) {
+        <kendo-loader size="medium" [themeColor]="'secondary'" />
+      }
+    </button>
+  </div>
+</form>

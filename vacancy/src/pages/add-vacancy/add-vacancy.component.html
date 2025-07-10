@@ -1,0 +1,32 @@
+<div class="k-d-flex k-gap-4 k-align-items-start k-mt-13">
+  <vet-vacancy-stepper [activeIndex]="currentStep()" (changeStep)="changeStep($event)" />
+
+  <div class="forms">
+    @switch (currentStep()) {
+      @case (1) {
+        <vet-position-details-form
+          (clickBack)="changeStep(currentStep() - 1)"
+          (clickNext)="changeStep(currentStep() + 1)"
+        />
+      }
+      @case (2) {
+        <vet-agreement-details-form
+          (clicBack)="changeStep(currentStep() - 1)"
+          (clicNext)="changeStep(currentStep() + 1)"
+        />
+      }
+      @case (3) {
+        <vet-extra-details-form (clicBack)="changeStep(currentStep() - 1)" (clicNext)="changeStep(currentStep() + 1)" />
+      }
+      @case (4) {
+        <vet-vacancy-detailed-info
+          [vacancyData]="vacancyData()"
+          [loader]="loader()"
+          (clickBack)="changeStep(currentStep() - 1)"
+          (clickNext)="onSubmit()"
+          [actionStyle]="true"
+        />
+      }
+    }
+  </div>
+</div>

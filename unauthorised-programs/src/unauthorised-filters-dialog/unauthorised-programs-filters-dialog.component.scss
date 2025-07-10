@@ -1,0 +1,53 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-shorts-filters {
+  > :not(:first-child) {
+    margin-top: 1.25rem;
+  }
+}
+
+.vet-shorts-filters-grid {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex: 1;
+  min-width: 0;
+
+  &.end {
+    justify-content: flex-end;
+  }
+
+  &.dense {
+    gap: 0.75rem;
+  }
+}
+
+.vet-shorts-filters-grid-cell {
+  display: flex;
+  align-items: center;
+  gap: 1.875rem;
+}
+
+.vet-shorts-filters-grid-spacer {
+  margin-left: 5rem;
+}
+
+.vet-shorts-filters-input {
+  width: 100%;
+}
+
+.vet-shorts-clear {
+  .vet-shorts-clear-icon {
+    width: 10px;
+    height: 10px;
+  }
+
+  .vet-shorts-clear-text {
+    @include shared.text-sm();
+    margin-left: 0.625rem;
+  }
+}

@@ -1,4 +1,50 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
-  width: 100%;
+}
+
+.vet-switch-container {
+  &.vet-switch-container-flat {
+    .vet-switch-label {
+      @include shared.text-sm(true);
+      color: shared.$kendo-color-body;
+    }
+  }
+
+  &.vet-switch-container-outline {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid;
+
+    &.vet-switch-container-fat {
+      height: 3.125rem;
+      border-radius: 0.625rem;
+      border-color: shared.$kendo-color-divider-light;
+      padding: 1rem;
+
+      .vet-switch-label {
+        @include shared.text-base(true);
+        color: shared.$kendo-color-body;
+      }
+    }
+
+    &.vet-switch-container-thin {
+      height: 2.375rem;
+      border-radius: 0.375rem;
+      border-color: shared.$kendo-color-border-alt;
+      padding: 0.5rem;
+
+      .vet-switch-label {
+        @include shared.text-sm();
+        color: shared.$kendo-color-hint;
+      }
+    }
+  }
+}
+
+kendo-switch.vet-switch {
+  width: 3.375rem;
 }

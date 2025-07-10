@@ -5,6 +5,7 @@ import { ToastModule } from '../toast.module';
 
 export interface ToastParams {
   translate?: boolean;
+  translateParams?: Record<string, unknown>;
 }
 
 @Injectable({ providedIn: ToastModule })
@@ -31,10 +32,10 @@ export class ToastService {
   }
 
   show(type: Type['style'], message: string, params: ToastParams = {}) {
-    const { translate = true } = params;
+    const { translate = true, translateParams = {} } = params;
 
     this.notificationService.show({
-      content: translate ? this.translocoService.translate(message) : message,
+      content: translate ? this.translocoService.translate(message, translateParams) : message,
       animation: { type: 'slide', duration: 400 },
       position: { horizontal: 'center', vertical: 'top' },
       type: { style: type, icon: true },

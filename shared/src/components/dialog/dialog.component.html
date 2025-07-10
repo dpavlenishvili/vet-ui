@@ -2,8 +2,8 @@
   class="vet-dialog"
   [class.disable-padding]="disablePadding()"
   [class.transparent]="transparent()"
-  [width]="width()"
-  [height]="height()"
+  [width]="width() ?? 500"
+  [height]="height() ?? 400"
 >
   <kendo-dialog-titlebar class="vet-dialog-header-container" [class.hidden]="!showHeader()">
     <div class="vet-dialog-header">

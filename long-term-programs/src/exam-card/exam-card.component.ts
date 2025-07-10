@@ -7,7 +7,6 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { JsonPipe } from '@angular/common';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { DatePipe } from '@angular/common';
 

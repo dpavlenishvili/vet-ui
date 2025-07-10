@@ -1,0 +1,31 @@
+@let _program = program();
+
+<div class="vet-contact-container">
+  <div class="vet-contact-item">
+    <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.phoneMini" />
+    <a [href]="'tel:' + organisation?.phone" target="_blank" class="k-text-base k-color-body">
+      {{ organisation?.phone }}
+    </a>
+  </div>
+
+  <div class="vet-contact-item">
+    <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.locationMini" />
+    <span>{{ _program?.address }}</span>
+  </div>
+
+  <div class="vet-contact-item">
+    <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.globeMini" />
+    <a [href]="organisation?.website" target="_blank" class="k-text-base k-color-body">
+      {{ organisation?.website }}
+    </a>
+  </div>
+
+  <div class="vet-contact-item">
+    <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.envelopeMini" />
+    <a [href]="'mailto:' + organisation?.email" target="_blank" class="k-text-base k-color-body">
+      {{ organisation?.email }}
+    </a>
+  </div>
+</div>
+
+<ng-content />

@@ -3,9 +3,10 @@
 
 <div class="vet-shorts-grid">
   @for (item of _data.value().data; track item.id) {
-    <vet-short-term-program-card
+    <vet-program-card
       class="vet-shorts-grid-item"
       [program]="item"
+      [programDetailsPath]="'/programs/short'"
     />
   }
 </div>

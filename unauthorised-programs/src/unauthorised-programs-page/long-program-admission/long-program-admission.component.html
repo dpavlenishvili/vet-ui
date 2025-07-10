@@ -1,0 +1,70 @@
+@let _user = user();
+@let _admissions = admissions();
+
+@if (_admissions) {
+  <div class="k-pos-relative k-gap-5 k-flex-1 k-p-5 k-rounded-card k-border-solid k-border-primary k-h-full">
+    <div class="k-pos-absolute k-top-0 k-left-17 k-mt--4 k-ml-0.5 k-bg-white k-px-5 k-py-1 vet-text-sm">
+      <strong class="k-color-primary">{{ 'programs.admission_open' | transloco }}</strong>
+    </div>
+
+    <div class="vet-program-card">
+      <div class="vet-program-card-details">
+        <div class="vet-program-card-field">
+          <kendo-svg-icon [icon]="vetIcons.info" />
+          {{ 'programs.number_of_vacant_positions' | transloco }}:
+          {{ _admissions?.students_limit }}
+        </div>
+
+        <div class="vet-program-card-field">
+          <kendo-svg-icon [icon]="vetIcons.info" />
+          {{ 'programs.number_of_ssm_vacant_positions' | transloco }}:
+          {{ _admissions?.inclusive_students_limit }}
+        </div>
+
+        <div class="vet-program-card-field">
+          {{ 'programs.financing_type' | transloco }}:
+          {{ financingTypeName }}
+        </div>
+
+        @if (_admissions?.selection?.length) {
+          @for (item of _admissions?.selection; track $index) {
+            <div class="vet-program-card-field">
+              {{ item.method?.category }}:
+              {{ item.method?.name }}
+            </div>
+          }
+
+          <vet-divider />
+        }
+
+        <div class="vet-program-card-field">
+          {{ 'programs.registered_applicants' | transloco }}:
+          {{ registeredCount()?.count }}
+        </div>
+
+        <div class="vet-program-card-field">
+          {{ 'programs.registered_ssm_applicants' | transloco }}:
+          {{ registeredCount()?.spec_count }}
+        </div>
+
+        <vet-divider />
+      </div>
+    </div>
+
+    @if (isUserLoaded() && !_user) {
+      <div class="vet-text-base k-mt-7">
+        <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="vet-short-card">
+    <div class="vet-short-card-no-admission-container">
+      <kendo-svg-icon [icon]="vetIcons.searchBg" [style.width]="'40px'" [style.height]="'40px'" />
+
+      <div>
+        {{ 'shorts.no_admission' | transloco }}
+      </div>
+    </div>
+  </div>
+}

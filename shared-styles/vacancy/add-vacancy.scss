@@ -1,0 +1,130 @@
+@use '../variables' as variables;
+
+* {
+  font-family: HelveticaNeue;
+}
+
+.forms {
+  background-color: variables.$kendo-color-white;
+  padding: var(--kendo-spacing-5);
+  border-radius: var(--kendo-spacing-5);
+  width: 100%;
+  display: block;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 28px var(--kendo-spacing-5);
+
+  &__check-group {
+    padding: 14px;
+    background-color: variables.$kendo-color-chip;
+    border-radius: var(--kendo-border-radius-xl);
+    font-size: 13px;
+  }
+}
+.flex-container,
+.grid-container {
+  .k-textbox,
+  .k-dropdownlist {
+    background-color: variables.$kendo-color-white !important;
+    border: 1px solid #ccc !important;
+    width: 100%;
+  }
+  .k-checkbox:checked {
+    background-color: variables.$tb-kendo-color-primary-on-surface !important;
+    border-color: variables.$tb-kendo-color-primary-on-surface !important;
+  }
+  .k-textarea {
+    width: 100% !important;
+    border-radius: var(--kendo-border-radius-xl);
+  }
+}
+.form-label {
+  font-size: 14px;
+  color: #636363;
+}
+
+.grid-container-parent {
+  grid-template-columns: repeat(2, 1fr) !important;
+  .grid-container-child-5 {
+    grid-column: span 2 / span 2;
+    grid-row-start: 3;
+  }
+
+  .grid-container-child-6 {
+    grid-column: span 2 / span 2;
+    grid-row-start: 4;
+  }
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kendo-spacing-5);
+  .flex-item {
+    flex: 1 1 calc(50% - 10px);
+    box-sizing: border-box;
+  }
+
+  .full-item.flex-item {
+    flex: 1 1 100%;
+  }
+}
+
+.result {
+  .subtitle {
+    color: #444444;
+    padding-block: var(--kendo-spacing-4);
+    width: 100%;
+    text-align: center;
+  }
+
+  .title {
+    color: variables.$kendo-color-body-extra-dark;
+    padding-bottom: var(--kendo-spacing-7);
+    width: 100%;
+    text-align: center;
+  }
+
+  .block {
+    padding: var(--kendo-spacing-7) var(--kendo-spacing-2) var(--kendo-spacing-4) var(--kendo-spacing-4);
+    border: 0.5px solid variables.$tb-kendo-color-primary-on-surface;
+    border-radius: var(--kendo-spacing-5);
+    flex-basis: calc(50% - var(--kendo-spacing-3));
+    position: relative;
+  }
+
+  .block-title {
+    color: variables.$tb-kendo-color-primary-on-surface;
+    background-color: variables.$kendo-color-white;
+    padding-inline: var(--kendo-spacing-4);
+    position: absolute;
+    left: 70px;
+    top: -8px;
+  }
+
+  .block-subtitle {
+    color: variables.$kendo-color-body-dark;
+    padding-bottom: var(--kendo-spacing-3);
+    display: block;
+  }
+
+  .block-list-info {
+    color: variables.$kendo-color-body;
+    padding-bottom: var(--kendo-spacing-3);
+
+    strong {
+      color: variables.$kendo-color-body-dark;
+    }
+  }
+
+  .func {
+    padding: var(--kendo-spacing-8);
+    margin-top: 22px;
+  }
+}
+.block-action {
+  border-top: 1px solid variables.$kendo-color-border-light-gray;
+}

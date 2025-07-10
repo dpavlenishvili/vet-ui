@@ -130,7 +130,7 @@
 
 .wizard-stepper {
   width: 100%;
-
+  overflow: hidden;
 
   @media (max-width: 767px) {
     .k-stepper-steps {

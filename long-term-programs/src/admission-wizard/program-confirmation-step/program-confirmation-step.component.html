@@ -1,32 +1,30 @@
 @if (user(); as _user) {
   @if (form(); as _form) {
     <form class="confirmation-container" [formGroup]="_form">
-      <!-- User Profile Section -->
       <div class="confirmation-section user-profile">
         <img src="/assets/images/profile.png" width="146" height="120" alt="Profile" class="profile-image" />
         <div class="user-details">
           <div class="user-detail-row">
             <span class="label">{{ 'programs.pid' | transloco }}:</span>
-            <span class="value">{{ _user.pid }}</span>
+            <span class="value k-text-base">{{ _user.pid }}</span>
           </div>
           <div class="user-detail-row">
             <span class="label">{{ 'programs.name_surname' | transloco }}:</span>
-            <span class="value">{{ _user.name }}</span>
+            <span class="value k-text-base">{{ _user.name }}</span>
           </div>
           <div class="user-detail-row">
             <span class="label">{{ 'programs.mobile' | transloco }}:</span>
-            <span class="value">{{ _user.phone }}</span>
+            <span class="value k-text-base">{{ _user.phone }}</span>
           </div>
           <div class="user-detail-row">
             <span class="label">{{ 'programs.education' | transloco }}:</span>
-            <span class="value">{{ educationStatus.value()?.level }}</span>
+            <span class="value k-text-base">{{ educationStatus.value()?.level }}</span>
           </div>
         </div>
       </div>
 
-      <!-- Selected Programs Section -->
       <div class="confirmation-section programs-section">
-        <div class="section-title-badge">{{ 'programs.selected_programs' | transloco }}</div>
+        <div class="section-title-badge k-text-base">{{ 'programs.selected_programs' | transloco }}</div>
         <vet-admission-selected-programs
           [selectedPrograms]="selectedPrograms.value()"
           [selectedProgramsError]="$any(selectedPrograms.error())"
@@ -34,10 +32,9 @@
         />
       </div>
 
-      <!-- Special Requirements Section -->
       <div class="confirmation-section">
         <div class="section-header">
-          <div class="section-title">{{ 'programs.needAdaptedEnvironment' | transloco }}</div>
+          <div class="section-title k-text-base">{{ 'programs.needAdaptedEnvironment' | transloco }}</div>
           <kendo-switch
             [checked]="specialRequirements().length > 0"
             [disabled]="true"
@@ -61,11 +58,10 @@
         }
       </div>
 
-      <!-- Complete SSM Section -->
       @if (ssmFormGroup(); as ssmForm) {
         <div class="confirmation-section ssm-section" [class.active]="!!ssmForm.controls['spec_edu'].value">
           <div class="section-header">
-            <div class="section-title">{{ 'programs.ssm_question' | transloco }}</div>
+            <div class="section-title k-text-base">{{ 'programs.ssm_question' | transloco }}</div>
             <kendo-switch
               [checked]="!!ssmForm.controls['spec_edu'].value"
               [disabled]="true"
@@ -77,22 +73,21 @@
 
           @if (ssmForm.controls['spec_edu'].value) {
             <div class="section-content">
-              <!-- Contact Person Information -->
               <div class="ssm-subsection">
-                <div class="subsection-title">{{ 'programs.ssm_contact_person_info' | transloco }}</div>
+                <div class="subsection-title k-text-base">{{ 'programs.ssm_contact_person_info' | transloco }}</div>
 
                 <div class="contact-info-grid">
                   <div class="info-row">
-                    <span class="value">{{ ssmForm.controls['e_name'].value || '-' }}</span>
+                    <span class="value k-text-base">{{ ssmForm.controls['e_name'].value || '-' }}</span>
                   </div>
                   <div class="info-row">
-                    <span class="value">{{ ssmForm.controls['e_lastname'].value || '-' }}</span>
+                    <span class="value k-text-base">{{ ssmForm.controls['e_lastname'].value || '-' }}</span>
                   </div>
                   <div class="info-row">
-                    <span class="value">{{ ssmForm.controls['e_email'].value || '-' }}</span>
+                    <span class="value k-text-base">{{ ssmForm.controls['e_email'].value || '-' }}</span>
                   </div>
                   <div class="info-row">
-                    <span class="value">
+                    <span class="value k-text-base">
                       @if (ssmForm.controls['e_phone'].value) {
                         +995 {{ ssmForm.controls['e_phone'].value }}
                       } @else {
@@ -103,10 +98,10 @@
                 </div>
               </div>
 
-              <!-- Translator Requirements -->
+
               <div class="ssm-subsection">
                 <div class="section-header">
-                  <div class="subsection-title">{{ 'programs.ssm_translator_requirement_question' | transloco }}</div>
+                  <div class="subsection-title k-text-base">{{ 'programs.ssm_translator_requirement_question' | transloco }}</div>
                   <kendo-switch
                     [checked]="!!ssmForm.controls['translate_select'].value"
                     [disabled]="true"
@@ -119,26 +114,26 @@
                 @if (ssmForm.controls['translate_select'].value) {
                   <div class="translator-info">
                     <div class="info-row">
-                      <span class="value">{{ ssmForm.controls['translate_select'].value | transloco }}</span>
+                      <span class="value k-text-base">{{ ssmForm.controls['translate_select'].value | transloco }}</span>
                     </div>
 
                     @if (ssmForm.controls['translate'].value) {
                       <div class="info-row">
-                        <!--                        <span class="label">{{ 'programs.custom_language' | transloco }}:</span>-->
-                        <span class="value">{{ ssmForm.controls['translate'].value }}</span>
+
+                        <span class="value k-text-base">{{ ssmForm.controls['translate'].value }}</span>
                       </div>
                     }
                   </div>
                 }
               </div>
 
-              <!-- Special Requirements Description -->
+
               @if (ssmForm.controls['spe_description'].value) {
                 <div class="ssm-subsection">
-                  <div class="subsection-title">{{ 'programs.ssm_person_requirement_info' | transloco }}</div>
+                  <div class="subsection-title k-text-base">{{ 'programs.ssm_person_requirement_info' | transloco }}</div>
 
                   <div class="description-display">
-                    <div class="description-text">{{ ssmForm.controls['spe_description'].value }}</div>
+                    <div class="description-text k-text-base">{{ ssmForm.controls['spe_description'].value }}</div>
                     <div class="character-count">
                       {{ ssmForm.controls['spe_description'].value?.length ?? 0 }}/{{ maxLengthOfRequirements }}
                     </div>
@@ -150,10 +145,10 @@
         </div>
       }
 
-      <!-- Education Sections -->
+
       <div class="confirmation-section">
         <div class="section-header">
-          <div class="section-title">
+          <div class="section-title k-text-base">
             @if (user()?.residential === citizenship.Georgian) {
               {{ 'programs.completedForeignGeneralEducation' | transloco }}
             } @else {
@@ -185,7 +180,7 @@
 
       <div class="confirmation-section">
         <div class="section-header">
-          <div class="section-title">
+          <div class="section-title k-text-base">
             @if (user()?.residential === citizenship.Georgian) {
               {{ 'programs.completedGeneralEducationInOccupiedTerritory' | transloco }}
             } @else {
@@ -215,10 +210,10 @@
         }
       </div>
 
-      <!-- Disclaimer Section -->
+
       <div class="confirmation-section disclaimer-section">
         <div class="disclaimer-content">
-          <div class="disclaimer-summary">
+          <div class="disclaimer-summary k-text-base">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
                   ? 'programs.ssm_disclaimer_summary'
@@ -227,7 +222,7 @@
             }}
           </div>
 
-          <div class="disclaimer-title">
+          <div class="disclaimer-title k-text-base">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
                   ? 'programs.ssm_disclaimer_documentation_title'
@@ -236,7 +231,7 @@
             }}
           </div>
 
-          <div class="disclaimer-list">
+          <div class="disclaimer-list k-text-base">
             <ol>
               <li
                 [innerHTML]="
@@ -283,7 +278,7 @@
         </div>
       </div>
 
-      <!-- Action Buttons -->
+
       <div class="confirmation-actions">
         <button
           kendoButton

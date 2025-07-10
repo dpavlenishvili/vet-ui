@@ -16,17 +16,15 @@
     </ng-template>
   </kendo-textbox>
 
-  <div class="k-w-0 k-h-0 k-overflow-hidden">
-    <kendo-datepicker
-      #datePicker
-      class="k-h-0"
-      [fillMode]="'outline'"
-      [format]="kendoDatePickerFormat"
-      [ngModel]="value()"
-      [disabled]="isDisabled()"
-      (ngModelChange)="handleChange($event)"
-    />
-  </div>
+  <kendo-datepicker
+    #datePicker
+    class="vet-hidden-datepicker"
+    [fillMode]="'outline'"
+    [format]="kendoDatePickerFormat"
+    [ngModel]="value()"
+    [disabled]="isDisabled()"
+    (ngModelChange)="handleChange($event)"
+  />
 
   @if (hasError()) {
     <div class="vet-error-message">

@@ -1,39 +1,29 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <div class="vet-shorts-filters">
-    <div class="vet-shorts-filters-grid">
-      <div class="vet-shorts-filters-grid">
-        <div class="vet-shorts-filters-grid">
-          <kendo-textbox
-            class="vet-filter-input"
+  <div vet-container>
+    <div vet-row>
+      <div vet-row>
+        <div vet-row>
+          <vet-input
             formControlName="search"
+            trailingIcon="search"
             [placeholder]="'shorts.search' | transloco"
-          >
-            <ng-template kendoTextBoxSuffixTemplate>
-              <kendo-svg-icon
-                class="vet-filter-input-icon"
-                [icon]="vetIcons.search"
-              />
-            </ng-template>
-          </kendo-textbox>
+          />
         </div>
 
         @if (!isExpanded()) {
-          <div class="vet-shorts-filters-grid-spacer">
-            <ng-container *ngTemplateOutlet="buttons"/>
-          </div>
+          <div vet-spacer></div>
+          <ng-container *ngTemplateOutlet="buttons"/>
         }
       </div>
 
       @if (isExpanded()) {
-        <div class="vet-shorts-filters-grid">
-          <kendo-textbox
-            class="vet-filter-input"
+        <div vet-row>
+          <vet-input
             formControlName="program_name_or_code"
             [placeholder]="'shorts.program_code_name' | transloco"
           />
 
           <vet-selector
-            class="vet-filter-input"
             formControlName="field"
             [placeholder]="'shorts.field' | transloco"
           />
@@ -42,63 +32,51 @@
     </div>
 
     @if (isExpanded()) {
-      <div class="vet-shorts-filters-grid">
-        <div class="vet-shorts-filters-grid">
+      <div vet-row>
+        <div vet-row>
           <vet-selector
-            class="vet-filter-input"
             formControlName="region"
             [placeholder]="'shorts.region' | transloco"
             [options]="regionOptions.value()"
           />
 
           <vet-selector
-            class="vet-filter-input"
             formControlName="district"
             [placeholder]="'shorts.district' | transloco"
-            [options]="districtOptions.value()"
+            [options]="filteredDistricts()"
           />
         </div>
 
-        <div class="vet-shorts-filters-grid">
-          <vet-selector
-            class="vet-filter-input"
-            formControlName="organisation_name"
-            [placeholder]="'shorts.institution_name' | transloco"
-            [options]="institutionOptions.value()"
-          />
-        </div>
+        <vet-selector
+          self-grow
+          formControlName="organisation_name"
+          [placeholder]="'shorts.institution_name' | transloco"
+          [options]="institutionOptions.value()"
+        />
       </div>
 
-      <div class="vet-shorts-filters-grid">
-        <div class="vet-shorts-filters-grid">
-          <div class="vet-shorts-filters-grid">
-            <vet-selector
-              class="vet-filter-input"
-              formControlName="program_kind"
-              [placeholder]="'shorts.program_kind' | transloco"
-              [options]="programKindOptions.value()"
-            />
-          </div>
+      <div vet-row>
+        <vet-selector
+          self-grow
+          formControlName="program_kind"
+          [placeholder]="'shorts.program_kind' | transloco"
+          [options]="programKindOptions.value()"
+        />
 
-          <div class="vet-shorts-filters-grid">
-            <div class="vet-shorts-filters-grid">
-              <vet-switch
-                formControlName="current"
-                [label]="'shorts.current' | transloco"
-              />
-            </div>
+        <div vet-row>
+          <vet-switch
+            formControlName="current"
+            [label]="'shorts.current' | transloco"
+          />
 
-            <div class="vet-shorts-filters-grid">
-              <vet-switch
-                formControlName="planned"
-                [label]="'shorts.planned' | transloco"
-              />
-            </div>
-          </div>
+          <vet-switch
+            formControlName="planned"
+            [label]="'shorts.planned' | transloco"
+          />
         </div>
 
-        <div class="vet-shorts-filters-grid">
-          <div class="vet-shorts-filters-grid"></div>
+        <div vet-row></div>
+        <div vet-row content-right>
           <ng-container *ngTemplateOutlet="buttons"/>
         </div>
       </div>
@@ -107,58 +85,24 @@
 </form>
 
 <ng-template #buttons>
-  <div class="vet-shorts-filters-grid dense end">
-    @let toggleBtnIcon = isExpanded() ? vetIcons.arrowUp : vetIcons.arrowDown;
-    <button
-      kendoButton
-      class="vet-filter-button"
-      [svgIcon]="toggleBtnIcon"
-      fillMode="outline"
-      themeColor="primary"
-      type="button"
-      (click)="onToggleExpansion()"
-    ></button>
+  <div vet-line gap-dense content-right>
+    @let toggleBtnIcon = isExpanded() ? 'arrowUp' : 'arrowDown';
 
-    <button
-      kendoButton
-      class="vet-filter-button"
-      [svgIcon]="vetIcons.tweaker"
-      fillMode="outline"
-      themeColor="primary"
-      type="button"
-      (click)="onOpenFiltersDialog()"
-    ></button>
+    <vet-icon-button [icon]="toggleBtnIcon" (click)="onToggleExpansion()" />
+    <vet-icon-button icon="tweaker" (click)="onOpenFiltersDialog()" />
+    <vet-icon-button icon="close" (click)="onClearClick()" />
 
-    <button
-      kendoButton
-      class="vet-filter-button vet-filter-button-small"
-      [svgIcon]="vetIcons.close"
-      fillMode="outline"
-      themeColor="primary"
-      type="button"
-      (click)="onClearClick()"
-    ></button>
-
-    <button
-      kendoButton
-      class="vet-filter-button"
-      [svgIcon]="vetIcons.search"
-      fillMode="solid"
-      themeColor="primary"
-      type="submit"
-    >
+    <vet-button leadingIcon="search" type="submit">
       {{ 'shorts.search_filters' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </ng-template>
 
-@defer (when isFiltersDialogOpen()) {
-  @if (isFiltersDialogOpen()) {
+@if (isFiltersDialogOpen()) {
+  @defer (on immediate) {
     <vet-short-term-programs-filters-dialog
       [filters]="filters()"
-      [foundResultsCount]="foundResultsCount()"
       (filtersChange)="onDialogFiltersChange($event)"
-      (filtersChangeRealtime)="onDialogFiltersChangeRealtime($event)"
       (dialogClose)="onCloseFiltersDialog()"
     />
   }

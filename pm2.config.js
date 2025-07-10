@@ -1,8 +1,18 @@
 module.exports = {
   apps: [
     {
-      name: 'ng-ssr',
-      script: './dist/apps/vet/server/server.mjs',
+      name: 'emis',
+      script: './vet-seit.emis.ge/dist/apps/vet/server/server.mjs',
+      env: {
+        PORT: 4000
+      },
+    },
+    {
+      name: 'qwerty',
+      script: './vet2-seit.emis.ge/dist/apps/vet/server/server.mjs',
+      env: {
+        PORT: 4001
+      },
     },
   ],
 };

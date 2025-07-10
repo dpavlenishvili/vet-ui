@@ -2,7 +2,7 @@
   display: block;
 }
 
-// Password field styling
+
 .password-toggle-btn {
   min-width: 2rem;
   min-height: 2rem;
@@ -18,7 +18,7 @@
   }
 }
 
-// Forgot password and login button alignment
+
 .forgot-password-link {
   font-size: 0.875rem;
   line-height: 1.5;
@@ -46,7 +46,7 @@
   white-space: nowrap;
 }
 
-// Mobile responsive adjustments
+
 @media (max-width: 479px) {
   .k-w-full.k-px-16.k-display-flex.k-justify-content-between {
     flex-direction: column;
@@ -65,7 +65,7 @@
   }
 }
 
-// Ensure consistent password field height
+
 kendo-textbox {
   .k-input-inner {
     min-height: 2.5rem;

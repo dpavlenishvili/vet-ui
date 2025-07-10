@@ -1,0 +1,30 @@
+@let _params = resolvedParams();
+
+@defer (on immediate) {
+  <vet-dialog
+    [width]="_params.width"
+    [height]="_params.height"
+    [title]="_params.title | trans"
+    [showHeader]="!!_params.showHeader"
+    [showActionsBar]="!!_params.showActionsBar"
+    [disablePadding]="!!_params.disablePadding"
+    [transparent]="!!_params.transparent"
+    (close)="onClose()"
+  >
+    @if (_params.component) {
+      <vet-component-outlet
+        [component]="_params.component"
+        [inputs]="_params.inputs"
+        [outputs]="_params.outputs"
+      />
+    }
+
+    @if (_params.template) {
+      <ng-container *ngTemplateOutlet="_params.template" />
+    }
+
+    @if (_params.text) {
+      {{ _params.text }}
+    }
+  </vet-dialog>
+}

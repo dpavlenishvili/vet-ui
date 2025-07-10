@@ -1,0 +1,110 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <div vet-row>
+        <div vet-row>
+          <vet-input
+            formControlName="search"
+            trailingIcon="search"
+            [placeholder]="'programs.search' | transloco"
+          />
+        </div>
+
+        @if (!isExpanded()) {
+          <div vet-spacer></div>
+          <ng-container *ngTemplateOutlet="buttons"/>
+        }
+      </div>
+
+      @if (isExpanded()) {
+        <div vet-row>
+          <vet-input
+            formControlName="program_name_or_code"
+            [placeholder]="'programs.program_code_name' | transloco"
+          />
+
+          <vet-selector
+            formControlName="field"
+            [placeholder]="'programs.field' | transloco"
+          />
+        </div>
+      }
+    </div>
+
+    @if (isExpanded()) {
+      <div vet-row>
+        <div vet-row>
+          <vet-selector
+            formControlName="region"
+            [placeholder]="'programs.region' | transloco"
+            [options]="regionOptions.value()"
+          />
+
+          <vet-selector
+            formControlName="district"
+            [placeholder]="'programs.district' | transloco"
+            [options]="filteredDistricts()"
+          />
+        </div>
+
+        <vet-selector
+          self-grow
+          formControlName="organisation_name"
+          [placeholder]="'programs.institution_name' | transloco"
+          [options]="institutionOptions.value()"
+        />
+      </div>
+
+      <div vet-row>
+        <vet-selector
+          self-grow
+          formControlName="program_type"
+          [placeholder]="'programs.form' | transloco"
+          [options]="programTypesOptions.value()"
+        />
+
+        <div vet-row>
+          <vet-switch
+            formControlName="integrated"
+            [icon]="'integrated'"
+            [label]="'programs.integrated' | transloco"
+          />
+
+          <vet-switch
+            formControlName="admission_open"
+            [label]="'programs.admission_open' | transloco"
+          />
+        </div>
+
+        <div vet-row></div>
+        <div vet-row content-right>
+          <ng-container *ngTemplateOutlet="buttons"/>
+        </div>
+      </div>
+    }
+  </div>
+</form>
+
+<ng-template #buttons>
+  <div vet-line gap-dense content-right>
+    @let toggleBtnIcon = isExpanded() ? 'arrowUp' : 'arrowDown';
+
+    <vet-icon-button [icon]="toggleBtnIcon" (click)="onToggleExpansion()" />
+    <vet-icon-button icon="tweaker" (click)="onOpenFiltersDialog()" />
+    <vet-icon-button icon="close" (click)="onClearClick()" />
+
+    <vet-button leadingIcon="search" type="submit">
+      {{ 'shorts.search_filters' | transloco }}
+    </vet-button>
+  </div>
+</ng-template>
+
+@if (isFiltersDialogOpen()) {
+  @defer (on immediate) {
+    <vet-unauthorised-programs-filters-dialog
+      [filters]="filters()"
+      (filtersChange)="onDialogFiltersChange($event)"
+      (dialogClose)="onCloseFiltersDialog()"
+    />
+  }
+}

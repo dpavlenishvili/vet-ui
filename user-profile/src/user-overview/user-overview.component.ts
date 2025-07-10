@@ -1,19 +1,23 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, effect, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map, tap } from 'rxjs/operators';
-import { GeneralsService, SmsService, UserReq, UserUpdateReq } from '@vet/backend';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs/operators';
+import { GeneralsService, SmsService, UserReq } from '@vet/backend';
 import { getUserOverviewFormData, userOverviewForm } from './user-overview-form';
 import { UserProfileSection } from '../user-profile-section';
-import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_LABEL } from '@progress/kendo-angular-label';
-import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { RegistrationPhoneVerificationComponent, UserRolesService } from '@vet/auth';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { District } from '@vet/shared';
+import { ButtonComponent, IconButtonComponent, InputComponent, SelectorComponent, useControlValue } from '@vet/shared';
+import { useDistrictsOptions, useRegionsOptions } from '../user-profile.resources';
+import { useDistricts, useFilteredDistricts, useRegions } from '@vet/shared-resources';
+
+type UserUpdateReq = {
+  address: string,
+  region_id: number,
+  district_id: number,
+  email: string,
+}
 
 @Component({
   selector: 'vet-user-overview',
@@ -22,13 +26,12 @@ import { District } from '@vet/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    KENDO_SVGICON,
     TranslocoPipe,
-    KENDO_LABEL,
-    KENDO_DROPDOWNLIST,
-    KENDO_INPUTS,
     RegistrationPhoneVerificationComponent,
-    KENDO_BUTTON,
+    IconButtonComponent,
+    SelectorComponent,
+    InputComponent,
+    ButtonComponent,
   ],
 })
 export class UserOverviewComponent extends UserProfileSection implements OnInit {
@@ -49,40 +52,19 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
 
   oldPhoneNumber = '';
 
-  regionsResource = rxResource({
-    loader: () => this.generalsService.getRegionsList().pipe(map((response) => response.data)),
-  });
+  regionsOptions = useRegions();
+  districtOptions = useDistricts();
 
-  districtsResource = rxResource({
-    loader: () => this.generalsService.getDistrictsList().pipe(map((response) => response.data)),
-  });
-
-  filteredDistricts = signal<District[]>([]);
+  selectedRegion = useControlValue(this.form, form => form.controls['region']);
+  filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
 
   constructor() {
     super();
     const formDataModel = computed(() => getUserOverviewFormData(this.authService.user()));
     effect(() => {
       this.form.reset(formDataModel());
-      const region = this.form.get('region')?.value;
-      this.setFilteredDistricts(region);
       this.oldPhoneNumber = this.form.value.phone;
     });
-
-    this.form
-      .get('region')
-      ?.valueChanges.pipe(
-        tap((region: string) => {
-          this.form.get('district')?.reset();
-          if (!region) {
-            this.filteredDistricts.set([]);
-          } else {
-            this.setFilteredDistricts(region);
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
   }
 
   ngOnInit(): void {
@@ -97,11 +79,6 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
       this.form.get('email')?.disable();
       this.form.get('phone')?.disable();
     }
-  }
-
-  setFilteredDistricts(region: string) {
-    const allDistricts = this.districtsResource.value() || [];
-    this.filteredDistricts.set(allDistricts.filter((district: District) => district.region_name === region));
   }
 
   onAddressExpandClick(): void {
@@ -168,8 +145,8 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
     const formValue = this.form.value;
     const userReq: UserUpdateReq = {
       address: formValue.address,
-      city: formValue.city,
-      region: formValue.region,
+      district_id: formValue.city,
+      region_id: formValue.region,
       email: formValue.email,
     };
 

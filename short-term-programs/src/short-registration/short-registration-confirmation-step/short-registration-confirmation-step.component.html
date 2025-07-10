@@ -1,27 +1,57 @@
-<form class="vet-shorts-general-information-step" [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
-  <div>
-    {{ 'shorts.confirmation' | transloco }}
-  </div>
+@let _details = details();
 
-  <div class="vet-shorts-step-footer">
-    <button
-      kendoButton
-      class="vet-form-button"
-      type="button"
-      themeColor="tertiary"
-      (click)="onBack()"
-    >
-      {{ 'shorts.go_back' | transloco }}
-    </button>
+@if (_details) {
+  <form class="vet-shorts-confirmation-step" [formGroup]="formGroup()" (ngSubmit)="onSubmit()">
+    <div class="vet-shorts-confirmation-container">
+      <div class="vet-shorts-confirmation-details-container">
+        <img
+          class="vet-shorts-confirmation-profile-picture"
+          src="/assets/images/profile.png"
+          alt=""
+        />
 
-    <button
-      kendoButton
-      class="vet-form-button"
-      type="submit"
-      themeColor="primary"
-      [disabled]="formGroup().invalid"
-    >
-      {{ 'shorts.complete' | transloco }}
-    </button>
-  </div>
-</form>
+        <div class="vet-shorts-confirmation-details">
+          @for (detail of _details; track $index) {
+            <div class="vet-shorts-confirmation-detail">
+              <div class="vet-shorts-confirmation-detail-label">
+                {{ detail.label | transloco }}:
+              </div>
+
+              <div class="vet-shorts-confirmation-detail-value">
+                {{ detail.value }}
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="vet-shorts-confirmation-selected-programs-container">
+        <div class="vet-shorts-confirmation-selected-programs-container-title">
+          {{ 'programs.selected_programs' | transloco }}
+        </div>
+
+        @if (isBrowser) {
+          <vet-short-registration-selected-programs-grid
+            [isEditMode]="false"
+            [selectedPrograms]="selectedPrograms()"
+          />
+        }
+      </div>
+
+      <vet-info
+        variant="warning"
+        [text]="'shorts.information_message' | transloco"
+      />
+    </div>
+
+    <div class="vet-shorts-step-footer">
+      <vet-button version="fat" variant="tertiary" (click)="onBack()">
+        {{ 'shorts.go_back' | transloco }}
+      </vet-button>
+
+      <vet-button type="submit" version="fat" [disabled]="formGroup().invalid">
+        {{ 'shorts.complete' | transloco }}
+      </vet-button>
+    </div>
+  </form>
+}

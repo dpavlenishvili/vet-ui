@@ -1,6 +1,5 @@
 import { Tree } from '@nx/devkit';
 import { Spec as SwaggerSchema } from 'swagger-schema-official';
-
 export async function getSwaggerJson(tree: Tree, pathOrUrl: string): Promise<SwaggerSchema> {
   if (tree.exists(pathOrUrl)) {
     return JSON.parse(tree.read(pathOrUrl, 'utf-8'));

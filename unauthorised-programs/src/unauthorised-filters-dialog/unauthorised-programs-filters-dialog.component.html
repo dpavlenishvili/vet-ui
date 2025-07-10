@@ -1,0 +1,125 @@
+<vet-dialog
+  class="vet-dialog"
+  [width]="648"
+  [height]="548"
+  [title]="'programs.filter' | transloco"
+  (close)="onClose()"
+>
+  <ng-container content>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <div vet-container>
+        <div vet-row>
+          <div vet-line gap-wide>
+            <vet-switch
+              formControlName="integrated"
+              [icon]="'integrated'"
+              [label]="'programs.integrated' | transloco"
+            />
+
+            <vet-switch
+              formControlName="admission_open"
+              [label]="'programs.admission_open' | transloco"
+            />
+          </div>
+        </div>
+
+        <div vet-row>
+          <vet-input
+            formControlName="search"
+            trailingIcon="search"
+            [placeholder]="'programs.search' | transloco"
+          />
+        </div>
+
+        <div vet-row>
+          <vet-selector
+            formControlName="region"
+            [placeholder]="'programs.region' | transloco"
+            [options]="regionOptions.value()"
+          />
+
+          <vet-selector
+            formControlName="district"
+            [placeholder]="'programs.district' | transloco"
+            [options]="filteredDistricts()"
+          />
+        </div>
+
+        <div vet-row>
+          <vet-selector
+            formControlName="organisation_name"
+            [placeholder]="'programs.institution_name' | transloco"
+            [options]="institutionOptions.value()"
+          />
+        </div>
+
+        <div vet-row>
+          <vet-input
+            formControlName="program_name_or_code"
+            [placeholder]="'programs.program_code_name' | transloco"
+          />
+
+          <vet-selector
+            formControlName="program_type"
+            [placeholder]="'programs.form' | transloco"
+            [options]="programTypesOptions.value()"
+          />
+        </div>
+
+        <div vet-row>
+          <vet-selector
+            formControlName="field"
+            [placeholder]="'programs.field' | transloco"
+          />
+
+          <vet-selector
+            formControlName="duration"
+            [placeholder]="'programs.duration' | transloco"
+          />
+        </div>
+
+        <div vet-row>
+          <vet-selector
+            formControlName="financing_type"
+            [placeholder]="'programs.financing_type' | transloco"
+            [options]="financingTypeOptions.value()"
+          />
+
+          <vet-selector
+            formControlName="partner"
+            [placeholder]="'programs.partners' | transloco"
+            [options]="partnerOptions.value()"
+          />
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-container actions>
+    <div vet-row space-between>
+      <vet-button
+        mode="flat"
+        variant="error"
+        leadingIcon="closeX"
+        iconSize="tiny"
+        (click)="onClearClick()"
+      >
+        {{ 'programs.clear_filters' | transloco }}
+      </vet-button>
+
+      <vet-button
+        type="submit"
+        [disabled]="foundResultsCount.isLoading()"
+        (click)="onSubmit()"
+      >
+        @if (foundResultsCount.hasValue() === null) {
+          {{ 'shorts.search_filters' | transloco }}
+        } @else if (foundResultsCount.isLoading()) {
+          {{ 'shorts.search_filters_pending' | transloco }}
+        } @else {
+          {{ 'shorts.search_found' | transloco : { found: foundResultsCount.value() } }}
+        }
+      </vet-button>
+    </div>
+  </ng-container>
+</vet-dialog>

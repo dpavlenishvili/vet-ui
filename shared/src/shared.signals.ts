@@ -1,9 +1,9 @@
-import { effect, inject, isSignal, signal, Signal } from '@angular/core';
+import { effect, inject, isSignal, signal, Signal, WritableSignal } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { of, startWith, switchMap } from 'rxjs';
 import { LocalStoredStateService } from './services/local-stored-state.service';
-import { StoredSignal } from './shared.types';
+import { StoredSignal, ToggleSignal } from './shared.types';
 import { SessionStoredStateService } from './services/session-stored-state.service';
 import { BaseStoredStateService } from './services/base-stored-state.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -62,11 +62,7 @@ export function useRouterParams() {
   return toSignal(activatedRoute.firstChild?.params ?? of({} as Params));
 }
 
-export function useDebounceValue<T>(
-  value: Signal<T>,
-  delayMs: number,
-  equal?: (a: T, b: T) => boolean
-): Signal<T> {
+export function useDebounceValue<T>(value: Signal<T>, delayMs: number, equal?: (a: T, b: T) => boolean): Signal<T> {
   const debouncedValue = signal(value(), { equal });
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
@@ -83,4 +79,14 @@ export function useDebounceValue<T>(
   });
 
   return debouncedValue.asReadonly();
+}
+
+export function useToggleState(initialState: boolean): ToggleSignal {
+  const state = signal(initialState);
+
+  Object.assign(state, {
+    toggle: () => state.update((value) => !value),
+  })
+
+  return state as unknown as ToggleSignal;
 }

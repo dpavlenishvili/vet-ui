@@ -1,0 +1,47 @@
+@use '@vet/shared-styles' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vet-no-records-template{
+  text-align: center;
+  padding: 1.25rem;
+  color: $kendo-color-body-light;
+}
+
+.vet-short-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 1.25rem;
+  background-color: $white;
+}
+
+.vet-short-card-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.vet-short-info {
+  @include text-md(true);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 2;
+  padding: 1.5rem 0.625rem;
+  border-radius: 0.625rem;
+  border: 1px solid $kendo-color-border-alt;
+  color: $kendo-color-body;
+}
+
+.vet-short-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+}

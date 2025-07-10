@@ -21,10 +21,6 @@ export class AlertDialogService {
     return this.showVariant('error', params);
   }
 
-  info(params: string | Omit<AlertDialogParams, 'variant'>) {
-    return this.showVariant('info', params);
-  }
-
   warning(params: string | Omit<AlertDialogParams, 'variant'>) {
     return this.showVariant('warning', params);
   }

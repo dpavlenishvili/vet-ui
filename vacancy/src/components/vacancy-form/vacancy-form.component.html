@@ -1,0 +1,78 @@
+<form class="container dropdown-container vacancy-form" [formGroup]="filterForm()">
+  <div class="col-xs-12 col-sm-6 example-col">
+    <kendo-dropdownlist
+      class="vacancy-control vacancy-form__dropdown k-text-base"
+      [data]="listItems"
+      [valuePrimitive]="true"
+      [textField]="'text'"
+      [valueField]="'id'"
+      [defaultItem]="{ text: ('vacancy.search_region' | transloco), id: null }"
+      formControlName="region_id"
+    />
+  </div>
+
+  <div class="col-xs-12 col-sm-6 example-col">
+    <kendo-dropdownlist
+      class="vacancy-control vacancy-form__dropdown k-text-base"
+      [size]="'large'"
+      [data]="listItems"
+      [valuePrimitive]="true"
+      [textField]="'text'"
+      [valueField]="'id'"
+      [defaultItem]="{ text: ('vacancy.list_municipality' | transloco), id: null }"
+      formControlName="district_id"
+    />
+  </div>
+
+  <div class="col-xs-12 col-sm-6 example-col">
+    <kendo-textbox
+      class="vacancy-control"
+      [size]="'small'"
+      [placeholder]="'vacancy.search_institution' | transloco"
+      formControlName="institution"
+    />
+  </div>
+
+  <div class="col-xs-12 col-sm-6 example-col">
+    <kendo-dropdownlist
+      class="vacancy-control vacancy-form__dropdown k-text-base"
+      [data]="listItems"
+      [valuePrimitive]="true"
+      [textField]="'text'"
+      [valueField]="'id'"
+      [defaultItem]="{ text: ('vacancy.list_position' | transloco), id: null }"
+      formControlName="position"
+    />
+  </div>
+
+  <div class="col-xs-12 col-sm-6 example-col">
+    <kendo-dropdownlist
+      class="vacancy-control vacancy-form__dropdown k-text-base"
+      [data]="listItems"
+      [valuePrimitive]="true"
+      [textField]="'text'"
+      [valueField]="'id'"
+      [defaultItem]="{ text: ('vacancy.list_modul' | transloco), id: null }"
+      formControlName="modules"
+    />
+  </div>
+  <div class="col-xs-12 col-sm-6 example-col">
+    <div class="k-justify-content-end k-w-full k-d-flex">
+      <div class="k-mr-sm download-icon">
+        <kendo-svg-icon [icon]="icons.vacancyDownload" />
+      </div>
+
+      <button
+        kendoButton
+        themeColor="primary"
+        class="k-w-auto k-px-lg k-d-flex"
+        look="default"
+        (click)="emitForm.emit(this.filterForm().getRawValue())"
+      >
+        <kendo-svg-icon class="k-mt--1" [size]="'small'" [icon]="icons.searchSmall" />
+
+        {{ 'vacancy.search' | transloco }}
+      </button>
+    </div>
+  </div>
+</form>

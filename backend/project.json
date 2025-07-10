@@ -16,6 +16,9 @@
         "development": {
           "openApiFilePath": "https://dev-api-vet.emis.ge/docs?api-docs.json"
         },
+        "qwerty": {
+          "openApiFilePath": "https://dev2-api-vet.emis.ge/docs?api-docs.json"
+        },
         "production": {
           "openApiFilePath": "https://dev-api-vet.emis.ge/docs?api-docs.json"
         }

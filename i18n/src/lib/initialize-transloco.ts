@@ -14,9 +14,13 @@ export function initializeTransolco() {
     config: {
       availableLangs: ['ka', 'en'],
       defaultLang: 'ka',
+      fallbackLang: 'ka',
       // Remove this option if your application doesn't support changing language in runtime.
       reRenderOnLangChange: true,
       prodMode: !isDevMode(),
+      missingHandler: {
+        useFallbackTranslation: true
+      },
     },
     loader: TranslocoHttpLoader,
   });

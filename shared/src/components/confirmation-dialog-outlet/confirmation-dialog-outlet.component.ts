@@ -42,7 +42,6 @@ export class ConfirmationDialogOutletComponent {
       return undefined;
     }
 
-    // Add default variant if not specified (backward compatible)
     return {
       ...params,
       variant: params.variant ?? 'default',
@@ -60,7 +59,7 @@ export class ConfirmationDialogOutletComponent {
       error: this.vetIcons.errorCircle,
       info: this.vetIcons.info,
       warning: this.vetIcons.infoWarning,
-      default: this.vetIcons.info, // default fallback
+      default: this.vetIcons.info,
     };
 
     return iconMap[variant] || iconMap.default;
@@ -76,8 +75,9 @@ export class ConfirmationDialogOutletComponent {
   }
 
   protected close() {
-    this.resolvedParams()?.onDismiss?.();
-    this.confirmationDialogService.close();
+    if (!this.params()?.preventCloseOnKeyDown) {
+      this.confirmationDialogService.close();
+    }
   }
 
   protected confirm() {

@@ -1,0 +1,58 @@
+@let _leadingIcon = leadingIcon();
+@let _leadingIconPopover = leadingIconPopover();
+@let _leadingIconTooltip = leadingIconTooltip();
+
+@let _trailingIcon = trailingIcon();
+@let _trailingIconPopover = leadingIconPopover();
+@let _trailingIconTooltip = leadingIconTooltip();
+
+@let label = topLabelFromThe90s();
+
+@if (label) {
+  <label class="vet-label" [for]="id()">
+    {{ label }}
+  </label>
+}
+
+<kendo-textbox
+  class="vet-input vet-input-{{ version() }}"
+  [id]="id()"
+  [type]="type()"
+  [class.vet-has-error]="hasError()"
+  [disabled]="isDisabled()"
+  [placeholder]="placeholder()"
+  [ngModel]="value()"
+  (ngModelChange)="handleChange($event)"
+>
+  <ng-template kendoTextBoxPrefixTemplate>
+    @if (_leadingIcon) {
+      <vet-icon
+        class="vet-input-icon vet-input-icon-leading"
+        [icon]="_leadingIcon"
+        [popover]="_leadingIconPopover"
+        [tooltip]="_leadingIconTooltip"
+      />
+    }
+
+    <ng-content select="[prefix]" />
+  </ng-template>
+
+  <ng-template kendoTextBoxSuffixTemplate>
+    @if (_trailingIcon) {
+      <vet-icon
+        class="vet-input-icon vet-input-icon-trailing"
+        [icon]="_trailingIcon"
+        [popover]="_trailingIconPopover"
+        [tooltip]="_trailingIconTooltip"
+      />
+    }
+
+    <ng-content select="[suffix]" />
+  </ng-template>
+</kendo-textbox>
+
+@if (hasError()) {
+  <div class="vet-error-message">
+    {{ errorMessage() | transloco }}
+  </div>
+}

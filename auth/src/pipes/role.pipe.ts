@@ -1,6 +1,6 @@
-import { computed, inject, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { AuthRole } from '../auth.types';
-import { UserRolesService } from '@vet/auth';
+import { useHasRole } from '@vet/auth';
 
 @Pipe({
   name: 'role',
@@ -8,11 +8,9 @@ import { UserRolesService } from '@vet/auth';
   standalone: true,
 })
 export class RolePipe implements PipeTransform {
-  private readonly userRolesService = inject(UserRolesService);
+  private readonly hasRole = useHasRole();
 
   transform(role: AuthRole): boolean {
-    const value = computed(() => this.userRolesService.hasRole(role));
-
-    return value();
+    return this.hasRole(role)();
   }
 }

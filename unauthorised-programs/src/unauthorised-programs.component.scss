@@ -1,0 +1,27 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-unauthorised-programs {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.vet-unauthorised-filters {
+  padding: 1.25rem 1rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+}
+
+.vet-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem 1rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+  height: 10rem;
+}

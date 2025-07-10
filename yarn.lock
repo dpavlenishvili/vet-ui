@@ -7636,6 +7636,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@vet/shared@workspace:shared":
+  version: 0.0.0-use.local
+  resolution: "@vet/shared@workspace:shared"
+  languageName: unknown
+  linkType: soft
+
 "@vitejs/plugin-basic-ssl@npm:1.2.0":
   version: 1.2.0
   resolution: "@vitejs/plugin-basic-ssl@npm:1.2.0"
@@ -8020,6 +8026,13 @@ __metadata:
     json-schema-traverse: ^0.4.1
     uri-js: ^4.2.2
   checksum: 874972efe5c4202ab0a68379481fbd3d1b5d0a7bd6d3cc21d40d3536ebff3352a2a1fabb632d4fd2cc7fe4cbdcd5ed6782084c9bbf7f32a1536d18f9da5007d4
+  languageName: node
+  linkType: hard
+
+"alk-sanet@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "alk-sanet@npm:1.0.0"
+  checksum: 7e4a69147bd1a528bceb124c06ec6caeb627fe6a742454636952468c8f78369b8d83356113c71a89c2fa484b851de27a3452e326b9deaa49c84c33975e87cb2b
   languageName: node
   linkType: hard
 
@@ -8587,6 +8600,13 @@ __metadata:
   version: 1.0.0
   resolution: "boolbase@npm:1.0.0"
   checksum: 3e25c80ef626c3a3487c73dbfc70ac322ec830666c9ad915d11b701142fab25ec1e63eff2c450c74347acfd2de854ccde865cd79ef4db1683f7c7b046ea43bb0
+  languageName: node
+  linkType: hard
+
+"bpg-mrgvlovani-caps@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "bpg-mrgvlovani-caps@npm:1.0.0"
+  checksum: 506712d17eb5d97ae67d8a93985cc63e5f05d4b9eb57aaa40b5cef643e00a694d9ad84fecd08b2af9a71c091aaaf0bee5ac7f50b8d07936576a3b1d2d9ec0b74
   languageName: node
   linkType: hard
 
@@ -20695,8 +20715,10 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 7.18.0
     "@typescript-eslint/parser": 7.18.0
     "@typescript-eslint/utils": ^7.16.0
+    alk-sanet: ^1.0.0
     angular-svg-icon: ^19.1.1
     autoprefixer: ^10.4.0
+    bpg-mrgvlovani-caps: ^1.0.0
     browser-sync: ^3.0.0
     commitizen: ^4.3.0
     cz-conventional-changelog: ^3.3.0

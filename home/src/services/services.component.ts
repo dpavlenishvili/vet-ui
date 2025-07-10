@@ -1,11 +1,25 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { vetIcons } from '@vet/shared';
-import { SVGIcon, SVGIconComponent } from '@progress/kendo-angular-icons';
+import { IconComponent, VetIcon } from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
-import {Router, RouterLink} from '@angular/router';
-import { AuthenticationService, CanPipe } from '@vet/auth';
-import { AuthPermission } from '../../../auth/src/auth.types';
+import { Router, RouterLink } from '@angular/router';
+import {
+  AccessControl,
+  AuthenticationService,
+  AuthPermission,
+  HasAccessPipe,
+  isAuthenticated,
+  isGuest,
+} from '@vet/auth';
+
+export interface ServiceItem {
+  text: string;
+  icon: VetIcon;
+  color: string;
+  url: string | null;
+  permission?: AuthPermission;
+  accessControl?: AccessControl;
+}
 
 @Component({
   selector: 'vet-services',
@@ -13,63 +27,75 @@ import { AuthPermission } from '../../../auth/src/auth.types';
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, SVGIconComponent, TranslocoPipe, RouterLink, CanPipe],
+  imports: [NgClass, TranslocoPipe, RouterLink, IconComponent, HasAccessPipe],
 })
 export class ServicesComponent {
-  showTitle = input(true);
-  readonly authenticated = inject(AuthenticationService).isAuthenticated;
-  vetIcons = vetIcons;
-  cards: ({
-    text: string;
-    icon: SVGIcon;
-    color: string;
-    url: string | null;
-    permission?: AuthPermission;
-  })[] = [
+  isAuthenticated = inject(AuthenticationService).isAuthenticated;
+  router = inject(Router);
+
+  showTitle = computed(() => !this.isAuthenticated());
+  cards: ServiceItem[] = [
     {
+      // გრძელ ვადიანებში: თუ არა-ავტორიზებულია, მაშინ ზოგადი პროგრამების სია უნდა ვუჩვენოთ
+      accessControl: isGuest(),
       text: 'home.professionalPrograms',
-      icon: vetIcons.professionalPrograms,
+      icon: 'professionalPrograms',
       color: 'blue',
-      url: '/long-term-programs/list',
-      permission: 'viewAnyProfessionProgramRegister' as AuthPermission,
+      url: 'programs',
     },
     {
+      // გრძელ ვადიანებში: თუ ავტორიზებულია, მაშინ პროგრამების დეშბორდი უნდა ვუჩვენოთ
+      accessControl: isAuthenticated(),
+      text: 'home.professionalPrograms',
+      icon: 'professionalPrograms',
+      color: 'blue',
+      url: '/dashboard/programs/long',
+    },
+    {
+      // მოკლე ვადიანებში: თუ არა-ავტორიზებულია, მაშინ ზოგადი პროგრამების სია უნდა ვუჩვენოთ
+      accessControl: isGuest(),
       text: 'home.trainingPrograms',
-      icon: vetIcons.trainingPrograms,
+      icon: 'trainingPrograms',
       color: 'yellow',
-      url: null,
-      permission: 'viewAnyProfessionProgramTesting' as AuthPermission,
+      url: '/programs/short',
+    },
+    {
+      // მოკლე ვადიანებში: თუ ავტორიზებულია, მაშინ პროგრამების დეშბორდი უნდა ვუჩვენოთ
+      accessControl: isAuthenticated(),
+      text: 'home.trainingPrograms',
+      icon: 'trainingPrograms',
+      color: 'yellow',
+      url: '/dashboard/programs/short',
     },
     {
       text: 'home.informalEducation',
-      icon: vetIcons.informalEducation,
+      icon: 'informalEducation',
       color: 'green',
       url: null,
     },
     {
       text: 'home.orientationService',
-      icon: vetIcons.orientationService,
+      icon: 'orientationService',
       color: 'pink',
       url: null,
     },
     {
       text: 'home.governmentLanguageTrainingPrograms',
-      icon: vetIcons.governmentLanguageTrainingPrograms,
+      icon: 'governmentLanguageTrainingPrograms',
       color: 'pink',
       url: null,
     },
     {
       text: 'home.teacherTrainingPrograms',
-      icon: vetIcons.teacherTrainingPrograms,
+      icon: 'teacherTrainingPrograms',
       color: 'yellow',
       url: null,
     },
     {
       text: 'home.collegeEmployment',
-      icon: vetIcons.collegeEmployment,
+      icon: 'collegeEmployment',
       color: 'blue',
       url: null,
     },
   ];
-  router = inject(Router);
 }

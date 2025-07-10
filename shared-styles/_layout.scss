@@ -1,0 +1,186 @@
+/**
+ * VET Grid Layout System
+ *
+ * A mobile-friendly layout system using semantic attribute selectors.
+ * Provides responsive flex-based layouts for the VET application.
+ *
+ * COMPONENTS:
+ *
+ * [vet-container] - Vertical stack container
+ *   - Stacks children vertically with consistent gaps
+ *   - Use for: Page sections, form groups, content areas
+ *   - Example: <div vet-container gap-dense>
+ *
+ * [vet-row] - Horizontal flex row (stretches by default)
+ *   - Arranges children horizontally, grows to fill parent width
+ *   - Wraps to vertical stack on mobile (< 768px)
+ *   - Use for: Form layouts, content rows that need full width
+ *   - Example: <div vet-row content-right>
+ *
+ * [vet-line] - Horizontal flex line (natural width)
+ *   - Arranges children horizontally, stays compact
+ *   - Maintains horizontal layout on mobile
+ *   - Use for: Button groups, navigation, toolbars
+ *   - Example: <div vet-line gap-dense content-center>
+ *
+ * MODIFIERS:
+ *
+ * Gap Control:
+ *   [gap-dense]  - 0.75rem gap (smaller)
+ *   [gap-wide]   - 1.875rem gap (larger)
+ *   Default: 1.25rem gap
+ *
+ * Horizontal Content Alignment:
+ *   [content-left]     - Align items to the left
+ *   [content-center]   - Center items
+ *   [content-right]    - Align items to the right
+ *   [space-between]    - Space items evenly
+ *
+ * Vertical Item Alignment:
+ *   [align-start]    - Align items to the top
+ *   [align-center]   - Center align (default for rows/lines)
+ *   [align-end]      - Align items to the bottom
+ *   [align-stretch]  - Stretch to fill
+ *   [align-base]     - Baseline align
+ *
+ * Container Specific:
+ *   [full-height]    - Container takes full height
+ *
+ * Row/Line Specific:
+ *   [content-wrap]   - Allow flex wrap
+ *
+ * CHILD UTILITIES:
+ *
+ * Use on direct children of [vet-row] or [vet-line]:
+ *   [self-grow]    - flex: 1 (grows to fill space)
+ *   [self-shrink]  - flex: 0 1 0 (shrinks when needed)
+ *   [width-fixed]  - flex: none (fixed width)
+ *   [width-auto]   - flex: 0 1 auto (natural width)
+ *
+ * UTILITIES:
+ *
+ * [vet-spacer] - Fixed 5rem spacer (hidden on mobile)
+ * [push-left]  - Push element to left with auto margin
+ * [push-center] - Center element with auto margins
+ * [push-right] - Push element to right with auto margin
+ *
+ * MOBILE BEHAVIOR (< 768px):
+ *
+ * [vet-container]: Smaller gaps (1rem)
+ * [vet-row]: Wraps to vertical, full width, smaller gaps
+ * [vet-line]: Stays horizontal, full width, smaller gaps
+ * [vet-spacer]: Hidden automatically
+ *
+ * USAGE EXAMPLES:
+ *
+ * <!-- Form layout -->
+ * <div vet-container>
+ *   <div vet-row>
+ *     <input self-grow />
+ *     <button class="width-fixed" />
+ *   </div>
+ * </div>
+ *
+ * <!-- Button toolbar -->
+ * <div vet-line gap-dense content-right>
+ *   <button>Cancel</button>
+ *   <button>Save</button>
+ * </div>
+ *
+ * <!-- Responsive layout -->
+ * <div vet-container>
+ *   <div vet-row space-between>
+ *     <h1 self-grow>Title</h1>
+ *     <div vet-line gap-dense>
+ *       <button>Action 1</button>
+ *       <button>Action 2</button>
+ *     </div>
+ *   </div>
+ * </div>
+ */
+
+@use "./layout.autocomplete";
+
+// Applicable to vet-row and vet-line
+@mixin vet-horizontal() {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  min-width: 0;
+
+  &[gap-dense] { gap: 0.75rem; }
+  &[gap-wide] { gap: 1.875rem; }
+
+  &[content-left] { justify-content: flex-start; }
+  &[content-center] { justify-content: center; }
+  &[content-right] { justify-content: flex-end; }
+  &[space-between] { justify-content: space-between; }
+
+  &[align-start] { align-items: flex-start; }
+  &[align-center] { align-items: center; }
+  &[align-end] { align-items: flex-end; }
+  &[align-stretch] { align-items: stretch; }
+  &[align-base] { align-items: baseline; }
+
+  &[content-wrap] { flex-wrap: wrap; }
+
+  > [self-grow] { flex: 1; }
+  > [self-shrink] { flex: 0 1 0; }
+  > [width-fixed] { flex: none; }
+  > [width-auto] { flex: 0 1 auto; }
+}
+
+[vet-container] {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  &[full-height] {
+    height: 100%;
+  }
+
+  &[gap-dense] { gap: 0.75rem; }
+  &[gap-wide] { gap: 1.875rem; }
+
+  &[align-start] { align-items: flex-start; }
+  &[align-center] { align-items: center; }
+  &[align-end] { align-items: flex-end; }
+  &[align-stretch] { align-items: stretch; }
+  &[align-base] { align-items: baseline; }
+}
+
+[vet-row] {
+  @include vet-horizontal();
+  flex: 1;
+
+  @media (max-width: 768px) {
+    flex: 1 0 auto;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+// Similar to vet-row, but does not stretch on desktop and stays horizontal on mobile
+[vet-line] {
+  @include vet-horizontal();
+
+  @media (max-width: 768px) {
+    flex: 1 0 auto;
+    justify-content: flex-start;
+  }
+}
+
+// Self alignment horizontally
+[push-left] { margin-right: auto; }
+[push-center] { margin-left: auto; margin-right: auto; }
+[push-right] { margin-left: auto; }
+
+[vet-spacer] {
+  min-width: 5rem;
+  max-width: 5rem;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}

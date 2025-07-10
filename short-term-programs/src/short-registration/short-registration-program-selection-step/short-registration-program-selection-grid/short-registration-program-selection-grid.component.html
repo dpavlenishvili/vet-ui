@@ -17,12 +17,28 @@
     [title]="'shorts.program' | transloco"
     field="program.name"
     [width]="200"
-  />
+  >
+    <ng-template kendoGridCellTemplate let-item>
+      <div class="short-grid-name-icon">
+        <p class="short-grid-program-name">{{ item.program.name }}</p>
+
+        @if (item.registrationIsProgress) {
+          <vet-icon icon="checkProgram" class="short-grid-icon" />
+        }
+      </div>
+    </ng-template>
+  </kendo-grid-column>
 
   <kendo-grid-column
     [title]="'shorts.institution' | transloco"
     field="program.organisation.name"
     [width]="200"
+  />
+
+  <kendo-grid-column
+    [title]="'shorts.implementation_location' | transloco"
+    field="program.organisation.address"
+    [width]="150"
   />
 
   <kendo-grid-column
@@ -43,12 +59,6 @@
     </ng-template>
   </kendo-grid-column>
 
-  <kendo-grid-column
-    [title]="'shorts.implementation_location' | transloco"
-    field="program.organisation.address"
-    [width]="150"
-  />
-
   <kendo-grid-column [width]="56" [title]="'programs.selection' | transloco">
     <ng-template kendoGridCellTemplate let-item>
       <div class="short-grid-action-buttons">
@@ -68,6 +78,7 @@
             type="button"
             fillMode="flat"
             class="short-grid-action-button"
+            [disabled]="isSelectionDisabled()"
             (click)="onSelectProgram(item)"
           >
             <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
@@ -87,18 +98,3 @@
     </ng-template>
   </kendo-grid-column>
 </kendo-grid>
-
-@if (isProgramPreviewDialogOpen()) {
-  <vet-dialog
-    width="90%"
-    height="90%"
-    [title]="'programs.program_description' | transloco"
-    (close)="onClosePreviewDialog()"
-  >
-    <vet-short-program-page
-      [programId]="previewProgramId()"
-      [showGallery]="false"
-    />
-  </vet-dialog>
-}
-

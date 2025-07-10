@@ -4,7 +4,7 @@ import { UploadedFile } from '../../shared.types';
 import { DOCUMENT } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { useBaseUrl } from '../../shared.injectors';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '../../shared.icons';
 
 @Component({
   selector: 'vet-file-upload',

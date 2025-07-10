@@ -1,0 +1,143 @@
+<form class="flex-container" [formGroup]="extraDetailsForm">
+  <div class="flex-item">
+    <kendo-label class="k-display-block k-mb-2 form-label" rounded="large" [text]="'vacancy.add_choose' | transloco" />
+    <kendo-multiselect
+      class="vacancy-control"
+      [size]="'large'"
+      [checkboxes]="true"
+      [autoClose]="false"
+      [data]="listItems"
+      [textField]="'text'"
+      [valueField]="'id'"
+      [valuePrimitive]="true"
+      formControlName="selection_stages"
+    />
+  </div>
+  <div class="flex-item">
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      rounded="large"
+      [text]="'vacancy.add_vacancy_count' | transloco"
+    />
+    <kendo-textbox class="vacancy-control" formControlName="vacant_places" />
+  </div>
+  <div class="flex-item full-item">
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      rounded="large"
+      [text]="'vacancy.add_work_format' | transloco"
+    />
+    <kendo-dropdownlist
+      class="vacancy-control"
+      [data]="positions"
+      formControlName="work_format"
+      [valuePrimitive]="true"
+      [textField]="'text'"
+      [valueField]="'id'"
+    />
+  </div>
+  <div class="flex-item full-item">
+    <kendo-label
+      class="k-display-block k-mb-2 form-label"
+      [for]="responsibilities"
+      [text]="'vacancy.add_func' | transloco"
+    />
+    <kendo-textarea
+      #responsibilities
+      formControlName="responsibilities"
+      [cols]="50"
+      [rows]="3"
+      class="k-w-full"
+      class="vacancy-control"
+    />
+  </div>
+  <div class="flex-item full-item">
+    <div class="k-d-flex">
+      <kendo-label
+        class="k-display-flex k-mb-2 form-label k-align-items-center"
+        [for]="basic_requirements"
+        [text]="'vacancy.add_qualified' | transloco"
+      >
+        <span class="k-d-flex k-ml-1" kendoTooltip title="Saves the current document">
+          <kendo-svg-icon [size]="'large'" [icon]="icons.formInfo" />
+        </span>
+      </kendo-label>
+    </div>
+    <kendo-textarea #basic_requirements [cols]="50" [rows]="3" formControlName="basic_requirements" class="k-w-full" />
+  </div>
+  <div class="flex-item full-item">
+    <div class="k-d-flex">
+      <kendo-label
+        class="k-display-flex k-mb-2 form-label k-align-items-center"
+        [for]="essential_requirements"
+        [text]="'vacancy.add_qualified_extra' | transloco"
+      >
+        <span class="k-d-flex k-ml-1" kendoTooltip title="Saves the current document">
+          <kendo-svg-icon [size]="'large'" [icon]="icons.formInfo" />
+        </span>
+      </kendo-label>
+    </div>
+    <kendo-textarea
+      #essential_requirements
+      [cols]="50"
+      formControlName="essential_requirements"
+      [rows]="3"
+      class="k-w-full"
+    />
+  </div>
+  <div class="flex-item full-item">
+    <div class="k-d-flex">
+      <kendo-label
+        class="k-display-flex k-mb-2 form-label k-align-items-center"
+        [for]="optional_requirements"
+        [text]="'vacancy.add_qualified_specific' | transloco"
+      >
+        <span class="k-d-flex k-ml-1" kendoTooltip title="Saves the current document">
+          <kendo-svg-icon [size]="'large'" [icon]="icons.formInfo" />
+        </span>
+      </kendo-label>
+    </div>
+    <kendo-textarea
+      #optional_requirements
+      [cols]="50"
+      formControlName="optional_requirements"
+      [rows]="3"
+      class="k-w-full"
+    />
+  </div>
+  <div class="flex-item full-item">
+    <div class="k-d-flex">
+      <kendo-label
+        class="k-display-flex k-mb-2 form-label k-align-items-center"
+        [for]="additional_information"
+        [text]="'vacancy.add_extra_info' | transloco"
+      >
+        <!-- <span class="k-d-flex k-ml-1" kendoTooltip title="Saves the current document">
+          <kendo-svg-icon [size]="'large'" [icon]="icons.formInfo" />
+        </span> -->
+      </kendo-label>
+    </div>
+    <kendo-textarea
+      #additional_information
+      [cols]="50"
+      [rows]="3"
+      formControlName="additional_information"
+      class="k-w-full"
+    />
+  </div>
+  <div class="grid-container__check-group flex-item full-item k-d-flex k-align-items-center k-gap-2">
+    <input type="checkbox" kendoCheckBox formControlName="obtaining_authorization" />
+    <kendo-label class="k-checkbox-label" [text]="'vacancy.add_auth_text' | transloco" />
+  </div>
+  <div class="flex-item full-item k-d-flex k-justify-content-between">
+    <button (click)="clicBack.emit()" kendoButton [size]="'large'" [themeColor]="'secondary'" rounded="large">
+      {{ 'vacancy.add_back' | transloco }}
+    </button>
+    <button (click)="onValidate()" kendoButton [size]="'large'" [themeColor]="'primary'" rounded="large">
+      {{ 'vacancy.add_next' | transloco }}
+      @if (loader()) {
+        <kendo-loader size="medium" [themeColor]="'secondary'" />
+      }
+    </button>
+  </div>
+</form>

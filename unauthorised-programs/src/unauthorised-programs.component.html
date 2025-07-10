@@ -1,0 +1,23 @@
+<div class="vet-unauthorised-programs">
+  <vet-unauthorised-programs-filters
+    class="vet-unauthorised-filters"
+    [filters]="filters()"
+    (filtersChange)="onFiltersChange($event)"
+  />
+
+  @if (data.isLoading()) {
+    <div class="vet-empty vet-loading">
+      {{ 'shared.loading' | transloco }}
+    </div>
+  } @else if (data.value().data.length === 0) {
+    <div class="vet-empty vet-not-found">
+      {{ 'shared.noRecords' | transloco }}
+    </div>
+  } @else {
+    <vet-unauthorised-programs-grid
+      [data]="data"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</div>
+

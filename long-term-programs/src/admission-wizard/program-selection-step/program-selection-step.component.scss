@@ -8,20 +8,17 @@
     justify-content: center;
   }
 
-
   .program-selection-container {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1.5rem;
   }
-
 
   .grid-section {
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
   }
-
 
   .responsive-grid-container {
     width: 100%;
@@ -58,10 +55,7 @@
     }
   }
 
-
   .grid-actions {
-    min-width: 80px;
-
     button {
       min-width: 32px;
       min-height: 32px;
@@ -75,7 +69,6 @@
       }
     }
   }
-
 
   .buttons-container {
 
@@ -100,6 +93,14 @@
     }
   }
 
+  .integrated-icon {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    flex-shrink: 0;
+  }
+
 
   @media (max-width: 767px) {
     .responsive-grid-container {
@@ -121,7 +122,6 @@
 
         .grid-actions {
           gap: 0.25rem;
-          min-width: 60px;
         }
       }
     }

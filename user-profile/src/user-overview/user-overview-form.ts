@@ -16,8 +16,8 @@ export function userOverviewForm(): FormGroup {
 export function getUserOverviewFormData(user: User | null) {
   return {
     name: user?.name ?? '',
-    region: user?.region ?? '',
-    city: user?.city ?? '',
+    region: user?.region?.id ?? '',
+    city: user?.district?.id ?? '',
     address: user?.address ?? '',
     email: user?.email ?? '',
     phone: user?.phone ?? '',

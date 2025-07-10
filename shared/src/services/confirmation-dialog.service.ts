@@ -18,15 +18,10 @@ export class ConfirmationDialogService {
     return this.showVariant('error', params);
   }
 
-  info(params: string | Omit<ConfirmationDialogParams, 'variant'>) {
-    return this.showVariant('info', params);
-  }
-
   warning(params: string | Omit<ConfirmationDialogParams, 'variant'>) {
     return this.showVariant('warning', params);
   }
 
-  // Convenience method for simple yes/no confirmations with variant
   confirm(
     content: string,
     options: {

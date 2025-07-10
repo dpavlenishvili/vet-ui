@@ -3,7 +3,7 @@ import { User, UsersService, UserUpdateReq } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
 import { finalize, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { formatDateFn, FormatDateFn, ToastService } from '@vet/shared';
+import { formatDateFn, FormatDateFn, ToastService, useAlert } from '@vet/shared';
 
 @Directive()
 export class UserProfileSection {
@@ -14,6 +14,8 @@ export class UserProfileSection {
   private readonly toastService = inject(ToastService);
   private readonly _userUpdating = signal(false);
   private readonly _mandatoryFieldsFn = mandatoryFieldsFn(formatDateFn('YYYY-MM-DD'));
+
+  private alert = useAlert()
 
   protected updateUser(userReq: UserUpdateReq) {
     const user = this.authService.user();
@@ -29,8 +31,8 @@ export class UserProfileSection {
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         tap({
-          next: () => this.toastService.success('profile.user_update_success'),
-          error: () => this.toastService.error('profile.user_update_failed'),
+          next: () => this.alert.success('profile.user_update_success'),
+          error: () => this.alert.error('profile.user_update_failed'),
         }),
         finalize(() => {
           this.authService.reloadUser();

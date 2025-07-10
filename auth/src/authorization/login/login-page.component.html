@@ -1,78 +1,98 @@
+@let _loginState = auth.is2FaSessionActive() ? '2fa' : 'credentials';
+@let _isLoading = auth.isLoading();
+
 <form
-  [formGroup]="loginForm()"
+  [formGroup]="formGroup"
   (ngSubmit)="onSubmit()"
   class="k-display-flex k-flex-column k-gap-6 k-px-14 k-py-8 k-bg-white"
 >
-  <kendo-label [text]="'auth.id_or_passport_number' | transloco">
-    <kendo-textbox [clearButton]="true" formControlName="pid" />
-    @if (loginForm().controls['pid']; as control) {
-      @if (control.touched && control.errors?.['required']) {
-        <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-      }
-    }
-  </kendo-label>
+  @if (_loginState === 'credentials') {
+    <vet-input
+      formControlName="pid"
+      [topLabelFromThe90s]="'auth.id_or_passport_number' | transloco"
+      version="fat"
+    />
 
-  <div class="k-display-flex k-flex-column k-gap-3">
-    <kendo-label [text]="'auth.password' | transloco">
-      <kendo-textbox
-        #passwordInput
+    <div class="k-display-flex k-flex-column k-gap-3">
+      <vet-input
         formControlName="password"
-        [type]="showPassword() ? 'text' : 'password'"
-        autocomplete="current-password">
-        <ng-template kendoTextBoxSuffixTemplate>
-          <button
-            kendoButton
-            type="button"
-            look="clear"
-            size="small"
-            [svgIcon]="showPassword() ? eyeSlashIcon : eyeIcon"
-            [attr.aria-label]="showPassword() ? ('auth.hide_password' | transloco) : ('auth.show_password' | transloco)"
-            (click)="togglePasswordVisibility()"
-            class="password-toggle-btn">
-          </button>
-        </ng-template>
-      </kendo-textbox>
-      @if (loginForm().controls['password']; as control) {
-        @if (control.touched && control.errors?.['required']) {
-          <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-        }
-      }
-    </kendo-label>
+        [type]="isPasswordVisible() ? 'text' : 'password'"
+        [topLabelFromThe90s]="'auth.password' | transloco"
+        version="fat"
+      >
+        <ng-container suffix>
+          <vet-icon-button
+            mode="flat"
+            variant="secondary"
+            [icon]="isPasswordVisible() ? 'eyeSlash' : 'eye'"
+            [attr.aria-label]="isPasswordVisible()
+                ? ('auth.hide_password' | transloco)
+                : ('auth.show_password' | transloco)"
+            (click)="isPasswordVisible.toggle()"
+          />
+        </ng-container>
+      </vet-input>
 
-    <div class="k-display-flex k-align-items-center k-gap-3">
-      <kendo-checkbox #remember formControlName="remember" />
-      <kendo-label class="k-text-sm" [for]="remember" [text]="'auth.remember' | transloco" />
+      <div class="k-display-flex k-justify-content-between k-align-items-center k-gap-3">
+        <vet-checkbox [label]="'auth.remember' | transloco" />
 
-      <a
-        class="forgot-password-link k-text-sm k-color-primary k-text-underline k-cursor-pointer"
-        [routerLink]="['/password/forgot']"
-        [class.k-disabled]="isLoading()">
-        {{ 'auth.forgot_password' | transloco }}
-      </a>
+        <a
+          class="forgot-password-link k-text-sm k-color-primary k-text-underline k-cursor-pointer"
+          [routerLink]="['/password/forgot']"
+          [class.k-disabled]="_isLoading">
+          {{ 'auth.forgot_password' | transloco }}
+        </a>
+      </div>
     </div>
-  </div>
+  } @else {
+    <vet-info variant="info">
+      {{ 'auth.verification_send_text' | transloco: { value: auth.twoFaMaskedPhoneNumber() } }}
+    </vet-info>
+
+    <div class="k-display-flex k-justify-content-center">
+      <vet-registration-phone-verification
+        formControlName="code"
+        [isPending]="true"
+        [timeSent]="auth.twoFaTimestamp()"
+        [isValid]="auth.twoFaValid()"
+        [errorMessage]="twoFaError()"
+        (reload)="auth.send2FaCode()"
+      />
+    </div>
+  }
 
   <div class="k-display-flex k-flex-column k-align-items-center k-mt-4 k-gap-3">
     <div class="k-w-full k-px-16 k-display-flex k-justify-content-between k-align-items-center">
-      <button
-        kendoButton
+      <vet-button
+        version="fat"
         type="submit"
-        themeColor="primary"
-        look="default"
-        [disabled]="isLoading()"
-        class="login-btn">
-        @if (isLoading()) {
-          <kendo-loader size="small" />
-        }
+        class="login-btn"
+        [disabled]="_isLoading"
+      >
+        <ng-container prefix>
+          @if (_isLoading) {
+            <kendo-loader size="small" />
+          }
+        </ng-container>
         {{ 'auth.login' | transloco }}
-      </button>
+      </vet-button>
     </div>
 
     <a
       class="k-cursor-pointer k-text-base k-text-underline k-color-primary"
       [routerLink]="['/registration']"
-      [class.k-disabled]="isLoading()">
+      [class.k-disabled]="_isLoading">
       {{ 'auth.registration' | transloco }}
     </a>
+
+    @if (_loginState === '2fa') {
+      <a
+        class="k-cursor-pointer k-text-base k-text-underline k-color-primary"
+        [routerLink]="['/authorization']"
+        (click)="goBackToLogin()"
+        [class.k-disabled]="_isLoading">
+        {{ 'auth.go_back_to_login' | transloco }}
+      </a>
+    }
   </div>
 </form>

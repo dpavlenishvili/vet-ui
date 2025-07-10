@@ -1,0 +1,16 @@
+@use '@vet/shared-styles' as shared;
+@import '@vet/shared-styles/vacancy';
+
+$maxSize: 955px;
+
+.swithc-icon {
+  color: #848484;
+  &--active {
+    color: shared.$tb-kendo-color-primary-on-surface;
+  }
+}
+.vacancy-container {
+  max-width: $maxSize;
+  display: block;
+  margin: 0 auto;
+}

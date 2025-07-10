@@ -1,4 +1,4 @@
-import { District, vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared';
 import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -15,8 +15,9 @@ import { ProgramSelectionFilter } from '../program-selection-step.component';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import { District } from '@vet/shared-resources';
 
-interface Organisations {
+interface Organisation {
   id?: number;
   name?: string;
   region_id?: number;
@@ -48,7 +49,7 @@ export class ProgramSelectionFiltersComponent {
 
   isFilterExpanded = signal(true);
   filteredDistricts = signal<District[]>([]);
-  filteredOrganisations = signal<Organisations[]>([]);
+  filteredOrganisations = signal<Organisation[]>([]);
 
   generalsService = inject(GeneralsService);
 
@@ -82,6 +83,7 @@ export class ProgramSelectionFiltersComponent {
 
   constructor() {
     this.watchRegionChanges();
+    this.watchDistrictChanges();
     this.initializeOrganisations();
     effect(() => this.patchIncomingFilters());
   }
@@ -103,7 +105,7 @@ export class ProgramSelectionFiltersComponent {
   initializeOrganisations() {
     effect(() => {
       const allOrganisations = this.organisationsRc$.value();
-      if (allOrganisations && this.filteredOrganisations().length === 0) {
+      if (allOrganisations && !this.filterForm.get('region')?.value) {
         this.filteredOrganisations.set(allOrganisations);
       }
     });
@@ -127,6 +129,28 @@ export class ProgramSelectionFiltersComponent {
       .subscribe((regionId) => this.onRegionSelected(regionId));
   }
 
+  watchDistrictChanges(): void {
+    this.filterForm
+      .get('district')
+      ?.valueChanges.pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
+      .subscribe((districtId) => this.onDistrictSelected(districtId));
+  }
+
+  private onDistrictSelected(districtId: number | null): void {
+    const regionId = this.filterForm.get('region')?.value;
+    const allOrganisations = this.organisationsRc$.value() || [];
+    let filtered = allOrganisations;
+
+    if (regionId) {
+      filtered = filtered.filter((org) => org.region_id === regionId);
+    }
+    if (districtId) {
+      filtered = filtered.filter((org) => org.district_id === districtId);
+    }
+
+    this.filteredOrganisations.set(filtered);
+  }
+
   onRegionSelected(regionId: number): void {
     if (regionId !== this.filters()?.region) {
       this.filterForm.get('district')?.reset();
@@ -139,13 +163,13 @@ export class ProgramSelectionFiltersComponent {
     if (!regionId) {
       this.filterForm.get('district')?.disable();
       this.filteredDistricts.set([]);
-      this.filteredOrganisations.set(allOrganisations);
+      this.filteredOrganisations.set([]);
     } else {
       this.filterForm.get('district')?.enable();
 
       this.filteredDistricts.set(allDistricts.filter((district: District) => district.region_id === regionId));
       this.filteredOrganisations.set(
-        allOrganisations.filter((organisation: Organisations) => organisation.region_id === regionId),
+        allOrganisations.filter((organisation: Organisation) => organisation.region_id === regionId),
       );
     }
   }
@@ -159,7 +183,6 @@ export class ProgramSelectionFiltersComponent {
 
     this.filteredDistricts.set([]);
     const allOrganisations = this.organisationsRc$.value() || [];
-    console.log(allOrganisations);
     this.filteredOrganisations.set(allOrganisations);
 
     this.filterForm.get('district')?.disable();

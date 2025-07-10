@@ -2,7 +2,7 @@ import { type Route } from '@angular/router';
 import { type AppBreadCrumbItem, breadcrumb } from '@vet/shared';
 import { getAuthorizationRoutes } from './authorization/authorization.routes';
 
-const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }];
+const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
 
 export const authRoutes: Route[] = [
   {

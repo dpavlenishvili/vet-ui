@@ -1,0 +1,29 @@
+@use '@vet/shared-styles' as shared;
+@import '@vet/shared-styles/vacancy';
+
+.job-form-container {
+  background-color: shared.$kendo-color-white;
+  border-radius: var(--kendo-border-radius-xl);
+  .job-form {
+    border: 0.5px solid shared.$kendo-color-divider;
+    border-radius: var(--kendo-border-radius-lg);
+    .custom-select-input {
+      height: 48px;
+      border-radius: var(--kendo-border-radius-xl);
+      width: 100%;
+      border: 0.5px solid shared.$kendo-color-divider;
+    }
+  }
+}
+
+.controls-styles {
+  height: 47px;
+}
+.terms {
+  background-color: shared.$kendo-color-white;
+  border-radius: var(--kendo-border-radius-lg);
+  .terms-info {
+    border: 0.5px solid shared.$kendo-color-divider-light;
+    border-radius: var(--kendo-border-radius-lg);
+  }
+}

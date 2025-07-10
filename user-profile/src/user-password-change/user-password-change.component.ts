@@ -10,10 +10,21 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { passwordChangeForm } from './user-password-change-form';
 import { UserProfileSection } from '../user-profile-section';
 import { UserReq } from '@vet/backend';
+import { ButtonComponent, InputComponent } from '@vet/shared';
 
 @Component({
   selector: 'vet-user-password-change',
-  imports: [CardModule, ButtonModule, InputsModule, LabelModule, SVGIconModule, TranslocoPipe, ReactiveFormsModule],
+  imports: [
+    CardModule,
+    ButtonModule,
+    InputsModule,
+    LabelModule,
+    SVGIconModule,
+    TranslocoPipe,
+    ReactiveFormsModule,
+    ButtonComponent,
+    InputComponent,
+  ],
   templateUrl: './user-password-change.component.html',
   styleUrl: './user-password-change.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

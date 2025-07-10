@@ -7,8 +7,7 @@ import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
 import { Citizenship } from '../../shared.enums';
-import { UserRolesService } from '@vet/auth';
-import { UserAccount } from '../../../../auth/src/auth.types';
+import { UserAccount, UserRolesService } from '@vet/auth';
 
 @Component({
   selector: 'vet-ui-navbar',
@@ -79,14 +78,12 @@ export class NavbarComponent {
   }
 
   onUserAccountClick(userAccount: UserAccount) {
-    const selectedAccountName = this.userRolesService.currentAccountName();
-    if (userAccount.name) {
+    if (this.userRolesService.selectedAccountName() === userAccount.name) {
+      void this.router.navigate(['user-profile/overview']);
+    } else if (userAccount.name) {
       this.userRolesService.selectUserAccount(userAccount.name);
       this.isMobileMenuOpen.set(false);
       this.isProfileCardOpen.set(false);
-      void this.router.navigate(['/']);
     }
-
-    void this.router.navigate([selectedAccountName === userAccount.name ? 'user-profile' : '']);
   }
 }

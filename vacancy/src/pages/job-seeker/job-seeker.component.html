@@ -1,0 +1,120 @@
+<!-- its only markup here -->
+@if (uploadState()) {
+  <div class="job-form-container k-d-grid k-p-4 k-mt-5">
+    <form [formGroup]="jobForm" class="job-form k-gap-5 k-d-grid k-p-4">
+      <div>
+        <kendo-label class="vet-text-base k-mb-2 k-d-block" [text]="'vacancy.resume' | transloco" />
+        <div class="k-d-flex k-gap-5">
+          <div class="custom-select-input k-d-flex k-justify-content-between k-align-items-center k-px-4 vet-text-base">
+            {{ jobForm.get('file')?.value?.file?.name ?? ('vacancy.resume' | transloco) }}
+            <div class="k-d-flex k-gap-5">
+              @if (jobForm.get('file')?.value) {
+                <button class="native-button" (click)="jobForm.get('file')?.reset()">
+                  <kendo-svg-icon [size]="'large'" class="trash-icon k-cursor-pointer" [icon]="icons.trashIcon" />
+                </button>
+              }
+              <button class="native-button">
+                <kendo-svg-icon [size]="'medium'" class="trash-icon k-cursor-pointer" [icon]="icons.download" />
+              </button>
+            </div>
+          </div>
+          <input #selecInput class="k-d-none" type="file" (change)="onFileChange($event)" />
+          <button kendoButton (click)="selecInput.click()" [size]="'large'" [themeColor]="'primary'" rounded="large">
+            {{ 'vacancy.choose' | transloco }}
+          </button>
+        </div>
+      </div>
+      <div>
+        <kendo-dropdownlist
+          [rounded]="'large'"
+          class="controls-styles vet-text-base vacancy-control"
+          [valuePrimitive]="true"
+          [textField]="'text'"
+          [valueField]="'id'"
+          [size]="'large'"
+          [defaultItem]="{ text: 'პოზიციის ტიპი', id: null }"
+        />
+      </div>
+      <div class="k-display-flex k-gap-5">
+        <kendo-dropdownlist
+          [rounded]="'large'"
+          class="controls-styles vet-text-base vacancy-control"
+          [valuePrimitive]="true"
+          [textField]="'text'"
+          [valueField]="'id'"
+          [size]="'large'"
+          [defaultItem]="{ text: 'პოზიციის ტიპი', id: null }"
+        />
+        <kendo-dropdownlist
+          [rounded]="'large'"
+          class="controls-styles vet-text-base vacancy-control"
+          [valuePrimitive]="true"
+          [textField]="'text'"
+          [valueField]="'id'"
+          [size]="'large'"
+          [defaultItem]="{ text: 'პოზიციის ტიპი', id: null }"
+        />
+      </div>
+      <div class="k-display-flex k-gap-5">
+        <kendo-dropdownlist
+          [rounded]="'large'"
+          class="controls-styles vet-text-base vacancy-control"
+          [valuePrimitive]="true"
+          [textField]="'text'"
+          [valueField]="'id'"
+          [size]="'large'"
+          [defaultItem]="{ text: 'პოზიციის ტიპი', id: null }"
+        />
+        <kendo-dropdownlist
+          [rounded]="'large'"
+          class="controls-styles vet-text-base vacancy-control"
+          [valuePrimitive]="true"
+          [textField]="'text'"
+          [valueField]="'id'"
+          [size]="'large'"
+          [defaultItem]="{ text: 'პოზიციის ტიპი', id: null }"
+        />
+      </div>
+      <div class="k-display-flex k-gap-5">
+        <div class="k-d-flex k-align-items-center k-gap-5">
+          <kendo-label text="მსურს მივიღო ელ-ფოსტაზე შეტყობინება ჩემთვის სასურველი ვაკანსიის გამოცხადების შესახებ" />
+          <kendo-switch formControlName="emainNotification" onLabel=" " offLabel=" " [size]="'small'" />
+        </div>
+        <div class="k-d-flex k-align-items-center k-gap-5">
+          <kendo-label text="მსურს მივიღო ელ-ფოსტაზე შეტყობინება ჩემთვის სასურველი ვაკანსიის გამოცხადების შესახებ" />
+          <kendo-switch formControlName="conditions" onLabel=" " offLabel=" " [size]="'small'" />
+        </div>
+      </div>
+    </form>
+    <div class="k-d-flex k-justify-self-end k-gap-3 k-pt-5">
+      <button kendoButton [size]="'large'" [themeColor]="'secondary'" rounded="large">
+        {{ 'vacancy.delete' | transloco }}
+      </button>
+      <button kendoButton [size]="'large'" [themeColor]="'primary'" rounded="large" (click)="uploadState.set(false)">
+        {{ 'vacancy.save' | transloco }}
+      </button>
+    </div>
+  </div>
+} @else {
+  <div class="terms k-mt-14 k-p-5">
+    <h1 class="vet-text-sm terms-title">წესები და პირობები</h1>
+    <div class="terms-info vet-text-base k-p-4 k-my-7">
+      თქვენს მიერ პროფესიული განათლების მიღების მსურველთა სარეგისტრაციო ვებ-გვერდზე (vet.emis.ge) განთავსებული
+      ინფორმაცია „პერსონალურ მონაცემთა დაცვის შესახებ“ საქართველოს კანონის თანახმად, შეიცავს პერსონალურ მონაცემებს, მათ
+      შორის, შესაძლოა შეიცავდეს განსაკუთრებული კატეგორიის მონაცემებსაც. გთხოვთ, გაითვალისწინოთ, რო თქვენი პერსონალური
+      მონაცემები შესაძლოა დამუშავდეს კანონმდებლობით გათვალისწინებულ მოთხოვნათა შესაბამისად.
+      <div class="k-form-field-checkbox-wrap k-pt-5">
+        <kendo-checkbox #checkbox />
+        <kendo-label [for]="checkbox" class="k-checkbox-label" text="გავეცანი და ვეთანხმები წესებს" />
+      </div>
+    </div>
+    <div class="k-d-flex k-justify-content-between">
+      <button kendoButton [size]="'large'" [themeColor]="'secondary'" rounded="large" (click)="uploadState.set(true)">
+        {{ 'vacancy.add_back' | transloco }}
+      </button>
+      <button kendoButton [size]="'large'" [themeColor]="'primary'" rounded="large">
+        {{ 'vacancy.add_confirm' | transloco }}
+      </button>
+    </div>
+  </div>
+}

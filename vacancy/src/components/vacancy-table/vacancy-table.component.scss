@@ -1,0 +1,58 @@
+@use '@vet/shared-styles' as shared;
+
+* {
+  font-family: HelveticaNeue;
+}
+
+.vacancy-table {
+  width: 100%;
+  border-spacing: 0;
+  &__tr-th {
+    text-align: left;
+    background-color: shared.$tb-kendo-base-bg;
+    height: 60px;
+    border: 1px solid #ececec;
+    border-inline-width: 0.5px;
+    border-block-width: 0.5px;
+    color: shared.$kendo-color-hint;
+    font-weight: 500;
+    font-size: var(--kendo-font-size-xs);
+    white-space: nowrap;
+    padding-inline: var(--kendo-spacing-2);
+    &:first-child {
+      border-top-left-radius: var(--kendo-spacing-5);
+    }
+    &:last-child {
+      border-top-right-radius: var(--kendo-spacing-5);
+    }
+  }
+
+  &__body-tr {
+    &:last-child {
+      .vacancy-table__tr-td {
+        &:first-child {
+          border-bottom-left-radius: var(--kendo-spacing-5);
+        }
+        &:last-child {
+          border-bottom-right-radius: var(--kendo-spacing-5);
+        }
+      }
+    }
+  }
+  &__tr-td {
+    text-align: left;
+    height: 76px;
+    padding-inline: var(--kendo-spacing-2);
+    border: 0.5px solid #ececec;
+    color: shared.$kendo-color-body;
+    font-size: var(--kendo-font-size-xs);
+    line-height: 13.61px;
+  }
+
+  &__block {
+    background-color: shared.$kendo-color-white;
+    padding: 10px;
+    border-radius: var(--kendo-spacing-5);
+    margin-top: var(--kendo-spacing-5);
+  }
+}

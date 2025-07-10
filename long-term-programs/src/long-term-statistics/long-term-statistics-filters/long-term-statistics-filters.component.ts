@@ -1,29 +1,30 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SelectorComponent, VetSwitchComponent, vetIcons, withoutEmptyProperties } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import {
+  ButtonComponent,
+  IconButtonComponent,
+  SelectorComponent,
+  vetIcons,
+  VetSwitchComponent,
+  withoutEmptyProperties,
+} from '@vet/shared';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { InputsModule } from '@progress/kendo-angular-inputs';
-import { GeneralsService } from '@vet/backend';
 import { CommissionReviewFilters } from 'long-term-programs/src/commission-results/commission-results.component';
 import { StatisticsFilters } from '../long-term-statistics.component';
-import { usePrograms, useProgramKinds } from 'long-term-programs/src/long-term.resources';
+import { usePrograms } from 'long-term-programs/src/long-term.resources';
+import { useProgramKinds } from '@vet/shared-resources';
 
 @Component({
   selector: 'vet-long-term-statistics-filters',
   imports: [
-    CommonModule,
     SelectorComponent,
-    KENDO_DIALOG,
     TranslocoPipe,
     ReactiveFormsModule,
     InputsModule,
-    KENDO_BUTTON,
-    KENDO_GRID,
-    VetSwitchComponent
+    VetSwitchComponent,
+    ButtonComponent,
+    IconButtonComponent,
   ],
   templateUrl: './long-term-statistics-filters.component.html',
   styleUrl: './long-term-statistics-filters.component.scss',
@@ -34,9 +35,8 @@ export class LongTermStatisticsFiltersComponent {
   filters = input.required<StatisticsFilters>();
   filtersChange = output<StatisticsFilters>();
 
-  generalsService = inject(GeneralsService);
   programsOptions = usePrograms();
-  ProgramKindsOptions = useProgramKinds();
+  ProgramKindsOptions = useProgramKinds('long-term');
 
   vetIcons = vetIcons;
   filterForm = this.createFilterForm();

@@ -1,9 +1,11 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
   width: 100%;
 
-  .overview-container {
-    background-color: #ffffff;
+  .vet-overview-container {
+    background-color: shared.$white;
     border-radius: 1.25rem;
     padding: 1.25rem;
     display: flex;
@@ -11,22 +13,43 @@
     gap: 2rem;
   }
 
-  .profile-picture {
+  .vet-profile-picture {
     width: 6.063rem;
     height: 5.375rem;
     border-radius: 0.625rem;
   }
 
-  .user-info {
-    border: 0.03125rem solid #e0e0e0;
-    border-radius: 0.625rem;
-    padding: 1.25rem;
+  .vet-user-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  .form-fields-container {
+  .vet-user-info {
+    border: 0.03125rem solid shared.$kendo-color-border-alt;
+    border-radius: 0.625rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .vet-form-fields-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2.5rem 1.25rem;
     margin-top: 2.5rem;
+  }
+
+  .vet-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .vet-content-box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 }

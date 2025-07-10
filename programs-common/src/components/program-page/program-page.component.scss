@@ -1,0 +1,19 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-program-page {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.25rem;
+  background-color: shared.$white;
+}
+
+.vet-program-page-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.25rem 1.25rem 2.5rem;
+}

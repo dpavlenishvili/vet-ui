@@ -1,3 +1,6 @@
+import { UserLogin2FaResponseBody, UserLoginResponseBody } from '@vet/backend';
+import { HttpErrorResponse } from '@angular/common/http';
+
 export interface UserAccount {
   name?: string;
   roles?: AuthRole[];
@@ -7,7 +10,8 @@ export interface UserAccount {
 
 export type AuthRole =
   | 'Super Admin'
-  | 'Default User';
+  | 'Default User'
+  | 'Organisation';
 
 export type AuthPermission =
   | 'viewAnyApplication'
@@ -74,3 +78,46 @@ export type AuthPermission =
   | 'updateNonFormalEducationStats'
   | 'createNonFormalEducationStats'
 ;
+
+export interface Pending2FaState {
+  pid: string;
+  token: string;
+  maskedPhoneNumber: string;
+  timestamp: number;
+  isUsed: boolean;
+}
+
+export interface Credentials {
+  pid: string;
+  password: string;
+  remember?: boolean;
+}
+
+export type AuthorizationResult = UserLoginResponseBody | UserLogin2FaResponseBody | HttpErrorResponse | Error;
+
+export type TwoFaErrorCode =
+  | 'INVALID_2FA_CODE'
+  | '2FA_VALIDATION_FAILED'
+  | '2FA_SESSION_EXPIRED'
+  | 'INVALID_2FA_SESSION'
+  | '2FA_RESEND_FAILED'
+  | '2FA_CODE_EXPIRED'
+  | 'UNKNOWN';
+
+export type AuthorizationErrorCode =
+  | TwoFaErrorCode
+  | 'INVALID_CREDENTIALS'
+  | 'TEMPORARILY_LOCKED'
+  | 'UNKNOWN';
+
+export interface TwoFaError {
+  code: TwoFaErrorCode;
+  error: unknown;
+  attributes?: Record<string, unknown>;
+}
+
+export interface AuthorizationError {
+  code: AuthorizationErrorCode;
+  error: unknown;
+  attributes?: Record<string, unknown>;
+}

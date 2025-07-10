@@ -18,9 +18,7 @@ export class ThemeService {
     this.initTheme();
   }
 
-  /**
-   * Initialize the theme from Local Storage (if present)
-   */
+  
   private initTheme(): void {
     const storedTheme = this.storage.getItem(this.themeKey);
     if (storedTheme) {
@@ -28,16 +26,12 @@ export class ThemeService {
     }
   }
 
-  /**
-   * Returns the current theme name (from Local Storage or fallback).
-   */
+  
   getCurrentTheme(): ThemeName {
     return (this.storage.getItem(this.themeKey) as ThemeName) || 'default-theme';
   }
 
-  /**
-   * Set or switch the theme using Renderer2
-   */
+  
   setTheme(theme: ThemeName): void {
     this.clearTheme();
     if (theme !== 'default-theme') {
@@ -47,27 +41,21 @@ export class ThemeService {
     this.storage.setItem(this.themeKey, theme);
   }
 
-  /**
-   * Restore Home Page Background using Renderer2
-   */
+  
   applyHomePageStyle(): void {
     this.renderer.addClass(this.rootElement, 'home-page');
   }
 
-  /**
-   * Remove Home Page Styling using Renderer2
-   */
+  
   removeHomePageStyle(): void {
     this.renderer.removeClass(this.rootElement, 'home-page');
   }
 
-  /**
-   * Increase or decrease global font size
-   */
+  
   adjustFontSize(action: 'zoomIn' | 'zoomOut'): void {
     const currentFontSize = parseFloat(getComputedStyle(this.rootElement).fontSize);
 
-    const step = 2; // how many px to step up/down
+    const step = 2; 
     const newFontSize = action === 'zoomIn' ? currentFontSize + step : currentFontSize - step;
 
     if (newFontSize >= 16 && newFontSize <= 64) {
@@ -75,9 +63,7 @@ export class ThemeService {
     }
   }
 
-  /**
-   * Remove any existing theme classes from the root element
-   */
+  
   private clearTheme(): void {
     const themes: ThemeName[] = ['theme-v1', 'theme-v2', 'theme-v3'];
     themes.forEach((theme) => this.renderer.removeClass(this.rootElement, theme));

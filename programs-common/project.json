@@ -1,0 +1,13 @@
+{
+  "name": "programs-common",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "programs-common/src",
+  "prefix": "vet",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

@@ -19,3 +19,10 @@ kendo-textbox.vet-date-picker {
   margin-top: 0.25rem;
   margin-left: 0.625rem;
 }
+
+.vet-hidden-datepicker {
+  position: absolute;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
