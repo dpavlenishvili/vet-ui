@@ -1,0 +1,7 @@
+<div class="k-display-flex k-flex-column k-gap-10">
+  <div class="vet-exam-card-container">
+    <vet-exam-card-filter (filtersChange)="onFiltersChange($event)" />
+
+    <vet-exam-card [pid]="selectedPid()" />
+  </div>
+</div>

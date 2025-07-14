@@ -78,6 +78,14 @@ export class AdmissionsListComponent {
     this.router.navigate(['long-term-programs', 'update-admission', item.id, 'general_information']);
   }
 
+  protected onChooseClick(item: AdmissionReq): void {
+    if (!item.user?.pid) {
+      console.error('Cannot navigate to exam card without user PID');
+      return;
+    }
+    this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
+  }
+
   protected onCellClick(event: CellClickEvent): void {
     if (event.column && !event.column.field) {
       return;

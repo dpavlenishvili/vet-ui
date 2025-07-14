@@ -4,17 +4,6 @@
   display: block;
 }
 
-.vet-exam-card-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  justify-content: flex-start;
-  padding: 1rem;
-  background-color: shared.$white;
-  border-radius: 1.25rem;
-  width: 100%;
-}
-
 .vet-exam-card-warning {
   border-radius: 0.625rem;
   display: flex;

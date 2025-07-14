@@ -476,7 +476,8 @@
     "viewAdmissions": "ჩარიცხვების ნახვა",
     "understood": "გასაგებია",
     "programNotAllowed": "პროგრამა არ არის დასაშვები, განათლების დონის შეზღუდვა",
-    "duration_weeks": "{{ duration }} კვირა"
+    "duration_weeks": "{{ duration }} კვირა",
+    "no_exam_card_found": "საგამოცდო ბარათი ვერ მოიძებნა"
   },
   "profile": {
     "actual_address": "ფაქტობრივი მისამართი",

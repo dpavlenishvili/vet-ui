@@ -3,6 +3,6 @@ export { AdmissionsListComponent } from './admissions-list/admissions-list.compo
 export { CommissionMembersComponent } from './commission-members/commission-members.component';
 export { CommissionReviewComponent } from './commission-review/commission-review.component';
 export { CommissionResultsComponent } from './commission-results/commission-results.component';
-export { ExamCardComponent } from './exam-card/exam-card.component';
+export { ExamCardSearchComponent } from './exam-card-search/exam-card-search.component';
 export { ExamSelectionComponent } from './exam-selection/exam-selection.component';
 export { LongTermStatisticsComponent } from './long-term-statistics/long-term-statistics.component';

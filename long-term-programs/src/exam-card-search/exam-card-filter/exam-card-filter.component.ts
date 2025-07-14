@@ -5,7 +5,7 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
-import { ExamCardFilters } from '../exam-card.component';
+import { ExamCardFilters } from '../exam-card-search.component';
 
 @Component({
   selector: 'vet-exam-card-filter',

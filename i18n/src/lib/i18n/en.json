@@ -238,7 +238,6 @@
     "clear_filters": "Clear Filter",
     "program": "Search",
     "organisation_id": "Institution name",
-    "program_code_name": "Program name",
     "financing_type": "Financing",
     "duration": "Program duration (mo)",
     "student_fee": "Student fee",
@@ -282,7 +281,8 @@
     "continue": "Continue",
     "viewAdmissions": "View Admissions",
     "understood": "Understood",
-    "programNotAllowed": "Program is not allowed due to education level restriction"
+    "programNotAllowed": "Program is not allowed due to education level restriction",
+    "no_exam_card_found": "No exam card found"
   },
   "profile": {
     "actual_address": "Actual address",

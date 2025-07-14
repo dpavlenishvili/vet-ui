@@ -35,8 +35,7 @@ export class AdmissionUpdateComponent implements OnInit {
   ngOnInit(): void {
     const id = this.admissionId();
     if (!id) {
-      console.log('dasdasdasd');
-      this.router.navigate(['long-term-programs', 'list']);
+      this.router.navigate(['dashboard', 'programs', 'long']);
       return;
     }
 

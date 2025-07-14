@@ -96,4 +96,14 @@ export const longTermProgramsRoutes: Route[] = [
       },
     ],
   },
+  {
+    path: 'exam-card/:pid',
+    loadComponent: () =>
+      import('./exam-card-display/exam-card-display.component').then((m) => m.ExamCardDisplayComponent),
+    data: breadcrumb([
+      ...baseBreadcrumbItems,
+      { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+      { path: null, text: 'programs.exam_card' },
+    ]),
+  },
 ];

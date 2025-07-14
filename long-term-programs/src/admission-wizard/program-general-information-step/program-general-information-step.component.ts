@@ -138,7 +138,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     this.confirm.warning({
       title: 'programs.changeEducationLevel',
       content: 'programs.educationChangeNote',
-      confirmButtonText: 'programs.continue',
+      confirmButtonText: 'shared.met',
       dismissButtonText: 'shared.cancel',
       onConfirm: () => {
         control?.setValue(educationId);

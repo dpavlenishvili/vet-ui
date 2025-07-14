@@ -47,7 +47,7 @@ export const longTermProgramsDashboardRoutes: Route[] = [
   },
   {
     path: 'exam/card',
-    loadComponent: () => import('@vet/long-term-programs').then((m) => m.ExamCardComponent),
+    loadComponent: () => import('@vet/long-term-programs').then((m) => m.ExamCardSearchComponent),
     pathMatch: 'full',
     data: breadcrumb([
       ...baseBreadcrumbItems,

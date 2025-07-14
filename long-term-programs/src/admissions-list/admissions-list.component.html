@@ -114,10 +114,10 @@
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.emptyDocumentIcon"
-              [title]="'shared.choose' | transloco"
+              [title]="'shared.exam_card' | transloco"
               kendoTooltip
-              (click)="onViewClick(item)"
-              [disabled]="!item.actions.choose"
+              (click)="onChooseClick(item)"
+              [disabled]="!item.actions.card"
               class="action-btn"
             ></button>
             <button
@@ -128,7 +128,7 @@
               [title]="'shared.view' | transloco"
               kendoTooltip
               (click)="onViewClick(item)"
-              [disabled]="!item.actions.view"
+              [disabled]="!item.actions.choose"
               class="action-btn"
             ></button>
             <button
