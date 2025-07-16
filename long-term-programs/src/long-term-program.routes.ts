@@ -98,8 +98,7 @@ export const longTermProgramsRoutes: Route[] = [
   },
   {
     path: 'view-admission/:admissionId',
-    loadComponent: () =>
-      import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+    loadComponent: () => import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
@@ -108,8 +107,7 @@ export const longTermProgramsRoutes: Route[] = [
     children: [
       {
         path: 'general_information',
-        loadComponent: () =>
-          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        loadComponent: () => import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
@@ -119,8 +117,7 @@ export const longTermProgramsRoutes: Route[] = [
       },
       {
         path: 'ssm_status',
-        loadComponent: () =>
-          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        loadComponent: () => import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
@@ -130,8 +127,7 @@ export const longTermProgramsRoutes: Route[] = [
       },
       {
         path: 'program_selection',
-        loadComponent: () =>
-          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        loadComponent: () => import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
@@ -141,8 +137,7 @@ export const longTermProgramsRoutes: Route[] = [
       },
       {
         path: 'selected_programs',
-        loadComponent: () =>
-          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        loadComponent: () => import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
@@ -152,8 +147,7 @@ export const longTermProgramsRoutes: Route[] = [
       },
       {
         path: 'confirmation',
-        loadComponent: () =>
-          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        loadComponent: () => import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },

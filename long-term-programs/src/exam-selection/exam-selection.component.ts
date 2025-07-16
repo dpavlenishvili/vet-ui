@@ -3,18 +3,17 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
-import { KENDO_CARD } from '@progress/kendo-angular-layout';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { UserRolesService } from '@vet/auth';
 import { Schedule, SchedulesService, Selection } from '@vet/backend';
 import {
   DividerComponent,
-  vetIcons,
   RouteParamsService,
-  useFilters,
-  useFiltersUpdater,
   useAlert,
   useConfirm,
+  useFilters,
+  useFiltersUpdater,
+  vetIcons,
 } from '@vet/shared';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { ExamSelectionDialogComponent } from './exam-selection-dialog/exam-selection-dialog.component';
@@ -42,7 +41,6 @@ export type ScheduleItem = {
 @Component({
   selector: 'vet-exam-selection',
   imports: [
-    KENDO_CARD,
     KENDO_GRID,
     KENDO_BUTTON,
     KENDO_LABEL,

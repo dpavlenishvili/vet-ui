@@ -81,8 +81,7 @@ export class ProgramSelectionStepComponent implements OnInit {
   readonly generalInformationFrom = input<GeneralInformationStepFromGroup>();
   readonly selectedProgramsForm = input<SelectedProgramsStepForm>();
   readonly admissionId = input<string | null>();
-  isViewMode = input<boolean>(false);
-
+  readonly isViewMode = input<boolean>(false);
 
   readonly isProgramDialogOpen = signal(false);
   readonly isSelectionWarningDialogOpen = signal(false);
@@ -178,6 +177,11 @@ export class ProgramSelectionStepComponent implements OnInit {
   }
 
   onNextClick(): void {
+    if (this.isViewMode()) {
+      this.nextClick.emit();
+      return;
+    }
+
     this.form()?.markAllAsTouched();
 
     const minRequired = this.getMinRequiredPrograms();

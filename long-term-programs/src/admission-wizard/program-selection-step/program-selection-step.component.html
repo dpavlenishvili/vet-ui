@@ -111,7 +111,7 @@
                 </button>
                 <button
                   (click)="toggleProgramSelection(item)"
-                  [disabled]="!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)"
+                  [disabled]="!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item) || isViewMode()"
                   fillMode="flat"
                   kendoButton
                 >

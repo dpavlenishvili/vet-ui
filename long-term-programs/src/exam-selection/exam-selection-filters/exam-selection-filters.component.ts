@@ -1,13 +1,23 @@
-import { ChangeDetectionStrategy, Component, OnInit, effect, inject, input, output, DestroyRef, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
-  SelectorComponent,
-  VetSwitchComponent,
-  vetIcons,
-  InputComponent,
   ButtonComponent,
-  IconButtonComponent
+  IconButtonComponent,
+  InputComponent,
+  SelectorComponent,
+  vetIcons,
+  VetSwitchComponent,
 } from '@vet/shared';
 import { SchedulesFilters } from '../exam-selection.component';
 import { useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';

@@ -149,12 +149,6 @@ export class AdmissionWizardComponent implements OnInit {
         this.isFormInitialized.set(true);
 
         this.initializeFormData();
-
-        // Disable all form controls if in view mode
-        if (this.isViewMode()) {
-          this.disableAllFormControls(form);
-        }
-
         this.initializeRouting();
       }
     });
@@ -169,39 +163,26 @@ export class AdmissionWizardComponent implements OnInit {
     this.updateResponsiveState();
   }
 
-  private disableAllFormControls(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
-      const control = form.get(key);
-      if (control instanceof FormGroup) {
-        this.disableFormGroup(control);
-      } else {
-        control?.disable();
-      }
-    });
-  }
-
-  private disableFormGroup(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      if (control instanceof FormGroup) {
-        this.disableFormGroup(control);
-      } else {
-        control?.disable();
-      }
-    });
-  }
-
   protected isStepValid(index: number): boolean {
+    if (this.isViewMode()) {
+      return true;
+    }
+
     const step = this.steps()[index];
     return step?.form()?.valid ?? false;
   }
 
   protected onStepChange(event: StepperActivateEvent): void {
-    if (this.isStepValid(this.currentStepIndex()) || event.index < this.currentStepIndex()) {
+    if (this.isViewMode()) {
       this.currentStepIndex.set(event.index);
       this.navigateToStep(event.index);
     } else {
-      event.preventDefault();
+      if (this.isStepValid(this.currentStepIndex()) || event.index < this.currentStepIndex()) {
+        this.currentStepIndex.set(event.index);
+        this.navigateToStep(event.index);
+      } else {
+        event.preventDefault();
+      }
     }
   }
 
@@ -215,9 +196,20 @@ export class AdmissionWizardComponent implements OnInit {
 
   protected onNextClick(formGroupName: string): void {
     const form = this.formGroup();
-    console.log(form);
     if (!form) return;
 
+    if (this.isViewMode()) {
+      const currentIndex = this.currentStepIndex();
+      const isLastStep = currentIndex === this.steps().length - 1;
+
+      if (!isLastStep) {
+        this.currentStepIndex.set(currentIndex + 1);
+        this.navigateToStep(currentIndex + 1);
+      }
+      return;
+    }
+
+    // Original edit mode logic
     if (formGroupName === 'program_selection') {
       const programIds = form.controls['program_selection'].value.program_ids;
       form.controls['selected_programs'].patchValue({ program_ids: programIds });

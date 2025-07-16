@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
-import { KENDO_CARD } from '@progress/kendo-angular-layout';
 import { DividerComponent, useAlert, useFilters, useFiltersUpdater, vetIcons } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { CommissionService } from '@vet/backend';
@@ -20,7 +19,6 @@ export type ReviewFilters = {
 @Component({
   selector: 'vet-commission-review',
   imports: [
-    KENDO_CARD,
     KENDO_GRID,
     KENDO_BUTTON,
     KENDO_TOOLTIP,

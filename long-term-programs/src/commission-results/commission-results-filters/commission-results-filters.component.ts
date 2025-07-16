@@ -8,7 +8,7 @@ import {
   InputComponent,
   SelectorComponent,
   vetIcons,
-  withoutEmptyProperties
+  withoutEmptyProperties,
 } from '@vet/shared';
 import { CommissionReviewFilters } from '../commission-results.component';
 import { UserRolesService } from '@vet/auth';

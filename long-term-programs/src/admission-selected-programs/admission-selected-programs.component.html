@@ -85,7 +85,7 @@
                 <button kendoButton fillMode="flat" (click)="onPreviewProgramClick(item)">
                   <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="info" />
                 </button>
-                <button kendoButton fillMode="flat" (click)="onDeleteClick(item)">
+                <button kendoButton fillMode="flat" [disabled]="isViewMode()" (click)="onDeleteClick(item)">
                   <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
                 </button>
               </div>

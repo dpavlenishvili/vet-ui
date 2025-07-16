@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LongTermStatisticsFiltersComponent } from './long-term-statistics-filters/long-term-statistics-filters.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { KENDO_CARD } from '@progress/kendo-angular-layout';
-import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { useFilters, useFiltersUpdater, vetIcons } from '@vet/shared';
 import { StatsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -18,7 +15,7 @@ export type StatisticsFilters = {
 
 @Component({
   selector: 'vet-long-term-statistics',
-  imports: [LongTermStatisticsFiltersComponent, KENDO_CARD, KENDO_GRID, KENDO_BUTTON, KENDO_TOOLTIP, TranslocoPipe],
+  imports: [LongTermStatisticsFiltersComponent, KENDO_GRID, TranslocoPipe],
   templateUrl: './long-term-statistics.component.html',
   styleUrl: './long-term-statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

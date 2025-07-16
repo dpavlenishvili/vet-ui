@@ -60,6 +60,11 @@ export class ProgramSsmStepComponent implements OnInit {
   }
 
   protected onNextClick(): void {
+    if (this.isViewMode()) {
+      this.nextClick.emit();
+      return;
+    }
+
     const form = this.form();
     if (!form) return;
 
@@ -85,6 +90,8 @@ export class ProgramSsmStepComponent implements OnInit {
   }
 
   protected onSpecEduSwitchChange(checked: boolean): void {
+    if (this.isViewMode()) return;
+
     const form = this.form();
     if (!form) return;
 
@@ -102,6 +109,8 @@ export class ProgramSsmStepComponent implements OnInit {
   }
 
   protected onLanguageSwitchChange(checked: boolean): void {
+    if (this.isViewMode()) return;
+
     const form = this.form();
     if (!form) return;
 

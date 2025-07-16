@@ -39,6 +39,7 @@ export class AdmissionSelectedProgramsComponent {
   readonly isEditMode = input(false, { transform: coerceBooleanProperty });
   readonly selectedPrograms = input<AdmissionPrograms[] | undefined>();
   readonly selectedProgramsLoading = input<boolean>(false);
+  readonly isViewMode = input<boolean>(false);
   readonly selectedProgramsError = input<Error | null>(null);
   readonly deleteClick = output<LongTerm>();
 

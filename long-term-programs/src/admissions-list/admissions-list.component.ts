@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal, viewChild } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
 import { CellClickEvent, GridComponent, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormatDateTimePipe, RouteParamsService, vetIcons } from '@vet/shared';
+import { FormatDateTimePipe, vetIcons } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
@@ -36,13 +36,12 @@ export type AdmissionListFilter = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdmissionsListComponent {
-  @ViewChild(GridComponent) grid!: GridComponent;
+  readonly grid = viewChild.required(GridComponent);
   protected readonly vetIcons = vetIcons;
   protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
   protected expandedDetailKeys: number[] = [];
   private readonly router = inject(Router);
   private readonly admissionService = inject(AdmissionService);
-  private readonly routeParamsService = inject(RouteParamsService);
   private readonly platformId = inject(PLATFORM_ID);
   protected readonly isBrowser = isPlatformBrowser(this.platformId);
   private readonly userRolesService = inject(UserRolesService);
@@ -119,7 +118,7 @@ export class AdmissionsListComponent {
   }
 
   protected toggleRowExpansion(dataItem: AdmissionReq): void {
-    if (!dataItem?.id || !this.grid) {
+    if (!dataItem?.id || !this.grid()) {
       return;
     }
 
@@ -139,10 +138,10 @@ export class AdmissionsListComponent {
 
     if (expandedIndex >= 0) {
       this.expandedDetailKeys.splice(expandedIndex, 1);
-      this.grid.collapseRow(rowIndex);
+      this.grid().collapseRow(rowIndex);
     } else {
       this.expandedDetailKeys.push(expandKey);
-      this.grid.expandRow(rowIndex);
+      this.grid().expandRow(rowIndex);
     }
   }
 }

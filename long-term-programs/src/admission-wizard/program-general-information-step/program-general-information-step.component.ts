@@ -81,7 +81,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   });
   protected user = inject(AuthenticationService).user;
 
-  onNextClick() {
+  protected onNextClick(): void {
     if (this.isViewMode()) {
       this.nextClick.emit();
       return;
@@ -91,7 +91,6 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     if (!form) return;
 
     form.markAllAsTouched();
-
     if (form.valid) {
       this.nextClick.emit();
     }

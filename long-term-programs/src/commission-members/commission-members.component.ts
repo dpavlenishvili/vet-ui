@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { KENDO_CARD } from '@progress/kendo-angular-layout';
 import { DividerComponent, useAlert, vetIcons } from '@vet/shared';
 import { CommissionMembersDialogComponent } from './commission-members-dialog/commission-members-dialog.component';
 import { UserRolesService } from '@vet/auth';
@@ -13,15 +12,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-commission-members',
-  imports: [
-    KENDO_CARD,
-    KENDO_GRID,
-    KENDO_BUTTON,
-    KENDO_SVGICON,
-    TranslocoPipe,
-    CommissionMembersDialogComponent,
-    DividerComponent,
-  ],
+  imports: [KENDO_GRID, KENDO_BUTTON, KENDO_SVGICON, TranslocoPipe, CommissionMembersDialogComponent, DividerComponent],
   templateUrl: './commission-members.component.html',
   styleUrl: './commission-members.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

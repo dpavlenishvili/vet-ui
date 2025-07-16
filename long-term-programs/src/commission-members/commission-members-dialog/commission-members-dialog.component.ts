@@ -1,5 +1,5 @@
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
-import { ChangeDetectionStrategy, Component, inject, input, output, DestroyRef, signal, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule } from '@progress/kendo-angular-inputs';
@@ -8,7 +8,7 @@ import { CommissionService, User } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { vetIcons, InfoComponent, ToastService, georgianLettersValidator, personalNumberValidator } from '@vet/shared';
+import { georgianLettersValidator, InfoComponent, personalNumberValidator, ToastService, vetIcons } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { animate, style, transition, trigger } from '@angular/animations';

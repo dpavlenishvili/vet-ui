@@ -10,6 +10,7 @@
               valueField="id"
               formControlName="education"
               (valueChange)="educationChange($event)"
+              [readonly]="isViewMode()"
               [valuePrimitive]="true"
             />
           </kendo-label>
@@ -30,6 +31,7 @@
               valueField="id"
               formControlName="district_id"
               (valueChange)="districtChange()"
+              [readonly]="isViewMode()"
               [valuePrimitive]="true"
             />
           </kendo-label>
@@ -50,6 +52,7 @@
               valueField="id"
               formControlName="language"
               (valueChange)="languageChange()"
+              [readonly]="isViewMode()"
               [valuePrimitive]="true"
             />
           </kendo-label>
@@ -106,6 +109,7 @@
                   kendoCheckBox
                   #specEnvCheckBox
                   [checked]="form?.get('spec_env')?.getRawValue().includes(specEnv)"
+                  [disabled]="isViewMode()"
                   (change)="onSpecEnvChange(specEnvCheckBox.checked, specEnv)"
                 />
                 <kendo-label class="k-checkbox-label" [for]="specEnvCheckBox" [text]="specEnv | transloco" />

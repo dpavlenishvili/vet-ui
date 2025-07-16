@@ -15,6 +15,7 @@
           <div>
             <kendo-switch
               formControlName="spec_edu"
+              [readonly]="isViewMode()"
               [onLabel]="'shared.yes' | transloco"
               [offLabel]="'shared.no' | transloco"
               (valueChange)="onSpecEduSwitchChange($event)"
@@ -42,6 +43,7 @@
                     [size]="'large'"
                     [rounded]="'large'"
                     [placeholder]="'programs.ssm_contact_person_first_name' | transloco"
+                    [readonly]="isViewMode()"
                   />
                   @if (form.controls['e_name']; as control) {
                     @if (control.touched) {
@@ -57,6 +59,7 @@
                     [size]="'large'"
                     [rounded]="'large'"
                     [placeholder]="'programs.ssm_contact_person_email' | transloco"
+                    [readonly]="isViewMode()"
                   />
                   @if (form.controls['e_email']; as control) {
                     @if (control.touched) {
@@ -75,6 +78,7 @@
                     [size]="'large'"
                     [rounded]="'large'"
                     [placeholder]="'programs.ssm_contact_person_last_name' | transloco"
+                    [readonly]="isViewMode()"
                   />
                   @if (form.controls['e_lastname']; as control) {
                     @if (control.touched) {
@@ -86,7 +90,10 @@
                 </kendo-formfield>
 
                 <kendo-formfield>
-                  <kendo-textbox [clearButton]="true" formControlName="e_phone">
+                  <kendo-textbox
+                    [clearButton]="true"
+                    [readonly]="isViewMode()"
+                    formControlName="e_phone">
                     <ng-template kendoTextBoxPrefixTemplate>
                       <span class="k-ml-2 k-color-black">+995</span>
                     </ng-template>
@@ -119,6 +126,7 @@
                   [onLabel]="'shared.yes' | transloco"
                   [offLabel]="'shared.no' | transloco"
                   [checked]="!!selectedLanguage()"
+                  [readonly]="isViewMode()"
                   (valueChange)="onLanguageSwitchChange($event)"
                   #translateReq
                 />
@@ -130,6 +138,7 @@
                 <div class="k-flex-1">
                   <kendo-dropdownlist
                     [data]="languages$.value()"
+                    [readonly]="isViewMode()"
                     formControlName="translate_select"
                     (valueChange)="onSelectedLanguageChange($event)"
                   >
@@ -153,6 +162,7 @@
                 <div class="k-flex-1">
                   @if (selectedLanguage() === 'other' || selectedLanguage() === 'სხვა') {
                     <kendo-textbox
+                      [readonly]="isViewMode()"
                       formControlName="translate"
                       required
                       inputmode="flat"
@@ -185,6 +195,7 @@
                 class="vet-ssm-textarea k-resize-y k-w-full k-border-none k-outline-none k-text-base"
                 formControlName="spe_description"
                 maxlength="{{ maxLengthOfRequirements }}"
+                [readonly]="isViewMode()"
               ></textarea>
               <div class="k-display-flex k-justify-content-end k-text-xs k-color-body-light">
                 {{ form.controls['spe_description'].value?.length ?? 0 }}/{{ maxLengthOfRequirements }}
