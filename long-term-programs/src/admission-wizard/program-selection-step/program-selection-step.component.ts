@@ -81,6 +81,8 @@ export class ProgramSelectionStepComponent implements OnInit {
   readonly generalInformationFrom = input<GeneralInformationStepFromGroup>();
   readonly selectedProgramsForm = input<SelectedProgramsStepForm>();
   readonly admissionId = input<string | null>();
+  isViewMode = input<boolean>(false);
+
 
   readonly isProgramDialogOpen = signal(false);
   readonly isSelectionWarningDialogOpen = signal(false);

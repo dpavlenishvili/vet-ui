@@ -38,6 +38,7 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   clearSelectedPrograms = output();
 
   form = input<ProgramGeneralInformationStepFormGroup>();
+  isViewMode = input<boolean>(false);
   isSpecEnvEnabled = signal(false);
   isAbroadEnabled = signal(false);
   isOcuEnabled = signal(false);
@@ -81,9 +82,17 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   protected user = inject(AuthenticationService).user;
 
   onNextClick() {
-    this.form()?.markAllAsTouched();
-    console.log(this.form());
-    if (this.form()?.valid) {
+    if (this.isViewMode()) {
+      this.nextClick.emit();
+      return;
+    }
+
+    const form = this.form();
+    if (!form) return;
+
+    form.markAllAsTouched();
+
+    if (form.valid) {
       this.nextClick.emit();
     }
   }

@@ -59,6 +59,7 @@ export class AdmissionWizardComponent implements OnInit {
   readonly admissionId = input<string | null>(null);
   readonly admissionData = input<AdmissionReq | null>(null);
   readonly educationStatus = input<{ level?: string; levelId?: number } | null>(null);
+  readonly isViewMode = input<boolean>(false);
 
   readonly createAdmission = output<AdmissionRequest>();
   readonly updateAdmission = output<StepBody<AdmissionRequest>>();
@@ -148,6 +149,12 @@ export class AdmissionWizardComponent implements OnInit {
         this.isFormInitialized.set(true);
 
         this.initializeFormData();
+
+        // Disable all form controls if in view mode
+        if (this.isViewMode()) {
+          this.disableAllFormControls(form);
+        }
+
         this.initializeRouting();
       }
     });
@@ -160,6 +167,28 @@ export class AdmissionWizardComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateResponsiveState();
+  }
+
+  private disableAllFormControls(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      const control = form.get(key);
+      if (control instanceof FormGroup) {
+        this.disableFormGroup(control);
+      } else {
+        control?.disable();
+      }
+    });
+  }
+
+  private disableFormGroup(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      if (control instanceof FormGroup) {
+        this.disableFormGroup(control);
+      } else {
+        control?.disable();
+      }
+    });
   }
 
   protected isStepValid(index: number): boolean {
@@ -186,6 +215,7 @@ export class AdmissionWizardComponent implements OnInit {
 
   protected onNextClick(formGroupName: string): void {
     const form = this.formGroup();
+    console.log(form);
     if (!form) return;
 
     if (formGroupName === 'program_selection') {
@@ -423,7 +453,8 @@ export class AdmissionWizardComponent implements OnInit {
     const admissionId = this.admissionId();
 
     if (admissionId) {
-      void this.router.navigate([`long-term-programs/update-admission/${admissionId}/${stepPath}`]);
+      const routePrefix = this.isViewMode() ? 'view-admission' : 'update-admission';
+      void this.router.navigate([`long-term-programs/${routePrefix}/${admissionId}/${stepPath}`]);
     } else {
       void this.router.navigate([`/registration/${stepPath}`]);
     }

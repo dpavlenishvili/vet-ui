@@ -67,6 +67,7 @@
         <div class="k-mt-3">
           <vet-file-upload
             [title]="'programs.uploadEducationDocument'"
+            [readonly]="isViewMode()"
             [uploadedFiles]="form?.get('doc')?.getRawValue()"
             [errorMessage]="
               (form?.get('doc')?.touched && form?.get('doc')?.errors?.['required'])
@@ -87,6 +88,7 @@
           [onLabel]="'shared.yes' | transloco"
           [offLabel]="'shared.no' | transloco"
           [checked]="form?.get('spec_env')?.getRawValue()?.length > 0"
+          [readonly]="isViewMode()"
           (valueChange)="onSpecEnvSwitchChange($event)"
           #specEnvSwitch
         />
@@ -135,6 +137,7 @@
           [onLabel]="'shared.yes' | transloco"
           [offLabel]="'shared.no' | transloco"
           [disabled]="abroadSwitch.checked"
+          [readonly]="isViewMode()"
           #ocuSwitch
           (valueChange)="
             toggleSwitcher($event, user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad')
@@ -148,6 +151,7 @@
         </vet-info>
         <vet-file-upload
           [title]="'programs.uploadEducationDocument'"
+          [readonly]="isViewMode()"
           [uploadedFiles]="abroadDoc()?.getRawValue()"
           [errorMessage]="
             !(abroadDoc()?.touched && abroadDoc()?.errors?.['required'])
@@ -173,6 +177,7 @@
           [onLabel]="'shared.yes' | transloco"
           [offLabel]="'shared.no' | transloco"
           [disabled]="ocuSwitch.checked"
+          [readonly]="isViewMode()"
           #abroadSwitch
           (valueChange)="
             toggleSwitcher(
@@ -189,6 +194,7 @@
         </vet-info>
         <vet-file-upload
           [title]="'programs.uploadEducationDocument'"
+          [readonly]="isViewMode()"
           [errorMessage]="
             !(ocuDoc()?.touched && ocuDoc()?.errors?.['required'])
               ? null

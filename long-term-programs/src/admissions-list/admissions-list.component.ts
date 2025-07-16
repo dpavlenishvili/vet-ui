@@ -75,7 +75,23 @@ export class AdmissionsListComponent {
       console.error('Cannot navigate to admission without ID');
       return;
     }
+    this.router.navigate(['long-term-programs', 'view-admission', item.id, 'general_information']);
+  }
+
+  protected onEditClick(item: AdmissionReq): void {
+    if (!item.id) {
+      console.error('Cannot navigate to admission without ID');
+      return;
+    }
     this.router.navigate(['long-term-programs', 'update-admission', item.id, 'general_information']);
+  }
+
+  protected onExamCardClick(item: AdmissionReq): void {
+    if (!item.user?.pid) {
+      console.error('Cannot navigate to exam card without user PID');
+      return;
+    }
+    this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
   }
 
   protected onChooseClick(item: AdmissionReq): void {
@@ -83,7 +99,15 @@ export class AdmissionsListComponent {
       console.error('Cannot navigate to exam card without user PID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
+    // this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
+  }
+
+  protected onResultClick(item: AdmissionReq): void {
+    if (!item.user?.pid) {
+      console.error('Cannot navigate to exam card without user PID');
+      return;
+    }
+    // this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
   }
 
   protected onCellClick(event: CellClickEvent): void {

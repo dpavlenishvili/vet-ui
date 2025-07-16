@@ -57,6 +57,7 @@
       (clearSelectedPrograms)="clearSelectedPrograms()"
       (nextClick)="onNextClick('general_information')"
       [form]="form.controls['general_information']"
+      [isViewMode]="isViewMode()"
     />
   }
 </ng-template>
@@ -64,9 +65,11 @@
 <ng-template #programSsmStepTmpl>
   @if (formGroup(); as form) {
     <vet-program-ssm-step
+      (clearSelectedPrograms)="clearSelectedPrograms()"
       (nextClick)="onNextClick('ssm_status')"
       (previousClick)="onPreviousClick()"
       [form]="form.controls['ssm_status']"
+      [isViewMode]="isViewMode()"
     />
   }
 </ng-template>
@@ -79,8 +82,8 @@
       [admissionId]="admissionId()"
       [form]="form.controls['program_selection']"
       [generalInformationFrom]="form.controls['general_information']"
-      [selectedProgramsForm]="form.controls['selected_programs']"
       [ssmStepForm]="form.controls['ssm_status']"
+      [isViewMode]="isViewMode()"
     />
   }
 </ng-template>
@@ -94,6 +97,7 @@
       [form]="form.controls['selected_programs']"
       [selectionProgramsForm]="form.controls['program_selection']"
       [ssmStepForm]="form.controls['ssm_status']"
+      [isViewMode]="isViewMode()"
     />
   }
 </ng-template>
@@ -103,11 +107,12 @@
     <vet-program-confirmation-step
       (nextClick)="onNextClick('confirmation')"
       (previousClick)="onPreviousClick()"
-      [admissionId]="admissionId()"
       [form]="form.controls['confirmation']"
       [generalInformationFormGroup]="form.controls['general_information']"
-      [selectedProgramsForm]="form.controls['selected_programs']"
       [ssmFormGroup]="form.controls['ssm_status']"
+      [selectedProgramsForm]="form.controls['selected_programs']"
+      [admissionId]="admissionId()"
+      [isViewMode]="isViewMode()"
     />
   }
 </ng-template>

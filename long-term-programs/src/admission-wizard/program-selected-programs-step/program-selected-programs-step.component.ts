@@ -50,6 +50,7 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
   form = input<ProgramSelectedProgramsStepFormGroup>();
   ssmStepForm = input<ProgramSsmStep>();
   selectionProgramsForm = input<ProgramsSelectionStepFormGroup>();
+  isViewMode = input<boolean>(false);
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
   protected readonly selectedPrograms: ResourceRef<AdmissionPrograms[] | undefined> = admissionProgramsResource(

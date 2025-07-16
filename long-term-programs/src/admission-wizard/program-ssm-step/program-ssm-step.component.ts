@@ -39,8 +39,10 @@ export type ProgramSsmStepFormGroup = FormGroup;
 })
 export class ProgramSsmStepComponent implements OnInit {
   readonly form = input<ProgramSsmStepFormGroup>();
+  readonly isViewMode = input<boolean>(false);
   readonly nextClick = output();
   readonly previousClick = output();
+  readonly clearSelectedPrograms = output();
   protected readonly kendoIcons = kendoIcons;
   protected readonly selectedLanguage = signal<string | null>(null);
   protected readonly maxLengthOfRequirements = 2000;
@@ -85,6 +87,8 @@ export class ProgramSsmStepComponent implements OnInit {
   protected onSpecEduSwitchChange(checked: boolean): void {
     const form = this.form();
     if (!form) return;
+
+    this.clearSelectedPrograms.emit();
 
     if (checked) {
       this.setRequiredValidators(form);

@@ -102,7 +102,7 @@
               kendoButton
               fillMode="flat"
               size="small"
-              [svgIcon]="vetIcons.editIcon"
+              [svgIcon]="vetIcons.eye"
               [title]="'shared.edit' | transloco"
               kendoTooltip
               (click)="onViewClick(item)"
@@ -113,10 +113,21 @@
               kendoButton
               fillMode="flat"
               size="small"
+              [svgIcon]="vetIcons.editIcon"
+              [title]="'shared.edit' | transloco"
+              kendoTooltip
+              (click)="onEditClick(item)"
+              [disabled]="!item.actions.edit"
+              class="action-btn"
+            ></button>
+            <button
+              kendoButton
+              fillMode="flat"
+              size="small"
               [svgIcon]="vetIcons.emptyDocumentIcon"
               [title]="'shared.exam_card' | transloco"
               kendoTooltip
-              (click)="onChooseClick(item)"
+              (click)="onExamCardClick(item)"
               [disabled]="!item.actions.card"
               class="action-btn"
             ></button>
@@ -127,7 +138,7 @@
               [svgIcon]="vetIcons.readDocumentIcon"
               [title]="'shared.view' | transloco"
               kendoTooltip
-              (click)="onViewClick(item)"
+              (click)="onChooseClick(item)"
               [disabled]="!item.actions.choose"
               class="action-btn"
             ></button>
@@ -138,7 +149,7 @@
               [svgIcon]="vetIcons.acceptedDocumentIcon"
               [title]="'shared.result' | transloco"
               kendoTooltip
-              (click)="onViewClick(item)"
+              (click)="onResultClick(item)"
               [disabled]="!item.actions.result"
               class="action-btn"
             ></button>

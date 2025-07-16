@@ -45,6 +45,7 @@ export class ProgramConfirmationStepComponent implements OnInit {
   ssmFormGroup = input<ProgramSsmStepFormGroup>();
   selectedProgramsForm = input<ProgramSelectedProgramsStepFormGroup>();
   admissionId = input<string | null>();
+  isViewMode = input<boolean>(false);
   nextClick = output();
   previousClick = output();
 

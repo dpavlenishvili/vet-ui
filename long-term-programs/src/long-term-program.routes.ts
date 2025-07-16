@@ -97,6 +97,73 @@ export const longTermProgramsRoutes: Route[] = [
     ],
   },
   {
+    path: 'view-admission/:admissionId',
+    loadComponent: () =>
+      import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+    data: breadcrumb([
+      ...baseBreadcrumbItems,
+      { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+      { path: null, text: 'programs.admission_view' },
+    ]),
+    children: [
+      {
+        path: 'general_information',
+        loadComponent: () =>
+          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        data: breadcrumb([
+          ...baseBreadcrumbItems,
+          { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+          { path: null, text: 'programs.general_information' },
+          { path: null, text: 'programs.admission_view' },
+        ]),
+      },
+      {
+        path: 'ssm_status',
+        loadComponent: () =>
+          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        data: breadcrumb([
+          ...baseBreadcrumbItems,
+          { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+          { path: null, text: 'programs.ssm_status' },
+          { path: null, text: 'programs.admission_view' },
+        ]),
+      },
+      {
+        path: 'program_selection',
+        loadComponent: () =>
+          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        data: breadcrumb([
+          ...baseBreadcrumbItems,
+          { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+          { path: null, text: 'programs.program_selection' },
+          { path: null, text: 'programs.admission_view' },
+        ]),
+      },
+      {
+        path: 'selected_programs',
+        loadComponent: () =>
+          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        data: breadcrumb([
+          ...baseBreadcrumbItems,
+          { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+          { path: null, text: 'programs.selected_programs' },
+          { path: null, text: 'programs.admission_view' },
+        ]),
+      },
+      {
+        path: 'confirmation',
+        loadComponent: () =>
+          import('./admission-view/admission-view.component').then((m) => m.AdmissionViewComponent),
+        data: breadcrumb([
+          ...baseBreadcrumbItems,
+          { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+          { path: null, text: 'programs.confirmation' },
+          { path: null, text: 'programs.admission_view' },
+        ]),
+      },
+    ],
+  },
+  {
     path: 'exam-card/:pid',
     loadComponent: () =>
       import('./exam-card-display/exam-card-display.component').then((m) => m.ExamCardDisplayComponent),
