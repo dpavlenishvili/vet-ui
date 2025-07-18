@@ -44,6 +44,7 @@ export const appRoutes: Routes = [
         path: 'long-term-programs',
         children: longTermProgramsRoutes,
         data: breadcrumb([]),
+        canActivate: [authenticatedGuard],
       },
       {
         path: 'user-profile',
