@@ -3,7 +3,8 @@
     <span>
       {{ 'shared.informationMessage' | transloco }}
     </span>
-    <button (click)="onRegisterClick()" kendoButton themeColor="primary">
+    <button (click)="onRegisterClick()" kendoButton themeColor="primary"
+            [disabled]="!registerStatus$.value()?.is_available">
       {{ 'shared.registration' | transloco }}
     </button>
   </div>
@@ -98,34 +99,37 @@
       >
         <ng-template kendoGridCellTemplate let-item>
           <div class="k-display-flex k-gap-1 k-justify-content-center action-buttons">
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.eye"
-              [title]="'shared.edit' | transloco"
-              kendoTooltip
-              (click)="onViewClick(item)"
-              [disabled]="!item.actions.edit"
-              class="action-btn"
-            ></button>
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.editIcon"
-              [title]="'shared.edit' | transloco"
-              kendoTooltip
-              (click)="onEditClick(item)"
-              [disabled]="!item.actions.edit"
-              class="action-btn"
-            ></button>
+            @if (item.actions.edit) {
+              <button
+                kendoButton
+                fillMode="flat"
+                size="small"
+                [svgIcon]="vetIcons.editIcon"
+                [title]="'shared.edit' | transloco"
+                kendoTooltip
+                (click)="onEditClick(item)"
+                [disabled]="!item.actions.edit"
+                class="action-btn"
+              ></button>
+            } @else {
+              <button
+                kendoButton
+                fillMode="flat"
+                size="small"
+                [svgIcon]="vetIcons.eye"
+                [title]="'shared.view' | transloco"
+                kendoTooltip
+                (click)="onViewClick(item)"
+                [disabled]="item.actions.edit"
+                class="action-btn"
+              ></button>
+            }
             <button
               kendoButton
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.emptyDocumentIcon"
-              [title]="'shared.exam_card' | transloco"
+              [title]="'programs.exam_card' | transloco"
               kendoTooltip
               (click)="onExamCardClick(item)"
               [disabled]="!item.actions.card"
@@ -136,7 +140,7 @@
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.readDocumentIcon"
-              [title]="'shared.view' | transloco"
+              [title]="'programs.last_choose' | transloco"
               kendoTooltip
               (click)="onChooseClick(item)"
               [disabled]="!item.actions.choose"
@@ -147,7 +151,7 @@
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.acceptedDocumentIcon"
-              [title]="'shared.result' | transloco"
+              [title]="'programs.last_result' | transloco"
               kendoTooltip
               (click)="onResultClick(item)"
               [disabled]="!item.actions.result"

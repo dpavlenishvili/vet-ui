@@ -58,7 +58,7 @@ export class AdmissionUpdateComponent implements OnInit {
         }
 
         if (event.step === 'confirmation' && event.body.payload.status === 'registered') {
-          this.router.navigate(['long-term-programs', 'list']);
+          this.router.navigate(['dashboard', 'programs', 'long']);
         } else {
           void this.router.navigate([`long-term-programs/update-admission/${admissionId}/${event.step}`]);
         }
@@ -75,7 +75,7 @@ export class AdmissionUpdateComponent implements OnInit {
       .subscribe((response) => {
         const admission = response.data?.[0] ?? null;
         if (!admission) {
-          this.router.navigate(['long-term-programs', 'list']);
+          this.router.navigate(['dashboard', 'programs', 'long']);
           return;
         }
         this.admissionData.set(admission);

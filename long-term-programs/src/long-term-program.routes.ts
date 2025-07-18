@@ -102,7 +102,7 @@ export const longTermProgramsRoutes: Route[] = [
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
-      { path: null, text: 'programs.admission_view' },
+      { path: null, text: 'programs.long-term-programs-admissionView' },
     ]),
     children: [
       {
@@ -112,7 +112,7 @@ export const longTermProgramsRoutes: Route[] = [
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
           { path: null, text: 'programs.general_information' },
-          { path: null, text: 'programs.admission_view' },
+          { path: null, text: 'programs.long-term-programs-admissionView' },
         ]),
       },
       {
@@ -122,7 +122,7 @@ export const longTermProgramsRoutes: Route[] = [
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
           { path: null, text: 'programs.ssm_status' },
-          { path: null, text: 'programs.admission_view' },
+          { path: null, text: 'programs.long-term-programs-admissionView' },
         ]),
       },
       {
@@ -132,7 +132,7 @@ export const longTermProgramsRoutes: Route[] = [
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
           { path: null, text: 'programs.program_selection' },
-          { path: null, text: 'programs.admission_view' },
+          { path: null, text: 'programs.long-term-programs-admissionView' },
         ]),
       },
       {
@@ -142,7 +142,7 @@ export const longTermProgramsRoutes: Route[] = [
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
           { path: null, text: 'programs.selected_programs' },
-          { path: null, text: 'programs.admission_view' },
+          { path: null, text: 'programs.long-term-programs-admissionView' },
         ]),
       },
       {
@@ -152,7 +152,7 @@ export const longTermProgramsRoutes: Route[] = [
           ...baseBreadcrumbItems,
           { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
           { path: null, text: 'programs.confirmation' },
-          { path: null, text: 'programs.admission_view' },
+          { path: null, text: 'programs.long-term-programs-admissionView' },
         ]),
       },
     ],

@@ -296,7 +296,7 @@
             {{ 'auth.previous' | transloco }}
           </button>
           <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
-            {{ 'programs.finish' | transloco }}
+            {{ (isViewMode() ? 'programs.close' : 'programs.finish') | transloco }}
           </button>
         </div>
       </div>

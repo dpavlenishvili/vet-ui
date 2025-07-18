@@ -46,16 +46,20 @@ export type ProgramsSelectionStepFormGroup = FormGroup;
 export class ProgramSelectedProgramsStepComponent implements OnInit {
   nextClick = output();
   previousClick = output();
+
   readonly admissionId = input.required<string | null>();
   form = input<ProgramSelectedProgramsStepFormGroup>();
   ssmStepForm = input<ProgramSsmStep>();
   selectionProgramsForm = input<ProgramsSelectionStepFormGroup>();
   isViewMode = input<boolean>(false);
+
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
+
   protected readonly selectedPrograms: ResourceRef<AdmissionPrograms[] | undefined> = admissionProgramsResource(
     this.admissionId,
   );
+
   private readonly admissionService = inject(AdmissionService);
   private readonly alert = useAlert();
   private readonly destroyRef = inject(DestroyRef);
@@ -68,7 +72,6 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedPrograms.reload();
-    console.log(this.selectedPrograms.value());
   }
 
   onPreviousClick() {
@@ -76,13 +79,22 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
   }
 
   onNextClick() {
+    if (this.isViewMode()) {
+      this.nextClick.emit();
+      return;
+    }
+
     this.form()?.markAllAsTouched();
-    if (this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms.value()!.length < 2) {
+
+    const selectedPrograms = this.selectedPrograms.value();
+    const selectedCount = selectedPrograms?.length || 0;
+
+    if (this.ssmStepForm()?.get('e_name')?.value && selectedCount < 2) {
       this.alert.show({
         text: 'programs.warningMinTwoProgramShouldBeSelected',
         variant: 'warning',
       });
-    } else if (!this.ssmStepForm()?.get('e_name')?.value && this.selectedPrograms.value()!.length < 1) {
+    } else if (!this.ssmStepForm()?.get('e_name')?.value && selectedCount < 1) {
       this.alert.show({
         text: 'programs.warningMinOneProgramShouldBeSelected',
         variant: 'warning',
@@ -93,7 +105,7 @@ export class ProgramSelectedProgramsStepComponent implements OnInit {
   }
 
   onDeleteClick(item: LongTerm) {
-    if (!item.program_id) {
+    if (!item.program_id || this.isViewMode()) {
       return;
     }
     const currentSelected = this.selectedPrograms.value();

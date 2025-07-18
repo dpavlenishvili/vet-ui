@@ -41,7 +41,7 @@ export class AdmissionRegistrationComponent implements OnInit {
             singleTypeDialogActionText: 'programs.viewAdmissions',
             onConfirm: () => {
               this.confirm.close();
-              this.router.navigate(['long-term-programs', 'list']);
+              this.router.navigate(['dashboard', 'programs', 'long']);
             },
           });
         }

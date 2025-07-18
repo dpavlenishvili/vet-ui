@@ -52,7 +52,7 @@ export class AdmissionViewComponent implements OnInit {
       .subscribe((response) => {
         const admission = response.data?.[0] ?? null;
         if (!admission) {
-          this.router.navigate(['long-term-programs', 'list']);
+          this.router.navigate(['dashboard', 'programs', 'long']);
           return;
         }
         this.admissionData.set(admission);

@@ -127,6 +127,7 @@
                   [offLabel]="'shared.no' | transloco"
                   [checked]="!!selectedLanguage()"
                   [readonly]="isViewMode()"
+                  [disabled]="isViewMode()"
                   (valueChange)="onLanguageSwitchChange($event)"
                   #translateReq
                 />

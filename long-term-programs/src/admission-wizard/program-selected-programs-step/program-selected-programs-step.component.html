@@ -4,16 +4,28 @@
     [selectedProgramsError]="$any(selectedPrograms.error())"
     [selectedProgramsLoading]="selectedPrograms.isLoading()"
     [selectedPrograms]="selectedPrograms.value()"
-    [isViewMode]="isViewMode()"
+    [readonly]="isViewMode()"
     isEditMode
   />
 
   <div class="k-display-flex k-justify-content-between buttons-container">
-    <button (click)="onPreviousClick()" kendoButton themeColor="secondary" type="button">
+    <button
+      (click)="onPreviousClick()"
+      kendoButton
+      themeColor="secondary"
+      type="button"
+      [title]="'auth.back' | transloco"
+    >
       {{ 'auth.back' | transloco }}
     </button>
 
-    <button (click)="onNextClick()" kendoButton themeColor="primary" type="button">
+    <button
+      (click)="onNextClick()"
+      kendoButton
+      themeColor="primary"
+      type="button"
+      [title]="'auth.next' | transloco"
+    >
       {{ 'auth.next' | transloco }}
     </button>
   </div>

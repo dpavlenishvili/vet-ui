@@ -72,6 +72,11 @@ export class ProgramConfirmationStepComponent implements OnInit {
   }
 
   onNextClick() {
+    if (this.isViewMode()) {
+      this.nextClick.emit();
+      return;
+    }
+
     this.form()?.markAllAsTouched();
     if (this.form()?.valid) {
       this.nextClick.emit();

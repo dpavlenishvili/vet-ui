@@ -45,6 +45,7 @@ export class ProgramSsmStepComponent implements OnInit {
   readonly clearSelectedPrograms = output();
   protected readonly kendoIcons = kendoIcons;
   protected readonly selectedLanguage = signal<string | null>(null);
+  protected readonly initialSpecEduValue = signal<boolean | null>(null);
   protected readonly maxLengthOfRequirements = 2000;
   private readonly generalsService = inject(GeneralsService);
   protected readonly languages$ = rxResource({
@@ -77,11 +78,17 @@ export class ProgramSsmStepComponent implements OnInit {
     }
 
     if (form.valid) {
+      const hasChanged = this.initialSpecEduValue() !== specEdu;
+      if (hasChanged) {
+        this.clearSelectedPrograms.emit();
+      }
       this.nextClick.emit();
     }
   }
 
   protected onSelectedLanguageChange(value: string | null): void {
+    if (this.isViewMode()) return;
+
     const form = this.form();
     if (!form) return;
 
@@ -94,8 +101,6 @@ export class ProgramSsmStepComponent implements OnInit {
 
     const form = this.form();
     if (!form) return;
-
-    this.clearSelectedPrograms.emit();
 
     if (checked) {
       this.setRequiredValidators(form);
@@ -141,6 +146,7 @@ export class ProgramSsmStepComponent implements OnInit {
     this.selectedLanguage.set(translateSelect || null);
 
     const specEdu = form.get('spec_edu')?.getRawValue();
+    this.initialSpecEduValue.set(specEdu);
     this.onSpecEduSwitchChange(specEdu);
   }
 

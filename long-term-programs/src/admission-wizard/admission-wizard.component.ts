@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
-  HostListener,
   inject,
   input,
   OnInit,
@@ -30,6 +30,9 @@ import { Citizenship, georgianMobileValidator, vetIcons } from '@vet/shared';
 import { StepBody, StepDefinition } from '../long-term-programs.types';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
+import { WA_WINDOW } from '@ng-web-apis/common';
+import { fromEvent } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const MOBILE_BREAKPOINT = 768;
 const TABLET_BREAKPOINT = 992;
@@ -72,6 +75,7 @@ export class AdmissionWizardComponent implements OnInit {
   protected readonly stepperOrientation = signal<'horizontal' | 'vertical'>('horizontal');
   protected readonly stepType = signal<'indicator' | 'label' | 'full'>('full');
   protected readonly currentStep = computed(() => this.steps()[this.currentStepIndex()]);
+
   private readonly _programGeneralInformationStepTmpl = viewChild.required('programGeneralInformationStepTmpl', {
     read: TemplateRef,
   });
@@ -83,6 +87,7 @@ export class AdmissionWizardComponent implements OnInit {
   private readonly _programConfirmationStepTmpl = viewChild.required('programConfirmationStepTmpl', {
     read: TemplateRef,
   });
+
   protected readonly steps = computed((): StepDefinition[] => {
     const form = this.formGroup();
 
@@ -135,10 +140,13 @@ export class AdmissionWizardComponent implements OnInit {
       },
     ];
   });
+
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthenticationService);
   private readonly isFormInitialized = signal(false);
+  private readonly window = inject(WA_WINDOW);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
     effect(() => {
@@ -152,11 +160,11 @@ export class AdmissionWizardComponent implements OnInit {
         this.initializeRouting();
       }
     });
-  }
-
-  @HostListener('window:resize')
-  onResize(): void {
-    this.updateResponsiveState();
+    fromEvent(this.window, 'resize')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.updateResponsiveState();
+      });
   }
 
   ngOnInit(): void {
@@ -205,11 +213,12 @@ export class AdmissionWizardComponent implements OnInit {
       if (!isLastStep) {
         this.currentStepIndex.set(currentIndex + 1);
         this.navigateToStep(currentIndex + 1);
+      } else {
+        this.router.navigate(['dashboard', 'programs', 'long']);
       }
       return;
     }
 
-    // Original edit mode logic
     if (formGroupName === 'program_selection') {
       const programIds = form.controls['program_selection'].value.program_ids;
       form.controls['selected_programs'].patchValue({ program_ids: programIds });
@@ -231,6 +240,8 @@ export class AdmissionWizardComponent implements OnInit {
   }
 
   protected clearSelectedPrograms(): void {
+    if (this.isViewMode()) return;
+
     const form = this.formGroup();
     if (!form) return;
 
@@ -246,6 +257,8 @@ export class AdmissionWizardComponent implements OnInit {
   }
 
   protected onToggleExpansion(): void {
+    if (this.isViewMode()) return;
+
     if (!this.isMobile()) {
       this.isExpanded.update((value) => !value);
       this.stepType.set(this.isExpanded() ? 'full' : 'indicator');
@@ -268,6 +281,35 @@ export class AdmissionWizardComponent implements OnInit {
         education_level_id: educationStatus.levelId ?? null,
       });
     }
+
+    this.disableFormControlsInViewMode();
+  }
+
+  private disableFormControlsInViewMode(): void {
+    if (!this.isViewMode()) return;
+
+    const form = this.formGroup();
+    if (!form) return;
+
+    Object.keys(form.controls).forEach((key) => {
+      const control = form.get(key);
+      if (control instanceof FormGroup) {
+        this.disableFormGroup(control);
+      } else {
+        control?.disable();
+      }
+    });
+  }
+
+  private disableFormGroup(group: FormGroup): void {
+    Object.keys(group.controls).forEach((key) => {
+      const control = group.get(key);
+      if (control instanceof FormGroup) {
+        this.disableFormGroup(control);
+      } else {
+        control?.disable();
+      }
+    });
   }
 
   private initializeRouting(): void {
@@ -284,10 +326,14 @@ export class AdmissionWizardComponent implements OnInit {
     const stepPath = urlSegments.length ? urlSegments[urlSegments.length - 1].path : null;
     const idx = this.steps().findIndex((step) => step.path === stepPath);
 
-    if (idx > 0 && this.isStepValid(idx - 1)) {
-      this.currentStepIndex.set(idx);
+    if (this.isViewMode()) {
+      this.currentStepIndex.set(idx > -1 ? idx : 0);
     } else {
-      this.currentStepIndex.set(0);
+      if (idx > 0 && this.isStepValid(idx - 1)) {
+        this.currentStepIndex.set(idx);
+      } else {
+        this.currentStepIndex.set(0);
+      }
     }
   }
 
@@ -340,7 +386,7 @@ export class AdmissionWizardComponent implements OnInit {
   }
 
   private updateResponsiveState(): void {
-    const width = window.innerWidth;
+    const width = this.window.innerWidth;
     const mobile = width < MOBILE_BREAKPOINT;
     const stepperPanelExpanded = width < STEPPER_PANEL_BREAKPOINT;
 
@@ -441,7 +487,10 @@ export class AdmissionWizardComponent implements OnInit {
   }
 
   private navigateToStep(index: number): void {
-    const stepPath = this.steps()[index].path;
+    const step = this.steps()[index];
+    if (!step) return;
+
+    const stepPath = step.path;
     const admissionId = this.admissionId();
 
     if (admissionId) {

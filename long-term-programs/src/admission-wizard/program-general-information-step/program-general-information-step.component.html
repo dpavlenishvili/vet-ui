@@ -92,6 +92,7 @@
           [offLabel]="'shared.no' | transloco"
           [checked]="form?.get('spec_env')?.getRawValue()?.length > 0"
           [readonly]="isViewMode()"
+          [disabled]="isViewMode()"
           (valueChange)="onSpecEnvSwitchChange($event)"
           #specEnvSwitch
         />
@@ -140,7 +141,7 @@
         <kendo-switch
           [onLabel]="'shared.yes' | transloco"
           [offLabel]="'shared.no' | transloco"
-          [disabled]="abroadSwitch.checked"
+          [disabled]="abroadSwitch.checked || isViewMode()"
           [readonly]="isViewMode()"
           #ocuSwitch
           (valueChange)="
@@ -180,7 +181,7 @@
         <kendo-switch
           [onLabel]="'shared.yes' | transloco"
           [offLabel]="'shared.no' | transloco"
-          [disabled]="ocuSwitch.checked"
+          [disabled]="ocuSwitch.checked || isViewMode()"
           [readonly]="isViewMode()"
           #abroadSwitch
           (valueChange)="
