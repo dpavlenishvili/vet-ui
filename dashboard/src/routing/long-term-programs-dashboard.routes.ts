@@ -9,7 +9,7 @@ export const longTermProgramsDashboardRoutes: Route[] = [
     path: '',
     pathMatch: 'full',
     loadComponent: () =>
-      import('@vet/long-term-programs').then((m) => m.AdmissionsListComponent),
+      import('@vet/long-term-programs').then((m) => m.AdmissionsListContainerComponent),
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: BASE_PATH, text: 'dashboard.long_term_programs' },

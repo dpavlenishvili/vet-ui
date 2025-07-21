@@ -1,5 +1,7 @@
 @if ('Super Admin' | role) {
   <vet-admissions-list-admin />
+} @else if ('Organisation' | role) {
+  <vet-admission-list-organisation />
 } @else {
   <vet-admissions-list />
 }

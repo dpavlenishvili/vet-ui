@@ -1,0 +1,141 @@
+<div class="k-bg-white k-p-5 k-rounded-lg">
+  @let items = admissionList$.value()?.data || [];
+
+  <div class="k-pb-5">
+    <vet-admission-filter-organisation
+      [itemsCount]="items.length"
+      (filtersChange)="onFiltersChange($event)"
+    />
+  </div>
+
+  @if (isBrowser) {
+    <kendo-grid
+      [loading]="admissionList$.isLoading()"
+      [data]="items"
+      [skip]="0"
+      [pageable]="true"
+      [pageSize]="admissionList$.value()?.meta?.per_page"
+      (dataStateChange)="handlePageChange($event)"
+      class="organisation-grid"
+    >
+      <ng-template kendoGridNoRecordsTemplate>
+        {{ 'shared.noRecords' | transloco }}
+      </ng-template>
+
+      <!-- Applicant Data Column -->
+      <kendo-grid-column [title]="'programs.applicant_data' | transloco" [width]="200">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="applicant-data">
+            <div class="applicant-name">{{ item.user?.name || '-' }}</div>
+            <div class="applicant-pid">{{ item.user?.pid || '-' }}</div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <!-- Contact Data Column -->
+      <kendo-grid-column [title]="'programs.contact_data' | transloco" [width]="180">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="contact-data">
+            <div class="contact-phone">{{ item.user?.phone || '-' }}</div>
+            <div class="contact-email">{{ item.user?.email || '-' }}</div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <!-- Confirmed Education Column -->
+      <kendo-grid-column [title]="'programs.confirmed_education' | transloco" [width]="140">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="education-status">
+            <span [class]="'status-badge ' + (item.education ? 'confirmed' : 'not-confirmed')">
+              {{ (item.education ? 'programs.yes' : 'programs.no') | transloco }}
+            </span>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <!-- SSM Status Column -->
+      <kendo-grid-column [title]="'programs.ssm_status' | transloco" [width]="100">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="ssm-status">
+            <span [class]="'status-badge ' + (item.spec_edu ? 'yes' : 'no')">
+              {{ (item.spec_edu ? 'programs.yes' : 'programs.no') | transloco }}
+            </span>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <!-- SSM Status/Document Column -->
+      <kendo-grid-column [title]="'programs.ssm_status_document' | transloco" [width]="160">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="ssm-document">
+            @if (item.spec_edu_status) {
+              <div class="ssm-doc-status">
+                <span class="status-text">{{ item.spec_edu_status }}</span>
+                @if (item.spec_edu_date) {
+                  <div class="status-date">{{ item.spec_edu_date | formatDate }}</div>
+                }
+              </div>
+            } @else {
+              <span class="no-data">-</span>
+            }
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <!-- Other Column -->
+      <kendo-grid-column [title]="'programs.other' | transloco" [width]="160">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="other-data">
+            @if (item.status) {
+              <div class="main-status">
+                <span [class]="'main-status-badge ' + item.status?.toLowerCase()?.replace(' ', '_')">
+                  {{ item.status }}
+                </span>
+                @if (item.status_date) {
+                  <div class="status-date">{{ item.status_date | formatDate }}</div>
+                }
+              </div>
+            }
+            @if (item.additional_status) {
+              <div class="additional-status">
+                <span class="additional-text">{{ item.additional_status }}</span>
+                @if (item.additional_date) {
+                  <div class="status-date">{{ item.additional_date | formatDate }}</div>
+                }
+              </div>
+            }
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <!-- Actions Column -->
+      <kendo-grid-column [title]="'programs.actions' | transloco" [width]="120" [sortable]="false" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="action-buttons">
+            <vet-icon-button
+              [icon]="'eye'"
+              (click)="onViewClick(item)"
+              class="action-btn view-btn"
+            />
+            <vet-icon-button
+              [icon]="'emptyDocumentIcon'"
+              (click)="onDocumentClick(item)"
+              class="action-btn doc-btn"
+            />
+            <vet-icon-button
+              [icon]="'readDocumentIcon'"
+              (click)="onDocumentClick(item)"
+              class="action-btn doc-btn"
+            />
+            <vet-icon-button
+              [icon]="'acceptedDocumentIcon'"
+              (click)="onEmailClick(item)"
+              class="action-btn email-btn"
+            />
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+    </kendo-grid>
+  }
+</div>
