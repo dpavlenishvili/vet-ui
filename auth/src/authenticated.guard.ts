@@ -8,12 +8,11 @@ export const authenticatedGuard: CanActivateFn = () => {
   const authenticationService = inject(AuthenticationService);
   const router = inject(Router);
 
-
-  return toObservable(authenticationService.isReady).pipe(
-    filter(ready => ready),
+  return toObservable(authenticationService.areCookiesLoaded).pipe(
+    filter(loaded => loaded),
     take(1),
     map(() => {
-      if (authenticationService.isAuthenticated()) {
+      if (authenticationService.hasTokens()) {
         return true;
       }
       return new RedirectCommand(router.parseUrl('/'));
@@ -25,12 +24,11 @@ export const unAuthenticatedGuard: CanActivateFn = () => {
   const authenticationService = inject(AuthenticationService);
   const router = inject(Router);
 
-
-  return toObservable(authenticationService.isReady).pipe(
-    filter(ready => ready),
+  return toObservable(authenticationService.areCookiesLoaded).pipe(
+    filter(loaded => loaded),
     take(1),
     map(() => {
-      if (!authenticationService.isAuthenticated()) {
+      if (!authenticationService.hasTokens()) {
         return true;
       }
       return new RedirectCommand(router.parseUrl('/'));

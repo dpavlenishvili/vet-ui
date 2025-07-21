@@ -56,6 +56,9 @@ input[type='file'] {
 .file-name {
   font-size: 0.875rem;
   color: #333;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .file-actions {

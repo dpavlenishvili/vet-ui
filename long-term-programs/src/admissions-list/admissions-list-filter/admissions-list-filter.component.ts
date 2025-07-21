@@ -6,12 +6,11 @@ import {
   ButtonComponent,
   IconButtonComponent,
   InputComponent,
-  isValidIdValue,
   kendoIcons,
-  mapIdValueToOption,
   SelectorComponent,
   vetIcons,
 } from '@vet/shared';
+import { isValidIdValue, mapIdValueToOption } from '@vet/shared-resources';
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
