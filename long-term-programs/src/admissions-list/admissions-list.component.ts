@@ -45,16 +45,35 @@ export class AdmissionsListComponent {
   private readonly platformId = inject(PLATFORM_ID);
   protected readonly isBrowser = isPlatformBrowser(this.platformId);
   private readonly userRolesService = inject(UserRolesService);
+  // protected readonly admissionList$ = rxResource({
+  //   request: () => ({
+  //     role: this.userRolesService.selectedRole(),
+  //     filters: this.filters(),
+  //   }),
+  //   loader: ({ request: { role, filters } }) => {
+  //     const params = {
+  //       role: role,
+  //       ...filters,
+  //     };
+  //
+  //     return this.admissionService.admissionList(params).pipe(
+  //       catchError((error) => {
+  //         console.error('Failed to load admissions list:', error);
+  //         return of({ data: [], meta: { total: 0, per_page: 10 } });
+  //       }),
+  //     );
+  //   },
+  // });
   protected readonly admissionList$ = rxResource({
     request: () => ({
-      role: this.userRolesService.selectedRole(),
+      organisation: '245610398',
       filters: this.filters(),
     }),
-    loader: ({ request: { role, filters } }) => {
+    loader: ({ request: { organisation, filters } }) => {
       const params = {
-        role: role,
+        organisation: organisation,
         ...filters,
-      };
+      } as any;
 
       return this.admissionService.admissionList(params).pipe(
         catchError((error) => {
