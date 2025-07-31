@@ -7,6 +7,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import {
   filterEmptyValues,
   FormatDatePipe,
+  IconButtonComponent,
   RouteParamsService,
   useFilters,
   useFiltersUpdater,
@@ -14,19 +15,11 @@ import {
 } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AdmissionFilterOrganisationComponent } from './admission-filter-organisation/admission-filter-organisation.component';
 import { catchError, of } from 'rxjs';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
-
-export type OrganisationAdmissionListFilter = {
-  personal_number?: string | null;
-  name?: string | null;
-  surname?: string | null;
-  organisation_name?: string | null;
-  status?: string | null;
-  ssm_status?: boolean | null;
-};
+import { AdmissionListFilterParams } from '../long-term-programs.types';
 
 @Component({
   selector: 'vet-admission-list-organisation',
@@ -37,6 +30,7 @@ export type OrganisationAdmissionListFilter = {
     AdmissionFilterOrganisationComponent,
     FormatDatePipe,
     TooltipDirective,
+    IconButtonComponent,
   ],
   templateUrl: './admission-list-organisation.component.html',
   styleUrl: './admission-list-organisation.component.scss',
@@ -72,9 +66,10 @@ export class AdmissionListOrganisationComponent {
   routeParamsService = inject(RouteParamsService);
   platformId = inject(PLATFORM_ID);
   isBrowser = isPlatformBrowser(this.platformId);
-  filters = useFilters<OrganisationAdmissionListFilter>();
-  updateFilters = useFiltersUpdater<OrganisationAdmissionListFilter>();
+  filters = useFilters<AdmissionListFilterParams>();
+  updateFilters = useFiltersUpdater<AdmissionListFilterParams>();
   private readonly _userRolesService = inject(UserRolesService);
+  private readonly document = inject(DOCUMENT);
 
   onViewClick(item: AdmissionReq): void {
     if (!item.id) {
@@ -97,7 +92,7 @@ export class AdmissionListOrganisationComponent {
       console.error('Cannot navigate to exam card without user PID');
       return;
     }
-    // this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
+    this.router.navigate(['long-term-programs', 'last-choose', item.user.pid]);
   }
 
   onResultClick(item: AdmissionReq): void {
@@ -105,7 +100,7 @@ export class AdmissionListOrganisationComponent {
       console.error('Cannot navigate to exam card without user PID');
       return;
     }
-    // this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
+    this.router.navigate(['long-term-programs', 'last-result', item.user.pid]);
   }
 
   handlePageChange(event: PageChangeEvent) {
@@ -114,7 +109,16 @@ export class AdmissionListOrganisationComponent {
     });
   }
 
-  onFiltersChange(filters: OrganisationAdmissionListFilter) {
+  onFiltersChange(filters: AdmissionListFilterParams) {
     this.updateFilters(filters);
+  }
+
+  downloadDocument(doc: any): void {
+    if (!doc || !doc.download_url) {
+      console.error('Document or download URL not available', doc);
+      return;
+    }
+
+    this.document.defaultView?.open(doc.download_url, '_blank');
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, viewChild } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
@@ -11,15 +11,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { AdmissionSelectedProgramsComponent } from '../admission-selected-programs/admission-selected-programs.component';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { catchError, of } from 'rxjs';
-
-export type AdmissionListFilter = {
-  search?: unknown | null;
-  number?: unknown | null;
-  date?: unknown | null;
-  status?: unknown | null;
-  organisation?: unknown | null;
-  role?: unknown | null;
-};
 
 @Component({
   selector: 'vet-admissions-list',
@@ -38,7 +29,6 @@ export type AdmissionListFilter = {
 export class AdmissionsListComponent {
   readonly grid = viewChild.required(GridComponent);
   protected readonly vetIcons = vetIcons;
-  protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
   protected expandedDetailKeys: number[] = [];
   private readonly router = inject(Router);
   private readonly admissionService = inject(AdmissionService);
@@ -48,12 +38,10 @@ export class AdmissionsListComponent {
   protected readonly admissionList$ = rxResource({
     request: () => ({
       role: this.userRolesService.selectedRole(),
-      filters: this.filters(),
     }),
-    loader: ({ request: { role, filters } }) => {
+    loader: ({ request: { role } }) => {
       const params = {
         role: role,
-        ...filters,
       };
 
       return this.admissionService.admissionList(params).pipe(
@@ -68,7 +56,7 @@ export class AdmissionsListComponent {
     loader: () =>
       this.admissionService.checkRegister().pipe(
         catchError(() => {
-          return of({data: { is_available: false }});
+          return of({ data: { is_available: false } });
         }),
       ),
   });

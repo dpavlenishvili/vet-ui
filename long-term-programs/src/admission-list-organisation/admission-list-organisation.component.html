@@ -50,7 +50,13 @@
       [maxResizableWidth]="190"
     >
       <ng-template kendoGridCellTemplate let-item>
-        <div>{{ (item.doc?.length > 0 ? 'programs.confirmed_no' : 'programs.confirmed_yes') | transloco }}</div>
+        <div class="education-docs-container">
+          <div class="status-text">{{ (item.doc?.length > 0 ? 'programs.confirmed_no' : 'programs.confirmed_yes') | transloco }}</div>
+
+          @if (item.doc && item.doc.length > 0) {
+            <vet-icon-button icon="download" [mode]="'flat'" (click)="downloadDocument(item.doc[0])" />
+          }
+        </div>
       </ng-template>
     </kendo-grid-column>
 
@@ -121,7 +127,6 @@
             [title]="'programs.last_choose' | transloco"
             kendoTooltip
             (click)="onChooseClick(item)"
-            [disabled]="!item.actions.choose"
             class="action-btn"
           ></button>
           <button
@@ -132,7 +137,6 @@
             [title]="'programs.last_result' | transloco"
             kendoTooltip
             (click)="onResultClick(item)"
-            [disabled]="!item.actions.result"
             class="action-btn"
           ></button>
         </div>

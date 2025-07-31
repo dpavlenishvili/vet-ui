@@ -167,4 +167,24 @@ export const longTermProgramsRoutes: Route[] = [
       { path: null, text: 'programs.exam_card' },
     ]),
   },
+  {
+    path: 'last-choose/:id',
+    loadComponent: () =>
+      import('./admission-program-choose/admission-program-choose.component').then((m) => m.AdmissionProgramChooseComponent),
+    data: breadcrumb([
+      ...baseBreadcrumbItems,
+      { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+      { path: null, text: 'programs.choose_program' },
+    ]),
+  },
+  {
+    path: 'last-result/:id',
+    loadComponent: () =>
+      import('./admission-program-result/admission-program-result.component').then((m) => m.AdmissionProgramResultComponent),
+    data: breadcrumb([
+      ...baseBreadcrumbItems,
+      { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
+      { path: null, text: 'programs.result_program' },
+    ]),
+  },
 ];

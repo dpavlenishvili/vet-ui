@@ -1,99 +1,47 @@
-<form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
-  <div class="k-d-flex k-flex-column k-gap-5">
-    <div class="k-display-flex k-gap-4.5 k-flex-1">
-      <kendo-textbox
-        formControlName="pid"
-        [size]="'large'"
-        [rounded]="'large'"
-        [placeholder]="'programs.pid' | transloco"
-      />
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-input self-grow formControlName="pid" [placeholder]="'programs.pid' | transloco" />
 
-      <kendo-textbox
-        formControlName="first_name"
-        [size]="'large'"
-        [rounded]="'large'"
-        [placeholder]="'programs.first_name' | transloco"
-      />
+      <vet-input self-grow formControlName="name" [placeholder]="'programs.first_name' | transloco" />
 
-      <kendo-textbox
-        formControlName="last_name"
-        [size]="'large'"
-        [rounded]="'large'"
-        [placeholder]="'programs.last_name' | transloco"
-      />
+      <vet-input self-grow formControlName="lastname" [placeholder]="'programs.last_name' | transloco" />
     </div>
 
-    <div class="k-display-flex k-gap-4.5 k-flex-1">
-      <kendo-dropdownlist
-        formControlName="institution_id"
-        [data]="[]"
-        valueField="value"
-        textField="label"
-        [valuePrimitive]="true"
-        [defaultItem]="institutionPlaceholder"
-      >
-        <ng-template kendoDropDownListValueTemplate let-item>
-          {{ item.label | transloco }}
-        </ng-template>
+    <div vet-row>
+      <vet-selector
+        self-grow
+        formControlName="organisation"
+        [placeholder]="'programs.organisation' | transloco"
+        [options]="institutionOptions.value()"
+      />
 
-        <ng-template kendoDropDownListItemTemplate let-item>
-          {{ item.label | transloco }}
-        </ng-template>
-      </kendo-dropdownlist>
-
-      <kendo-dropdownlist
+      <vet-selector
+        self-grow
         formControlName="status"
-        [data]="[]"
-        valueField="value"
-        textField="label"
-        [valuePrimitive]="true"
-        [defaultItem]="statusPlaceholder"
-      >
-        <ng-template kendoDropDownListValueTemplate let-item>
-          {{ item.label | transloco }}
-        </ng-template>
+        [placeholder]="'programs.status' | transloco"
+        [options]="statusOptions$.value()"
+      />
 
-        <ng-template kendoDropDownListItemTemplate let-item>
-          {{ item.label | transloco }}
-        </ng-template>
-      </kendo-dropdownlist>
-
-      <kendo-dropdownlist
-        formControlName="ssm_status"
-        [data]="[]"
-        valueField="value"
-        textField="label"
-        [valuePrimitive]="true"
-        [defaultItem]="ssmStatusPlaceholder"
-      >
-        <ng-template kendoDropDownListValueTemplate let-item>
-          {{ item.label | transloco }}
-        </ng-template>
-
-        <ng-template kendoDropDownListItemTemplate let-item>
-          {{ item.label | transloco }}
-        </ng-template>
-      </kendo-dropdownlist>
+      <vet-selector
+        self-grow
+        formControlName="specStatus"
+        [placeholder]="'programs.ssm_status' | transloco"
+        [options]="ssmStatusOptions"
+      />
     </div>
 
-    <div class="k-display-flex k-justify-content-between k-align-items-center">
-      <div class="k-text-sm k-color-body">
-        {{ 'shared.numberOfRecords' | transloco: { count: itemsCount() } }}
-      </div>
+    <div vet-line space-between align-center>
+      <p class="k-text-sm k-color-body">
+        {{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}
+      </p>
 
-      <div class="k-display-flex k-justify-content-end k-align-items-center k-gap-3">
-        <button
-          type="button"
-          kendoButton
-          [svgIcon]="kendoIcons.xIcon"
-          fillMode="outline"
-          themeColor="primary"
-          (click)="clearFilters()"
-        ></button>
+      <div vet-line gap-dense content-right>
+        <vet-icon-button icon="close" (click)="onClearClick()" />
 
-        <button kendoButton [svgIcon]="kendoIcons.searchIcon" fillMode="solid" themeColor="primary">
+        <vet-button leadingIcon="search" type="submit">
           {{ 'shared.search' | transloco }}
-        </button>
+        </vet-button>
       </div>
     </div>
   </div>

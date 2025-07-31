@@ -9,6 +9,12 @@
   border-radius: 1.25rem;
   gap: 1.25rem;
 
+  .education-docs-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .action-buttons {
     min-width: 100px;
     justify-content: space-between;

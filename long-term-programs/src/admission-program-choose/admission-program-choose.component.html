@@ -1,0 +1,74 @@
+<div class="program-choose-container">
+  <vet-info
+    text="programs.choose_info_text"
+    variant="info" />
+
+  <kendo-grid
+    [data]="allPrograms()"
+    [resizable]="true"
+    [selectable]="true">
+    <kendo-grid-checkbox-column
+      [showSelectAll]="true"
+      [width]="40"
+    />
+
+    <kendo-grid-column
+      [title]="'programs.program' | transloco"
+      [width]="250">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-flex-column k-gap-1">
+          <span class="k-font-bold">{{ item.program.program_name }}</span>
+          <span class="k-text-sm k-color-body-light">{{ item.program.program_code }}</span>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.specialization' | transloco"
+      [width]="200">
+      <ng-template kendoGridCellTemplate let-item>
+        <span>{{ item.program.specialization_name }}</span>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.institution_name' | transloco"
+      [width]="200">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-flex-column k-gap-1">
+          <span class="k-font-bold">{{ item.program.organisation.name }}</span>
+          <span class="k-text-sm k-color-body-light">{{ item.program.organisation.address }}</span>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.implementation_location' | transloco"
+      [width]="180">
+      <ng-template kendoGridCellTemplate let-item>
+        <span>{{ item.program.region.name }}, {{ item.program.district.name }}</span>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.duration_credits' | transloco"
+      [width]="150">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-flex-column k-gap-1">
+          <span>{{ item.program.program_duration }} {{ 'programs.months' | transloco }}</span>
+          <span class="k-text-sm k-color-body-light">{{ item.program.credits_count }} {{ 'programs.credits' | transloco }}</span>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.status' | transloco"
+      [width]="120">
+      <ng-template kendoGridCellTemplate let-item>
+            <span [class]="getStatusClass(item.status)">
+              {{ getStatusText(item.status) | transloco }}
+            </span>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+</div>

@@ -1,0 +1,47 @@
+:host {
+  display: block;
+
+  .program-result-container {
+    padding: 20px;
+  }
+
+  .status-pending {
+    color: #ffa500;
+    font-weight: bold;
+  }
+
+  .status-approved {
+    color: #28a745;
+    font-weight: bold;
+  }
+
+  .status-rejected {
+    color: #dc3545;
+    font-weight: bold;
+  }
+
+  .k-color-success {
+    color: #28a745 !important;
+  }
+
+  .k-color-warning {
+    color: #ffa500 !important;
+  }
+
+  .k-color-primary {
+    color: #007bff !important;
+  }
+
+  .k-text-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  .k-bg-light {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+  }
+}

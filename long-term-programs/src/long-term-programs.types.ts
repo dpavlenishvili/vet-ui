@@ -34,3 +34,12 @@ export interface StepBody<P = unknown> {
     payload: P;
   };
 }
+
+export type AdmissionListFilterParams = {
+  pid?: string | null;
+  name?: string | null;
+  lastname?: string | null;
+  organisation?: string | null;
+  status?: string | null;
+  specStatus?: boolean | null;
+};

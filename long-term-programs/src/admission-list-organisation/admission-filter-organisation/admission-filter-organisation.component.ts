@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { OrganisationAdmissionListFilter } from '../admission-list-organisation.component';
 import {
   ButtonComponent,
   IconButtonComponent,
@@ -13,7 +12,8 @@ import {
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { isValidIdValue, mapIdValueToOption, useInstitutionsDictionary } from '@vet/shared-resources';
+import { isValidIdValue, mapIdValueToOption } from '@vet/shared-resources';
+import { AdmissionListFilterParams } from '../../long-term-programs.types';
 
 @Component({
   selector: 'vet-admission-filter-organisation',
@@ -32,17 +32,13 @@ import { isValidIdValue, mapIdValueToOption, useInstitutionsDictionary } from '@
 })
 export class AdmissionFilterOrganisationComponent {
   numberOfRecords = input.required<number>();
-  filters = input.required<OrganisationAdmissionListFilter>();
-  filtersChange = output<OrganisationAdmissionListFilter>();
+  filters = input.required<AdmissionListFilterParams>();
+  filtersChange = output<AdmissionListFilterParams>();
 
   generalsService = inject(GeneralsService);
   formGroup = this.createFormGroup();
   vetIcons = vetIcons;
 
-  // Fetch organisations data
-  institutionOptions = useInstitutionsDictionary();
-
-  // Fetch status options
   statusOptions$ = rxResource({
     defaultValue: [],
     loader: () =>
@@ -54,10 +50,9 @@ export class AdmissionFilterOrganisationComponent {
       ),
   });
 
-  // SSM Status options (Yes/No)
   ssmStatusOptions = [
-    { value: true, label: 'კი' },
-    { value: false, label: 'არა' },
+    { value: 'true', label: 'კი' },
+    { value: 'false', label: 'არა' },
   ];
 
   constructor() {
@@ -68,27 +63,28 @@ export class AdmissionFilterOrganisationComponent {
 
   createFormGroup() {
     return new FormGroup({
-      personal_number: new FormControl<string | null>(null),
+      pid: new FormControl<string | null>(null),
       name: new FormControl<string | null>(null),
-      surname: new FormControl<string | null>(null),
-      organisation_name: new FormControl<string | null>(null),
+      lastname: new FormControl<string | null>(null),
+      organisation: new FormControl<string | null>(null),
       status: new FormControl<string | null>(null),
-      ssm_status: new FormControl<boolean | null>(null),
+      specStatus: new FormControl<boolean | null>(null),
     });
   }
 
   onSubmit() {
-    this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as OrganisationAdmissionListFilter);
+    console.log(withoutEmptyProperties(this.formGroup.value));
+    this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as AdmissionListFilterParams);
   }
 
   onClearClick() {
     this.formGroup.patchValue({
-      personal_number: '',
+      pid: '',
       name: '',
-      surname: '',
-      organisation_name: '',
+      lastname: '',
+      organisation: '',
       status: null,
-      ssm_status: null,
+      specStatus: null,
     });
     this.formGroup.updateValueAndValidity();
     this.onSubmit();

@@ -4,23 +4,30 @@ import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
 import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { filterEmptyValues, FormatDatePipe, RouteParamsService, vetIcons } from '@vet/shared';
+import {
+  filterEmptyValues,
+  FormatDatePipe, IconButtonComponent,
+  RouteParamsService,
+  useFilters,
+  useFiltersUpdater,
+  vetIcons
+} from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { AdmissionsListAdminFiltersComponent } from './admissions-list-admin-filters/admissions-list-admin-filters.component';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { isPlatformBrowser } from '@angular/common';
-
-export type AdmissionListFilter = {
-  number?: unknown | null;
-  date?: unknown | null;
-  status?: unknown | null;
-  organisation?: unknown | null;
-  role?: unknown | null;
-};
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { AdmissionListFilterParams } from '../long-term-programs.types';
 
 @Component({
   selector: 'vet-admissions-list-admin',
-  imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, AdmissionsListAdminFiltersComponent, FormatDatePipe],
+  imports: [
+    KENDO_GRID,
+    TranslocoPipe,
+    ButtonComponent,
+    AdmissionsListAdminFiltersComponent,
+    FormatDatePipe,
+    IconButtonComponent,
+  ],
   templateUrl: './admissions-list-admin.component.html',
   styleUrl: './admissions-list-admin.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,8 +51,11 @@ export class AdmissionsListAdminComponent {
   routeParamsService = inject(RouteParamsService);
   platformId = inject(PLATFORM_ID);
   isBrowser = isPlatformBrowser(this.platformId);
-  protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
+  filters = useFilters<AdmissionListFilterParams>();
+  updateFilters = useFiltersUpdater<AdmissionListFilterParams>();
   private readonly _userRolesService = inject(UserRolesService);
+  private readonly document = inject(DOCUMENT);
+
 
   protected onViewClick(item: AdmissionReq): void {
     if (!item.id) {
@@ -61,8 +71,16 @@ export class AdmissionsListAdminComponent {
     });
   }
 
-  onFiltersChange(filters: AdmissionListFilter) {
-    this.routeParamsService.update(filters);
-    this.filters.set(filterEmptyValues(filters));
+  onFiltersChange(filters: AdmissionListFilterParams) {
+    this.updateFilters(filters);
+  }
+
+  downloadDocument(doc: any): void {
+    if (!doc || !doc.download_url) {
+      console.error('Document or download URL not available', doc);
+      return;
+    }
+
+    this.document.defaultView?.open(doc.download_url, '_blank');
   }
 }

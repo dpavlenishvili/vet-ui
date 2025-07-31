@@ -1,21 +1,14 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div vet-container>
     <div vet-row>
-      <vet-input self-grow formControlName="personal_number" [placeholder]="'programs.pid' | transloco" />
+      <vet-input self-grow formControlName="pid" [placeholder]="'programs.pid' | transloco" />
 
       <vet-input self-grow formControlName="name" [placeholder]="'programs.first_name' | transloco" />
 
-      <vet-input self-grow formControlName="surname" [placeholder]="'programs.last_name' | transloco" />
+      <vet-input self-grow formControlName="lastname" [placeholder]="'programs.last_name' | transloco" />
     </div>
 
     <div vet-row>
-      <vet-selector
-        self-grow
-        formControlName="organisation_name"
-        [placeholder]="'programs.organisation' | transloco"
-        [options]="institutionOptions.value()"
-      />
-
       <vet-selector
         self-grow
         formControlName="status"
@@ -25,7 +18,7 @@
 
       <vet-selector
         self-grow
-        formControlName="ssm_status"
+        formControlName="specStatus"
         [placeholder]="'programs.ssm_status' | transloco"
         [options]="ssmStatusOptions"
       />

@@ -2,7 +2,10 @@
   @let items = admissionList$.value()?.data || [];
 
   <div class="k-pb-5">
-    <vet-admissions-list-admin-filters [itemsCount]="items.length" (filtersChange)="onFiltersChange($event)" />
+    <vet-admissions-list-admin-filters
+      [filters]="filters()"
+      [numberOfRecords]="items.length"
+      (filtersChange)="onFiltersChange($event)" />
   </div>
 
   @if (isBrowser) {
@@ -32,9 +35,20 @@
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [title]="'programs.confirmed_education' | transloco">
+      <kendo-grid-column
+        [title]="'programs.confirmed_education' | transloco"
+        [width]="190"
+        [minResizableWidth]="190"
+        [maxResizableWidth]="190"
+      >
         <ng-template kendoGridCellTemplate let-item>
-          <div>{{ (item.doc?.length > 0 ? 'programs.confirmed_no' : 'programs.confirmed_yes') | transloco }}</div>
+          <div class="education-docs-container">
+            <div class="status-text">{{ (item.doc?.length > 0 ? 'programs.confirmed_no' : 'programs.confirmed_yes') | transloco }}</div>
+
+            @if (item.doc && item.doc.length > 0) {
+              <vet-icon-button icon="download" [mode]="'flat'" (click)="downloadDocument(item.doc[0])" />
+            }
+          </div>
         </ng-template>
       </kendo-grid-column>
 

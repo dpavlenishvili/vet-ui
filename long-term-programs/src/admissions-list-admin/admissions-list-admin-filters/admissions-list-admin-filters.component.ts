@@ -1,15 +1,19 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import * as kendoIcons from '@progress/kendo-svg-icons';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { AdmissionListFilter } from '../admissions-list-admin.component';
-import { TextBoxComponent } from '@progress/kendo-angular-inputs';
+import { TranslocoPipe } from '@jsverse/transloco';
 import {
-  DropDownListComponent,
-  ItemTemplateDirective,
-  ValueTemplateDirective,
-} from '@progress/kendo-angular-dropdowns';
+  ButtonComponent,
+  IconButtonComponent,
+  InputComponent,
+  SelectorComponent,
+  vetIcons,
+  withoutEmptyProperties,
+} from '@vet/shared';
+import { GeneralsService } from '@vet/backend';
+import { isValidIdValue, mapIdValueToOption, useInstitutionsDictionary } from '@vet/shared-resources';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { AdmissionListFilterParams } from '../../long-term-programs.types';
 
 @Component({
   selector: 'vet-admissions-list-admin-filters',
@@ -19,53 +23,74 @@ import {
   standalone: true,
   imports: [
     ButtonComponent,
-    FormsModule,
     ReactiveFormsModule,
     TranslocoPipe,
-    TextBoxComponent,
-    DropDownListComponent,
-    ValueTemplateDirective,
-    ItemTemplateDirective,
+    InputComponent,
+    SelectorComponent,
+    IconButtonComponent,
   ],
 })
 export class AdmissionsListAdminFiltersComponent {
-  itemsCount = input(0);
-  filtersChange = output<AdmissionListFilter>();
+  numberOfRecords = input.required<number>();
+  filters = input.required<AdmissionListFilterParams>();
+  filtersChange = output<AdmissionListFilterParams>();
 
-  translocoService = inject(TranslocoService);
-  filterForm = this.createFormGroup();
-  kendoIcons = kendoIcons;
-  institutionPlaceholder = {
-    value: null,
-    label: this.translocoService.translate('programs.institution'),
-  };
-  statusPlaceholder = {
-    value: null,
-    label: this.translocoService.translate('programs.status'),
-  };
-  ssmStatusPlaceholder = {
-    value: null,
-    label: this.translocoService.translate('programs.ssm_status'),
-  };
+  generalsService = inject(GeneralsService);
+  formGroup = this.createFormGroup();
+  vetIcons = vetIcons;
 
-  createFormGroup() {
-    return new FormGroup({
-      pid: new FormControl(''),
-      first_name: new FormControl(''),
-      last_name: new FormControl(''),
-      institution_id: new FormControl(null),
-      status: new FormControl(null),
-      ssm_status: new FormControl(null),
+  // Fetch organisations data
+  institutionOptions = useInstitutionsDictionary();
+
+  // Fetch status options
+  statusOptions$ = rxResource({
+    defaultValue: [],
+    loader: () =>
+      this.generalsService.getAllConfigs({ key: 'admission_status' }).pipe(
+        map((res) => {
+          // @ts-expect-error - API response structure
+          return res['admission_status']?.filter(isValidIdValue).map(mapIdValueToOption) ?? [];
+        }),
+      ),
+  });
+
+  // SSM Status options (Yes/No)
+  ssmStatusOptions = [
+    { value: 'true', label: 'კი' },
+    { value: 'false', label: 'არა' },
+  ];
+
+  constructor() {
+    effect(() => {
+      this.formGroup.patchValue(this.filters());
     });
   }
 
-  clearFilters() {
-    this.filterForm.reset();
-    this.onSubmit();
+  createFormGroup() {
+    return new FormGroup({
+      pid: new FormControl<string | null>(null),
+      name: new FormControl<string | null>(null),
+      lastname: new FormControl<string | null>(null),
+      organisation: new FormControl<string | null>(null),
+      status: new FormControl<string | null>(null),
+      specStatus: new FormControl<boolean | null>(null),
+    });
   }
 
   onSubmit() {
-    const value = this.filterForm.value;
-    this.filtersChange.emit({ ...value });
+    this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as AdmissionListFilterParams);
+  }
+
+  onClearClick() {
+    this.formGroup.patchValue({
+      pid: '',
+      name: '',
+      lastname: '',
+      organisation: '',
+      status: null,
+      specStatus: null,
+    });
+    this.formGroup.updateValueAndValidity();
+    this.onSubmit();
   }
 }

@@ -1,0 +1,157 @@
+<div class="program-result-container">
+  <vet-info
+    text="programs.selected_programs_info"
+    variant="info" />
+
+  @if (selectedPrograms().length === 0) {
+    <vet-info
+      text="programs.no_programs_selected"
+      variant="warning" />
+  } @else {
+    <kendo-grid
+      [data]="selectedPrograms()"
+      [resizable]="true">
+
+      <kendo-grid-column [width]="80" [title]="'programs.ranking' | transloco">
+        <ng-template kendoGridCellTemplate let-item let-rowIndex="rowIndex">
+          <div class="k-display-flex k-justify-content-center">
+            <span class="k-font-bold k-text-primary">{{ rowIndex + 1 }}</span>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.program' | transloco"
+        [width]="250">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex k-flex-column k-gap-1">
+            <span class="k-font-bold">{{ item.program.program_name }}</span>
+            <span class="k-text-sm k-color-body-light">{{ item.program.program_code }}</span>
+            <span class="k-text-sm k-color-success">{{ item.program.qualification_name }}</span>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.specialization' | transloco"
+        [width]="200">
+        <ng-template kendoGridCellTemplate let-item>
+          <span>{{ item.program.specialization_name }}</span>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.institution_name' | transloco"
+        [width]="200">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex k-flex-column k-gap-1">
+            <span class="k-font-bold">{{ item.program.organisation.name }}</span>
+            <span class="k-text-sm k-color-body-light">{{ item.program.organisation.address }}</span>
+            <div class="k-display-flex k-gap-2">
+              <span class="k-text-sm">📞 {{ item.program.organisation.phone }}</span>
+              <span class="k-text-sm">📧 {{ item.program.organisation.email }}</span>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.implementation_location' | transloco"
+        [width]="180">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex k-flex-column k-gap-1">
+            <span>{{ item.program.region.name }}, {{ item.program.district.name }}</span>
+            <span class="k-text-sm k-color-body-light">{{ item.program.address }}</span>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.program_details' | transloco"
+        [width]="180">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex k-flex-column k-gap-1">
+            <div class="k-display-flex k-gap-1">
+              <span class="k-text-sm k-font-bold">{{ 'programs.duration' | transloco }}:</span>
+              <span class="k-text-sm">{{ item.program.program_duration }} {{ 'programs.months' | transloco }}</span>
+            </div>
+            <div class="k-display-flex k-gap-1">
+              <span class="k-text-sm k-font-bold">{{ 'programs.credits' | transloco }}:</span>
+              <span class="k-text-sm">{{ item.program.credits_count }}</span>
+            </div>
+            <div class="k-display-flex k-gap-1">
+              <span class="k-text-sm k-font-bold">{{ 'programs.type' | transloco }}:</span>
+              <span class="k-text-sm">{{ item.program.type }}</span>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.study_period' | transloco"
+        [width]="180">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex k-flex-column k-gap-1">
+            <div>
+              <span class="k-text-sm k-font-bold">{{ 'programs.start_date' | transloco }}:</span>
+              <span class="k-text-sm k-display-block">{{ item.program.admission.study_start_date | date:'short' }}</span>
+            </div>
+            <div>
+              <span class="k-text-sm k-font-bold">{{ 'programs.end_date' | transloco }}:</span>
+              <span class="k-text-sm k-display-block">{{ item.program.admission.study_end_date | date:'short' }}</span>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.fees_limits' | transloco"
+        [width]="150">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex k-flex-column k-gap-1">
+            <div class="k-display-flex k-gap-1">
+              <span class="k-text-sm k-font-bold">{{ 'programs.program_fee' | transloco }}:</span>
+              <span class="k-text-sm">{{ item.program.admission.program_fee || '0' }} ₾</span>
+            </div>
+            <div class="k-display-flex k-gap-1">
+              <span class="k-text-sm k-font-bold">{{ 'programs.student_fee' | transloco }}:</span>
+              <span class="k-text-sm">{{ item.program.admission.student_fee || '0' }} ₾</span>
+            </div>
+            <div class="k-display-flex k-gap-1">
+              <span class="k-text-sm k-font-bold">{{ 'programs.limit' | transloco }}:</span>
+              <span class="k-text-sm">{{ item.program.admission.students_limit }}</span>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.status' | transloco"
+        [width]="120">
+        <ng-template kendoGridCellTemplate let-item>
+              <span [class]="getStatusClass(item.status)">
+                {{ getStatusText(item.status) | transloco }}
+              </span>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+
+    <div class="k-mt-4 k-p-4 k-bg-light k-rounded-2.5">
+      <h4 class="k-font-bold k-mb-2">{{ 'programs.selection_summary' | transloco }}</h4>
+      <div class="k-display-flex k-gap-4">
+        <div>
+          <span class="k-font-bold">{{ 'programs.total_selected' | transloco }}:</span>
+          <span class="k-color-primary">{{ selectedPrograms().length }}</span>
+        </div>
+        <div>
+          <span class="k-font-bold">{{ 'programs.pending_programs' | transloco }}:</span>
+          <span class="k-color-warning">{{ getPendingCount() }}</span>
+        </div>
+        <div>
+          <span class="k-font-bold">{{ 'programs.approved_programs' | transloco }}:</span>
+          <span class="k-color-success">{{ getApprovedCount() }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>
