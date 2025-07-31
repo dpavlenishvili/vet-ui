@@ -98,10 +98,11 @@
                 </div>
               </div>
 
-
               <div class="ssm-subsection">
                 <div class="section-header">
-                  <div class="subsection-title k-text-base">{{ 'programs.ssm_translator_requirement_question' | transloco }}</div>
+                  <div class="subsection-title k-text-base">
+                    {{ 'programs.ssm_translator_requirement_question' | transloco }}
+                  </div>
                   <kendo-switch
                     [checked]="!!ssmForm.controls['translate_select'].value"
                     [disabled]="true"
@@ -114,12 +115,13 @@
                 @if (ssmForm.controls['translate_select'].value) {
                   <div class="translator-info">
                     <div class="info-row">
-                      <span class="value k-text-base">{{ ssmForm.controls['translate_select'].value | transloco }}</span>
+                      <span class="value k-text-base">{{
+                        ssmForm.controls['translate_select'].value | transloco
+                      }}</span>
                     </div>
 
                     @if (ssmForm.controls['translate'].value) {
                       <div class="info-row">
-
                         <span class="value k-text-base">{{ ssmForm.controls['translate'].value }}</span>
                       </div>
                     }
@@ -127,10 +129,11 @@
                 }
               </div>
 
-
               @if (ssmForm.controls['spe_description'].value) {
                 <div class="ssm-subsection">
-                  <div class="subsection-title k-text-base">{{ 'programs.ssm_person_requirement_info' | transloco }}</div>
+                  <div class="subsection-title k-text-base">
+                    {{ 'programs.ssm_person_requirement_info' | transloco }}
+                  </div>
 
                   <div class="description-display">
                     <div class="description-text k-text-base">{{ ssmForm.controls['spe_description'].value }}</div>
@@ -144,7 +147,6 @@
           }
         </div>
       }
-
 
       <div class="confirmation-section">
         <div class="section-header">
@@ -210,14 +212,13 @@
         }
       </div>
 
-
       <div class="confirmation-section disclaimer-section">
         <div class="disclaimer-content">
           <div class="disclaimer-summary k-text-base">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
-                  ? 'programs.ssm_disclaimer_summary'
-                  : 'programs.general_disclaimer_summary'
+                ? 'programs.ssm_disclaimer_summary'
+                : 'programs.general_disclaimer_summary'
               ) | transloco
             }}
           </div>
@@ -225,8 +226,8 @@
           <div class="disclaimer-title k-text-base">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
-                  ? 'programs.ssm_disclaimer_documentation_title'
-                  : 'programs.general_disclaimer_documentation_title'
+                ? 'programs.ssm_disclaimer_documentation_title'
+                : 'programs.general_disclaimer_documentation_title'
               ) | transloco
             }}
           </div>
@@ -277,7 +278,6 @@
           </div>
         </div>
       </div>
-
 
       <div class="confirmation-actions">
         <button

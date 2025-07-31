@@ -46,20 +46,9 @@
           </ng-template>
         </kendo-grid-column>
 
+        <kendo-grid-column [title]="'programs.level' | transloco" [width]="60" field="education_level" />
 
-        <kendo-grid-column
-          [title]="'programs.level' | transloco"
-          [width]="60"
-          field="education_level"
-        />
-
-
-        <kendo-grid-column
-          [title]="'programs.form' | transloco"
-          [width]="170"
-          field="program_kind.name"
-        />
-
+        <kendo-grid-column [title]="'programs.form' | transloco" [width]="170" field="program_kind.name" />
 
         <kendo-grid-column
           [maxResizableWidth]="350"
@@ -69,7 +58,6 @@
           field="organisation.name"
         />
 
-
         <kendo-grid-column
           [maxResizableWidth]="220"
           [minResizableWidth]="140"
@@ -77,9 +65,7 @@
           [width]="180"
         >
           <ng-template kendoGridCellTemplate let-item>
-            <span>
-              {{ item.region.name }}, {{ item.district.name }}
-            </span>
+            <span> {{ item.region.name }}, {{ item.district.name }} </span>
           </ng-template>
         </kendo-grid-column>
 
@@ -111,7 +97,9 @@
                 </button>
                 <button
                   (click)="toggleProgramSelection(item)"
-                  [disabled]="!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item) || isViewMode()"
+                  [disabled]="
+                    (!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)) || isViewMode()
+                  "
                   fillMode="flat"
                   kendoButton
                 >
@@ -143,7 +131,7 @@
 
 @if (isProgramDialogOpen()) {
   <kendo-dialog width="90%" height="90%" [title]="'programs.program_description' | transloco" (close)="onCloseClick()">
-    <vet-unauthorised-program-page [programId]="singleProgramId()"/>
+    <vet-unauthorised-program-page [programId]="singleProgramId()" />
   </kendo-dialog>
 }
 

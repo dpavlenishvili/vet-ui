@@ -34,7 +34,7 @@
 
       <kendo-grid-column [title]="'programs.confirmed_education' | transloco">
         <ng-template kendoGridCellTemplate let-item>
-          <div>{{ (item.education ? 'programs.confirmed_yes' : 'programs.confirmed_no') | transloco }}</div>
+          <div>{{ (item.doc?.length > 0 ? 'programs.confirmed_no' : 'programs.confirmed_yes') | transloco }}</div>
         </ng-template>
       </kendo-grid-column>
 

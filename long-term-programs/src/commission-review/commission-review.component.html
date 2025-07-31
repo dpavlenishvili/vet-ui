@@ -60,14 +60,14 @@
       <kendo-grid-column [title]="'programs.grading' | transloco" [width]="350">
         <ng-template kendoGridCellTemplate let-item>
           <div class="k-display-flex k-flex-column k-gap-2">
-            @for (result of item.results; track $index) {
-              @for (score of result.results.scores; track $index) {
+            <div class="k-display-flex k-flex-column k-gap-2 k-justify-content-between">
+              @for (score of item.result.scores; track $index) {
                 <div class="k-display-flex k-justify-content-between">
                   <p>{{ score.name }}</p>
                   <p class="k-font-bold">{{ score.score }}</p>
                 </div>
               }
-            }
+            </div>
           </div>
         </ng-template>
       </kendo-grid-column>

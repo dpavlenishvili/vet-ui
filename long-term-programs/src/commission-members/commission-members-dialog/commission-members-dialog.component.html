@@ -19,11 +19,7 @@
           </kendo-label>
 
           <kendo-label>
-            <kendo-textbox
-              formControlName="name"
-              [size]="'large'"
-              [placeholder]="'programs.last_name' | transloco"
-            />
+            <kendo-textbox formControlName="name" [size]="'large'" [placeholder]="'programs.last_name' | transloco" />
             @if (form.controls['name']; as control) {
               @if (control.touched || control.value) {
                 @if (control.errors?.['required']) {
@@ -74,9 +70,9 @@
         @if (temporaryErrorMessage()) {
           <div
             @fadeInOut
-            class="k-text-error k-display-flex k-align-items-center error-message k-justify-content-center"
+            class="k-text-error k-display-flex k-align-items-center error-message k-justify-content-center k-text-center"
           >
-            <p>{{ temporaryErrorMessage() | transloco }}</p>
+            {{ temporaryErrorMessage() }}
           </div>
         }
 

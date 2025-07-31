@@ -8,7 +8,7 @@
     </div>
 
     <div class="vet-admission-table vet-grid-table vet-grid-size-6 vet-grid-dense k-mt-10">
-      <div class="vet-grid-cell vet-grid-header">{{ 'programs.registration_period' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-long-cell vet-grid-header">{{ 'programs.registration_period' | transloco }}</div>
       <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_start_date' | transloco }}</div>
       <div class="vet-grid-cell vet-grid-header">{{ 'programs.number_of_vacant_positions' | transloco }}</div>
       <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_fee' | transloco }}</div>
@@ -17,7 +17,7 @@
 
       @for (admission of _admissions; track admission.admission_id) {
         <div class="vet-grid-cell">
-          {{ admission.registration_start_date | formatDate }} / {{ admission.registration_end_date | formatDate }}
+          {{ admission.registration_start_date | formatDate }} - {{ admission.registration_end_date | formatDate }}
         </div>
         <div class="vet-grid-cell">{{ admission.study_start_date | formatDate }}</div>
         <div class="vet-grid-cell">{{ admission.students_limit }}</div>

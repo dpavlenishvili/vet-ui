@@ -56,31 +56,29 @@
 
         <kendo-grid-column [title]="'programs.grading' | transloco" [width]="200">
           <ng-template kendoGridCellTemplate let-item>
-            @if (item.reviews[0]; as _review) {
-              <div class="k-display-flex k-justify-content-between">
-                <div class="k-display-flex k-flex-column k-gap-2">
-                  @for (result of _review.scores; track $index) {
-                    <div>
-                      <p>{{ result.weight }} - {{ result.name }}</p>
-                    </div>
-                  }
-                </div>
+            <div class="k-display-flex k-justify-content-between">
+              <div class="k-display-flex k-flex-column k-gap-2">
+                @for(criteria of item.criteria; track $index) {
+                  <p>{{criteria.average}} - {{criteria.name}}</p>
+                }
+              </div>
 
-                <div kendoTooltip filter="kendo-svg-icon" class="k-display-flex k-flex-column k-gap-1">
-                  @for (review of item.reviews; track $index) {
+              <div class="k-display-flex k-flex-column k-gap-1">
+                @for(review of item.reviews; track $index) {
+                  <div kendoTooltip filter="kendo-svg-icon">
                     <kendo-svg-icon
                       [title]="
-                        (review.comission_member?.name ?? '') +
+                        (review.commission_member.name ?? '') +
                         ', ' +
-                        (review.comission_member?.phone ?? '')
+                        (review.commission_member.phone ?? '')
                       "
                       [icon]="kendoIcons.userIcon"
-                      [themeColor]="review.results?.completed ? 'success' : 'error'"
+                      [themeColor]="review?.completed ? 'success' : 'error'"
                     />
-                  }
-                </div>
+                  </div>
+                }
               </div>
-            }
+            </div>
           </ng-template>
         </kendo-grid-column>
 

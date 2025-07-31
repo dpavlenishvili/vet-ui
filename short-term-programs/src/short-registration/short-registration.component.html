@@ -16,6 +16,7 @@
 <ng-template #programSelectionStepTemplate>
   <vet-short-registration-program-selection-step
     [formGroup]="formGroup.controls.program_selection"
+    [educationLevelId]="formGroup.controls.general_information.value.education_level"
     (next)="onNext()"
     (back)="onBack()"
   />

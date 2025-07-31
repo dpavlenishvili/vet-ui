@@ -5,8 +5,8 @@ const apiBaseUrl = process.env.CI_API_V4_URL;
 const mergeRequestApiUrl = `${apiBaseUrl}/projects/${projectId}/merge_requests/${mergeRequestId}`;
 const mergeRequestApprovalsApiUrl = `${mergeRequestApiUrl}/approvals`;
 
-const requiredApprovesQty = 2;
-const requiredApproverUserNames = new Set(['g.cheishvili', 'Tsomaia']);
+const requiredApprovesQty = 1;
+const requiredApproverUserNames = new Set(['g.cheishvili', 'Tsomaia', 'mburduli1']);
 
 const requiredApproversString = () => JSON.stringify(Array.from(requiredApproverUserNames).map(name => `@${name}`));
 

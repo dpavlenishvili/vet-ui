@@ -1,0 +1,142 @@
+@let items = admissionList$.value()?.data || [];
+
+<vet-admission-filter-organisation
+  [filters]="filters()"
+  [numberOfRecords]="items.length"
+  (filtersChange)="onFiltersChange($event)"
+/>
+
+@if (isBrowser) {
+  <kendo-grid
+    [loading]="admissionList$.isLoading()"
+    [data]="items"
+    [skip]="0"
+    [pageable]="true"
+    [pageSize]="admissionList$.value()?.meta?.per_page"
+    (dataStateChange)="handlePageChange($event)"
+  >
+    <ng-template kendoGridNoRecordsTemplate>
+      {{ 'shared.noRecords' | transloco }}
+    </ng-template>
+
+    <kendo-grid-column
+      [title]="'programs.applicant_data' | transloco"
+      [width]="160"
+      [minResizableWidth]="160"
+      [maxResizableWidth]="160"
+    >
+      <ng-template kendoGridCellTemplate let-item>
+        <div>{{ item.user?.firstName }} {{ item.user?.lastName }}</div>
+        <div>{{ item.user?.pid }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.contact_data' | transloco"
+      [width]="170"
+      [minResizableWidth]="170"
+      [maxResizableWidth]="170"
+    >
+      <ng-template kendoGridCellTemplate let-item>
+        <div>{{ item.user?.phone }}</div>
+        <div>{{ item.user?.email }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.confirmed_education' | transloco"
+      [width]="190"
+      [minResizableWidth]="190"
+      [maxResizableWidth]="190"
+    >
+      <ng-template kendoGridCellTemplate let-item>
+        <div>{{ (item.doc?.length > 0 ? 'programs.confirmed_no' : 'programs.confirmed_yes') | transloco }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.ssm' | transloco"
+      [width]="80"
+      [minResizableWidth]="80"
+      [maxResizableWidth]="80"
+    >
+      <ng-template kendoGridCellTemplate let-item>
+        <div>{{ (item.spec_edu ? 'programs.confirmed_yes' : 'programs.confirmed_no') | transloco }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.ssm_status_document' | transloco"
+      [width]="170"
+      [minResizableWidth]="170"
+      [maxResizableWidth]="170"
+    >
+      <ng-template kendoGridCellTemplate let-item>
+        <div>{{ item.rofficer_status || '-' }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column
+      [title]="'programs.status' | transloco"
+      [width]="140"
+      [minResizableWidth]="140"
+      [maxResizableWidth]="140"
+    >
+      <ng-template kendoGridCellTemplate let-item>
+        <div>{{ item.status?.current }}</div>
+        <div>{{ item.status?.date | formatDate }}</div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [width]="130" [minResizableWidth]="130" [maxResizableWidth]="130" [resizable]="false">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-gap-1 k-justify-content-center action-buttons">
+          <button
+            kendoButton
+            fillMode="flat"
+            size="small"
+            [svgIcon]="vetIcons.eye"
+            [title]="'shared.view' | transloco"
+            kendoTooltip
+            (click)="onViewClick(item)"
+            [disabled]="!item.actions.edit"
+            class="action-btn"
+          ></button>
+          <button
+            kendoButton
+            fillMode="flat"
+            size="small"
+            [svgIcon]="vetIcons.emptyDocumentIcon"
+            [title]="'programs.exam_card' | transloco"
+            kendoTooltip
+            (click)="onExamCardClick(item)"
+            [disabled]="!item.actions.card"
+            class="action-btn"
+          ></button>
+          <button
+            kendoButton
+            fillMode="flat"
+            size="small"
+            [svgIcon]="vetIcons.readDocumentIcon"
+            [title]="'programs.last_choose' | transloco"
+            kendoTooltip
+            (click)="onChooseClick(item)"
+            [disabled]="!item.actions.choose"
+            class="action-btn"
+          ></button>
+          <button
+            kendoButton
+            fillMode="flat"
+            size="small"
+            [svgIcon]="vetIcons.acceptedDocumentIcon"
+            [title]="'programs.last_result' | transloco"
+            kendoTooltip
+            (click)="onResultClick(item)"
+            [disabled]="!item.actions.result"
+            class="action-btn"
+          ></button>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+}

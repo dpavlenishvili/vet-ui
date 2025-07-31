@@ -5,9 +5,7 @@
     min-height: 7.125rem;
   }
 
-
   .ssm-question-container {
-
     @media (max-width: 479px) {
       gap: 1rem;
 
@@ -17,9 +15,7 @@
     }
   }
 
-
   .contact-fields-container {
-
     @media (max-width: 767px) {
       flex-direction: column;
       gap: 1.5rem;
@@ -29,7 +25,6 @@
       }
     }
 
-
     @media (min-width: 768px) {
       flex-direction: row;
 
@@ -39,9 +34,7 @@
     }
   }
 
-
   .translator-question-container {
-
     @media (max-width: 479px) {
       gap: 1rem;
 
@@ -51,9 +44,7 @@
     }
   }
 
-
   .translator-fields-container {
-
     @media (max-width: 767px) {
       flex-direction: column;
       gap: 1rem;
@@ -62,7 +53,6 @@
         width: 100%;
       }
     }
-
 
     @media (min-width: 768px) {
       flex-direction: row;
@@ -73,9 +63,7 @@
     }
   }
 
-
   .buttons-container {
-
     @media (max-width: 479px) {
       flex-direction: column;
       gap: 0.75rem;
@@ -90,13 +78,11 @@
       }
     }
 
-
     @media (min-width: 480px) {
       flex-direction: row;
       justify-content: space-between;
     }
   }
-
 
   @media (max-width: 767px) {
     .contact-fields-container {
@@ -120,7 +106,6 @@
       }
     }
 
-
     .k-p-3\.5 {
       padding: 1.25rem;
     }
@@ -130,16 +115,13 @@
     }
   }
 
-
   @media (max-width: 767px) and (pointer: coarse) {
     .ssm-question-container,
     .translator-question-container {
       kendo-switch {
-
         padding: 0.25rem;
       }
     }
-
 
     .contact-fields-container,
     .translator-fields-container {
@@ -151,14 +133,12 @@
       }
     }
 
-
     .vet-ssm-textarea {
       min-height: 8rem;
       font-size: 1rem;
       line-height: 1.5;
     }
   }
-
 
   @media (min-width: 1200px) {
     .contact-fields-container {
@@ -169,12 +149,10 @@
       gap: 1.5rem;
     }
 
-
     .k-gap-4\.5 {
       gap: 1.75rem;
     }
   }
-
 
   @media (min-width: 768px) {
     .k-text-base {

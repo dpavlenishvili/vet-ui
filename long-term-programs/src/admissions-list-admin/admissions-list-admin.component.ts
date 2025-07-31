@@ -47,12 +47,12 @@ export class AdmissionsListAdminComponent {
   protected readonly filters = signal<AdmissionListFilter | undefined>(undefined);
   private readonly _userRolesService = inject(UserRolesService);
 
-  onRegisterClick() {
-    this.router.navigate(['long-term-programs', 'register-admission', 'general_information']);
-  }
-
-  onViewClick(item: AdmissionReq) {
-    this.router.navigate(['long-term-programs', 'update-admission', item.id, 'general_information']);
+  protected onViewClick(item: AdmissionReq): void {
+    if (!item.id) {
+      console.error('Cannot navigate to admission without ID');
+      return;
+    }
+    this.router.navigate(['long-term-programs', 'view-admission', item.id, 'general_information']);
   }
 
   handlePageChange(event: PageChangeEvent) {

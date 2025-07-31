@@ -90,7 +90,9 @@ export function useShortTermPrograms() {
   });
 }
 
-export function useShortTermProgramAdmissions() {
+export function useShortTermProgramAdmissions(
+  educationLevelId: number | null | undefined,
+) {
   const programsService = inject(ProgramsService);
   const filters = useFilters<ShortTermProgramFilters>();
   const page = usePage();
@@ -99,6 +101,7 @@ export function useShortTermProgramAdmissions() {
     request: () => ({
       filters: filters(),
       page: page(),
+      educationLevelId,
     }),
     defaultValue: {
       data: [],
@@ -110,6 +113,7 @@ export function useShortTermProgramAdmissions() {
       programsService
         .programsShortAdmissions({
           page: request.page.toString(),
+          educationLevelId: request.educationLevelId,
           ...flattenQueryParams(request.filters, 'filters'),
         } as any)
         .pipe(

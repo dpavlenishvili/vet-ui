@@ -129,11 +129,11 @@ export class CommissionMembersDialogComponent implements OnInit {
               });
             }
           },
-          error: () => {
+          error: (response) => {
             const commissionMember = this.commissionMemberForm.value;
-
+            
             if (commissionMember.pid && commissionMember.name) {
-              this.showTemporaryError('programs.user_is_not_registered');
+              this.showTemporaryError(response.error.error.message);
             }
           },
         }),

@@ -3,8 +3,12 @@
     <span>
       {{ 'shared.informationMessage' | transloco }}
     </span>
-    <button (click)="onRegisterClick()" kendoButton themeColor="primary"
-            [disabled]="!registerStatus$.value()?.is_available">
+    <button
+      (click)="onRegisterClick()"
+      kendoButton
+      themeColor="primary"
+      [disabled]="!registerStatus$.value()?.data?.is_available"
+    >
       {{ 'shared.registration' | transloco }}
     </button>
   </div>
@@ -91,12 +95,7 @@
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column
-        [width]="130"
-        [minResizableWidth]="130"
-        [maxResizableWidth]="130"
-        [resizable]="false"
-      >
+      <kendo-grid-column [width]="130" [minResizableWidth]="130" [maxResizableWidth]="130" [resizable]="false">
         <ng-template kendoGridCellTemplate let-item>
           <div class="k-display-flex k-gap-1 k-justify-content-center action-buttons">
             @if (item.actions.edit) {

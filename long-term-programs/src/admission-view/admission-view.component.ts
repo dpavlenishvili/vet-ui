@@ -13,7 +13,6 @@ import { UserRolesService } from '@vet/auth';
       <vet-admission-wizard
         [admissionId]="admissionId()"
         [admissionData]="admissionData()"
-        [educationStatus]="educationStatus()"
         [isViewMode]="true"
       />
     }
@@ -23,7 +22,6 @@ import { UserRolesService } from '@vet/auth';
 })
 export class AdmissionViewComponent implements OnInit {
   protected readonly admissionData = signal<AdmissionReq | null>(null);
-  protected readonly educationStatus = signal<{ level?: string; levelId?: number } | null>(null);
   private readonly admissionService = inject(AdmissionService);
   private readonly route = inject(ActivatedRoute);
   protected readonly admissionId = signal(this.route.snapshot.paramMap.get('admissionId'));
@@ -39,13 +37,13 @@ export class AdmissionViewComponent implements OnInit {
     }
 
     this.loadAdmissionData(id);
-    this.loadEducationStatus();
   }
 
   private loadAdmissionData(id: string): void {
     this.admissionService
       .admissionList({
-        role: this.userRolesService.selectedRole(),
+        role: this.userRolesService.selectedAccount()?.organisation ? '' : this.userRolesService.selectedRole(),
+        organisation: this.userRolesService.selectedAccount()?.organisation || '',
         number: id,
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -56,15 +54,6 @@ export class AdmissionViewComponent implements OnInit {
           return;
         }
         this.admissionData.set(admission);
-      });
-  }
-
-  private loadEducationStatus(): void {
-    this.admissionService
-      .educationStatus()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        this.educationStatus.set(response);
       });
   }
 }

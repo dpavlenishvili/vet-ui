@@ -1,0 +1,48 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-input self-grow formControlName="personal_number" [placeholder]="'programs.pid' | transloco" />
+
+      <vet-input self-grow formControlName="name" [placeholder]="'programs.first_name' | transloco" />
+
+      <vet-input self-grow formControlName="surname" [placeholder]="'programs.last_name' | transloco" />
+    </div>
+
+    <div vet-row>
+      <vet-selector
+        self-grow
+        formControlName="organisation_name"
+        [placeholder]="'programs.organisation' | transloco"
+        [options]="institutionOptions.value()"
+      />
+
+      <vet-selector
+        self-grow
+        formControlName="status"
+        [placeholder]="'programs.status' | transloco"
+        [options]="statusOptions$.value()"
+      />
+
+      <vet-selector
+        self-grow
+        formControlName="ssm_status"
+        [placeholder]="'programs.ssm_status' | transloco"
+        [options]="ssmStatusOptions"
+      />
+    </div>
+
+    <div vet-line space-between align-center>
+      <p class="k-text-sm k-color-body">
+        {{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}
+      </p>
+
+      <div vet-line gap-dense content-right>
+        <vet-icon-button icon="close" (click)="onClearClick()" />
+
+        <vet-button leadingIcon="search" type="submit">
+          {{ 'shared.search' | transloco }}
+        </vet-button>
+      </div>
+    </div>
+  </div>
+</form>

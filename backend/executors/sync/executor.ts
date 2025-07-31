@@ -26,7 +26,7 @@ export default async function (options: SyncExecutorSchema, executorContext: Exe
       });
       for (const method of Object.keys(pathContent)) {
         const methodSpecs = pathContent[method] as Operation;
-        methodSpecs.parameters = methodSpecs.parameters.map((p: Parameter) => {
+        methodSpecs.parameters = methodSpecs.parameters?.map((p: Parameter) => {
           if (p.in === 'path') {
             return {
               ...p,
@@ -34,7 +34,7 @@ export default async function (options: SyncExecutorSchema, executorContext: Exe
             };
           }
           return p;
-        });
+        }) ?? [];
       }
     }
     acc[path] = pathContent;

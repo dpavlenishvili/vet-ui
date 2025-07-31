@@ -1,7 +1,6 @@
 :host {
   display: block;
 
-
   .action-buttons {
     min-width: 100px;
     justify-content: space-between;
@@ -25,14 +24,12 @@
     }
   }
 
-
   .status-cell {
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
     line-height: 1.2;
   }
-
 
   .k-grid-norecords {
     .k-empty-data {
@@ -43,7 +40,6 @@
       }
     }
   }
-
 
   @media (max-width: 767px) {
     .k-grid {
@@ -60,7 +56,6 @@
     }
   }
 
-
   @media (min-width: 1200px) {
     .k-grid {
       .k-grid-header,
@@ -75,7 +70,6 @@
 }
 
 ::ng-deep .main-grid.k-grid {
-
   .k-hierarchy-cell {
     width: 0;
 
@@ -84,16 +78,13 @@
     }
   }
 
-
   .k-header.k-hierarchy-cell {
     border: none;
   }
 
-
   .k-hierarchy-col {
     width: 1px;
   }
-
 
   .k-table-row {
     .k-table-td:nth-child(2),

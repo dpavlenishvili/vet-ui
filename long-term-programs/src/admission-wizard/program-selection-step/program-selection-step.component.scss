@@ -24,18 +24,15 @@
     width: 100%;
     overflow: auto;
 
-
     @media (max-width: 767px) {
       overflow-x: auto;
 
       kendo-grid {
         min-width: 800px;
 
-
         .k-grid-table {
           font-size: 0.875rem;
         }
-
 
         @media (max-width: 479px) {
           kendo-grid-column:nth-child(3) {
@@ -44,7 +41,6 @@
         }
       }
     }
-
 
     @media (min-width: 768px) {
       kendo-grid {
@@ -61,7 +57,6 @@
       min-height: 32px;
       padding: 0.25rem;
 
-
       @media (max-width: 767px) and (pointer: coarse) {
         min-width: 40px;
         min-height: 40px;
@@ -71,7 +66,6 @@
   }
 
   .buttons-container {
-
     @media (max-width: 479px) {
       flex-direction: column;
       gap: 0.75rem;
@@ -85,7 +79,6 @@
         }
       }
     }
-
 
     @media (min-width: 480px) {
       flex-direction: row;
@@ -101,15 +94,12 @@
     flex-shrink: 0;
   }
 
-
   @media (max-width: 767px) {
     .responsive-grid-container {
-
       box-shadow: inset -10px 0 10px -10px rgba(0, 0, 0, 0.1);
       border-radius: 0.5rem;
 
       kendo-grid {
-
         .k-grid-header,
         .k-grid-content {
           .k-table-td,
@@ -119,14 +109,12 @@
           }
         }
 
-
         .grid-actions {
           gap: 0.25rem;
         }
       }
     }
   }
-
 
   @media (min-width: 1200px) {
     .responsive-grid-container {
@@ -145,7 +133,6 @@
       }
     }
   }
-
 
   @media (max-width: 767px) {
     :host ::ng-deep {

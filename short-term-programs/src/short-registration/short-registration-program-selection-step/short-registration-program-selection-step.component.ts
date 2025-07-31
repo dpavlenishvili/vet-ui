@@ -11,12 +11,14 @@ import {
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ShortRegistrationProgramSelectionGridComponent } from './short-registration-program-selection-grid/short-registration-program-selection-grid.component';
-import { ShortProgramAdmission } from '@vet/backend';
+import { ProgramsService, ShortProgramAdmission } from '@vet/backend';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ButtonComponent,
+  flattenQueryParams,
   FormControls,
   getUniqueItems,
+  PaginatedGridResult,
   useAlert,
   useControlValue,
   useFilters,
@@ -28,6 +30,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { ShortTermProgramFilters } from '../../short-term-programs.types';
 import { ShortTermProgramsFiltersComponent } from 'short-term-programs/src/short-term-programs-filters/short-term-programs-filters.component';
 import { useShortTermProgramAdmissions } from '../../short-term.resources';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 export interface ShortRegistrationProgramSelectionStepFormData {
   selected_programs: ShortProgramAdmission[] | null;
@@ -54,6 +58,7 @@ export type ShortRegistrationProgramSelectionStepFormGroup = FormGroup<
 })
 export class ShortRegistrationProgramSelectionStepComponent {
   formGroup = input.required<ShortRegistrationProgramSelectionStepFormGroup>();
+  educationLevelId = input<number | null | undefined>();
   next = output();
   back = output();
   itemSelect = output<ShortProgramAdmission>();
@@ -68,7 +73,7 @@ export class ShortRegistrationProgramSelectionStepComponent {
   updateFilters = useFiltersUpdater<ShortTermProgramFilters>();
   updatePage = usePageUpdater();
   alert = useAlert();
-  data = useShortTermProgramAdmissions();
+  data = useShortTermProgramAdmissions(this.educationLevelId());
   selectedPrograms = useControlValue(this.formGroup, (form) => form.controls.selected_programs);
   selectedProgramIds = computed(() => {
     const selectedPrograms: ShortProgramAdmission[] = this.selectedPrograms() ?? [];
@@ -113,7 +118,7 @@ export class ShortRegistrationProgramSelectionStepComponent {
       const newItems = [...(control.value ?? []), item];
       control.setValue(getUniqueItems(newItems, (item) => item.id as number));
 
-      if ((control.value ?? []).length === 3) {
+      if ((control.value ?? []).length === 5) {
         this.isProgramSelectionDisabled.set(true);
       }
     }
@@ -126,7 +131,7 @@ export class ShortRegistrationProgramSelectionStepComponent {
       const items = control.value ?? [];
       control.setValue(items.filter((i) => i.id !== item.id));
 
-      if((control.value ?? []).length < 3) {
+      if((control.value ?? []).length < 5) {
         this.isProgramSelectionDisabled.set(false);
       }
     }

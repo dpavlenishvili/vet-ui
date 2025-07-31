@@ -93,13 +93,19 @@ export class ShortTermProgramsFiltersDialogComponent {
     return {
       ...filterValue,
       start_study: isDate(filterValue.start_study)
-        ? filterValue.start_study.toISOString()
+        ? this.formatDateForBackend(filterValue.start_study)
         : filterValue.start_study,
 
       end_study: isDate(filterValue.end_study)
-        ? filterValue.end_study.toISOString()
+        ? this.formatDateForBackend(filterValue.end_study)
         : filterValue.end_study,
     } as ShortTermProgramFilters;
+  }
+
+  formatDateForBackend(date: Date): string {
+    return `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   }
 
   onSubmit() {

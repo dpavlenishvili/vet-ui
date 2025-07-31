@@ -73,7 +73,7 @@
             [readonly]="isViewMode()"
             [uploadedFiles]="form?.get('doc')?.getRawValue()"
             [errorMessage]="
-              (form?.get('doc')?.touched && form?.get('doc')?.errors?.['required'])
+              form?.get('doc')?.touched && form?.get('doc')?.errors?.['required']
                 ? ('programs.uploadEducationDocument' | transloco)
                 : null
             "
@@ -118,10 +118,12 @@
             }
           </div>
           <div class="k-mt-3">
-            @if (form?.get('spec_env')?.invalid &&
-            !form?.get('spec_env')?.untouched &&
-            specEnvSwitch.checked &&
-            form?.get('spec_env')?.value?.length === 0) {
+            @if (
+              form?.get('spec_env')?.invalid &&
+              !form?.get('spec_env')?.untouched &&
+              specEnvSwitch.checked &&
+              form?.get('spec_env')?.value?.length === 0
+            ) {
               <kendo-formerror>{{ 'shared.minOneFieldIsRequired' | transloco }}</kendo-formerror>
             }
           </div>

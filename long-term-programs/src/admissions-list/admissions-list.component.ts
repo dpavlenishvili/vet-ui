@@ -65,11 +65,12 @@ export class AdmissionsListComponent {
     },
   });
   protected readonly registerStatus$ = rxResource({
-    loader: () => this.admissionService.checkRegister().pipe(
-      catchError(() => {
-        return of({ is_available: false });
-      })
-    ),
+    loader: () =>
+      this.admissionService.checkRegister().pipe(
+        catchError(() => {
+          return of({data: { is_available: false }});
+        }),
+      ),
   });
 
   protected onRegisterClick(): void {

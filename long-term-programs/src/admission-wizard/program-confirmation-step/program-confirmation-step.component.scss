@@ -12,14 +12,12 @@
   --subsection-border: #e9ecef;
 }
 
-
 .confirmation-container {
   display: flex;
   flex-direction: column;
   gap: var(--section-gap);
   height: 100%;
 }
-
 
 .confirmation-section {
   background: var(--section-bg);
@@ -33,7 +31,6 @@
   @media (max-width: 767px) {
     padding: 1.25rem;
   }
-
 
   .section-header {
     display: flex;
@@ -60,7 +57,6 @@
     gap: 1rem;
   }
 }
-
 
 .user-profile {
   background-color: var(--user-profile-bg);
@@ -128,7 +124,6 @@
   }
 }
 
-
 .programs-section {
   position: relative;
 
@@ -150,7 +145,6 @@
   }
 }
 
-
 .requirements-list {
   display: flex;
   flex-wrap: wrap;
@@ -168,7 +162,6 @@
     padding: 0.5rem;
   }
 }
-
 
 .ssm-section {
   .ssm-subsection {
@@ -188,7 +181,6 @@
     }
   }
 }
-
 
 .contact-info-grid {
   display: grid;
@@ -222,7 +214,6 @@
   }
 }
 
-
 .translator-info {
   .info-row {
     display: flex;
@@ -246,7 +237,6 @@
   }
 }
 
-
 .description-display {
   background: white;
   border: 1px solid var(--section-border);
@@ -266,7 +256,6 @@
     color: shared.$kendo-color-body-light;
   }
 }
-
 
 .disclaimer-section {
   border-color: var(--section-border);
@@ -322,7 +311,6 @@
     }
   }
 }
-
 
 .confirmation-actions {
   display: flex;
@@ -387,7 +375,6 @@
   }
 }
 
-
 @media (max-width: 767px) and (pointer: coarse) {
   .confirmation-section .section-header kendo-switch {
     padding: 0.25rem;
@@ -407,7 +394,6 @@
   }
 }
 
-
 @media (min-width: 1200px) {
   .confirmation-container {
     gap: 1.5rem;
@@ -418,7 +404,6 @@
     gap: 1.5rem;
   }
 }
-
 
 @media print {
   .confirmation-actions {
