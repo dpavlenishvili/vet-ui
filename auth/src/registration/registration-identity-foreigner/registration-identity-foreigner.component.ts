@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, model, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -9,6 +9,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import {
   countries,
   genders,
+  useAlert,
   useAlertApiErrorHandler,
   useApiErrorConditionalContextFactory,
   useToastApiErrorHandler,
@@ -41,7 +42,10 @@ export class RegistrationIdentityForeignerComponent {
     then: useAlertApiErrorHandler(),
     else: useToastApiErrorHandler(),
   });
-  isPersonVerified = signal(false);
+
+  alert = useAlert();
+
+  isPersonVerified = model(false);
   generalForm = input<FormGroup>();
   identityForm = input<
     FormGroup<{
@@ -110,6 +114,11 @@ export class RegistrationIdentityForeignerComponent {
       return;
     }
 
+    if (this.isPersonVerified() && this.identityForm()?.valid) {
+      this.nextClick.emit();
+      return;
+    }
+
     this.registerService
       .validatePerson(
         { pid: form?.personalNumber as string, last_name: form?.lastName as string },
@@ -133,6 +142,14 @@ export class RegistrationIdentityForeignerComponent {
             this.onNextClick();
           },
           error: (error) => {
+            if (error?.error?.error?.code === 1009) {
+              const errorMessage = error?.error?.error?.message || 'auth.person_validation_failed';
+              this.alert.show({
+                variant: 'warning',
+                text: errorMessage,
+              });
+            }
+
             if (error.error?.error?.can_register === false) {
               this.isPersonVerified.set(false);
               this.personVerificationChange.emit(false);
@@ -148,7 +165,7 @@ export class RegistrationIdentityForeignerComponent {
   }
 
   onNextClick() {
-    if (this.identityForm()?.valid) {
+    if (this.isPersonVerified() && this.identityForm()?.valid) {
       this.nextClick.emit();
     }
   }

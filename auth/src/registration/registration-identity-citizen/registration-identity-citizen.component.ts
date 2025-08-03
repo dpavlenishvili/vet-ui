@@ -9,6 +9,7 @@ import { RegisterService, type User } from '@vet/backend';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import {
   ToastModule,
+  useAlert,
   useAlertApiErrorHandler,
   useApiErrorConditionalContextFactory,
   useToastApiErrorHandler,
@@ -38,6 +39,8 @@ export class RegistrationIdentityCitizenComponent {
     then: useAlertApiErrorHandler(),
     else: useToastApiErrorHandler(),
   });
+
+  alert = useAlert();
 
   generalForm = input<FormGroup>();
   identityForm = input<
@@ -104,7 +107,7 @@ export class RegistrationIdentityCitizenComponent {
     const currentPID = form?.personalNumber as string;
     const currentLastname = form?.lastName as string;
 
-    if (this.isPersonVerified()) {
+    if (this.isPersonVerified() && this.identityForm()?.valid) {
       this.nextClick.emit();
       return;
     }
@@ -130,9 +133,17 @@ export class RegistrationIdentityCitizenComponent {
 
             this.personVerificationChange.emit(true);
           },
-          error: () => {
+          error: (error) => {
             this.isPersonVerified.set(false);
             this.personVerificationChange.emit(false);
+
+            if (error?.error?.error?.code === 1009) {
+              const errorMessage = error?.error?.error?.message || 'auth.person_validation_failed';
+              this.alert.show({
+                variant: 'warning',
+                text: errorMessage,
+              });
+            }
           },
         }),
       )
@@ -140,9 +151,7 @@ export class RegistrationIdentityCitizenComponent {
   }
 
   onNextClick() {
-    if (!this.isPersonVerified()) {
-      this.onCheckClick();
-    } else {
+    if (this.isPersonVerified() && this.identityForm()?.valid) {
       this.nextClick.emit();
     }
   }

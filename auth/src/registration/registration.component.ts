@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, type OnInit, signal, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, type OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
@@ -25,6 +25,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { useAuthEnvironment } from '@vet/auth';
+import { WA_WINDOW } from '@ng-web-apis/common';
 
 @Component({
   selector: 'vet-registration',
@@ -100,6 +101,7 @@ export class RegistrationComponent implements OnInit {
 
   private router = inject(Router);
   private registrationService = inject(RegisterService);
+  private window = inject(WA_WINDOW);
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -119,7 +121,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   private updateResponsiveState(): void {
-    const width = window.innerWidth;
+    const width = this.window.innerWidth;
     const mobile = width < 768;
 
     this.isMobile.set(mobile);
@@ -206,7 +208,19 @@ export class RegistrationComponent implements OnInit {
 
   isStepValid(stepIndex: number): boolean {
     const step = this.steps[stepIndex];
-    return step && !!step.form()?.valid;
+    if (!step || !step.form()?.valid) {
+      return false;
+    }
+
+    if (stepIndex === 1) {
+      return this.personVerified();
+    }
+
+    if (stepIndex === 2) {
+      return this.phoneVerified();
+    }
+
+    return true;
   }
 
   onStepChange(event: StepperActivateEvent) {
@@ -255,20 +269,16 @@ export class RegistrationComponent implements OnInit {
     }
 
     if (this.currentStepIndex === 1 && this.isStepValid(this.currentStepIndex)) {
-      if (this.personVerified()) {
-        this.currentStepIndex++;
-        this.currentStepSubject.next(this.currentStepIndex);
-        void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-      }
+      this.currentStepIndex++;
+      this.currentStepSubject.next(this.currentStepIndex);
+      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
       return;
     }
 
     if (this.currentStepIndex === 2 && this.isStepValid(this.currentStepIndex)) {
-      if (this.phoneVerified()) {
-        this.currentStepIndex++;
-        this.currentStepSubject.next(this.currentStepIndex);
-        void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-      }
+      this.currentStepIndex++;
+      this.currentStepSubject.next(this.currentStepIndex);
+      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
       return;
     }
 
@@ -343,9 +353,40 @@ export class RegistrationComponent implements OnInit {
 
   setPhoneVerified(verified: boolean) {
     this.phoneVerified.set(verified);
+
+    const phoneForm = this.formGroup.controls.phone;
+    if (!verified && phoneForm.valid) {
+      phoneForm.setErrors({ phoneNotVerified: true });
+    } else if (verified && phoneForm.hasError('phoneNotVerified')) {
+      this.removeFormError(phoneForm, 'phoneNotVerified');
+    }
   }
 
   setPersonVerified(verified: boolean) {
     this.personVerified.set(verified);
+
+    const identityForm = this.getCurrentIdentityForm();
+    if (!verified && identityForm.valid) {
+      identityForm.setErrors({ personNotVerified: true });
+    } else if (verified && identityForm.hasError('personNotVerified')) {
+      this.removeFormError(identityForm, 'personNotVerified');
+    }
+  }
+
+  getCurrentIdentityForm() {
+    return this.citizenship === this.CitizenshipType.Georgian
+      ? this.formGroup.controls.checkIdentity
+      : this.formGroup.controls.checkIdentityForeigner;
+  }
+
+  removeFormError(form: FormGroup, errorKey: string) {
+    const errors = { ...form.errors };
+    delete errors[errorKey];
+
+    if (Object.keys(errors).length === 0) {
+      form.setErrors(null);
+    } else {
+      form.setErrors(errors);
+    }
   }
 }

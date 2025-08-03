@@ -58,7 +58,7 @@
         type="button"
         (click)="isPersonVerified() ? onNextClick() : onCheckClick()"
       >
-        {{ isPersonVerified() ? ('auth.next' | transloco) : ('auth.check' | transloco) }}
+        {{ (isPersonVerified() ? 'auth.next' : 'auth.check') | transloco }}
       </button>
     </div>
   </form>

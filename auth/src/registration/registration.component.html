@@ -46,6 +46,7 @@
                   <vet-registration-identity-foreigner
                     [generalForm]="formGroup"
                     [identityForm]="formGroup.controls.checkIdentityForeigner"
+                    [isPersonVerified]="personVerified()"
                     (previousClick)="onPreviousClick()"
                     (nextClick)="onNextClick()"
                     (personVerificationChange)="setPersonVerified($event)"
@@ -145,6 +146,7 @@
                   <vet-registration-identity-foreigner
                     [generalForm]="formGroup"
                     [identityForm]="formGroup.controls.checkIdentityForeigner"
+                    [isPersonVerified]="personVerified()"
                     (previousClick)="onPreviousClick()"
                     (nextClick)="onNextClick()"
                     (personVerificationChange)="setPersonVerified($event)"
