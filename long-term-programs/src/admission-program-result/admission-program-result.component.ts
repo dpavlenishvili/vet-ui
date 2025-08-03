@@ -6,10 +6,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService } from '@vet/backend';
 import { InfoComponent, vetIcons } from '@vet/shared';
 import { catchError, of } from 'rxjs';
+import { LoaderComponent } from '@progress/kendo-angular-indicators';
 
 @Component({
   selector: 'vet-admission-program-result',
-  imports: [GridModule, TranslocoPipe, InfoComponent],
+  imports: [GridModule, TranslocoPipe, InfoComponent, LoaderComponent],
   templateUrl: './admission-program-result.component.html',
   styleUrl: './admission-program-result.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

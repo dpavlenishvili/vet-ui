@@ -7,10 +7,11 @@ import { AdmissionPrograms, AdmissionService } from '@vet/backend';
 import { InfoComponent, useConfirm } from '@vet/shared';
 import { catchError, finalize, of } from 'rxjs';
 import { SelectionEvent } from '@progress/kendo-angular-grid/selection/types';
+import { LoaderComponent } from '@progress/kendo-angular-indicators';
 
 @Component({
   selector: 'vet-admission-program-choose',
-  imports: [GridModule, TranslocoPipe, InfoComponent],
+  imports: [GridModule, TranslocoPipe, InfoComponent, LoaderComponent],
   templateUrl: './admission-program-choose.component.html',
   styleUrl: './admission-program-choose.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -113,7 +114,7 @@ export class AdmissionProgramChooseComponent implements OnInit {
     this.isLoading.set(true);
 
     this.admissionService
-      .selectProgramAdmission(admissionId as any, programId)
+      .selectProgramAdmission(admissionId, programId)
       .pipe(
         catchError((error) => {
           console.error(`Error ${isSelection ? 'selecting' : 'deselecting'} program:`, error);

@@ -73,7 +73,6 @@ export class AdmissionFilterOrganisationComponent {
   }
 
   onSubmit() {
-    console.log(withoutEmptyProperties(this.formGroup.value));
     this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as AdmissionListFilterParams);
   }
 

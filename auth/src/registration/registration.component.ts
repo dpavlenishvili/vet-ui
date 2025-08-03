@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, inject, type OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, type OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
 import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
@@ -21,11 +21,12 @@ import {
 } from '@vet/shared';
 import { RegisterService, type User, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, fromEvent, tap } from 'rxjs';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { useAuthEnvironment } from '@vet/auth';
 import { WA_WINDOW } from '@ng-web-apis/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-registration',
@@ -52,7 +53,6 @@ export class RegistrationComponent implements OnInit {
 
   currentStepIndex = 0;
   currentStepSubject = new BehaviorSubject<number>(0);
-  currentStep$ = this.currentStepSubject.asObservable();
   formGroup = this.createFormGroup();
   vetIcons = vetIcons;
   isExpanded = signal(true);
@@ -102,11 +102,7 @@ export class RegistrationComponent implements OnInit {
   private router = inject(Router);
   private registrationService = inject(RegisterService);
   private window = inject(WA_WINDOW);
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.updateResponsiveState();
-  }
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     if (!this.router.url.includes('/citizenship_selection')) {
@@ -118,6 +114,10 @@ export class RegistrationComponent implements OnInit {
     }
 
     this.updateResponsiveState();
+
+    fromEvent(this.window, 'resize')
+      .pipe(debounceTime(150), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.updateResponsiveState());
   }
 
   private updateResponsiveState(): void {
@@ -195,7 +195,9 @@ export class RegistrationComponent implements OnInit {
       first_name: identityGroup.get('firstName')?.value,
       last_name: identityGroup.get('lastName')?.value,
       gender: identityGroup.get('gender')?.value,
-      birth_date: identityGroup.get('dateOfBirth')?.value?.toISOString().split('T')[0],
+      birth_date: identityGroup.get('dateOfBirth')?.value
+        ? identityGroup.get('dateOfBirth')?.value?.toISOString().split('T')[0]
+        : null,
       residential: isForeigner ? identityGroup.get('residential')?.value : chooseCitizenship.get('citizenship')?.value,
       password: passwords.get('password')?.value,
       password_confirmation: passwords.get('confirmPassword')?.value,

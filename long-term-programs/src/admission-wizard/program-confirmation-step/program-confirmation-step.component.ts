@@ -9,7 +9,7 @@ import {
   output,
   signal
 } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
@@ -29,7 +29,11 @@ import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.co
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { admissionProgramsResource } from '../admission-programs-resource';
 
-export type ProgramSelectionStepFormGroup = FormGroup;
+
+export type ProgramConfirmationStepFormGroup = FormGroup<{
+  status: FormControl<string>;
+  program_ids: FormControl<number[]>;
+}>;
 
 @Component({
   selector: 'vet-program-confirmation-step',
@@ -50,7 +54,7 @@ export type ProgramSelectionStepFormGroup = FormGroup;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgramConfirmationStepComponent implements OnInit {
-  form = input<ProgramSelectionStepFormGroup>();
+  form = input<ProgramConfirmationStepFormGroup>();
   generalInformationFormGroup = input<ProgramGeneralInformationStepFormGroup>();
   ssmFormGroup = input<ProgramSsmStepFormGroup>();
   selectedProgramsForm = input<ProgramSelectedProgramsStepFormGroup>();
@@ -71,13 +75,12 @@ export class ProgramConfirmationStepComponent implements OnInit {
     loader: () => this.generalsService.getAllConfigs({ key: 'education_levels' })
   });
 
-  // Computed signal to get the selected education text from form data
   selectedEducation = computed(() => {
     const educations = this.educations$.value();
     const generalForm = this.generalInformationFormGroup();
 
     if (!educations || !generalForm) {
-      return ''; // Return empty string while loading
+      return '';
     }
 
     const selectedEducationId = generalForm.get('education')?.value;

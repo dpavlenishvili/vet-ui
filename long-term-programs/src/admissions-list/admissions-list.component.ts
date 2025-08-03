@@ -43,7 +43,6 @@ export class AdmissionsListComponent {
       const params = {
         role: role,
       };
-
       return this.admissionService.admissionList(params).pipe(
         catchError((error) => {
           console.error('Failed to load admissions list:', error);

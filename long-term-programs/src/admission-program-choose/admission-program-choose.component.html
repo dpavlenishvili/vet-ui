@@ -6,7 +6,7 @@
 
   @if (programsList$.isLoading()) {
     <div class="loading-container">
-      <p>{{ 'programs.loading' | transloco }}</p>
+      <kendo-loader size="medium" [themeColor]="'secondary'" />
     </div>
   }
 

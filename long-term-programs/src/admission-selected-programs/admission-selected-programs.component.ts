@@ -13,6 +13,7 @@ import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+import { LoaderComponent } from '@progress/kendo-angular-indicators';
 
 export type ProgramSelectedProgramsStepFormGroup = FormGroup;
 
@@ -30,6 +31,7 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     KENDO_DIALOG,
     UnauthorisedProgramPageComponent,
     KENDO_TOOLTIP,
+    LoaderComponent,
   ],
   templateUrl: './admission-selected-programs.component.html',
   styleUrl: './admission-selected-programs.component.scss',
@@ -40,7 +42,7 @@ export class AdmissionSelectedProgramsComponent {
   readonly selectedPrograms = input<AdmissionPrograms[] | undefined>();
   readonly selectedProgramsLoading = input<boolean>(false);
   readonly readonly = input<boolean>(false);
-  readonly selectedProgramsError = input<Error | null>(null);
+  readonly selectedProgramsError = input<boolean | null>(null);
   readonly deleteClick = output<LongTerm>();
 
   protected readonly isProgramDialogOpen = signal(false);

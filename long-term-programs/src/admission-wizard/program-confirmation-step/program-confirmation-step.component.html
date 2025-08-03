@@ -27,7 +27,7 @@
         <div class="section-title-badge k-text-base">{{ 'programs.selected_programs' | transloco }}</div>
         <vet-admission-selected-programs
           [selectedPrograms]="selectedPrograms.value()"
-          [selectedProgramsError]="$any(selectedPrograms.error())"
+          [selectedProgramsError]="!!this.selectedPrograms.error()"
           [selectedProgramsLoading]="selectedPrograms.isLoading()"
         />
       </div>

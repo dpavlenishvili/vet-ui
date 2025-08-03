@@ -52,8 +52,10 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
 
   readonly input = computed(() =>
     this.digits()
-      .map((c) => c ?? '')
-      .join(''),
+      .map((digit: number | null): string =>
+        digit !== null && digit !== undefined ? digit.toString() : ''
+      )
+      .join('')
   );
 
   readonly state = computed<VerificationState>(() => {

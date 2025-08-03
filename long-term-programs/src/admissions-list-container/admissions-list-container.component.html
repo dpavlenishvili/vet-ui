@@ -2,6 +2,6 @@
   <vet-admissions-list-admin />
 } @else if ('Organisation' | role) {
   <vet-admission-list-organisation />
-} @else {
+} @else if('Default User' | role) {
   <vet-admissions-list />
 }

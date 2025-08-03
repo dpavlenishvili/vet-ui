@@ -1,5 +1,5 @@
 @if (selectedProgramsLoading()) {
-  <div class="loading-container">{{ 'programs.loading' | transloco }}</div>
+  <kendo-loader size="medium" [themeColor]="'secondary'" />
 } @else {
   @if (selectedPrograms(); as _selectedPrograms) {
     <div class="responsive-grid-container">

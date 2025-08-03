@@ -1,7 +1,7 @@
 <div class="selected-programs-container">
   <vet-admission-selected-programs
     (deleteClick)="onDeleteClick($event)"
-    [selectedProgramsError]="$any(selectedPrograms.error())"
+    [selectedProgramsError]="!!this.selectedPrograms.error()"
     [selectedProgramsLoading]="selectedPrograms.isLoading()"
     [selectedPrograms]="selectedPrograms.value()"
     [readonly]="isViewMode()"
