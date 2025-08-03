@@ -1,74 +1,91 @@
 <div class="program-choose-container">
-  <vet-info
-    text="programs.choose_info_text"
-    variant="info" />
+  <vet-info variant="warning" class="k-mb-5">
+    <h3>{{ 'programs.choose_program_important_notice' | transloco }}</h3>
+    <p>{{ 'programs.choose_program_notice_text' | transloco }}</p>
+  </vet-info>
 
-  <kendo-grid
-    [data]="allPrograms()"
-    [resizable]="true"
-    [selectable]="true">
-    <kendo-grid-checkbox-column
-      [showSelectAll]="true"
-      [width]="40"
-    />
+  @if (programsList$.isLoading()) {
+    <div class="loading-container">
+      <p>{{ 'programs.loading' | transloco }}</p>
+    </div>
+  }
 
-    <kendo-grid-column
-      [title]="'programs.program' | transloco"
-      [width]="250">
-      <ng-template kendoGridCellTemplate let-item>
-        <div class="k-display-flex k-flex-column k-gap-1">
-          <span class="k-font-bold">{{ item.program.program_name }}</span>
-          <span class="k-text-sm k-color-body-light">{{ item.program.program_code }}</span>
+  @if ((programsList$.value()?.data || []).length > 0) {
+    <kendo-grid
+      [data]="programsList$.value()?.data || []"
+      [selectable]="selectableSettings"
+      [kendoGridSelectBy]="selectionKey"
+      [selectedKeys]="selectedProgramKeys()"
+      (selectionChange)="onSelectionChange($event)"
+      [loading]="isLoading()"
+      [resizable]="true">
+
+      <ng-template kendoGridNoRecordsTemplate>
+        <div class="k-p-4 k-text-center k-color-body-light">
+          {{ 'shared.noRecords' | transloco }}
         </div>
       </ng-template>
-    </kendo-grid-column>
 
-    <kendo-grid-column
-      [title]="'programs.specialization' | transloco"
-      [width]="200">
-      <ng-template kendoGridCellTemplate let-item>
-        <span>{{ item.program.specialization_name }}</span>
-      </ng-template>
-    </kendo-grid-column>
+      <kendo-grid-checkbox-column
+        [showSelectAll]="false"
+        [width]="40"
+        [minResizableWidth]="25"
+        [maxResizableWidth]="40"
+      />
 
-    <kendo-grid-column
-      [title]="'programs.institution_name' | transloco"
-      [width]="200">
-      <ng-template kendoGridCellTemplate let-item>
-        <div class="k-display-flex k-flex-column k-gap-1">
-          <span class="k-font-bold">{{ item.program.organisation.name }}</span>
-          <span class="k-text-sm k-color-body-light">{{ item.program.organisation.address }}</span>
-        </div>
-      </ng-template>
-    </kendo-grid-column>
+      <kendo-grid-column
+        field="program.organisation.name"
+        [title]="'programs.college' | transloco"
+        [width]="200"
+        [minResizableWidth]="150">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="institution-cell">
+            <div class="institution-name">{{ dataItem.program?.organisation?.name }}</div>
+            <div class="institution-address">{{ dataItem.program?.organisation?.address }}</div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
 
-    <kendo-grid-column
-      [title]="'programs.implementation_location' | transloco"
-      [width]="180">
-      <ng-template kendoGridCellTemplate let-item>
-        <span>{{ item.program.region.name }}, {{ item.program.district.name }}</span>
-      </ng-template>
-    </kendo-grid-column>
+      <kendo-grid-column
+        field="program.program_name"
+        [title]="'programs.program' | transloco"
+        [width]="130"
+        [minResizableWidth]="80">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="program-name-cell">
+            <strong>{{ dataItem.program?.program_name }}</strong>
+            <div class="program-code">{{ dataItem.program?.program_code }}</div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
 
-    <kendo-grid-column
-      [title]="'programs.duration_credits' | transloco"
-      [width]="150">
-      <ng-template kendoGridCellTemplate let-item>
-        <div class="k-display-flex k-flex-column k-gap-1">
-          <span>{{ item.program.program_duration }} {{ 'programs.months' | transloco }}</span>
-          <span class="k-text-sm k-color-body-light">{{ item.program.credits_count }} {{ 'programs.credits' | transloco }}</span>
-        </div>
-      </ng-template>
-    </kendo-grid-column>
+      <kendo-grid-column
+        field="program.admission.students_limit"
+        [title]="'programs.available_places' | transloco"
+        [width]="220"
+        [minResizableWidth]="140">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ dataItem.program?.admission?.students_limit || '' }}
+        </ng-template>
+      </kendo-grid-column>
 
-    <kendo-grid-column
-      [title]="'programs.status' | transloco"
-      [width]="120">
-      <ng-template kendoGridCellTemplate let-item>
-            <span [class]="getStatusClass(item.status)">
-              {{ getStatusText(item.status) | transloco }}
-            </span>
-      </ng-template>
-    </kendo-grid-column>
-  </kendo-grid>
+      <kendo-grid-column
+        [title]="'programs.rating_score' | transloco"
+        [width]="140"
+        [minResizableWidth]="100">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ '' }}
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'programs.rating_position' | transloco"
+        [width]="190"
+        [minResizableWidth]="120">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ '' }}
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  }
 </div>

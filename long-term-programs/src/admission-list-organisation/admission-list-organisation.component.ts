@@ -88,19 +88,21 @@ export class AdmissionListOrganisationComponent {
   }
 
   onChooseClick(item: AdmissionReq): void {
-    if (!item.user?.pid) {
-      console.error('Cannot navigate to exam card without user PID');
+    if (!item.id) {
+      console.error('Cannot navigate to choose without admission ID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'last-choose', item.user.pid]);
+
+    this.router.navigate(['long-term-programs', 'last-choose', item.id]);
   }
 
   onResultClick(item: AdmissionReq): void {
-    if (!item.user?.pid) {
-      console.error('Cannot navigate to exam card without user PID');
+    if (!item.id) {
+      console.error('Cannot navigate to result without admission ID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'last-result', item.user.pid]);
+
+    this.router.navigate(['long-term-programs', 'last-result', item.id]);
   }
 
   handlePageChange(event: PageChangeEvent) {

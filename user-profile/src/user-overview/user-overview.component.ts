@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs/operators';
-import { GeneralsService, SmsService, UserReq } from '@vet/backend';
-import { getUserOverviewFormData, userOverviewForm } from './user-overview-form';
+import { AuthService, GeneralsService, SmsService, UserReq } from '@vet/backend';
+import { getOrganisationUserOverviewFormData, getUserOverviewFormData, userOverviewForm } from './user-overview-form';
 import { UserProfileSection } from '../user-profile-section';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { RegistrationPhoneVerificationComponent, UserRolesService } from '@vet/auth';
+import { RegistrationPhoneVerificationComponent, RolePipe, UserRolesService } from '@vet/auth';
 import { ButtonComponent, IconButtonComponent, InputComponent, SelectorComponent, useControlValue } from '@vet/shared';
-import { useDistrictsOptions, useRegionsOptions } from '../user-profile.resources';
 import { useDistricts, useFilteredDistricts, useRegions } from '@vet/shared-resources';
+import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 type UserUpdateReq = {
   address: string,
@@ -32,9 +33,10 @@ type UserUpdateReq = {
     SelectorComponent,
     InputComponent,
     ButtonComponent,
+    RolePipe
   ],
 })
-export class UserOverviewComponent extends UserProfileSection implements OnInit {
+export class UserOverviewComponent extends UserProfileSection {
   kendoIcons = kendoIcons;
 
   isAddressExpanded = signal(true);
@@ -42,6 +44,13 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
   isSmsCodeSent = signal(false);
   protected readonly userRolesService = inject(UserRolesService);
   protected readonly selectedAccountName = computed(() => this.userRolesService.selectedAccountName());
+  readonly hasEditRights = computed(() => {
+    const isOrganisation = !!this.userRolesService.organisation();
+    const isDefaultUser = !isOrganisation;
+    const isSuperAdmin = this.userRolesService.hasRole('Super Admin');
+  
+    return isDefaultUser || isSuperAdmin;
+  });
 
   save = output();
 
@@ -49,6 +58,9 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
 
   generalsService = inject(GeneralsService);
   smsService = inject(SmsService);
+  organisationService = inject(AuthService);
+
+  private router = inject(Router);
 
   oldPhoneNumber = '';
 
@@ -58,28 +70,51 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
   selectedRegion = useControlValue(this.form, form => form.controls['region']);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
 
+  private readonly _organisationUserResource = rxResource({
+    request: () => {
+      const organisation = this.userRolesService.organisation();
+      return {
+        code: organisation,
+      };
+    },
+    loader: ({ request: { code } }) => {  
+      if(code) {
+        return this.organisationService.getUserOrganisation(code)
+      }
+
+      return of(null);
+    },
+  });
+
   constructor() {
     super();
-    const formDataModel = computed(() => getUserOverviewFormData(this.authService.user()));
+  
     effect(() => {
-      this.form.reset(formDataModel());
+      const organisation = this.userRolesService.organisation();
+      const organisationUser = this._organisationUserResource.value();
+      const user = this.authService.user();
+      const canEdit = this.hasEditRights();
+    
+      const formDataModel = organisation
+        ? getOrganisationUserOverviewFormData(organisationUser)
+        : getUserOverviewFormData(user);
+    
+      this.form.reset(formDataModel);
       this.oldPhoneNumber = this.form.value.phone;
+    
+      if (!canEdit) {
+        this.disableFormControls();
+      }
     });
   }
 
-  ngOnInit(): void {
-    this.disableControls();
-  }
-
-  disableControls() {
-    if (!this.userRolesService.hasRole('Default User') && !this.userRolesService.hasRole('Super Admin')) {
-      this.form.get('region')?.disable();
-      this.form.get('city')?.disable();
-      this.form.get('address')?.disable();
-      this.form.get('email')?.disable();
-      this.form.get('phone')?.disable();
-    }
-  }
+  disableFormControls() {
+    this.form.get('region')?.disable();
+    this.form.get('city')?.disable();
+    this.form.get('address')?.disable();
+    this.form.get('email')?.disable();
+    this.form.get('phone')?.disable();
+  }  
 
   onAddressExpandClick(): void {
     this.isAddressExpanded.update((expanded) => !expanded);
@@ -98,9 +133,16 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
         .sendSmsCode(targetPhone)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
-          tap(() => {
-            this.isSmsCodeSent.set(true);
-          }),
+          tap({
+            next: () => {
+              this.isSmsCodeSent.set(true);
+            },
+            error: (response) => {
+              if (response.error.error.code === 1002) {
+                this.isSmsCodeSent.set(true);
+              }
+            }
+          })
         )
         .subscribe();
     }
@@ -113,6 +155,11 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
 
   handleSave(): void {
     const currentPhone = this.form.value.phone;
+
+    if(!this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     if (this.oldPhoneNumber === currentPhone) {
       this.updateUserWithoutPhone();
@@ -152,5 +199,9 @@ export class UserOverviewComponent extends UserProfileSection implements OnInit 
 
     this.isSmsCodeSent.set(false);
     this.updateUser(userReq);
+  }
+
+  navigateToHomePage() {
+    this.router.navigate(['']);
   }
 }

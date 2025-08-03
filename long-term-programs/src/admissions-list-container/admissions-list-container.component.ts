@@ -2,9 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RolePipe, UserRolesService } from '@vet/auth';
 import { AdmissionsListAdminComponent } from '../admissions-list-admin/admissions-list-admin.component';
 import { AdmissionsListComponent } from '../admissions-list/admissions-list.component';
-import {
-  AdmissionListOrganisationComponent
-} from '../admission-list-organisation/admission-list-organisation.component';
+import { AdmissionListOrganisationComponent } from '../admission-list-organisation/admission-list-organisation.component';
 
 @Component({
   selector: 'vet-admissions-list-container',

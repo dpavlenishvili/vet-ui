@@ -6,10 +6,10 @@
         alt="user"
         class="vet-profile-picture"
       />
-      <p class="vet-text-base">
+      <p class="vet-text-uppercase">
         {{
           selectedAccountName() && selectedAccountName() !== form.get('name')?.value
-            ? selectedAccountName() + ' (' + form.get('name')?.value + ')'
+            ? selectedAccountName()
             : form.get('name')?.value
         }}
       </p>
@@ -18,7 +18,7 @@
     <div vet-container>
       <div class="vet-user-info">
         <div class="vet-content-box">
-          <p class="vet-text-base">{{ 'profile.actual_address' | transloco }}</p>
+          <p class="vet-text-uppercase">{{ 'profile.actual_address' | transloco }}</p>
           <vet-icon-button 
             [icon]="isAddressExpanded() ? 'arrowUp' : 'arrowDown'" 
             (click)="onAddressExpandClick()"
@@ -60,7 +60,7 @@
 
       <div class="vet-user-info">
         <div class="vet-content-box">
-          <p class="vet-text-base">{{ 'profile.contact_info' | transloco }}</p>
+          <p class="vet-text-uppercase">{{ 'profile.contact_info' | transloco }}</p>
           <vet-icon-button 
             [icon]="isContactInfoExpanded() ? 'arrowUp' : 'arrowDown'" 
             (click)="onContactInfoExpandClick()"
@@ -103,11 +103,19 @@
     </div>
 
     <div vet-row content-right>
-      <vet-button
-       (click)="handleSave()"
-      >
-        {{ 'profile.save' | transloco }}
-      </vet-button>
+      @if ('Organisation' | role) {
+        <vet-button
+          (click)="navigateToHomePage()"
+        >
+          {{'shared.close' | transloco}}
+        </vet-button>
+      } @else {
+        <vet-button
+          (click)="handleSave()"
+        >
+          {{ 'profile.save' | transloco }}
+        </vet-button>
+      }
     </div>
   </div>
 </form>

@@ -1,8 +1,8 @@
 import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
 import { Route } from '@angular/router';
 
-const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
 const BASE_PATH = '/dashboard/programs/long';
+const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }, { path: BASE_PATH, text: 'dashboard.long_term_programs' },];
 
 export const longTermProgramsDashboardRoutes: Route[] = [
   {
@@ -11,8 +11,7 @@ export const longTermProgramsDashboardRoutes: Route[] = [
     loadComponent: () =>
       import('@vet/long-term-programs').then((m) => m.AdmissionsListContainerComponent),
     data: breadcrumb([
-      ...baseBreadcrumbItems,
-      { path: BASE_PATH, text: 'dashboard.long_term_programs' },
+      ...baseBreadcrumbItems
     ]),
   },
   {

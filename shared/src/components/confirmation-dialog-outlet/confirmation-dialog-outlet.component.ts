@@ -76,6 +76,7 @@ export class ConfirmationDialogOutletComponent {
 
   protected close() {
     if (!this.params()?.preventCloseOnKeyDown) {
+      this.params()?.onDismiss?.();
       this.confirmationDialogService.close();
     }
   }

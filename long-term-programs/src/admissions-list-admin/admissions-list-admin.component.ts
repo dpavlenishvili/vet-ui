@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
@@ -6,17 +6,19 @@ import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
   filterEmptyValues,
-  FormatDatePipe, IconButtonComponent,
+  FormatDatePipe,
+  IconButtonComponent,
   RouteParamsService,
   useFilters,
   useFiltersUpdater,
-  vetIcons
+  vetIcons,
 } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { AdmissionsListAdminFiltersComponent } from './admissions-list-admin-filters/admissions-list-admin-filters.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AdmissionListFilterParams } from '../long-term-programs.types';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-admissions-list-admin',
@@ -27,6 +29,7 @@ import { AdmissionListFilterParams } from '../long-term-programs.types';
     AdmissionsListAdminFiltersComponent,
     FormatDatePipe,
     IconButtonComponent,
+    TooltipDirective,
   ],
   templateUrl: './admissions-list-admin.component.html',
   styleUrl: './admissions-list-admin.component.scss',
@@ -56,13 +59,38 @@ export class AdmissionsListAdminComponent {
   private readonly _userRolesService = inject(UserRolesService);
   private readonly document = inject(DOCUMENT);
 
-
-  protected onViewClick(item: AdmissionReq): void {
+  onViewClick(item: AdmissionReq): void {
     if (!item.id) {
       console.error('Cannot navigate to admission without ID');
       return;
     }
     this.router.navigate(['long-term-programs', 'view-admission', item.id, 'general_information']);
+  }
+
+  onExamCardClick(item: AdmissionReq): void {
+    if (!item.user?.pid) {
+      console.error('Cannot navigate to exam card without user PID');
+      return;
+    }
+    this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
+  }
+
+  onChooseClick(item: AdmissionReq): void {
+    if (!item.id) {
+      console.error('Cannot navigate to choose without admission ID');
+      return;
+    }
+
+    this.router.navigate(['long-term-programs', 'last-choose', item.id]);
+  }
+
+  onResultClick(item: AdmissionReq): void {
+    if (!item.id) {
+      console.error('Cannot navigate to result without admission ID');
+      return;
+    }
+
+    this.router.navigate(['long-term-programs', 'last-result', item.id]);
   }
 
   handlePageChange(event: PageChangeEvent) {

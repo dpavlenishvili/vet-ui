@@ -1,7 +1,6 @@
 @if (resolvedParams(); as params) {
   <kendo-dialog
     class="vet-confirmation-dialog"
-    [title]="params.title ? (params.title | transloco) : ''"
     [width]="dialogWidth"
     (close)="close()"
     [ngClass]="params.variant"
@@ -19,9 +18,18 @@
         </div>
       }
 
-      @if (params.content) {
+      @if (params.content || params.title) {
         <div class="dialog-message">
-          <span>{{ params.content | transloco }}</span>
+          @if (params.title) {
+            <div class="dialog-title">
+              <span>{{ params.title | transloco }}</span>
+            </div>
+          }
+          @if (params.content) {
+            <div class="dialog-content-text">
+              <span>{{ params.content | transloco }}</span>
+            </div>
+          }
         </div>
       }
     </div>

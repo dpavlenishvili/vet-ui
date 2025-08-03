@@ -86,7 +86,7 @@ export class CommissionMembersDialogComponent implements OnInit {
 
   createFormGroup() {
     return new FormGroup({
-      pid: new FormControl('', [Validators.required, personalNumberValidator]),
+      pid: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required, georgianLettersValidator]),
       first_name: new FormControl(),
       last_name: new FormControl(),

@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject, inject, input, OnInit, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  Inject,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
@@ -8,7 +18,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AuthenticationService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { AdmissionService } from '@vet/backend';
+import { AdmissionService, GeneralsService } from '@vet/backend';
 import {
   AdmissionSelectedProgramsComponent,
   ProgramSelectedProgramsStepFormGroup,
@@ -55,8 +65,25 @@ export class ProgramConfirmationStepComponent implements OnInit {
   user = inject(AuthenticationService).user;
 
   admissionService = inject(AdmissionService);
-  educationStatus = rxResource({
-    loader: () => this.admissionService.educationStatus(),
+  generalsService = inject(GeneralsService);
+
+  educations$ = rxResource({
+    loader: () => this.generalsService.getAllConfigs({ key: 'education_levels' })
+  });
+
+  // Computed signal to get the selected education text from form data
+  selectedEducation = computed(() => {
+    const educations = this.educations$.value();
+    const generalForm = this.generalInformationFormGroup();
+
+    if (!educations || !generalForm) {
+      return ''; // Return empty string while loading
+    }
+
+    const selectedEducationId = generalForm.get('education')?.value;
+    const selectedEducation = educations?.education_levels?.find(edu => edu.id === selectedEducationId);
+
+    return selectedEducation?.value || '';
   });
   selectedPrograms = admissionProgramsResource(this.admissionId);
   maxLengthOfRequirements = 2000;

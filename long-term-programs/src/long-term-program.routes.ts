@@ -170,7 +170,9 @@ export const longTermProgramsRoutes: Route[] = [
   {
     path: 'last-choose/:id',
     loadComponent: () =>
-      import('./admission-program-choose/admission-program-choose.component').then((m) => m.AdmissionProgramChooseComponent),
+      import('./admission-program-choose/admission-program-choose.component').then(
+        (m) => m.AdmissionProgramChooseComponent,
+      ),
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
@@ -180,7 +182,9 @@ export const longTermProgramsRoutes: Route[] = [
   {
     path: 'last-result/:id',
     loadComponent: () =>
-      import('./admission-program-result/admission-program-result.component').then((m) => m.AdmissionProgramResultComponent),
+      import('./admission-program-result/admission-program-result.component').then(
+        (m) => m.AdmissionProgramResultComponent,
+      ),
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },

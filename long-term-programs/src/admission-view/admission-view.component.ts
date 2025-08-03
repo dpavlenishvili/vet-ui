@@ -10,11 +10,7 @@ import { UserRolesService } from '@vet/auth';
   standalone: true,
   template: `
     @if (admissionData()) {
-      <vet-admission-wizard
-        [admissionId]="admissionId()"
-        [admissionData]="admissionData()"
-        [isViewMode]="true"
-      />
+      <vet-admission-wizard [admissionId]="admissionId()" [admissionData]="admissionData()" [isViewMode]="true" />
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

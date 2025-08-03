@@ -18,7 +18,7 @@
           </div>
           <div class="user-detail-row">
             <span class="label">{{ 'programs.education' | transloco }}:</span>
-            <span class="value k-text-base">{{ educationStatus.value()?.level }}</span>
+            <span class="value k-text-base">{{ selectedEducation() }}</span>
           </div>
         </div>
       </div>
@@ -166,7 +166,7 @@
           />
         </div>
 
-        @if (isAbroadEnabled()) {
+        @if (isAbroadEnabled() && user()?.residential === citizenship.Georgian) {
           <div class="section-content">
             <vet-info variant="warning">
               {{ 'programs.switchWarning' | transloco }}
@@ -198,7 +198,7 @@
           />
         </div>
 
-        @if (isOcuEnabled()) {
+        @if (isOcuEnabled() && user()?.residential === citizenship.Georgian) {
           <div class="section-content">
             <vet-info variant="warning">
               {{ 'programs.switchWarning' | transloco }}

@@ -22,28 +22,6 @@ export class ConfirmationDialogService {
     return this.showVariant('warning', params);
   }
 
-  confirm(
-    content: string,
-    options: {
-      title?: string;
-      variant?: DialogVariant | 'default';
-      confirmText?: string;
-      dismissText?: string;
-    } = {}
-  ) {
-    return new Promise<boolean>((resolve) => {
-      this.show({
-        title: options.title,
-        content,
-        variant: options.variant,
-        confirmButtonText: options.confirmText,
-        dismissButtonText: options.dismissText,
-        onConfirm: () => resolve(true),
-        onDismiss: () => resolve(false),
-      });
-    });
-  }
-
   close() {
     this.currentDialogParams.set(null);
   }

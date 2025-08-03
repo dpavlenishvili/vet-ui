@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ConfirmationDialogService, InfoComponent } from '@vet/shared';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { GridModule, RowArgs, SelectableSettings } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { GridModule } from '@progress/kendo-angular-grid';
+import { AdmissionPrograms, AdmissionService } from '@vet/backend';
+import { InfoComponent, useConfirm } from '@vet/shared';
+import { catchError, finalize, of } from 'rxjs';
+import { SelectionEvent } from '@progress/kendo-angular-grid/selection/types';
 
 @Component({
   selector: 'vet-admission-program-choose',
@@ -10,177 +15,129 @@ import { GridModule } from '@progress/kendo-angular-grid';
   styleUrl: './admission-program-choose.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdmissionProgramChooseComponent {
-  // @Output() selectionChange = new EventEmitter<{ programId: number; admissionId: number; selected: boolean }>();
+export class AdmissionProgramChooseComponent implements OnInit {
+  private readonly admissionService = inject(AdmissionService);
+  private readonly confirm = useConfirm();
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  private confirmService = inject(ConfirmationDialogService);
+  protected readonly admissionId = signal<string | null>(null);
+  protected readonly isLoading = signal(false);
+  protected readonly selectedProgramKeys = signal<number[]>([]);
 
-  allPrograms = signal<(any & { admissionId: number; programId: number })[]>([
-    {
-      select: false,
-      status: 'pending',
-      admissionId: 183,
-      programId: 70,
-      program: {
-        id: 70,
-        program_name: 'ელექტროობა',
-        type: 'long-term',
-        specialization_name: 'ელექტროობა',
-        qualification_name: 'საბაზო პროფესიული კვალიფიკაცია ელექტროობაში',
-        program_code: '07-0255',
-        address: 'ილია ჭავჭავაძის ქ. N8',
-        credits_count: '52',
-        program_duration: '9',
-        organisation: {
-          name: 'სსიპ - კოლეჯი „ბლექსი"',
-          address: 'ქ.ბათუმი, ლერმონტოვის ქ.N92 ა',
-          phone: '577544457',
-          email: 'info@blacksea.edu.ge',
-        },
-        region: {
-          name: 'აჭარა',
-        },
-        district: {
-          name: 'შუახევი',
-        },
-        admission: {
-          registration_start_date: '2025-08-26',
-          registration_end_date: '2025-08-29',
-          study_start_date: '2025-11-01',
-          study_end_date: '2026-06-13',
-          students_limit: 5,
-          program_fee: '0',
-          student_fee: '0',
-        },
-      },
+  protected readonly selectableSettings: SelectableSettings = {
+    enabled: true,
+    mode: 'multiple',
+    checkboxOnly: true,
+  };
+
+  protected readonly programsList$ = rxResource({
+    request: () => ({ admissionId: this.admissionId() }),
+    loader: ({ request: { admissionId } }) => {
+      if (!admissionId) {
+        return of({ data: [] });
+      }
+
+      return this.admissionService.admissionProgramList(admissionId).pipe(
+        catchError((error) => {
+          console.error('Failed to load programs list:', error);
+          return of({ data: [] });
+        }),
+      );
     },
-    {
-      select: false,
-      status: 'pending',
-      admissionId: 189,
-      programId: 59,
-      program: {
-        id: 59,
-        program_name: 'სასტუმრო მომსახურება',
-        type: 'long-term',
-        specialization_name: 'სასტუმროს მომსახურება',
-        qualification_name: 'საშუალო პროფესიული კვალიფიკაცია სასტუმრო მომსახურებაში',
-        program_code: '10-0029',
-        address: 'მიხეილ ლერმონტოვის №92ა',
-        credits_count: '80',
-        program_duration: '20',
-        organisation: {
-          name: 'სსიპ - კოლეჯი „ბლექსი"',
-          address: 'ქ.ბათუმი, ლერმონტოვის ქ.N92 ა',
-          phone: '577544457',
-          email: 'info@blacksea.edu.ge',
-        },
-        region: {
-          name: 'აჭარა',
-        },
-        district: {
-          name: 'ბათუმი',
-        },
-        admission: {
-          registration_start_date: '2025-07-26',
-          registration_end_date: '2025-07-29',
-          study_start_date: '2025-11-01',
-          study_end_date: '2027-08-19',
-          students_limit: 5,
-          program_fee: '0',
-          student_fee: '0',
-        },
-      },
-    },
-    {
-      select: false,
-      status: 'pending',
-      admissionId: 189,
-      programId: 80,
-      program: {
-        id: 80,
-        program_name: 'კომპიუტერული ქსელის ადმინისტრირება',
-        type: 'long-term',
-        specialization_name: 'კომპიუტერული ქსელის ადმინისტრირება',
-        qualification_name: 'უმაღლესი პროფესიული კვალიფიკაცია კომპიუტერული ქსელის ადმინისტრირებაში',
-        program_code: '06-0170',
-        address: 'მიხეილ ლერმონტოვის №92ა',
-        credits_count: '115',
-        program_duration: '24',
-        organisation: {
-          name: 'სსიპ - კოლეჯი „ბლექსი"',
-          address: 'ქ.ბათუმი, ლერმონტოვის ქ.N92 ა',
-          phone: '577544457',
-          email: 'info@blacksea.edu.ge',
-        },
-        region: {
-          name: 'აჭარა',
-        },
-        district: {
-          name: 'ბათუმი',
-        },
-        admission: {
-          registration_start_date: '2025-08-26',
-          registration_end_date: '2025-08-29',
-          study_start_date: '2025-11-01',
-          study_end_date: '2027-02-03',
-          students_limit: 5,
-          program_fee: '0',
-          student_fee: '0',
-        },
-      },
-    },
-  ]);
+  });
 
-  async onSelectionChange(item: any & { admissionId: number; programId: number }, event: Event) {
-    const target = event.target as HTMLInputElement;
-    const isSelecting = target.checked;
+  protected readonly selectionKey = (context: RowArgs): number => {
+    const program = context.dataItem as AdmissionPrograms;
+    return program.program?.id || 0;
+  };
 
-    const confirmationText = isSelecting ? 'programs.confirm_select_program' : 'programs.confirm_deselect_program';
+  private readonly initializeSelections = effect(() => {
+    const programs = this.programsList$.value()?.data || [];
+    if (programs.length > 0) {
+      const selectedIds = programs
+        .filter((program) => program.select === true)
+        .map((program) => program.program?.id)
+        .filter(Boolean) as number[];
 
-    const confirmed = await this.confirmService.confirm(confirmationText, {
-      title: 'programs.confirmation',
-      variant: 'warning',
-      confirmText: 'shared.yes',
-      dismissText: 'shared.no',
+      this.selectedProgramKeys.set(selectedIds);
+    }
+  });
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.router.navigate(['dashboard', 'programs', 'long']);
+      return;
+    }
+
+    this.admissionId.set(id);
+  }
+
+  onSelectionChange(event: SelectionEvent): void {
+    event.selectedRows?.forEach((row) => {
+      const program = row.dataItem as AdmissionPrograms;
+      const programId = program.program?.id;
+      if (programId) {
+        this.showConfirmation(programId, program, true);
+      }
     });
 
-    if (confirmed) {
-      item.select = isSelecting;
-      this.allPrograms.update((programs) => [...programs]);
-      // this.selectionChange.emit({
-      //   programId: item.programId,
-      //   admissionId: item.admissionId,
-      //   selected: isSelecting,
-      // });
+    event.deselectedRows?.forEach((row) => {
+      const program = row.dataItem as AdmissionPrograms;
+      const programId = program.program?.id;
+      if (programId) {
+        this.showConfirmation(programId, program, false);
+      }
+    });
+  }
+
+  private showConfirmation(programId: number, program: AdmissionPrograms, isSelection: boolean): void {
+    const title = isSelection ? 'programs.confirm_program_selection' : 'programs.confirm_program_unselection';
+    const content = program.program?.program_name;
+
+    this.confirm.show({
+      title,
+      content,
+      onConfirm: () => this.executeSelectionChange(programId, isSelection),
+      onDismiss: () => {
+        this.selectedProgramKeys.set([...this.selectedProgramKeys()]);
+      },
+    });
+  }
+
+  private executeSelectionChange(programId: number, isSelection: boolean): void {
+    const admissionId = this.admissionId();
+    if (!admissionId) return;
+
+    this.isLoading.set(true);
+
+    this.admissionService
+      .selectProgramAdmission(admissionId as any, programId)
+      .pipe(
+        catchError((error) => {
+          console.error(`Error ${isSelection ? 'selecting' : 'deselecting'} program:`, error);
+          return of({ status: false });
+        }),
+        finalize(() => this.isLoading.set(false)),
+      )
+      .subscribe((response) => {
+        if (response.status !== false) {
+          this.updateSelectedKeys(programId, isSelection);
+          this.programsList$.reload();
+        }
+      });
+  }
+
+  private updateSelectedKeys(programId: number, isSelection: boolean): void {
+    const currentSelected = this.selectedProgramKeys();
+
+    if (isSelection) {
+      if (!currentSelected.includes(programId)) {
+        this.selectedProgramKeys.set([...currentSelected, programId]);
+      }
     } else {
-      target.checked = !isSelecting;
-    }
-  }
-
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'pending':
-        return 'status-pending';
-      case 'approved':
-        return 'status-approved';
-      case 'rejected':
-        return 'status-rejected';
-      default:
-        return '';
-    }
-  }
-
-  getStatusText(status: string): string {
-    switch (status) {
-      case 'pending':
-        return 'programs.status_pending';
-      case 'approved':
-        return 'programs.status_approved';
-      case 'rejected':
-        return 'programs.status_rejected';
-      default:
-        return 'programs.status_unknown';
+      this.selectedProgramKeys.set(currentSelected.filter((id) => id !== programId));
     }
   }
 }
