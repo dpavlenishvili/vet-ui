@@ -100,8 +100,14 @@ export class RegistrationIdentityCitizenComponent {
     const form = this.identityForm()?.value;
 
     if (this.identityForm()?.invalid) {
-      this.identityForm()?.markAllAsTouched();
-      return;
+      const errors = this.identityForm()?.errors || {};
+      const errorKeys = Object.keys(errors);
+      const hasOnlyPersonNotVerifiedError = errorKeys.length === 1 && errors['personNotVerified'];
+
+      if (!hasOnlyPersonNotVerifiedError) {
+        this.identityForm()?.markAllAsTouched();
+        return;
+      }
     }
 
     const currentPID = form?.personalNumber as string;
@@ -114,7 +120,7 @@ export class RegistrationIdentityCitizenComponent {
 
     this.registerService
       .validatePerson(
-        { pid: currentPID, last_name: currentLastname },
+        { pid: currentPID, last_name: currentLastname, residential: 'GEO' },
         {
           context: this.createApiErrorHandlerContext(),
         },
@@ -137,13 +143,11 @@ export class RegistrationIdentityCitizenComponent {
             this.isPersonVerified.set(false);
             this.personVerificationChange.emit(false);
 
-            if (error?.error?.error?.code === 1009) {
-              const errorMessage = error?.error?.error?.message || 'auth.person_validation_failed';
-              this.alert.show({
-                variant: 'warning',
-                text: errorMessage,
-              });
-            }
+            const errorMessage = error?.error?.error?.message || 'auth.person_validation_failed';
+            this.alert.show({
+              variant: 'warning',
+              text: errorMessage,
+            });
           },
         }),
       )

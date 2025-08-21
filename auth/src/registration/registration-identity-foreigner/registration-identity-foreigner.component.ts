@@ -12,6 +12,7 @@ import {
   useAlert,
   useAlertApiErrorHandler,
   useApiErrorConditionalContextFactory,
+  useConfirm,
   useToastApiErrorHandler,
 } from '@vet/shared';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
@@ -44,6 +45,7 @@ export class RegistrationIdentityForeignerComponent {
   });
 
   alert = useAlert();
+  confirm = useConfirm();
 
   isPersonVerified = model(false);
   generalForm = input<FormGroup>();
@@ -63,6 +65,7 @@ export class RegistrationIdentityForeignerComponent {
   nextClick = output();
   personVerificationChange = output<boolean>();
   switchToGeorgianCitizenship = output<User>();
+  resetForm = output<void>();
 
   registerService = inject(RegisterService);
   router = inject(Router);
@@ -80,10 +83,14 @@ export class RegistrationIdentityForeignerComponent {
           filter(() => this.isPersonVerified()),
           debounceTime(300),
           distinctUntilChanged((prev, curr) => {
+            // ყველა მთავარი ველის შემოწმება რომ თავიდან გადამოწმება მოხდეს
             return (
               prev.personalNumber === curr.personalNumber &&
               prev.lastName === curr.lastName &&
-              prev.residential === curr.residential
+              prev.residential === curr.residential &&
+              prev.firstName === curr.firstName &&
+              prev.dateOfBirth === curr.dateOfBirth &&
+              prev.gender === curr.gender
             );
           }),
           tap(() => {
@@ -110,8 +117,14 @@ export class RegistrationIdentityForeignerComponent {
     const form = this.identityForm()?.value;
 
     if (this.identityForm()?.invalid) {
-      this.identityForm()?.markAllAsTouched();
-      return;
+      const errors = this.identityForm()?.errors || {};
+      const errorKeys = Object.keys(errors);
+      const hasOnlyPersonNotVerifiedError = errorKeys.length === 1 && errors['personNotVerified'];
+
+      if (!hasOnlyPersonNotVerifiedError) {
+        this.identityForm()?.markAllAsTouched();
+        return;
+      }
     }
 
     if (this.isPersonVerified() && this.identityForm()?.valid) {
@@ -121,7 +134,11 @@ export class RegistrationIdentityForeignerComponent {
 
     this.registerService
       .validatePerson(
-        { pid: form?.personalNumber as string, last_name: form?.lastName as string },
+        {
+          pid: form?.personalNumber as string,
+          last_name: form?.lastName as string,
+          residential: form?.residential as string,
+        },
         {
           context: this.createApiErrorHandlerContext(),
         },
@@ -129,35 +146,45 @@ export class RegistrationIdentityForeignerComponent {
       .pipe(
         tap({
           next: (personalInfo: User) => {
-            this.isPersonVerified.set(true);
-            this.switchToGeorgianCitizenship.emit({
-              pid: personalInfo.pid || (form?.personalNumber as string),
-              firstName: personalInfo.firstName || (form?.firstName as string),
-              lastName: personalInfo.lastName || (form?.lastName as string),
-              birthDate: personalInfo.birthDate || (form?.dateOfBirth as unknown as string),
-              gender: personalInfo.gender || (form?.gender as string),
-            });
-            this.personVerificationChange.emit(true);
+            if (personalInfo.firstName) {
+              const title = 'auth.citizenship_auto_update_confirm';
 
-            this.onNextClick();
-          },
-          error: (error) => {
-            if (error?.error?.error?.code === 1009) {
-              const errorMessage = error?.error?.error?.message || 'auth.person_validation_failed';
-              this.alert.show({
-                variant: 'warning',
-                text: errorMessage,
+              this.confirm.show({
+                title,
+                onConfirm: () => {
+                  this.isPersonVerified.set(true);
+                  this.switchToGeorgianCitizenship.emit({
+                    pid: personalInfo.pid || (form?.personalNumber as string),
+                    firstName: personalInfo.firstName || (form?.firstName as string),
+                    lastName: personalInfo.lastName || (form?.lastName as string),
+                    birthDate: personalInfo.birthDate || (form?.dateOfBirth as unknown as string),
+                    gender: personalInfo.gender || (form?.gender as string),
+                  });
+                  this.personVerificationChange.emit(true);
+                  this.onNextClick();
+                },
+                onDismiss: () => {
+                  this.isPersonVerified.set(false);
+                  this.personVerificationChange.emit(false);
+                  this.resetForm.emit();
+                  this.router.navigate(['/registration', 'citizenship_selection']);
+                },
               });
-            }
-
-            if (error.error?.error?.can_register === false) {
-              this.isPersonVerified.set(false);
-              this.personVerificationChange.emit(false);
             } else {
               this.isPersonVerified.set(true);
               this.personVerificationChange.emit(true);
               this.onNextClick();
             }
+          },
+          error: (error) => {
+            this.isPersonVerified.set(false);
+            this.personVerificationChange.emit(false);
+
+            const errorMessage = error?.error?.error?.message || 'auth.person_validation_failed';
+            this.alert.show({
+              variant: 'warning',
+              text: errorMessage,
+            });
           },
         }),
       )

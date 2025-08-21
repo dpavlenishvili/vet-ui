@@ -34,7 +34,7 @@
 
   kendo-textbox .k-input-inner::placeholder {
     color: shared.$kendo-color-body;
-    font-family: HelveticaNeue;
+    font-family: shared.$font-family-primary;
   }
   .download-icon {
     width: 2.8rem;

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, viewChild } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
-import { UserRolesService } from '@vet/auth';
+import { RolePipe, UserRolesService } from '@vet/auth';
 import { CellClickEvent, GridComponent, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormatDateTimePipe, vetIcons } from '@vet/shared';
@@ -21,6 +21,7 @@ import { catchError, of } from 'rxjs';
     FormatDateTimePipe,
     AdmissionSelectedProgramsComponent,
     TooltipDirective,
+    RolePipe,
   ],
   templateUrl: './admissions-list.component.html',
   styleUrl: './admissions-list.component.scss',

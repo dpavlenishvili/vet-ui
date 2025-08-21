@@ -12,8 +12,9 @@
       position: relative;
       line-height: 1.5;
       font-size: 14px;
+
       &::before {
-        content: "•";
+        content: '•';
         position: absolute;
         left: 12px;
         top: 8px;

@@ -1,0 +1,48 @@
+@use '@vet/shared-styles' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: $white;
+  border-radius: 1.25rem;
+  gap: 1.25rem;
+}
+
+.stats-container {
+  display: flex;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid $kendo-color-card-border;
+  background-color: #f9fafb;
+
+  .stats-title,
+  .stats-value {
+    background-color: $tb-kendo-color-surface;
+    padding: 	0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  .stats-title {
+    border-right: 1px solid $kendo-color-card-border;
+  }
+
+  .stats-value {
+    background-color: $white;
+    justify-content: flex-start;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.8 rem;
+    color: $kendo-color-body-dark;
+  }
+}
+
+.organisation-link {
+  color: $kendo-color-info;
+}

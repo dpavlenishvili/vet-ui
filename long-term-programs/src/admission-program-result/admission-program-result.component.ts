@@ -1,27 +1,38 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { catchError, of } from 'rxjs';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { LoaderComponent } from '@progress/kendo-angular-indicators';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { RolePipe } from '@vet/auth';
 import { AdmissionService } from '@vet/backend';
 import { InfoComponent, vetIcons } from '@vet/shared';
-import { catchError, of } from 'rxjs';
-import { LoaderComponent } from '@progress/kendo-angular-indicators';
+import { AdmissionProgramGridComponent } from '../admission-program-grid/admission-program-grid.component';
 
 @Component({
   selector: 'vet-admission-program-result',
-  imports: [GridModule, TranslocoPipe, InfoComponent, LoaderComponent],
+  imports: [
+    GridModule,
+    ButtonsModule,
+    TranslocoPipe,
+    InfoComponent,
+    LoaderComponent,
+    AdmissionProgramGridComponent,
+    RolePipe,
+  ],
   templateUrl: './admission-program-result.component.html',
   styleUrl: './admission-program-result.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdmissionProgramResultComponent implements OnInit {
-  private admissionService = inject(AdmissionService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-
   protected readonly vetIcons = vetIcons;
   protected readonly admissionId = signal<string | null>(null);
+
+  private readonly admissionService = inject(AdmissionService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   protected readonly programsList$ = rxResource({
     request: () => ({ admissionId: this.admissionId() }),
@@ -30,18 +41,13 @@ export class AdmissionProgramResultComponent implements OnInit {
         return of({ data: [] });
       }
 
-      return this.admissionService.admissionProgramList(admissionId).pipe(
+      return this.admissionService.userResults(admissionId).pipe(
         catchError((error) => {
           console.error('Failed to load programs list:', error);
           return of({ data: [] });
         }),
       );
     },
-  });
-
-  protected readonly selectedPrograms = computed(() => {
-    const programs = this.programsList$.value()?.data || [];
-    return programs.filter((program) => program.select === true);
   });
 
   ngOnInit(): void {
@@ -52,5 +58,9 @@ export class AdmissionProgramResultComponent implements OnInit {
     }
 
     this.admissionId.set(id);
+  }
+
+  onClose(): void {
+    this.router.navigate(['dashboard', 'programs', 'long']);
   }
 }

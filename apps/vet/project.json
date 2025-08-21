@@ -7,7 +7,7 @@
   "tags": ["type:app"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@angular-builders/custom-esbuild:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "{workspaceRoot}/dist/{projectRoot}",
@@ -17,6 +17,9 @@
         "ssr": {
           "entry": "{projectRoot}/server.ts"
         },
+        "plugins": [
+          "{projectRoot}/setup-environment-plugin.mjs"
+        ],
         "polyfills": ["zone.js", "@angular/localize/init"],
         "tsConfig": "{projectRoot}/tsconfig.app.json",
         "assets": ["{projectRoot}/src/favicon.ico", "{projectRoot}/src/assets"],
@@ -45,7 +48,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular-builders/custom-esbuild:dev-server",
       "options": {
         "port": 4201
       },

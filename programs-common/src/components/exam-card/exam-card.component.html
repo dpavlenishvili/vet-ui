@@ -1,7 +1,18 @@
 @if (examCard$.value()?.data; as _examCard) {
   <div class="k-display-flex k-flex-column k-gap-5">
     <div class="vet-exam-card">
-      <img src="/assets/images/profile.png" width="183" height="157" alt="Profile" />
+      <img
+        [src]="
+          _examCard.user?.photo !== null
+            ? _examCard.user?.photo
+            : _examCard.user?.gender === 'male'
+              ? '/assets/images/default-male.png'
+              : '/assets/images/default-female.png'
+        "
+        width="183"
+        height="157"
+        alt="Profile"
+      />
 
       <div class="vet-exam-card-info">
         <div class="vet-exam-card-info-row">
@@ -29,7 +40,53 @@
       </div>
     </div>
 
-    @if (_examCard.programs; as selectedPrograms) {
+    @if (_examCard.programs?.naec; as selectedNaecPrograms) {
+      @if (selectedNaecPrograms.length) {
+        <kendo-grid [data]="selectedNaecPrograms">
+          <ng-template kendoGridNoRecordsTemplate>
+            {{ 'programs.no_records' | transloco }}
+          </ng-template>
+
+          <kendo-grid-column title="#" [width]="50">
+            <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+              {{ rowIndex + 1 }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column [title]="'programs.registration_number' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.reg_code }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column [title]="'programs.test_name' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.name }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column [title]="'programs.exam_center' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.address }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column [title]="'programs.sector' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.sector }}
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="exam_date" [title]="'programs.exam_start_date' | transloco">
+            <ng-template kendoGridCellTemplate let-item>
+              {{ item.start_at | formatDateTime }}
+            </ng-template>
+          </kendo-grid-column>
+        </kendo-grid>
+      }
+    }
+
+    @if (_examCard.programs?.other; as selectedPrograms) {
       <kendo-grid [data]="selectedPrograms">
         <ng-template kendoGridNoRecordsTemplate>
           {{ 'programs.no_records' | transloco }}
@@ -55,7 +112,7 @@
 
         <kendo-grid-column field="education_level" [title]="'programs.selection_name' | transloco">
           <ng-template kendoGridCellTemplate let-item>
-            {{ item.program.program_kind.name }}
+            {{ item.name }}
           </ng-template>
         </kendo-grid-column>
 
@@ -67,7 +124,7 @@
 
         <kendo-grid-column field="exam_date" [title]="'programs.exam_start_date' | transloco">
           <ng-template kendoGridCellTemplate let-item>
-            {{ item.start_at | date: 'dd.MM.yyyy' }}
+            {{ item.start_at | formatDateTime }}
           </ng-template>
         </kendo-grid-column>
       </kendo-grid>
@@ -99,7 +156,7 @@
   </div>
 } @else if (examCard$.isLoading()) {
   <div class="k-display-flex k-justify-content-center k-align-items-center k-p-10">
-    {{ 'shared.loading' | transloco }}
+    <kendo-loader size="medium" [themeColor]="'secondary'" />
   </div>
 } @else {
   <div class="k-display-flex k-justify-content-center k-align-items-center k-p-10">

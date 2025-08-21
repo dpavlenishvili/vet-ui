@@ -5,11 +5,10 @@
     <div class="responsive-grid-container">
       <kendo-grid [data]="_selectedPrograms" class="k-rounded-2.5" [resizable]="true">
         <ng-template kendoGridNoRecordsTemplate>
-          <div class="k-p-4 k-text-center k-color-body-light">
+          <div class="k-p-4 k-text-center k-text-base">
             {{ 'shared.noRecords' | transloco }}
           </div>
         </ng-template>
-
 
         <kendo-grid-column
           [title]="'programs.program' | transloco"
@@ -34,20 +33,9 @@
           </ng-template>
         </kendo-grid-column>
 
+        <kendo-grid-column [title]="'programs.level' | transloco" field="program.education_level" [width]="60" />
 
-        <kendo-grid-column
-          [title]="'programs.level' | transloco"
-          field="program.education_level"
-          [width]="60"
-        />
-
-
-        <kendo-grid-column
-          [title]="'programs.form' | transloco"
-          field="program.program_kind.name"
-          [width]="170"
-        />
-
+        <kendo-grid-column [title]="'programs.form' | transloco" field="program.program_kind.name" [width]="170" />
 
         <kendo-grid-column
           [title]="'programs.institution_name' | transloco"
@@ -56,7 +44,6 @@
           [minResizableWidth]="150"
           [maxResizableWidth]="350"
         />
-
 
         <kendo-grid-column
           [title]="'programs.implementation_location' | transloco"
@@ -72,7 +59,6 @@
         </kendo-grid-column>
 
         @if (isEditMode()) {
-
           <kendo-grid-column
             [title]="'programs.selection' | transloco"
             [width]="80"
@@ -99,6 +85,6 @@
 
 @if (isProgramDialogOpen()) {
   <kendo-dialog width="90%" height="90%" [title]="'programs.program_description' | transloco" (close)="onCloseClick()">
-    <vet-unauthorised-program-page [programId]="singleProgramId()"/>
+    <vet-unauthorised-program-page [programId]="singleProgramId()" />
   </kendo-dialog>
 }

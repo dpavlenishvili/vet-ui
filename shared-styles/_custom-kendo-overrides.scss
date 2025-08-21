@@ -13,6 +13,10 @@ kendo-label {
   height: 2.375rem;
 }
 
+.k-checkbox {
+  border-color: #626262;
+}
+
 .k-textbox {
   height: 2.375rem;
 
@@ -301,7 +305,7 @@ input::-moz-placeholder,
 .k-picker::-moz-placeholder {
   color: shared.$kendo-color-body !important;
   opacity: 1 !important;
-  font-family: HelveticaNeue !important;
+  font-family: shared.$font-family-primary !important;
   font-size: 14px !important;
   font-weight: 400 !important;
   line-height: 24px !important;
@@ -314,7 +318,7 @@ input::placeholder,
 .k-picker::placeholder {
   color: shared.$kendo-color-body !important;
   opacity: 1 !important;
-  font-family: HelveticaNeue !important;
+  font-family: shared.$font-family-primary !important;
   font-size: 14px !important;
   font-weight: 400 !important;
   line-height: 24px !important;

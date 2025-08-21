@@ -40,6 +40,8 @@
   .v-ui-navbar-logo-text {
     font-size: 0.875rem;
     color: var(--nav-link-color);
+    text-transform: uppercase;
+    font-family: 'BPG Mrgvlovani Caps', 'HelveticaNeue', Arial, sans-serif;
   }
 }
 
@@ -63,6 +65,8 @@
 
   .v-ui-navbar-menu-link {
     color: var(--nav-link-color);
+    text-transform: uppercase;
+    font-family: 'BPG Mrgvlovani Caps', 'HelveticaNeue', Arial, sans-serif;
 
     &:hover,
     &:focus {
@@ -240,6 +244,8 @@
         color: var(--nav-link-color);
         text-decoration: none;
         font-size: 1rem;
+        text-transform: uppercase;
+        font-family: 'BPG Mrgvlovani Caps', 'HelveticaNeue', Arial, sans-serif;
       }
     }
   }

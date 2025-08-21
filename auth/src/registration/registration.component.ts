@@ -317,12 +317,16 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  onResetForm(citizenship: string) {
+  onResetForm(citizenship?: string) {
     this.formGroup.reset();
-    this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(citizenship);
+    if (citizenship) {
+      this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(citizenship);
+      this.lastCitizenshipValue = citizenship;
+    } else {
+      this.currentStepIndex = 0;
+    }
     this.formGroup.markAsPristine();
     this.formGroup.markAsUntouched();
-    this.lastCitizenshipValue = citizenship;
     this.resetStepsFrom(1);
     this.phoneVerified.set(false);
     this.personVerified.set(false);

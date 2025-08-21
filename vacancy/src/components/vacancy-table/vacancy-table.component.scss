@@ -1,7 +1,7 @@
 @use '@vet/shared-styles' as shared;
 
 * {
-  font-family: HelveticaNeue;
+  font-family: shared.$font-family-primary;
 }
 
 .vacancy-table {

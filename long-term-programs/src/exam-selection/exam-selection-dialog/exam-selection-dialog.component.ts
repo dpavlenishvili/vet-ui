@@ -9,6 +9,8 @@ import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { iif, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ScheduleProvider } from 'long-term-programs/src/enums/schedule-provider.enum';
+import { SelectionMethod } from 'long-term-programs/src/enums/selection-method.enum';
 
 @Component({
   selector: 'vet-exam-selection-dialog',
@@ -27,6 +29,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class ExamSelectionDialogComponent {
   readonly scheduleId = input.required<string>();
+  readonly canSelectNextLevel = input.required<boolean | undefined>();
+  readonly passLevel = input.required<boolean | undefined>();
   readonly selectionMethods = input<Selection[]>([]);
   readonly mode = input.required<'results' | 'dates'>();
   readonly dialogClose = output();
@@ -34,9 +38,9 @@ export class ExamSelectionDialogComponent {
 
   protected readonly formGroups = computed(() => {
     if (this.mode() === 'dates') {
-      return this.selectionMethods().map((selection) => this.createDatesForm(selection.method?.id));
+      return this.selectionMethods().map((selection) => this.createDatesForm(selection));
     }
-    return this.selectionMethods().map((selection) => this.createResultsForm(selection.method?.id));
+    return this.selectionMethods().map((selection) => this.createResultsForm(selection));
   });
 
   protected get value() {
@@ -46,19 +50,32 @@ export class ExamSelectionDialogComponent {
   protected readonly schedulesService = inject(SchedulesService);
   protected readonly destroyRef = inject(DestroyRef);
 
-  protected createDatesForm(selection_method_id?: number): FormGroup {
+  protected createDatesForm(selection?: Selection): FormGroup {
+    const isNaec = selection?.method?.provider === ScheduleProvider.Naec;
     return new FormGroup({
-      selection_method_id: new FormControl(selection_method_id),
-      start_at: new FormControl(),
-      address: new FormControl(),
+      selection_method_id: new FormControl(selection?.method?.id),
+      start_at: new FormControl({ value: null, disabled: isNaec }),
+      address: new FormControl({ value: null, disabled: isNaec }),
     });
   }
 
-  protected createResultsForm(selection_method_id?: number): FormGroup {
+  protected createResultsForm(selection: Selection): FormGroup {
     return new FormGroup({
-      selection_method_id: new FormControl(selection_method_id),
-      score: new FormControl(),
+      selection_method_id: new FormControl(selection.method?.id),
+      score: new FormControl({ value: null, disabled: this.isDatesDisabled(selection) }),
     });
+  }
+
+  isDatesDisabled(selection: Selection) {
+    if (this.canSelectNextLevel() && !this.passLevel() && selection?.method?.category !== SelectionMethod.primary) {
+      return true;
+    }
+
+    if (selection?.method?.reviewer !== ScheduleProvider.Collage) {
+      return true;
+    }
+
+    return false;
   }
 
   protected handleClose() {

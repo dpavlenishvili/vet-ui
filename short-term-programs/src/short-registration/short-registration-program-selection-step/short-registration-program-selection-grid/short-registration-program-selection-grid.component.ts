@@ -1,5 +1,13 @@
 import { ChangeDetectionStrategy, Component, input, output, ResourceRef } from '@angular/core';
-import { FormatDatePipe, IconComponent, PaginatedGridResult, useAlert, useConfirm, vetIcons } from '@vet/shared';
+import {
+  DateDiffPipe,
+  FormatDatePipe,
+  IconComponent,
+  PaginatedGridResult,
+  useAlert,
+  useConfirm,
+  vetIcons
+} from '@vet/shared';
 import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import {
@@ -24,7 +32,8 @@ import { useProgramDialog } from '../../../short-term-programs.signals';
     SVGIconComponent,
     TranslocoPipe,
     FormatDatePipe,
-    IconComponent
+    IconComponent,
+    DateDiffPipe,
   ],
   templateUrl: './short-registration-program-selection-grid.component.html',
   styleUrl: './short-registration-program-selection-grid.component.scss',
@@ -55,7 +64,7 @@ export class ShortRegistrationProgramSelectionGridComponent {
 
   onSelectProgram(program: ShortProgram) {
     this.itemSelect.emit(program);
-    this.alert.success('shorts.program_selection_success')
+    this.alert.success('shorts.program_selection_success');
   }
 
   onUnselectProgram(program: ShortProgram) {

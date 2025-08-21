@@ -7,7 +7,7 @@ import {
   input,
   OnInit,
   output,
-  signal
+  signal,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
@@ -28,7 +28,6 @@ import { Citizenship, FileUploadComponent, InfoComponent, vetIcons } from '@vet/
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { admissionProgramsResource } from '../admission-programs-resource';
-
 
 export type ProgramConfirmationStepFormGroup = FormGroup<{
   status: FormControl<string>;
@@ -72,7 +71,7 @@ export class ProgramConfirmationStepComponent implements OnInit {
   generalsService = inject(GeneralsService);
 
   educations$ = rxResource({
-    loader: () => this.generalsService.getAllConfigs({ key: 'education_levels' })
+    loader: () => this.generalsService.getAllConfigs({ key: 'education_levels' }),
   });
 
   selectedEducation = computed(() => {
@@ -84,7 +83,7 @@ export class ProgramConfirmationStepComponent implements OnInit {
     }
 
     const selectedEducationId = generalForm.get('education')?.value;
-    const selectedEducation = educations?.education_levels?.find(edu => edu.id === selectedEducationId);
+    const selectedEducation = educations?.education_levels?.find((edu) => edu.id === selectedEducationId);
 
     return selectedEducation?.value || '';
   });

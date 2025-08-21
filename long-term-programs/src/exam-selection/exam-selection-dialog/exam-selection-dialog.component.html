@@ -7,7 +7,7 @@
       <form [formGroup]="form">
         @if (mode() === 'dates') {
           <div class="k-display-flex k-justify-content-between k-gap-5">
-            <kendo-label [text]="selection.method?.category ?? ''">
+            <kendo-label [text]="selection?.method?.category ?? ''">
               <kendo-datetimepicker formControlName="start_at" />
             </kendo-label>
 
@@ -17,7 +17,7 @@
           </div>
         } @else {
           <div class="k-display-flex k-justify-content-between k-align-items-center">
-            <p>{{ selection.method?.category }}</p>
+            <p>{{ selection?.method?.category }}</p>
             <kendo-textbox formControlName="score" class="score-input" />
           </div>
         }

@@ -5,6 +5,7 @@ export interface UserAccount {
   name?: string;
   roles?: AuthRole[];
   organisation?: string;
+  organisationId?: string;
   permissions?: AuthPermission[];
 }
 

@@ -23,7 +23,7 @@
       [resizable]="true"
     >
       <ng-template kendoGridNoRecordsTemplate>
-        <div class="k-p-4 k-text-center k-color-body-light">
+        <div class="k-p-4 k-text-center k-text-base">
           {{ 'shared.noRecords' | transloco }}
         </div>
       </ng-template>
@@ -88,7 +88,7 @@
         <ng-template kendoGridCellTemplate let-item>
           <div class="status-cell">
             <span class="k-font-weight-bold">{{ item.status.current }}</span>
-            <small class="k-text-xs k-color-body-light k-text-nowrap">
+            <small class="k-text-xs k-text-base k-text-nowrap">
               {{ item.status.date | formatDateTime: { format: 'DD/MM/YYYY' } }}
             </small>
           </div>
@@ -141,7 +141,7 @@
               [title]="'programs.last_choose' | transloco"
               kendoTooltip
               (click)="onChooseClick(item)"
-              [disabled]="!item.actions.choose"
+              [disabled]="('Default User' | role) ? !item.actions.last_choose : !item.actions.choose"
               class="action-btn"
             ></button>
             <button
@@ -169,7 +169,7 @@
             />
           </div>
         } @else {
-          <div class="k-p-4 k-text-center k-color-body-light">
+          <div class="k-p-4 k-text-center k-text-base">
             {{ 'programs.no_programs_selected' | transloco }}
           </div>
         }

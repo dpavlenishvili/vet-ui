@@ -47,3 +47,15 @@ export interface ShortTermRegisteredListenersFilters {
   program_name_or_code?: string | null;
   tuition_start_date?: string | null;
 }
+
+export interface ShortApplicationsListenersFilters {
+  organisation_id: string;
+  program_id?: string;
+  program_admission_id?: string;
+}
+
+export interface ShortStatsFilters {
+  organisation_id?: string;
+  program?: string;
+  program_kind?: string;
+}

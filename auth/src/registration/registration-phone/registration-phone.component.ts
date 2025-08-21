@@ -53,6 +53,7 @@ export class RegistrationPhoneComponent implements OnInit {
   isPending = signal(false);
   isValid = signal<boolean | null>(null);
   errorMessage = signal<string | null>(null);
+  startTime = signal(Date.now());
   verificationCodeReloader = new Reloader();
 
   constructor(
@@ -144,6 +145,7 @@ export class RegistrationPhoneComponent implements OnInit {
 
   onSend() {
     this.isPending.set(true);
+    this.startTime.set(Date.now());
     this.verificationCodeReloader.reload();
   }
 

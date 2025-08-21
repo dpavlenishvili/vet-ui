@@ -1,19 +1,48 @@
 @let _registeredListeners = registeredListeners.value();
 
 <vet-short-term-registered-listeners-filters
-  [numberOfRecords]="_registeredListeners.length"
+  [numberOfRecords]="_registeredListeners?.data?.length || 0"
   [filters]="filters()"
   (filtersChange)="updateFilters($event)"
 />
 
-<kendo-grid [data]="_registeredListeners" [loading]="registeredListeners.isLoading()">
-  <kendo-grid-column [title]="'shorts.pid' | transloco" />
-  <kendo-grid-column [title]="'shorts.name_surname' | transloco" />
-  <kendo-grid-column [title]="'shorts.phone' | transloco" />
-  <kendo-grid-column [title]="'shorts.email' | transloco" />
-  <kendo-grid-column [title]="'shorts.status' | transloco">
-    <ng-template kendoGridCellTemplate let-item>
-      {{ item.status }}
-    </ng-template>
-  </kendo-grid-column>
-</kendo-grid>
+@if (_registeredListeners) {
+  <kendo-grid [data]="_registeredListeners?.data ?? []" [loading]="registeredListeners.isLoading()">
+    <kendo-grid-column [title]="'shorts.pid' | transloco">
+      <ng-template kendoGridCellTemplate let-item>
+        {{ item.user.pid }}
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [title]="'shorts.name_surname' | transloco">
+      <ng-template kendoGridCellTemplate let-item>
+        {{ item.user.name }}
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [title]="'shorts.phone' | transloco">
+      <ng-template kendoGridCellTemplate let-item>
+        {{ item.user.phone }}
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [title]="'shorts.email' | transloco">
+      <ng-template kendoGridCellTemplate let-item>
+        {{ item.user.email }}
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [title]="'shorts.status' | transloco">
+      <ng-template kendoGridCellTemplate let-item>
+        <div class="k-display-flex k-flex-column k-gap-2">
+          <p>{{item.status.name}}</p>
+          <p>{{item.status.value}}</p>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+} @else {
+  <div class="no-records-template">
+    <p class="k-text-error">{{ 'shared.noRecords' | transloco }}</p>
+  </div>
+}

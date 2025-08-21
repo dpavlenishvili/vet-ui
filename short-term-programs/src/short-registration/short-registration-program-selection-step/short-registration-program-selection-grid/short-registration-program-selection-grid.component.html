@@ -22,7 +22,11 @@
       <div class="short-grid-name-icon">
         <p class="short-grid-program-name">{{ item.program.name }}</p>
 
-        @if (item.registrationIsProgress) {
+        @let startDiff = 'now' | dateDiff: item.registration_start_date;
+        @let endDiff = item.registration_end_date | dateDiff: 'now';
+        @let isInProgress = startDiff >= 0 && endDiff >= 0;
+
+        @if (isInProgress) {
           <vet-icon icon="checkProgram" class="short-grid-icon" />
         }
       </div>
@@ -46,7 +50,7 @@
     [width]="150"
   >
     <ng-template kendoGridCellTemplate let-item>
-      {{ item.registration_start_date | formatDate }} - {{ item.registration_end_date | formatDate }}
+      {{ item.registration_start_date | formatDate }} - {{ item.registration_end_date | formatDate }};
     </ng-template>
   </kendo-grid-column>
 

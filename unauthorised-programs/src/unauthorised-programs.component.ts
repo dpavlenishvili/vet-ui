@@ -7,10 +7,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { ProgramFilters } from '@vet/programs-common';
 import { UnAuthorisedProgramsFiltersComponent } from './unauthorised-programs-filters/unauthorised-programs-filters.component';
 import { useUnauthorizedUserPrograms } from './unauthorised-programs.resources';
+import { LoaderComponent } from '@progress/kendo-angular-indicators';
 
 @Component({
   selector: 'vet-unauthorised-programs',
-  imports: [UnauthorisedProgramsGridComponent, UnAuthorisedProgramsFiltersComponent, TranslocoPipe],
+  imports: [UnauthorisedProgramsGridComponent, UnAuthorisedProgramsFiltersComponent, TranslocoPipe, LoaderComponent],
   templateUrl: './unauthorised-programs.component.html',
   styleUrl: './unauthorised-programs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

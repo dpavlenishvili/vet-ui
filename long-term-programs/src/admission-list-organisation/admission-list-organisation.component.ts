@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID } from '@angular/core';
 import { AdmissionReq, AdmissionService } from '@vet/backend';
 import { Router } from '@angular/router';
-import { UserRolesService } from '@vet/auth';
+import { RolePipe, UserRolesService } from '@vet/auth';
 import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
@@ -31,6 +31,7 @@ import { AdmissionListFilterParams } from '../long-term-programs.types';
     FormatDatePipe,
     TooltipDirective,
     IconButtonComponent,
+    RolePipe,
   ],
   templateUrl: './admission-list-organisation.component.html',
   styleUrl: './admission-list-organisation.component.scss',

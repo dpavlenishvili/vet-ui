@@ -25,7 +25,7 @@
             }
           } @else {
             @if (item.text.length > showTooltipTextSizeThreshold) {
-              <div kendoTooltip [title]="item.text" class="k-breadcrumb-item k-color-primary k-text-base k-pl-3">
+              <div class="k-breadcrumb-item k-color-primary k-text-base k-pl-3">
                 {{ item.text | transloco }}
               </div>
             } @else {

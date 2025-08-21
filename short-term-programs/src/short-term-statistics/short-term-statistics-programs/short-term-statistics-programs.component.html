@@ -1,0 +1,61 @@
+@let _stats = stats.value();
+
+<div>
+  <h3 class="vet-text-uppercase">{{ 'shorts.registration_streams' | transloco }}</h3>
+</div>
+
+<kendo-grid [data]="_stats" [loading]="stats.isLoading()">
+  <ng-template kendoGridNoRecordsTemplate>
+    {{ 'shared.noRecords' | transloco }}
+  </ng-template>
+
+  <kendo-grid-column [width]="100">
+    <ng-template kendoGridHeaderTemplate>
+      <span class="column-header k-column-title">{{ 'shorts.registration_start_date' | transloco }}</span>
+    </ng-template>
+
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.registration_start_date | formatDateString }}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [width]="100">
+    <ng-template kendoGridHeaderTemplate>
+      <span class="column-header k-column-title">{{ 'shorts.registration_end_date' | transloco }}</span>
+    </ng-template>
+
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.registration_end_date | formatDateString }}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [width]="100">
+    <ng-template kendoGridHeaderTemplate>
+      <span class="column-header k-column-title">{{ 'shorts.study_start_date' | transloco }}</span>
+    </ng-template>
+
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.study_start_date | formatDateString }}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [width]="100">
+    <ng-template kendoGridHeaderTemplate>
+      <span class="column-header k-column-title">{{ 'shorts.max_student_number' | transloco }}</span>
+    </ng-template>
+
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.max_number_of_students }}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [width]="100">
+    <ng-template kendoGridHeaderTemplate>
+      <span class="column-header k-column-title">{{ 'shorts.registered_quantity' | transloco }}</span>
+    </ng-template>
+
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.registered_count }}
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

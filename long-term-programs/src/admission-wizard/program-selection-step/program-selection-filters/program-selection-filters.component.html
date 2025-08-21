@@ -86,34 +86,11 @@
     </div>
   }
 
-  <div class="k-display-flex k-justify-content-end k-gap-2 filter-actions-container">
-    <button
-      (click)="onFilterExpandClick()"
-      [svgIcon]="isFilterExpanded() ? vetIcons.chevronUp : vetIcons.chevronDown"
-      fillMode="outline"
-      kendoButton
-      size="large"
-      themeColor="primary"
-    ></button>
-
-    <button
-      (click)="clearFilters()"
-      [svgIcon]="vetIcons.xIcon"
-      fillMode="outline"
-      kendoButton
-      size="large"
-      themeColor="primary"
-    ></button>
-
-    <button
-      (click)="onSubmit()"
-      [svgIcon]="kendoIcons.searchIcon"
-      fillMode="solid"
-      kendoButton
-      size="large"
-      themeColor="primary"
-    >
-      {{ 'programs.search' | transloco }}
-    </button>
+  <div vet-line gap-dense content-right>
+    <vet-icon-button [icon]="isFilterExpanded() ? 'chevronUp' : 'chevronDown'" (click)="onFilterExpandClick()" />
+    <vet-icon-button icon="close" (click)="clearFilters()" />
+    <vet-button leadingIcon="search" (click)="onSubmit()">
+      {{ 'shared.search' | transloco }}
+    </vet-button>
   </div>
 </form>

@@ -2,7 +2,7 @@
 @use '@vet/shared-styles/vacancy';
 
 * {
-  font-family: HelveticaNeue;
+  font-family: shared.$font-family-primary;
 }
 
 .vacancy-list-card {

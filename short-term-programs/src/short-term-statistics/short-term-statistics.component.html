@@ -1,0 +1,31 @@
+@let _stats = stats.value();
+
+@if (_stats) {
+  <kendo-grid [data]="_stats" [loading]="stats.isLoading()">
+    <kendo-grid-column [title]="'shorts.institution' | transloco" [width]="500">
+      <ng-template kendoGridCellTemplate let-item>
+        <a
+          [routerLink]="['/dashboard/programs/short/statistics', item.id]"
+          class="organisation-link"
+        >
+          {{ item.name }}
+        </a>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column [title]="'shorts.registered_quantity' | transloco" [width]="200">
+      <ng-template kendoGridCellTemplate let-item>
+        {{item.registered_count}}
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+
+  <div class="stats-container">
+    <div class="stats-title">
+      <p class="vet-text-base">{{'shorts.registered_count' | transloco}}</p>
+    </div>
+    <div class="stats-value">
+      <p>{{registeredSum}}</p>
+    </div>
+  </div>
+}

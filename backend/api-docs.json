@@ -70,6 +70,30 @@
                         "description": "Selected role",
                         "required": true,
                         "example": "Default User"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "First name",
+                        "required": false
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "query",
+                        "description": "Last name",
+                        "required": false
+                    },
+                    {
+                        "name": "pid",
+                        "in": "query",
+                        "description": "Personal ID",
+                        "required": false
+                    },
+                    {
+                        "name": "specStatus",
+                        "in": "query",
+                        "description": "Spec status",
+                        "required": false
                     }
                 ],
                 "responses": {
@@ -142,6 +166,42 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admission/{admission_id}/programs": {
+            "get": {
+                "tags": [
+                    "Admission"
+                ],
+                "summary": "List of admission programs",
+                "description": "Returns list of requested admission programs",
+                "operationId": "Admission program list",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true
+                    },
+                    {
+                        "name": "admission_id",
+                        "in": "path",
+                        "description": "Admission Number",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdmissionProgramReq"
                                 }
                             }
                         }
@@ -310,6 +370,70 @@
                 }
             }
         },
+        "/admission/{admission_id}/select-program/{program_id}/{select}": {
+            "put": {
+                "tags": [
+                    "Admission"
+                ],
+                "summary": "select program",
+                "description": "select program",
+                "operationId": "selectProgramAdmission",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "admission_id",
+                        "in": "path",
+                        "description": "Admission ID",
+                        "required": true
+                    },
+                    {
+                        "name": "program_id",
+                        "in": "path",
+                        "description": "Program ID",
+                        "required": true
+                    },
+                    {
+                        "name": "select",
+                        "in": "path",
+                        "description": "is select",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "program selected successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "The program is selected"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/admission/student-status": {
             "get": {
                 "tags": [
@@ -388,6 +512,91 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admission/check-register": {
+            "get": {
+                "tags": [
+                    "Admission"
+                ],
+                "summary": "Check if register available or not",
+                "description": "check if register available or not",
+                "operationId": "checkRegister",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Object containing registration availability information",
+                                            "properties": {
+                                                "is_available": {
+                                                    "description": "Indicates whether registration is available based on the current date being within the registration period",
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "description": "Indicates the success status of the operation",
+                                            "type": "boolean"
+                                        },
+                                        "msg": {
+                                            "description": "Message describing the operation outcome",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admission/{id}/results": {
+            "get": {
+                "tags": [
+                    "Admission"
+                ],
+                "description": "Returns list of result",
+                "operationId": "User results",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Admission ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FinalResultsRes"
                                 }
                             }
                         }
@@ -590,6 +799,77 @@
                                         "msg": {
                                             "type": "string",
                                             "example": "Application not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vacancies/{vacancy}/apply": {
+            "post": {
+                "tags": [
+                    "Vacancy"
+                ],
+                "summary": "Apply to the vacancy",
+                "operationId": "applyToVacancy",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "vacancy",
+                        "in": "path",
+                        "description": "Vacancy ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Vacancy applied successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Vacancy applied successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Vacancy not applied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Vacancy not applied"
                                         }
                                     },
                                     "type": "object"
@@ -824,6 +1104,47 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UserRes"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me/organisation/{code}": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get user organisation info",
+                "operationId": "getUserOrganisation",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "code",
+                        "in": "path",
+                        "description": "organisation code",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrganisationRes"
                                 }
                             }
                         }
@@ -1464,6 +1785,12 @@
                         "in": "query",
                         "description": "Name of commission member",
                         "required": true
+                    },
+                    {
+                        "name": "program",
+                        "in": "query",
+                        "description": "ID of program",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1502,6 +1829,9 @@
                     },
                     "404": {
                         "description": "Commission member not found"
+                    },
+                    "400": {
+                        "description": "Commission members has training in same program"
                     }
                 }
             }
@@ -1511,7 +1841,7 @@
                 "tags": [
                     "Commission"
                 ],
-                "summary": "List of motivational criterias",
+                "summary": "List of motivational criteria",
                 "operationId": "MotivationalCriteria",
                 "parameters": [
                     {
@@ -1751,6 +2081,217 @@
                 }
             }
         },
+        "/educational-standards": {
+            "get": {
+                "tags": [
+                    "Educational standards"
+                ],
+                "summary": "List of educational standards",
+                "description": "Returns a paginated list of educational standards",
+                "operationId": "educational-standards-index",
+                "parameters": [
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "Filter by educational standard category ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mathematics Standard"
+                                                    },
+                                                    "category_name": {
+                                                        "type": "string",
+                                                        "example": "Science"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "example": "http://example.com?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "example": "http://example.com?page=10"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "http://example.com?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": "string",
+                                                                "nullable": true
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "1"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://example.com"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 150
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/educational-standards/categories": {
+            "get": {
+                "tags": [
+                    "Educational standards"
+                ],
+                "summary": "List of educational standard categories",
+                "description": "Returns list of educational standard categories",
+                "operationId": "educational-standards-categories",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/educational-standards/{educationalStandard}/download-file": {
+            "get": {
+                "tags": [
+                    "Educational standards"
+                ],
+                "summary": "Download educational standard file",
+                "description": "Downloads the file associated with the specified educational standard",
+                "operationId": "educational-standards-download-file",
+                "parameters": [
+                    {
+                        "name": "educationalStandard",
+                        "in": "path",
+                        "description": "ID of the educational standard",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File downloaded successfully",
+                        "content": {
+                            "application/octet-stream": {}
+                        }
+                    },
+                    "404": {
+                        "description": "File not found"
+                    }
+                }
+            }
+        },
         "/exam-card": {
             "get": {
                 "tags": [
@@ -1800,12 +2341,13 @@
                 ],
                 "summary": "List of favorite vacancies",
                 "description": "Handle the incoming request.",
-                "operationId": "getFavorites",
+                "operationId": "getFavoriteVacancies",
                 "parameters": [
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "Bearer token"
+                        "description": "Bearer token",
+                        "required": true
                     },
                     {
                         "name": "page",
@@ -1820,33 +2362,39 @@
                         "required": false
                     },
                     {
-                        "name": "region_id",
+                        "name": "filter[region_id]",
                         "in": "query",
                         "description": "Region ID",
                         "required": false
                     },
                     {
-                        "name": "district_id",
+                        "name": "filter[district_id]",
                         "in": "query",
                         "description": "District ID",
                         "required": false
                     },
                     {
-                        "name": "institution",
+                        "name": "filter[institution]",
                         "in": "query",
                         "description": "Institution",
                         "required": false
                     },
                     {
-                        "name": "position",
+                        "name": "filter[position]",
                         "in": "query",
                         "description": "Position",
                         "required": false
                     },
                     {
-                        "name": "modules",
+                        "name": "filter[modules][]",
                         "in": "query",
-                        "description": "Modules",
+                        "description": "Modules #1",
+                        "required": false
+                    },
+                    {
+                        "name": "filter[modules][]",
+                        "in": "query",
+                        "description": "Modules #2",
                         "required": false
                     }
                 ],
@@ -1868,8 +2416,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "string",
+                                            "example": "false"
                                         },
                                         "msg": {
                                             "type": "string",
@@ -1906,7 +2454,7 @@
                                                     "code": {
                                                         "description": "Country code",
                                                         "type": "string",
-                                                        "default": "GE"
+                                                        "default": "GEO"
                                                     },
                                                     "name": {
                                                         "description": "Country Name",
@@ -2105,6 +2653,15 @@
                         "required": false,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_universal",
+                        "in": "query",
+                        "description": "if program has public admission",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
                         }
                     }
                 ],
@@ -2354,6 +2911,66 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/NonFormalRes"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/openhouses": {
+            "get": {
+                "tags": [
+                    "Openhouse"
+                ],
+                "summary": "Get all openhouses",
+                "description": "Display a listing of the resource.",
+                "operationId": "de8926f7953be18345553adb9d91f977",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search in title or description",
+                        "required": false
+                    },
+                    {
+                        "name": "organisation_id",
+                        "in": "query",
+                        "description": "Organisation ID",
+                        "required": false
+                    },
+                    {
+                        "name": "in_date",
+                        "in": "query",
+                        "description": "Search between start_at and end_at",
+                        "required": false
+                    },
+                    {
+                        "name": "organisation.address",
+                        "in": "query",
+                        "description": "Address of the event",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OpenhouseCollectionRes"
                                 }
                             }
                         }
@@ -2809,10 +3426,69 @@
                 }
             }
         },
-        "/programs/short/admissions": {
+        "/schedules/{id}/pass-level/{passLevel}": {
+            "post": {
+                "tags": [
+                    "Schedules"
+                ],
+                "summary": "Set pass level if selection category_id is 2",
+                "description": "Set pass level",
+                "operationId": "Schedules pass level",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Schedule ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "passLevel",
+                        "in": "path",
+                        "description": "pass level",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Granted status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "status": {
+                                                    "description": "Indicates if the operation was successful",
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs/admissions": {
             "get": {
                 "tags": [
-                    "Programs"
+                    "Short programs"
                 ],
                 "summary": "List of short program admissions",
                 "description": "Returns list of short program admissions",
@@ -2839,10 +3515,10 @@
                 }
             }
         },
-        "/programs/short/application": {
+        "/short-programs/application": {
             "get": {
                 "tags": [
-                    "Programs"
+                    "Short programs"
                 ],
                 "summary": "List of short program applications",
                 "description": "Returns list of short program applications",
@@ -2861,7 +3537,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProgramShortAdmissionRes"
+                                    "$ref": "#/components/schemas/ProgramShortApplicationRes"
                                 }
                             }
                         }
@@ -2869,10 +3545,270 @@
                 }
             }
         },
-        "/programs/short": {
+        "/short-programs/applications": {
+            "post": {
+                "tags": [
+                    "Short programs"
+                ],
+                "summary": "Register user for short program admission",
+                "operationId": "programs-short-applications-store",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ApplicationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Application submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Application submitted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs/applications/{short_program_application_id}": {
+            "delete": {
+                "tags": [
+                    "Short programs"
+                ],
+                "summary": "Destroy the short program application",
+                "description": "Destroy the application.",
+                "operationId": "deleteShortProgramApplication",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "short_program_application_id",
+                        "in": "path",
+                        "description": "ID of the short program application to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Application deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Application deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs/applications/for-organisation": {
             "get": {
                 "tags": [
-                    "Programs"
+                    "Short programs"
+                ],
+                "summary": "List of short program applications",
+                "description": "Returns list of short program applications for organisation",
+                "operationId": "programs-short-applications-for-organisation",
+                "parameters": [
+                    {
+                        "name": "organisation_id",
+                        "in": "query",
+                        "description": "Filter short program applications for organisation",
+                        "required": true
+                    },
+                    {
+                        "name": "program_id",
+                        "in": "query",
+                        "description": "Filter short program applications for program_id",
+                        "required": true
+                    },
+                    {
+                        "name": "program_admission_id",
+                        "in": "query",
+                        "description": "Filter short program applications for program_admission_id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProgramShortApplicationForOrganisationRes"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs/organisations": {
+            "get": {
+                "tags": [
+                    "Short programs"
+                ],
+                "summary": "List of short program organisations",
+                "description": "Returns list of short program organisations",
+                "operationId": "programs-short-organisations",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs/by-organisation/{organisation}": {
+            "get": {
+                "tags": [
+                    "Short programs"
+                ],
+                "summary": "List of short programs by organisation",
+                "description": "Returns list of short programs by organisation",
+                "operationId": "programs-short-by-organisation",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs/{program}/admissions": {
+            "get": {
+                "tags": [
+                    "Short programs"
+                ],
+                "summary": "List of short admissions by program",
+                "description": "Returns list of short admissions by program",
+                "operationId": "programs-short-admissions-by-program",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs": {
+            "get": {
+                "tags": [
+                    "Short programs"
                 ],
                 "summary": "List of short programs",
                 "description": "Returns list of short programs",
@@ -2899,10 +3835,10 @@
                 }
             }
         },
-        "/programs/short/{id}": {
+        "/short-programs/{id}": {
             "get": {
                 "tags": [
-                    "Programs"
+                    "Short programs"
                 ],
                 "summary": "Program short object",
                 "description": "Returns object of short program",
@@ -2925,6 +3861,155 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ShortProgramShowRes"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs-stats": {
+            "get": {
+                "tags": [
+                    "Short programs"
+                ],
+                "summary": "List of short program organisations",
+                "description": "Returns list of short program organisations with stats",
+                "operationId": "short-programs-stats",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "registered_count": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs-stats/{organisation}/programs": {
+            "get": {
+                "tags": [
+                    "Short programs"
+                ],
+                "summary": "List of short program by organisation",
+                "description": "Returns list of short program by organisation with stats",
+                "operationId": "short-programs-stats-organisation",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "program_name": {
+                                                        "type": "string"
+                                                    },
+                                                    "program_kind": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "address": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "partners": {
+                                                        "type": "string",
+                                                        "nullable": true
+                                                    },
+                                                    "max_number_of_students": {
+                                                        "type": "integer",
+                                                        "nullable": true
+                                                    },
+                                                    "registered_count": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/short-programs-stats/{program}/admissions": {
+            "get": {
+                "tags": [
+                    "Short programs"
+                ],
+                "summary": "Returns list of stats for short program admissions by program",
+                "description": "Returns list of stats for short program admissions by program",
+                "operationId": "short-programs-stats-admissions",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "registration_start_date": {
+                                                        "type": "string"
+                                                    },
+                                                    "registration_end_date": {
+                                                        "type": "string"
+                                                    },
+                                                    "study_start_date": {
+                                                        "type": "string"
+                                                    },
+                                                    "max_number_of_students": {
+                                                        "type": "integer",
+                                                        "nullable": true
+                                                    },
+                                                    "registered_count": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2963,6 +4048,12 @@
                         "name": "kind",
                         "in": "query",
                         "description": "Program Kind",
+                        "required": false
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "filter",
                         "required": false
                     }
                 ],
@@ -3253,6 +4344,16 @@
                         "schema": {
                             "type": "string",
                             "example": "Doe"
+                        }
+                    },
+                    {
+                        "name": "residential",
+                        "in": "query",
+                        "description": "residential",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "GEO"
                         }
                     }
                 ],
@@ -3600,6 +4701,12 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "organisation",
+                        "in": "query",
+                        "description": "Organisation code",
+                        "required": false
                     }
                 ],
                 "requestBody": {
@@ -3643,8 +4750,51 @@
                     "204": {
                         "description": "Validation successful"
                     },
-                    "500": {
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
                         "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "false"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Validate error"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "modules is required. /path/to/file.php"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3659,7 +4809,7 @@
                                         },
                                         "errors": {
                                             "type": "string",
-                                            "example": "modules is required. /path/to/file.php"
+                                            "example": "Call to a member function on null"
                                         }
                                     },
                                     "type": "object"
@@ -3682,7 +4832,14 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "Bearer token"
+                        "description": "Bearer token",
+                        "required": false
+                    },
+                    {
+                        "name": "organisation",
+                        "in": "query",
+                        "description": "Organisation code",
+                        "required": false
                     },
                     {
                         "name": "page",
@@ -3697,33 +4854,39 @@
                         "required": false
                     },
                     {
-                        "name": "region_id",
+                        "name": "filter[region_id]",
                         "in": "query",
                         "description": "Region ID",
                         "required": false
                     },
                     {
-                        "name": "district_id",
+                        "name": "filter[district_id]",
                         "in": "query",
                         "description": "District ID",
                         "required": false
                     },
                     {
-                        "name": "institution",
+                        "name": "filter[institution]",
                         "in": "query",
                         "description": "Institution",
                         "required": false
                     },
                     {
-                        "name": "position",
+                        "name": "filter[position]",
                         "in": "query",
                         "description": "Position",
                         "required": false
                     },
                     {
-                        "name": "modules",
+                        "name": "filter[modules][]",
                         "in": "query",
-                        "description": "Modules",
+                        "description": "Modules #1",
+                        "required": false
+                    },
+                    {
+                        "name": "filter[modules][]",
+                        "in": "query",
+                        "description": "Modules #2",
                         "required": false
                     }
                 ],
@@ -3751,7 +4914,8 @@
                     {
                         "name": "Authorization",
                         "in": "header",
-                        "description": "Bearer token"
+                        "description": "Bearer token",
+                        "required": true
                     }
                 ],
                 "requestBody": {
@@ -3774,19 +4938,19 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    "403": {
+                        "description": "Forbidden",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "string",
+                                            "example": "false"
                                         },
                                         "msg": {
                                             "type": "string",
-                                            "example": "Unauthorized"
+                                            "example": "Forbidden"
                                         }
                                     },
                                     "type": "object"
@@ -3827,19 +4991,19 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    "403": {
+                        "description": "Forbidden",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "string",
+                                            "example": "false"
                                         },
                                         "msg": {
                                             "type": "string",
-                                            "example": "Unauthorized"
+                                            "example": "Forbidden"
                                         }
                                     },
                                     "type": "object"
@@ -3887,19 +5051,19 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    "403": {
+                        "description": "Forbidden",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "string",
+                                            "example": "false"
                                         },
                                         "msg": {
                                             "type": "string",
-                                            "example": "Unauthorized"
+                                            "example": "Forbidden"
                                         }
                                     },
                                     "type": "object"
@@ -3935,7 +5099,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "boolean"
+                                            "type": "string",
+                                            "example": "true"
                                         }
                                     },
                                     "type": "object"
@@ -3950,8 +5115,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "string",
+                                            "example": "false"
                                         }
                                     },
                                     "type": "object"
@@ -3966,8 +5131,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "string",
+                                            "example": "false"
                                         }
                                     },
                                     "type": "object"
@@ -3975,19 +5140,19 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    "403": {
+                        "description": "Forbidden",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "boolean",
-                                            "example": false
+                                            "type": "string",
+                                            "example": "false"
                                         },
                                         "msg": {
                                             "type": "string",
-                                            "example": "Unauthorized"
+                                            "example": "Forbidden"
                                         }
                                     },
                                     "type": "object"
@@ -4015,6 +5180,12 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "organisation",
+                        "in": "query",
+                        "description": "Organisation code",
+                        "required": false
                     }
                 ],
                 "requestBody": {
@@ -4083,8 +5254,51 @@
                     "204": {
                         "description": "Validation successful"
                     },
-                    "500": {
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
                         "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "false"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Validate error"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "modules is required. /path/to/file.php"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4099,7 +5313,7 @@
                                         },
                                         "errors": {
                                             "type": "string",
-                                            "example": "modules is required. /path/to/file.php"
+                                            "example": "Call to a member function on null"
                                         }
                                     },
                                     "type": "object"
@@ -4127,6 +5341,12 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "organisation",
+                        "in": "query",
+                        "description": "Organisation code",
+                        "required": false
                     }
                 ],
                 "requestBody": {
@@ -4187,8 +5407,51 @@
                     "204": {
                         "description": "Validation successful"
                     },
-                    "500": {
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
                         "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "false"
+                                        },
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Validate error"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "modules is required. /path/to/file.php"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4203,7 +5466,7 @@
                                         },
                                         "errors": {
                                             "type": "string",
-                                            "example": "modules is required. /path/to/file.php"
+                                            "example": "Call to a member function on null"
                                         }
                                     },
                                     "type": "object"
@@ -4390,6 +5653,27 @@
                 },
                 "type": "object"
             },
+            "ApplicationRequest": {
+                "required": [
+                    "admission_ids"
+                ],
+                "properties": {
+                    "admission_ids": {
+                        "description": "Admission IDS",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "default": "[1,2,3]"
+                    },
+                    "education_level_id": {
+                        "description": "Education level id",
+                        "type": "string",
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
             "Admission": {
                 "properties": {
                     "admission_id": {
@@ -4411,6 +5695,9 @@
                         "type": "boolean"
                     },
                     "financing_type_id": {
+                        "type": "integer"
+                    },
+                    "financing_type": {
                         "type": "integer"
                     },
                     "registration_start_date": {
@@ -4454,6 +5741,19 @@
                 },
                 "type": "object"
             },
+            "AdmissionProgramReq": {
+                "properties": {
+                    "data": {
+                        "title": "Programs",
+                        "description": "Relations to programs",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AdmissionPrograms"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "AdmissionPrograms": {
                 "properties": {
                     "select": {
@@ -4464,6 +5764,9 @@
                     },
                     "program": {
                         "$ref": "#/components/schemas/LongTerm"
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/UserRatings"
                     }
                 },
                 "type": "object"
@@ -4663,6 +5966,32 @@
                     },
                     "address": {
                         "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "sector": {
+                        "type": "string"
+                    },
+                    "reg_code": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CardProgramsType": {
+                "properties": {
+                    "naec": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CardPrograms"
+                        }
+                    },
+                    "other": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CardPrograms"
+                        }
                     }
                 },
                 "type": "object"
@@ -4735,14 +6064,8 @@
                     "completed": {
                         "type": "boolean"
                     },
-                    "comission_member": {
+                    "commission_member": {
                         "$ref": "#/components/schemas/User"
-                    },
-                    "scores": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommissionScore"
-                        }
                     }
                 },
                 "type": "object"
@@ -4776,11 +6099,14 @@
                     "reviews": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/CommissionReviews"
+                            "$ref": "#/components/schemas/CommissionResult"
                         }
                     },
-                    "result": {
-                        "$ref": "#/components/schemas/ResultReview"
+                    "criteria": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CriteriaResult"
+                        }
                     }
                 },
                 "type": "object"
@@ -4861,6 +6187,28 @@
                             },
                             "type": "object"
                         }
+                    }
+                },
+                "type": "object"
+            },
+            "CriteriaResult": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "min_score": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "max_score": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "order": {
+                        "type": "integer"
                     }
                 },
                 "type": "object"
@@ -5220,6 +6568,72 @@
                 },
                 "type": "object"
             },
+            "OpenhouseCollection": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "media": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "website": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "OpenhouseResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "start_at": {
+                        "type": "string"
+                    },
+                    "end_at": {
+                        "type": "string"
+                    },
+                    "max_attendees": {
+                        "type": "integer"
+                    },
+                    "video_url": {
+                        "type": "string"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "media": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "Organisation": {
                 "properties": {
                     "id": {
@@ -5471,6 +6885,39 @@
                 },
                 "type": "object"
             },
+            "Result": {
+                "properties": {
+                    "score": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResultData"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResultData": {
+                "properties": {
+                    "score": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "start_at": {
+                        "type": "string"
+                    },
+                    "sector": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "ResultReview": {
                 "properties": {
                     "score": {
@@ -5496,7 +6943,7 @@
                     "selections": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Selections"
+                            "$ref": "#/components/schemas/Selection"
                         }
                     },
                     "spec_edu": {
@@ -5515,13 +6962,37 @@
                         "type": "string"
                     },
                     "select": {
-                        "type": "integer"
+                        "type": "boolean"
+                    },
+                    "pass_level": {
+                        "type": "boolean"
                     },
                     "status": {
                         "type": "string"
                     },
                     "canSelectStatus": {
                         "type": "boolean"
+                    },
+                    "canSelectNextLevel": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "ScheduleSelection": {
+                "properties": {
+                    "score": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "start_at": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -5542,6 +7013,9 @@
                     },
                     "scoring_percentage": {
                         "type": "integer"
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/Result"
                     }
                 },
                 "type": "object"
@@ -5559,6 +7033,9 @@
                     },
                     "provider": {
                         "type": "string"
+                    },
+                    "reviewer": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -5567,16 +7044,6 @@
                 "properties": {
                     "selection": {
                         "$ref": "#/components/schemas/Selection"
-                    },
-                    "score": {
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "start_at": {
-                        "type": "string"
-                    },
-                    "address": {
-                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -5647,6 +7114,22 @@
                                 "description": "Program name",
                                 "type": "string",
                                 "example": "Short Program Example"
+                            },
+                            "program_kind": {
+                                "description": "The type/kind of the program",
+                                "properties": {
+                                    "name": {
+                                        "description": "Program kind name",
+                                        "type": "string",
+                                        "example": "პროფესიული მომზადება"
+                                    },
+                                    "id": {
+                                        "description": "Program kind ID",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
                             },
                             "organisation": {
                                 "description": "Details of the organisation",
@@ -5720,6 +7203,110 @@
                         "type": "string",
                         "format": "date",
                         "example": "2023-02-01"
+                    },
+                    "is_eligible": {
+                        "description": "Eligibility information",
+                        "properties": {
+                            "is_eligible": {
+                                "description": "Indicates if the user is eligible",
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "reason": {
+                                "description": "Reason code if not eligible",
+                                "type": "string",
+                                "example": "1013"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ShortProgramApplication": {
+                "properties": {
+                    "id": {
+                        "description": "The ID of the program application",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "description": "The status details of the application",
+                        "properties": {
+                            "name": {
+                                "description": "Status name",
+                                "type": "string",
+                                "example": "რეგისტრირებული"
+                            },
+                            "value": {
+                                "description": "Status date value",
+                                "type": "string",
+                                "format": "date",
+                                "example": "2025-07-01"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "can_delete": {
+                        "description": "user ability to delete the application",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "programAdmission": {
+                        "$ref": "#/components/schemas/ShortProgramAdmission"
+                    }
+                },
+                "type": "object"
+            },
+            "ShortProgramApplicationForOrganisation": {
+                "properties": {
+                    "id": {
+                        "description": "The ID of the program application",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "description": "The status details of the application",
+                        "properties": {
+                            "name": {
+                                "description": "Status name",
+                                "type": "string",
+                                "example": "რეგისტრირებული"
+                            },
+                            "value": {
+                                "description": "Status date value",
+                                "type": "string",
+                                "format": "date",
+                                "example": "2025-07-01"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "user": {
+                        "description": "The user belongs to the application",
+                        "properties": {
+                            "name": {
+                                "description": "Name",
+                                "type": "string",
+                                "example": "john doe"
+                            },
+                            "email": {
+                                "description": "Email",
+                                "type": "string",
+                                "example": "john_doe@example.com"
+                            },
+                            "phone": {
+                                "description": "Phone",
+                                "type": "string",
+                                "example": "599999999"
+                            },
+                            "pid": {
+                                "description": "pid",
+                                "type": "string",
+                                "example": "12345678912"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -5845,7 +7432,6 @@
                         "type": "string"
                     },
                     "video_url": {
-                        "description": "| null",
                         "type": "string",
                         "nullable": true
                     },
@@ -5878,6 +7464,28 @@
                         "items": {
                             "$ref": "#/components/schemas/Admission"
                         }
+                    },
+                    "requirements": {
+                        "title": "requirements",
+                        "description": "requirements",
+                        "properties": {
+                            "min_age": {
+                                "description": "mixed>",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "min_allowed_education": {
+                                "description": "mixed>",
+                                "type": "string",
+                                "format": "string"
+                            },
+                            "other_requirements": {
+                                "description": "mixed>",
+                                "type": "string",
+                                "format": "string"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -5938,31 +7546,23 @@
                     },
                     "region": {
                         "title": "Region",
-                        "description": "Region of the user",
-                        "type": "string",
-                        "example": "Tbilisi",
+                        "description": "Region object of the user",
+                        "type": "object",
                         "nullable": true,
                         "oneOf": [
                             {
-                                "type": "null"
-                            },
-                            {
-                                "type": "string"
+                                "$ref": "#/components/schemas/IdName"
                             }
                         ]
                     },
-                    "city": {
-                        "title": "City",
-                        "description": "City of the user",
-                        "type": "string",
-                        "example": "Tbilisi",
+                    "district": {
+                        "title": "District",
+                        "description": "District object of the user",
+                        "type": "object",
                         "nullable": true,
                         "oneOf": [
                             {
-                                "type": "null"
-                            },
-                            {
-                                "type": "string"
+                                "$ref": "#/components/schemas/IdName"
                             }
                         ]
                     },
@@ -6092,6 +7692,21 @@
                     "name": "User"
                 }
             },
+            "UserRatings": {
+                "properties": {
+                    "pass": {
+                        "type": "boolean"
+                    },
+                    "score": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "position": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "VacancyCollection": {
                 "properties": {
                     "id": {
@@ -6136,79 +7751,139 @@
             "VacancyResource": {
                 "properties": {
                     "id": {
-                        "type": "integer"
+                        "type": "integer",
+                        "example": 1
                     },
                     "institution": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "სასწავლებლის სახელი"
                     },
                     "position": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "მასწავლებელი"
                     },
                     "modules": {
                         "type": "array",
                         "items": {
                             "type": "integer"
-                        }
+                        },
+                        "example": [
+                            1,
+                            2,
+                            3
+                        ]
                     },
                     "programs": {
                         "type": "array",
                         "items": {
                             "type": "integer"
-                        }
+                        },
+                        "example": [
+                            1,
+                            2,
+                            3
+                        ]
                     },
                     "start_date": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "2025-04-21T13:07:24+04:00"
                     },
                     "hourly_pay_from": {
-                        "type": "string"
+                        "type": "string",
+                        "example": 100
                     },
                     "hourly_pay_to": {
-                        "type": "string"
+                        "type": "string",
+                        "example": 100
                     },
                     "hourly_workload_from": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "09:00"
                     },
                     "hourly_workload_to": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "17:00"
                     },
                     "selection_stages": {
-                        "type": "string"
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "example": [
+                            1,
+                            2,
+                            3
+                        ]
                     },
                     "vacant_places": {
-                        "type": "integer"
+                        "type": "integer",
+                        "example": 100
                     },
                     "work_format": {
-                        "type": "integer"
+                        "type": "integer",
+                        "example": 1
                     },
                     "responsibilities": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "სტანდარტული"
                     },
                     "basic_requirements": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "სტანდარტული"
                     },
                     "essential_requirements": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "სტანდარტული"
                     },
                     "optional_requirements": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "სტანდარტული"
                     },
                     "additional_information": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "სტანდარტული"
                     },
                     "contact_person": {
-                        "type": "integer"
+                        "type": "integer",
+                        "example": 1
                     },
                     "publish_date": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "2025-04-21T13:07:24+04:00"
                     },
                     "deadline_date": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "2025-04-21T13:07:24+04:00"
                     },
                     "address": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "სტანდარტული"
                     },
                     "is_favorite": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "district": {
+                        "example": {
+                            "id": 1,
+                            "name": "Tbilisi"
+                        }
+                    },
+                    "status": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "teaching_professional_programs": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "teaching_short_term_programs": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "obtaining_authorization": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -6511,10 +8186,7 @@
                         "$ref": "#/components/schemas/User"
                     },
                     "programs": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CardPrograms"
-                        }
+                        "$ref": "#/components/schemas/CardProgramsType"
                     }
                 },
                 "type": "object"
@@ -6536,6 +8208,36 @@
                 "xml": {
                     "name": "collectionItemsResource"
                 }
+            },
+            "FinalResultRes": {
+                "description": "Admissions Resource",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "programs": {
+                        "$ref": "#/components/schemas/LongTerm"
+                    },
+                    "selection": {
+                        "$ref": "#/components/schemas/Selection"
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/UserRatings"
+                    }
+                },
+                "type": "object"
+            },
+            "FinalResultsRes": {
+                "description": "Admissions Resource",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FinalResultRes"
+                        }
+                    }
+                },
+                "type": "object"
             },
             "LongTermRes": {
                 "description": "Page Resource",
@@ -6793,6 +8495,175 @@
                 },
                 "type": "object"
             },
+            "OpenhouseCollectionRes": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OpenhouseCollection"
+                        }
+                    },
+                    "links": {
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "last": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "prev": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "nullable": true
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "from": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "path": {
+                                "type": "string"
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "to": {
+                                "type": "integer",
+                                "example": 1
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "OpenhouseResourceRes": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/OpenhouseResource"
+                    }
+                },
+                "type": "object"
+            },
+            "OrganisationRes": {
+                "description": "Page Resource",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "district_id": {
+                        "type": "integer"
+                    },
+                    "region_id": {
+                        "type": "integer"
+                    },
+                    "zip": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "mobile": {
+                        "type": "string"
+                    },
+                    "manager": {
+                        "type": "string"
+                    },
+                    "manager_hone": {
+                        "type": "string"
+                    },
+                    "responsible_person": {
+                        "type": "string"
+                    },
+                    "responsible_person_phone": {
+                        "type": "string"
+                    },
+                    "website": {
+                        "type": "string"
+                    },
+                    "legal_form": {
+                        "type": "string"
+                    },
+                    "org_type": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    },
+                    "institution_type_id": {
+                        "type": "integer"
+                    },
+                    "establishment_date": {
+                        "type": "string"
+                    },
+                    "is_authorized": {
+                        "type": "boolean"
+                    },
+                    "has_nf_programs": {
+                        "type": "boolean"
+                    },
+                    "has_retraining_programs": {
+                        "type": "boolean"
+                    },
+                    "legal_address": {
+                        "type": "string"
+                    },
+                    "video_url": {
+                        "type": "string"
+                    },
+                    "lat": {
+                        "type": "string"
+                    },
+                    "lng": {
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "partners": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "region": {
+                        "type": "object"
+                    },
+                    "district": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "PagesRes": {
                 "description": "Page Resource",
                 "properties": {
@@ -6900,6 +8771,30 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ProgramShortApplicationForOrganisationRes": {
+                "description": "Page Resource",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ShortProgramApplicationForOrganisation"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProgramShortApplicationRes": {
+                "description": "Page Resource",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ShortProgramApplication"
+                        }
                     }
                 },
                 "type": "object"
@@ -7254,7 +9149,7 @@
                     "data": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/VacancyCollection"
+                            "$ref": "#/components/schemas/VacancyResource"
                         }
                     },
                     "links": {
@@ -7723,8 +9618,84 @@
     },
     "tags": [
         {
-            "name": "VET",
-            "description": "API Endpoints of Projects"
+            "name": "Admission",
+            "description": "Admission"
+        },
+        {
+            "name": "Application",
+            "description": "Application"
+        },
+        {
+            "name": "Vacancy",
+            "description": "Vacancy"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Commission",
+            "description": "Commission"
+        },
+        {
+            "name": "Educational standards",
+            "description": "Educational standards"
+        },
+        {
+            "name": "Card",
+            "description": "Card"
+        },
+        {
+            "name": "Generals",
+            "description": "Generals"
+        },
+        {
+            "name": "Non-formal",
+            "description": "Non-formal"
+        },
+        {
+            "name": "Openhouse",
+            "description": "Openhouse"
+        },
+        {
+            "name": "Pages",
+            "description": "Pages"
+        },
+        {
+            "name": "Partner",
+            "description": "Partner"
+        },
+        {
+            "name": "Programs",
+            "description": "Programs"
+        },
+        {
+            "name": "Schedules",
+            "description": "Schedules"
+        },
+        {
+            "name": "Short programs",
+            "description": "Short programs"
+        },
+        {
+            "name": "Stats",
+            "description": "Stats"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "Register",
+            "description": "Register"
+        },
+        {
+            "name": "SMS",
+            "description": "SMS"
+        },
+        {
+            "name": "Roles",
+            "description": "Roles"
         }
     ]
 }

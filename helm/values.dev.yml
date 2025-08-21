@@ -1,0 +1,41 @@
+envVars:
+  APP_NAME: Culture 
+  
+
+
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.org/client-max-body-size: "5m"
+  hosts:
+    - host: vet-front-develop.dev01.dev.emis.ge
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: dev1-dev-emis-ge
+      hosts:
+        - vet-front-develop.dev01.dev.emis.ge
+
+  
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2000Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+
+
+volumeMounts:
+  - name: tz-config
+    mountPath: /etc/localtime
+
+volumes:
+  - name: tz-config
+    hostPath:
+      path: /usr/share/zoneinfo/Asia/Tbilisi
+
+

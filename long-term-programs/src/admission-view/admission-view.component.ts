@@ -32,7 +32,11 @@ export class AdmissionViewComponent implements OnInit {
       return;
     }
 
-    this.loadAdmissionData(id);
+    // this.loadAdmissionData(id);
+    // რაღაც ზოგადი პრობლემა არის userRolesService, რის გამოც აგვიანებს ინიციალიზებას ყველაფერი.
+    setTimeout(() => {
+      this.loadAdmissionData(id);
+    }, 500);
   }
 
   private loadAdmissionData(id: string): void {

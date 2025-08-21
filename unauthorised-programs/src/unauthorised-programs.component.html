@@ -7,7 +7,7 @@
 
   @if (data.isLoading()) {
     <div class="vet-empty vet-loading">
-      {{ 'shared.loading' | transloco }}
+      <kendo-loader size="medium" [themeColor]="'secondary'" />
     </div>
   } @else if (data.value().data.length === 0) {
     <div class="vet-empty vet-not-found">

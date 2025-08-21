@@ -9,3 +9,11 @@
   border-radius: 1.25rem;
   gap: 1.25rem;
 }
+
+.no-records-template {
+  border: 1px solid $kendo-color-body-light;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

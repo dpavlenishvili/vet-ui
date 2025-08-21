@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { trans, useRouteNumberParam, vetIcons } from '@vet/shared';
-import { ProgramsService } from '@vet/backend';
+import { ShortProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ProgramDetailItem, ProgramPageComponent, ProgramSectionItem } from '@vet/programs-common';
 import { ShortProgramAdmissionsComponent } from './short-program-admissions/short-program-admissions.component';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import dayjs from 'dayjs';
 
 @Component({
@@ -22,7 +22,8 @@ export class ShortProgramPageComponent {
   programId = input<number>();
   showGallery = input<boolean>(true);
 
-  readonly programsService = inject(ProgramsService);
+  readonly programsService = inject(ShortProgramsService);
+  readonly translocoService = inject(TranslocoService);
 
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
@@ -40,10 +41,35 @@ export class ShortProgramPageComponent {
       return [];
     }
 
+    const requirements = program.requirements || {};
+    const parts: string[] = [];
+
+    if (requirements.min_age != null) {
+      parts.push(this.translocoService.translate('shorts.prerequisite_min_age', { age: requirements.min_age }));
+    }
+
+    if (requirements.min_allowed_education != null) {
+      parts.push(
+        this.translocoService.translate('shorts.prerequisite_min_allowed_education', {
+          education: requirements.min_allowed_education,
+        }),
+      );
+    }
+
+    if (requirements.other_requirements?.trim()) {
+      parts.push(
+        this.translocoService.translate('shorts.prerequisite_other_requirements', {
+          age: requirements.other_requirements,
+        }),
+      );
+    }
+
+    const admissionPrerequisite = parts.length > 0 ? parts.join(', ') : '';
+
     return [
       { label: trans('shorts.field'), value: '' },
       { label: trans('shorts.program_code'), value: program.program_code },
-      { label: trans('shorts.level'), value: program.education_level as unknown as string },
+      { label: trans('shorts.qualification_level'), value: program.education_level as unknown as string },
       { label: trans('shorts.program_kind'), value: program.program_kind?.name },
       {
         label: trans('shorts.program_duration'),
@@ -52,7 +78,7 @@ export class ShortProgramPageComponent {
         }),
       },
       { label: trans('shorts.admission_type'), value: '' },
-      { label: trans('shorts.admission_prerequisite'), value: '' },
+      { label: trans('shorts.admission_prerequisite'), value: admissionPrerequisite },
       { label: trans('shorts.implementation_location'), value: program.address },
     ];
   });
@@ -77,7 +103,7 @@ export class ShortProgramPageComponent {
       return [];
     }
 
-    return program.admissions.filter(admission => {
+    return program.admissions.filter((admission) => {
       const registrationStartDate = admission.registration_start_date
         ? dayjs(admission.registration_start_date).toDate().getTime()
         : null;

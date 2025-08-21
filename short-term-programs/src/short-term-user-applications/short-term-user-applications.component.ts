@@ -3,7 +3,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { useShortTermUserApplications } from '../short-term.resources';
 import { ButtonComponent, FormatDatePipe, IconButtonComponent, useAlert, useConfirm } from '@vet/shared';
-import { ProgramsService, ShortProgramApplication } from '@vet/backend';
+import { ShortProgramApplication, ShortProgramsService } from '@vet/backend';
 import { useProgramDialog } from '../short-term-programs.signals';
 import { tap } from 'rxjs';
 import { RouterLink } from '@angular/router';
@@ -18,7 +18,7 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 })
 export class ShortTermUserApplicationsComponent {
   applications = useShortTermUserApplications();
-  programsService = inject(ProgramsService);
+  programsService = inject(ShortProgramsService);
   programDialog = useProgramDialog();
   confirm = useConfirm();
   alert = useAlert();

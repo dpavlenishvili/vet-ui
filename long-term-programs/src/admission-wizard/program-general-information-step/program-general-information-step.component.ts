@@ -144,9 +144,8 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     }
 
     this.confirm.warning({
-      title: 'programs.changeEducationLevel',
       content: 'programs.educationChangeNote',
-      confirmButtonText: 'shared.met',
+      confirmButtonText: 'shared.agree',
       dismissButtonText: 'shared.cancel',
       onConfirm: () => {
         control?.setValue(educationId);
@@ -161,9 +160,9 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
 
   districtChange() {
     this.confirm.warning({
-      title: 'programs.testLocationChange',
       content: 'programs.testReallocationNote',
       showYesNoButtons: false,
+      hideCloseButton: true,
       singleTypeDialogActionText: 'shared.understood',
       onConfirm: () => {},
     });
@@ -171,9 +170,9 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
 
   languageChange() {
     this.confirm.warning({
-      title: 'programs.testLanguageChange',
       content: 'programs.georgianModuleNote',
       showYesNoButtons: false,
+      hideCloseButton: true,
       singleTypeDialogActionText: 'shared.understood',
       onConfirm: () => {},
     });

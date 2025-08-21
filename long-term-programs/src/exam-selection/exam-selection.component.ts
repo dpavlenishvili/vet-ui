@@ -2,10 +2,10 @@ import { ExamSelectionFiltersComponent } from './exam-selection-filters/exam-sel
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
-import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
+import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { UserRolesService } from '@vet/auth';
-import { Schedule, SchedulesService, Selection } from '@vet/backend';
+import { Schedule, ScheduleRes, SchedulesService, Selection } from '@vet/backend';
 import {
   DividerComponent,
   RouteParamsService,
@@ -66,6 +66,8 @@ export class ExamSelectionComponent {
   isSchedulesDialogOpen = signal(false);
   selectionMethods: Selection[] = [];
   selectedExamId = '';
+  canSelectNextLevel: boolean | undefined = false;
+  passLevel: boolean | undefined = false;
   dialogMode = signal<'dates' | 'results'>('dates');
 
   filters = useFilters<SchedulesFilters>();
@@ -84,9 +86,8 @@ export class ExamSelectionComponent {
     },
   });
 
-  readonly gridData = computed(() => {
-    const val = this.schedules$.value();
-    return { data: val?.data || [], total: val?.meta?.total || 0 } as GridDataResult;
+  readonly gridData = computed<ScheduleRes | undefined>(() => {
+    return this.schedules$.value();
   });
 
   hasSpecialStatus(item: ScheduleItem): boolean {
@@ -116,19 +117,23 @@ export class ExamSelectionComponent {
   }
 
   openSchedulesDialog(item: Schedule, dialogMode: 'dates' | 'results') {
-    this.selectionMethods = item.program?.admission?.selection ?? [];
+    this.selectionMethods = item.selections ?? [];
     this.selectedExamId = String(item.id);
     this.dialogMode.set(dialogMode);
     this.isSchedulesDialogOpen.set(true);
+    this.canSelectNextLevel = item.canSelectNextLevel;
+    this.passLevel = item.pass_level;
   }
 
-  onAcceptanceChange(item: Schedule, event: Event): void {
+  onAcceptanceChange(item: Schedule, event: Event, type: 'level' | 'grant'): void {
     const checked = (event.target as HTMLInputElement).checked;
     const scheduleId = String(item.id);
 
+    const operation =
+      type === 'grant' ? this.schedulesService.schedulesGrant : this.schedulesService.schedulesPassLevel;
+
     const proceed = () => {
-      this.schedulesService
-        .schedulesGrant(scheduleId, checked)
+      operation(scheduleId, checked)
         .pipe(
           tap({
             next: () => {
@@ -157,6 +162,12 @@ export class ExamSelectionComponent {
     } else {
       proceed();
     }
+  }
+
+  handlePageChange(event: PageChangeEvent) {
+    this.routeParamsService.update({
+      page: event.skip / event.take + 1,
+    });
   }
 
   onFiltersChange(filters: SchedulesFilters) {

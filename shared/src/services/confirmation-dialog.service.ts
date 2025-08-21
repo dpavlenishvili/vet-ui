@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import noop from 'lodash-es/noop';
 import type { ConfirmationDialogParams, DialogVariant } from '../shared.types';
 
 @Injectable({ providedIn: 'root' })
@@ -31,7 +32,7 @@ export class ConfirmationDialogService {
     params: string | Omit<ConfirmationDialogParams, 'variant'>,
   ) {
     const dialogParams = typeof params === 'string'
-      ? { content: params, onConfirm: () => {} }
+      ? { content: params, onConfirm: noop }
       : params;
 
     return this.show({

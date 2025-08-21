@@ -90,7 +90,7 @@
         <kendo-switch
           [onLabel]="'shared.yes' | transloco"
           [offLabel]="'shared.no' | transloco"
-          [checked]="form?.get('spec_env')?.getRawValue()?.length > 0"
+          [checked]="isSpecEnvEnabled()"
           [readonly]="isViewMode()"
           [disabled]="isViewMode()"
           (valueChange)="onSpecEnvSwitchChange($event)"

@@ -13,7 +13,7 @@ import {
 } from './short-registration-program-selection-step/short-registration-program-selection-step.component';
 import { ShortRegistrationSelectedProgramsStepComponent } from './short-registration-selected-programs-step/short-registration-selected-programs-step.component';
 import { ShortRegistrationConfirmationStepComponent } from './short-registration-confirmation-step/short-registration-confirmation-step.component';
-import { type ApplicationRequest, ProgramsService, ShortProgramAdmission } from '@vet/backend';
+import { type ApplicationRequest, ShortProgramAdmission, ShortProgramsService } from '@vet/backend';
 import { SHORT_REGISTRATION_DATA, SHORT_REGISTRATION_STEP_INDEX } from '../short-term.constants';
 import { tap } from 'rxjs';
 
@@ -40,7 +40,7 @@ export class ShortRegistrationComponent {
   router = inject(Router);
   params = useRouterParams();
   alert = useAlert();
-  programs = inject(ProgramsService);
+  programs = inject(ShortProgramsService);
 
   formGroup = this.createFormGroup();
   generalInformationStepTemplate = viewChild.required<TemplateRef<unknown>>('generalInformationStepTemplate');

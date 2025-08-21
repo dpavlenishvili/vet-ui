@@ -6,7 +6,14 @@
     [ngClass]="params.variant"
   >
     <div class="dialog-header">
-      <button kendoButton class="dialog-close-btn" (click)="close()" aria-label="Close" type="button" fillMode="flat">
+      <button 
+        kendoButton 
+        class="dialog-close-btn" 
+        (click)="close()" 
+        aria-label="Close" 
+        type="button" 
+        fillMode="flat"
+        [hidden]="params?.hideCloseButton">
         <kendo-svg-icon [icon]="vetIcons.dialogClose" [size]="'xlarge'" />
       </button>
     </div>
@@ -45,7 +52,7 @@
         </button>
       } @else {
         <button kendoButton themeColor="base" (click)="confirm()">
-          {{ params.singleTypeDialogActionText ? (params.singleTypeDialogActionText | transloco) : ('shared.met' | transloco) }}
+          {{ params.singleTypeDialogActionText ? (params.singleTypeDialogActionText | transloco) : ('shared.agree' | transloco) }}
         </button>
       }
     </div>

@@ -1,14 +1,19 @@
 :host {
   display: block;
+}
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 1rem;
-    background-color: white;
-    border-radius: 1.25rem;
-    width: 100%;
-  }
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 1.25rem;
+  width: 100%;
+  gap: 2rem;
+}
+
+.record_quantity {
+  font-size: 0.75rem;
+  margin-left: 1rem;
 }

@@ -120,4 +120,8 @@ export class UserRolesService {
     console.log('getOrganisation', this.selectedAccount()?.organisation);
     return this.selectedAccount()?.organisation;
   }
+
+  getOrganisationId() {
+    return this.selectedAccount()?.organisationId;
+  }
 }

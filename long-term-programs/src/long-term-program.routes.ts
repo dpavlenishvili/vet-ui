@@ -176,7 +176,7 @@ export const longTermProgramsRoutes: Route[] = [
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
-      { path: null, text: 'programs.choose_program' },
+      { path: null, text: 'programs.last_choose_program' },
     ]),
   },
   {
@@ -188,7 +188,7 @@ export const longTermProgramsRoutes: Route[] = [
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
-      { path: null, text: 'programs.result_program' },
+      { path: null, text: 'programs.last_result_program' },
     ]),
   },
 ];

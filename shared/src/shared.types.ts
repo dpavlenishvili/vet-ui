@@ -71,6 +71,7 @@ export interface ConfirmationDialogParams {
   singleTypeDialogActionText?: string;
   showYesNoButtons?: boolean;
   preventCloseOnKeyDown?: boolean;
+  hideCloseButton?: boolean;
   variant?: DialogVariant | 'default';
   onConfirm: () => void | Observable<unknown>;
   onDismiss?: () => void | Observable<unknown>;

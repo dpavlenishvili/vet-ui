@@ -1,7 +1,8 @@
 @use '../variables' as variables;
+@use '../helvetica-neue-font' as fonts;
 
 * {
-  font-family: HelveticaNeue;
+  font-family: fonts.$font-family-primary;
 }
 
 .forms {

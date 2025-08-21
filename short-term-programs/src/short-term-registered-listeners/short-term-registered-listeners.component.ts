@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { useFilters, useFiltersUpdater } from '@vet/shared';
-import { ShortTermRegisteredListenersFilters } from '../short-term-programs.types';
-import { useShortTermRegisteredListeners } from '../short-term.resources';
+import { ShortApplicationsListenersFilters } from '../short-term-programs.types';
+import { useShortApplicationsForOrganisation } from '../short-term.resources';
 import { ShortTermRegisteredListenersFiltersComponent } from './short-term-registered-listeners-filters/short-term-registered-listeners-filters.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { ShortTermRegisteredListenersFiltersComponent } from './short-term-regis
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShortTermRegisteredListenersComponent {
-  filters = useFilters<ShortTermRegisteredListenersFilters>();
-  updateFilters = useFiltersUpdater<ShortTermRegisteredListenersFilters>();
-  registeredListeners = useShortTermRegisteredListeners(this.filters);
+  filters = useFilters<ShortApplicationsListenersFilters>();
+  updateFilters = useFiltersUpdater<ShortApplicationsListenersFilters>();
+  registeredListeners = useShortApplicationsForOrganisation(this.filters);
 }

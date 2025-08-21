@@ -1,37 +1,42 @@
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map, of } from 'rxjs';
 import { inject, Signal } from '@angular/core';
-import { type ProgramShortApplicationRes, ProgramsService, ShortProgramApplication } from '@vet/backend';
+import { type ProgramShortApplicationRes, ShortProgramApplication, ShortProgramsService } from '@vet/backend';
 import {
   flattenQueryParams,
+  formatDateString,
   PaginatedGridResult,
-  useBaseApiUrl, useDebounceValue,
+  useBaseApiUrl,
+  useDebounceValue,
   useFilters,
   usePage,
-  withoutEmptyProperties
+  withoutEmptyProperties,
 } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { HttpClient } from '@angular/common/http';
-import { ShortTermProgramFilters, ShortTermRegisteredListenersFilters } from './short-term-programs.types';
+import {
+  ShortTermProgramFilters,
+  ShortApplicationsListenersFilters,
+  ShortStatsFilters,
+} from './short-term-programs.types';
 import { ProgramFilters } from '@vet/programs-common';
+import { isValidDictionaryItem, mapDictionaryItemToOption } from '@vet/shared-resources';
 
-export function useShortTermRegisteredListeners(filters: Signal<ShortTermRegisteredListenersFilters>) {
-  const http = inject(HttpClient);
+export function useShortApplicationsForOrganisation(filters: Signal<ShortApplicationsListenersFilters>) {
+  const programsService = inject(ShortProgramsService);
   const userRolesService = inject(UserRolesService);
-  const baseUrl = useBaseApiUrl();
 
   return rxResource({
-    request: () => ({
-      organisation: userRolesService.getOrganisation(),
-      filters: filters(),
-    }),
-    defaultValue: [],
-    loader: ({ request: { organisation, filters } }) => {
-      return http
-        .get<ProgramShortApplicationRes>(`${baseUrl}/programs/short/applications`, {
-          params: flattenQueryParams(filters),
-        })
-        .pipe(map((response) => response.data as ShortProgramApplication[]));
+    request: () => {
+      const { organisation_id, program_id, program_admission_id } = filters();
+      return {
+        organisation_id: userRolesService.getOrganisationId() ?? organisation_id,
+        program_id: program_id,
+        program_admission_id: program_admission_id,
+      };
+    },
+    loader: ({ request }) => {
+      return programsService.programsShortApplicationsForOrganisation(request);
     },
   });
 }
@@ -55,7 +60,7 @@ export function useShortTermUserApplications() {
 }
 
 export function useShortTermPrograms() {
-  const programsService = inject(ProgramsService);
+  const programsService = inject(ShortProgramsService);
   const filters = useFilters<ProgramFilters>();
   const page = usePage();
 
@@ -90,10 +95,8 @@ export function useShortTermPrograms() {
   });
 }
 
-export function useShortTermProgramAdmissions(
-  educationLevelId: number | null | undefined,
-) {
-  const programsService = inject(ProgramsService);
+export function useShortTermProgramAdmissions(educationLevelId: Signal<number | null | undefined>) {
+  const programsService = inject(ShortProgramsService);
   const filters = useFilters<ShortTermProgramFilters>();
   const page = usePage();
 
@@ -113,7 +116,7 @@ export function useShortTermProgramAdmissions(
       programsService
         .programsShortAdmissions({
           page: request.page.toString(),
-          educationLevelId: request.educationLevelId,
+          educationLevelId: request.educationLevelId(),
           ...flattenQueryParams(request.filters, 'filters'),
         } as any)
         .pipe(
@@ -131,7 +134,7 @@ export function useShortTermProgramAdmissions(
 }
 
 export function useFoundProgramsCount(filters: Signal<ShortTermProgramFilters>) {
-  const programsService = inject(ProgramsService);
+  const programsService = inject(ShortProgramsService);
   const debouncedFormValue = useDebounceValue<ShortTermProgramFilters>(
     filters,
     300,
@@ -150,5 +153,109 @@ export function useFoundProgramsCount(filters: Signal<ShortTermProgramFilters>) 
         .programsShort(flattenQueryParams(withoutEmptyProperties(request), 'filters'))
         .pipe(map((response) => response.meta?.total ?? 0));
     },
+  });
+}
+
+export function useOrganisationsForApplication() {
+  const shortProgramsService = inject(ShortProgramsService);
+
+  return rxResource({
+    defaultValue: [],
+    request: () => ({}),
+    loader: () => {
+      return shortProgramsService
+        .programsShortOrganisations()
+        .pipe(map((response) => (response.data ?? []).filter(isValidDictionaryItem).map(mapDictionaryItemToOption)));
+    },
+  });
+}
+
+export function useProgramsWithOrganisation(organisationId: Signal<string | null | undefined>) {
+  const shortProgramsService = inject(ShortProgramsService);
+
+  return rxResource({
+    defaultValue: [],
+    request: () => ({
+      organisation: organisationId(),
+    }),
+    loader: ({ request: organisation }) => {
+      if (!organisation) {
+        return of([]);
+      }
+
+      return shortProgramsService
+        .programsShortByOrganisation(String(organisation.organisation))
+        .pipe(map((response) => (response.data ?? []).filter(isValidDictionaryItem).map(mapDictionaryItemToOption)));
+    },
+  });
+}
+
+export function useAdmissionsWithPrograms(programId: Signal<string | null | undefined>) {
+  const shortProgramsService = inject(ShortProgramsService);
+
+  return rxResource({
+    defaultValue: [],
+    request: () => ({
+      programId: programId(),
+    }),
+    loader: ({ request: programId }) => {
+      if (!programId) {
+        return of([]);
+      }
+
+      return shortProgramsService.programsShortAdmissionsByProgram(String(programId.programId)).pipe(
+        map((response) =>
+          (response.data ?? []).filter(isValidDictionaryItem).map((item) =>
+            mapDictionaryItemToOption({
+              ...item,
+              name: formatDateString(item.name),
+            }),
+          ),
+        ),
+      );
+    },
+  });
+}
+
+export function useShortStats() {
+  const programsService = inject(ShortProgramsService);
+
+  return rxResource({
+    request: () => ({}),
+    defaultValue: [],
+    loader: () => programsService.shortProgramsStats().pipe(map((response) => response.data ?? [])),
+  });
+}
+
+export function useShortStatsOrganisation(organisation: string, filters: Signal<ShortStatsFilters>) {
+  const programsService = inject(ShortProgramsService);
+
+  return rxResource({
+    request: () => ({
+      organisation: organisation,
+      filters: filters(),
+    }),
+    defaultValue: [],
+    loader: ({ request }) =>
+      programsService
+        .shortProgramsStatsOrganisation(request.organisation ?? '', {
+          params: Object.fromEntries(
+            Object.entries(request.filters).map(([key, value]) => [key, value != null ? String(value) : '']),
+          ),
+        })
+        .pipe(map((response) => response.data ?? [])),
+  });
+}
+
+export function useShortStatsAddmission(program: string) {
+  const programsService = inject(ShortProgramsService);
+
+  return rxResource({
+    request: () => ({
+      program: program,
+    }),
+    defaultValue: [],
+    loader: ({ request }) =>
+      programsService.shortProgramsStatsAdmissions(request.program ?? '').pipe(map((response) => response.data ?? [])),
   });
 }

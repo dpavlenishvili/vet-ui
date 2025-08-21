@@ -217,64 +217,28 @@
           <div class="disclaimer-summary k-text-base">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
-                ? 'programs.ssm_disclaimer_summary'
-                : 'programs.general_disclaimer_summary'
+                ? 'programs.new_ssm_disclaimer_summary'
+                : 'programs.new_general_disclaimer_summary'
               ) | transloco
             }}
           </div>
 
-          <div class="disclaimer-title k-text-base">
+          <div class="disclaimer-content-text k-text-base">
             {{
               (ssmFormGroup()?.get('spec_edu')?.value
-                ? 'programs.ssm_disclaimer_documentation_title'
-                : 'programs.general_disclaimer_documentation_title'
+                ? 'programs.new_ssm_disclaimer_content'
+                : 'programs.new_general_disclaimer_content'
               ) | transloco
             }}
           </div>
 
-          <div class="disclaimer-list k-text-base">
-            <ol>
-              <li
-                [innerHTML]="
-                  (ssmFormGroup()?.get('spec_edu')?.value
-                    ? 'programs.ssm_disclaimer_item_1'
-                    : 'programs.general_disclaimer_item_1'
-                  ) | transloco
-                "
-              ></li>
-              <li
-                [innerHTML]="
-                  (ssmFormGroup()?.get('spec_edu')?.value
-                    ? 'programs.ssm_disclaimer_item_2'
-                    : 'programs.general_disclaimer_item_2'
-                  ) | transloco
-                "
-              ></li>
-              <li
-                [innerHTML]="
-                  (ssmFormGroup()?.get('spec_edu')?.value
-                    ? 'programs.ssm_disclaimer_item_3'
-                    : 'programs.general_disclaimer_item_3'
-                  ) | transloco
-                "
-              ></li>
-              <li
-                [innerHTML]="
-                  (ssmFormGroup()?.get('spec_edu')?.value
-                    ? 'programs.ssm_disclaimer_item_4'
-                    : 'programs.general_disclaimer_item_4'
-                  ) | transloco
-                "
-              ></li>
-              <li
-                [innerHTML]="
-                  (ssmFormGroup()?.get('spec_edu')?.value
-                    ? 'programs.ssm_disclaimer_item_5'
-                    : 'programs.general_disclaimer_item_5'
-                  ) | transloco
-                "
-              ></li>
-            </ol>
+          <div class="disclaimer-final-selection k-text-base">
+            {{
+              (ssmFormGroup()?.get('spec_edu')?.value
+                ? 'programs.new_ssm_disclaimer_final_selection'
+                : 'programs.new_general_disclaimer_final_selection'
+              ) | transloco
+            }}
           </div>
         </div>
       </div>

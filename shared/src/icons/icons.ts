@@ -304,3 +304,13 @@ export const integratedIcon: SVGIcon = {
 `,
   viewBox: '0 0 21 20',
 };
+
+export const disabled: SVGIcon = {
+  name: 'integrated',
+  content: `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="9" cy="9" r="8" stroke="#B1B7BB" stroke-width="2"/>
+<path d="M14.332 14.333L3.66536 3.66634" stroke="#B1B7BB" stroke-width="2"/>
+</svg>
+`,
+  viewBox: '0 0 21 20',
+};

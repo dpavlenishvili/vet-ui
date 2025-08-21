@@ -1,23 +1,27 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div vet-container>
     <div vet-row>
+      @if ('Super Admin' | role) {
+        <vet-selector
+          self-grow
+          formControlName="organisation_id"
+          [placeholder]="'shorts.institution_name' | transloco"
+          [options]="institutionOptions.value()"
+        />
+      }
+
       <vet-selector
         self-grow
-        formControlName="organisation_name"
-        [placeholder]="'shorts.institution_name' | transloco"
-        [options]="institutionOptions.value()"
-      />
-
-      <vet-input
-        self-grow
-        formControlName="program_name_or_code"
+        formControlName="program_id"
         [placeholder]="'shorts.program_code_name' | transloco"
+        [options]="programsOptions.value()"
       />
 
-      <vet-date-picker
+      <vet-selector
         self-grow
-        formControlName="tuition_start_date"
+        formControlName="program_admission_id"
         [placeholder]="'shorts.stream_tuition_period_start_date' | transloco"
+        [options]="admissionOptions.value()"
       />
     </div>
 

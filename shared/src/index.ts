@@ -16,8 +16,10 @@ export * from './components/checkbox';
 export * from './components/single-dialog-outlet/single-dialog-outlet.component';
 export * from './components/component-outlet.component';
 
+export * from './pipes/date-diff.pipe';
 export * from './pipes/format-date.pipe';
 export * from './pipes/format-date-time.pipe';
+export * from './pipes/format-date-string.pipe';
 export * from './pipes/uploaded-file-uri.pipe';
 export * from './pipes/trans.pipe';
 

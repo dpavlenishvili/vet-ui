@@ -1,9 +1,14 @@
 import type { AuthEnvironment } from '@vet/auth';
+import {BuildVars} from "./build-vars.interface";
+
+declare const BUILD_VARS: BuildVars;
+
+const baseUrl = BUILD_VARS.APP_BASE_URL ?? 'https://develop-vet-back.dev01.dev.emis.ge';
 
 export const environment = {
   production: true,
-  baseUrl: 'https://dev-api-vet.emis.ge',
-  apiBaseUrl: 'https://dev-api-vet.emis.ge/api/v1',
+  baseUrl,
+  apiBaseUrl: `${baseUrl}/api/v1`,
   defaultDateFormat: 'YYYY-MM-DD',
   defaultDateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
   defaultDisplayDateFormat: 'DD/MM/YYYY',

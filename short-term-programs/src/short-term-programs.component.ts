@@ -6,10 +6,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { ShortTermProgramsGridComponent } from './short-term-programs-grid/short-term-programs-grid.component';
 import { useShortTermPrograms } from './short-term.resources';
 import { ShortTermProgramFilters } from './short-term-programs.types';
+import { LoaderComponent } from '@progress/kendo-angular-indicators';
 
 @Component({
   selector: 'vet-short-term-programs',
-  imports: [ShortTermProgramsGridComponent, ShortTermProgramsFiltersComponent, TranslocoPipe],
+  imports: [ShortTermProgramsGridComponent, ShortTermProgramsFiltersComponent, TranslocoPipe, LoaderComponent],
   templateUrl: './short-term-programs.component.html',
   styleUrl: './short-term-programs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,12 +1,15 @@
-import { DashboardSidebarMenuItem, DashboardSidebarMenuItemBase } from '../dashboard.types';
+import { DashboardSidebarMenuItem } from '../dashboard.types';
 import { v4 as uuid } from 'uuid';
-import { computed, Signal, signal } from '@angular/core';
-import { isOneOf, useHasRole } from '@vet/auth';
+import { computed, inject, Signal, signal } from '@angular/core';
+import { UserRolesService, isOneOf } from '@vet/auth';
 
 const BASE_PATH = '/dashboard/programs/short';
 
 export function useShortTermProgramsMenu(): Signal<DashboardSidebarMenuItem> {
+  const userRolesService = inject(UserRolesService);
+
   const isExpanded = signal(false);
+  const organisationId = userRolesService.getOrganisationId();
 
   return computed(() => ({
     id: uuid(),
@@ -24,8 +27,10 @@ export function useShortTermProgramsMenu(): Signal<DashboardSidebarMenuItem> {
       {
         id: uuid(),
         text: 'dashboard.statistics',
-        url: `${BASE_PATH}/statistics`,
-        accessControl: isOneOf('Super Admin'),
+        url: userRolesService.hasRole('Super Admin')
+          ? `${BASE_PATH}/statistics`
+          : `${BASE_PATH}/statistics/${organisationId}`,
+        accessControl: isOneOf('Super Admin', 'Organisation'),
       },
     ],
   }));

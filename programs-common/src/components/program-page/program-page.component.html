@@ -2,7 +2,7 @@
 
 @if (isLoading()) {
   <div class="vet-program-page">
-    {{ 'shared.loading' | transloco }}
+    <kendo-loader size="medium" [themeColor]="'secondary'" />
   </div>
 } @else if (program()) {
   <div class="vet-program-page">

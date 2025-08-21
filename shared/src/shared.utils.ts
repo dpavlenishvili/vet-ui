@@ -210,6 +210,11 @@ export function formatDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
+export function formatDateString(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-');
+  return `${day}-${month}-${year}`;
+}
+
 export function toFilterOptionsMap(filterData: Array<{ key?: string; values?: unknown }>): FilterOptionsMap {
   const pairs = filterData
     .filter(

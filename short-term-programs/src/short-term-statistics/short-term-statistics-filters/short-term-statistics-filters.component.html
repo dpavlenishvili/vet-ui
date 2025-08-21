@@ -1,0 +1,33 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-selector
+        self-grow
+        formControlName="program"
+        [placeholder]="'shorts.program' | transloco"
+        [options]="programsOptions.value()"
+      />
+
+      <vet-selector
+        self-grow
+        formControlName="program_kind"
+        [placeholder]="'shorts.program_kind' | transloco"
+        [options]="programKindOptions.value()"
+      />
+    </div>
+
+    <div vet-line space-between align-center>
+      <p class="k-text-sm k-color-body">
+        {{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}
+      </p>
+
+      <div vet-line gap-dense content-right>
+        <vet-icon-button icon="close" (click)="onClearClick()" />
+
+        <vet-button leadingIcon="search" type="submit">
+          {{ 'shared.search' | transloco }}
+        </vet-button>
+      </div>
+    </div>
+  </div>
+</form>

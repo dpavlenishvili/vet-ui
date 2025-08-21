@@ -9,20 +9,21 @@
     "generate": {
       "executor": "@vet/backend:sync",
       "options": {
-        "openApiFilePath": "https://dev-api-vet.emis.ge/docs?api-docs.json",
+        "openApiFilePath": "{projectRoot}/api-docs.json",
         "outputDir": "{projectRoot}/src/lib/generated"
       },
       "configurations": {
         "development": {
-          "openApiFilePath": "https://dev-api-vet.emis.ge/docs?api-docs.json"
+          "openApiFilePath": "https://develop-vet-back.dev01.dev.emis.ge/docs?api-docs.json"
         },
         "qwerty": {
-          "openApiFilePath": "https://dev2-api-vet.emis.ge/docs?api-docs.json"
+          "openApiFilePath": "https://develop-vet-back.dev01.dev.emis.ge/docs?api-docs.json"
         },
         "production": {
-          "openApiFilePath": "https://dev-api-vet.emis.ge/docs?api-docs.json"
+          "openApiFilePath": "https://develop-vet-back.dev01.dev.emis.ge/docs?api-docs.json"
         }
-      }
+      },
+      "defaultConfiguration": "development"
     },
     "test": {
       "executor": "@nx/jest:jest",

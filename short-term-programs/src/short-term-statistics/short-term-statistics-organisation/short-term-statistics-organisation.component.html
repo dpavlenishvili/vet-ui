@@ -1,0 +1,62 @@
+@let _stats = stats.value();
+
+<vet-short-term-statistics-filters
+  [numberOfRecords]="_stats?.length || 0"
+  [filters]="filters()"
+  (filtersChange)="updateFilters($event)"
+/>
+
+<kendo-grid [data]="_stats" [loading]="stats.isLoading()">
+  <ng-template kendoGridNoRecordsTemplate>
+    {{ 'shared.noRecords' | transloco }}
+  </ng-template>
+
+  <kendo-grid-column [title]="'shorts.program' | transloco" [width]="250">
+    <ng-template kendoGridCellTemplate let-item>
+      <a
+        [routerLink]="['/dashboard/programs/short/statistics', organisationId, item.id]"
+        class="organisation-link"
+      >
+        {{ item.program_name }}
+      </a>
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [title]="'shorts.program_kind' | transloco" [width]="250">
+    <ng-template kendoGridCellTemplate let-item>
+      {{item.program_kind}}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [title]="'shorts.address' | transloco" [width]="250">
+    <ng-template kendoGridCellTemplate let-item>
+      {{item.address}}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [title]="'shorts.stats_partners' | transloco" [width]="300">
+    <ng-template kendoGridCellTemplate let-item>
+      {{item.partners}}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [width]="120">
+    <ng-template kendoGridHeaderTemplate>
+      <span class="column-header k-column-title">{{'shorts.max_student_number' | transloco}}</span>
+    </ng-template>
+
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.max_number_of_students }}
+    </ng-template>
+  </kendo-grid-column>
+
+  <kendo-grid-column [width]="150">
+    <ng-template kendoGridHeaderTemplate>
+      <span class="column-header k-column-title">{{'shorts.registered_quantity' | transloco}}</span>
+    </ng-template>
+
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.registered_count }}
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

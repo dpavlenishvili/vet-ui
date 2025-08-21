@@ -39,8 +39,13 @@ export class AdmissionUpdateComponent implements OnInit {
       return;
     }
 
-    this.loadAdmissionData(id);
-    this.loadEducationStatus();
+    // this.loadAdmissionData(id);
+    // this.loadEducationStatus();
+    // რაღაც ზოგადი პრობლემა არის userRolesService, რის გამოც აგვიანებს ინიციალიზებას ყველაფერი.
+    setTimeout(() => {
+      this.loadAdmissionData(id);
+      this.loadEducationStatus();
+    }, 500);
   }
 
   protected onUpdate(event: StepBody<AdmissionRequest>): void {

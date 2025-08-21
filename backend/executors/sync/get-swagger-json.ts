@@ -5,7 +5,9 @@ export async function getSwaggerJson(tree: Tree, pathOrUrl: string): Promise<Swa
     return JSON.parse(tree.read(pathOrUrl, 'utf-8'));
   }
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-  return fetch(pathOrUrl, {
+  const url = new URL(pathOrUrl);
+  url.searchParams.append('_cb', Date.now().toString());
+  return fetch(url.toString(), {
     headers: {
       'content-type': 'application/json',
       'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',

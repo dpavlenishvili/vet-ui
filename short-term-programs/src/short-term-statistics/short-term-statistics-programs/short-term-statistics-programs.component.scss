@@ -1,0 +1,20 @@
+@use '@vet/shared-styles' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: $white;
+  border-radius: 1.25rem;
+  gap: 1.25rem;
+}
+
+.column-header {
+  white-space: pre-wrap;
+}
+
+.column-header::after {
+  content: "";
+  display: block;
+}

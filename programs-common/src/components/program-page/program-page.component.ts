@@ -5,11 +5,11 @@ import { ProgramHeaderComponent } from './program-header/program-header.componen
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TransPipe, vetIcons } from '@vet/shared';
 import { LongTerm, ShortProgramShow } from '@vet/backend';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramIscedListComponent } from './program-isced-list/program-isced-list.component';
 import { ProgramDetailItem, ProgramSectionItem } from '../../programs.types';
 import { NgTemplateOutlet } from '@angular/common';
+import { LoaderComponent } from '@progress/kendo-angular-indicators';
 
 @Component({
   selector: 'vet-program-page',
@@ -19,9 +19,9 @@ import { NgTemplateOutlet } from '@angular/common';
     ProgramHeaderComponent,
     ProgramIscedListComponent,
     ProgramSectionComponent,
-    TranslocoPipe,
     TransPipe,
     NgTemplateOutlet,
+    LoaderComponent,
   ],
   templateUrl: './program-page.component.html',
   styleUrl: './program-page.component.scss',
