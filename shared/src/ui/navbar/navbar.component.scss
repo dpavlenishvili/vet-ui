@@ -1,3 +1,5 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
   --container-max-width: 92.5rem;
@@ -41,7 +43,7 @@
     font-size: 0.875rem;
     color: var(--nav-link-color);
     text-transform: uppercase;
-    font-family: 'BPG Mrgvlovani Caps', 'HelveticaNeue', Arial, sans-serif;
+    font-family: shared.$font-family-secondary;
   }
 }
 
@@ -66,7 +68,7 @@
   .v-ui-navbar-menu-link {
     color: var(--nav-link-color);
     text-transform: uppercase;
-    font-family: 'BPG Mrgvlovani Caps', 'HelveticaNeue', Arial, sans-serif;
+    font-family: shared.$font-family-secondary;
 
     &:hover,
     &:focus {
@@ -245,7 +247,7 @@
         text-decoration: none;
         font-size: 1rem;
         text-transform: uppercase;
-        font-family: 'BPG Mrgvlovani Caps', 'HelveticaNeue', Arial, sans-serif;
+        font-family: shared.$font-family-secondary;
       }
     }
   }

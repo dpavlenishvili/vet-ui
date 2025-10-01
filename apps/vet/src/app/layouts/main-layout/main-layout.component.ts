@@ -1,11 +1,11 @@
 import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { BreadcrumbComponent, NavbarComponent, ThemeService } from '@vet/shared';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { ApplicationPagesService } from '@vet/dynamic-pages';
 import { AuthenticationService } from '@vet/auth';
 import { filter, take } from 'rxjs';
 import { AppFooterComponent } from '../../app-footer/app-footer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { useMenuPages } from '@vet/pages';
 
 @Component({
   selector: 'vet-main-layout',
@@ -14,7 +14,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent implements OnInit {
-  protected readonly pages$ = inject(ApplicationPagesService).headerMenuPages$;
+  protected readonly pages$ = useMenuPages('top menu');
   protected readonly user = computed(() => this.authenticationService.user());
   protected router = inject(Router);
   protected themeService = inject(ThemeService);

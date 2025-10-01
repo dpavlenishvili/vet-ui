@@ -1,3 +1,4 @@
+import { organisationsRoutes } from '@vet/organisations';
 import { unauthorisedProgramsRoutes } from '@vet/unauthorised-programs';
 import type { Routes } from '@angular/router';
 import { dynamicUrlPrefix } from '@vet/dynamic-pages';
@@ -11,6 +12,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { shortTermProgramsRoutes } from '@vet/short-term-programs';
 import { vacancyRoutes } from '@vet/vacancy';
 import { dashboardRoutes } from '@vet/dashboard';
+import { pagesRoutes } from '@vet/pages';
 
 export const appRoutes: Routes = [
   {
@@ -19,6 +21,7 @@ export const appRoutes: Routes = [
     data: breadcrumb([]),
     canActivate: [],
   },
+  ...pagesRoutes,
   {
     path: '',
     component: MainLayoutComponent,
@@ -64,11 +67,17 @@ export const appRoutes: Routes = [
         children: vacancyRoutes,
         data: breadcrumb([]),
       },
+      {
+        path: 'organisations',
+        children: organisationsRoutes,
+        data: breadcrumb([]),
+      },
     ],
   },
-  {
-    path: dynamicUrlPrefix,
-    component: MainLayoutComponent,
-    children: [],
-  },
+  // {
+  //   path: dynamicUrlPrefix,
+  //   component: MainLayoutComponent,
+  //   children: [],
+  //   data: breadcrumb([]),
+  // },
 ];

@@ -1,3 +1,4 @@
+import { CheckIcon } from './check-icon';
 import { calendarIcon } from './calendar';
 import { editIcon } from './edit';
 import { authInfo } from './auth-info';
@@ -55,6 +56,8 @@ import { plusCircleGreen } from './plus-circle-green';
 import { webIcon } from './web';
 import { integrated } from './integrated';
 import { checkProgram } from './check-program';
+import { publicIcon } from './public';
+import { professionalIcon } from './professional';
 
 export {
   bin,
@@ -111,7 +114,10 @@ export {
   calendarIcon,
   integrated,
   webIcon,
-  checkProgram
+  checkProgram,
+  publicIcon,
+  professionalIcon,
+  CheckIcon,
 };
 
 export * from './icons';

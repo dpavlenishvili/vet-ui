@@ -1,0 +1,27 @@
+@let _page = page();
+
+<main class="vet-page">
+  @if (_page) {
+    @switch (_page?.type) {
+      @case ('default_static') {
+        <vet-static-page [page]="_page" />
+      }
+      @case ('organisations') {
+        <vet-organisations />
+      }
+      @case ('collection') {
+        @switch (_page.collection?.[0]?.type) {
+          @case ('articles') {
+            <vet-collection-page [page]="_page" />
+          }
+          @case ('tabs') {
+            <vet-tab-page [page]="_page" />
+          }
+          @case ('list') {
+            <vet-sidebar-page [page]="_page" />
+          }
+        }
+      }
+    }
+  }
+</main>

@@ -92,6 +92,32 @@ export function extractData<T extends { data: unknown }>(): (source: Observable<
   return (source: Observable<T>) => source.pipe(map(({ data }) => data));
 }
 
+export function getQueryParam(activatedRoute: ActivatedRoute, key: string): Observable<string | null>;
+export function getQueryParam(activatedRoute: ActivatedRoute, key: string, fallback: string): Observable<string>;
+export function getQueryParam(
+  activatedRoute: ActivatedRoute,
+  key: string,
+  fallback: string | null = null,
+): Observable<string | null> {
+  return activatedRoute.queryParamMap.pipe(
+    map((params) => params.get(key)),
+    map((value) => value ?? fallback),
+  );
+}
+
+export function getJsonQueryParam<T>(activatedRoute: ActivatedRoute, key: string): Observable<T | null>;
+export function getJsonQueryParam<T>(activatedRoute: ActivatedRoute, key: string, fallback: T): Observable<T>;
+export function getJsonQueryParam<T>(
+  activatedRoute: ActivatedRoute,
+  key: string,
+  fallback: T | null = null,
+): Observable<T | null> {
+  return activatedRoute.queryParamMap.pipe(
+    map((params) => params.get(key)),
+    map((value) => value ? JSON.parse(value) : fallback),
+  );
+}
+
 export function getRouteParam(activatedRoute: ActivatedRoute, key: string): Observable<string | null>;
 export function getRouteParam(activatedRoute: ActivatedRoute, key: string, fallback: string): Observable<string>;
 export function getRouteParam(

@@ -105,7 +105,7 @@
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [title]="'programs.other' | transloco" [width]="80">
+      <kendo-grid-column [title]="'programs.other' | transloco" [width]="100">
         <ng-template kendoGridCellTemplate let-item>
           <div class="k-display-flex k-justify-content-between">
             <button
@@ -127,7 +127,6 @@
   }
 </div>
 
-@defer (when isSchedulesDialogOpen()) {
   @if (isSchedulesDialogOpen()) {
     <vet-exam-selection-dialog
       (dialogClose)="closeSchedulesDialog()"
@@ -139,4 +138,4 @@
       [mode]="dialogMode()"
     />
   }
-}
+

@@ -9,7 +9,7 @@ export const shortTermProgramsDashboardRoutes: Route[] = [
     path: '',
     pathMatch: 'full',
     loadComponent: () => import('@vet/short-term-programs').then((m) => m.ShortTermDashboardComponent),
-    data: breadcrumb([...baseBreadcrumbItems, { path: BASE_PATH, text: 'dashboard.long_term_programs' }]),
+    data: breadcrumb([...baseBreadcrumbItems, { path: BASE_PATH, text: 'dashboard.short_term_programs' }]),
   },
   {
     path: 'statistics',
@@ -17,7 +17,7 @@ export const shortTermProgramsDashboardRoutes: Route[] = [
     loadComponent: () => import('@vet/short-term-programs').then((m) => m.ShortTermStatisticsComponent),
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: BASE_PATH, text: 'dashboard.long_term_programs' },
+      { path: BASE_PATH, text: 'dashboard.short_term_programs' },
       { path: `${BASE_PATH}/statistics`, text: 'dashboard.statistics' },
     ]),
   },
@@ -27,7 +27,7 @@ export const shortTermProgramsDashboardRoutes: Route[] = [
       import('@vet/short-term-programs').then((m) => m.ShortTermStatisticsOrganisationComponent),
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: BASE_PATH, text: 'dashboard.long_term_programs' },
+      { path: BASE_PATH, text: 'dashboard.short_term_programs' },
       { path: `${BASE_PATH}/statistics`, text: 'dashboard.statistics' },
     ]),
   },
@@ -37,7 +37,7 @@ export const shortTermProgramsDashboardRoutes: Route[] = [
       import('@vet/short-term-programs').then((m) => m.ShortTermStatisticsProgramsComponent),
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: BASE_PATH, text: 'dashboard.long_term_programs' },
+      { path: BASE_PATH, text: 'dashboard.short_term_programs' },
       { path: `${BASE_PATH}/statistics`, text: 'dashboard.statistics' },
     ]),
   },

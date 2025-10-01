@@ -1,4 +1,9 @@
-<kendo-dialog [width]="650" [title]="'programs.add_commission_member' | transloco" (close)="handleCloseWithWarning()">
+<kendo-dialog 
+  [width]="650"
+  [maxHeight]="700"
+  [title]="'programs.add_commission_member' | transloco" 
+  (close)="handleCloseWithWarning()"
+>
   @if (commissionMemberForm; as form) {
     <form [formGroup]="form">
       <div class="k-display-flex k-flex-column k-gap-5">

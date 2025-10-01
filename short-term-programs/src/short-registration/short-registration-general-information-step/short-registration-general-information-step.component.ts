@@ -30,11 +30,9 @@ export class ShortRegistrationGeneralInformationStepComponent {
     effect(() => {
       const educationLevelOptions = this.educationLevelOptions();
 
-      if (educationLevelOptions.length === 1) {
-        this.formGroup().setValue({
-          education_level: educationLevelOptions[0].value,
-        });
-      }
+      this.formGroup().setValue({
+        education_level: Number(educationLevelOptions?.length === 1 ? educationLevelOptions?.[0].value : null),
+      });
     });
   }
 

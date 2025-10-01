@@ -1,0 +1,8 @@
+// =============================================================================
+// VACANCY FEATURE STYLES
+// =============================================================================
+// This file exports all vacancy-specific styles
+// Import this in vacancy components with: @use './styles' as vacancy;
+
+@forward 'forms';
+@forward 'shared';

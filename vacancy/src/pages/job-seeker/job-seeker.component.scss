@@ -1,5 +1,5 @@
 @use '@vet/shared-styles' as shared;
-@import '@vet/shared-styles/vacancy';
+@use '../../styles' as vacancy;
 
 .job-form-container {
   background-color: shared.$kendo-color-white;

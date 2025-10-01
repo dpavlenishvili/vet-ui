@@ -8,6 +8,10 @@
 
 @if (_registeredListeners) {
   <kendo-grid [data]="_registeredListeners?.data ?? []" [loading]="registeredListeners.isLoading()">
+    <ng-template kendoGridNoRecordsTemplate>
+      {{ 'shared.noRecords' | transloco }}
+    </ng-template>
+
     <kendo-grid-column [title]="'shorts.pid' | transloco">
       <ng-template kendoGridCellTemplate let-item>
         {{ item.user.pid }}

@@ -1,0 +1,27 @@
+@let _item = item.value();
+
+<main class="vet-article">
+  @if (_item) {
+    <article class="vet-collection-item">
+      @if (_item.image) {
+        <div class="vet-collection-item-image-container">
+            <img
+              class="vet-collection-item-image"
+              [ngSrc]="_item.image | vetUploadedFileUri"
+              [attr.alt]="_item.slug"
+              fill
+            />
+        </div>
+      }
+
+      <div class="vet-collection-item-header">
+        <div class="vet-collection-item-created-at">{{ _item.created_at | date: 'short' }}</div>
+        <h2 class="vet-collection-item-title">{{ _item.title }}</h2>
+      </div>
+
+      <div class="vet-collection-item-body">
+        <vet-page-content [content]="_item.content" />
+      </div>
+    </article>
+  }
+</main>

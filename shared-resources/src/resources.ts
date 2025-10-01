@@ -34,7 +34,6 @@ export function useRegions() {
   return useDefaultDictionary((generals) => generals.getRegionsList({}));
 }
 
-
 export function useDistricts() {
   return useSeparateDictionary(
     (generals) => generals.getDistrictsList({}),
@@ -53,7 +52,6 @@ export function useEducationStatus() {
 
 export function useUserSpecificEducationLevelOptions() {
   const educationStatus = useEducationStatus();
-  const educationLevels = useEducationLevels();
 
   return computed(() => {
     if (educationStatus.isLoading()) {
@@ -62,25 +60,10 @@ export function useUserSpecificEducationLevelOptions() {
 
     const _educationStatus = educationStatus.value();
 
-    if (_educationStatus?.levelId && _educationStatus.level) {
-      return [
-        {
-          value: _educationStatus.levelId,
-          label: _educationStatus.level,
-        },
-      ];
-    }
-
-    if (educationLevels.isLoading()) {
-      return [];
-    }
-
-    const _educationLevels = educationLevels.value();
-
-    return _educationLevels
-      .map((level) => ({
-        value: level.value,
-        label: level.label,
+    return _educationStatus
+      ?.map((level) => ({
+        value: level.levelId,
+        label: level.level,
       }))
       .filter(Boolean) as Array<SelectOption<number>>;
   });
@@ -141,11 +124,7 @@ export function useDefaultDictionary<T extends string | number>(
   );
 }
 
-export function useConfigDictionary(
-  key: string,
-  programType?: 'short-term' | 'long-term',
-  organisation?: string,
-) {
+export function useConfigDictionary(key: string, programType?: 'short-term' | 'long-term', organisation?: string) {
   const generalsService = inject(GeneralsService);
 
   return rxResource({

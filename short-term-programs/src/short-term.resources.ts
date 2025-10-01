@@ -53,7 +53,7 @@ export function useShortTermUserApplications() {
     defaultValue: [],
     loader: () => {
       return http
-        .get<ProgramShortApplicationRes>(`${baseUrl}/programs/short/applications`)
+        .get<ProgramShortApplicationRes>(`${baseUrl}/short-programs/applications`)
         .pipe(map((response) => response.data as ShortProgramApplication[]));
     },
   });
@@ -116,7 +116,7 @@ export function useShortTermProgramAdmissions(educationLevelId: Signal<number | 
       programsService
         .programsShortAdmissions({
           page: request.page.toString(),
-          educationLevelId: request.educationLevelId(),
+          education_level_id: request.educationLevelId(),
           ...flattenQueryParams(request.filters, 'filters'),
         } as any)
         .pipe(

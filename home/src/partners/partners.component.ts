@@ -22,18 +22,33 @@ export interface SliderItem {
 export class PartnersComponent {
   vetIcons = vetIcons;
 
+  private readonly scrollStep = 320;
+
   public sliderData$: Observable<SliderItem[]> = of(sliderItems);
 
-  scrollLeft(container: HTMLElement) {
-    container.scrollBy({ left: -300, behavior: 'smooth' });
+  scrollLeft(container: HTMLElement): void {
+    const currentScroll = container.scrollLeft;
+    const newScrollLeft = Math.max(0, currentScroll - this.scrollStep);
+
+    container.scrollTo({
+      left: newScrollLeft,
+      behavior: 'smooth'
+    });
   }
 
-  scrollRight(container: HTMLElement) {
-    container.scrollBy({ left: 300, behavior: 'smooth' });
+  scrollRight(container: HTMLElement): void {
+    const currentScroll = container.scrollLeft;
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    const newScrollLeft = Math.min(maxScroll, currentScroll + this.scrollStep);
+
+    container.scrollTo({
+      left: newScrollLeft,
+      behavior: 'smooth'
+    });
   }
 }
 
-export const sliderItems = [
+export const sliderItems: SliderItem[] = [
   {
     imageUrl: '/assets/images/partners/61c785f9825ae302036d6eaae3935de7.jpg',
     title: 'NAMELOGO',

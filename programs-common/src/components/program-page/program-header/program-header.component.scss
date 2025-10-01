@@ -13,7 +13,7 @@
 }
 
 .vet-program-name {
-  @include shared.text-md(true);
+  @include shared.text-h2(true);
   color: shared.$kendo-color-body-extra-dark;
   text-align: center;
   margin-top: 1rem;

@@ -60,8 +60,6 @@ export class UserOverviewComponent extends UserProfileSection {
   smsService = inject(SmsService);
   organisationService = inject(AuthService);
 
-  private router = inject(Router);
-
   oldPhoneNumber = '';
 
   regionsOptions = useRegions();

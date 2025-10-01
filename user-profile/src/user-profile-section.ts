@@ -4,6 +4,7 @@ import { AuthenticationService } from '@vet/auth';
 import { finalize, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { formatDateFn, FormatDateFn, ToastService, useAlert } from '@vet/shared';
+import { Router } from '@angular/router';
 
 @Directive()
 export class UserProfileSection {
@@ -16,6 +17,8 @@ export class UserProfileSection {
   private readonly _mandatoryFieldsFn = mandatoryFieldsFn(formatDateFn('YYYY-MM-DD'));
 
   private alert = useAlert()
+
+  router = inject(Router)
 
   protected updateUser(userReq: UserUpdateReq) {
     const user = this.authService.user();
@@ -31,7 +34,10 @@ export class UserProfileSection {
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         tap({
-          next: () => this.alert.success('profile.user_update_success'),
+          next: () => {
+            this.alert.success('profile.user_update_success')
+            this.router.navigate([''])
+          },
           error: () => this.alert.error('profile.user_update_failed'),
         }),
         finalize(() => {

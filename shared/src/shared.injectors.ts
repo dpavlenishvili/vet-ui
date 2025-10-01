@@ -15,8 +15,14 @@ import {
   KENDO_DATE_TIME_PICKER_FORMAT,
 } from './shared.tokens';
 import { RouteParamsService } from './services/route-params.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { getRouteNumberParam, getRouteParam, withoutEmptyProperties } from './shared.utils';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import {
+  getJsonQueryParam,
+  getQueryParam,
+  getRouteNumberParam,
+  getRouteParam,
+  withoutEmptyProperties
+} from './shared.utils';
 import { AlertDialogService } from './services/alert-dialog.service';
 import { ConfirmationDialogService } from './services/confirmation-dialog.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -74,15 +80,16 @@ export function InjectEnvironment(): InjectDecorator {
   return Inject(ENVIRONMENT);
 }
 
-export function useJsonQueryParam(name?: string) {
-  const routeParamsService = inject(RouteParamsService);
-  const rawValue = name ? routeParamsService.getSnapshot()[name] : routeParamsService.getSnapshot();
+export function useQueryParam(key: string) {
+  const activatedRoute = inject(ActivatedRoute);
 
-  console.log(routeParamsService.getSnapshot());
-  console.log(rawValue);
-  console.log(name);
+  return toSignal(getQueryParam(activatedRoute, key));
+}
 
-  return rawValue ? JSON.parse(rawValue) : {};
+export function useJsonQueryParam<T>(key: string) {
+  const activatedRoute = inject(ActivatedRoute);
+
+  return toSignal(getJsonQueryParam<T>(activatedRoute, key));
 }
 
 export function useRouteParam(key: string) {
@@ -159,6 +166,17 @@ export function useFiltersUpdater<T extends object>() {
   }
 }
 
+export function useQueryUpdater() {
+  const router = inject(Router);
+
+  return (query: Params | null) => {
+    void router.navigate([], {
+      queryParamsHandling: 'merge',
+      queryParams: query ? withoutEmptyProperties(query) : null,
+    });
+  }
+}
+
 export function usePageUpdater() {
   const router = inject(Router);
 
@@ -184,14 +202,27 @@ export function useSanitizedUrl(getUrl: () => string | null | undefined) {
   });
 }
 
+export function useSanitizedHtml(getHtml: () => string | null | undefined) {
+  const sanitizer = inject(DomSanitizer);
+
+  return computed(() => {
+    const html = getHtml();
+
+    return html
+      ? sanitizer.bypassSecurityTrustHtml(html)
+      : undefined;
+  });
+}
+
 export function useCurrentUrl() {
   const router = inject(Router);
-
-  return toSignal(router.events.pipe(
+  const url = toSignal(router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
     map((event) => event.urlAfterRedirects),
     startWith(router.url),
   ));
+
+  return computed(() => url() ?? '');
 }
 
 export function useUniqueId(prefix?: string) {

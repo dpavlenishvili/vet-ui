@@ -1,3 +1,6 @@
+// Font variables are now defined in _variables.scss
+@use 'variables' as vars;
+
 // =============================================================================
 // HELVETICA NEUE FONT FAMILY
 // =============================================================================
@@ -29,35 +32,27 @@
 }
 
 // =============================================================================
-// FONT FAMILY VARIABLES
-// =============================================================================
-
-// Primary font stack with system fallbacks
-$font-family-primary: 'HelveticaNeue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-
-// System font stack for UI components
-$font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-
-// Monospace font stack for code
-$font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-
-// =============================================================================
 // UTILITY CLASSES
 // =============================================================================
 
 // Primary font utility class
 .font-primary {
-  font-family: $font-family-primary !important;
+  font-family: vars.$font-family-primary !important;
+}
+
+// Secondary font utility class (Georgian uppercase)
+.font-secondary {
+  font-family: vars.$font-family-secondary !important;
 }
 
 // System font utility class
 .font-system {
-  font-family: $font-family-system !important;
+  font-family: vars.$font-family-system !important;
 }
 
 // Monospace font utility class
 .font-mono {
-  font-family: $font-family-mono !important;
+  font-family: vars.$font-family-mono !important;
 }
 
 // Reset text transform (for overriding uppercase)

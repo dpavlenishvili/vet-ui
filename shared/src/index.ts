@@ -15,6 +15,8 @@ export * from './components/icon-button';
 export * from './components/checkbox';
 export * from './components/single-dialog-outlet/single-dialog-outlet.component';
 export * from './components/component-outlet.component';
+export * from './components/expandable-sidebar/expandable-sidebar.component';
+export * from './components/router-expandable-sidebar/router-expandable-sidebar.component';
 
 export * from './pipes/date-diff.pipe';
 export * from './pipes/format-date.pipe';
@@ -22,6 +24,7 @@ export * from './pipes/format-date-time.pipe';
 export * from './pipes/format-date-string.pipe';
 export * from './pipes/uploaded-file-uri.pipe';
 export * from './pipes/trans.pipe';
+export * from './pipes/sanitize.pipe';
 
 export * from './services/toast.service';
 export * from './services/reload.service';

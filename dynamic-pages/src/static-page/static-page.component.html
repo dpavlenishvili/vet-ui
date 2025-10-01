@@ -1,1 +1,8 @@
-<main class="container" [innerHTML]="page().content"></main>
+<main class="vet-static-page">
+  <div class="vet-static-page-content-container">
+    <div
+      class="vet-static-page-content"
+      [innerHTML]="sanitizedContent()"
+    ></div>
+  </div>
+</main>

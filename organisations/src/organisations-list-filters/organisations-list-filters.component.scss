@@ -1,0 +1,14 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  width: 100%;
+  gap: 2rem;
+}

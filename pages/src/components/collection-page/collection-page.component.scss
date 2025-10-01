@@ -1,0 +1,28 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-page-collection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(413px, 100%), 1fr));
+  gap: 1.5rem;
+  padding: 1rem 1rem 9.375rem;
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  }
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.vet-page-collection-item {
+}

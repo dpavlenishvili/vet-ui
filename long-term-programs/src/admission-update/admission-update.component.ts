@@ -92,7 +92,11 @@ export class AdmissionUpdateComponent implements OnInit {
       .educationStatus()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
-        this.educationStatus.set(response);
+        if (response.length > 1) {
+          this.educationStatus.set(null);
+        } else {
+          this.educationStatus.set(response[0]);
+        }
       });
   }
 }

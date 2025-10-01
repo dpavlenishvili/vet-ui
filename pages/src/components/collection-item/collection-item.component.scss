@@ -1,0 +1,113 @@
+@use "@vet/shared-styles" as shared;
+
+:host {
+  display: block;
+  width: 100%;
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.vet-collection-item {
+  background-color: shared.$white;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  height: 294px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.625rem;
+
+  @media (max-width: 640px) {
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.15);
+
+    .vet-collection-item-image-container {
+      img {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+.vet-collection-item-image-container {
+  position: relative;
+  width: 100%;
+  height: 138px;
+  min-height: 138px;
+  padding: 1.25rem;
+  overflow: hidden;
+  border-radius: 0.375rem;
+
+  @media (max-width: 640px) {
+    height: 5rem;
+    min-height: 5rem;
+    margin: 1.25rem;
+  }
+
+  img {
+    width: 100%;
+    height: 98px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-radius: 0.375rem;
+
+    @media (max-width: 640px) {
+      height: 5rem;
+    }
+  }
+}
+
+.vet-collection-item-body {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.vet-collection-item-created-at {
+  @include shared.text-sm();
+  color: shared.$kendo-color-body-light;
+  margin: 0;
+}
+
+.vet-collection-item-title {
+  @include shared.text-h3();
+  line-height: 1.25rem;
+  color: shared.$kendo-color-body-extra-dark;
+  margin: 0.625rem 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @media (max-width: 640px) {
+    @include shared.text-h2();
+  }
+}
+
+.vet-collection-item-content {
+  @include shared.text-base();
+  color: shared.$kendo-color-body;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0.875rem 0 0;
+}

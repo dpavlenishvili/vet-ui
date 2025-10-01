@@ -34,9 +34,6 @@ header {
       flex: 1;
       overflow: auto;
       width: 100%;
-      isolation: isolate;
-      contain: layout style paint;
-      transform: translateZ(0);
     }
   }
 }

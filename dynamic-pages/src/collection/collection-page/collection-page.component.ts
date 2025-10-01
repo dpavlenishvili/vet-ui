@@ -32,7 +32,7 @@ export class CollectionPageComponent {
       });
     });
     this.collectionItems$ = toObservable(this.page).pipe(
-      switchMap((page) => this.pagesService.collectionsItems(page.collection_id!)),
+      switchMap((page) => this.pagesService.collectionsItems(page.collection?.[0]?.id!)),
       map((response) => response.data!),
       first(),
     );

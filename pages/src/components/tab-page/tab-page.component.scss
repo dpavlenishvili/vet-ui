@@ -1,0 +1,54 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-tab-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.25rem 1.25rem 2.5rem;
+  margin-bottom: 9.375rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+}
+
+.vet-tab-page-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  white-space: nowrap;
+  gap: 1.25rem;
+}
+
+.vet-tab-page-tab {
+  @include shared.text-base();
+  color: shared.$kendo-color-body;
+  line-height: 100%;
+  background: shared.$white;
+  box-shadow: 0 2px 4px 0 #3635354D;
+  padding: 1.25rem 0.625rem;
+  width: 17.5rem;
+  border: none;
+  border-radius: 0.3125rem;
+  cursor: pointer;
+
+  &.active {
+    background-color: shared.$tb-kendo-color-primary;
+    color: shared.$white;
+    box-shadow: none;
+  }
+}
+
+.vet-tab-title {
+  @include shared.text-base(true);
+  color: shared.$kendo-color-body-extra-dark;
+  margin-top: 2.5rem;
+}
+
+.vet-tab-body {
+  margin-top: 0.875rem;
+}

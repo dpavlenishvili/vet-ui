@@ -6,6 +6,7 @@ const PageTypeToPageComponent: Record<string, () => Promise<Type<unknown>>> = {
   collection: () =>
     import('../collection/collection-page/collection-page.component').then((m) => m.CollectionPageComponent),
   default_static: () => import('../static-page/static-page.component').then((m) => m.StaticPageComponent),
+  collection_tab: () => import('../static-page/static-page.component').then((m) => m.StaticPageComponent),
 };
 
 export function resolvePageComponent(page: Page): () => Promise<Type<unknown>> {

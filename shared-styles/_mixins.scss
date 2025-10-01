@@ -1,5 +1,5 @@
-// Import font variables
-@import 'helvetica-neue-font';
+// Use font variables from _variables.scss
+@use 'variables' as vars;
 
 @function imp($important: false) {
   @if($important) {
@@ -12,7 +12,7 @@
 @mixin text-shared-properties($bold: false, $important: false) {
   text-underline-position: from-font imp($important);
   text-decoration-skip-ink: none imp($important);
-  font-family: $font-family-primary imp($important);
+  font-family: vars.$font-family-primary imp($important);
 
   @if ($bold) {
     font-weight: 500 imp($important);
@@ -32,7 +32,7 @@
 @mixin text-system-properties($bold: false, $important: false) {
   text-underline-position: from-font imp($important);
   text-decoration-skip-ink: none imp($important);
-  font-family: $font-family-system imp($important);
+  font-family: vars.$font-family-system imp($important);
 
   @if ($bold) {
     font-weight: 500 imp($important);
@@ -50,7 +50,7 @@
 
 // Monospace font mixin (for code elements)
 @mixin text-mono-properties($important: false) {
-  font-family: $font-family-mono imp($important);
+  font-family: vars.$font-family-mono imp($important);
   text-underline-position: from-font imp($important);
   text-decoration-skip-ink: none imp($important);
 }

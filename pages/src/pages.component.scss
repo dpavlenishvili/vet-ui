@@ -1,0 +1,204 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-page {
+
+}
+
+.vet-page-content-container {
+  all: initial;
+  font-family: inherit;
+  color: inherit;
+  contain: style layout;
+  isolation: isolate;
+
+  position: relative;
+  z-index: auto;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  * {
+    all: unset;
+    display: revert;
+    box-sizing: border-box;
+
+    position: static !important;
+    z-index: auto !important;
+    transform: none !important;
+  }
+}
+
+.vet-page-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+  gap: 1.25rem;
+}
+
+.vet-page-collection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(413px, 100%), 1fr));
+  gap: 1.5rem;
+  padding: 1rem 1rem 9.375rem;
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  }
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.vet-page-collection-item {
+}
+
+.vet-page > .vet-page-content-container > .vet-page-content {
+  @include shared.text-base();
+  color: shared.$kendo-color-body;
+}
+
+::ng-deep {
+  .vet-page > .vet-page-content-container > .vet-page-content {
+    h1 { @include shared.text-h1(true, true); margin: 1.5rem 0 1rem 0; }
+    h2 { @include shared.text-h2(true, true); margin: 1.25rem 0 0.75rem 0; }
+    h3 { @include shared.text-h3(true, true); margin: 1rem 0 0.5rem 0; }
+    h4, h5, h6 { @include shared.text-base(true, true); margin: 0.75rem 0 0.5rem 0; }
+
+    p {
+      @include shared.text-base();
+      margin: 1rem 0;
+      color: shared.$kendo-color-body;
+    }
+
+    ul, ol {
+      @include shared.text-base();
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+
+      li {
+        margin: 0.25rem 0;
+      }
+    }
+
+    ul {
+      padding-left: 0.8125rem;
+    }
+
+    a {
+      color: shared.$kendo-color-link !important;
+      text-decoration: underline;
+
+      &:hover {
+        color: shared.$kendo-color-primary-dark;
+      }
+    }
+
+    img {
+      &:not(.vet-img) {
+        max-width: 100%;
+        height: auto;
+        border-radius: 1.25rem;
+        display: block;
+        margin: 1rem auto;
+
+        width: 100%;
+        max-height: 50vh;
+        object-fit: cover;
+
+        &[width]:is(
+        [width*="16"], [width*="24"], [width*="32"],
+        [width*="48"], [width*="64"]
+      ) {
+          width: auto;
+          max-height: none;
+          object-fit: initial;
+          display: inline;
+          margin: 0;
+        }
+
+        &[width]:is(
+          [width*="800"], [width*="1200"], [width*="1920"]
+        ) {
+          width: 100%;
+          max-height: 60vh;
+          object-fit: cover;
+        }
+      }
+
+      &.img-small {
+        width: auto;
+        max-width: 200px;
+        display: inline;
+        margin: 0 0.5rem;
+      }
+
+      &.img-medium {
+        width: 100%;
+        max-width: 600px;
+        max-height: 40vh;
+        object-fit: contain;
+      }
+
+      &.img-large {
+        width: 100%;
+        max-height: 60vh;
+        object-fit: cover;
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border: 1px solid shared.$kendo-color-divider-light;
+
+      th, td {
+        @include shared.text-sm();
+        padding: 0.75rem;
+        border: 1px solid shared.$kendo-color-divider-light;
+        text-align: left;
+      }
+
+      th {
+        background-color: shared.$kendo-color-chip;
+        font-weight: 500;
+      }
+    }
+
+    blockquote {
+      @include shared.text-base();
+      margin: 1rem 0;
+      padding: 1rem;
+      border-left: 4px solid shared.$kendo-color-primary;
+      background-color: shared.$kendo-paper-dark;
+      font-style: italic;
+    }
+
+    pre, code {
+      font-family: monospace !important;
+      background-color: shared.$kendo-color-chip;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      @include shared.text-sm();
+    }
+
+    pre {
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+  }
+}

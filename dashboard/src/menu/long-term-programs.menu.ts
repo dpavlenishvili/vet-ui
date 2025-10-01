@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid';
-import { DashboardSidebarMenuItem } from '../dashboard.types';
 import { computed, Signal, signal } from '@angular/core';
 import { isOneOf } from '@vet/auth';
+import { SidebarMenuItem } from '@vet/shared';
 
 const BASE_PATH = '/dashboard/programs/long';
 
-export function useLongTermProgramsMenu(): Signal<DashboardSidebarMenuItem> {
+export function useLongTermProgramsMenu(): Signal<SidebarMenuItem> {
   const isExpanded = signal(false);
 
   return computed(() => ({

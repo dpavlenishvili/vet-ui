@@ -1,0 +1,123 @@
+<!-- <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-input self-grow [placeholder]="'shared.search' | transloco" formControlName="search" />
+
+      <vet-selector
+        self-grow
+        [placeholder]="'organisations.organisation_name' | transloco"
+        formControlName="name"
+        [options]="institutionOptions.value()"
+      />
+    </div>
+
+    <div vet-row>
+      <vet-input self-grow [placeholder]="'organisations.legal_form' | transloco" />
+
+      <vet-selector
+        self-grow
+        [placeholder]="'organisations.organisation_type' | transloco"
+        formControlName="org_type"
+      />
+
+      <vet-selector
+        self-grow
+        [placeholder]="'organisations.organisation_kind' | transloco"
+        formControlName="institution_type_id"
+      />
+
+      <vet-input self-grow [placeholder]="'organisations.identification_code' | transloco" formControlName="id" />
+    </div>
+
+    <div vet-line space-between align-center>
+      <p class="k-text-sm k-color-body">
+        {{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}
+      </p>
+
+      <div vet-line gap-dense content-right>
+        <vet-icon-button icon="close" (click)="onClearClick()" />
+
+        <vet-button leadingIcon="search" type="submit">
+          {{ 'shared.search' | transloco }}
+        </vet-button>
+      </div>
+    </div>
+  </div>
+</form> -->
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <div vet-row>
+        <div vet-row>
+          <vet-input self-grow [placeholder]="'shared.search' | transloco" formControlName="search" />
+        </div>
+
+        @if (!isExpanded()) {
+          <div vet-spacer></div>
+          <ng-container *ngTemplateOutlet="buttons"/>
+        }
+      </div>
+
+      @if (isExpanded()) {
+        <div vet-row>
+          <vet-selector
+            self-grow
+            [placeholder]="'organisations.organisation_type' | transloco"
+            formControlName="org_type"
+          />
+  
+          <vet-selector
+            self-grow
+            [placeholder]="'organisations.organisation_kind' | transloco"
+            formControlName="institution_type_id"
+          />
+        </div>
+      }
+    </div>
+
+    @if (isExpanded()) {
+      <div vet-row>
+        <div vet-row>
+          <vet-selector
+            formControlName="region"
+            [placeholder]="'programs.region' | transloco"
+            [options]="regionOptions.value()"
+          />
+
+          <vet-selector
+            formControlName="district"
+            [placeholder]="'programs.district' | transloco"
+            [options]="filteredDistricts()"
+          />
+        </div>
+
+        <vet-selector
+          self-grow
+          formControlName="name"
+          [placeholder]="'programs.institution_name' | transloco"
+          [options]="institutionOptions.value()"
+        />
+      </div>
+
+      <div vet-row>
+        <div vet-row></div>
+        <div vet-row content-right>
+          <ng-container *ngTemplateOutlet="buttons"/>
+        </div>
+      </div>
+    }
+  </div>
+</form>
+
+<ng-template #buttons>
+  <div vet-line gap-dense content-right>
+    @let toggleBtnIcon = isExpanded() ? 'arrowUp' : 'arrowDown';
+
+    <vet-icon-button [icon]="toggleBtnIcon" (click)="onToggleExpansion()" />
+    <vet-icon-button icon="close" (click)="onClearClick()" />
+
+    <vet-button leadingIcon="search" type="submit">
+      {{ 'shorts.search_filters' | transloco }}
+    </vet-button>
+  </div>
+</ng-template>

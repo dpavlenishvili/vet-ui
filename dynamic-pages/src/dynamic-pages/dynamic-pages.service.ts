@@ -44,13 +44,14 @@ export class ApplicationPagesService {
 
   populate(): Observable<ApplicationPage[]> {
     return this.pagesService.getPagesList().pipe(
-      map(({ data }) =>
-        (data || []).sort((ap, bp) => {
+      map(({ data }) => {
+        console.log('pop', data);
+        return (data || []).sort((ap, bp) => {
           const a = ap.position || 0;
           const b = bp.position || 0;
           return a - b;
-        }),
-      ),
+        });
+      }),
       map((pages) => pages.map(addUrlPrefixToPage)),
       tap((pages) => (this.dynamicPagesRoutes = generateRoutesFromPages(pages))),
       this.populateGroupedPages(),

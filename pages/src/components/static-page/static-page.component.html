@@ -1,0 +1,16 @@
+@let _page = page();
+
+<div class="vet-static-page">
+  @if (_page.image) {
+    <div class="vet-static-page-image-container">
+      <img
+        class="vet-static-page-image"
+        [ngSrc]="_page.image | vetUploadedFileUri"
+        [attr.alt]="_page.slug"
+        fill
+      />
+    </div>
+  }
+
+  <vet-page-content [content]="_page.content" />
+</div>

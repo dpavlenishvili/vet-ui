@@ -1,0 +1,17 @@
+<header>
+  <vet-ui-navbar [pages]="pages$()" [user]="user()" (logout)="logout()" />
+</header>
+
+<main class="main-container">
+  <vet-breadcrumb />
+
+  <div class="router-container">
+    <router-outlet />
+  </div>
+</main>
+
+@defer (on viewport) {
+  <vet-app-footer />
+} @placeholder {
+  <div class="k-h-24"></div>
+}

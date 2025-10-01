@@ -1,0 +1,13 @@
+{
+  "name": "@vet/organisations",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "organisations/src",
+  "prefix": "vet",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

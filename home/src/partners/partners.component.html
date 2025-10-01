@@ -1,5 +1,5 @@
 <div class="partners k-py-10">
-  <div class="k-display-flex k-justify-content-between k-align-items-center ">
+  <div class="k-display-flex k-justify-content-between k-align-items-center">
     <div class="k-text-lg">{{ 'home.partners' | transloco }}</div>
 
     <div class="partners__controls k-gap-4">
@@ -10,10 +10,10 @@
       <div class="k-separator"></div>
 
       <div class="partners__controls--nav k-gap-2.5">
-        <button class="nav-button" (click)="scrollLeft(slider)">
+        <button class="nav-button" (click)="scrollLeft(slider)" aria-label="Previous partners">
           <kendo-svg-icon [size]="'small'" [icon]="vetIcons.previous" />
         </button>
-        <button class="nav-button" (click)="scrollRight(slider)">
+        <button class="nav-button" (click)="scrollRight(slider)" aria-label="Next partners">
           <kendo-svg-icon [size]="'small'" [icon]="vetIcons.next" />
         </button>
       </div>
@@ -21,15 +21,17 @@
   </div>
 
   <div #slider class="partners__slider">
-    @for (item of sliderData$ | async; track item) {
-      <div class="partners__slider-item k-display-flex k-flex-column k-gap-3">
-        <div class="partners__slider-item-img">
-          <img [src]="item.imageUrl" [alt]="item.title" />
+    @if (sliderData$ | async; as sliderData) {
+      @for (item of sliderData; track item.title + item.subtitle) {
+        <div class="partners__slider-item k-display-flex k-flex-column k-gap-3">
+          <div class="partners__slider-item-img">
+            <img [src]="item.imageUrl" [alt]="item.title" loading="lazy" />
+          </div>
+          <span class="k-text-base k-color-body">
+            <b>{{ item.subtitle }}</b>
+          </span>
         </div>
-        <span class="k-text-base k-color-body">
-          <b>{{ item.subtitle }}</b>
-        </span>
-      </div>
+      }
     }
   </div>
 </div>

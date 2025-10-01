@@ -2,7 +2,7 @@
   <div class="vet-program-card-details">
     @for (item of items(); track item.label) {
       <div>
-        {{ item.label | trans }}: <strong>{{ item.value | trans }}</strong>
+        <strong>{{ item.label | trans }}:</strong> {{ item.value | trans }}
       </div>
     }
   </div>

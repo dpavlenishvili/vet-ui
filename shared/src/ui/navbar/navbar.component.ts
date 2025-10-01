@@ -2,7 +2,7 @@ import { Component, computed, ElementRef, HostListener, inject, input, output, s
 import { Router, RouterLink } from '@angular/router';
 import type { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { User } from '@vet/backend';
+import { Page, User } from '@vet/backend';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
@@ -16,7 +16,7 @@ import { UserAccount, UserRolesService } from '@vet/auth';
   imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
 })
 export class NavbarComponent {
-  pages = input.required<NavbarMenuItemType[]>();
+  pages = input.required<Page[]>();
   user = input.required<User | null>();
 
   protected readonly userRolesService = inject(UserRolesService);

@@ -1,6 +1,6 @@
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
@@ -172,12 +172,13 @@ export class CommissionMembersDialogComponent implements OnInit {
     const currentMembers = this.updatedCommissionMembers();
 
     if (currentMembers.some((member) => member.pid === newMember.pid)) {
-      this.showTemporaryError('programs.member_already_added');
+      this.showTemporaryError(translate('programs.member_already_added'));
+      
       return false;
     }
 
     if (currentMembers.length >= 6) {
-      this.showTemporaryError('programs.commission_member_maximum_warning');
+      this.showTemporaryError(translate('programs.commission_member_maximum_warning'));
       return false;
     }
 
@@ -206,7 +207,7 @@ export class CommissionMembersDialogComponent implements OnInit {
     const currentMembers = this.updatedCommissionMembers();
 
     if (currentMembers.length < 3) {
-      this.showTemporaryError('programs.commission_member_minimum_warning');
+      this.showTemporaryError(translate('programs.commission_member_minimum_warning'));
       return;
     }
 

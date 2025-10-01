@@ -1,0 +1,246 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-page-content {
+  all: initial;
+  font-family: inherit;
+  color: inherit;
+  contain: style layout;
+  isolation: isolate;
+
+  position: relative;
+  z-index: auto;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  * {
+    all: unset;
+    display: revert;
+    box-sizing: border-box;
+
+    position: static !important;
+    z-index: auto !important;
+    transform: none !important;
+  }
+}
+
+.vet-page-content > .vet-page-content-html {
+  @include shared.text-base();
+  color: shared.$kendo-color-body;
+}
+
+::ng-deep {
+  .vet-page-content > .vet-page-content-html {
+    h1 { @include shared.text-h1(true, true); margin: 1.5rem 0 1rem 0; }
+    h2 { @include shared.text-h2(true, true); margin: 1.25rem 0 0.75rem 0; }
+    h3 { @include shared.text-h3(true, true); margin: 1rem 0 0.5rem 0; }
+    h4, h5, h6 { @include shared.text-base(true, true); margin: 0.75rem 0 0.5rem 0; }
+
+    p {
+      @include shared.text-base();
+      margin: 1rem 0;
+      color: shared.$kendo-color-body;
+    }
+
+    ul, ol {
+      @include shared.text-base();
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+
+      li {
+        margin: 0.25rem 0;
+      }
+    }
+
+    ul {
+      padding-left: 0;
+
+      li {
+        margin: 1.25rem 0;
+        list-style: none;
+        position: relative;
+        padding-left: 1.5rem;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0.4rem;
+          width: 0.4375rem;
+          height: 0.75rem;
+          background-image: url('data:image/svg+xml;utf8,<svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 10.9379L1.05248 12L7 6L1.05248 0L0 1.0621L4.89505 6L0 10.9379Z" fill="%234CAEE8"/></svg>');
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+    }
+
+    a {
+      color: shared.$kendo-color-link !important;
+      text-decoration: underline;
+
+      &:hover {
+        color: shared.$kendo-color-primary-dark;
+      }
+    }
+
+    img {
+      &:not(.vet-img) {
+        max-width: 100%;
+        height: auto;
+        border-radius: 1.25rem;
+        display: block;
+        margin: 1rem auto;
+
+        width: 100%;
+        max-height: 50vh;
+        object-fit: cover;
+
+        &[width]:is(
+        [width*="16"], [width*="24"], [width*="32"],
+        [width*="48"], [width*="64"]
+      ) {
+          width: auto;
+          max-height: none;
+          object-fit: initial;
+          display: inline;
+          margin: 0;
+        }
+
+        &[width]:is(
+          [width*="800"], [width*="1200"], [width*="1920"]
+        ) {
+          width: 100%;
+          max-height: 60vh;
+          object-fit: cover;
+        }
+      }
+
+      &.img-small {
+        width: auto;
+        max-width: 200px;
+        display: inline;
+        margin: 0 0.5rem;
+      }
+
+      &.img-medium {
+        width: 100%;
+        max-width: 600px;
+        max-height: 40vh;
+        object-fit: contain;
+      }
+
+      &.img-large {
+        width: 100%;
+        max-height: 60vh;
+        object-fit: cover;
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border: 1px solid shared.$kendo-color-divider-light;
+
+      th, td {
+        @include shared.text-sm();
+        padding: 0.75rem;
+        border: 1px solid shared.$kendo-color-divider-light;
+        text-align: left;
+      }
+
+      th {
+        background-color: shared.$kendo-color-chip;
+        font-weight: 500;
+      }
+    }
+
+    blockquote {
+      @include shared.text-base();
+      margin: 1rem 0;
+      padding: 1rem;
+      border-left: 4px solid shared.$kendo-color-primary;
+      background-color: shared.$kendo-paper-dark;
+      font-style: italic;
+    }
+
+    pre, code {
+      font-family: monospace !important;
+      background-color: shared.$kendo-color-chip;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      @include shared.text-sm();
+    }
+
+    pre {
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    figure[data-trix-content-type^="image/"] {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      width: 100%;
+
+      figcaption {
+        display: none;
+      }
+    }
+
+    figure:not([data-trix-content-type^="image/"]) {
+      a {
+        text-decoration: none;
+      }
+
+      figcaption {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+
+        .attachment__name {
+          @include shared.text-base();
+          color: shared.$kendo-color-body-extra-dark;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          position: relative;
+          width: 38.125rem;
+          padding: 0.75rem;
+          height: 3.75rem;
+          border-radius: 0.625rem;
+          border: 1px solid shared.$kendo-color-primary;
+          text-overflow: ellipsis;
+
+          &::after {
+            content: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTEiIHZpZXdCb3g9IjAgMCAxMCAxMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuMzUyNiAxMC43Mjc5TDAuMjIzMjQyIDYuMzg2ODhDMC4wNzM4Mjk1IDYuMjExMTcgLTAuMDA1OTI4MDcgNS45ODE5OSAwLjAwMDM0MzcyMiA1Ljc0NjRDMC4wMDY2MTU1MiA1LjUxMDgxIDAuMDk4NDQwOCA1LjI4NjY4IDAuMjU2OTY4IDUuMTIwMDJDMC40MTU0OTUgNC45NTMzNyAwLjYyODY5NSA0Ljg1Njg0IDAuODUyNzk4IDQuODUwMjRDMS4wNzY5IDQuODQzNjUgMS4yOTQ5IDQuOTI3NSAxLjQ2MjA1IDUuMDg0NTdMNC45NzE0MiA4Ljc3Mzg0TDguNDgwNzggNS4wODQ1N0M4LjU2MTEgNC45OTM5NSA4LjY1Nzk2IDQuOTIxMjcgOC43NjU1OCA0Ljg3MDg2QzguODczMiA0LjgyMDQ1IDguOTg5MzggNC43OTMzNCA5LjEwNzE4IDQuNzkxMTZDOS4yMjQ5OCA0Ljc4ODk3IDkuMzQxOTkgNC44MTE3NSA5LjQ1MTI0IDQuODU4MTRDOS41NjA0OCA0LjkwNDUzIDkuNjU5NzIgNC45NzM1NyA5Ljc0MzAzIDUuMDYxMTZDOS44MjYzNCA1LjE0ODc0IDkuODkyMDIgNS4yNTMwNiA5LjkzNjE1IDUuMzY3OTFDOS45ODAyNyA1LjQ4Mjc1IDEwLjAwMTkgNS42MDU3NiA5Ljk5OTg2IDUuNzI5NkM5Ljk5Nzc4IDUuODUzNDQgOS45NzIgNS45NzU1NyA5LjkyNDA1IDYuMDg4NzFDOS44NzYxIDYuMjAxODUgOS44MDY5NiA2LjMwMzY3IDkuNzIwNzYgNi4zODgxMUw1LjU5MTQxIDEwLjcyOTJDNS41MTAxMSAxMC44MTUgNS40MTM0OSAxMC44ODMxIDUuMzA3MSAxMC45Mjk1QzUuMjAwNyAxMC45NzYgNS4wODY2MyAxMC45OTk5IDQuOTcxNDIgMTAuOTk5OUM0Ljg1NjIxIDEwLjk5OTkgNC43NDIxMyAxMC45NzYgNC42MzU3NCAxMC45Mjk1QzQuNTI5MzQgMTAuODgzMSA0LjQzMjczIDEwLjgxNSA0LjM1MTQzIDEwLjcyOTJMNC4zNTI2IDEwLjcyNzlaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNC45NzA3IDFMNC45NzA3IDguMzc4NTRMNC45NzA3IDFaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNC45NzA3IDFMNC45NzA3IDguMzc4NTQiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+");
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            top: 0.75rem;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            border-radius: 0.25rem;
+            background-color: shared.$kendo-color-primary;
+          }
+        }
+
+        .attachment__size {
+          display: none;
+        }
+      }
+    }
+  }
+}

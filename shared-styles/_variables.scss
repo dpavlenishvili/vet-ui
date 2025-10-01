@@ -40,3 +40,19 @@ $kendo-button-light-contrast: #4682b4;
 $kendo-color-shadow: #0000001a;
 $kendo-color-light-gray: #636363;
 $kendo-color-border-light-gray: #d9d9d9;
+
+// =============================================================================
+// FONT FAMILY VARIABLES  
+// =============================================================================
+
+// Primary font stack with system fallbacks
+$font-family-primary: 'HelveticaNeue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !default;
+
+// Secondary font stack for Georgian uppercase text (etc: navbar, services)
+$font-family-secondary: 'BPG Mrgvlovani Caps', 'HelveticaNeue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !default;
+
+// System font stack for UI components
+$font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !default;
+
+// Monospace font stack for code
+$font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !default;

@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="filters-container">
+    <vet-organisations-list-filters
+      [numberOfRecords]="allOrganisations().length || 0"
+      [filters]="filters()"
+      (filtersChange)="updateFilters($event)"
+    />
+  </div>
+
+  @if (allOrganisations().length === 0 && !organisationsResource.isLoading()) {
+    <div class="loader-container">
+      {{ 'shared.noRecords' | transloco }}
+    </div>
+  } @else {
+    @for (organisation of allOrganisations(); track $index) {
+      <div class="list-card">
+        <div class="image">
+          <img src="https://www.responsiveclassroom.org/wp-content/uploads/2016/04/DSC_2388.jpg" alt="School Image" />
+        </div>
+
+        <div class="info">
+          <h4 class="organisation-name">
+            {{ organisation.name }}
+          </h4>
+
+          <vet-divider />
+
+          <div class="about">
+            <div class="k-display-flex k-flex-column k-gap-3">
+              @if (organisation.has_retraining_programs) {
+                <div class="k-display-flex k-gap-1">
+                  <kendo-svg-icon [icon]="vetIcons.CheckIcon" />
+                  <p>{{ 'organisations.has_retraining_programs' | transloco }}</p>
+                </div>
+              }
+
+              @if (organisation.has_nf_programs) {
+                <div class="k-display-flex k-gap-1">
+                  <kendo-svg-icon [icon]="vetIcons.CheckIcon" />
+                  <p>{{ 'organisations.has_nf_programs' | transloco }}</p>
+                </div>
+              }
+
+              @if (organisation.is_authorized) {
+                <div class="k-display-flex k-gap-1">
+                  <kendo-svg-icon [icon]="vetIcons.CheckIcon" />
+                  <p>{{ 'organisations.is_authorized' | transloco }}</p>
+                </div>
+              }
+            </div>
+
+            <div class="organisation-type">
+              <div class="type-container">
+                <kendo-svg-icon [icon]="vetIcons.publicIcon" />
+                {{ organisation.org_type }}
+              </div>
+
+              <div class="type-container">
+                <kendo-svg-icon [icon]="vetIcons.professionalIcon" />
+                {{ organisation.org_type }}
+              </div>
+            </div>
+          </div>
+
+          <vet-divider />
+
+          <div class="contact">
+            <div class="contact-info">
+              <div>
+                <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.phoneMini" />
+                <a [href]="'tel:' + organisation?.phone" target="_blank" class="k-text-base k-color-body">
+                  {{ organisation.phone }}
+                </a>
+              </div>
+
+              <div>
+                <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.envelopeMini" />
+                <a [href]="'mailto:' + organisation?.email" target="_blank" class="k-text-base k-color-body">
+                  {{ organisation.email }}
+                </a>
+              </div>
+
+              <div>
+                <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.globeMini" />
+                <a [href]="organisation?.website" target="_blank" class="k-text-base k-color-body">
+                  {{ organisation.website }}
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <vet-button mode="outline" (click)="onOrganisationClick(organisation.id ?? 0)">
+                {{ 'organisations.see_more' | transloco }}
+              </vet-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>
+
+@if (organisationsResource.isLoading()) {
+  <div class="loader-container">
+    <kendo-loader [type]="'pulsing'" />
+  </div>
+}

@@ -1,0 +1,78 @@
+<div class="vet-expandable-sidebar {{ isExpanded() ? 'expanded' : 'collapsed' }}">
+  <div class="vet-expandable-sidebar-content-container">
+    <div class="vet-expandable-sidebar-content">
+      @if (menuCollapsible()) {
+        <div class="vet-expandable-sidebar-toggle-container">
+          <vet-icon-button
+            mode="solid"
+            variant="secondary"
+            [icon]="isExpanded() ? 'chevronLeft' : 'chevronRight'"
+            iconSize="tiny"
+            (click)="onToggleExpansion()"
+          />
+        </div>
+      }
+
+      <div class="vet-expandable-sidebar-item-list">
+        @for (item of items(); track item.id) {
+          @if (item.accessControl | hasAccess) {
+            @let isItemActive = isActive(item);
+            @let isHighlighted = isItemActive && isItemHighlighted(item);
+
+            <div class="vet-expandable-sidebar-item" [class.active]="isItemActive" [class.highlighted]="isHighlighted">
+              <a
+                kendoTooltip
+                [title]="!isExpanded() ? (item.text | transloco) : ''"
+                [position]="'right'"
+                class="vet-expandable-sidebar-item-anchor{{ isItemActive ? ' active' : '' }}"
+              >
+                <div class="vet-expandable-sidebar-item-button" (click)="onItemClick(item)">
+                  <div class="vet-expandable-sidebar-item-content">
+                    <div class="vet-expandable-sidebar-item-content-left">
+                      @if (item.icon) {
+                        <div class="vet-expandable-sidebar-item-icon-container" [class.active]="isItemActive">
+                          <vet-icon [icon]="item.icon" class="medium" />
+                        </div>
+                      }
+
+                      <p class="vet-expandable-sidebar-item-text vet-text-uppercase k-text-sm">{{ item.text | transloco }}</p>
+                    </div>
+
+                    @if (isExpanded() && item.children && item.children.length > 0) {
+                      <vet-icon
+                        [icon]="item.isExpanded?.() ? 'chevronBottomXs' : 'chevronLeftXs'"
+                        class="tiny"
+                      />
+                    }
+                  </div>
+
+                  @if (isExpanded()) {
+                    <div class="vet-expandable-sidebar-item-highlighter" [class.active]="isItemActive && !item.isExpanded?.()"></div>
+                  }
+                </div>
+              </a>
+
+              @if (item.children?.length) {
+                <div class="vet-expandable-sidebar-children-list-container{{ item.isExpanded?.() ? ' expanded' : ' collapsed' }}">
+                  <ul class="vet-expandable-sidebar-children-list">
+                    @for (child of item.children; track child.id) {
+                      @if (child.accessControl | hasAccess) {
+                        @let isChildActive = isActive(child);
+
+                        <li class="vet-expandable-sidebar-children-list-item{{ isChildActive ? ' active' : '' }}">
+                          <a (click)="onChildItemClick(child)">
+                            <p class="vet-text-uppercase">{{ child.text | transloco }}</p>
+                          </a>
+                        </li>
+                      }
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

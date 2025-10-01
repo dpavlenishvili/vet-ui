@@ -7,3 +7,8 @@
     text-align: center;
   }
 }
+
+::ng-deep .k-animation-container.k-animation-container-shown {
+  top: auto !important;
+  bottom: 1rem !important;
+}

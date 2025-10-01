@@ -1,12 +1,11 @@
-@use '../variables' as variables;
-@use '../helvetica-neue-font' as fonts;
+@use '@vet/shared-styles' as shared;
 
 * {
-  font-family: fonts.$font-family-primary;
+  font-family: shared.$font-family-primary;
 }
 
 .forms {
-  background-color: variables.$kendo-color-white;
+  background-color: shared.$kendo-color-white;
   padding: var(--kendo-spacing-5);
   border-radius: var(--kendo-spacing-5);
   width: 100%;
@@ -20,7 +19,7 @@
 
   &__check-group {
     padding: 14px;
-    background-color: variables.$kendo-color-chip;
+    background-color: shared.$kendo-color-chip;
     border-radius: var(--kendo-border-radius-xl);
     font-size: 13px;
   }
@@ -29,13 +28,13 @@
 .grid-container {
   .k-textbox,
   .k-dropdownlist {
-    background-color: variables.$kendo-color-white !important;
+    background-color: shared.$kendo-color-white !important;
     border: 1px solid #ccc !important;
     width: 100%;
   }
   .k-checkbox:checked {
-    background-color: variables.$tb-kendo-color-primary-on-surface !important;
-    border-color: variables.$tb-kendo-color-primary-on-surface !important;
+    background-color: shared.$tb-kendo-color-primary-on-surface !important;
+    border-color: shared.$tb-kendo-color-primary-on-surface !important;
   }
   .k-textarea {
     width: 100% !important;
@@ -83,7 +82,7 @@
   }
 
   .title {
-    color: variables.$kendo-color-body-extra-dark;
+    color: shared.$kendo-color-body-extra-dark;
     padding-bottom: var(--kendo-spacing-7);
     width: 100%;
     text-align: center;
@@ -91,15 +90,15 @@
 
   .block {
     padding: var(--kendo-spacing-7) var(--kendo-spacing-2) var(--kendo-spacing-4) var(--kendo-spacing-4);
-    border: 0.5px solid variables.$tb-kendo-color-primary-on-surface;
+    border: 0.5px solid shared.$tb-kendo-color-primary-on-surface;
     border-radius: var(--kendo-spacing-5);
     flex-basis: calc(50% - var(--kendo-spacing-3));
     position: relative;
   }
 
   .block-title {
-    color: variables.$tb-kendo-color-primary-on-surface;
-    background-color: variables.$kendo-color-white;
+    color: shared.$tb-kendo-color-primary-on-surface;
+    background-color: shared.$kendo-color-white;
     padding-inline: var(--kendo-spacing-4);
     position: absolute;
     left: 70px;
@@ -107,17 +106,17 @@
   }
 
   .block-subtitle {
-    color: variables.$kendo-color-body-dark;
+    color: shared.$kendo-color-body-dark;
     padding-bottom: var(--kendo-spacing-3);
     display: block;
   }
 
   .block-list-info {
-    color: variables.$kendo-color-body;
+    color: shared.$kendo-color-body;
     padding-bottom: var(--kendo-spacing-3);
 
     strong {
-      color: variables.$kendo-color-body-dark;
+      color: shared.$kendo-color-body-dark;
     }
   }
 
@@ -127,5 +126,5 @@
   }
 }
 .block-action {
-  border-top: 1px solid variables.$kendo-color-border-light-gray;
+  border-top: 1px solid shared.$kendo-color-border-light-gray;
 }

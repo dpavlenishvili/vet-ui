@@ -5,7 +5,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 
-import { dynamicPagesInitializer } from '@vet/dynamic-pages';
+// import { dynamicPagesInitializer } from '@vet/dynamic-pages';
 import {
   provideBaseApiUrl,
   provideBaseUrl,
@@ -32,6 +32,7 @@ import { WA_WINDOW } from '@ng-web-apis/common';
 import { provideKendoDateSettings } from './kendo-date-config.provider';
 import { TranslocoService } from '@jsverse/transloco';
 import { firstValueFrom, take } from 'rxjs';
+import {provideFeatureFlags} from "@vet/feature-flags";
 
 async function initTranslations() {
   const transloco = inject(TranslocoService);
@@ -60,7 +61,8 @@ export const appConfig: ApplicationConfig = {
     provideKendoDatePickerFormat(environment.kendoDatePickerFormat),
     provideKendoDateTimePickerFormat(environment.kendoDateTimePickerFormat),
     provideAuthEnvironment(environment.modules.auth),
-    dynamicPagesInitializer(),
+    provideFeatureFlags(environment.featureFlags),
+    // dynamicPagesInitializer(),
     provideKendoDateSettings(),
     provideAppInitializer(initTranslations),
     {

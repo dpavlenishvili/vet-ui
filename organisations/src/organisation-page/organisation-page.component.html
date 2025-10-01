@@ -1,0 +1,100 @@
+@let _organisation = organisation.value()?.data;
+
+@if (_organisation) {
+  <div class="main-container">
+    <h2 class="k-text-center">{{ _organisation.name }}</h2>
+
+    <div class="scrollview-container">
+      <kendo-scrollview [data]="items" [width]="width" [height]="height" [arrows]="true" [pageable]="true">
+        <ng-template let-item="item">
+          <img src="{{ item.url }}" alt="{{ item.title }}" draggable="false" />
+        </ng-template>
+      </kendo-scrollview>
+    </div>
+
+    <div class="info-container">
+      <div class="info-block">
+        <div class="info-content vet-text-base">
+          <div>
+            {{ 'organisations.organisation_type' | transloco }}: <strong>{{ _organisation.org_type }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.organisation_kind' | transloco }}:
+            <strong>{{ _organisation.institution_type_id }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.founded_date' | transloco }}: <strong>{{ _organisation.establishment_date }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.founder' | transloco }}: <strong>{{ _organisation.manager }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.auth_status' | transloco }}:
+            <strong>{{
+              _organisation.is_authorized
+                ? ('organisations.authorised' | transloco)
+                : ('organisations.unauthorised' | transloco)
+            }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.actual_adress' | transloco }}: <strong>{{ _organisation.address }}</strong>
+          </div>
+        </div>
+
+        <div class="info-content vet-text-base">
+          <div>
+            {{ 'organisations.non_formal_edu' | transloco }}:
+            <strong>{{
+              _organisation.has_nf_programs ? ('shared.yes' | transloco) : ('shared.yes' | transloco)
+            }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.short_term_programs' | transloco }}:
+            <strong>{{
+              _organisation.has_retraining_programs ? ('shared.yes' | transloco) : ('shared.yes' | transloco)
+            }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.implementation_locations' | transloco }}:
+            <strong>{{ _organisation.legal_address }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.legal_address' | transloco }}: <strong>{{ _organisation.legal_address }}</strong>
+          </div>
+          <div>
+            {{ 'organisations.field_of_activity' | transloco }}: <strong>{{ ' - ' }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="contact-info">
+          <div>
+            <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.phoneMini" />
+            <a [href]="'tel:' + _organisation?.phone" target="_blank" class="k-text-base k-color-body">
+              {{ _organisation.phone }}
+            </a>
+          </div>
+
+          <div>
+            <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.envelopeMini" />
+            <a [href]="'mailto:' + _organisation?.email" target="_blank" class="k-text-base k-color-body">
+              {{ _organisation.email }}
+            </a>
+          </div>
+
+          <div>
+            <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.globeMini" />
+            <a [href]="_organisation?.website" target="_blank" class="k-text-base k-color-body">
+              {{ _organisation.website }}
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-info vet-text-base">
+          <a [routerLink]="['/programs']">{{ 'organisations.prof_edu_programs' | transloco }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+}

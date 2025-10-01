@@ -58,7 +58,7 @@ export class ShortRegistrationConfirmationStepComponent {
       { label: 'shorts.pid', value: user.pid },
       { label: 'shorts.name_surname', value: user.name },
       { label: 'shorts.mobile', value: user.phone },
-      { label: 'shorts.education', value: educationStatus?.level },
+      { label: 'shorts.education', value: educationStatus?.[0].level },
     ];
   });
 

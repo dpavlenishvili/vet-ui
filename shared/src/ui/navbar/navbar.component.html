@@ -7,14 +7,14 @@
     </div>
 
     <ul class="v-ui-navbar-menu">
-      @for (item of pages(); track item.url) {
+      @for (page of pages(); track page.slug) {
         <li class="v-ui-navbar-menu-item">
           <a
-            [routerLink]="item.url"
+            [routerLink]="['/pages', page.slug]"
             class="v-ui-navbar-menu-link k-text-base"
             (click)="isMobileMenuOpen.set(false)"
           >
-            <p class="vet-text-uppercase">{{ item.title }}</p>
+            <p class="vet-text-uppercase">{{ page.title }}</p>
           </a>
         </li>
         @if (!$last) {
@@ -128,14 +128,14 @@
   @if (isMobileMenuOpen()) {
     <div class="v-ui-navbar-mobile-panel">
       <ul class="v-ui-navbar-menu-mobile">
-        @for (item of pages(); track item.url) {
+        @for (page of pages(); track page.slug) {
           <li class="v-ui-navbar-menu-mobile-item">
             <a
-              [routerLink]="item.url"
+              [routerLink]="['pages', page.slug]"
               class="k-text-base"
               (click)="toggleMobileMenu()"
             >
-              {{ item.title }}
+              {{ page.title }}
             </a>
           </li>
         } @empty {

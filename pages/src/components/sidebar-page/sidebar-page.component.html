@@ -1,0 +1,22 @@
+@let _activeItem = activeItem();
+
+<div class="vet-sidebar-page">
+  <div class="vet-sidebar-page-sidebar-container">
+    <vet-expandable-sidebar
+      [items]="sidebarItems()"
+      [activeItemId]="activeItemId()"
+      [menuCollapsible]="false"
+      (itemClick)="onItemClick($event)"
+    />
+  </div>
+
+  <div class="vet-sidebar-page-content-container">
+    <div class="vet-sidebar-page-main">
+      <div class="vet-sidebar-title">{{ _activeItem?.title }}</div>
+
+      <div class="vet-sidebar-body">
+        <vet-page-content [content]="_activeItem?.content" />
+      </div>
+    </div>
+  </div>
+</div>

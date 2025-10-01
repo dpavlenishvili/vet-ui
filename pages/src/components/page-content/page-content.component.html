@@ -1,0 +1,6 @@
+<div class="vet-page-content">
+  <div
+    class="vet-page-content-html"
+    [innerHTML]="(content() ?? '') | formatPageContent | sanitize"
+  ></div>
+</div>

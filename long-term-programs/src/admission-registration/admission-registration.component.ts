@@ -49,10 +49,17 @@ export class AdmissionRegistrationComponent implements OnInit {
 
     this.admissionService
       .educationStatus()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe((res) => {
-        this.educationStatus.set(res);
-        this.loading.set(false);
+        if (res.length > 1) {
+          this.educationStatus.set(null);
+          this.loading.set(false);
+        } else {
+          this.educationStatus.set(res[0]);
+          this.loading.set(false);
+        }
       });
   }
 

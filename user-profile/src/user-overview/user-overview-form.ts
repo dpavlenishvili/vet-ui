@@ -7,7 +7,7 @@ export function userOverviewForm(): FormGroup {
     region: new FormControl(null, Validators.required),
     city: new FormControl(null, Validators.required),
     address: new FormControl(null, Validators.required),
-    email: new FormControl(null, [Validators.required, Validators.email]),
+    email: new FormControl(null),
     phone: new FormControl(null, Validators.required),
     sms_code: new FormControl(''),
   });

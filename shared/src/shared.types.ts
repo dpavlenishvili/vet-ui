@@ -4,6 +4,8 @@ import { ActivatedRouteSnapshot, Params } from '@angular/router';
 import { Signal, TemplateRef, Type, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Translatable } from './shared.utils';
+import { AccessControl } from '@vet/auth';
+import { VetIcon } from './shared.icons';
 
 export interface QueryParams {
   [key: string]: any; // Allow any value type
@@ -77,10 +79,16 @@ export interface ConfirmationDialogParams {
   onDismiss?: () => void | Observable<unknown>;
 }
 
-export interface AppBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
+export interface AppBreadCrumbItemObject extends Omit<BreadCrumbItem, 'text'> {
   path: string | null | ((routeSnapshot: ActivatedRouteSnapshot, params: Params) => string | null);
   text: string | ((routeSnapshot: ActivatedRouteSnapshot, params: Params) => string);
 }
+
+export type AppBreadCrumbItemFactory = (routeSnapshot: ActivatedRouteSnapshot, params: Params) => Observable<AppBreadCrumbItemObject[]>;
+
+export type AppBreadCrumbItem =
+  | AppBreadCrumbItemObject
+  | AppBreadCrumbItemFactory
 
 export interface ResolvedBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
   path: string[];
@@ -160,4 +168,14 @@ export interface WizardStepDefinition {
   form: () => FormGroup;
   template: Signal<TemplateRef<unknown>>;
   path: string;
+}
+
+export interface SidebarMenuItem {
+  id: string;
+  text: string;
+  url?: string | null;
+  children?: this[];
+  accessControl?: AccessControl;
+  icon?: VetIcon;
+  isExpanded?: WritableSignal<boolean>;
 }

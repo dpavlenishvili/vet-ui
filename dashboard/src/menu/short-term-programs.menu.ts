@@ -1,11 +1,11 @@
-import { DashboardSidebarMenuItem } from '../dashboard.types';
 import { v4 as uuid } from 'uuid';
 import { computed, inject, Signal, signal } from '@angular/core';
-import { UserRolesService, isOneOf } from '@vet/auth';
+import { isOneOf, UserRolesService } from '@vet/auth';
+import { SidebarMenuItem } from '@vet/shared';
 
 const BASE_PATH = '/dashboard/programs/short';
 
-export function useShortTermProgramsMenu(): Signal<DashboardSidebarMenuItem> {
+export function useShortTermProgramsMenu(): Signal<SidebarMenuItem> {
   const userRolesService = inject(UserRolesService);
 
   const isExpanded = signal(false);

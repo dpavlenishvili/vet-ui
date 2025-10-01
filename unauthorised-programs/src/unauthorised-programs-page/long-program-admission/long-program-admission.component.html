@@ -10,26 +10,36 @@
     <div class="vet-program-card">
       <div class="vet-program-card-details">
         <div class="vet-program-card-field">
-          <kendo-svg-icon [icon]="vetIcons.info" />
-          {{ 'programs.number_of_vacant_positions' | transloco }}:
+          @if(educationLevelNumber >= 5) {
+            <div
+              kendoTooltip
+              [tooltipWidth]="400"
+            >
+              <kendo-svg-icon
+                [title]="'programs.student_limit_warning' | transloco"
+                [icon]="vetIcons.info"
+              />
+            </div>
+          }
+
+          <b>{{ 'programs.number_of_vacant_positions' | transloco }}:</b>
           {{ _admissions?.students_limit }}
         </div>
 
         <div class="vet-program-card-field">
-          <kendo-svg-icon [icon]="vetIcons.info" />
-          {{ 'programs.number_of_ssm_vacant_positions' | transloco }}:
+          <b>{{ 'programs.number_of_ssm_vacant_positions' | transloco }}:</b>
           {{ _admissions?.inclusive_students_limit }}
         </div>
 
         <div class="vet-program-card-field">
-          {{ 'programs.financing_type' | transloco }}:
+          <b>{{ 'programs.financing_type' | transloco }}:</b>
           {{ financingTypeName }}
         </div>
 
         @if (_admissions?.selection?.length) {
           @for (item of _admissions?.selection; track $index) {
             <div class="vet-program-card-field">
-              {{ item.method?.category }}:
+              <b>{{ item.method?.category }}:</b>
               {{ item.method?.name }}
             </div>
           }
@@ -38,12 +48,12 @@
         }
 
         <div class="vet-program-card-field">
-          {{ 'programs.registered_applicants' | transloco }}:
+          <b>{{ 'programs.registered_applicants' | transloco }}:</b>
           {{ registeredCount()?.count }}
         </div>
 
         <div class="vet-program-card-field">
-          {{ 'programs.registered_ssm_applicants' | transloco }}:
+          <b>{{ 'programs.registered_ssm_applicants' | transloco }}:</b>
           {{ registeredCount()?.spec_count }}
         </div>
 

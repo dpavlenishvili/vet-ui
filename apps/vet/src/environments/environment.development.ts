@@ -1,9 +1,14 @@
 import type { AuthEnvironment } from '@vet/auth';
 import {BuildVars} from "./build-vars.interface";
+import {AppFeatureFlags} from "@vet/feature-flags";
 
 declare const BUILD_VARS: BuildVars;
 
 const baseUrl = BUILD_VARS.APP_BASE_URL ?? 'https://develop-vet-back.dev01.dev.emis.ge';
+
+const featureFlags: AppFeatureFlags = {
+  vacancies: true
+}
 
 export const environment = {
   production: false,
@@ -25,4 +30,5 @@ export const environment = {
       authDataTtlInSeconds: 30 * 24 * 60 * 60,
     },
   },
+  featureFlags
 };

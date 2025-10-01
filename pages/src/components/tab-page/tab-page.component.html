@@ -1,0 +1,22 @@
+@let items = collection.value();
+@let activeTab = items[activeTabIndex()];
+
+<div class="vet-tab-page">
+  <div class="vet-tab-page-tabs">
+    @for (item of items; track item.id; let index = $index) {
+      <button
+        class="vet-tab-page-tab"
+        [class.active]="index === activeTabIndex()"
+        (click)="onTabClick(item)"
+      >
+        {{ item.title }}
+      </button>
+    }
+  </div>
+
+  <div class="vet-tab-title">{{ activeTab.title }}</div>
+
+  <div class="vet-tab-body">
+    <vet-page-content [content]="activeTab.content" />
+  </div>
+</div>

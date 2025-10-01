@@ -32,7 +32,7 @@ export class UnauthorisedProgramPageComponent {
     }
 
     return [
-      { label: trans('programs.field'), value: '' },
+      { label: trans('programs.field'), value: program.specialization?.title },
       { label: trans('programs.program_code'), value: program.program_code },
       { label: trans('programs.level'), value: program.education_level as unknown as string },
       { label: trans('programs.form'), value: program.program_kind?.name },
@@ -42,10 +42,15 @@ export class UnauthorisedProgramPageComponent {
           duration: program.program_duration,
         }),
       },
-      { label: trans('programs.duration_non_citizen'), value: program.program_duration_non_geo },
-      { label: trans('programs.admission_prerequisite'), value: program.qualification_name },
-      { label: trans('programs.allowed_min_age'), value: program.admission?.min_allowed_age },
-      { label: trans('shorts.implementation_location'), value: program.address },
+      {
+        label: trans('programs.duration_non_citizen'),
+        value: trans('programs.duration_weeks', {
+          duration: program.program_duration_non_geo,
+        }),
+      },
+      { label: trans('programs.admission_prerequisite'), value: program.admission?.min_allowed_education_level_id?.name },
+      { label: trans('programs.allowed_min_age'), value: program.admission?.min_allowed_age ?? ' - ' },
+      { label: trans('shorts.implementation_location'), value: `${program.region?.name}, ${program.address}` },
     ];
   });
 
@@ -56,8 +61,6 @@ export class UnauthorisedProgramPageComponent {
       return [];
     }
 
-    return [
-      { title: trans('programs.program_description'), content: program.description },
-    ];
+    return [{ title: trans('programs.program_description'), content: program.description }];
   });
 }

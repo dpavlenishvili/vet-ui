@@ -1,0 +1,45 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-sidebar-page {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
+  gap: 1.25rem;
+  margin-bottom: 9.375rem;
+}
+
+.vet-sidebar-page-sidebar-container {
+  height: 100%;
+}
+
+.vet-sidebar-page-content-container {
+  flex: 1;
+  overflow: auto;
+  width: 100%;
+  isolation: isolate;
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
+.vet-sidebar-page-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.25rem 1.25rem 2.5rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+}
+
+.vet-sidebar-title {
+  @include shared.text-base(true);
+  color: shared.$kendo-color-body-extra-dark;
+}
+
+.vet-sidebar-body {
+  margin-top: 0.875rem;
+}

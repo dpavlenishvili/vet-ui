@@ -1,14 +1,14 @@
 import { computed, signal } from '@angular/core';
-import { DashboardSidebarMenuItem } from '../dashboard.types';
 import { v4 as uuid } from 'uuid';
 import { useLongTermProgramsMenu } from './long-term-programs.menu';
 import { useShortTermProgramsMenu } from './short-term-programs.menu';
+import { SidebarMenuItem } from '@vet/shared';
 
 export function useDashboardMenu() {
   const longTermProgramsMenu = useLongTermProgramsMenu();
   const shortTermProgramsMenu = useShortTermProgramsMenu();
 
-  return computed<DashboardSidebarMenuItem[]>(() => [
+  return computed<SidebarMenuItem[]>(() => [
     longTermProgramsMenu(),
     shortTermProgramsMenu(),
     {
