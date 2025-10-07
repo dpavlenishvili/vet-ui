@@ -1,0 +1,34 @@
+@let _program = sanitizedProgram();
+
+<div class="vet-non-formal-card">
+  <div class="vet-non-formal-card-top">
+    <div class="vet-non-formal-card-icon" [innerHTML]="_program.icon"></div>
+
+    <div class="vet-non-formal-card-info">
+      <div class="vet-non-formal-card-title">
+        {{ _program.isced }} <span class="separator">|</span> {{ 'non_formal.code' | transloco }}: {{ _program.isced_code }}
+      </div>
+
+      <div class="vet-non-formal-card-recognition">
+        {{ 'non_formal.recognition_result' | transloco }}: {{ 'non_formal.not_available_yet' | transloco }}
+      </div>
+    </div>
+
+    <kendo-svg-icon [icon]="vetIcons.confirmed" class="vet-non-formal-card-check" />
+  </div>
+
+  <div class="vet-non-formal-card-organisation">
+    {{ _program.organisation?.name }}
+  </div>
+
+  <div class="vet-non-formal-card-bottom">
+    <div class="vet-non-formal-card-location">
+      <kendo-svg-icon [icon]="vetIcons.locationPin" />
+      <span>{{ _program.organisation?.address }}</span>
+    </div>
+
+    <a [routerLink]="['/programs/non-formal', _program.id]" class="vet-non-formal-card-link">
+      {{ 'non_formal.view_details' | transloco }}
+    </a>
+  </div>
+</div>

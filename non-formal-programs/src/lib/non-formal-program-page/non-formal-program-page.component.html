@@ -1,0 +1,239 @@
+<div class="program-details-container">
+  @if (program.isLoading()) {
+    <div class="loader-container">
+      <kendo-loader type="converging-spinner" size="large" />
+    </div>
+  }
+
+  @if (program.hasValue() && program.value(); as prog) {
+    <div class="program-details">
+      <!-- Header Section -->
+      <div class="program-header">
+        <h1 class="program-title">{{ prog.isced }}</h1>
+        <div class="program-meta">
+          <div class="meta-item">
+            <kendo-svg-icon [icon]="vetIcons.qualifications" />
+            <span><strong>{{ 'non_formal.code' | transloco }}:</strong> {{ prog.isced_code }}</span>
+          </div>
+          <div class="meta-item">
+            <kendo-svg-icon [icon]="vetIcons.checkProgram" />
+            <span><strong>{{ 'non_formal.recognition_result' | transloco }}:</strong> {{ 'non_formal.not_available_yet' | transloco }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      @if (prog.note) {
+        <div class="section">
+          <h2 class="section-title">{{ 'non_formal.description' | transloco }}</h2>
+          <p class="section-content">{{ prog.note }}</p>
+        </div>
+      }
+
+      <!-- Recognition Announcement Section -->
+      <div class="section announcement-section">
+        <h2 class="section-title">{{ 'non_formal.recognition_announcement' | transloco }}</h2>
+
+        @if (hasAnnouncement()) {
+          <!-- Registration Info -->
+          @if (prog.registration) {
+            <div class="info-card">
+              <h3 class="info-card-title">{{ 'non_formal.application_submission_period' | transloco }}</h3>
+              <div class="info-grid">
+                <div class="info-item">
+                  <kendo-svg-icon [icon]="vetIcons.info" />
+                  <div>
+                    <strong>{{ 'non_formal.submission_period' | transloco }}:</strong>
+                    <span>{{ prog.registration.start_date | formatDate }} - {{ prog.registration.end_date | formatDate }}</span>
+                  </div>
+                </div>
+                <div class="info-item">
+
+                  <div>
+                    <strong>{{ 'non_formal.application_fee' | transloco }}:</strong>
+                    <span>{{ prog.registration.price }} {{ 'shared.gel' | transloco }}</span>
+                  </div>
+                </div>
+                @if (prog.registration.payment_deadline) {
+                  <div class="info-item">
+                    <kendo-svg-icon [icon]="vetIcons.info" />
+                    <div>
+                      <strong>{{ 'non_formal.payment_deadline' | transloco }}:</strong>
+                      <span>{{ prog.registration.payment_deadline | formatDate }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Consultation Info -->
+          @if (prog.consultation) {
+            <div class="info-card">
+              <h3 class="info-card-title">{{ 'non_formal.consultation_period' | transloco }}</h3>
+              <div class="info-grid">
+                <div class="info-item">
+                  <kendo-svg-icon [icon]="vetIcons.info" />
+                  <div>
+                    <strong>{{ 'non_formal.consultation_period' | transloco }}:</strong>
+                    <span>{{ prog.consultation.start_date | formatDate }} - {{ prog.consultation.end_date | formatDate }}</span>
+                  </div>
+                </div>
+                <div class="info-item">
+
+                  <div>
+                    <strong>{{ 'non_formal.consultation_fee' | transloco }}:</strong>
+                    <span>{{ prog.consultation.price }} {{ 'shared.gel' | transloco }}</span>
+                  </div>
+                </div>
+                @if (prog.consultation.payment_deadline) {
+                  <div class="info-item">
+                    <kendo-svg-icon [icon]="vetIcons.info" />
+                    <div>
+                      <strong>{{ 'non_formal.payment_deadline' | transloco }}:</strong>
+                      <span>{{ prog.consultation.payment_deadline | formatDate }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              @if (prog.consultation.document) {
+                <div class="document-section">
+                  <h4>{{ 'non_formal.required_documents_consultation' | transloco }}</h4>
+                  <div class="document-content" [innerHTML]="prog.consultation.document"></div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Evidence Info -->
+          @if (prog.evidence) {
+            <div class="info-card">
+              <h3 class="info-card-title">{{ 'non_formal.evidence_submission' | transloco }}</h3>
+              <div class="info-grid">
+                <div class="info-item">
+                  <kendo-svg-icon [icon]="vetIcons.info" />
+                  <div>
+                    <strong>{{ 'non_formal.submission_deadline' | transloco }}:</strong>
+                    <span>{{ prog.evidence.submission_deadline | formatDate }}</span>
+                  </div>
+                </div>
+                @if (prog.evidence.submission_price) {
+                  <div class="info-item">
+
+                    <div>
+                      <strong>{{ 'non_formal.submission_fee' | transloco }}:</strong>
+                      <span>{{ prog.evidence.submission_price }} {{ 'shared.gel' | transloco }}</span>
+                    </div>
+                  </div>
+                }
+                @if (prog.evidence.submission_payment_deadline) {
+                  <div class="info-item">
+                    <kendo-svg-icon [icon]="vetIcons.info" />
+                    <div>
+                      <strong>{{ 'non_formal.payment_deadline' | transloco }}:</strong>
+                      <span>{{ prog.evidence.submission_payment_deadline | formatDate }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              @if (prog.evidence.document) {
+                <div class="document-section">
+                  <h4>{{ 'non_formal.required_documents_evidence' | transloco }}</h4>
+                  <div class="document-content" [innerHTML]="prog.evidence.document"></div>
+                </div>
+              }
+            </div>
+          }
+        } @else {
+          <!-- No Announcement -->
+          <div class="no-announcement">
+            <kendo-svg-icon [icon]="vetIcons.info" [size]="'xlarge'" />
+            <p class="no-announcement-text">
+              {{ 'non_formal.recognition_not_announced' | transloco }}
+            </p>
+            <p class="no-announcement-subtext">
+              {{ 'non_formal.recognition_not_announced_details' | transloco }}
+            </p>
+          </div>
+        }
+      </div>
+
+      <!-- General Rules -->
+      @if (prog.general_rules) {
+        <div class="section">
+          <h2 class="section-title">{{ 'non_formal.general_rules' | transloco }}</h2>
+          <p class="section-content">{{ prog.general_rules }}</p>
+        </div>
+      }
+
+      <!-- Video Section -->
+      @if (videoUrl()) {
+        <div class="section video-section">
+          <h2 class="section-title">{{ 'non_formal.video_presentation' | transloco }}</h2>
+          <div class="video-container">
+            <iframe
+              [src]="videoUrl()!"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      }
+
+      <!-- Gallery -->
+      @if (prog.gallery && prog.gallery.length > 0) {
+        <div class="section gallery-section">
+          <h2 class="section-title">{{ 'non_formal.gallery' | transloco }}</h2>
+          <div class="gallery-grid">
+            @for (image of prog.gallery; track $index) {
+              <img [src]="image" [alt]="'non_formal.gallery_image' | transloco" class="gallery-image" />
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Organization Contact -->
+      <div class="section organization-section">
+        <h2 class="section-title">{{ 'non_formal.organization_contact' | transloco }}</h2>
+        <div class="organization-card">
+          <h3>{{ prog.organisation?.name }}</h3>
+          <div class="contact-grid">
+            <div class="contact-item">
+              <kendo-svg-icon [icon]="vetIcons.location" />
+              <span>{{ prog.organisation?.address }}</span>
+            </div>
+            @if (prog.organisation?.phone) {
+              <div class="contact-item">
+                <kendo-svg-icon [icon]="vetIcons.phone" />
+                <a [href]="'tel:' + prog.organisation?.phone">{{ prog.organisation?.phone }}</a>
+              </div>
+            }
+            @if (prog.organisation?.email) {
+              <div class="contact-item">
+                <kendo-svg-icon [icon]="vetIcons.mail" />
+                <a [href]="'mailto:' + prog.organisation?.email">{{ prog.organisation?.email }}</a>
+              </div>
+            }
+            @if (prog.organisation?.website) {
+              <div class="contact-item">
+                <kendo-svg-icon [icon]="vetIcons.globe" />
+                <a [href]="prog.organisation?.website" target="_blank" rel="noopener noreferrer">
+                  {{ prog.organisation?.website }}
+                </a>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (program.error()) {
+    <div class="error-container">
+      <p>{{ 'errors.loading_failed' | transloco }}</p>
+    </div>
+  }
+</div>

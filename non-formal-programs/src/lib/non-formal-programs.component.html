@@ -1,1 +1,22 @@
-<p>NonFormalPrograms works!</p>
+<div class="vet-non-formal">
+  <vet-non-formal-programs-filters
+    class="vet-non-formal-filters"
+    [filters]="filters()"
+    (filtersChange)="onFiltersChange($event)"
+  />
+
+  @if (data.isLoading()) {
+    <div class="vet-empty vet-loading">
+      <kendo-loader size="medium" [themeColor]="'secondary'" />
+    </div>
+  } @else if (data.value().data.length === 0) {
+    <div class="vet-empty vet-not-found">
+      {{ 'shared.noRecords' | transloco }}
+    </div>
+  } @else {
+    <vet-non-formal-programs-grid
+      [data]="data"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</div>

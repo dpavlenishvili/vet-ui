@@ -1,0 +1,17 @@
+@let _data = data();
+@let _value = _data.value();
+
+<div vet-container class="vet-non-formal-programs-grid">
+  @for (program of _data.value().data; track program.id) {
+    <vet-non-formal-program-card [program]="program" />
+  }
+</div>
+
+@if (_value.data.length < _value.total) {
+  <kendo-pager
+    [total]="data().value()!.total"
+    [skip]="data().value()!.skip"
+    [pageSize]="data().value()!.size"
+    (pageChange)="onPageChange($event)"
+  />
+}

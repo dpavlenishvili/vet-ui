@@ -1,0 +1,26 @@
+.vet-non-formal-programs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  grid-auto-rows: 1fr;
+
+  ::ng-deep vet-non-formal-program-card {
+    display: flex;
+    height: 100%;
+
+    > * {
+      width: 100%;
+    }
+  }
+}
+
+.vet-programs-pager {
+  margin-top: 2rem;
+}
+
+@media (max-width: 968px) {
+  .vet-non-formal-programs-grid {
+    grid-template-columns: 1fr;
+  }
+}

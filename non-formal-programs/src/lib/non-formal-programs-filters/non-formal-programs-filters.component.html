@@ -1,0 +1,66 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div vet-container>
+    <div vet-row>
+      <vet-input
+        formControlName="search"
+        trailingIcon="search"
+        [placeholder]="'non_formal.search' | transloco"
+      />
+
+      <vet-selector
+        formControlName="organisation_name"
+        [placeholder]="'non_formal.institution_name' | transloco"
+        [options]="institutionOptions.value()"
+      />
+    </div>
+
+    @if (isExpanded()) {
+      <div vet-row>
+        <vet-selector
+          formControlName="region"
+          [placeholder]="'non_formal.region' | transloco"
+          [options]="regionOptions.value()"
+        />
+
+        <vet-selector
+          formControlName="district"
+          [placeholder]="'non_formal.district' | transloco"
+          [options]="filteredDistricts()"
+        />
+
+        <vet-selector
+          formControlName="field"
+          [placeholder]="'non_formal.field' | transloco"
+          [options]="[]"
+        />
+
+        <vet-selector
+          formControlName="period"
+          [placeholder]="'non_formal.period' | transloco"
+          [options]="[]"
+        />
+      </div>
+    }
+
+    <div vet-row>
+      <div vet-row></div>
+      <div vet-row></div>
+      <div vet-row content-right>
+        <ng-container *ngTemplateOutlet="buttons"/>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #buttons>
+  <div vet-line gap-dense content-right>
+    @let toggleBtnIcon = isExpanded() ? 'arrowUp' : 'arrowDown';
+
+    <vet-icon-button [icon]="toggleBtnIcon" (click)="onToggleExpansion()" />
+    <vet-icon-button icon="close" (click)="onClearClick()" />
+
+    <vet-button leadingIcon="search" type="submit">
+      {{ 'non_formal.search_filters' | transloco }}
+    </vet-button>
+  </div>
+</ng-template>
