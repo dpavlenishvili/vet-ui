@@ -1,0 +1,60 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+  position: relative
+}
+
+.vet-nf-announcement-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .vet-nf-announcement-card {
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 2px solid #F2F3F6;
+    background-color: shared.$white;
+  }
+
+  .vet-nf-card-title {
+    @include shared.text-base(true);
+    color: shared.$kendo-color-body-extra-dark;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid shared.$kendo-color-primary;
+  }
+
+  .vet-nf-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .vet-nf-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    kendo-svg-icon {
+      color: shared.$kendo-color-primary;
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+    }
+
+    div {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .label {
+      @include shared.text-sm(true);
+      color: shared.$kendo-color-body-extra-dark;
+    }
+
+    .value {
+      @include shared.text-sm();
+      color: shared.$kendo-color-body;
+    }
+  }
+}

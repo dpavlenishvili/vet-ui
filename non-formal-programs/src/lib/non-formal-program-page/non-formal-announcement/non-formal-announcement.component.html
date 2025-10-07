@@ -1,0 +1,109 @@
+@let _program = program();
+
+<div class="vet-nf-announcement-cards">
+  <!-- Registration Card -->
+  @if (_program.registration) {
+    <div class="vet-nf-announcement-card">
+      <div class="vet-nf-card-details">
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.submission_period' | transloco }}:</span>
+            <span class="value">
+                {{ _program.registration.start_date | formatDate }} -
+              {{ _program.registration.end_date | formatDate }}
+              </span>
+          </div>
+        </div>
+
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.application_fee' | transloco }}:</span>
+            <span class="value">
+                {{ _program.registration.price }} {{ 'shared.gel' | transloco }}
+              </span>
+          </div>
+        </div>
+
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.payment_deadline' | transloco }}:</span>
+            <span class="value">
+                  {{ _program.registration.payment_deadline | formatDate }}
+                </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Consultation Card -->
+  @if (_program.consultation) {
+    <div class="vet-nf-announcement-card">
+
+      <div class="vet-nf-card-details">
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.consultation_period' | transloco }}:</span>
+            <span class="value">
+                {{ _program.consultation.start_date | formatDate }} -
+              {{ _program.consultation.end_date | formatDate }}
+              </span>
+          </div>
+        </div>
+
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.consultation_fee' | transloco }}:</span>
+            <span class="value">
+                {{ _program.consultation.price }} {{ 'shared.gel' | transloco }}
+              </span>
+          </div>
+        </div>
+
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.payment_deadline' | transloco }}:</span>
+            <span class="value">
+                  {{ _program.consultation.payment_deadline | formatDate }}
+                </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Evidence Card -->
+  @if (_program.evidence) {
+    <div class="vet-nf-announcement-card">
+      <div class="vet-nf-card-details">
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.evidence_submission_deadline' | transloco }}:</span>
+            <span class="value">
+                {{ _program.evidence.submission_deadline | formatDate }}
+              </span>
+          </div>
+        </div>
+
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.evidence_submission_fee' | transloco }}:</span>
+            <span class="value">
+                  {{ _program.evidence.submission_price }} {{ 'shared.gel' | transloco }}
+                </span>
+          </div>
+        </div>
+
+        <div class="vet-nf-detail-item">
+          <div>
+            <span class="label">{{ 'non_formal.payment_deadline' | transloco }}:</span>
+            <span class="value">
+                  {{ _program.evidence.submission_payment_deadline | formatDate }}
+                </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  }
+</div>

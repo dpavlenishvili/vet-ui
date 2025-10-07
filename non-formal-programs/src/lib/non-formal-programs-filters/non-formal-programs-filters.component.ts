@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
@@ -15,16 +7,11 @@ import {
   SelectorComponent,
   useControlValue,
   vetIcons,
-  withoutEmptyProperties
+  withoutEmptyProperties,
 } from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  useDistricts,
-  useFilteredDistricts,
-  useInstitutionsDictionary,
-  useRegions
-} from '@vet/shared-resources';
+import { useDistricts, useFilteredDistricts, useInstitutionsDictionary, useRegions } from '@vet/shared-resources';
 import { NonFormalProgramFilters } from '../non-formal-programs.types';
 
 @Component({
@@ -47,13 +34,15 @@ export class NonFormalProgramsFiltersComponent {
   filters = input.required<NonFormalProgramFilters>();
   filtersChange = output<NonFormalProgramFilters>();
 
-  hasExtraFilters = computed(() => Object.keys(this.filters()).filter((key) => key !== 'search' && key !== 'organisation_name').length > 0);
+  hasExtraFilters = computed(
+    () => Object.keys(this.filters()).filter((key) => key !== 'search' && key !== 'organisation_name').length > 0,
+  );
   formGroup = this.createFormGroup();
   isExpanded = signal(false);
   institutionOptions = useInstitutionsDictionary();
   regionOptions = useRegions();
   districtOptions = useDistricts();
-  selectedRegion = useControlValue(this.formGroup, form => form.controls.region);
+  selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
 
   vetIcons = vetIcons;

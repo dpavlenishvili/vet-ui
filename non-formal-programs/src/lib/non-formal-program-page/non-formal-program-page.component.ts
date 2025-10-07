@@ -3,26 +3,36 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';
-import { FormatDatePipe, useRouteNumberParam, vetIcons } from '@vet/shared';
-import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { FormatDatePipe, InfoComponent, useRouteNumberParam, vetIcons } from '@vet/shared';
 import { NonFormalService } from '@vet/backend';
+import { NonFormalHeaderComponent } from './non-formal-header/non-formal-header.component';
+import { NonFormalAnnouncementComponent } from './non-formal-announcement/non-formal-announcement.component';
+import { NonFormalContactComponent } from './non-formal-contact/non-formal-contact.component';
+import { NonFormalGalleryComponent } from './non-formal-gallery/non-formal-gallery.component';
+import { SVGIconComponent } from '@progress/kendo-angular-icons';
 
 @Component({
   selector: 'vet-non-formal-program-page',
   standalone: true,
-  imports: [TranslocoPipe, LoaderComponent, FormatDatePipe, SVGIconComponent],
+  imports: [
+    TranslocoPipe,
+    LoaderComponent,
+    NonFormalHeaderComponent,
+    NonFormalAnnouncementComponent,
+    NonFormalContactComponent,
+    NonFormalGalleryComponent,
+    InfoComponent,
+    SVGIconComponent,
+  ],
   templateUrl: './non-formal-program-page.component.html',
   styleUrl: './non-formal-program-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NonFormalProgramPageComponent {
   private readonly nonFormalsService = inject(NonFormalService);
-  private readonly sanitizer = inject(DomSanitizer);
-
+  protected readonly vetIcons = vetIcons;
   programId = input<number>();
   routeProgramId = useRouteNumberParam('programId', 0);
-  vetIcons = vetIcons;
 
   program = rxResource({
     request: () => this.programId() ?? this.routeProgramId(),
@@ -35,20 +45,7 @@ export class NonFormalProgramPageComponent {
     return !!(prog.registration || prog.consultation || prog.evidence);
   });
 
-  videoUrl = computed<SafeResourceUrl | null>(() => {
-    const prog = this.program.value();
-    if (!prog?.video_url) return null;
-
-    // Convert YouTube watch URL to embed URL
-    let embedUrl = prog.video_url;
-    if (embedUrl.includes('youtube.com/watch')) {
-      const videoId = embedUrl.split('v=')[1]?.split('&')[0];
-      embedUrl = `https://www.youtube.com/embed/${videoId}`;
-    } else if (embedUrl.includes('youtu.be/')) {
-      const videoId = embedUrl.split('youtu.be/')[1];
-      embedUrl = `https://www.youtube.com/embed/${videoId}`;
-    }
-
-    return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
-  });
+  dsada(dsada: any) {
+    console.log(dsada);
+  }
 }
