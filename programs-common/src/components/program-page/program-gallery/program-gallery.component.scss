@@ -12,6 +12,10 @@
   justify-content: center;
   margin-top: 0.5rem;
   padding: 0 2.9375rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
 }
 
 .vet-video-card {
@@ -19,4 +23,8 @@
   padding: 1.875rem 1.75rem;
   border-radius: 1.25rem;
   box-shadow: 0 0.25rem 0.25rem 0 shared.$kendo-color-shadow;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 }

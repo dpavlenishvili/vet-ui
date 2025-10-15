@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { trans, useRouteNumberParam, vetIcons } from '@vet/shared';
+import { breakOnCommas, trans, useRouteNumberParam, vetIcons } from '@vet/shared';
 import { ShortProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
 import * as kendoIcons from '@progress/kendo-svg-icons';
@@ -64,7 +64,7 @@ export class ShortProgramPageComponent {
       );
     }
 
-    const admissionPrerequisite = parts.length > 0 ? parts.join(', ') : '';
+    const admissionPrerequisite = parts.length > 0 ? breakOnCommas(parts.join(', '), 50) : '';
 
     return [
       { label: trans('shorts.field'), value: '' },

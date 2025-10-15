@@ -1,16 +1,13 @@
 import { ShortTermProgramsFiltersComponent } from './short-term-programs-filters/short-term-programs-filters.component';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { useFilters, useFiltersUpdater, usePage, usePageUpdater } from '@vet/shared';
+import { useFilters, useFiltersUpdater } from '@vet/shared';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { ShortTermProgramsGridComponent } from './short-term-programs-grid/short-term-programs-grid.component';
-import { useShortTermPrograms } from './short-term.resources';
 import { ShortTermProgramFilters } from './short-term-programs.types';
-import { LoaderComponent } from '@progress/kendo-angular-indicators';
 
 @Component({
   selector: 'vet-short-term-programs',
-  imports: [ShortTermProgramsGridComponent, ShortTermProgramsFiltersComponent, TranslocoPipe, LoaderComponent],
+  imports: [ShortTermProgramsGridComponent, ShortTermProgramsFiltersComponent],
   templateUrl: './short-term-programs.component.html',
   styleUrl: './short-term-programs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,16 +17,9 @@ export class ShortTermProgramsComponent {
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
   filters = useFilters<ShortTermProgramFilters>();
-  page = usePage();
   updateFilters = useFiltersUpdater<ShortTermProgramFilters>();
-  updatePage = usePageUpdater();
-  data = useShortTermPrograms();
 
   onFiltersChange(filters: ShortTermProgramFilters) {
     this.updateFilters(filters);
-  }
-
-  onPageChange(page: number) {
-    this.updatePage(page);
   }
 }

@@ -23,4 +23,11 @@
     width: 100%;
     gap: 2rem;
   }
+
+  .loader-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

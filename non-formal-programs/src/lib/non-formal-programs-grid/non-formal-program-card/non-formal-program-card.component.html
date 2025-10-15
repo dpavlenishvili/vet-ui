@@ -14,7 +14,9 @@
       </div>
     </div>
 
-    <kendo-svg-icon [icon]="vetIcons.confirmed" class="vet-non-formal-card-check" />
+    @if (_program?.registration_is_progress) {
+      <kendo-svg-icon [icon]="vetIcons.successCircle" class="vet-non-formal-card-check" />
+    }
   </div>
 
   <div class="vet-non-formal-card-organisation">

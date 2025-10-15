@@ -1,0 +1,88 @@
+<div class="non-formal-selected-fields-step">
+  @if (selectedProgramResource.isLoading()) {
+    <div class="k-p-4 k-text-center">
+      {{ 'shared.loading' | transloco }}
+    </div>
+  }
+  @if (selectedProgram(); as program) {
+    <div class="selected-program-grid">
+      <kendo-grid
+        [data]="[program]"
+        class="main-grid"
+        [resizable]="true"
+      >
+        <kendo-grid-column
+          field="isced"
+          [title]="'non_formal.field' | transloco"
+          [width]="250"
+          [minResizableWidth]="200"
+        >
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="k-display-flex k-flex-column">
+              <span class="k-font-weight-bold">{{ dataItem.isced }}</span>
+              <span class="k-text-sm k-color-subtle">
+                {{ 'non_formal.code' | transloco }}: {{ dataItem.isced_code }}
+              </span>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column
+          field="organisation_name"
+          [title]="'non_formal.organisation_name' | transloco"
+          [width]="250"
+          [minResizableWidth]="200"
+        />
+
+        <kendo-grid-column
+          [title]="'non_formal.registration_period' | transloco"
+          [width]="200"
+          [minResizableWidth]="180"
+        >
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{ dataItem.registration_start_date }} - {{ dataItem.registration_end_date }}</span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column
+          [width]="50"
+          [minResizableWidth]="50"
+          [maxResizableWidth]="50"
+          [resizable]="false"
+        >
+          <ng-template kendoGridCellTemplate>
+            <div class="k-display-flex k-justify-content-center">
+              <button
+                kendoButton
+                fillMode="flat"
+                size="small"
+                [svgIcon]="vetIcons.bin"
+                [title]="'shared.remove' | transloco"
+                (click)="onRemoveClick()"
+                class="action-btn"
+              ></button>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+    </div>
+  } @else {
+    <div class="k-p-4 k-text-center k-bg-white k-rounded-md">
+      <p class="k-mb-0">{{ 'non_formal.no_program_selected' | transloco }}</p>
+    </div>
+  }
+
+  <div class="k-display-flex k-justify-content-between k-mt-4">
+    <button kendoButton themeColor="base" (click)="onBackClick()">
+      {{ 'shared.previous' | transloco }}
+    </button>
+    <button
+      kendoButton
+      themeColor="primary"
+      [disabled]="!selectedProgramId()"
+      (click)="onNextClick()"
+    >
+      {{ 'shared.next' | transloco }}
+    </button>
+  </div>
+</div>

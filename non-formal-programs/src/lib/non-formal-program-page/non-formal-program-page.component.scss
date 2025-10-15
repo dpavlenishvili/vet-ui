@@ -4,99 +4,125 @@
   display: block;
 }
 
-.vet-non-formal-page {
-  display: flex;
-  flex-direction: column;
+.vet-nf-admissions-card {
+  padding: 1.25rem;
   border-radius: 1.25rem;
+  border: 2px solid shared.$kendo-color-primary;
   background-color: shared.$white;
-}
+  position: relative;
 
-.vet-non-formal-page-main {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 1.25rem 1.25rem 2.5rem;
+  @media (max-width: 48rem) {
+    padding: 1rem;
+  }
 
-  .card-container {
+  .vet-nf-announcement-header {
+    position: absolute;
+    inset-block-start: -0.75rem;
+    inset-inline-start: 1rem;
+    padding-block: 0;
+    padding-inline: 0.5rem;
+    background-color: shared.$white;
+    color: shared.$kendo-color-primary;
+    @include shared.text-base(true);
+  }
+
+  .vet-nf-isced-info {
+    @include shared.text-base();
+    color: shared.$kendo-color-body-extra-dark;
+    margin-block-end: 1rem;
     display: flex;
-    gap: 20px;
-    .card.announced {
-      border-color: #4CAEE8;
+    align-items: center;
+    flex-wrap: wrap;
+
+    @media (max-width: 48rem) {
+      margin-block-end: 0.75rem;
     }
-    .card {
-      max-width: 610px;
-      width: 100%;
-      //height: 396px;
-      padding: 10px;
-      border-radius: 20px;
-      border: 2px solid #F2F3F6;
-      position: relative;
 
-      .vet-nf-announcement-card {
-        padding: 0.5rem;
-        background-color: shared.$white;
-      }
+    .vet-nf-isced-label,
+    .vet-nf-isced-code,
+    .vet-nf-isced-separator {
+      color: shared.$kendo-color-body-extra-dark;
+    }
 
-      .vet-nf-card-title {
-        @include shared.text-base(true);
-        color: shared.$kendo-color-body-extra-dark;
-        margin: 0 0 1rem 0;
-        padding-bottom: 0.75rem;
-        border-bottom: 2px solid shared.$kendo-color-primary;
-      }
+    .vet-nf-isced-separator {
+      margin-inline: 0.25rem;
+      opacity: 0.5;
+    }
+  }
 
-      .vet-nf-card-details {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
+  .vet-nf-announcement-footer {
+    @include shared.text-sm();
+    color: shared.$kendo-color-body;
+    padding-block-start: 1rem;
+    margin-block-start: 1rem;
+    border-block-start: 1px solid shared.$kendo-color-body;
+  }
 
-      .vet-nf-detail-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.75rem;
+  .vet-nf-no-announcement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
 
-        kendo-svg-icon {
-          color: shared.$kendo-color-primary;
-          flex-shrink: 0;
-          margin-top: 0.125rem;
-        }
+    @media (max-width: 48rem) {
+      padding: 1.5rem;
+    }
 
-        div {
-          display: flex;
-          gap: 0.25rem;
-        }
+    kendo-svg-icon {
+      font-size: 3rem;
+    }
 
-        .label {
-          @include shared.text-sm(true);
-          color: shared.$kendo-color-body-extra-dark;
-        }
-
-        .value {
-          @include shared.text-sm();
-          color: shared.$kendo-color-body;
-        }
-      }
-
-      .announcement-details-title {
-        position: absolute;
-        color: #4CAEE8;
-        z-index: 1;
-        top: -13px;
-        background: white;
-        padding-inline: 10px;
-      }
-      .announcement-run-text {
-        font-size: 14px;
-        padding: 10px 5px;
-      }
+    p {
+      @include shared.text-base();
+      color: shared.$kendo-color-body;
+      margin: 0;
     }
   }
 }
 
-.vet-section-text {
-  @include shared.text-base();
-  color: shared.$kendo-color-body;
-  line-height: 1.7;
-  white-space: pre-line;
+.vet-responsible-person-contact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 1.25rem 2.5rem;
+  padding-inline: 1.25rem;
+
+  @media (max-width: 48rem) {
+    padding-block: 1rem 2rem;
+    padding-inline: 1rem;
+  }
+
+  span,
+  a {
+    @include shared.text-base();
+    color: shared.$kendo-color-body;
+    line-height: 100%;
+  }
+}
+
+.vet-nf-document-box {
+  padding: 1rem;
+  border-radius: 0.625rem;
+  border: 1px solid shared.$kendo-color-divider-light;
+  background-color: shared.$white;
+
+  @media (max-width: 48rem) {
+    padding: 0.875rem;
+  }
+
+  .vet-nf-document-title {
+    @include shared.text-base(true);
+    color: shared.$kendo-color-body-extra-dark;
+    margin-block-end: 0.75rem;
+  }
+
+  .vet-nf-document-content {
+    @include shared.text-base();
+    color: shared.$kendo-color-body;
+    white-space: pre-line;
+    line-height: 1.4rem;
+  }
 }

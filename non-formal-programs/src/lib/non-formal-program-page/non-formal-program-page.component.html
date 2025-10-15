@@ -1,103 +1,91 @@
 @let _program = program.value();
 
-@if (program.isLoading()) {
-  <div class="vet-non-formal-page">
-    <kendo-loader size="medium" [themeColor]="'secondary'" />
+<ng-template #infoMessages>
+  <vet-info variant="warning">
+    {{ 'non_formal.seekerRightsAndResponsibilities' | transloco }}
+  </vet-info>
+
+  <vet-info variant="info">
+    {{ 'non_formal.evidenceAndConsultationInfo' | transloco }}
+  </vet-info>
+</ng-template>
+
+<ng-template #programVideo>
+  @if (_program?.video_url || _program?.gallery) {
+    <vet-non-formal-gallery
+      [videoUrl]="_program?.video_url"
+    />
+  }
+</ng-template>
+
+<ng-template #consultationDocument>
+  <div class="vet-nf-document-box">
+    <div class="vet-nf-document-title">
+      {{ 'non_formal.required_documents_consultation' | transloco }}
+    </div>
+    <div class="vet-nf-document-content">
+      {{ _program?.consultation?.document }}
+    </div>
   </div>
-} @else if (_program) {
-  <div class="vet-non-formal-page">
-    <div class="vet-non-formal-page-main">
-      <vet-non-formal-header
-        [program]="_program"
-      />
+</ng-template>
 
-      <button (click)="dsada(_program)">dasdas</button>
+<ng-template #evidenceDocument>
+  <div class="vet-nf-document-box">
+    <div class="vet-nf-document-title">
+      {{ 'non_formal.required_documents_evidence' | transloco }}
+    </div>
+    <div class="vet-nf-document-content">
+      {{ _program?.evidence?.document }}
+    </div>
+  </div>
+</ng-template>
 
-      <!-- Announcement Section (Registration, Consultation, Evidence) -->
-
-      <div class="card-container">
-        <div class="card">
-          <div class="vet-nf-announcement-card">
-            <div class="vet-nf-card-details">
-              <div class="vet-nf-detail-item">
-                <div>
-                  <span class="label">{{ 'non_formal.field' | transloco }}:</span>
-                  <span class="value">
-                    {{ _program.isced }}
-                  </span>
-                </div>
-              </div>
-
-              <div class="vet-nf-detail-item">
-                <div>
-                  <span class="label">{{ 'non_formal.code' | transloco }}:</span>
-                  <span class="value">
-                    {{ _program.isced_code }}
-                  </span>
-                </div>
-              </div>
-
-              <div class="vet-nf-detail-item">
-                <div>
-                  <span class="label">{{ 'non_formal.recognition_result' | transloco }}:</span>
-                  <span class="value">
-                  </span>
-                </div>
-              </div>
-
-              <div class="vet-nf-detail-item">
-                <div>
-                  <span class="label">{{ 'non_formal.field_description' | transloco }}:</span>
-                  <span class="value">
-                    {{ _program.note }}
-                  </span>
-                </div>
-              </div>
-            </div>
+@if (_program) {
+  <vet-program-page
+    [showGallery]="false"
+    [showPartners]="false"
+    [showIscedList]="false"
+    [program]="_program"
+    [isLoading]="program.isLoading()"
+    [details]="details()"
+    [sections]="sections()"
+  >
+    <ng-container admissions>
+      <div class="vet-nf-admissions-card">
+        @if (hasAnnouncement()) {
+          <div class="vet-nf-announcement-header">
+            {{ 'non_formal.recognition_announcement' | transloco }}
           </div>
-        </div>
-        <div class="card announced">
-          @if (hasAnnouncement()) {
-            <div class="announcement-details-title">
-              {{ 'non_formal.recognition_announcement' | transloco }}
-            </div>
-            <vet-non-formal-announcement
-              [program]="_program"
-            />
-            <div class="announcement-run-text">
-              <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
-            </div>
-          } @else {
-            <div>
-              <kendo-svg-icon [icon]="vetIcons.searchBg" />
-              {{ 'non_formal.recognition_not_announced_message' | transloco }}
+          @if (_program.announced_isced_title || _program.announced_isced_code) {
+            <div class="vet-nf-isced-info">
+              <span class="vet-nf-isced-label">{{ _program.announced_isced_title }}</span>
+              <span class="vet-nf-isced-separator">|</span>
+              <span class="vet-nf-isced-code">{{ _program.announced_isced_code }}</span>
             </div>
           }
+          <vet-non-formal-announcement [program]="_program" />
+          <div class="vet-nf-announcement-footer">
+            <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
+          </div>
+        } @else {
+          <div class="vet-nf-no-announcement">
+            <kendo-svg-icon [icon]="vetIcons.searchBg" />
+            <p>{{ 'non_formal.recognition_not_announced_message' | transloco }}</p>
+          </div>
+        }
+      </div>
+    </ng-container>
+
+    <ng-container contact-footer>
+      <div class="vet-responsible-person-contact">
+        <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.personMini" />
+        <div>
+          <span>{{ 'shorts.responsible_person_phone' | transloco }}:</span>
+          <a [href]="'tel:' + '574 08 14 56'" target="_blank" class="k-text-base k-color-body">
+            {{ 'N/A' }}
+          </a>
         </div>
       </div>
-
-      @if (hasAnnouncement()) {
-        <vet-info variant="warning">
-          {{ 'non_formal.seekerRightsAndResponsibilities' | transloco }}
-        </vet-info>
-
-        <vet-info variant="info">
-          {{ 'non_formal.evidenceAndConsultationInfo' | transloco }}
-        </vet-info>
-      }
-
-      <!-- Video Gallery -->
-      @if (_program.video_url || _program.gallery) {
-        <vet-non-formal-gallery
-          [videoUrl]="_program.video_url"
-          [gallery]="_program.gallery"
-        />
-      }
-    </div>
-
-    <!-- Contact Information -->
-    <vet-non-formal-contact
-      [program]="_program"
-    />
-  </div>
+    </ng-container>
+  </vet-program-page>
 }

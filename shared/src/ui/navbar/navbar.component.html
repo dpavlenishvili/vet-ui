@@ -73,11 +73,10 @@
         </div>
 
         <div class="v-ui-navbar-profile-desktop" (click)="toggleProfileCard()">
-          @if (user()?.photo; as photo) {
+          <!-- @if (user()?.photo; as photo) {
             <img [src]="photo" alt="Avatar" class="v-ui-navbar-profile-avatar" />
-          } @else {
-            <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon" />
-          }
+          } -->
+          <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon" />
           <span class="v-ui-navbar-profile-name">{{ selectedAccountName() ?? user()?.name }}</span>
           @if (isProfileCardOpen()) {
             <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowUpIcon" />

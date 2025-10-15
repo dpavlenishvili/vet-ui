@@ -9,7 +9,8 @@
     [readonly]="true"
     [clearButton]="true"
     [disabled]="isDisabled()"
-    (focus)="datePicker.toggle(true)"
+    (focus)="onTextboxFocus()"
+    (blur)="onTextboxBlur()"
   >
     <ng-template kendoTextBoxSuffixTemplate>
       <kendo-svgicon [icon]="vetIcons.scheduleIcon"/>

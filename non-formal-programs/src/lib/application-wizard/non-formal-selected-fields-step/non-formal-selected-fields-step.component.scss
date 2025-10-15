@@ -1,0 +1,12 @@
+.non-formal-selected-fields-step {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .selected-program-grid {
+    .main-grid {
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+  }
+}

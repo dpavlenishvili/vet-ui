@@ -1,0 +1,26 @@
+@use '@vet/shared-styles' as shared;
+
+.status-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.action-buttons {
+  .action-btn {
+    min-inline-size: 2rem;
+    block-size: 2rem;
+  }
+}
+
+.main-grid {
+  ::ng-deep {
+    .k-grid-header {
+      background-color: shared.$kendo-paper-dark;
+    }
+
+    .k-grid-content {
+      cursor: default;
+    }
+  }
+}

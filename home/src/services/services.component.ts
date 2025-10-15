@@ -68,10 +68,20 @@ export class ServicesComponent {
       url: '/dashboard/programs/short',
     },
     {
+      // არაფორმალური: თუ არა-ავტორიზებულია, მაშინ ზოგადი პროგრამების სია უნდა ვუჩვენოთ
+      accessControl: isGuest(),
       text: 'home.informalEducation',
       icon: 'informalEducation',
       color: 'green',
-      url: null,
+      url: '/programs/non-formal',
+    },
+    {
+      // არაფორმალური: თუ ავტორიზებულია, მაშინ პროგრამების დეშბორდი უნდა ვუჩვენოთ
+      accessControl: isAuthenticated(),
+      text: 'home.informalEducation',
+      icon: 'informalEducation',
+      color: 'green',
+      url: '/dashboard/programs/non-formal',
     },
     {
       text: 'home.orientationService',

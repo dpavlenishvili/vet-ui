@@ -16,9 +16,10 @@ import { vetIcons } from '../../shared.icons';
 export class FileUploadComponent {
   title = input('');
   readonly = input(false);
+  uploadFormat = input<'base64' | 'file'>('base64');
   uploadedFiles = model<UploadedFile[]>([]);
   errorMessage = model();
-  fileUploaded = output<UploadedFile>();
+  fileUploaded = output<UploadedFile | any>();
   fileRemoved = output<UploadedFile[]>();
   vetIcons = vetIcons;
   allowedExtensions = signal(['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg']);
@@ -57,13 +58,22 @@ export class FileUploadComponent {
           this.clearErrorAfterDelay();
           return;
         }
-        const reader = new FileReader();
-        reader.onload = () => {
-          const fileData: UploadedFile = { filename: file.name, base64: reader.result as string };
+
+        if (this.uploadFormat() === 'file') {
+          // Store the File object directly
+          const fileData: UploadedFile = { filename: file.name, file: file };
           this.uploadedFiles.set([...this.uploadedFiles(), fileData]);
-          this.fileUploaded.emit(fileData);
-        };
-        reader.readAsDataURL(file);
+          this.fileUploaded.emit(file);
+        } else {
+          // Convert to base64 (default behavior)
+          const reader = new FileReader();
+          reader.onload = () => {
+            const fileData: UploadedFile = { filename: file.name, base64: reader.result as string };
+            this.uploadedFiles.set([...this.uploadedFiles(), fileData]);
+            this.fileUploaded.emit(fileData);
+          };
+          reader.readAsDataURL(file);
+        }
       });
       input.value = '';
     }

@@ -3,6 +3,7 @@
 :host {
   display: block;
   width: 100%;
+  position: relative;
 }
 
 kendo-textbox.vet-date-picker {
@@ -22,7 +23,9 @@ kendo-textbox.vet-date-picker {
 
 .vet-hidden-datepicker {
   position: absolute;
-  height: 0;
-  width: 0;
-  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+  width: fit-content;
+  left: 0;
 }

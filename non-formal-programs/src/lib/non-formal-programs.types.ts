@@ -4,5 +4,6 @@ export interface NonFormalProgramFilters {
   field?: string | null;
   region?: string | null;
   district?: string | null;
-  period?: string | null;
+  start_date?: string | Date | null;
+  end_date?: string | Date | null;
 }

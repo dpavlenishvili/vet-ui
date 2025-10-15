@@ -1,0 +1,26 @@
+<div class="non-formal-field-selection-step">
+  <vet-non-formal-programs-filters
+    [filters]="filters()"
+    (filtersChange)="onFiltersChange($event)"
+  />
+
+  <div class="k-mt-4">
+    <vet-non-formal-field-selection-grid
+      [data]="programsResource"
+      [selectedProgramId]="selectedProgramId()"
+      (programToggle)="onProgramToggle($event)"
+      (pageChange)="onPageChange($event)"
+    />
+  </div>
+
+  <div class="k-display-flex k-justify-content-end k-mt-4">
+    <button
+      kendoButton
+      themeColor="primary"
+      [disabled]="!selectedProgramId()"
+      (click)="onNextClick()"
+    >
+      {{ 'shared.next' | transloco }}
+    </button>
+  </div>
+</div>

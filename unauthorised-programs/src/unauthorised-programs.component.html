@@ -4,20 +4,6 @@
     [filters]="filters()"
     (filtersChange)="onFiltersChange($event)"
   />
-
-  @if (data.isLoading()) {
-    <div class="vet-empty vet-loading">
-      <kendo-loader size="medium" [themeColor]="'secondary'" />
-    </div>
-  } @else if (data.value().data.length === 0) {
-    <div class="vet-empty vet-not-found">
-      {{ 'shared.noRecords' | transloco }}
-    </div>
-  } @else {
-    <vet-unauthorised-programs-grid
-      [data]="data"
-      (pageChange)="onPageChange($event)"
-    />
-  }
+  <vet-unauthorised-programs-grid />
 </div>
 

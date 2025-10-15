@@ -73,6 +73,12 @@
       </kendo-grid-column>
     </kendo-grid>
   }
+
+  @if (programsWithCommissionMembers$.isLoading()) {
+    <div class="loader-container">
+      <kendo-loader [size]="'medium'" />
+    </div>
+  }
 </div>
 
 @if (isMembersDialogOpen()) {

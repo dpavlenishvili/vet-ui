@@ -365,3 +365,35 @@ export function trans(key: string, params?: TranslatableParams): Translatable {
 export function isDate(value: unknown): value is Date {
   return Object.prototype.toString.call(value) === '[object Date]' && !isNaN((value as Date).getTime());
 }
+
+/*
+ * Splits a long string into multiple lines at commas, ensuring that
+ * no line exceeds a specified maximum length.
+ *
+ * Each comma in the input string is considered a potential line break point.
+ * If adding the next part would exceed `maxLineLength`, the current line is
+ * pushed to the result, and a new line starts with the current part.
+ */
+export function breakOnCommas(input: string, maxLineLength: number): string {
+  if (!input) return '';
+
+  const parts = input.split(',').map(p => p.trim());
+  const lines: string[] = [];
+  let currentLine = '';
+
+  for (const part of parts) {
+    const chunk = (currentLine ? currentLine + ', ' : '') + part;
+    if (chunk.length > maxLineLength && currentLine) {
+      lines.push(currentLine);
+      currentLine = part;
+    } else {
+      currentLine = chunk;
+    }
+  }
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return lines.join('\n');
+}
+

@@ -1,0 +1,60 @@
+<div class="non-formal-documents-step">
+  <div class="documents-container">
+    <div class="document-upload-row">
+      <vet-file-upload
+        [title]="'non_formal.certificate' | transloco"
+        [uploadFormat]="'file'"
+        [readonly]="isViewMode()"
+        [uploadedFiles]="formGroup().get('certificate')?.getRawValue()"
+        [errorMessage]="getErrorMessage('certificate', 'non_formal.certificate') | transloco"
+        (fileUploaded)="handleFileUpload($event, 'certificate')"
+        (fileRemoved)="handleRemoveFile($event, 'certificate')"
+      />
+    </div>
+
+    <div class="document-upload-row">
+      <vet-file-upload
+        [title]="'non_formal.employment_contract' | transloco"
+        [uploadFormat]="'file'"
+        [readonly]="isViewMode()"
+        [uploadedFiles]="formGroup().get('employment_contract')?.getRawValue()"
+        [errorMessage]="getErrorMessage('employment_contract', 'non_formal.employment_contract') | transloco"
+        (fileUploaded)="handleFileUpload($event, 'employment_contract')"
+        (fileRemoved)="handleRemoveFile($event, 'employment_contract')"
+      />
+    </div>
+
+    <div class="document-upload-row">
+      <vet-file-upload
+        [title]="'non_formal.certificate_from_workplace' | transloco"
+        [uploadFormat]="'file'"
+        [readonly]="isViewMode()"
+        [uploadedFiles]="formGroup().get('certificate_from_workplace')?.getRawValue()"
+        [errorMessage]="getErrorMessage('certificate_from_workplace', 'non_formal.certificate_from_workplace') | transloco"
+        (fileUploaded)="handleFileUpload($event, 'certificate_from_workplace')"
+        (fileRemoved)="handleRemoveFile($event, 'certificate_from_workplace')"
+      />
+    </div>
+
+    <div class="document-upload-row">
+      <vet-file-upload
+        [title]="'non_formal.other' | transloco"
+        [uploadFormat]="'file'"
+        [readonly]="isViewMode()"
+        [uploadedFiles]="formGroup().get('other')?.getRawValue()"
+        [errorMessage]="getErrorMessage('other', 'non_formal.other') | transloco"
+        (fileUploaded)="handleFileUpload($event, 'other')"
+        (fileRemoved)="handleRemoveFile($event, 'other')"
+      />
+    </div>
+  </div>
+
+  <div class="actions">
+    <button kendoButton themeColor="base" (click)="back.emit()">
+      {{ 'shared.previous' | transloco }}
+    </button>
+    <button kendoButton themeColor="primary" (click)="onNextClick()">
+      {{ 'shared.next' | transloco }}
+    </button>
+  </div>
+</div>

@@ -2,7 +2,18 @@
   @if (form(); as _form) {
     <form class="confirmation-container" [formGroup]="_form">
       <div class="confirmation-section user-profile">
-        <img src="/assets/images/profile.png" width="146" height="120" alt="Profile" class="profile-image" />
+        <img
+          [src]="
+            _user?.photo !== null
+              ? _user?.photo
+              : _user?.gender === 'male'
+                ? '/assets/images/default-male.png'
+                : '/assets/images/default-female.png'
+          "
+          width="183"
+          height="157"
+          alt="Profile"
+        />
         <div class="user-details">
           <div class="user-detail-row">
             <span class="label">{{ 'programs.pid' | transloco }}:</span>

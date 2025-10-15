@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, output, si
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
+  DatePickerComponent,
   IconButtonComponent,
   InputComponent,
+  isDate,
   SelectorComponent,
   useControlValue,
   vetIcons,
@@ -24,6 +26,7 @@ import { NonFormalProgramFilters } from '../non-formal-programs.types';
     NgTemplateOutlet,
     InputComponent,
     IconButtonComponent,
+    DatePickerComponent,
   ],
   templateUrl: './non-formal-programs-filters.component.html',
   styleUrl: './non-formal-programs-filters.component.scss',
@@ -64,12 +67,31 @@ export class NonFormalProgramsFiltersComponent {
       field: new FormControl<string | null>(null),
       region: new FormControl<string | null>(null),
       district: new FormControl<string | null>(null),
-      period: new FormControl<string | null>(null),
+      start_date: new FormControl<string | Date | null>(null),
+      end_date: new FormControl<string | Date | null>(null),
     });
   }
 
   onSubmit() {
-    this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as NonFormalProgramFilters);
+    const normalizedFilters = this.normalizeFilters(this.formGroup.value);
+    this.filtersChange.emit(withoutEmptyProperties(normalizedFilters) as NonFormalProgramFilters);
+  }
+
+  normalizeFilters(filterValue: any) {
+    return {
+      ...filterValue,
+      start_date: isDate(filterValue.start_date)
+        ? this.formatDateForBackend(filterValue.start_date)
+        : filterValue.start_date,
+
+      end_date: isDate(filterValue.end_date) ? this.formatDateForBackend(filterValue.end_date) : filterValue.end_date,
+    } as NonFormalProgramFilters;
+  }
+
+  formatDateForBackend(date: Date): string {
+    return `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   }
 
   onToggleExpansion() {
@@ -83,7 +105,8 @@ export class NonFormalProgramsFiltersComponent {
       field: null,
       region: null,
       district: null,
-      period: null,
+      start_date: null,
+      end_date: null,
     });
     this.onSubmit();
   }

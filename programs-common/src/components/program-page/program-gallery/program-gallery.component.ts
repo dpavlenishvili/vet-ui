@@ -12,5 +12,14 @@ import { useSanitizedUrl } from '@vet/shared';
 export class ProgramGalleryComponent {
   videoUrl = input.required<string | null | undefined>();
 
-  sanitizedVideoUrl = useSanitizedUrl(() => this.videoUrl() ?? 'https://www.youtube.com/embed/eLVVkXOekRE');
+  sanitizedVideoUrl = useSanitizedUrl(() => {
+    const rawUrl = this.videoUrl() ?? 'https://www.youtube.com/embed/eLVVkXOekRE';
+
+    if (rawUrl.includes('watch?v=')) {
+      const videoId = rawUrl.split('watch?v=')[1].split('&')[0];
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    return rawUrl;
+  });
 }

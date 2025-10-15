@@ -1,5 +1,3 @@
-@let _program = program();
-
 <div class="vet-contact-container">
   <div class="vet-contact-item">
     <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.phoneMini" />
@@ -10,7 +8,7 @@
 
   <div class="vet-contact-item">
     <kendo-svg-icon class="vet-contact-item-icon" [icon]="vetIcons.locationMini" />
-    <span>{{ _program?.address }}</span>
+    <span>{{ programAddress() }}</span>
   </div>
 
   <div class="vet-contact-item">

@@ -7,7 +7,7 @@
 } @else if (program()) {
   <div class="vet-program-page">
     <div class="vet-program-page-main">
-      <vet-program-header [program]="_program" [details]="details()">
+      <vet-program-header [program]="_program" [details]="details()" [showPartners]="showPartners()">
         <ng-container admissions>
           <ng-content select="[admissions]" />
         </ng-container>
@@ -23,7 +23,9 @@
         </vet-program-section>
       }
 
-      <vet-program-isced-list [iscedList]="_program?.isced_description" />
+      @if (showIscedList()) {
+        <vet-program-isced-list [iscedList]="iscedDescription()" />
+      }
 
       @if (showGallery()) {
         <vet-program-gallery [videoUrl]="_program?.video_url" />

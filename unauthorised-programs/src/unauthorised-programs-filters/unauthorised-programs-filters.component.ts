@@ -14,10 +14,11 @@ import {
   ButtonComponent,
   IconButtonComponent,
   InputComponent,
-  SelectorComponent, useControlValue,
+  SelectorComponent,
+  useControlValue,
   vetIcons,
   VetSwitchComponent,
-  withoutEmptyProperties
+  withoutEmptyProperties,
 } from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
@@ -27,7 +28,7 @@ import {
   useFilteredDistricts,
   useInstitutionsDictionary,
   useProgramKinds,
-  useRegions
+  useRegions,
 } from '@vet/shared-resources';
 
 @Component({
@@ -61,7 +62,7 @@ export class UnAuthorisedProgramsFiltersComponent {
   districtOptions = useDistricts();
   programTypesOptions = useProgramKinds('long-term');
   isFiltersDialogOpen = signal(false);
-  selectedRegion = useControlValue(this.formGroup, form => form.controls.region);
+  selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
 
   vetIcons = vetIcons;
@@ -95,7 +96,18 @@ export class UnAuthorisedProgramsFiltersComponent {
   }
 
   onSubmit() {
-    this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as ProgramFilters);
+    const raw = this.formGroup.value;
+
+    const normalized = Object.fromEntries(
+      Object.entries(raw).map(([key, value]) => {
+        if (typeof value === 'boolean' && value === false) {
+          return [key, undefined];
+        }
+        return [key, value];
+      }),
+    );
+
+    this.filtersChange.emit(withoutEmptyProperties(normalized) as ProgramFilters);
   }
 
   onToggleExpansion() {

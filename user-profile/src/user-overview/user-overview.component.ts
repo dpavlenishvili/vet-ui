@@ -44,6 +44,7 @@ export class UserOverviewComponent extends UserProfileSection {
   isSmsCodeSent = signal(false);
   protected readonly userRolesService = inject(UserRolesService);
   protected readonly selectedAccountName = computed(() => this.userRolesService.selectedAccountName());
+  protected readonly userGender = signal<string | undefined>(undefined);
   readonly hasEditRights = computed(() => {
     const isOrganisation = !!this.userRolesService.organisation();
     const isDefaultUser = !isOrganisation;
@@ -99,6 +100,7 @@ export class UserOverviewComponent extends UserProfileSection {
     
       this.form.reset(formDataModel);
       this.oldPhoneNumber = this.form.value.phone;
+      this.userGender.set(user?.gender)
     
       if (!canEdit) {
         this.disableFormControls();

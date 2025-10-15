@@ -6,31 +6,35 @@
 
 .vet-nf-video-container {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
-  height: 0;
+  padding-block-end: 56.25%; /* 16:9 aspect ratio */
+  block-size: 0;
   overflow: hidden;
   border-radius: 0.75rem;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 
   iframe {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 100%;
     border-radius: 0.75rem;
   }
 }
 
 .vet-nf-gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(15.625rem, 1fr));
   gap: 1rem;
+
+  @media (max-width: 48rem) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .vet-nf-gallery-image {
-  width: 100%;
-  height: 200px;
+  inline-size: 100%;
+  block-size: 12.5rem;
   object-fit: cover;
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
@@ -39,11 +43,5 @@
 
   &:hover {
     transform: scale(1.02);
-  }
-}
-
-@media (max-width: 768px) {
-  .vet-nf-gallery-grid {
-    grid-template-columns: 1fr;
   }
 }

@@ -13,6 +13,7 @@ import { shortTermProgramsRoutes } from '@vet/short-term-programs';
 import { vacancyRoutes } from '@vet/vacancy';
 import { dashboardRoutes } from '@vet/dashboard';
 import { pagesRoutes } from '@vet/pages';
+import { nonFormalProgramsRoutes } from '@vet/non-formal-programs';
 
 export const appRoutes: Routes = [
   {
@@ -34,6 +35,12 @@ export const appRoutes: Routes = [
       {
         path: 'programs/short',
         children: shortTermProgramsRoutes,
+        data: breadcrumb([]),
+        canActivate: [],
+      },
+      {
+        path: 'programs/non-formal',
+        children: nonFormalProgramsRoutes,
         data: breadcrumb([]),
         canActivate: [],
       },

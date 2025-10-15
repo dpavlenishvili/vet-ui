@@ -1,0 +1,71 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-non-formal-registration-stepper {
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+}
+
+.vet-stepper-container {
+  min-inline-size: 4.5rem;
+  max-inline-size: 4.5rem;
+  padding-block: 1rem;
+  padding-inline: 0;
+  border-radius: 1.25rem;
+  background-color: shared.$white;
+
+  kendo-stepper {
+    max-inline-size: 2rem;
+  }
+
+  .vet-stepper-toggle-container {
+    display: flex;
+    justify-content: center;
+    padding-block-end: 0.75rem;
+
+    .vet-stepper-toggle {
+      background-color: shared.$tb-kendo-color-surface;
+      border-color: shared.$tb-kendo-color-surface;
+      inline-size: 1.625rem;
+      block-size: 1.625rem;
+      transition: all 200ms ease-out;
+    }
+  }
+
+  &.expanded {
+    min-inline-size: 18rem;
+    max-inline-size: 18rem;
+    align-items: flex-start;
+    justify-content: center;
+
+    .vet-stepper-toggle-container {
+      inline-size: 100%;
+      justify-content: flex-end;
+
+      .vet-stepper-toggle {
+        inline-size: 2rem;
+        block-size: 2rem;
+      }
+    }
+  }
+
+  .vet-stepper-content {
+    padding-inline: 1rem;
+  }
+}
+
+.vet-non-formal-registration-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-inline-size: 0;
+  block-size: max-content;
+  gap: 1.25rem;
+  padding: 1rem 1rem 1.875rem;
+  border-radius: 1.25rem;
+  background-color: shared.$white;
+}

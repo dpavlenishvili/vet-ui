@@ -18,10 +18,15 @@
   border-radius: 1.25rem;
   border: 2px solid shared.$kendo-color-chip;
 
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
   .vet-program-card-details {
     @include shared.text-base();
     display: flex;
-    flex-direction: column;;
+    flex-direction: column;
     gap: 0.875rem;
   }
 }

@@ -110,6 +110,23 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
     this.onTouched();
   }
 
+  onTextboxFocus() {
+    const picker = this.datePicker();
+    if (picker) {
+      picker.toggle(true);
+    }
+  }
+
+  onTextboxBlur() {
+    // Add a small delay to allow clicking on the calendar
+    setTimeout(() => {
+      const picker = this.datePicker();
+      if (picker) {
+        picker.toggle(false);
+      }
+    }, 200);
+  }
+
   private setValue(value: string | number | Date | null) {
     const resolvedValue = value ? dayjs(value, this.defaultDateFormat).toDate() : null;
     this.value.set(resolvedValue);

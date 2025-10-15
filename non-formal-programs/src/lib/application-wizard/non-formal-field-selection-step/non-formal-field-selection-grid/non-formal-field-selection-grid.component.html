@@ -1,0 +1,86 @@
+<div class="non-formal-field-selection-grid">
+  @if (data().isLoading()) {
+    <div class="k-p-4 k-text-center">
+      {{ 'shared.loading' | transloco }}
+    </div>
+  } @else if (paginatedData().data.length === 0) {
+    <div class="k-p-4 k-text-center">
+      {{ 'non_formal.no_programs_found' | transloco }}
+    </div>
+  } @else {
+    <kendo-grid
+      [data]="paginatedData().data"
+      [loading]="data().isLoading()"
+      class="main-grid"
+      [resizable]="true"
+    >
+      <kendo-grid-column
+        field="isced"
+        [title]="'non_formal.field' | transloco"
+        [width]="250"
+        [minResizableWidth]="200"
+      >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="k-display-flex k-flex-column">
+            <span class="k-font-weight-bold">{{ dataItem.isced }}</span>
+            <span class="k-text-sm k-color-subtle">
+              {{ 'non_formal.code' | transloco }}: {{ dataItem.isced_code }}
+            </span>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        field="organisation_name"
+        [title]="'non_formal.organisation_name' | transloco"
+        [width]="250"
+        [minResizableWidth]="200"
+      />
+
+      <kendo-grid-column
+        [title]="'non_formal.registration_period' | transloco"
+        [width]="200"
+        [minResizableWidth]="180"
+      >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span>{{ dataItem.registration_start_date }} - {{ dataItem.registration_end_date }}</span>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [width]="50"
+        [minResizableWidth]="50"
+        [maxResizableWidth]="50"
+        [resizable]="false"
+      >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="k-display-flex k-justify-content-center">
+            <button
+              (click)="onToggleProgramSelection(dataItem)"
+              [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled(dataItem)"
+              fillMode="flat"
+              kendoButton
+            >
+              @if (isSelected(dataItem.id)) {
+                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
+              } @else if (!isSelected(dataItem.id) && isAddButtonDisabled(dataItem)) {
+                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
+              } @else {
+                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
+              }
+            </button>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+
+    @if (paginatedData().total > paginatedData().size) {
+      <kendo-pager
+        [total]="paginatedData().total"
+        [skip]="paginatedData().skip"
+        [pageSize]="paginatedData().size"
+        (pageChange)="onPageChange($event)"
+      />
+    }
+  }
+</div>

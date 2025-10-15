@@ -6,8 +6,8 @@
           <kendo-label [text]="'shared.education' | transloco">
             <kendo-dropdownlist
               [data]="educations$.value()"
-              textField="value"
-              valueField="id"
+              textField="level"
+              valueField="levelId"
               formControlName="education"
               (valueChange)="educationChange($event)"
               [readonly]="isViewMode()"

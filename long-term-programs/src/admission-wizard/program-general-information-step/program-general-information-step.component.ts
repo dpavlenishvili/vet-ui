@@ -6,7 +6,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
-import { GeneralsService } from '@vet/backend';
+import { AdmissionService, GeneralsService } from '@vet/backend';
 import { Citizenship, FileUploadComponent, InfoComponent, kendoIcons, UploadedFile, useConfirm } from '@vet/shared';
 import { delay, map, tap } from 'rxjs';
 import { AuthenticationService } from '@vet/auth';
@@ -43,17 +43,18 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   isAbroadEnabled = signal(false);
   isOcuEnabled = signal(false);
   invalidStudentStatus = signal(false);
-  previousEducationId = signal<null | number>(null);
+  previousEducationId = signal<null | undefined | number>(null);
   abroadDoc = computed(() => this.form()?.get('abroad_doc'));
   ocuDoc = computed(() => this.form()?.get('ocu_doc'));
   kendoIcons = kendoIcons;
   citizenship = Citizenship;
   specEnvs = signal(['programs.elevatorRamp', 'programs.testTimeExtension', 'programs.testFontSizeIncrease']);
   generalsService = inject(GeneralsService);
+  admissionService = inject(AdmissionService);
   confirm = useConfirm();
   educations$ = rxResource({
     loader: () =>
-      this.generalsService.getAllConfigs({ key: 'education_levels' }).pipe(
+      this.admissionService.educationStatus().pipe(
         delay(200),
         tap(() => {
           const educationLevel = this.form()?.get('education_level')?.getRawValue();
@@ -64,12 +65,30 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
             this.form()?.get('doc')?.updateValueAndValidity();
           }
         }),
-        map((res) => {
+        map((educationStatuses) => {
+          // Use API response directly - it already has the correct format {level, levelId}
+          const educations = educationStatuses ?? [];
+
+          // Filter by education_level_id if it exists (for student status filtering)
           const educationLevelId = this.form()?.get('education_level_id')?.getRawValue();
-          if (res.education_levels && educationLevelId) {
-            return res.education_levels.filter((item) => Number(item.id) === Number(educationLevelId));
+          if (educationLevelId && educations.length > 0) {
+            return educations.filter((item) => Number(item.levelId) === Number(educationLevelId));
           }
-          return res.education_levels;
+
+          return educations;
+        }),
+        tap((educations) => {
+          // Auto-select if there's only one education option
+          if (educations.length === 1) {
+            const educationControl = this.form()?.get('education');
+            const currentValue = educationControl?.getRawValue();
+
+            // Only set if there's no existing value
+            if (!currentValue && educations[0].levelId) {
+              educationControl?.patchValue(educations[0].levelId);
+              this.previousEducationId.set(educations[0].levelId);
+            }
+          }
         }),
       ),
   });
@@ -151,9 +170,12 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
         control?.setValue(educationId);
         this.clearSelectedPrograms.emit();
         this.previousEducationId.set(educationId);
+        console.log(educationId);
+        console.log(control);
+        console.log(this.previousEducationId());
       },
       onDismiss: () => {
-        control?.setValue(this.previousEducationId()?.toString(), { emitEvent: false });
+        control?.setValue(this.previousEducationId(), { emitEvent: false });
       },
     });
   }
@@ -195,7 +217,9 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
 
   ngOnInit(): void {
     const value = this.form()?.getRawValue();
-    this.previousEducationId.set(this.form()?.get('education')?.getRawValue());
+    const educationValue = this.form()?.get('education')?.getRawValue();
+    console.log(value, educationValue, this.form());
+    this.previousEducationId.set(educationValue ? Number(educationValue) : null);
     this.isSpecEnvEnabled.set(value.spec_env.length > 0);
     if (this.user()?.residential !== this.citizenship.Georgian) {
       this.isAbroadEnabled.set(value?.complete_edu_abroad);

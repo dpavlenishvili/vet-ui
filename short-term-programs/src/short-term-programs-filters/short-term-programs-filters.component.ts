@@ -94,7 +94,20 @@ export class ShortTermProgramsFiltersComponent {
   }
 
   onSubmit() {
-    this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as ShortTermProgramFilters);
+    const raw = this.formGroup.value;
+
+    const normalized = Object.fromEntries(
+      Object.entries(raw).map(([key, value]) => {
+        if (typeof value === 'boolean' && value === false) {
+          return [key, undefined];
+        }
+        return [key, value];
+      })
+    );
+
+    this.filtersChange.emit(
+      withoutEmptyProperties(normalized) as ShortTermProgramFilters
+    );
   }
 
   onToggleExpansion() {

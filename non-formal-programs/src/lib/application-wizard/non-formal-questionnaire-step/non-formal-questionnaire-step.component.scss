@@ -1,0 +1,96 @@
+@use '@vet/shared-styles' as shared;
+
+.questionnaire-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-section {
+  background: shared.$white;
+  border: 1px solid shared.$kendo-color-border-alt;
+  border-radius: 0.5rem;
+  padding: 1rem;
+
+  &-half {
+    flex: 1;
+    min-inline-size: 0;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.field-label {
+  @include shared.text-sm(true);
+  color: shared.$kendo-color-body-extra-dark;
+  display: block;
+}
+
+.field-label-with-hint {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+
+  .field-label {
+    flex: 1;
+  }
+
+  .field-hint {
+    @include shared.text-xs();
+    color: shared.$kendo-color-hint;
+    white-space: nowrap;
+  }
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem 1rem;
+  margin-block-start: 0.5rem;
+}
+
+.checkbox-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1rem;
+  margin-block-start: 0.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.25rem;
+
+  @media (max-width: 48rem) {
+    flex-direction: column;
+  }
+}
+
+.radio-group {
+  margin-block-start: 0.5rem;
+}
+
+.error-message {
+  color: shared.$kendo-color-error;
+  @include shared.text-xs();
+  margin-block-start: 0.25rem;
+
+  small {
+    @include shared.text-xs();
+  }
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: 1.5rem;
+  padding-inline: 1rem;
+
+  button {
+    min-inline-size: 7.5rem;
+  }
+}

@@ -1,7 +1,9 @@
 <div class="vet-program-data-section">
-  <div class="vet-program-data-section-title">
-    {{ title() }}
-  </div>
+  @if (title()) {
+    <div class="vet-program-data-section-title">
+      {{ title() }}
+    </div>
+  }
 
   <div class="vet-program-data-section-content">
     <ng-content />

@@ -13,7 +13,6 @@ export class NonFormalGalleryComponent {
   private readonly sanitizer = inject(DomSanitizer);
 
   videoUrl = input<string | null>();
-  gallery = input<string[] | null>();
 
   safeVideoUrl = computed<SafeResourceUrl | null>(() => {
     const url = this.videoUrl();

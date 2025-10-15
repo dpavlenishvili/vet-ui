@@ -235,7 +235,6 @@ export class AdmissionWizardComponent implements OnInit {
     if (!isLastStep) {
       this.currentStepIndex.set(currentIndex + 1);
     }
-
     this.emitUpdate(payload, formGroupName);
   }
 
@@ -416,7 +415,7 @@ export class AdmissionWizardComponent implements OnInit {
 
     form.patchValue({
       general_information: {
-        education: data.education?.id ?? null,
+        education: data.education?.id ? Number(data.education.id) : null,
         district_id: data.district?.id ?? null,
         language: data.language?.id ?? null,
         doc: data.doc ?? [],

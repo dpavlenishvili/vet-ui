@@ -2,33 +2,42 @@
 
 :host {
   display: block;
-  position: relative
+  position: relative;
 }
 
 .vet-nf-announcement-cards {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
+
+  @media (max-width: 48rem) {
+    gap: 0.625rem;
+  }
 
   .vet-nf-announcement-card {
     padding: 0.5rem;
-    border-radius: 10px;
-    border: 2px solid #F2F3F6;
+    border-radius: 0.625rem;
+    border: 2px solid shared.$kendo-color-chip;
     background-color: shared.$white;
+
+    @media (max-width: 48rem) {
+      padding: 0.625rem;
+    }
   }
 
   .vet-nf-card-title {
     @include shared.text-base(true);
     color: shared.$kendo-color-body-extra-dark;
-    margin: 0 0 1rem 0;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid shared.$kendo-color-primary;
+    margin-block: 0 1rem;
+    margin-inline: 0;
+    padding-block-end: 0.75rem;
+    border-block-end: 2px solid shared.$kendo-color-primary;
   }
 
   .vet-nf-card-details {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.625rem;
   }
 
   .vet-nf-detail-item {
@@ -39,7 +48,7 @@
     kendo-svg-icon {
       color: shared.$kendo-color-primary;
       flex-shrink: 0;
-      margin-top: 0.125rem;
+      margin-block-start: 0.125rem;
     }
 
     div {

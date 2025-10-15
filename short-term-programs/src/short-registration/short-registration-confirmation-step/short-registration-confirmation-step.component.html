@@ -5,11 +5,18 @@
     <div class="vet-shorts-confirmation-container">
       <div class="vet-shorts-confirmation-details-container">
         <img
-          class="vet-shorts-confirmation-profile-picture"
-          src="/assets/images/profile.png"
-          alt=""
+          [src]="
+            user()?.photo !== null
+              ? user()?.photo
+              : user()?.gender === 'male'
+                ? '/assets/images/default-male.png'
+                : '/assets/images/default-female.png'
+          "
+          width="183"
+          height="157"
+          alt="Profile"
         />
-
+        
         <div class="vet-shorts-confirmation-details">
           @for (detail of _details; track $index) {
             <div class="vet-shorts-confirmation-detail">

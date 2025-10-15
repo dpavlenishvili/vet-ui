@@ -9,10 +9,19 @@ import { CommissionMembersDialogComponent } from './commission-members-dialog/co
 import { UserRolesService } from '@vet/auth';
 import { CommissionService, ProgramWithCommission, User } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 
 @Component({
   selector: 'vet-commission-members',
-  imports: [KENDO_GRID, KENDO_BUTTON, KENDO_SVGICON, TranslocoPipe, CommissionMembersDialogComponent, DividerComponent],
+  imports: [
+    KENDO_GRID,
+    KENDO_BUTTON,
+    KENDO_SVGICON,
+    TranslocoPipe,
+    CommissionMembersDialogComponent,
+    DividerComponent,
+    KENDO_LOADER,
+  ],
   templateUrl: './commission-members.component.html',
   styleUrl: './commission-members.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

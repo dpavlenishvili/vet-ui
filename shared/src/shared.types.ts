@@ -99,11 +99,13 @@ export interface UploadedFile {
   filename?: string;
   id?: string | number;
   file_name?: string;
+  name?: string;
   path?: string;
   download_url?: string;
   downloadUrl?: string;
   extension?: string;
   base64?: string;
+  file?: File;
 }
 
 export interface SelectOption<T> {

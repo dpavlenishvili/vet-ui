@@ -1,0 +1,159 @@
+@if (user(); as _user) {
+  @if (formGroup(); as _form) {
+    <form class="confirmation-container" [formGroup]="_form">
+      <div class="confirmation-section user-profile">
+        <img
+          [src]="
+            _user?.photo !== null
+              ? _user?.photo
+              : _user?.gender === 'male'
+                ? '/assets/images/default-male.png'
+                : '/assets/images/default-female.png'
+          "
+          width="183"
+          height="157"
+          alt="Profile"
+        />
+        <div class="user-details">
+          <div class="user-detail-row">
+            <span class="label">{{ 'programs.pid' | transloco }}:</span>
+            <span class="value k-text-base">{{ _user.pid }}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="label">{{ 'programs.name_surname' | transloco }}:</span>
+            <span class="value k-text-base">{{ _user.name }}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="label">{{ 'programs.mobile' | transloco }}:</span>
+            <span class="value k-text-base">{{ _user.phone }}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="label">{{ 'programs.education' | transloco }}:</span>
+            <span class="value k-text-base">{{ selectedEducation() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="confirmation-section program-section">
+        <div class="section-header">
+          <div class="section-title k-text-base">{{ 'non_formal.selected_program' | transloco }}</div>
+        </div>
+        <div class="section-content">
+          <div class="program-info">
+            <span class="program-name k-text-base">{{ selectedProgramName() || '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="confirmation-section questionnaire-section">
+        <div class="section-header">
+          <div class="section-title k-text-base">{{ 'non_formal.questionnaire_responses' | transloco }}</div>
+        </div>
+        <div class="section-content">
+          <div class="questionnaire-grid">
+            <div class="questionnaire-item">
+              <span class="label">{{ 'non_formal.recognition_purpose' | transloco }}:</span>
+              <span class="value k-text-base">{{ getQuestionnaireValue('recognition_purpose') }}</span>
+            </div>
+            <div class="questionnaire-item">
+              <span class="label">{{ 'non_formal.who_taught_you' | transloco }}:</span>
+              <span class="value k-text-base">{{ getQuestionnaireValue('who_taught_you') }}</span>
+            </div>
+            <div class="questionnaire-item">
+              <span class="label">{{ 'non_formal.source_of_information' | transloco }}:</span>
+              <span class="value k-text-base">{{ getQuestionnaireValue('source_of_information') }}</span>
+            </div>
+            <div class="questionnaire-item">
+              <span class="label">{{ 'non_formal.experience_years' | transloco }}:</span>
+              <span class="value k-text-base">{{ getQuestionnaireValue('experience_years') }}</span>
+            </div>
+            <div class="questionnaire-item">
+              <span class="label">{{ 'non_formal.like_your_job' | transloco }}:</span>
+              <span class="value k-text-base">{{
+                getQuestionnaireValue('like_your_job') === true
+                  ? ('shared.yes' | transloco)
+                  : getQuestionnaireValue('like_your_job') === false
+                    ? ('shared.no' | transloco)
+                    : '-'
+              }}</span>
+            </div>
+          </div>
+
+          <div class="description-section">
+            <div class="description-label">{{ 'non_formal.action_description' | transloco }}:</div>
+            <div class="description-display">
+              <div class="description-text k-text-base">
+                {{ getQuestionnaireValue('action_description') }}
+              </div>
+              <div class="character-count">
+                {{ getDescriptionLength() }}/2000
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="confirmation-section documents-section">
+        <div class="section-header">
+          <div class="section-title k-text-base">{{ 'non_formal.uploaded_documents' | transloco }}</div>
+        </div>
+        <div class="section-content">
+          <div class="documents-list">
+            <div class="document-item">
+              <vet-file-upload
+                [readonly]="true"
+                [title]="'non_formal.certificate'"
+                [uploadedFiles]="getDocuments('certificate')"
+              />
+            </div>
+            <div class="document-item">
+              <vet-file-upload
+                [readonly]="true"
+                [title]="'non_formal.employment_contract'"
+                [uploadedFiles]="getDocuments('employment_contract')"
+              />
+            </div>
+            <div class="document-item">
+              <vet-file-upload
+                [readonly]="true"
+                [title]="'non_formal.certificate_from_workplace'"
+                [uploadedFiles]="getDocuments('certificate_from_workplace')"
+              />
+            </div>
+            @if (getDocuments('other').length > 0) {
+              <div class="document-item">
+                <vet-file-upload
+                  [readonly]="true"
+                  [title]="'non_formal.other_documents'"
+                  [uploadedFiles]="getDocuments('other')"
+                />
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="confirmation-actions">
+        <button
+          kendoButton
+          themeColor="secondary"
+          type="button"
+          [svgIcon]="vetIcons.print"
+          (click)="onPrintClick()"
+          class="print-button"
+        >
+          {{ 'programs.print' | transloco }}
+        </button>
+
+        <div class="navigation-buttons">
+          <button kendoButton themeColor="secondary" type="button" (click)="onBackClick()">
+            {{ 'shared.previous' | transloco }}
+          </button>
+          <button kendoButton themeColor="primary" type="button" (click)="onCompleteClick()">
+            {{ (isViewMode() ? 'programs.close' : 'non_formal.submit_application') | transloco }}
+          </button>
+        </div>
+      </div>
+    </form>
+  }
+}

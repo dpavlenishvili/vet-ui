@@ -20,6 +20,7 @@ import { ExamSelectionDialogComponent } from './exam-selection-dialog/exam-selec
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { tap } from 'rxjs';
+import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 
 export type SchedulesFilters = {
   program?: string | null;
@@ -51,6 +52,7 @@ export type ScheduleItem = {
     DividerComponent,
     ExamSelectionDialogComponent,
     ExamSelectionFiltersComponent,
+    KENDO_LOADER
   ],
   templateUrl: './exam-selection.component.html',
   styleUrl: './exam-selection.component.scss',
@@ -126,13 +128,16 @@ export class ExamSelectionComponent {
   }
 
   onAcceptanceChange(item: Schedule, event: Event, type: 'level' | 'grant'): void {
-    const checked = (event.target as HTMLInputElement).checked;
     const scheduleId = String(item.id);
+    const input = event.target as HTMLInputElement;
+    const checked = input.checked;
 
     const operation =
       type === 'grant' ? this.schedulesService.schedulesGrant : this.schedulesService.schedulesPassLevel;
 
     const proceed = () => {
+      input.checked = checked;
+
       operation(scheduleId, checked)
         .pipe(
           tap({
@@ -155,6 +160,8 @@ export class ExamSelectionComponent {
     };
 
     if (!checked) {
+      input.checked = !checked;
+
       this.confirm.show({
         content: 'shared.confirm_action',
         onConfirm: proceed,

@@ -1,17 +1,31 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div vet-container>
     <div vet-row>
-      <vet-input
-        formControlName="search"
-        trailingIcon="search"
-        [placeholder]="'non_formal.search' | transloco"
-      />
+      <div vet-row>
+        <vet-input
+          formControlName="search"
+          trailingIcon="search"
+          [placeholder]="'non_formal.search' | transloco"
+        />
+      </div>
 
-      <vet-selector
-        formControlName="organisation_name"
-        [placeholder]="'non_formal.institution_name' | transloco"
-        [options]="institutionOptions.value()"
-      />
+      <div vet-row>
+        <vet-selector
+          formControlName="field"
+          [placeholder]="'non_formal.field' | transloco"
+          [options]="[]"
+        />
+
+        <vet-date-picker
+          formControlName="start_date"
+          [placeholder]="'non_formal.start_date' | transloco"
+        />
+
+        <vet-date-picker
+          formControlName="end_date"
+          [placeholder]="'non_formal.end_date' | transloco"
+        />
+      </div>
     </div>
 
     @if (isExpanded()) {
@@ -29,15 +43,9 @@
         />
 
         <vet-selector
-          formControlName="field"
-          [placeholder]="'non_formal.field' | transloco"
-          [options]="[]"
-        />
-
-        <vet-selector
-          formControlName="period"
-          [placeholder]="'non_formal.period' | transloco"
-          [options]="[]"
+          formControlName="organisation_name"
+          [placeholder]="'non_formal.institution_name' | transloco"
+          [options]="institutionOptions.value()"
         />
       </div>
     }

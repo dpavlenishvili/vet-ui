@@ -5,7 +5,7 @@ export function useProgramDialog() {
   return useDialog<{ programId: number, showGallery: boolean }>({
     title: trans('shorts.program_description'),
     component: ShortProgramPageComponent,
-    width: '90%',
+    width: '70%',
     height: '90%',
     inputs: {
       showGallery: false,

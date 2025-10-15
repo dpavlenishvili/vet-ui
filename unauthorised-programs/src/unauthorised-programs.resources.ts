@@ -6,7 +6,7 @@ import {
   useDebounceValue,
   useFilters,
   usePage,
-  withoutEmptyProperties
+  withoutEmptyProperties,
 } from '@vet/shared';
 import { ProgramFilters } from '@vet/programs-common';
 import { inject, Signal } from '@angular/core';
@@ -49,6 +49,28 @@ export function useUnauthorizedUserPrograms() {
               }) as PaginatedGridResult,
           ),
         );
+    },
+  });
+}
+
+export function usePrograms(page: Signal<number>, perPage = 5) {
+  const programsService = inject(ProgramsService);
+  const filters = useFilters<ProgramFilters>();
+
+  return rxResource({
+    request: () => ({
+      filters: filters(),
+      page: page(),
+      perPage,
+    }),
+    loader: ({ request }) => {
+      const queryParams = {
+        page: request.page.toString(),
+        perPage: request.perPage.toString(),
+        filter: JSON.stringify(request.filters),
+      };
+
+      return programsService.programs(queryParams as any);
     },
   });
 }

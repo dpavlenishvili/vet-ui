@@ -1,20 +1,22 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
 }
 
 .vet-non-formal-card {
-  background: #ffffff;
-  border: 1px solid #e8e8e8;
+  background: shared.$white;
+  border: 1px solid shared.$kendo-color-divider-light;
   border-radius: 0.5rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  height: 100%; // <-- Added: Makes the card fill its container's height
+  height: 100%;
 
   &:hover {
-    border-color: #d0d0d0;
+    border-color: shared.$kendo-color-divider;
     box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
   }
 }
@@ -23,8 +25,8 @@
   display: flex;
   gap: 1rem;
   align-items: flex-start;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #f0f0f0;
+  padding-block-end: 1.5rem;
+  border-block-end: 1px solid shared.$kendo-color-border-alt;
 }
 
 .vet-non-formal-card-icon {
@@ -39,34 +41,33 @@
 
 .vet-non-formal-card-info {
   flex: 1;
-  min-width: 0;
+  min-inline-size: 0;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
 .vet-non-formal-card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1a1a1a;
+  @include shared.text-md(true);
+  color: shared.$kendo-color-body-extra-dark;
   line-height: 1.4;
 
   .separator {
-    margin: 0 0.5rem;
-    color: #d0d0d0;
+    margin-inline: 0.5rem;
+    color: shared.$kendo-color-divider;
     font-weight: 300;
   }
 }
 
 .vet-non-formal-card-recognition {
-  font-size: 0.9375rem;
-  color: #424242;
+  @include shared.text-sm();
+  color: shared.$kendo-color-body;
   line-height: 1.5;
 }
 
 .vet-non-formal-card-check {
   flex-shrink: 0;
-  color: #4caf50;
+  color: shared.$kendo-color-success;
 
   ::ng-deep svg {
     width: 2rem;
@@ -75,23 +76,22 @@
 }
 
 .vet-non-formal-card-organisation {
-  font-size: 1.125rem;
-  color: #1a1a1a;
-  font-weight: 500;
+  @include shared.text-h2();
+  color: shared.$kendo-color-body-extra-dark;
   line-height: 1.6;
-  padding: 0.5rem 0;
+  padding-block: 0.5rem;
 }
 
 .vet-non-formal-card-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1rem;
-  border-top: 1px solid #f0f0f0;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid shared.$kendo-color-border-alt;
   gap: 1rem;
-  margin-top: auto; // <-- Added: Pushes this section to the bottom
+  margin-block-start: auto;
 
-  @media (max-width: 640px) {
+  @media (max-width: 40rem) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -101,13 +101,13 @@
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  color: #424242;
-  font-size: 0.9375rem;
+  color: shared.$kendo-color-body;
+  @include shared.text-sm();
   flex: 1;
-  min-width: 0;
+  min-inline-size: 0;
 
   kendo-svg-icon {
-    color: #666;
+    color: shared.$kendo-color-hint;
     flex-shrink: 0;
   }
 
@@ -124,16 +124,16 @@
 }
 
 .vet-non-formal-card-link {
-  color: #3d8b96;
+  color: shared.$kendo-color-link;
   font-weight: 500;
-  font-size: 0.9375rem;
+  @include shared.text-sm();
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
   transition: color 0.2s ease;
 
   &:hover {
-    color: #2a6b75;
+    color: shared.$kendo-color-primary;
     text-decoration: underline;
   }
 }

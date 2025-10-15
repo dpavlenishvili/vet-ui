@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { longTermProgramsDashboardRoutes } from './long-term-programs-dashboard.routes';
 import { shortTermProgramsDashboardRoutes } from './short-term-programs-dashboard.routes';
+import { nonFormalProgramsDashboardRoutes } from './non-formal-programs-dashboard.routes';
 import { breadcrumb } from '@vet/shared';
 
 export const dashboardRoutes: Route[] = [
@@ -23,6 +24,11 @@ export const dashboardRoutes: Route[] = [
       {
         path: 'programs/short',
         children: shortTermProgramsDashboardRoutes,
+        data: breadcrumb([]),
+      },
+      {
+        path: 'programs/non-formal',
+        children: nonFormalProgramsDashboardRoutes,
         data: breadcrumb([]),
       },
     ],

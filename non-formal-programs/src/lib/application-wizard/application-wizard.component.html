@@ -1,0 +1,65 @@
+@if (formGroup()) {
+  <div class="vet-application-wizard">
+    <vet-non-formal-application-stepper
+      [steps]="steps()"
+      [stepIndex]="currentStepIndex()"
+      (stepIndexChange)="onStepIndexChange($event)"
+    />
+  </div>
+}
+
+<ng-template #fieldSelectionStepTemplate>
+  @if (formGroup(); as form) {
+    <vet-non-formal-field-selection-step
+      [formGroup]="form.controls.field_selection"
+      [isViewMode]="isViewMode()"
+      (next)="onNext()"
+    />
+  }
+</ng-template>
+
+<ng-template #selectedFieldsStepTemplate>
+  @if (formGroup(); as form) {
+    <vet-non-formal-selected-fields-step
+      [formGroup]="form.controls.field_selection"
+      [isViewMode]="isViewMode()"
+      (next)="onNext()"
+      (back)="onBack()"
+    />
+  }
+</ng-template>
+
+<ng-template #questionnaireStepTemplate>
+  @if (formGroup(); as form) {
+    <vet-non-formal-questionnaire-step
+      [formGroup]="form.controls.questionnaire"
+      [isViewMode]="isViewMode()"
+      (next)="onNext()"
+      (back)="onBack()"
+    />
+  }
+</ng-template>
+
+<ng-template #documentsStepTemplate>
+  @if (formGroup(); as form) {
+    <vet-non-formal-documents-step
+      [formGroup]="form.controls.documents"
+      [nonFormalId]="applicationData()?.id"
+      [isViewMode]="isViewMode()"
+      (next)="onNext()"
+      (back)="onBack()"
+    />
+  }
+</ng-template>
+
+<ng-template #confirmationStepTemplate>
+  @if (formGroup(); as form) {
+    <vet-non-formal-confirmation-step
+      [formGroup]="form"
+      [applicationData]="applicationData()"
+      [isViewMode]="isViewMode()"
+      (complete)="onSubmit()"
+      (back)="onBack()"
+    />
+  }
+</ng-template>

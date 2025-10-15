@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { ChangeDetectionStrategy, Component, effect, signal, OnDestroy, inject } from '@angular/core';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { ButtonComponent, DividerComponent, useFilters, useFiltersUpdater, vetIcons } from '@vet/shared';

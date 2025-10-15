@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ProgramContactInfoComponent } from './program-contact-info/program-contact-info.component';
 import { ProgramGalleryComponent } from './program-gallery/program-gallery.component';
 import { ProgramHeaderComponent } from './program-header/program-header.component';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TransPipe, vetIcons } from '@vet/shared';
-import { LongTerm, ShortProgramShow } from '@vet/backend';
+import { LongTerm, NonFormalShow, ShortProgramShow } from '@vet/backend';
 import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramIscedListComponent } from './program-isced-list/program-isced-list.component';
 import { ProgramDetailItem, ProgramSectionItem } from '../../programs.types';
@@ -30,11 +30,26 @@ import { LoaderComponent } from '@progress/kendo-angular-indicators';
 export class ProgramPageComponent {
   programId = input<number>();
   showGallery = input<boolean>(true);
-  program = input.required<ShortProgramShow | LongTerm | undefined>();
+  showPartners = input<boolean>(true);
+  showIscedList = input<boolean>(true);
+  program = input.required<ShortProgramShow | LongTerm | NonFormalShow | undefined>();
   isLoading = input<boolean>();
   details = input<ProgramDetailItem[]>([]);
   sections = input<ProgramSectionItem[]>([]);
 
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
+
+  iscedDescription = computed(() => {
+    const prog = this.program();
+    if (!prog) return undefined;
+
+    // NonFormalShow doesn't have isced_description property
+    if ('isced' in prog) {
+      return undefined;
+    }
+
+    // ProgramShow and LongTerm have isced_description property
+    return (prog as ShortProgramShow | LongTerm).isced_description;
+  });
 }

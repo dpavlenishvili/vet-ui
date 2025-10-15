@@ -2,10 +2,14 @@
   <div class="vet-overview-container">
     <div class="vet-profile-container">
       <img
-        src="https://png.pngtree.com/png-clipart/20220720/original/pngtree-handsome-boy-for-profile-picture-png-image_8390953.png"
-        alt="user"
-        class="vet-profile-picture"
+        [src]="
+          userGender() === 'male' ? '/assets/images/default-male.png' : '/assets/images/default-female.png'
+        "
+        width="170"
+        height="157"
+        alt="Profile"
       />
+
       <p class="vet-text-uppercase">
         {{
           selectedAccountName() && selectedAccountName() !== form.get('name')?.value
@@ -19,8 +23,8 @@
       <div class="vet-user-info">
         <div class="vet-content-box">
           <p class="vet-text-uppercase">{{ 'profile.actual_address' | transloco }}</p>
-          <vet-icon-button 
-            [icon]="isAddressExpanded() ? 'arrowUp' : 'arrowDown'" 
+          <vet-icon-button
+            [icon]="isAddressExpanded() ? 'arrowUp' : 'arrowDown'"
             (click)="onAddressExpandClick()"
             version="minimal"
             mode="clear"
@@ -36,7 +40,7 @@
                 [placeholder]="'profile.region' | transloco"
                 [options]="regionsOptions.value()"
               />
-  
+
               <vet-selector
                 formControlName="city"
                 [placeholder]="'profile.district' | transloco"
@@ -61,8 +65,8 @@
       <div class="vet-user-info">
         <div class="vet-content-box">
           <p class="vet-text-uppercase">{{ 'profile.contact_info' | transloco }}</p>
-          <vet-icon-button 
-            [icon]="isContactInfoExpanded() ? 'arrowUp' : 'arrowDown'" 
+          <vet-icon-button
+            [icon]="isContactInfoExpanded() ? 'arrowUp' : 'arrowDown'"
             (click)="onContactInfoExpandClick()"
             version="minimal"
             mode="clear"
@@ -79,7 +83,7 @@
                 trailingIcon="editIcon"
                 [placeholder]="'profile.email' | transloco"
               />
-  
+
               <vet-input
                 self-grow
                 formControlName="phone"
@@ -104,15 +108,11 @@
 
     <div vet-row content-right>
       @if ('Organisation' | role) {
-        <vet-button
-          (click)="navigateToHomePage()"
-        >
-          {{'shared.close' | transloco}}
+        <vet-button (click)="navigateToHomePage()">
+          {{ 'shared.close' | transloco }}
         </vet-button>
       } @else {
-        <vet-button
-          (click)="handleSave()"
-        >
+        <vet-button (click)="handleSave()">
           {{ 'profile.save' | transloco }}
         </vet-button>
       }

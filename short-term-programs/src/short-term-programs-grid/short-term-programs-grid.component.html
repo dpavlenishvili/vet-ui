@@ -1,21 +1,21 @@
-@let _data = data();
-@let _value = _data.value();
-
 <div class="vet-shorts-grid">
-  @for (item of _data.value().data; track item.id) {
-    <vet-program-card
-      class="vet-shorts-grid-item"
-      [program]="item"
-      [programDetailsPath]="'/programs/short'"
-    />
+  @if (allPrograms().length === 0 && !shortPrograms.isLoading()) {
+    <div class="loader-container">
+      {{ 'shared.noRecords' | transloco }}
+    </div>
+  } @else {
+    @for (item of allPrograms(); track item?.id) {
+      <vet-program-card 
+        class="vet-shorts-grid-item" 
+        [program]="item" 
+        [programDetailsPath]="'/programs/short'" 
+      />
+    }
   }
 </div>
 
-@if (_value.data.length < _value.total) {
-  <kendo-pager
-    class="k-mt-8"
-    [skip]="_value.skip"
-    [pageSize]="_value.size"
-    (pageChange)="onPageChange($event)"
-  />
+@if (shortPrograms.isLoading()) {
+  <div class="loader-container">
+    <kendo-loader [type]="'pulsing'" />
+  </div>
 }

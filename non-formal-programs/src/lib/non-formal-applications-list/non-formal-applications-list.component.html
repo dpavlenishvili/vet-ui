@@ -1,0 +1,120 @@
+<div class="k-bg-white k-p-5 k-mb-4 k-rounded-lg">
+  <div class="k-d-flex k-justify-content-between k-align-items-center">
+    <span>
+      {{ 'shared.informationMessage' | transloco }}
+    </span>
+    <button
+      (click)="onRegisterClick()"
+      kendoButton
+      themeColor="primary"
+    >
+      {{ 'shared.registration' | transloco }}
+    </button>
+  </div>
+</div>
+<div class="k-bg-white k-p-5 k-rounded-lg">
+  @if (isBrowser) {
+    <kendo-grid
+      [loading]="applicationsList$.isLoading()"
+      [data]="applicationsList$.value()?.data || []"
+      class="main-grid"
+      [resizable]="true"
+    >
+      <ng-template kendoGridNoRecordsTemplate>
+        <div class="k-p-4 k-text-center k-text-base">
+          {{ 'shared.noRecords' | transloco }}
+        </div>
+      </ng-template>
+
+      <kendo-grid-column
+        field="created_at"
+        [title]="'programs.registration_date' | transloco"
+        [width]="160"
+        [minResizableWidth]="160"
+        [maxResizableWidth]="200"
+      >
+        <ng-template kendoGridCellTemplate let-item>
+          <span class="k-text-nowrap">
+            {{ item.created_at | formatDateTime: { format: 'DD/MM/YYYY' } }}
+          </span>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'shared.education' | transloco"
+        [width]="150"
+        [minResizableWidth]="120"
+        [maxResizableWidth]="200"
+      >
+        <ng-template kendoGridCellTemplate let-item>
+          <span>
+            {{ item.education?.name || '-' }}
+          </span>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'non_formal.field' | transloco"
+        [width]="200"
+        [minResizableWidth]="150"
+        [maxResizableWidth]="300"
+      >
+        <ng-template kendoGridCellTemplate let-item>
+          <span>
+            {{ item.program?.isced || '-' }}
+          </span>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column
+        [title]="'shared.status' | transloco"
+        [width]="180"
+        [minResizableWidth]="160"
+        [maxResizableWidth]="250"
+      >
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="status-cell">
+            <span class="k-font-weight-bold">{{ item.status?.name || '-' }}</span>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column [width]="130" [minResizableWidth]="130" [maxResizableWidth]="130" [resizable]="false">
+        <ng-template kendoGridCellTemplate let-item>
+          <div class="k-display-flex k-gap-1 k-justify-content-center action-buttons">
+            <button
+              kendoButton
+              fillMode="flat"
+              size="small"
+              [svgIcon]="vetIcons.editIcon"
+              [title]="'shared.edit' | transloco"
+              kendoTooltip
+              (click)="onEditClick(item)"
+              class="action-btn"
+            ></button>
+            <button
+              kendoButton
+              fillMode="flat"
+              size="small"
+              [svgIcon]="vetIcons.eye"
+              [title]="'shared.view' | transloco"
+              kendoTooltip
+              (click)="onViewClick(item)"
+              class="action-btn"
+            ></button>
+            <button
+              kendoButton
+              fillMode="flat"
+              size="small"
+              [svgIcon]="vetIcons.bin"
+              [title]="'shared.remove' | transloco"
+              kendoTooltip
+              (click)="onRemoveClick(item)"
+              class="action-btn"
+            ></button>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  }
+</div>

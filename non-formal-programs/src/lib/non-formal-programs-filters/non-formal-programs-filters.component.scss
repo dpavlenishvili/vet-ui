@@ -6,7 +6,7 @@
 
 .vet-non-formal-filters {
   > :not(:first-child) {
-    margin-top: 1.25rem;
+    margin-block-start: 1.25rem;
   }
 }
 
@@ -15,7 +15,7 @@
   align-items: center;
   gap: 1.25rem;
   flex: 1;
-  min-width: 0;
+  min-inline-size: 0;
 
   &.end {
     justify-content: flex-end;
@@ -27,9 +27,9 @@
 }
 
 .vet-non-formal-filters-grid-spacer {
-  margin-left: 5rem;
+  margin-inline-start: 5rem;
 }
 
 .vet-non-formal-filters-input {
-  width: 100%;
+  inline-size: 100%;
 }

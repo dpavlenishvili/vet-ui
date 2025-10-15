@@ -95,6 +95,28 @@ export function useShortTermPrograms() {
   });
 }
 
+export function useShorts(page: Signal<number>, perPage = 5) {
+  const programsService = inject(ShortProgramsService);
+  const filters = useFilters<ProgramFilters>();
+
+  return rxResource({
+    request: () => ({
+      filters: filters(),
+      page: page(),
+      perPage,
+    }),
+    loader: ({ request }) => {
+      const queryParams = {
+        page: request.page.toString(),
+        perPage: request.perPage.toString(),
+        ...flattenQueryParams(request.filters, 'filters'),
+      };
+
+      return programsService.programsShort(queryParams as any);
+    },
+  });
+}
+
 export function useShortTermProgramAdmissions(educationLevelId: Signal<number | null | undefined>) {
   const programsService = inject(ShortProgramsService);
   const filters = useFilters<ShortTermProgramFilters>();

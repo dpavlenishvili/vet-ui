@@ -1,0 +1,161 @@
+<div class="questionnaire-container">
+  <form [formGroup]="formGroup()" class="questionnaire-form">
+    <!-- Education Dropdown -->
+    <div class="form-section">
+      <div class="form-field">
+        <vet-selector
+          formControlName="education_level_id"
+          [options]="educationOptions()"
+          [placeholder]="'non_formal.education' | transloco"
+        />
+      </div>
+    </div>
+
+    <!-- Recognition Purpose Checkboxes -->
+    <div class="form-section">
+      <div class="form-field">
+        <label class="field-label">
+          {{ 'non_formal.recognition_purpose_label' | transloco }}
+        </label>
+        <div class="checkbox-grid">
+          @for (option of recognitionPurposeOptions; track option.id) {
+            <vet-checkbox
+              [label]="option.translationKey | transloco"
+              [ngModel]="isCheckboxChecked(option.id, 'recognition_purpose')"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onCheckboxChange(option.id, 'recognition_purpose')"
+            />
+          }
+        </div>
+        @if (formGroup().get('recognition_purpose')?.invalid && formGroup().get('recognition_purpose')?.touched) {
+          <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+        }
+      </div>
+    </div>
+
+    <!-- Action Description Textarea -->
+    <div class="form-section">
+      <div class="form-field">
+        <div class="field-label-with-hint">
+          <label class="field-label">
+            {{ 'non_formal.action_description_label' | transloco }}
+          </label>
+          <span class="field-hint">
+            ({{ 'non_formal.character_count' | transloco: { count: characterCount(), max: 2000 } }})
+          </span>
+        </div>
+        <kendo-textarea
+          formControlName="action_description"
+          [rows]="5"
+        />
+        @if (formGroup().get('action_description')?.invalid && formGroup().get('action_description')?.touched) {
+          <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+        }
+      </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="form-row">
+      <!-- Who Taught You -->
+      <div class="form-section form-section-half">
+        <div class="form-field">
+          <label class="field-label">
+            {{ 'non_formal.who_taught_you_label' | transloco }}
+          </label>
+          <div class="checkbox-list">
+            @for (option of whoTaughtYouOptions; track option.id) {
+              <vet-checkbox
+                [label]="option.translationKey | transloco"
+                [ngModel]="isCheckboxChecked(option.id, 'who_taught_you')"
+                [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onCheckboxChange(option.id, 'who_taught_you')"
+              />
+            }
+          </div>
+          @if (formGroup().get('who_taught_you')?.invalid && formGroup().get('who_taught_you')?.touched) {
+            <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+          }
+          @if (isOtherSelected('who_taught_you')) {
+            <vet-input
+              formControlName="who_taught_you_other"
+              [placeholder]="'shared.other' | transloco"
+            />
+          }
+        </div>
+      </div>
+
+      <!-- Experience Years -->
+      <div class="form-section form-section-half">
+        <div class="form-field">
+          <label class="field-label">
+            {{ 'non_formal.experience_years_label' | transloco }}
+          </label>
+          <vet-input
+            formControlName="experience_years"
+            [placeholder]="'non_formal.experience_years_label' | transloco"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="form-row">
+      <!-- Source of Information -->
+      <div class="form-section form-section-half">
+        <div class="form-field">
+          <label class="field-label">
+            {{ 'non_formal.source_of_information_label' | transloco }}
+          </label>
+          <div class="checkbox-list">
+            @for (option of sourceOfInformationOptions; track option.id) {
+              <vet-checkbox
+                [label]="option.translationKey | transloco"
+                [ngModel]="isCheckboxChecked(option.id, 'source_of_information')"
+                [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onCheckboxChange(option.id, 'source_of_information')"
+              />
+            }
+          </div>
+          @if (formGroup().get('source_of_information')?.invalid && formGroup().get('source_of_information')?.touched) {
+            <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+          }
+          @if (isOtherSelected('source_of_information')) {
+            <vet-input
+              formControlName="source_of_information_other"
+              [placeholder]="'shared.other' | transloco"
+            />
+          }
+        </div>
+      </div>
+
+      <!-- Like Your Job -->
+      <div class="form-section form-section-half">
+        <div class="form-field">
+          <label class="field-label">
+            {{ 'non_formal.like_your_job_label' | transloco }}
+          </label>
+          <div class="radio-group">
+            <kendo-switch
+              formControlName="like_your_job"
+              onLabel="{{ 'shared.yes' | transloco }}"
+              offLabel="{{ 'shared.no' | transloco }}"
+            />
+          </div>
+          @if (formGroup().get('like_your_job')?.invalid && formGroup().get('like_your_job')?.touched) {
+            <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button kendoButton themeColor="base" (click)="back.emit()">
+        {{ 'shared.previous' | transloco }}
+      </button>
+      <button kendoButton themeColor="primary" (click)="onNextClick()">
+        {{ 'shared.next' | transloco }}
+      </button>
+    </div>
+  </form>
+</div>
