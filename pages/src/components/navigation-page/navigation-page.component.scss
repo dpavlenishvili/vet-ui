@@ -1,0 +1,84 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.vet-navigation-page {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
+  gap: 1.25rem;
+  margin-bottom: 9.375rem;
+}
+
+.vet-navigation-page-sidebar-container {
+  height: 100%;
+}
+
+.vet-navigation-page-content-container {
+  flex: 1;
+  overflow: auto;
+  width: 100%;
+  isolation: isolate;
+  contain: layout style paint;
+  transform: translateZ(0);
+}
+
+.vet-navigation-page-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.25rem 1.25rem 2.5rem;
+  background-color: shared.$white;
+  border-radius: 1.25rem;
+}
+
+.vet-sidebar-title {
+  @include shared.text-base(true);
+  color: shared.$kendo-color-body-extra-dark;
+}
+
+.vet-sidebar-body {
+  margin-top: 0.875rem;
+}
+
+.vet-navigation-page-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  white-space: nowrap;
+  gap: 1.25rem;
+}
+
+.vet-navigation-page-tab {
+  @include shared.text-base();
+  color: shared.$kendo-color-body;
+  line-height: 100%;
+  background: shared.$white;
+  box-shadow: 0 2px 4px 0 #3635354D;
+  padding: 1.25rem 0.625rem;
+  width: 17.5rem;
+  border: none;
+  border-radius: 0.3125rem;
+  cursor: pointer;
+
+  &.active {
+    background-color: shared.$tb-kendo-color-primary;
+    color: shared.$white;
+    box-shadow: none;
+  }
+}
+
+.vet-navigation-page-title {
+  @include shared.text-base(true);
+  color: shared.$kendo-color-body-extra-dark;
+  margin-top: 2.5rem;
+}
+
+.vet-navigation-page-body {
+  margin-top: 0.875rem;
+}

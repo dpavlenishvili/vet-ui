@@ -39,8 +39,27 @@
           <div class="section-title k-text-base">{{ 'non_formal.selected_program' | transloco }}</div>
         </div>
         <div class="section-content">
-          <div class="program-info">
-            <span class="program-name k-text-base">{{ selectedProgramName() || '-' }}</span>
+          <div class="program-table-wrapper">
+            <table class="program-table">
+              <thead>
+                <tr>
+                  <th class="col-number">#</th>
+                  <th class="col-area">{{ 'non_formal.area' | transloco }}</th>
+                  <th class="col-institution">{{ 'non_formal.institution_name' | transloco }}</th>
+                  <th class="col-start-date">{{ 'non_formal.registration_start_date' | transloco }}</th>
+                  <th class="col-end-date">{{ 'non_formal.registration_end_date' | transloco }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="col-number">1</td>
+                  <td class="col-area">{{ selectedProgramName() || '-' }}</td>
+                  <td class="col-institution">{{ selectedProgramData()?.organisation?.name || '-' }}</td>
+                  <td class="col-start-date">{{ selectedProgramData()?.registration?.start_date || '-' }}</td>
+                  <td class="col-end-date">{{ selectedProgramData()?.registration?.end_date || '-' }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -50,43 +69,141 @@
           <div class="section-title k-text-base">{{ 'non_formal.questionnaire_responses' | transloco }}</div>
         </div>
         <div class="section-content">
-          <div class="questionnaire-grid">
-            <div class="questionnaire-item">
-              <span class="label">{{ 'non_formal.recognition_purpose' | transloco }}:</span>
-              <span class="value k-text-base">{{ getQuestionnaireValue('recognition_purpose') }}</span>
-            </div>
-            <div class="questionnaire-item">
-              <span class="label">{{ 'non_formal.who_taught_you' | transloco }}:</span>
-              <span class="value k-text-base">{{ getQuestionnaireValue('who_taught_you') }}</span>
-            </div>
-            <div class="questionnaire-item">
-              <span class="label">{{ 'non_formal.source_of_information' | transloco }}:</span>
-              <span class="value k-text-base">{{ getQuestionnaireValue('source_of_information') }}</span>
-            </div>
-            <div class="questionnaire-item">
-              <span class="label">{{ 'non_formal.experience_years' | transloco }}:</span>
-              <span class="value k-text-base">{{ getQuestionnaireValue('experience_years') }}</span>
-            </div>
-            <div class="questionnaire-item">
-              <span class="label">{{ 'non_formal.like_your_job' | transloco }}:</span>
-              <span class="value k-text-base">{{
-                getQuestionnaireValue('like_your_job') === true
-                  ? ('shared.yes' | transloco)
-                  : getQuestionnaireValue('like_your_job') === false
-                    ? ('shared.no' | transloco)
-                    : '-'
-              }}</span>
+          <!-- Education Dropdown (disabled) -->
+          <div class="form-section">
+            <div class="form-field">
+              <vet-selector
+                formControlName="education_level_id"
+                [options]="educationOptions()"
+                [placeholder]="'non_formal.education' | transloco"
+                [disabled]="true"
+              />
             </div>
           </div>
 
-          <div class="description-section">
-            <div class="description-label">{{ 'non_formal.action_description' | transloco }}:</div>
-            <div class="description-display">
-              <div class="description-text k-text-base">
-                {{ getQuestionnaireValue('action_description') }}
+          <!-- Recognition Purpose Checkboxes (disabled) -->
+          <div class="form-section">
+            <div class="form-field">
+              <label class="field-label">
+                {{ 'non_formal.recognition_purpose_label' | transloco }}
+              </label>
+              <div class="checkbox-list">
+                @for (option of recognitionPurposeOptions; track option.id) {
+                  <vet-checkbox
+                    [label]="option.translationKey | transloco"
+                    [disabled]="true"
+                    [ngModel]="isCheckboxChecked(option.id, 'recognition_purpose')"
+                    [ngModelOptions]="{standalone: true}"
+                  />
+                }
               </div>
-              <div class="character-count">
-                {{ getDescriptionLength() }}/2000
+            </div>
+          </div>
+
+          <!-- Action Description Textarea (disabled) -->
+          <div class="form-section">
+            <div class="form-field">
+              <div class="field-label-with-hint">
+                <label class="field-label">
+                  {{ 'non_formal.action_description_label' | transloco }}
+                </label>
+                <span class="field-hint">
+                  ({{ 'non_formal.character_count' | transloco: { count: getDescriptionLength(), max: 2000 } }})
+                </span>
+              </div>
+              <kendo-textarea
+                formControlName="action_description"
+                [rows]="5"
+                [disabled]="true"
+              />
+            </div>
+          </div>
+
+          <!-- Two Column Layout -->
+          <div class="form-row">
+            <!-- Who Taught You -->
+            <div class="form-section form-section-half">
+              <div class="form-field">
+                <label class="field-label">
+                  {{ 'non_formal.who_taught_you_label' | transloco }}
+                </label>
+                <div class="checkbox-list">
+                  @for (option of whoTaughtYouOptions; track option.id) {
+                    <vet-checkbox
+                      [label]="option.translationKey | transloco"
+                      [disabled]="true"
+                      [ngModel]="isCheckboxChecked(option.id, 'who_taught_you')"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  }
+                </div>
+                @if (isOtherSelected('who_taught_you')) {
+                  <vet-input
+                    formControlName="who_taught_you_other"
+                    [placeholder]="'shared.other' | transloco"
+                    [disabled]="true"
+                  />
+                }
+              </div>
+            </div>
+
+            <!-- Experience Years -->
+            <div class="form-section form-section-half">
+              <div class="form-field">
+                <label class="field-label">
+                  {{ 'non_formal.experience_years_label' | transloco }}
+                </label>
+                <vet-input
+                  formControlName="experience_years"
+                  [placeholder]="'non_formal.experience_years_label' | transloco"
+                  [disabled]="true"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Two Column Layout -->
+          <div class="form-row">
+            <!-- Source of Information -->
+            <div class="form-section form-section-half">
+              <div class="form-field">
+                <label class="field-label">
+                  {{ 'non_formal.source_of_information_label' | transloco }}
+                </label>
+                <div class="checkbox-list">
+                  @for (option of sourceOfInformationOptions; track option.id) {
+                    <vet-checkbox
+                      [label]="option.translationKey | transloco"
+                      [disabled]="true"
+                      [ngModel]="isCheckboxChecked(option.id, 'source_of_information')"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  }
+                </div>
+                @if (isOtherSelected('source_of_information')) {
+                  <vet-input
+                    formControlName="source_of_information_other"
+                    [placeholder]="'shared.other' | transloco"
+                    [disabled]="true"
+                  />
+                }
+              </div>
+            </div>
+
+            <!-- Like Your Job -->
+            <div class="form-section form-section-half">
+              <div class="form-field">
+                <label class="field-label">
+                  {{ 'non_formal.like_your_job_label' | transloco }}
+                </label>
+                <div class="radio-group">
+                  <kendo-switch
+                    formControlName="like_your_job"
+                    onLabel="{{ 'shared.yes' | transloco }}"
+                    offLabel="{{ 'shared.no' | transloco }}"
+                    [disabled]="true"
+                  />
+                </div>
               </div>
             </div>
           </div>

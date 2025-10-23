@@ -59,7 +59,7 @@
           class="short-grid-action-button"
           (click)="onPreviewProgram(item)"
         >
-          <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.eye" themeColor="warning" />
+          <kendo-svg-icon [size]="'large'" [icon]="vetIcons.eye" themeColor="warning" />
         </button>
 
         @if (!isProgramSelected(item)) {
@@ -67,7 +67,7 @@
             <span
               [title]="
                 !item.eligibility?.eligible
-                  ? ('shorts.' + item.eligibility?.programPreRequisiteErrors[0]?.reason | transloco)
+                  ? ('shorts.' + item.eligibility?.personsExistingFlowsErrors[0]?.error?.reason | transloco)
                   : ('shorts.add_program' | transloco)
               "
             >
@@ -79,7 +79,13 @@
                 [disabled]="!item.eligibility?.eligible || isSelectionDisabled()"
                 (click)="onSelectProgram(item)"
               >
-                <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
+                <kendo-svg-icon
+                  [size]="'medium'"
+                  [icon]="
+                    !item.eligibility?.eligible || isSelectionDisabled() ? vetIcons.blocked : vetIcons.plusCircleGreen
+                  "
+                  themeColor="success"
+                />
               </button>
             </span>
           </div>

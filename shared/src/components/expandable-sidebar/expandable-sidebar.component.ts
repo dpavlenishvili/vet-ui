@@ -14,7 +14,7 @@ import { HasAccessPipe, useAccessControl } from '@vet/auth';
 })
 export class ExpandableSidebarComponent<T extends SidebarMenuItem> {
   items = input.required<T[]>();
-  activeItemId = input<string | null | undefined>(null);
+  activeItemId = input<string | number | null | undefined>(null);
   menuCollapsible = input(true);
   itemClick = output<T>();
 

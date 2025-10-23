@@ -17,10 +17,11 @@
         <label class="field-label">
           {{ 'non_formal.recognition_purpose_label' | transloco }}
         </label>
-        <div class="checkbox-grid">
+        <div class="checkbox-list">
           @for (option of recognitionPurposeOptions; track option.id) {
             <vet-checkbox
               [label]="option.translationKey | transloco"
+              [disabled]="isViewMode()"
               [ngModel]="isCheckboxChecked(option.id, 'recognition_purpose')"
               [ngModelOptions]="{standalone: true}"
               (ngModelChange)="onCheckboxChange(option.id, 'recognition_purpose')"
@@ -66,6 +67,7 @@
             @for (option of whoTaughtYouOptions; track option.id) {
               <vet-checkbox
                 [label]="option.translationKey | transloco"
+                [disabled]="isViewMode()"
                 [ngModel]="isCheckboxChecked(option.id, 'who_taught_you')"
                 [ngModelOptions]="{standalone: true}"
                 (ngModelChange)="onCheckboxChange(option.id, 'who_taught_you')"
@@ -110,6 +112,7 @@
             @for (option of sourceOfInformationOptions; track option.id) {
               <vet-checkbox
                 [label]="option.translationKey | transloco"
+                [disabled]="isViewMode()"
                 [ngModel]="isCheckboxChecked(option.id, 'source_of_information')"
                 [ngModelOptions]="{standalone: true}"
                 (ngModelChange)="onCheckboxChange(option.id, 'source_of_information')"

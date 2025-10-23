@@ -1,0 +1,97 @@
+<kendo-textbox
+  class="vet-input vet-input-{{ version() }}"
+  [class.vet-has-error]="hasError()"
+  [disabled]="isDisabled()"
+  [placeholder]="placeholder()"
+  [value]="getSelectedTitles()"
+  (click)="openDialog()"
+/>
+
+@if (hasError()) {
+  <div class="vet-error-message">
+    {{ errorMessage() | transloco }}
+  </div>
+}
+
+@if (isDialogOpen()) {
+  <kendo-dialog (close)="closeDialog()" [title]="'programs.field' | transloco" [width]="750" [height]="700">
+    @if (educationStandards.isLoading()) {
+      <div class="k-display-flex k-justify-content-center">
+        <kendo-loader size="large" />
+      </div>
+    }
+
+    @let standards = educationStandards.value();
+
+    <div class="k-display-flex k-flex-column k-gap-5">
+      @for (s of standards; track $index) {
+        <div class="k-display-flex k-flex-column k-gap-2">
+          <div class="k-display-flex k-align-items-center k-gap-2">
+            @if (s.children?.length) {
+              <button class="arrow-button" (click)="toggleChildren(s.id, $event)">
+                <kendo-svg-icon [icon]="isExpanded(s.id) ? vetIcons.treeChevronDown : vetIcons.treeChevronRight" />
+              </button>
+            }
+
+            <div class="k-display-flex k-gap-2">
+              <input type="checkbox" [checked]="isSelected(s)" (click)="selectItem(s, $event)" />
+              <kendo-label class="k-checkbox-label" [text]="s.code + ' - ' + s.title" />
+            </div>
+          </div>
+
+          @if (isExpanded(s.id) && s.children; as childrenLvl2) {
+            <div class="k-display-flex k-gap-2">
+              <div class="straight-line"></div>
+              <!-- parent-level line -->
+              <div class="k-display-flex k-flex-column">
+                @for (child of childrenLvl2; track $index) {
+                  <div class="k-display-flex k-align-items-baseline k-gap-2">
+                    @if (child.children?.length) {
+                      <button class="arrow-button" (click)="toggleChildren(child.id, $event)">
+                        <kendo-svg-icon
+                          [icon]="isExpanded(child.id) ? vetIcons.treeChevronDown : vetIcons.treeChevronRight"
+                        />
+                      </button>
+                    }
+
+                    <div class="k-display-flex k-align-items-baseline k-gap-2">
+                      <input type="checkbox" [checked]="isSelected(child)" (click)="selectItem(child, $event)" />
+                      <kendo-label class="k-checkbox-label" [text]="child.code + ' - ' + child.title" />
+                    </div>
+                  </div>
+
+                  @if (isExpanded(child.id) && child.children; as childrenLvl3) {
+                    <div class="k-ml-4 k-mb-2 k-display-flex k-gap-2">
+                      <div class="straight-line"></div>
+                      <!-- level 3 line -->
+                      <div class="k-display-flex k-flex-column k-gap-2">
+                        @for (grand of childrenLvl3; track $index) {
+                          <div class="k-display-flex k-align-items-center k-gap-2 k-justify-content-between">
+                            <div class="k-display-flex k-align-items-baseline k-gap-2">
+                              <input
+                                type="checkbox"
+                                [checked]="isSelected(grand)"
+                                (click)="selectItem(grand, $event)"
+                              />
+                              <kendo-label class="k-checkbox-label" [text]="grand.code + ' - ' + grand.title" />
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <kendo-dialog-actions layout="end">
+      <vet-button (click)="closeDialog()">
+        {{ 'shared.choose' | transloco }}
+      </vet-button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+}

@@ -1,7 +1,8 @@
 import { inject, ResourceRef, Signal } from '@angular/core';
-import { CollectionItem, Page, PagesService } from '@vet/backend';
+import { Collection, CollectionItem, Page, PagesService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { map, Observable, of } from 'rxjs';
+import { combineLatest, map, Observable, of } from 'rxjs';
+import { CollectionWithItems } from './pages.types';
 
 export function usePages() {
   const pagesService = inject(PagesService);
@@ -17,6 +18,31 @@ export function usePages() {
           });
         }),
       ),
+  });
+}
+
+export function useCollectionsWithItems(collections: Signal<Array<Collection | undefined> | undefined>): ResourceRef<CollectionWithItems[]> {
+  const pagesService = inject(PagesService);
+
+  return rxResource({
+    request: () => ({ collections: collections() }),
+    defaultValue: [] as CollectionWithItems[],
+    loader: ({ request: { collections } }): Observable<CollectionWithItems[]> => {
+      const filteredCollections = (collections?.filter(collection => collection != null) ?? []) as Collection[];
+
+      if (filteredCollections.length === 0) {
+        return of([]);
+      }
+
+      const observables = filteredCollections.map(collection => pagesService.collectionsItems(collection.id as number).pipe(
+        map((response) => ({
+          ...collection,
+          items: response.data ?? [],
+        })),
+      ));
+
+      return combineLatest(observables);
+    },
   });
 }
 

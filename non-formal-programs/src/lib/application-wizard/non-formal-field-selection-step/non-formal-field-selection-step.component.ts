@@ -108,6 +108,11 @@ export class NonFormalFieldSelectionStepComponent {
   }
 
   protected onNextClick(): void {
+    if (this.isViewMode()) {
+      this.next.emit();
+      return;
+    }
+
     const control = this.getSelectedProgramControl();
 
     if (!this.selectedProgramId()) {

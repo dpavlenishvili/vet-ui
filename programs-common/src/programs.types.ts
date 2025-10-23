@@ -20,6 +20,7 @@ export interface ProgramFilters {
   planned?: boolean | null;
   integrated?: boolean | null;
   admission_open?: boolean | null;
+  nqf_codes?: string[] | null;
 }
 
 export interface ProgramShow {

@@ -13,6 +13,13 @@
         type="file"
       />
     </label>
+  } @else {
+    <label [class.disabled]="true" class="file-input-label">
+    <span>
+      {{ title() | transloco }}
+      {{ 'shared.selectFileSupportedTypes' | transloco }}
+    </span>
+    </label>
   }
 
   @if (uploadedFiles().length > 0) {

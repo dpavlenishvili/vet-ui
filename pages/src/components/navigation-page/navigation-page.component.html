@@ -1,0 +1,44 @@
+@let _activeTabItems = state.activeTabItems();
+@let _activeTab = state.activeTab();
+@let _page = page();
+
+<div class="vet-navigation-page">
+  <div class="vet-navigation-page-sidebar-container">
+    <vet-expandable-sidebar
+      [items]="sidebarItems()"
+      [activeItemId]="state.activeCollectionId()"
+      [menuCollapsible]="false"
+      (itemClick)="onSidebarItemClick($event)"
+    />
+  </div>
+
+  <div class="vet-navigation-page-content-container">
+    <div class="vet-navigation-page-main">
+      <div class="vet-navigation-page-tabs">
+        @for (item of _activeTabItems; track item.id) {
+          <button
+            class="vet-navigation-page-tab"
+            [class.active]="item.id === state.activeTabId()"
+            (click)="onTabClick(item)"
+          >
+            {{ item.title }}
+          </button>
+        }
+      </div>
+
+      @if (_activeTab) {
+        <div class="vet-navigation-page-title">{{ _activeTab.title }}</div>
+
+        <div class="vet-navigation-page-body">
+          <vet-page-content [content]="_activeTab.content" />
+        </div>
+      } @else if (!state.isLoading() && _page) {
+        <div class="vet-navigation-page-title">{{ _page.title }}</div>
+
+        <div class="vet-navigation-page-body">
+          <vet-page-content [content]="_page.content" />
+        </div>
+      }
+    </div>
+  </div>
+</div>

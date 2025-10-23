@@ -86,6 +86,16 @@ export function useQueryParam(key: string) {
   return toSignal(getQueryParam(activatedRoute, key));
 }
 
+export function useNumberQueryParam(key: string) {
+  const param = useQueryParam(key);
+
+  return computed(() => {
+    const value = param();
+
+    return value ? Number(value) : null;
+  });
+}
+
 export function useJsonQueryParam<T>(key: string) {
   const activatedRoute = inject(ActivatedRoute);
 

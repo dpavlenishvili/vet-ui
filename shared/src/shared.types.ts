@@ -84,11 +84,12 @@ export interface AppBreadCrumbItemObject extends Omit<BreadCrumbItem, 'text'> {
   text: string | ((routeSnapshot: ActivatedRouteSnapshot, params: Params) => string);
 }
 
-export type AppBreadCrumbItemFactory = (routeSnapshot: ActivatedRouteSnapshot, params: Params) => Observable<AppBreadCrumbItemObject[]>;
+export type AppBreadCrumbItemFactory = (
+  routeSnapshot: ActivatedRouteSnapshot,
+  params: Params,
+) => Observable<AppBreadCrumbItemObject[]>;
 
-export type AppBreadCrumbItem =
-  | AppBreadCrumbItemObject
-  | AppBreadCrumbItemFactory
+export type AppBreadCrumbItem = AppBreadCrumbItemObject | AppBreadCrumbItemFactory;
 
 export interface ResolvedBreadCrumbItem extends Omit<BreadCrumbItem, 'text'> {
   path: string[];
@@ -111,6 +112,11 @@ export interface UploadedFile {
 export interface SelectOption<T> {
   label: string;
   value: T | null;
+}
+
+export interface ValueIdSelectOption<T> {
+  value: string;
+  id: number;
 }
 
 export type FilterOptionsMap = Map<string, SelectOption<string>[]>;
@@ -173,11 +179,18 @@ export interface WizardStepDefinition {
 }
 
 export interface SidebarMenuItem {
-  id: string;
+  id: string | number;
   text: string;
   url?: string | null;
   children?: this[];
   accessControl?: AccessControl;
   icon?: VetIcon;
   isExpanded?: WritableSignal<boolean>;
+}
+
+export interface EducationType {
+  id?: number;
+  title?: string;
+  code?: string;
+  category?: string;
 }

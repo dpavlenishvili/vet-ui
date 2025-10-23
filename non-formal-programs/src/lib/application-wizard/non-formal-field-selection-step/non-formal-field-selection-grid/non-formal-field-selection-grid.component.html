@@ -57,7 +57,7 @@
           <div class="k-display-flex k-justify-content-center">
             <button
               (click)="onToggleProgramSelection(dataItem)"
-              [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled(dataItem)"
+              [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled(dataItem) || isViewMode()"
               fillMode="flat"
               kendoButton
             >

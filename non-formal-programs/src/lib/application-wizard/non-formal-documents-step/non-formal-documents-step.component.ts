@@ -43,6 +43,8 @@ export class NonFormalDocumentsStepComponent {
       const currentFiles = control.value || [];
       control.setValue([...currentFiles, file]);
       control.markAsTouched();
+      control.markAsDirty();
+      control.updateValueAndValidity();
     }
   }
 
@@ -56,6 +58,8 @@ export class NonFormalDocumentsStepComponent {
     if (control) {
       control.setValue(files);
       control.markAsTouched();
+      control.markAsDirty();
+      control.updateValueAndValidity();
     }
   }
 
@@ -79,22 +83,30 @@ export class NonFormalDocumentsStepComponent {
    * It validates the form and initiates the document upload process.
    */
   protected onNextClick(): void {
+    if (this.isViewMode()) {
+      this.next.emit();
+      return;
+    }
+
     const form = this.formGroup();
     form.markAllAsTouched(); // Mark all fields as touched to show validation errors
 
-    debugger
-    // Rely on form validation to check if required files are present
     if (!form.valid) {
       return;
     }
 
-    const nonFormalId = this.nonFormalId();
-    if (!nonFormalId) {
-      this.uploadError.set('non_formal.error_missing_program_id');
-      return;
+    // Only call upload if the form is dirty (i.e., files were added or removed).
+    if (form.dirty) {
+      const nonFormalId = this.nonFormalId();
+      if (!nonFormalId) {
+        this.uploadError.set('non_formal.error_missing_program_id');
+        return;
+      }
+      this.uploadDocuments(nonFormalId);
+    } else {
+      // If form is not dirty, it means no files were changed, so just proceed.
+      this.next.emit();
     }
-
-    this.uploadDocuments(nonFormalId);
   }
 
   /**
@@ -158,7 +170,7 @@ export class NonFormalDocumentsStepComponent {
       files.forEach((uploadedFile: any) => {
         // Only append if there's an actual file object to upload
         if (uploadedFile) {
-          formData.append(`${fieldName}[]`, uploadedFile, uploadedFile.name);
+          formData.append(`${fieldName}[]`, uploadedFile, uploadedFile?.name || uploadedFile?.file_name || uploadedFile?.filename || 'file');
         }
       });
     });

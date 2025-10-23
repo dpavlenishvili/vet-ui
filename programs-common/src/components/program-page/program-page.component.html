@@ -28,7 +28,7 @@
       }
 
       @if (showGallery()) {
-        <vet-program-gallery [videoUrl]="_program?.video_url" />
+        <vet-program-gallery [videoUrl]="_program?.video_url" [photoUrl]="_program?.gallery?.[0]" />
       }
     </div>
 

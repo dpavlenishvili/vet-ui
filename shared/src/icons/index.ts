@@ -1,3 +1,5 @@
+import { treeChevronDown } from './tree-chevron-down';
+import { treeChevronRight } from './tree-chevron-right';
 import { CheckIcon } from './check-icon';
 import { calendarIcon } from './calendar';
 import { editIcon } from './edit';
@@ -118,6 +120,8 @@ export {
   publicIcon,
   professionalIcon,
   CheckIcon,
+  treeChevronRight,
+  treeChevronDown
 };
 
 export * from './icons';

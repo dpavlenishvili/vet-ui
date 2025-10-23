@@ -26,6 +26,7 @@ export interface NonFormalRegistrationProgram {
 export class NonFormalFieldSelectionGridComponent {
   data = input.required<ResourceRef<any>>();
   selectedProgramId = input<number | null>(null);
+  isViewMode = input<boolean>(false);
   programToggle = output<number>();
   pageChange = output<number>();
 

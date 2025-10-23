@@ -44,26 +44,28 @@
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-column
-          [width]="50"
-          [minResizableWidth]="50"
-          [maxResizableWidth]="50"
-          [resizable]="false"
-        >
-          <ng-template kendoGridCellTemplate>
-            <div class="k-display-flex k-justify-content-center">
-              <button
-                kendoButton
-                fillMode="flat"
-                size="small"
-                [svgIcon]="vetIcons.bin"
-                [title]="'shared.remove' | transloco"
-                (click)="onRemoveClick()"
-                class="action-btn"
-              ></button>
-            </div>
-          </ng-template>
-        </kendo-grid-column>
+        @if (!isViewMode()) {
+          <kendo-grid-column
+            [width]="50"
+            [minResizableWidth]="50"
+            [maxResizableWidth]="50"
+            [resizable]="false"
+          >
+            <ng-template kendoGridCellTemplate>
+              <div class="k-display-flex k-justify-content-center">
+                <button
+                  kendoButton
+                  fillMode="flat"
+                  size="small"
+                  [svgIcon]="vetIcons.bin"
+                  [title]="'shared.remove' | transloco"
+                  (click)="onRemoveClick()"
+                  class="action-btn"
+                ></button>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+        }
       </kendo-grid>
     </div>
   } @else {

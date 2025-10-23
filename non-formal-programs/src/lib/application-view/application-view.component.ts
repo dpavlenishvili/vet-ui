@@ -54,7 +54,7 @@ export class ApplicationViewComponent implements OnInit {
             this.router.navigate(['dashboard', 'programs', 'non-formal']);
             return;
           }
-          this.applicationData.set(response as NonFormalApplicationData);
+          this.applicationData.set(response.data as NonFormalApplicationData);
         },
         error: () => {
           this.alert.error('non_formal.failed_to_load_registration');

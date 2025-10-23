@@ -1,0 +1,10 @@
+.non-formal-field-selection-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .main-grid {
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+}

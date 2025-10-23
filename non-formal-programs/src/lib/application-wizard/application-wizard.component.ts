@@ -440,7 +440,7 @@ export class ApplicationWizardComponent implements OnInit {
         template: this._documentsStepTmpl,
       },
       {
-        i18nKey: 'confirmation_and_submit',
+        i18nKey: 'confirmation',
         formControlName: 'field_selection', // Uses field_selection form for validation
         template: this._confirmationStepTmpl,
       },

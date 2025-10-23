@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { ErrorComponent, SwitchModule, TextAreaModule } from '@progress/kendo-angular-inputs';
 import { AdmissionService } from '@vet/backend';
 import { InputComponent, SelectOption, SelectorComponent, VetCheckboxComponent } from '@vet/shared';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
 
 interface CheckboxOption {
@@ -40,31 +40,32 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
   next = output<void>();
 
   admissionService = inject(AdmissionService);
+  private readonly destroyRef = inject(DestroyRef);
 
   recognitionPurposeOptions: CheckboxOption[] = [
-    { id: 1, name: 'employment', translationKey: 'non_formal.recognition_purpose_employment' },
-    { id: 2, name: 'self_employment', translationKey: 'non_formal.recognition_purpose_self_employment' },
-    { id: 3, name: 'career_growth', translationKey: 'non_formal.recognition_purpose_career_growth' },
-    { id: 4, name: 'education', translationKey: 'non_formal.recognition_purpose_education' },
-    { id: 5, name: 'other', translationKey: 'non_formal.recognition_purpose_other' },
+    { id: 1, name: 'personal_development', translationKey: 'non_formal.recognition_purpose_personal_development' },
+    { id: 2, name: 'continuing_education', translationKey: 'non_formal.recognition_purpose_continuing_education' },
+    { id: 3, name: 'granting_qualification', translationKey: 'non_formal.recognition_purpose_granting_qualification' },
+    { id: 4, name: 'employment', translationKey: 'non_formal.recognition_purpose_employment' },
+    { id: 5, name: 'career_growth', translationKey: 'non_formal.recognition_purpose_career_growth' },
+    { id: 6, name: 'self_employment', translationKey: 'non_formal.recognition_purpose_self_employment' },
   ];
 
   whoTaughtYouOptions: CheckboxOption[] = [
-    { id: 1, name: 'family', translationKey: 'non_formal.who_taught_family' },
+    { id: 1, name: 'family_member', translationKey: 'non_formal.who_taught_family_member' },
     { id: 2, name: 'friend', translationKey: 'non_formal.who_taught_friend' },
-    { id: 3, name: 'colleague', translationKey: 'non_formal.who_taught_colleague' },
-    { id: 4, name: 'self', translationKey: 'non_formal.who_taught_self' },
-    { id: 5, name: 'other', translationKey: 'non_formal.who_taught_other' },
+    { id: 3, name: 'neighbor', translationKey: 'non_formal.who_taught_neighbor' },
+    { id: 4, name: 'relative', translationKey: 'non_formal.who_taught_relative' },
+    { id: 1000, name: 'other', translationKey: 'non_formal.who_taught_other' },
   ];
 
   sourceOfInformationOptions: CheckboxOption[] = [
     { id: 1, name: 'neighbor', translationKey: 'non_formal.source_neighbor' },
-    { id: 2, name: 'friend', translationKey: 'non_formal.source_friend' },
-    { id: 3, name: 'social_media', translationKey: 'non_formal.source_social_media' },
-    { id: 4, name: 'tv', translationKey: 'non_formal.source_tv' },
-    { id: 5, name: 'radio', translationKey: 'non_formal.source_radio' },
-    { id: 6, name: 'internet', translationKey: 'non_formal.source_internet' },
-    { id: 7, name: 'other', translationKey: 'non_formal.source_other' },
+    { id: 2, name: 'relative', translationKey: 'non_formal.source_relative' },
+    { id: 3, name: 'internet', translationKey: 'non_formal.source_internet' },
+    { id: 4, name: 'family_member', translationKey: 'non_formal.source_family_member' },
+    { id: 5, name: 'advertisement', translationKey: 'non_formal.source_advertisement' },
+    { id: 1000, name: 'other', translationKey: 'non_formal.source_other' },
   ];
 
   // Track selected checkbox IDs
@@ -72,10 +73,8 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
   selectedWhoTaughtYou = signal<number[]>([]);
   selectedSourceOfInformation = signal<number[]>([]);
 
-  characterCount = computed(() => {
-    const value = this.formGroup()?.get('action_description')?.value || '';
-    return value.length;
-  });
+  private readonly actionDescriptionValue = signal<string>('');
+  characterCount = computed(() => this.actionDescriptionValue().length);
 
   educationOptions = computed<SelectOption<number>[]>(() => {
     const educations = this.educations$.value() || [];
@@ -96,8 +95,6 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
           if (educations.length === 1) {
             const educationControl = this.formGroup()?.get('education_level_id');
             const currentValue = educationControl?.getRawValue();
-            console.log('educationControl', educationControl);
-            console.log('currentValue', currentValue);
 
             // Only set if there's no existing value
             if (!currentValue && educations[0].levelId) {
@@ -138,6 +135,14 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
       } catch {
         this.selectedSourceOfInformation.set([]);
       }
+    }
+
+    const actionDescriptionControl = this.formGroup()?.get('action_description');
+    if (actionDescriptionControl) {
+      this.actionDescriptionValue.set(actionDescriptionControl.value || '');
+      actionDescriptionControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+        this.actionDescriptionValue.set(value || '');
+      });
     }
   }
 
@@ -197,7 +202,7 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
   }
 
   isOtherSelected(field: 'who_taught_you' | 'source_of_information'): boolean {
-    const otherId = field === 'who_taught_you' ? 5 : 7;
+    const otherId = 1000;
     return field === 'who_taught_you'
       ? this.selectedWhoTaughtYou().includes(otherId)
       : this.selectedSourceOfInformation().includes(otherId);
@@ -207,9 +212,10 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
     optionId: number,
     field: 'recognition_purpose' | 'who_taught_you' | 'source_of_information',
   ): boolean {
-    if (field === 'who_taught_you') return optionId === 5;
-    if (field === 'source_of_information') return optionId === 7;
-    return false;
+    if (field === 'recognition_purpose') {
+      return false;
+    }
+    return optionId === 1000;
   }
 
   onNextClick() {
@@ -217,7 +223,8 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
     if (!form) return;
 
     form.markAllAsTouched();
-    if (form.valid) {
+    console.log(form.valid);
+    if (form.valid || this.isViewMode()) {
       this.next.emit();
     }
   }

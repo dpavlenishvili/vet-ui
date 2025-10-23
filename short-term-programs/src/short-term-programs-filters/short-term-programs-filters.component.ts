@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
+  EduactionStandartsComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent, useControlValue,
@@ -42,6 +43,7 @@ import { ShortTermProgramsFiltersDialogComponent } from '../short-term-programs-
     InputComponent,
     ButtonComponent,
     IconButtonComponent,
+    EduactionStandartsComponent
   ],
   templateUrl: './short-term-programs-filters.component.html',
   styleUrl: './short-term-programs-filters.component.scss',
@@ -79,7 +81,7 @@ export class ShortTermProgramsFiltersComponent {
     return new FormGroup({
       search: new FormControl<string>(''),
       program_name_or_code: new FormControl(''),
-      field: new FormControl<string | null>(null),
+      isced_code: new FormControl<string | null>(null),
       region: new FormControl<string | null>(null),
       district: new FormControl<string | null>(null),
       organisation_name: new FormControl(''),
@@ -119,7 +121,7 @@ export class ShortTermProgramsFiltersComponent {
       search: '',
       program_name_or_code: '',
       organisation_name: '',
-      field: null,
+      isced_code: null,
       region: null,
       district: null,
       program_kind: null,

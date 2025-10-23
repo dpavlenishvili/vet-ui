@@ -12,6 +12,7 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
+  EduactionStandartsComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
@@ -44,6 +45,7 @@ import {
     InputComponent,
     ButtonComponent,
     IconButtonComponent,
+    EduactionStandartsComponent,
   ],
   templateUrl: './unauthorised-filters.component.html',
   styleUrl: './unauthorised-programs-filters.component.scss',
@@ -81,7 +83,7 @@ export class UnAuthorisedProgramsFiltersComponent {
     return new FormGroup({
       search: new FormControl<string>(''),
       program_name_or_code: new FormControl(''),
-      field: new FormControl<string | null>(null),
+      nqf_codes: new FormControl<string[] | null>(null),
       region: new FormControl<string | null>(null),
       district: new FormControl<string | null>(null),
       organisation_name: new FormControl(''),
@@ -119,7 +121,7 @@ export class UnAuthorisedProgramsFiltersComponent {
       search: '',
       program_name_or_code: '',
       organisation_name: '',
-      field: null,
+      nqf_codes: null,
       region: null,
       district: null,
       program_type: null,

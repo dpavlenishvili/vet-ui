@@ -8,6 +8,7 @@
     <vet-non-formal-field-selection-grid
       [data]="programsResource"
       [selectedProgramId]="selectedProgramId()"
+      [isViewMode]="isViewMode()"
       (programToggle)="onProgramToggle($event)"
       (pageChange)="onPageChange($event)"
     />

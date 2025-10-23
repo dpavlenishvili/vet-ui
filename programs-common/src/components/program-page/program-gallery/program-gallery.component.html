@@ -1,14 +1,26 @@
+<h3>{{ 'shorts.gallery' | transloco }}</h3>
+
 <div class="vet-video-card-container">
-  <div class="vet-video-card">
-    <iframe
-      width="100%"
-      height="395"
-      [src]="sanitizedVideoUrl()"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-    ></iframe>
-  </div>
+  @if (videoUrl()) {
+    <div class="vet-video-card">
+      <iframe
+        width="100%"
+        height="395"
+        [src]="sanitizedVideoUrl()"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+    </div>
+  } @else if (photoUrl()) {
+    <div class="vet-photo-card">
+      <img [src]="photoUrl()!" height="395" alt="Program photo" />
+    </div>
+  } @else {
+    <div class="k-text-center k-text-base">
+      {{ 'shorts.no_gallery' | transloco }}
+    </div>
+  }
 </div>

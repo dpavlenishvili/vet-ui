@@ -1,0 +1,28 @@
+@use '@vet/shared-styles' as shared;
+
+.non-formal-documents-step {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-inline: 0;
+
+  .documents-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .document-upload-row {
+      padding-inline: 0;
+
+      &:last-child {
+        border-block-end: none;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-block-start: 1rem;
+  }
+}

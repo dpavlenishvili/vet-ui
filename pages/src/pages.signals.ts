@@ -19,9 +19,6 @@ export function useMatchedPage() {
     const slug = getCurrentSlug(url());
     const page = getMatchedPage(slug, pages);
 
-    console.log('pages', pages);
-    console.log('page', page);
-
     return page;
   });
 }
@@ -40,7 +37,7 @@ export function useMatchedPageList() {
     const slug = getCurrentSlug(url());
     const matched = getMatchedPageList(slug, pages);
 
-    console.log('matched', slug, matched, pages);
+    // console.log('matched', slug, matched, pages);
 
     return matched;
   });

@@ -30,24 +30,28 @@ export class BreadcrumbComponent {
     this.breadcrumbItems$ = this.router.events.pipe(
       filter((event) => event instanceof ActivationEnd || event instanceof NavigationEnd),
       startWith(null),
-      map(() => getLastRoute(this.activatedRoute).snapshot.data?.['breadcrumb'] ?? []),
+      map(() => {
+        if (this.router.url === '/' || this.router.url.startsWith('/?')) {
+          return [];
+        }
+        return getLastRoute(this.activatedRoute).snapshot.data?.['breadcrumb'] ?? [];
+      }),
       switchMap((items: Array<AppBreadCrumbItem>) => {
-        const params = collectParams(this.activatedRoute);
+        if (items.length === 0) {
+          return of([]);
+        }
 
+        const params = collectParams(this.activatedRoute);
         return runInInjectionContext(this.injector, () => {
           const observables = items.flatMap((item) => {
             if (typeof item === 'function') {
               return item(this.activatedRoute.snapshot, params).pipe(
-                map(items => items.map(obj => this.resolveBreadcrumbItem(obj, params))),
+                map((items) => items.map((obj) => this.resolveBreadcrumbItem(obj, params))),
               );
             }
-
             return of([this.resolveBreadcrumbItem(item, params)]);
           });
-
-          return combineLatest(observables).pipe(
-            map(arrays => arrays.flat())
-          );
+          return combineLatest(observables).pipe(map((arrays) => arrays.flat()));
         });
       }),
     );

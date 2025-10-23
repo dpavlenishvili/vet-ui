@@ -59,7 +59,7 @@ export class ShortProgramPageComponent {
     if (requirements.other_requirements?.trim()) {
       parts.push(
         this.translocoService.translate('shorts.prerequisite_other_requirements', {
-          age: requirements.other_requirements,
+          text: requirements.other_requirements,
         }),
       );
     }

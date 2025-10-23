@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { useSanitizedUrl } from '@vet/shared';
 
 @Component({
   selector: 'vet-program-gallery',
-  imports: [],
+  imports: [TranslocoPipe],
   templateUrl: './program-gallery.component.html',
   styleUrl: './program-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,6 +12,7 @@ import { useSanitizedUrl } from '@vet/shared';
 })
 export class ProgramGalleryComponent {
   videoUrl = input.required<string | null | undefined>();
+  photoUrl = input.required<string | null | undefined>();
 
   sanitizedVideoUrl = useSanitizedUrl(() => {
     const rawUrl = this.videoUrl() ?? 'https://www.youtube.com/embed/eLVVkXOekRE';
