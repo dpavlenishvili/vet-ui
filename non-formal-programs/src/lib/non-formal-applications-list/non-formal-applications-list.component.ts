@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { NonFormalService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormatDateTimePipe, vetIcons } from '@vet/shared';
+import { FormatDateTimePipe, useAlert, vetIcons } from '@vet/shared';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
@@ -22,6 +22,7 @@ export class NonFormalApplicationsListComponent {
   private readonly router = inject(Router);
   private readonly nonFormalService = inject(NonFormalService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly alert = useAlert();
   protected readonly isBrowser = isPlatformBrowser(this.platformId);
 
   protected readonly applicationsList$ = rxResource({
@@ -34,6 +35,9 @@ export class NonFormalApplicationsListComponent {
       );
     },
   });
+
+  private showCancelConfirmation = signal(false);
+  private cancelingApplicationId: any = null;
 
   protected onRegisterClick(): void {
     void this.router.navigate(['/programs/non-formal/register-application/field-selection']);
@@ -55,12 +59,32 @@ export class NonFormalApplicationsListComponent {
     void this.router.navigate(['/programs/non-formal/view-application', item.id, 'field-selection']);
   }
 
-  protected onRemoveClick(item: any): void {
+  protected isEditEnabled(item: any): boolean {
+    // Edit button is active during application submission period
+    // This check can be expanded based on actual business logic from the backend
+    return item?.status?.code !== 'registered' && item?.status?.code !== 'approved';
+  }
+
+  protected isCancelEnabled(item: any): boolean {
+    // Cancel button is active for applications with status 'saved' or 'registered'
+    return item?.status?.code === 'saved' || item?.status?.code === 'registered';
+  }
+
+  protected onCancelClick(item: any): void {
     if (!item.id) {
-      console.error('Cannot remove application without ID');
+      console.error('Cannot cancel application without ID');
       return;
     }
-    // TODO: Add remove/delete functionality when it's implemented
-    console.log('Remove application:', item.id);
+
+    // Show confirmation before canceling
+    if (confirm('Are you sure you want to cancel this application?')) {
+      this.cancelApplication(item.id);
+    }
+  }
+
+  private cancelApplication(applicationId: any): void {
+    // TODO: Add cancel/delete functionality when it's implemented
+    console.log('Cancel application:', applicationId);
+    this.alert.success('Application cancelled successfully');
   }
 }

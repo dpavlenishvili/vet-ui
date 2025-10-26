@@ -24,7 +24,7 @@ import { NonFormalSelectedFieldsStepComponent } from './non-formal-selected-fiel
 import { NonFormalQuestionnaireStepComponent } from './non-formal-questionnaire-step/non-formal-questionnaire-step.component';
 import { NonFormalDocumentsStepComponent } from './non-formal-documents-step/non-formal-documents-step.component';
 import { NonFormalConfirmationStepComponent } from './non-formal-confirmation-step/non-formal-confirmation-step.component';
-import { WizardStepDefinition } from '@vet/shared';
+import { WizardStepDefinition, numericValidator } from '@vet/shared';
 
 const MOBILE_BREAKPOINT = 768;
 const TABLET_BREAKPOINT = 992;
@@ -329,7 +329,7 @@ export class ApplicationWizardComponent implements OnInit {
         source_of_information: new FormControl<string | null>(null, Validators.required),
         source_of_information_other: new FormControl<string | null>(null),
         like_your_job: new FormControl<boolean | null>(null, Validators.required),
-        experience_years: new FormControl<string | null>(null, Validators.required),
+        experience_years: new FormControl<string | null>(null, [Validators.required, numericValidator]),
       }),
       documents: new FormGroup({
         certificate: new FormControl<any[]>([], Validators.required),
@@ -352,7 +352,7 @@ export class ApplicationWizardComponent implements OnInit {
 
     form.patchValue({
       field_selection: {
-        selected_program_id: data.non_formal_id ?? null,
+        selected_program_id: data.id ?? null,
       },
       questionnaire: {
         education_level_id: Number(data.education_level_id) ?? null,

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { ErrorComponent, SwitchModule, TextAreaModule } from '@progress/kendo-angular-inputs';
+import { ErrorComponent, SwitchModule, TextAreaModule, NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 import { AdmissionService } from '@vet/backend';
 import { InputComponent, SelectOption, SelectorComponent, VetCheckboxComponent } from '@vet/shared';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -27,6 +27,7 @@ interface CheckboxOption {
     SwitchModule,
     FormsModule,
     ErrorComponent,
+    NumericTextBoxComponent,
   ],
   templateUrl: './non-formal-questionnaire-step.component.html',
   styleUrl: './non-formal-questionnaire-step.component.scss',

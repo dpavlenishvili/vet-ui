@@ -153,10 +153,14 @@
                 <label class="field-label">
                   {{ 'non_formal.experience_years_label' | transloco }}
                 </label>
-                <vet-input
+                <kendo-numerictextbox
                   formControlName="experience_years"
                   [placeholder]="'non_formal.experience_years_label' | transloco"
                   [disabled]="true"
+                  [readonly]="true"
+                  [spinners]="false"
+                  [format]="'#'"
+                  [min]="0"
                 />
               </div>
             </div>

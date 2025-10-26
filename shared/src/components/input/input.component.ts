@@ -44,6 +44,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   version = input<InputVersion>('thin');
   topLabelFromThe90s = input('');
   placeholder = input('');
+  readonly = input<boolean>(false);
   leadingIcon = input<keyof typeof vetIcons>();
   leadingIconPopover = input<TemplateRef<unknown> | null>(null);
   leadingIconTooltip = input<string>();

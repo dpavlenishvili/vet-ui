@@ -8,7 +8,7 @@
       kendoButton
       themeColor="primary"
     >
-      {{ 'shared.registration' | transloco }}
+      {{ 'non_formal.register_application' | transloco }}
     </button>
   </div>
 </div>
@@ -48,7 +48,7 @@
       >
         <ng-template kendoGridCellTemplate let-item>
           <span>
-            {{ item.education?.name || '-' }}
+            {{ item?.education_level || '-' }}
           </span>
         </ng-template>
       </kendo-grid-column>
@@ -75,6 +75,9 @@
         <ng-template kendoGridCellTemplate let-item>
           <div class="status-cell">
             <span class="k-font-weight-bold">{{ item.status?.name || '-' }}</span>
+            <small class="k-text-xs k-text-base k-text-nowrap">
+              {{ (item.updated_at || item.created_at || item.changed_at) | formatDateTime: { format: 'DD.MM.YYYY' } }}
+            </small>
           </div>
         </ng-template>
       </kendo-grid-column>
@@ -82,16 +85,7 @@
       <kendo-grid-column [width]="130" [minResizableWidth]="130" [maxResizableWidth]="130" [resizable]="false">
         <ng-template kendoGridCellTemplate let-item>
           <div class="k-display-flex k-gap-1 k-justify-content-center action-buttons">
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.editIcon"
-              [title]="'shared.edit' | transloco"
-              kendoTooltip
-              (click)="onEditClick(item)"
-              class="action-btn"
-            ></button>
+            <!-- View Button - Always Active -->
             <button
               kendoButton
               fillMode="flat"
@@ -102,14 +96,30 @@
               (click)="onViewClick(item)"
               class="action-btn"
             ></button>
+
+            <!-- Edit Button - Active during submission period -->
+            <button
+              kendoButton
+              fillMode="flat"
+              size="small"
+              [svgIcon]="vetIcons.editIcon"
+              [title]="'shared.edit' | transloco"
+              kendoTooltip
+              (click)="onEditClick(item)"
+              [disabled]="!isEditEnabled(item)"
+              class="action-btn"
+            ></button>
+
+            <!-- Cancel Button - Active for saved/registered status -->
             <button
               kendoButton
               fillMode="flat"
               size="small"
               [svgIcon]="vetIcons.bin"
-              [title]="'shared.remove' | transloco"
+              [title]="'shared.cancel' | transloco"
               kendoTooltip
-              (click)="onRemoveClick(item)"
+              (click)="onCancelClick(item)"
+              [disabled]="!isCancelEnabled(item)"
               class="action-btn"
             ></button>
           </div>
