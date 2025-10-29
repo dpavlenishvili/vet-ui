@@ -8,6 +8,8 @@ import { NonFormalProgramFilters } from '../../non-formal-programs.types';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { NonFormalFieldSelectionGridComponent } from './non-formal-field-selection-grid/non-formal-field-selection-grid.component';
 import { PaginatedGridResult, vetIcons } from '@vet/shared';
+import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';
+import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';
 
 const DEFAULT_PAGE_SIZE = 15;
 
@@ -42,6 +44,7 @@ export class NonFormalFieldSelectionStepComponent {
   protected readonly filters = signal<NonFormalProgramFilters>({});
   protected readonly page = signal(1);
   protected readonly selectedProgramId = signal<number | null>(null);
+  protected readonly programDialog = useNonFormalProgramDialog(NonFormalProgramPageComponent);
 
   private readonly isInitialized = signal(false);
 
@@ -105,6 +108,12 @@ export class NonFormalFieldSelectionStepComponent {
     const newValue = currentSelectedId === programId ? null : programId;
 
     this.updateSelection(newValue);
+  }
+
+  protected onPreviewProgramClick(programId: number): void {
+    if (programId) {
+      this.programDialog.show({ programId });
+    }
   }
 
   protected onNextClick(): void {

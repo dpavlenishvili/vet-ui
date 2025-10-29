@@ -4,6 +4,7 @@ import { map } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { InfoComponent, trans, useRouteNumberParam, vetIcons } from '@vet/shared';
 import { NonFormalService } from '@vet/backend';
+import { AuthenticationService } from '@vet/auth';
 import { NonFormalAnnouncementComponent } from './non-formal-announcement/non-formal-announcement.component';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { ProgramDetailItem, ProgramPageComponent, ProgramSectionItem } from '@vet/programs-common';
@@ -26,12 +27,13 @@ import { NonFormalGalleryComponent } from './non-formal-gallery/non-formal-galle
 })
 export class NonFormalProgramPageComponent {
   private readonly nonFormalsService = inject(NonFormalService);
+  private readonly authService = inject(AuthenticationService);
   protected readonly vetIcons = vetIcons;
+  protected readonly isNotAuthenticated = computed(() => !this.authService.user());
 
   programId = input<number>();
   showGallery = input<boolean>(true);
   routeProgramId = useRouteNumberParam('programId', 0);
-
   infoMessagesTemplate = viewChild<TemplateRef<unknown>>('infoMessages');
   programVideoTemplate = viewChild<TemplateRef<unknown>>('programVideo');
   consultationDocumentTemplate = viewChild<TemplateRef<unknown>>('consultationDocument');

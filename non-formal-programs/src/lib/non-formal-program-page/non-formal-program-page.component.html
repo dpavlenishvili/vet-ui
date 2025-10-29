@@ -64,9 +64,11 @@
             </div>
           }
           <vet-non-formal-announcement [program]="_program" />
-          <div class="vet-nf-announcement-footer">
-            <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
-          </div>
+          @if (isNotAuthenticated()) {
+            <div class="vet-nf-announcement-footer">
+              <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
+            </div>
+          }
         } @else {
           <div class="vet-nf-no-announcement">
             <kendo-svg-icon [icon]="vetIcons.searchBg" />

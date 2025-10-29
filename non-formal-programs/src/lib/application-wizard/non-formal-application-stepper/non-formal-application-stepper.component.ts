@@ -47,6 +47,7 @@ export class NonFormalApplicationStepperComponent implements OnInit {
   steps = input.required<WizardStepDefinition[]>();
   stepIndex = input.required<number>();
   stepIndexChange = output<number>();
+  isViewMode = input<boolean>(false);
 
   vetIcons = vetIcons;
   isExpanded = signal(true);
@@ -56,10 +57,9 @@ export class NonFormalApplicationStepperComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   isMobile = signal(false);
-  isTablet = signal(false);
 
   orientation = computed<'horizontal' | 'vertical'>(() => (this.isMobile() ? 'horizontal' : 'vertical'));
-  stepType = computed<'indicator' | 'full'>(() => (this.isMobile() ? 'indicator' : 'full'));
+  stepType = computed<'indicator' | 'full'>(() => (this.isMobile() || !this.isExpanded() ? 'indicator' : 'full'));
 
   constructor() {
     fromEvent(this.window, 'resize')
@@ -74,41 +74,36 @@ export class NonFormalApplicationStepperComponent implements OnInit {
   }
 
   onStepChange(event: StepperActivateEvent) {
-    if (event.index > this.stepIndex() && !this.currentStep().form().valid) {
-      event.preventDefault();
-      return;
+    if (this.isViewMode()) {
+      this.stepIndexChange.emit(event.index);
+    } else {
+      // Allow backward navigation OR forward if current step valid
+      if (event.index < this.stepIndex() || this.currentStep().form().valid) {
+        this.stepIndexChange.emit(event.index);
+      } else {
+        event.preventDefault();
+      }
     }
-
-    this.stepIndexChange.emit(event.index);
   }
 
   onToggleExpansion() {
-    this.isExpanded.update((value) => !value);
-    // if (this.isViewMode()) return;
+    if (this.isViewMode()) return;
 
     if (!this.isMobile()) {
       this.isExpanded.update((value) => !value);
-      // this.stepType.set(this.isExpanded() ? 'full' : 'indicator');
     }
   }
 
   private updateResponsiveState(): void {
     const width = this.window.innerWidth;
     const mobile = width < MOBILE_BREAKPOINT;
-    const tablet = width >= MOBILE_BREAKPOINT && width < TABLET_BREAKPOINT;
-    this.isMobile.set(mobile);
-    this.isTablet.set(tablet);
-
     this.isMobile.set(mobile);
 
     if (mobile) {
-      // this.stepperOrientation.set('horizontal');
       this.isExpanded.set(false);
     } else if (width < TABLET_BREAKPOINT) {
-      // this.stepperOrientation.set('vertical');
       this.isExpanded.set(false);
     } else {
-      // this.stepperOrientation.set('vertical');
       this.isExpanded.set(true);
     }
   }

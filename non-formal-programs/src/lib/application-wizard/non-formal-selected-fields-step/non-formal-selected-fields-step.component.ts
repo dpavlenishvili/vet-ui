@@ -7,6 +7,8 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { vetIcons } from '@vet/shared';
 import { of } from 'rxjs';
+import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';
+import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';
 
 @Component({
   selector: 'vet-non-formal-selected-fields-step',
@@ -24,6 +26,7 @@ export class NonFormalSelectedFieldsStepComponent {
 
   private readonly nonFormalService = inject(NonFormalService);
   protected readonly vetIcons = vetIcons;
+  protected readonly programDialog = useNonFormalProgramDialog(NonFormalProgramPageComponent);
 
   protected readonly selectedProgramId = computed(() => this.formGroup().value.selected_program_id);
 
@@ -55,6 +58,13 @@ export class NonFormalSelectedFieldsStepComponent {
 
   protected onRemoveClick(): void {
     this.formGroup().patchValue({ selected_program_id: null });
+  }
+
+  protected onPreviewProgramClick(): void {
+    const programId = this.selectedProgramId();
+    if (programId) {
+      this.programDialog.show({ programId });
+    }
   }
 
   protected onBackClick(): void {

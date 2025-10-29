@@ -29,6 +29,7 @@ export class NonFormalFieldSelectionGridComponent {
   isViewMode = input<boolean>(false);
   programToggle = output<number>();
   pageChange = output<number>();
+  programPreview = output<number>();
 
   protected readonly vetIcons = vetIcons;
 
@@ -51,6 +52,10 @@ export class NonFormalFieldSelectionGridComponent {
 
   protected onToggleProgramSelection(program: NonFormalRegistrationProgram): void {
     this.programToggle.emit(program.id);
+  }
+
+  protected onPreviewProgram(program: NonFormalRegistrationProgram): void {
+    this.programPreview.emit(program.id);
   }
 
   protected onPageChange(event: PageChangeEvent): void {

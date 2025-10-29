@@ -46,13 +46,23 @@
 
         @if (!isViewMode()) {
           <kendo-grid-column
-            [width]="50"
-            [minResizableWidth]="50"
-            [maxResizableWidth]="50"
+            [width]="90"
+            [minResizableWidth]="90"
+            [maxResizableWidth]="90"
             [resizable]="false"
           >
             <ng-template kendoGridCellTemplate>
               <div class="k-display-flex k-justify-content-center">
+                <button
+                  kendoButton
+                  fillMode="flat"
+                  size="medium"
+                  [svgIcon]="vetIcons.eye"
+                  [title]="'shared.view' | transloco"
+                  kendoTooltip
+                  (click)="onPreviewProgramClick()"
+                  class="action-btn"
+                ></button>
                 <button
                   kendoButton
                   fillMode="flat"

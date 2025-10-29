@@ -3,6 +3,7 @@
     <vet-non-formal-application-stepper
       [steps]="steps()"
       [stepIndex]="currentStepIndex()"
+      [isViewMode]="isViewMode()"
       (stepIndexChange)="onStepIndexChange($event)"
     />
   </div>

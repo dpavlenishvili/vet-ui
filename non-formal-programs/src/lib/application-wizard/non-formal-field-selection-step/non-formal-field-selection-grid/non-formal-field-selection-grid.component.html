@@ -48,27 +48,39 @@
       </kendo-grid-column>
 
       <kendo-grid-column
-        [width]="50"
-        [minResizableWidth]="50"
-        [maxResizableWidth]="50"
+        [width]="90"
+        [minResizableWidth]="90"
+        [maxResizableWidth]="90"
         [resizable]="false"
       >
         <ng-template kendoGridCellTemplate let-dataItem>
           <div class="k-display-flex k-justify-content-center">
             <button
-              (click)="onToggleProgramSelection(dataItem)"
-              [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled(dataItem) || isViewMode()"
-              fillMode="flat"
               kendoButton
-            >
-              @if (isSelected(dataItem.id)) {
-                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
-              } @else if (!isSelected(dataItem.id) && isAddButtonDisabled(dataItem)) {
-                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
-              } @else {
-                <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
-              }
-            </button>
+              fillMode="flat"
+              size="medium"
+              [svgIcon]="vetIcons.eye"
+              [title]="'shared.view' | transloco"
+              kendoTooltip
+              (click)="onPreviewProgram(dataItem)"
+              class="action-btn"
+            ></button>
+            @if (!isViewMode()) {
+              <button
+                (click)="onToggleProgramSelection(dataItem)"
+                [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled(dataItem) || isViewMode()"
+                fillMode="flat"
+                kendoButton
+              >
+                @if (isSelected(dataItem.id)) {
+                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
+                } @else if (!isSelected(dataItem.id) && isAddButtonDisabled(dataItem)) {
+                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
+                } @else {
+                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
+                }
+              </button>
+            }
           </div>
         </ng-template>
       </kendo-grid-column>
