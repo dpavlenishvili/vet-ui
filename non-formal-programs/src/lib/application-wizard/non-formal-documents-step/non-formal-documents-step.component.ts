@@ -50,13 +50,36 @@ export class NonFormalDocumentsStepComponent {
 
   /**
    * Handles removing files from the corresponding form control.
-   * @param files The remaining files after removal.
+   * If file has ID (server file), deletes it from the server.
+   * @param event Object with removed file and remaining files
    * @param controlName The name of the form control to update.
    */
-  protected handleRemoveFile(files: UploadedFile[] | File[], controlName: string): void {
+  protected handleRemoveFile(
+    event: { removedFile: UploadedFile; remainingFiles: UploadedFile[] },
+    controlName: string,
+  ): void {
+    const { removedFile, remainingFiles } = event;
+
+    // If file has ID, delete from server (fire and forget)
+    if (removedFile.id) {
+      const nonFormalId = this.nonFormalId();
+      if (nonFormalId) {
+        this.nonFormalService
+          .deleteNonFormalApplicationFile(nonFormalId, Number(removedFile.id))
+          .pipe(
+            catchError((error) => {
+              console.error('Error deleting file:', error);
+              return of(null);
+            }),
+          )
+          .subscribe();
+      }
+    }
+
+    // Update form control
     const control = this.formGroup().get(controlName);
     if (control) {
-      control.setValue(files);
+      control.setValue(remainingFiles);
       control.markAsTouched();
       control.markAsDirty();
       control.updateValueAndValidity();
@@ -120,13 +143,18 @@ export class NonFormalDocumentsStepComponent {
   private uploadDocuments(nonFormalId: number): void {
     const form = this.formGroup();
 
-    // Check if any of the form controls contain actual files to upload.
-    const hasFilesToUpload = DOCUMENT_FIELDS.some(fieldName => {
+    // Check if any of the form controls contain NEW files to upload (files without ID).
+    // Existing files (with ID) are already on the server and should not be re-uploaded.
+    const hasFilesToUpload = DOCUMENT_FIELDS.some((fieldName) => {
       const files: UploadedFile[] = form.get(fieldName)?.value || [];
-      return files.some(uploadedFile => !!uploadedFile.file || !!uploadedFile.name || !!uploadedFile.file_name || !!uploadedFile.filename);
+      return files.some(
+        (uploadedFile) =>
+          !uploadedFile.id &&
+          (!!uploadedFile.file || !!uploadedFile.name || !!uploadedFile.file_name || !!uploadedFile.filename),
+      );
     });
 
-    // If there are no files, and the form is valid, just proceed.
+    // If there are no NEW files to upload, just proceed.
     if (!hasFilesToUpload) {
       this.next.emit();
       return;
@@ -158,19 +186,23 @@ export class NonFormalDocumentsStepComponent {
   }
 
   /**
-   * Creates a FormData object from the files in the form controls.
-   * @returns A FormData object containing the files to upload.
+   * Creates a FormData object from ONLY the NEW files in the form controls.
+   * Existing files (with ID) are skipped as they're already on the server.
+   * @returns A FormData object containing only new files to upload.
    */
   private prepareFormData(): FormData {
     const formData = new FormData();
     const form = this.formGroup();
 
     DOCUMENT_FIELDS.forEach((fieldName) => {
-      const files = form.get(fieldName)?.value || [];
-      files.forEach((uploadedFile: any) => {
-        // Only append if there's an actual file object to upload
-        if (uploadedFile) {
-          formData.append(`${fieldName}[]`, uploadedFile, uploadedFile?.name || uploadedFile?.file_name || uploadedFile?.filename || 'file');
+      const files: UploadedFile[] = form.get(fieldName)?.value || [];
+      files.forEach((uploadedFile) => {
+        // Only append NEW files (files without an ID from the server)
+        // Files with ID are already uploaded to the server
+        if (uploadedFile && !uploadedFile.id && uploadedFile.file) {
+          // uploadedFile.file is the actual File object from FileUploadComponent
+          const fileName = uploadedFile.name || uploadedFile.filename || 'file';
+          formData.append(`${fieldName}[]`, uploadedFile.file, fileName);
         }
       });
     });

@@ -30,6 +30,7 @@ export class OrganisationsListComponent implements OnDestroy {
   page = signal(1);
   perPage = 5;
   vetIcons = vetIcons;
+  defaultImage = '/assets/images/default-org.png';
 
   organisationsResource = useOrganisationsList(this.filters, this.page, this.perPage);
   allOrganisations = signal<Organisation[]>([]);

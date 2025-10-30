@@ -67,7 +67,6 @@ export class AdmissionSelectedProgramsComponent {
     const program = item?.program;
     if (program) {
       this.confirm.warning({
-        title: 'programs.removeProgramSelection',
         content: 'programs.confirm_program_selection_delete',
         confirmButtonText: 'programs.remove',
         dismissButtonText: 'shared.cancel',

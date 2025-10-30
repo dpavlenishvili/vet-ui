@@ -36,28 +36,6 @@
 
             <div class="privacy-section k-mb-4">
               <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
-                {{ 'auth.special_data_title' | transloco }}
-              </h3>
-              <ul class="privacy-list k-ml-3">
-                @for (item of specialDataItems; track $index) {
-                  <li class="k-text-base k-color-body k-mb-1">{{ item | transloco }}</li>
-                }
-              </ul>
-            </div>
-
-            <div class="privacy-section k-mb-4">
-              <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
-                {{ 'auth.special_data_purposes_title' | transloco }}
-              </h3>
-              <ul class="privacy-list k-ml-3">
-                @for (item of specialDataPurposesItems; track $index) {
-                  <li class="k-text-base k-color-body k-mb-1">{{ item | transloco }}</li>
-                }
-              </ul>
-            </div>
-
-            <div class="privacy-section k-mb-4">
-              <h3 class="k-text-base k-font-weight-bold k-color-body-dark k-mb-2">
                 {{ 'auth.data_sources_title' | transloco }}
               </h3>
               <ul class="privacy-list k-ml-3">

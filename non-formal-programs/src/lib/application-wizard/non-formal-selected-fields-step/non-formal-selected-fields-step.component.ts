@@ -37,23 +37,13 @@ export class NonFormalSelectedFieldsStepComponent {
       if (!programId) {
         return of(null as any);
       }
-      return this.nonFormalService.nonFormalsRegistration({
-        'filters[id]': programId,
-      });
+      return this.nonFormalService.nonFormal(programId);
     },
   });
 
   protected readonly selectedProgram = computed(() => {
-    const programId = this.selectedProgramId();
-    if (!programId) {
-      return null;
-    }
-
     const response = this.selectedProgramResource.value();
-    if (!response?.data || response.data.length === 0) {
-      return null;
-    }
-    return response.data[0];
+    return response?.data || null;
   });
 
   protected onRemoveClick(): void {

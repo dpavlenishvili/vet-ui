@@ -62,6 +62,36 @@
     </div>
 
     <div class="k-display-flex k-gap-5 form-fields-container">
+      <kendo-label [text]="'auth.name_english' | transloco">
+        <kendo-textbox [clearButton]="true" formControlName="firstNameEn" />
+        @if (form.controls['firstNameEn']; as control) {
+          @if (!control.untouched || control.value) {
+            @if (control.errors?.['required']) {
+              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+            }
+            @if (control.errors?.['englishLettersError']) {
+              <kendo-formerror>{{ 'shared.invalidEnglishLetters' | transloco }}</kendo-formerror>
+            }
+          }
+        }
+      </kendo-label>
+
+      <kendo-label [text]="'auth.last_name_english' | transloco">
+        <kendo-textbox [clearButton]="true" formControlName="lastNameEn" />
+        @if (form.controls['lastNameEn']; as control) {
+          @if (!control.untouched || control.value) {
+            @if (control.errors?.['required']) {
+              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+            }
+            @if (control.errors?.['englishLettersError']) {
+              <kendo-formerror>{{ 'shared.invalidEnglishLetters' | transloco }}</kendo-formerror>
+            }
+          }
+        }
+      </kendo-label>
+    </div>
+
+    <div class="k-display-flex k-gap-5 form-fields-container">
       <kendo-label [text]="'auth.date_of_birth' | transloco">
         <kendo-datepicker format="dd/MM/yyyy" calendarType="classic" formControlName="dateOfBirth" />
         @if (form.controls['dateOfBirth']; as control) {

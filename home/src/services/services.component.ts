@@ -10,6 +10,7 @@ import {
   HasAccessPipe,
   isAuthenticated,
   isGuest,
+  UserRolesService,
 } from '@vet/auth';
 
 export interface ServiceItem {
@@ -32,6 +33,9 @@ export interface ServiceItem {
 export class ServicesComponent {
   isAuthenticated = inject(AuthenticationService).isAuthenticated;
   router = inject(Router);
+  userRolesService = inject(UserRolesService);
+
+  isNonDefaultUser = this.userRolesService.hasRole('Organisation') || this.userRolesService.hasRole('Super Admin')
 
   showTitle = computed(() => !this.isAuthenticated());
   cards: ServiceItem[] = [
@@ -65,7 +69,7 @@ export class ServicesComponent {
       text: 'home.trainingPrograms',
       icon: 'trainingPrograms',
       color: 'yellow',
-      url: '/dashboard/programs/short',
+      url: this.isNonDefaultUser ? '/dashboard/programs/short/registered-listeners' :'/dashboard/programs/short',
     },
     {
       // არაფორმალური: თუ არა-ავტორიზებულია, მაშინ ზოგადი პროგრამების სია უნდა ვუჩვენოთ

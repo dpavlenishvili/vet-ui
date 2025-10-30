@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, model, output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
@@ -14,6 +14,7 @@ import {
   useApiErrorConditionalContextFactory,
   useConfirm,
   useToastApiErrorHandler,
+  englishLettersValidator,
 } from '@vet/shared';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import { RegisterService, User } from '@vet/backend';
@@ -55,6 +56,8 @@ export class RegistrationIdentityForeignerComponent {
       lastName: FormControl<string | null>;
       personalNumber: FormControl<string | null>;
       firstName: FormControl<string | null>;
+      firstNameEn: FormControl<string | null>;
+      lastNameEn: FormControl<string | null>;
       dateOfBirth: FormControl<Date | null>;
       gender: FormControl<string | null>;
     }>
@@ -89,6 +92,8 @@ export class RegistrationIdentityForeignerComponent {
               prev.lastName === curr.lastName &&
               prev.residential === curr.residential &&
               prev.firstName === curr.firstName &&
+              prev.firstNameEn === curr.firstNameEn &&
+              prev.lastNameEn === curr.lastNameEn &&
               prev.dateOfBirth === curr.dateOfBirth &&
               prev.gender === curr.gender
             );

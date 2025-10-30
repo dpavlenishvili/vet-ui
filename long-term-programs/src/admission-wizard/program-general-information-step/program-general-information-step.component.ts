@@ -123,8 +123,9 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
       ?.patchValue([...currentValue, payload]);
   }
 
-  handleRemoveFile(files: UploadedFile[], field: string) {
-    this.form()?.get(field)?.patchValue(files);
+  handleRemoveFile(event: { removedFile: UploadedFile; remainingFiles: UploadedFile[] }, field: string) {
+    const { remainingFiles } = event;
+    this.form()?.get(field)?.patchValue(remainingFiles);
   }
 
   toggleSwitcher(event: boolean, key: string) {

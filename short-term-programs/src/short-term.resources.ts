@@ -254,6 +254,30 @@ export function useShortStatsOrganisation(organisation: string, filters: Signal<
 
   return rxResource({
     request: () => ({
+      organisation,
+      filters: filters(),
+    }),
+    defaultValue: [],
+    loader: ({ request }) => {
+      const queryParams = {
+        organisation: request.organisation,
+        ...flattenQueryParams(request.filters, 'filters'),
+      };
+
+      return programsService
+        .shortProgramsStatsOrganisation(request.organisation ?? '', {
+          params: queryParams,
+        })
+        .pipe(map((response) => response.data ?? []));
+    },
+  });
+}
+
+export function useShortStatsWithOrganisation(organisation: string, filters: Signal<ShortStatsFilters>) {
+  const programsService = inject(ShortProgramsService);
+
+  return rxResource({
+    request: () => ({
       organisation: organisation,
       filters: filters(),
     }),

@@ -1,3 +1,4 @@
+export { ShortTermRegisteredListenersComponent } from './short-term-registered-listeners/short-term-registered-listeners.component';
 export { ShortTermStatisticsProgramsComponent } from './short-term-statistics/short-term-statistics-programs/short-term-statistics-programs.component';
 export { ShortTermStatisticsOrganisationComponent } from './short-term-statistics/short-term-statistics-organisation/short-term-statistics-organisation.component';
 export * from './short-term-programs.routes';

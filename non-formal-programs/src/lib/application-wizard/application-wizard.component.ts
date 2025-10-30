@@ -352,7 +352,7 @@ export class ApplicationWizardComponent implements OnInit {
 
     form.patchValue({
       field_selection: {
-        selected_program_id: data.id ?? null,
+        selected_program_id: data.non_formal_id ?? null,
       },
       questionnaire: {
         education_level_id: Number(data.education_level_id) ?? null,
@@ -363,7 +363,7 @@ export class ApplicationWizardComponent implements OnInit {
         source_of_information: data.source_of_information ?? null,
         source_of_information_other: (data as any).source_of_information_other ?? null,
         like_your_job: data.like_your_job ?? null,
-        experience_years: data.experience_years ?? null,
+        experience_years: data.experience_years ? Number(data.experience_years) : null,
       },
       documents: {
         certificate: data.media?.certificate ?? [],
@@ -389,6 +389,10 @@ export class ApplicationWizardComponent implements OnInit {
         break;
       case 'questionnaire':
         payload = form.get('questionnaire')?.getRawValue() || {};
+        // Ensure experience_years is passed as string to API
+        if (payload.experience_years !== null && payload.experience_years !== undefined) {
+          payload.experience_years = String(payload.experience_years);
+        }
         break;
       case 'documents':
         payload = form.get('documents')?.getRawValue() || {};

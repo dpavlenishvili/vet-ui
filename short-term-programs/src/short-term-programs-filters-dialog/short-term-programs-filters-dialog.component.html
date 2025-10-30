@@ -76,14 +76,15 @@
           <vet-date-picker
             formControlName="end_study"
             [placeholder]="'shorts.tuition_period_end_date' | transloco"
+            [min]="formGroup.get('start_study')?.value"
           />
         </div>
 
         <div vet-row>
           <vet-selector
-            formControlName="financing_type"
+            formControlName="funding"
             [placeholder]="'shorts.financing_type' | transloco"
-            [options]="financingTypeOptions.value()"
+            [options]="financingTypeOptions"
           />
 
           <vet-selector

@@ -84,6 +84,7 @@ export class NavbarComponent {
       this.userRolesService.selectUserAccount(userAccount.name);
       this.isMobileMenuOpen.set(false);
       this.isProfileCardOpen.set(false);
+      void this.router.navigate(['']);
     }
   }
 }

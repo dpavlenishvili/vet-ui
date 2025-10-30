@@ -12,6 +12,7 @@ import { RegistrationTermsAndConditionsComponent } from './registration-terms-an
 import {
   Citizenship,
   georgianLettersValidator,
+  englishLettersValidator,
   mobileNumberValidator,
   passwordMatchValidator,
   passwordPatternValidator,
@@ -154,6 +155,8 @@ export class RegistrationComponent implements OnInit {
         residential: new FormControl('', Validators.required),
         lastName: new FormControl('', [Validators.required, georgianLettersValidator]),
         firstName: new FormControl('', [Validators.required, georgianLettersValidator]),
+        lastNameEn: new FormControl('', [Validators.required, englishLettersValidator]),
+        firstNameEn: new FormControl('', [Validators.required, englishLettersValidator]),
         personalNumber: new FormControl('', Validators.required),
         dateOfBirth: new FormControl<Date | null>(null, Validators.required),
         gender: new FormControl('', Validators.required),
@@ -188,7 +191,7 @@ export class RegistrationComponent implements OnInit {
     const isForeigner = chooseCitizenship.get('citizenship')?.value === this.CitizenshipType.Foreigner;
     const identityGroup = isForeigner ? checkIdentityForeigner : checkIdentity;
 
-    return {
+    const userReq: UserReq = {
       pid: identityGroup.get('personalNumber')?.value,
       phone: phone.get('phoneNumber')?.value,
       sms_code: phone.get('verificationNumber')?.value,
@@ -202,6 +205,14 @@ export class RegistrationComponent implements OnInit {
       password: passwords.get('password')?.value,
       password_confirmation: passwords.get('confirmPassword')?.value,
     };
+
+    // Add English name fields for foreigners
+    if (isForeigner) {
+      (userReq as any).first_name_en = identityGroup.get('firstNameEn')?.value;
+      (userReq as any).last_name_en = identityGroup.get('lastNameEn')?.value;
+    }
+
+    return userReq;
   }
 
   get citizenship() {

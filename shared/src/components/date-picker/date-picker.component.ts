@@ -38,6 +38,8 @@ import dayjs from 'dayjs';
 })
 export class DatePickerComponent implements ControlValueAccessor, OnInit {
   placeholder = input('');
+  min = input<string | null | undefined>('');
+  max = input<string | null | undefined>('');
 
   ngControl = inject(NgControl, { optional: true, self: true });
   destroyRef = inject(DestroyRef);
@@ -66,6 +68,16 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
     const error = keys.find((key) => errors[key]) ?? 'required';
 
     return `errors.${error}`;
+  });
+
+  minDate = computed(() => {
+    const minValue = this.min();
+    return minValue ? dayjs(minValue, this.defaultDateFormat).toDate() : new Date(1900, 0, 1);
+  });
+
+  maxDate = computed(() => {
+    const maxValue = this.max();
+    return maxValue ? dayjs(maxValue, this.defaultDateFormat).toDate() : new Date(2099, 11, 31);
   });
 
   constructor() {

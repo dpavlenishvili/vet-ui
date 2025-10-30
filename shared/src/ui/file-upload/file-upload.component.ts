@@ -20,7 +20,7 @@ export class FileUploadComponent {
   uploadedFiles = model<UploadedFile[]>([]);
   errorMessage = model();
   fileUploaded = output<UploadedFile | any>();
-  fileRemoved = output<UploadedFile[]>();
+  fileRemoved = output<{ removedFile: UploadedFile; remainingFiles: UploadedFile[] }>();
   vetIcons = vetIcons;
   allowedExtensions = signal(['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg']);
   maxFiles = signal(2);
@@ -80,9 +80,14 @@ export class FileUploadComponent {
   }
 
   removeFile(fileToRemove: UploadedFile): void {
-    const updatedFiles = this.uploadedFiles().filter((file) => file.filename !== fileToRemove.filename);
+    const updatedFiles = this.uploadedFiles().filter(
+      (file) => file.id !== fileToRemove.id && file.filename !== fileToRemove.filename,
+    );
     this.uploadedFiles.set(updatedFiles);
-    this.fileRemoved.emit(updatedFiles);
+    this.fileRemoved.emit({
+      removedFile: fileToRemove,
+      remainingFiles: updatedFiles,
+    });
   }
 
   downloadFile(file: UploadedFile): void {

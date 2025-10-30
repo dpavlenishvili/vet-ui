@@ -1,5 +1,5 @@
 import { AdmissionService, GeneralsService } from 'backend';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { computed, inject, Signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import {
@@ -12,7 +12,7 @@ import {
 } from '@vet/shared-resources';
 import { DistrictOption, ProgramType } from './types';
 import { isValidDistrictDictionaryType, mapDistrictItemToOption } from './utils';
-import { SelectOption, withoutEmptyProperties } from '@vet/shared';
+import { SelectOption, useAlert, withoutEmptyProperties } from '@vet/shared';
 
 export function useEducationLevels() {
   return useConfigDictionary('education_levels');
@@ -24,6 +24,23 @@ export function useProgramKinds(programType: ProgramType) {
 
 export function useFinancingTypes(programType: ProgramType) {
   return useConfigDictionary('financing_types', programType);
+}
+
+export function useFunding() {
+  return [
+    {
+      value: 'full',
+      label: 'shorts.full_funding',
+    },
+    {
+      value: 'no',
+      label: 'shorts.no_funding',
+    },
+    {
+      value: 'partial',
+      label: 'shorts.partial_funding',
+    },
+  ];
 }
 
 export function usePartners(programType: ProgramType) {
@@ -44,9 +61,16 @@ export function useDistricts() {
 
 export function useEducationStatus() {
   const admissionService = inject(AdmissionService);
+  const alert = useAlert();
 
   return rxResource({
-    loader: () => admissionService.educationStatus(),
+    loader: () =>
+      admissionService.educationStatus().pipe(
+        catchError(() => {
+          alert.error('shared.occured_technical_error');
+          return of([]);
+        }),
+      ),
   });
 }
 

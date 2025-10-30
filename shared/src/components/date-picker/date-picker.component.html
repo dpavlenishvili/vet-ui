@@ -13,7 +13,7 @@
     (blur)="onTextboxBlur()"
   >
     <ng-template kendoTextBoxSuffixTemplate>
-      <kendo-svgicon [icon]="vetIcons.scheduleIcon"/>
+      <kendo-svgicon [icon]="vetIcons.scheduleIcon" />
     </ng-template>
   </kendo-textbox>
 
@@ -23,6 +23,8 @@
     [fillMode]="'outline'"
     [format]="kendoDatePickerFormat"
     [ngModel]="value()"
+    [min]="minDate()"
+    [max]="maxDate()"
     [disabled]="isDisabled()"
     (ngModelChange)="handleChange($event)"
   />

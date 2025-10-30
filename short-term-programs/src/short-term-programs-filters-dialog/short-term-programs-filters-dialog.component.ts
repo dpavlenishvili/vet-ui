@@ -16,6 +16,7 @@ import {
   useDistricts,
   useFilteredDistricts,
   useFinancingTypes,
+  useFunding,
   useInstitutionsDictionary,
   usePartners,
   useProgramKinds,
@@ -56,7 +57,7 @@ export class ShortTermProgramsFiltersDialogComponent {
   regionOptions = useRegions();
   districtOptions = useDistricts();
   programKindOptions = useProgramKinds('short-term');
-  financingTypeOptions = useFinancingTypes('short-term');
+  financingTypeOptions = useFunding();
   partnerOptions = usePartners('short-term');
   formValue = useControlValue(this.formGroup);
   selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
@@ -82,7 +83,7 @@ export class ShortTermProgramsFiltersDialogComponent {
       program_kind: new FormControl<string | null>(null),
       start_study: new FormControl<string | null>(null),
       end_study: new FormControl<string | null>(null),
-      financing_type: new FormControl<string | null>(null),
+      funding: new FormControl<string | null>(null),
       partner: new FormControl<string | null>(null),
       current: new FormControl(false),
       planned: new FormControl(false),
@@ -127,7 +128,7 @@ export class ShortTermProgramsFiltersDialogComponent {
       program_kind: null,
       start_study: null,
       end_study: null,
-      financing_type: null,
+      funding: null,
       partner: null,
       current: null,
       planned: null,

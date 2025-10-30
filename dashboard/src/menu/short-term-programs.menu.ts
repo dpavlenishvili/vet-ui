@@ -21,7 +21,7 @@ export function useShortTermProgramsMenu(): Signal<SidebarMenuItem> {
       {
         id: uuid(),
         text: 'dashboard.registered_listeners',
-        url: BASE_PATH,
+        url: `${BASE_PATH}/registered-listeners`,
         accessControl: isOneOf('Super Admin', 'Organisation'),
       },
       {
