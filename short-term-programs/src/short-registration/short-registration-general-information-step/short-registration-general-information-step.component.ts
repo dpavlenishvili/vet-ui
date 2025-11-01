@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, OnInit, output } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, FormControls, InfoComponent, SelectorComponent } from '@vet/shared';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { useUserSpecificEducationLevelOptions } from '@vet/shared-resources';
+import { ShortRegistrationProgramSelectionStepFormGroup } from '../short-registration-program-selection-step/short-registration-program-selection-step.component';
+import { tap } from 'rxjs';
 
 export interface ShortRegistrationGeneralInformationStepFormData {
   education_level: number | null;
@@ -20,8 +22,9 @@ export type ShortRegistrationGeneralInformationStepFormGroup = FormGroup<
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class ShortRegistrationGeneralInformationStepComponent {
+export class ShortRegistrationGeneralInformationStepComponent implements OnInit {
   formGroup = input.required<ShortRegistrationGeneralInformationStepFormGroup>();
+  selectedProgramsForm = input.required<ShortRegistrationProgramSelectionStepFormGroup>();
   next = output();
 
   educationLevelOptions = useUserSpecificEducationLevelOptions();
@@ -29,11 +32,31 @@ export class ShortRegistrationGeneralInformationStepComponent {
   constructor() {
     effect(() => {
       const educationLevelOptions = this.educationLevelOptions();
+      const formValue = this.formGroup().value;
 
-      this.formGroup().setValue({
-        education_level: Number(educationLevelOptions?.length === 1 ? educationLevelOptions?.[0].value : null),
-      });
+      if (!formValue.education_level) {
+        this.formGroup().setValue({
+          education_level: Number(educationLevelOptions?.length === 1 ? educationLevelOptions?.[0].value : null),
+        });
+      }
     });
+  }
+
+  ngOnInit(): void {
+    this.onEducationChange();
+  }
+
+  onEducationChange() {
+    this.formGroup()
+      .get('education_level')
+      ?.valueChanges.pipe(
+        tap(() => {
+          this.selectedProgramsForm().setValue({
+            selected_programs: [],
+          });
+        }),
+      )
+      .subscribe();
   }
 
   onSubmit() {

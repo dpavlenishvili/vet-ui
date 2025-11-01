@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { kendoIcons, TransPipe, vetIcons } from '@vet/shared';
-import { LongTerm, ShortProgramShow } from '@vet/backend';
+import { LongTerm, NonFormalShow, ShortProgramShow } from '@vet/backend';
 import { ProgramDetailItem } from '@vet/programs-common';
 
 @Component({
@@ -13,7 +13,7 @@ import { ProgramDetailItem } from '@vet/programs-common';
   standalone: true,
 })
 export class ProgramDetailsComponent {
-  program = input.required<ShortProgramShow | LongTerm | undefined>();
+  program = input.required<ShortProgramShow | LongTerm | NonFormalShow | undefined>();
   items = input<ProgramDetailItem[]>([]);
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;

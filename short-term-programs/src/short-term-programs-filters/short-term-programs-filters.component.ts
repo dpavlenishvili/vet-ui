@@ -1,34 +1,29 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, OnInit, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
   EduactionStandartsComponent,
   IconButtonComponent,
   InputComponent,
-  SelectorComponent, useControlValue,
+  SelectorComponent,
+  useControlValue,
   vetIcons,
   VetSwitchComponent,
-  withoutEmptyProperties
+  withoutEmptyProperties,
 } from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   useDistricts,
   useFilteredDistricts,
-  useInstitutionsDictionary,
+  useFilteredOrganisations,
+  useOrganisations,
   useProgramKinds,
-  useRegions
+  useRegions,
 } from '@vet/shared-resources';
 import { ShortTermProgramFilters } from '../short-term-programs.types';
 import { ShortTermProgramsFiltersDialogComponent } from '../short-term-programs-filters-dialog/short-term-programs-filters-dialog.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-short-term-programs-filters',
@@ -43,27 +38,33 @@ import { ShortTermProgramsFiltersDialogComponent } from '../short-term-programs-
     InputComponent,
     ButtonComponent,
     IconButtonComponent,
-    EduactionStandartsComponent
+    EduactionStandartsComponent,
   ],
   templateUrl: './short-term-programs-filters.component.html',
   styleUrl: './short-term-programs-filters.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class ShortTermProgramsFiltersComponent {
+export class ShortTermProgramsFiltersComponent implements OnInit {
   filters = input.required<ShortTermProgramFilters>();
   filtersChange = output<ShortTermProgramFilters>();
 
   hasExtraFilters = computed(() => Object.keys(this.filters()).filter((key) => key !== 'search').length > 0);
   formGroup = this.createFormGroup();
   isExpanded = signal(false);
-  institutionOptions = useInstitutionsDictionary();
+  institutionOptions = useOrganisations();
   regionOptions = useRegions();
   districtOptions = useDistricts();
   programKindOptions = useProgramKinds('short-term');
   isFiltersDialogOpen = signal(false);
-  selectedRegion = useControlValue(this.formGroup, form => form.controls.region);
+  selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
+  selectedDistrict = useControlValue(this.formGroup, (form) => form.controls.district);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
+  filteredOrganisations = useFilteredOrganisations(
+    this.selectedRegion,
+    this.selectedDistrict,
+    this.institutionOptions.value,
+  );
 
   vetIcons = vetIcons;
 
@@ -77,6 +78,17 @@ export class ShortTermProgramsFiltersComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.onRegionChange();
+  }
+
+  onRegionChange() {
+    const regionControl = this.formGroup.get('region');
+    const districtControl = this.formGroup.get('district');
+
+    regionControl?.valueChanges.pipe(tap(() => districtControl?.reset())).subscribe();
+  }
+
   createFormGroup() {
     return new FormGroup({
       search: new FormControl<string>(''),
@@ -88,7 +100,7 @@ export class ShortTermProgramsFiltersComponent {
       program_kind: new FormControl<string | null>(null),
       start_study: new FormControl<string | null>(null),
       end_study: new FormControl<string | null>(null),
-      funding: new FormControl<string | null>(null),
+      funded: new FormControl<string | null>(null),
       partner: new FormControl<string | null>(null),
       current: new FormControl(false),
       planned: new FormControl(false),
@@ -104,12 +116,10 @@ export class ShortTermProgramsFiltersComponent {
           return [key, undefined];
         }
         return [key, value];
-      })
+      }),
     );
 
-    this.filtersChange.emit(
-      withoutEmptyProperties(normalized) as ShortTermProgramFilters
-    );
+    this.filtersChange.emit(withoutEmptyProperties(normalized) as ShortTermProgramFilters);
   }
 
   onToggleExpansion() {
@@ -127,7 +137,7 @@ export class ShortTermProgramsFiltersComponent {
       program_kind: null,
       start_study: null,
       end_study: null,
-      funding: null,
+      funded: null,
       partner: null,
       current: null,
       planned: null,

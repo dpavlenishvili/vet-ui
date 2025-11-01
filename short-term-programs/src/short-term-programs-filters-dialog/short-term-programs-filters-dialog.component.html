@@ -37,12 +37,14 @@
             formControlName="region"
             [placeholder]="'shorts.region' | transloco"
             [options]="regionOptions.value()"
+            [filterable]="true"
           />
 
           <vet-selector
             formControlName="district"
             [placeholder]="'shorts.district' | transloco"
             [options]="filteredDistricts()"
+            [filterable]="true"
           />
         </div>
 
@@ -50,7 +52,8 @@
           <vet-selector
             formControlName="organisation_name"
             [placeholder]="'shorts.institution_name' | transloco"
-            [options]="institutionOptions.value()"
+            [options]="filteredOrganisations()"
+            [filterable]="true"
           />
         </div>
 
@@ -71,6 +74,7 @@
           <vet-date-picker
             formControlName="start_study"
             [placeholder]="'shorts.tuition_period_start_date' | transloco"
+            [max]="formGroup.get('end_study')?.value"
           />
 
           <vet-date-picker
@@ -82,7 +86,7 @@
 
         <div vet-row>
           <vet-selector
-            formControlName="funding"
+            formControlName="funded"
             [placeholder]="'shorts.financing_type' | transloco"
             [options]="financingTypeOptions"
           />
@@ -90,7 +94,8 @@
           <vet-selector
             formControlName="partner"
             [placeholder]="'shorts.partners' | transloco"
-            [options]="partnerOptions.value()"
+            [options]="partnersOptions.value()"
+            [filterable]="true"
           />
         </div>
       </div>

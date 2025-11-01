@@ -7,6 +7,7 @@ import { ProgramFilters } from '@vet/programs-common';
 import { useNonFormalPrograms } from './non-formal.resources';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { NonFormalProgramFilters } from './non-formal-programs.types';
 
 @Component({
   selector: 'vet-non-formal-programs',
@@ -19,13 +20,13 @@ import { TranslocoPipe } from '@jsverse/transloco';
 export class NonFormalProgramsComponent {
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
-  filters = useFilters<ProgramFilters>();
+  filters = useFilters<NonFormalProgramFilters>();
   page = usePage();
-  updateFilters = useFiltersUpdater<ProgramFilters>();
+  updateFilters = useFiltersUpdater<NonFormalProgramFilters>();
   updatePage = usePageUpdater();
   data = useNonFormalPrograms();
 
-  onFiltersChange(filters: ProgramFilters) {
+  onFiltersChange(filters: NonFormalProgramFilters) {
     this.updateFilters(filters);
   }
 

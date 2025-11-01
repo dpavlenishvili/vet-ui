@@ -39,12 +39,14 @@
                 formControlName="region"
                 [placeholder]="'profile.region' | transloco"
                 [options]="regionsOptions.value()"
+                [filterable]="true"
               />
 
               <vet-selector
                 formControlName="city"
                 [placeholder]="'profile.district' | transloco"
                 [options]="filteredDistricts()"
+                [filterable]="true"
               />
             </div>
 

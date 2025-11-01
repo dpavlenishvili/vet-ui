@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
@@ -15,15 +15,16 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import {
   useDistricts,
   useFilteredDistricts,
-  useFinancingTypes,
+  useFilteredOrganisations,
   useFunding,
-  useInstitutionsDictionary,
-  usePartners,
+  useGeneralPartners,
+  useOrganisations,
   useProgramKinds,
   useRegions,
 } from '@vet/shared-resources';
 import { ShortTermProgramFilters } from '../short-term-programs.types';
 import { useFoundProgramsCount } from '../short-term.resources';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-short-term-programs-filters-dialog',
@@ -43,25 +44,29 @@ import { useFoundProgramsCount } from '../short-term.resources';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class ShortTermProgramsFiltersDialogComponent {
+export class ShortTermProgramsFiltersDialogComponent implements OnInit {
   filters = input.required<ShortTermProgramFilters>();
   filtersChange = output<ShortTermProgramFilters>();
   dialogClose = output();
 
-  readonly normalizedFilters = computed(() =>
-    this.normalizeFilters(this.formValue())
-  );
+  readonly normalizedFilters = computed(() => this.normalizeFilters(this.formValue()));
 
   formGroup = this.createFormGroup();
-  institutionOptions = useInstitutionsDictionary();
+  institutionOptions = useOrganisations();
   regionOptions = useRegions();
   districtOptions = useDistricts();
   programKindOptions = useProgramKinds('short-term');
   financingTypeOptions = useFunding();
-  partnerOptions = usePartners('short-term');
+  partnersOptions = useGeneralPartners();
   formValue = useControlValue(this.formGroup);
   selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
+  selectedDistrict = useControlValue(this.formGroup, (form) => form.controls.district);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
+  filteredOrganisations = useFilteredOrganisations(
+    this.selectedRegion,
+    this.selectedDistrict,
+    this.institutionOptions.value,
+  );
   foundResultsCount = useFoundProgramsCount(this.normalizedFilters);
 
   vetIcons = vetIcons;
@@ -70,6 +75,17 @@ export class ShortTermProgramsFiltersDialogComponent {
     effect(() => {
       this.formGroup.patchValue(this.filters());
     });
+  }
+
+  ngOnInit(): void {
+    this.onRegionChange();
+  }
+
+  onRegionChange() {
+    const regionControl = this.formGroup.get('region');
+    const districtControl = this.formGroup.get('district');
+
+    regionControl?.valueChanges.pipe(tap(() => districtControl?.reset())).subscribe();
   }
 
   createFormGroup() {
@@ -83,7 +99,7 @@ export class ShortTermProgramsFiltersDialogComponent {
       program_kind: new FormControl<string | null>(null),
       start_study: new FormControl<string | null>(null),
       end_study: new FormControl<string | null>(null),
-      funding: new FormControl<string | null>(null),
+      funded: new FormControl<string | null>(null),
       partner: new FormControl<string | null>(null),
       current: new FormControl(false),
       planned: new FormControl(false),
@@ -115,7 +131,6 @@ export class ShortTermProgramsFiltersDialogComponent {
       this.onClose();
     }
   }
-  
 
   onClearClick() {
     this.formGroup.patchValue({
@@ -128,12 +143,11 @@ export class ShortTermProgramsFiltersDialogComponent {
       program_kind: null,
       start_study: null,
       end_study: null,
-      funding: null,
+      funded: null,
       partner: null,
       current: null,
       planned: null,
     });
-    this.onSubmit();
   }
 
   onClose() {

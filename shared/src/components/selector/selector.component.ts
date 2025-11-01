@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 import { noop } from 'lodash-es';
-import {
-  DropDownListComponent,
-  ItemTemplateDirective,
-  ValueTemplateDirective,
-} from '@progress/kendo-angular-dropdowns';
+import { DropDownFilterSettings, DropDownListComponent, ItemTemplateDirective, ValueTemplateDirective, FilterDirective, NoDataTemplateDirective } from '@progress/kendo-angular-dropdowns';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { vetIcons } from '../../shared.icons';
@@ -23,7 +19,9 @@ import { SelectorVersion } from './selector.component.types';
     ItemTemplateDirective,
     FormsModule,
     SVGIconComponent,
-  ],
+    FilterDirective,
+    NoDataTemplateDirective
+],
   templateUrl: './selector.component.html',
   styleUrl: './selector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,7 +30,9 @@ import { SelectorVersion } from './selector.component.types';
 export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
   version = input<SelectorVersion>('thin');
   placeholder = input('');
+  disabled = input(false);
   options = input<Array<SelectOption<T>>>([]);
+  filterable = input(false);
 
   ngControl = inject(NgControl, { optional: true, self: true });
   destroyRef = inject(DestroyRef);
@@ -114,5 +114,14 @@ export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
     }
 
     this.hasError.set(control.dirty || control.touched);
+  }
+
+  public filterSettings: DropDownFilterSettings = {
+    caseSensitive: false,
+    operator: 'startsWith',
+  };
+
+  public changeFilterOperator(operator: 'startsWith' | 'contains'): void {
+    this.filterSettings.operator = operator;
   }
 }

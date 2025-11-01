@@ -1,4 +1,4 @@
-import { DictionaryType, DistrictDictionaryType, DistrictOption, IdValue, Option, ValueLabel } from './types';
+import { DictionaryType, DistrictDictionaryType, DistrictOption, IdValue, Option, OrganisationDictionaryType, OrganisationOptions, PartnersDictionaryType, PartnersOptions, ValueLabel } from './types';
 
 export function dictionaryItemToOption(dictionaryItem: DictionaryType): Option {
   return {
@@ -35,11 +35,35 @@ export function isValidDistrictDictionaryType(input: Partial<DistrictDictionaryT
   return input.region_id != null;
 }
 
+export function isValidOrganisationDictionaryType(input: Partial<OrganisationDictionaryType>): input is OrganisationDictionaryType {
+  return input.region_id != null;
+}
+
+export function isValidPartnersDictionaryType(input: Partial<PartnersDictionaryType>): input is PartnersDictionaryType {
+  return input.id != null;
+}
+
 export function mapDistrictItemToOption(item: DistrictDictionaryType): DistrictOption {
   return {
     value: item.id,
     label: item.name,
     regionId: item.region_id,
     regionName: item.region_name,
+  };
+}
+
+export function mapOrganistaiontemToOption(item: OrganisationDictionaryType): OrganisationOptions {
+  return {
+    value: item.id,
+    label: item.name,
+    regionId: item.region_id,
+    districtId: item.district_id,
+  };
+}
+
+export function mapPartnersItemToOption(item: PartnersDictionaryType): PartnersOptions {
+  return {
+    value: item.id,
+    label: item.company_name,
   };
 }

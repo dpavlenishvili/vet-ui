@@ -522,6 +522,11 @@
     "uploaded_documents": "Uploaded Documents",
     "confirmation": "Confirmation",
     "update": "Update",
-    "view": "View"
+    "view": "View",
+    "cannot_change_field_non_draft": "Cannot change field selection after application is submitted",
+    "another_field_selected": "Another field is already selected",
+    "cannot_change_field_after_submission": "Cannot change field after application submission",
+    "field_already_registered": "You already have an application for this field",
+    "program_update_error": "Failed to update selected program"
   }
 }

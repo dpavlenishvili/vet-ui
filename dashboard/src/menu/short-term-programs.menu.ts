@@ -10,6 +10,7 @@ export function useShortTermProgramsMenu(): Signal<SidebarMenuItem> {
 
   const isExpanded = signal(false);
   const organisationId = userRolesService.getOrganisationId();
+  const organisation = userRolesService.getOrganisation();
 
   return computed(() => ({
     id: uuid(),
@@ -29,7 +30,7 @@ export function useShortTermProgramsMenu(): Signal<SidebarMenuItem> {
         text: 'dashboard.statistics',
         url: userRolesService.hasRole('Super Admin')
           ? `${BASE_PATH}/statistics`
-          : `${BASE_PATH}/statistics/${organisationId}`,
+          : `${BASE_PATH}/statistics/${organisationId}?orgName=${organisation}`,
         accessControl: isOneOf('Super Admin', 'Organisation'),
       },
     ],

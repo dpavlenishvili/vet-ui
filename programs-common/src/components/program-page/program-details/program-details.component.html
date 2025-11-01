@@ -1,8 +1,9 @@
 <div class="vet-program-card">
   <div class="vet-program-card-details">
     @for (item of items(); track item.label) {
-      <div>
-        <strong>{{ item.label | trans }}:</strong> {{ item.value | trans }}
+      <div class="vet-program-card-detail-item">
+        <strong>{{ item.label | trans }}:</strong>
+        <span [innerHTML]="item.value"></span>
       </div>
     }
   </div>

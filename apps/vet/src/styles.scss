@@ -1,6 +1,7 @@
 @use '@vet/shared-styles' as shared;
 @import '@vet/shared-styles/_styles.scss';
 @import 'bpg-mrgvlovani-caps/css/bpg-mrgvlovani-caps.css';
+@import "leaflet/dist/leaflet.css";
 
 /* Default Theme (applies to :root) */
 :root {

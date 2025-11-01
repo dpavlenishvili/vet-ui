@@ -10,8 +10,15 @@ import {
   mapIdValueToOption,
   ValueLabel,
 } from '@vet/shared-resources';
-import { DistrictOption, ProgramType } from './types';
-import { isValidDistrictDictionaryType, mapDistrictItemToOption } from './utils';
+import { DistrictOption, OrganisationOptions, ProgramType } from './types';
+import {
+  isValidDistrictDictionaryType,
+  isValidOrganisationDictionaryType,
+  isValidPartnersDictionaryType,
+  mapDistrictItemToOption,
+  mapOrganistaiontemToOption,
+  mapPartnersItemToOption,
+} from './utils';
 import { SelectOption, useAlert, withoutEmptyProperties } from '@vet/shared';
 
 export function useEducationLevels() {
@@ -59,6 +66,22 @@ export function useDistricts() {
   );
 }
 
+export function useOrganisations() {
+  return useSeparateDictionary(
+    (generals) => generals.getOrganisationsList({}),
+    isValidOrganisationDictionaryType,
+    mapOrganistaiontemToOption,
+  );
+}
+
+export function useGeneralPartners() {
+  return useSeparateDictionary(
+    (generals) => generals.getPartnersList({}),
+    isValidPartnersDictionaryType,
+    mapPartnersItemToOption,
+  );
+}
+
 export function useEducationStatus() {
   const admissionService = inject(AdmissionService);
   const alert = useAlert();
@@ -93,13 +116,13 @@ export function useUserSpecificEducationLevelOptions() {
   });
 }
 
-export function useInstitutionsDictionary() {
+export function useInstitutionsDictionary(withId?: boolean) {
   return useDefaultDictionary((generals) =>
     generals.getOrganisationsList({}).pipe(
       map((items) => ({
         data:
           items.data?.map((item) => ({
-            id: item.name as string,
+            id: withId ? item.id as number : item.name as string,
             name: item.name as string,
           })) ?? [],
       })),
@@ -113,6 +136,28 @@ export function useFilteredDistricts(regionId: Signal<number | null | undefined>
     const _districts = districts() ?? [];
 
     return selectedRegion ? _districts.filter((district) => district.regionId === selectedRegion) : _districts;
+  });
+}
+
+export function useFilteredOrganisations(
+  regionId: Signal<number | null | undefined>,
+  districtId: Signal<number | null | undefined>,
+  organisations: Signal<OrganisationOptions[]>,
+) {
+  return computed(() => {
+    const selectedRegion = regionId();
+    const selectedDistrict = districtId();
+    const _organisations = organisations() ?? [];
+
+    if (selectedDistrict) {
+      return _organisations.filter((organisation) => organisation.districtId === selectedDistrict);
+    }
+
+    if (selectedRegion) {
+      return _organisations.filter((organisation) => organisation.regionId === selectedRegion);
+    }
+
+    return _organisations;
   });
 }
 

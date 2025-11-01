@@ -40,6 +40,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
   placeholder = input('');
   min = input<string | null | undefined>('');
   max = input<string | null | undefined>('');
+  disabled = input(false);
 
   ngControl = inject(NgControl, { optional: true, self: true });
   destroyRef = inject(DestroyRef);

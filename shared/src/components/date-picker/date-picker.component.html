@@ -8,7 +8,7 @@
     [placeholder]="placeholder()"
     [readonly]="true"
     [clearButton]="true"
-    [disabled]="isDisabled()"
+    [disabled]="isDisabled() || disabled()"
     (focus)="onTextboxFocus()"
     (blur)="onTextboxBlur()"
   >
@@ -25,7 +25,7 @@
     [ngModel]="value()"
     [min]="minDate()"
     [max]="maxDate()"
-    [disabled]="isDisabled()"
+    [disabled]="isDisabled() || disabled()"
     (ngModelChange)="handleChange($event)"
   />
 

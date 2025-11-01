@@ -38,12 +38,14 @@
             formControlName="region"
             [placeholder]="'shorts.region' | transloco"
             [options]="regionOptions.value()"
+            [filterable]="true"
           />
 
           <vet-selector
             formControlName="district"
             [placeholder]="'shorts.district' | transloco"
             [options]="filteredDistricts()"
+            [filterable]="true"
           />
         </div>
 
@@ -51,7 +53,8 @@
           self-grow
           formControlName="organisation_name"
           [placeholder]="'shorts.institution_name' | transloco"
-          [options]="institutionOptions.value()"
+          [options]="filteredOrganisations()"
+          [filterable]="true"
         />
       </div>
 

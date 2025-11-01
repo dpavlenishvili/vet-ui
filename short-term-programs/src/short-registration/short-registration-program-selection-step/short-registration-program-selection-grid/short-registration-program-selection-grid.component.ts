@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output, ResourceRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, ResourceRef } from '@angular/core';
 import {
   DateDiffPipe,
   FormatDatePipe,
@@ -6,9 +6,9 @@ import {
   PaginatedGridResult,
   useAlert,
   useConfirm,
-  vetIcons
+  vetIcons,
 } from '@vet/shared';
-import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
+import { ProgramShortAdmissionRes, ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import {
   CellTemplateDirective,
@@ -18,9 +18,10 @@ import {
   PageChangeEvent,
 } from '@progress/kendo-angular-grid';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { useProgramDialog } from '../../../short-term-programs.signals';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
+import { ShortAdmissionEligibility } from 'short-term-programs/src/short-term-programs.types';
 
 @Component({
   selector: 'vet-short-registration-program-selection-grid',
@@ -50,10 +51,24 @@ export class ShortRegistrationProgramSelectionGridComponent {
   itemUnselect = output<ShortProgramAdmission>();
   pageChange = output<number>();
 
+  translocoService = inject(TranslocoService);
+
   programDialog = useProgramDialog();
   alert = useAlert();
   unselectionConfirmation = useConfirm();
   vetIcons = vetIcons;
+
+  getEligibilityError(item: ShortAdmissionEligibility): string {
+    if (!item.eligibility?.eligible) {
+      const personError = item?.eligibility?.personsExistingFlowsErrors?.[0]?.error?.reason;
+      const prerequisiteError = item?.eligibility?.programPreRequisiteErrors?.[0]?.reason;
+      const reason = personError || prerequisiteError;
+
+      return reason;
+    }
+
+    return 'shorts.add_program';
+  }
 
   isProgramSelected(item: ShortProgramAdmission) {
     return item.id && this.selectedProgramIds().includes(item.id);

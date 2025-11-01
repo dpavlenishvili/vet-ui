@@ -25,6 +25,10 @@ kendo-dropdownlist.vet-selector {
   border-color: shared.$kendo-color-error !important;
 }
 
+.vet-list-item {
+  font-size: 0.8rem;
+}
+
 .vet-error-message {
   @include shared.text-sm();
   color: shared.$kendo-color-error;

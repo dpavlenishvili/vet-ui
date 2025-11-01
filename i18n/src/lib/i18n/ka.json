@@ -56,6 +56,7 @@
     "invalidPasswordPattern": "ველი უნდა შედგებოდეს 8 სიმბოლოსგან, მინიმუმ ერთი პატარა ასოს, დიდის ასოს, ციფრის, პუნქტუაციის ნიშნისა და სპეციალური სიმბოლოსგან.",
     "passwordsDoNotMatch": "პაროლები არ ემთხვევა ერთმანეთს",
     "programs": "პროგრამები",
+    "profession_programs": "პროფესიული პროგრამები",
     "program": "პროგრამა",
     "seeAll": "ყველას ნახვა",
     "please_fill_field": "გთხოვთ შეავსოთ ველი",
@@ -104,7 +105,8 @@
     "previous": "უკან დაბრუნება",
     "next": "გაგრძელება",
     "other": "სხვა",
-    "occured_technical_error": "დაფიქსირდა ტექნიკური ხარვეზი, გთხოვთ, სცადოთ მოგვიანებით!"
+    "occured_technical_error": "დაფიქსირდა ტექნიკური ხარვეზი, გთხოვთ, სცადოთ მოგვიანებით!",
+    "mandatory_fields_warning": "საჭიროა სავალდებულო ველების შევსება"
   },
   "auth": {
     "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
@@ -232,7 +234,7 @@
     "statistics": "სტატისტიკა",
     "short_term_programs": "მომზადება/გადამზადების პროგრამები",
     "registered_listeners": "რეგისტრირებული მსმენელები",
-    "non_formal_programs": "არაფორმალური განათლების პროგრამები"
+    "non_formal_programs": "არაფორმალური განთლების აღიარება"
   },
   "programs": {
     "field": "სფერო",
@@ -714,7 +716,7 @@
     "no_gallery": "ფოტო ან ვიდეო მასალა არ მოიძებნა",
     "partial_funding": "ნაწილობრივი",
     "no_funding": "არა",
-    "full_funding": "სრული"
+    "full_funding": "დიახ"
   },
   "organisations": {
     "organisation_name": "დაწესებულება",
@@ -757,7 +759,7 @@
     "not_available_yet": "ჯერ არ არის ხელმისაწვდომი",
     "registration_active": "რეგისტრაცია გამოცხადებულია",
     "registration_inactive": "რეგისტრაცია დაუსრულებელია",
-    "view_details": "დაწვრილებით",
+    "view_details": "იხილიეთ სრულად",
     "no_programs_found": "პროგრამები ვერ მოიძებნა",
     "field_description": "სფეროს მოკლე აღწერა",
     "recognition_announcement": "გამოცხადებულია აღიარება",
@@ -828,8 +830,8 @@
     "action_description_label": "არჩეული სფეროს ფარგლებში, რა ქმედებები შეგიძლიათ განახორციელოთ?",
     "who_taught_you_label": "ვინ გასწავლათ?",
     "source_of_information_label": "გთხოვთ, მონიშნოთ არაფორმალური განათლების აღიარების ინფორმირების წყარო",
-    "experience_years_label": "სამუშაო გამოცდილება (წლები)",
-    "like_your_job_label": "მოგწონთ თუ არა თქვენი სამუშაო?",
+    "experience_years_label": "რამდენი წელია რაც ამ საქმით ხართ დაკავებული?",
+    "like_your_job_label": "მოგწონთ თქვენი საქმიანობა?",
     "character_count": "სიმბოლოების რაოდენობა: {{count}}/{{max}}",
     "recognition_purpose_employment": "დასაქმება",
     "recognition_purpose_self_employment": "თვითდასაქმება",
@@ -852,6 +854,11 @@
     "employment_contract": "შრომითი ხელშეკრულება",
     "other": "სხვა",
     "update": "რედაქტირება",
-    "view": "დათვალიერება"
+    "view": "დათვალიერება",
+    "cannot_change_field_non_draft": "სფეროს შეცვლა შეუძლებელია განაცხადის გაგზავნის შემდეგ",
+    "another_field_selected": "უკვე არჩეულია სხვა სფერო",
+    "cannot_change_field_after_submission": "სფეროს შეცვლა შეუძლებელია განაცხადის გაგზავნის შემდეგ",
+    "field_already_registered": "ამ სფეროზე უკვე გაქვთ წარდგენილი განაცხადი",
+    "program_update_error": "პროგრამის განახლება ვერ მოხერხდა"
   }
 }

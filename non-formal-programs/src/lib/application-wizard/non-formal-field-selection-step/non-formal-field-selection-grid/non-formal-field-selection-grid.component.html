@@ -13,6 +13,7 @@
       [loading]="data().isLoading()"
       class="main-grid"
       [resizable]="true"
+      ngSkipHydration
     >
       <kendo-grid-column
         field="isced"
@@ -66,20 +67,25 @@
               class="action-btn"
             ></button>
             @if (!isViewMode()) {
-              <button
-                (click)="onToggleProgramSelection(dataItem)"
-                [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled(dataItem) || isViewMode()"
-                fillMode="flat"
-                kendoButton
+              <span
+                [title]="getDisabledTooltipText()(dataItem) ? (getDisabledTooltipText()(dataItem) | transloco) : ''"
+                kendoTooltip
               >
-                @if (isSelected(dataItem.id)) {
-                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
-                } @else if (!isSelected(dataItem.id) && isAddButtonDisabled(dataItem)) {
-                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
-                } @else {
-                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
-                }
-              </button>
+                <button
+                  (click)="onToggleProgramSelection(dataItem)"
+                  [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled()(dataItem) || isViewMode()"
+                  fillMode="flat"
+                  kendoButton
+                >
+                  @if (isSelected(dataItem.id)) {
+                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
+                  } @else if (!isSelected(dataItem.id) && isAddButtonDisabled()(dataItem)) {
+                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
+                  } @else {
+                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
+                  }
+                </button>
+              </span>
             }
           </div>
         </ng-template>

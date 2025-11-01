@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
   DestroyRef,
+  effect,
   inject,
   input,
   OnInit,
@@ -55,6 +57,7 @@ export class NonFormalApplicationStepperComponent implements OnInit {
 
   private readonly window = inject(WA_WINDOW);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   isMobile = signal(false);
 
@@ -67,6 +70,13 @@ export class NonFormalApplicationStepperComponent implements OnInit {
       .subscribe(() => {
         this.updateResponsiveState();
       });
+
+    // Force change detection when stepIndex changes
+    // This ensures the Kendo Stepper updates its active state properly
+    effect(() => {
+      this.stepIndex(); // Track changes to stepIndex
+      this.cdr.markForCheck();
+    });
   }
 
   ngOnInit(): void {

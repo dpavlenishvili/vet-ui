@@ -2,20 +2,22 @@
   class="vet-selector vet-selector-{{ version() }}"
   [class.vet-has-error]="hasError()"
   [data]="options()"
+  [filterable]="filterable()"
+  [kendoDropDownFilter]="filterSettings"
   valueField="value"
   textField="label"
   [valuePrimitive]="true"
   [defaultItem]="defaultItem()"
-  [disabled]="isDisabled()"
+  [disabled]="isDisabled() || disabled()"
   [ngModel]="value()"
   (ngModelChange)="handleChange($event)"
 >
   <ng-template kendoDropDownListValueTemplate let-item>
     <div class="k-w-full k-display-flex k-justify-content-between k-align-items-center">
       <div class="k-display-flex k-align-items-center k-gap-2 k-m-1">
-        <ng-content select="[before]"/>
+        <ng-content select="[before]" />
         <span>{{ item.label | transloco }}</span>
-        <ng-content select="[after]"/>
+        <ng-content select="[after]" />
       </div>
 
       <kendo-svg-icon
@@ -28,7 +30,11 @@
   </ng-template>
 
   <ng-template kendoDropDownListItemTemplate let-item>
-    {{ item.label | transloco }}
+    <p class="vet-list-item">{{ item.label | transloco }}</p>
+  </ng-template>
+
+  <ng-template kendoDropDownListNoDataTemplate>
+    <p>{{ 'shared.noRecords' | transloco }}</p>
   </ng-template>
 </kendo-dropdownlist>
 

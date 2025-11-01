@@ -5,6 +5,7 @@ export {
 
 export * from './interceptors/authentication.interceptor';
 
+export * from './guards/has-mandatory-fields.guard';
 export * from './guards/has-not-role.guard';
 export * from './guards/has-not-permission.guard';
 export * from './guards/has-role.guard';

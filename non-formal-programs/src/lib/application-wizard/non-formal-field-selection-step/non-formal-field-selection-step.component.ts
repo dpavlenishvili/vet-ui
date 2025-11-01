@@ -36,6 +36,7 @@ interface NonFormalProgram {
 export class NonFormalFieldSelectionStepComponent {
   formGroup = input.required<FormGroup>();
   isViewMode = input<boolean>(false);
+  applicationData = input<any>(null); // NEW: Receive application data
   next = output<void>();
 
   private readonly nonFormalService = inject(NonFormalService);
@@ -48,15 +49,45 @@ export class NonFormalFieldSelectionStepComponent {
 
   private readonly isInitialized = signal(false);
 
+  // NEW: Store registered field IDs
+  protected readonly registeredNonFormalIds = signal<number[]>([]);
+
+  // NEW: Computed signal to check if field changes are allowed
+  protected readonly isFieldChangeDisabled = computed(() => {
+    const data = this.applicationData();
+    if (!data || !data.id) return false; // Allow for new applications
+
+    // Check if status is not draft
+    const isDraft = data.is_draft === true;
+    const statusIsDraft = data.status?.name?.toLowerCase() === 'draft';
+    const statusIdIsDraft = data.status?.id === '0';
+
+    return !(isDraft || statusIsDraft || statusIdIsDraft);
+  });
+
   constructor() {
     // Initialize selectedProgramId from form value once
     effect(
       () => {
         const form = this.formGroup();
-        if (!this.isInitialized() && form) {
-          const initialValue = form.get('selected_program_id')?.value ?? null;
+        const data = this.applicationData();
+
+        if (form && !this.isInitialized() && data !== undefined) {
+          const initialValue =
+            form.get('selected_program_id')?.value || data?.non_formal_id || null;
           this.selectedProgramId.set(initialValue);
           this.isInitialized.set(true);
+        }
+      },
+      { allowSignalWrites: true },
+    );
+
+    // Extract registeredNonFormalIds from API response
+    effect(
+      () => {
+        const response = this.programsResource.value();
+        if (response && response.registeredNonFormalIds) {
+          this.registeredNonFormalIds.set(response.registeredNonFormalIds);
         }
       },
       { allowSignalWrites: true },
@@ -135,10 +166,11 @@ export class NonFormalFieldSelectionStepComponent {
   private buildQueryParams(filters: NonFormalProgramFilters): Record<string, string> {
     const params: Record<string, string> = {};
 
+    // Map filters directly to API query params - property names now match API expectations
     if (filters.search) params['filters[search]'] = filters.search;
-    if (filters.region) params['filters[region]'] = filters.region;
-    if (filters.district) params['filters[district]'] = filters.district;
-    if (filters.organisation_name) params['filters[organisation]'] = filters.organisation_name;
+    if (filters.region != null) params['filters[region]'] = String(filters.region);
+    if (filters.district != null) params['filters[district]'] = String(filters.district);
+    if (filters.organisation != null) params['filters[organisation]'] = String(filters.organisation);
 
     return params;
   }

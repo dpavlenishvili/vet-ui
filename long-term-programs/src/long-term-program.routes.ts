@@ -1,3 +1,4 @@
+import { mandatoryFieldsGuard } from '@vet/auth';
 import type { Route } from '@angular/router';
 import { type AppBreadCrumbItem, breadcrumb } from '@vet/shared';
 
@@ -13,6 +14,7 @@ export const longTermProgramsRoutes: Route[] = [
       { path: '/dashboard/programs/long', text: 'programs.long-term-programs' },
       { path: '/long-term-programs/registration', text: 'programs.long-term-programs-admissionRegistration' },
     ]),
+    canActivate: [mandatoryFieldsGuard],
     children: [
       {
         path: 'general_information',

@@ -5,6 +5,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { trans, useRouteNumberParam } from '@vet/shared';
 import { ProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'vet-unauthorised-program-page',
@@ -18,6 +19,7 @@ export class UnauthorisedProgramPageComponent {
   routeProgramId = useRouteNumberParam('programId', 0);
 
   programsService = inject(ProgramsService);
+  translocoService = inject(TranslocoService);
 
   program = rxResource({
     request: () => this.programId() ?? this.routeProgramId(),
@@ -32,19 +34,19 @@ export class UnauthorisedProgramPageComponent {
     }
 
     return [
-      { label: trans('programs.field'), value: program.specialization?.title },
+      { label: trans('programs.field'), value: `${program.isced?.code} - ${program.isced?.name}` },
       { label: trans('programs.program_code'), value: program.program_code },
       { label: trans('programs.level'), value: program.education_level as unknown as string },
       { label: trans('programs.form'), value: program.program_kind?.name },
       {
         label: trans('programs.program_duration'),
-        value: trans('programs.duration_weeks', {
+        value: this.translocoService.translate('programs.duration_weeks', {
           duration: program.program_duration,
         }),
       },
       {
         label: trans('programs.duration_non_citizen'),
-        value: trans('programs.duration_weeks', {
+        value: this.translocoService.translate('programs.duration_weeks', {
           duration: program.program_duration_non_geo,
         }),
       },

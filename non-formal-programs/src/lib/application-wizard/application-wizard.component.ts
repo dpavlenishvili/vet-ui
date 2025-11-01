@@ -33,7 +33,12 @@ export interface NonFormalApplicationData {
   id?: number;
   user_id?: number;
   non_formal_id?: number;
-  status?: string;
+  status?: {
+    id?: string;
+    name?: string;
+    changed_at?: string;
+  };
+  status_id?: number | string; // Numeric status ID (e.g., 1 for draft)
   is_draft?: boolean;
   recognition_purpose?: string | null;
   action_description?: string | null;
@@ -328,7 +333,7 @@ export class ApplicationWizardComponent implements OnInit {
         who_taught_you_other: new FormControl<string | null>(null),
         source_of_information: new FormControl<string | null>(null, Validators.required),
         source_of_information_other: new FormControl<string | null>(null),
-        like_your_job: new FormControl<boolean | null>(null, Validators.required),
+        like_your_job: new FormControl<boolean | null>(null),
         experience_years: new FormControl<string | null>(null, [Validators.required, numericValidator]),
       }),
       documents: new FormGroup({

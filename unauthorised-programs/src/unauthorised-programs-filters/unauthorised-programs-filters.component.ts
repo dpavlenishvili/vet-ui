@@ -1,14 +1,5 @@
 import { UnAuthorisedProgramsFiltersDialogComponent } from './../unauthorised-filters-dialog/unauthorised-programs-filters-dialog.component';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  input,
-  output,
-  ResourceRef,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, OnInit, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
@@ -27,10 +18,12 @@ import { ProgramFilters } from '@vet/programs-common';
 import {
   useDistricts,
   useFilteredDistricts,
-  useInstitutionsDictionary,
+  useFilteredOrganisations,
+  useOrganisations,
   useProgramKinds,
   useRegions,
 } from '@vet/shared-resources';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-unauthorised-programs-filters',
@@ -52,20 +45,26 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class UnAuthorisedProgramsFiltersComponent {
+export class UnAuthorisedProgramsFiltersComponent implements OnInit {
   filters = input.required<ProgramFilters>();
   filtersChange = output<ProgramFilters>();
 
   hasExtraFilters = computed(() => Object.keys(this.filters()).filter((key) => key !== 'search').length > 0);
   formGroup = this.createFormGroup();
   isExpanded = signal(false);
-  institutionOptions = useInstitutionsDictionary();
+  institutionOptions = useOrganisations();
   regionOptions = useRegions();
   districtOptions = useDistricts();
   programTypesOptions = useProgramKinds('long-term');
   isFiltersDialogOpen = signal(false);
   selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
+  selectedDistrict = useControlValue(this.formGroup, (form) => form.controls.district);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
+  filteredOrganisations = useFilteredOrganisations(
+    this.selectedRegion,
+    this.selectedDistrict,
+    this.institutionOptions.value,
+  );
 
   vetIcons = vetIcons;
 
@@ -77,6 +76,17 @@ export class UnAuthorisedProgramsFiltersComponent {
         this.isExpanded.set(true);
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.onRegionChange();
+  }
+
+  onRegionChange() {
+    const regionControl = this.formGroup.get('region');
+    const districtControl = this.formGroup.get('district');
+
+    regionControl?.valueChanges.pipe(tap(() => districtControl?.reset())).subscribe();
   }
 
   createFormGroup() {

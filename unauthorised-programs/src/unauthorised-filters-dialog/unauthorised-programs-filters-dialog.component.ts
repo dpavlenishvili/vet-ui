@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
@@ -15,13 +15,15 @@ import { ProgramFilters } from '@vet/programs-common';
 import {
   useDistricts,
   useFilteredDistricts,
+  useFilteredOrganisations,
   useFinancingTypes,
-  useInstitutionsDictionary,
-  usePartners,
+  useGeneralPartners,
+  useOrganisations,
   useProgramKinds,
   useRegions,
 } from '@vet/shared-resources';
 import { useFoundUnauthorizedUserPrograms } from '../unauthorised-programs.resources';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-unauthorised-programs-filters-dialog',
@@ -40,21 +42,27 @@ import { useFoundUnauthorizedUserPrograms } from '../unauthorised-programs.resou
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class UnAuthorisedProgramsFiltersDialogComponent {
+export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
   filters = input.required<ProgramFilters>();
   filtersChange = output<ProgramFilters>();
   dialogClose = output();
 
   formGroup = this.createFormGroup();
-  institutionOptions = useInstitutionsDictionary();
+  institutionOptions = useOrganisations();
   regionOptions = useRegions();
   districtOptions = useDistricts();
   programTypesOptions = useProgramKinds('long-term');
   financingTypeOptions = useFinancingTypes('short-term');
-  partnerOptions = usePartners('short-term');
+  partnersOptions = useGeneralPartners();
   formValue = useControlValue(this.formGroup);
   selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
+  selectedDistrict = useControlValue(this.formGroup, (form) => form.controls.district);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
+  filteredOrganisations = useFilteredOrganisations(
+    this.selectedRegion,
+    this.selectedDistrict,
+    this.institutionOptions.value,
+  );
   foundResultsCount = useFoundUnauthorizedUserPrograms(this.formValue);
 
   vetIcons = vetIcons;
@@ -63,6 +71,17 @@ export class UnAuthorisedProgramsFiltersDialogComponent {
     effect(() => {
       this.formGroup.patchValue(this.filters());
     });
+  }
+
+  ngOnInit(): void {
+    this.onRegionChange();
+  }
+
+  onRegionChange() {
+    const regionControl = this.formGroup.get('region');
+    const districtControl = this.formGroup.get('district');
+
+    regionControl?.valueChanges.pipe(tap(() => districtControl?.reset())).subscribe();
   }
 
   createFormGroup() {

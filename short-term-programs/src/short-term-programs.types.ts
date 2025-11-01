@@ -59,3 +59,25 @@ export interface ShortStatsFilters {
   program?: string;
   program_kind?: string;
 }
+
+export interface ShortAdmissionEligibility {
+  eligibility: {
+    eligible: boolean;
+    flowId: number;
+    personsExistingFlowsErrors: {
+      error: ShortAdmissionErrors;
+      id: number;
+      state: {
+        id: number;
+        name: string;
+      };
+      studyEndDate: string | null;
+    }[];
+    programPreRequisiteErrors: ShortAdmissionErrors[];
+  };
+}
+
+export interface ShortAdmissionErrors {
+  errorCode: string;
+  reason: string;
+}

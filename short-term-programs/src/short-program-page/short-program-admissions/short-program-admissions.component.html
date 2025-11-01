@@ -22,8 +22,8 @@
         <div class="vet-grid-cell">{{ admission.study_start_date | formatDate }}</div>
         <div class="vet-grid-cell">{{ admission.students_limit }}</div>
         <div class="vet-grid-cell">{{ admission.program_fee }}</div>
-        <div class="vet-grid-cell">-</div>
-        <div class="vet-grid-cell">{{ admission.student_fee ?? '-' }}</div>
+        <div class="vet-grid-cell">{{ admission.funded_method }}</div>
+        <div class="vet-grid-cell">{{ admission.student_fee }}</div>
       }
     </div>
 

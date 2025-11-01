@@ -89,13 +89,12 @@ export class NonFormalConfirmationStepComponent {
     const educations = this.educations$.value();
     const form = this.formGroup();
 
-    console.log('selectedEducation', educations, form);
     if (!educations || !form) {
       return '';
     }
 
-    const selectedEducationId = form.get('questionnaire.education_level_id')?.value;
-    const selectedEducation = educations?.education_levels?.find((edu) => edu.id === selectedEducationId);
+    const selectedEducationId = form.get('questionnaire')?.get('education_level_id')?.value;
+    const selectedEducation = educations?.education_levels?.find((edu) => Number(edu.id) === selectedEducationId);
 
     return selectedEducation?.value || '';
   });

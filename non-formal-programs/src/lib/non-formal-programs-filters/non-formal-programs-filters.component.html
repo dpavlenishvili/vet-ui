@@ -14,16 +14,19 @@
           formControlName="field"
           [placeholder]="'non_formal.field' | transloco"
           [options]="[]"
+          [disabled]="true"
         />
 
         <vet-date-picker
           formControlName="start_date"
           [placeholder]="'non_formal.start_date' | transloco"
+          [disabled]="true"
         />
 
         <vet-date-picker
           formControlName="end_date"
           [placeholder]="'non_formal.end_date' | transloco"
+          [disabled]="true"
         />
       </div>
     </div>
@@ -43,7 +46,7 @@
         />
 
         <vet-selector
-          formControlName="organisation_name"
+          formControlName="organisation"
           [placeholder]="'non_formal.institution_name' | transloco"
           [options]="institutionOptions.value()"
         />

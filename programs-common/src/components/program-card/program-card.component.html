@@ -35,9 +35,12 @@
       <span class="vet-shorts-card-address">{{ _program.region?.name }}</span>
     </div>
 
-    <a [routerLink]="[(programDetailsPath() ?? 'programs'), _program.id]" class="vet-shorts-card-link">
+    <a
+      [routerLink]="[programDetailsPath() ?? 'programs', _program.id]"
+      [queryParams]="{ programName: _program.program_name }"
+      class="vet-shorts-card-link"
+    >
       {{ 'shorts.view_details' | transloco }}
     </a>
   </div>
 </div>
-

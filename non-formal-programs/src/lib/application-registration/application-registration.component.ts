@@ -53,8 +53,12 @@ export class ApplicationRegistrationComponent implements OnInit {
     }
 
     // Create new application and switch to update mode
+    // Pass application_id: null to indicate this is a new application (first time creation)
     this.nonFormalService
-      .nonFormalsRegistrationCreate({ non_formal_id: payload.non_formal_id })
+      .nonFormalsRegistrationCreate({
+        non_formal_id: payload.non_formal_id,
+        application_id: null, // FIRST TIME: explicitly pass null for new application
+      })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {

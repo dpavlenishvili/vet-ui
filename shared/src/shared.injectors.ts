@@ -31,6 +31,7 @@ import { ToastService } from './services/toast.service';
 import { filter, map, startWith } from 'rxjs';
 import { AppDialogService } from './services/app-dialog.service';
 import { DialogParams, DialogRef } from './shared.types';
+import { NavigationService } from './services/navigation.service';
 
 export function useBaseApiUrl(): string {
   return inject(BASE_API_URL);
@@ -124,6 +125,10 @@ export function useConfirm() {
 
 export function useToast() {
   return inject(ToastService);
+}
+
+export function useNavigation() {
+  return inject(NavigationService)
 }
 
 export function useDialog<Inputs = Record<string, unknown>>(

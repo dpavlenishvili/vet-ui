@@ -7,7 +7,7 @@ import { TransPipe, vetIcons } from '@vet/shared';
 import { LongTerm, NonFormalShow, ShortProgramShow } from '@vet/backend';
 import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramIscedListComponent } from './program-isced-list/program-isced-list.component';
-import { ProgramDetailItem, ProgramSectionItem } from '../../programs.types';
+import { ProgramDetailItem, ProgramSectionItem, ProgramWithEmploysArea } from '../../programs.types';
 import { NgTemplateOutlet } from '@angular/common';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';
 
@@ -44,12 +44,14 @@ export class ProgramPageComponent {
     const prog = this.program();
     if (!prog) return undefined;
 
-    // NonFormalShow doesn't have isced_description property
+    // NonFormalShow doesn't have employs_area or isced_description
     if ('isced' in prog) {
       return undefined;
     }
 
-    // ProgramShow and LongTerm have isced_description property
-    return (prog as ShortProgramShow | LongTerm).isced_description;
+    // ShortProgramShow and LongTerm have employs_area and isced_description
+    const typedProg = prog as ProgramWithEmploysArea;
+
+    return typedProg.employs_area;
   });
 }

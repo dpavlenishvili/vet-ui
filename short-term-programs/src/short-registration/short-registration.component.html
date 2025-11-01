@@ -9,6 +9,7 @@
 <ng-template #generalInformationStepTemplate>
   <vet-short-registration-general-information-step
     [formGroup]="formGroup.controls.general_information"
+    [selectedProgramsForm]="formGroup.controls.program_selection"
     (next)="onNext()"
   />
 </ng-template>
@@ -33,6 +34,7 @@
 <ng-template #confirmationStepTemplate>
   <vet-short-registration-confirmation-step
     [formGroup]="formGroup.controls.program_selection"
+    [educationLevel]="formGroup.controls.general_information.value.education_level"
     (complete)="onSubmit()"
     (back)="onBack()"
   />

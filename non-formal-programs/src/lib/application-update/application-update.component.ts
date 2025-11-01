@@ -65,6 +65,8 @@ export class ApplicationUpdateComponent implements OnInit {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
             next: () => {
+              // Reload application data to get updated questionnaire values
+              this.loadApplicationData(applicationId);
               void this.router.navigate([`/programs/non-formal/update-application/${applicationId}/documents`]);
             },
             error: () => {
@@ -79,6 +81,8 @@ export class ApplicationUpdateComponent implements OnInit {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
             next: () => {
+              // Reload application data to get updated media/documents
+              this.loadApplicationData(applicationId);
               void this.router.navigate([`/programs/non-formal/update-application/${applicationId}/confirmation`]);
             },
             error: () => {
@@ -109,12 +113,23 @@ export class ApplicationUpdateComponent implements OnInit {
     const originalNonFormalId = currentData?.non_formal_id;
     const newNonFormalId = payload.non_formal_id;
 
+    // NEW: Check if application status allows field changes (must be draft)
+    if (!this.isDraftStatus(currentData)) {
+      this.alert.error('non_formal.cannot_change_field_non_draft');
+      // Navigate to next step without changing field
+      void this.router.navigate([`/programs/non-formal/update-application/${applicationId}/selected-fields`]);
+      return;
+    }
+
     // Check if the selected program has changed
     if (newNonFormalId && originalNonFormalId !== newNonFormalId) {
-      // Program changed - create new application with the new program
-      // Note: This creates a NEW application (old one is abandoned)
+      // Program changed - create new application with both field_id and application_id
+      // UPDATE MODE: pass both field_id and application_id when field changes
       this.nonFormalService
-        .nonFormalsRegistrationCreate({ non_formal_id: newNonFormalId })
+        .nonFormalsRegistrationCreate({
+          non_formal_id: newNonFormalId,
+          application_id: parseInt(applicationId, 10), // UPDATE MODE: pass current application ID
+        })
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (res) => {
@@ -141,6 +156,22 @@ export class ApplicationUpdateComponent implements OnInit {
       // Program not changed - just navigate to next step
       void this.router.navigate([`/programs/non-formal/update-application/${applicationId}/selected-fields`]);
     }
+  }
+
+  /**
+   * Check if application status is draft
+   * Returns true if status allows field changes
+   */
+  private isDraftStatus(data: NonFormalApplicationData | null): boolean {
+    if (!data) return true; // Allow if no data yet
+
+    // Check multiple possible draft indicators
+    // Adjust these checks based on your actual API response structure
+    const isDraft = data.is_draft === true;
+    const statusIsDraft = data.status?.name?.toLowerCase() === 'draft';
+    const statusIdIsDraft = data.status?.id === '0'; // Assuming "0" is draft status ID from your API
+
+    return isDraft || statusIsDraft || statusIdIsDraft;
   }
 
   private loadApplicationData(id: string): void {

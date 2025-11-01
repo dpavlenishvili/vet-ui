@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { breakOnCommas, trans, useRouteNumberParam, vetIcons } from '@vet/shared';
+import { trans, useRouteNumberParam, vetIcons } from '@vet/shared';
 import { ShortProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
 import * as kendoIcons from '@progress/kendo-svg-icons';
@@ -64,20 +64,21 @@ export class ShortProgramPageComponent {
       );
     }
 
-    const admissionPrerequisite = parts.length > 0 ? breakOnCommas(parts.join(', '), 50) : '';
-
+    const admissionPrerequisite = parts.length > 0 ? parts.join(', ') : '';
+    const selectionMethods = program.selection_methods?.join(", ");
+    
     return [
-      { label: trans('shorts.field'), value: '' },
+      { label: trans('shorts.field'), value: `${program.isced?.code} - ${program.isced?.name}` },
       { label: trans('shorts.program_code'), value: program.program_code },
       { label: trans('shorts.qualification_level'), value: program.education_level as unknown as string },
       { label: trans('shorts.program_kind'), value: program.program_kind?.name },
       {
         label: trans('shorts.program_duration'),
-        value: trans('shorts.duration_weeks', {
+        value: this.translocoService.translate('shorts.duration_weeks', {
           duration: program.program_duration,
         }),
       },
-      { label: trans('shorts.admission_type'), value: '' },
+      { label: trans('shorts.admission_type'), value: selectionMethods },
       { label: trans('shorts.admission_prerequisite'), value: admissionPrerequisite },
       { label: trans('shorts.implementation_location'), value: program.address },
     ];

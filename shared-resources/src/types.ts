@@ -1,6 +1,4 @@
 import { Scalar } from '@vet/shared';
-import { FormGroup } from '@angular/forms';
-import { Signal, TemplateRef } from '@angular/core';
 
 export interface Option {
   label: string;
@@ -39,4 +37,28 @@ export interface DistrictDictionaryType extends DictionaryType<number> {
 export interface DistrictOption extends ValueLabel<number> {
   regionId: number;
   regionName: string;
+}
+
+export interface OrganisationDictionaryType extends DictionaryType<number> {
+  region_id: number;
+  id: number;
+  name: string;
+  district_id: number;
+}
+
+export interface PartnersDictionaryType extends DictionaryType<number> {
+  company_name: string;
+  id: number;
+}
+
+export interface OrganisationOptions extends ValueLabel<number> {
+  districtId: number;
+  value: number;
+  regionId: number;
+  label: string;
+}
+
+export interface PartnersOptions extends ValueLabel<number> {
+  value: number;
+  label: string
 }

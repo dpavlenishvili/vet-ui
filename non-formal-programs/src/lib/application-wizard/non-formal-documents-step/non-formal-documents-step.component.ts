@@ -106,6 +106,7 @@ export class NonFormalDocumentsStepComponent {
    * It validates the form and initiates the document upload process.
    */
   protected onNextClick(): void {
+    console.log('onNextClick');
     if (this.isViewMode()) {
       this.next.emit();
       return;
@@ -196,13 +197,13 @@ export class NonFormalDocumentsStepComponent {
 
     DOCUMENT_FIELDS.forEach((fieldName) => {
       const files: UploadedFile[] = form.get(fieldName)?.value || [];
-      files.forEach((uploadedFile) => {
+      files.forEach((uploadedFile: any) => {
         // Only append NEW files (files without an ID from the server)
         // Files with ID are already uploaded to the server
-        if (uploadedFile && !uploadedFile.id && uploadedFile.file) {
+        if (uploadedFile && !uploadedFile.id) {
           // uploadedFile.file is the actual File object from FileUploadComponent
           const fileName = uploadedFile.name || uploadedFile.filename || 'file';
-          formData.append(`${fieldName}[]`, uploadedFile.file, fileName);
+          formData.append(`${fieldName}[]`, uploadedFile, fileName);
         }
       });
     });

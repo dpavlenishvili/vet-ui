@@ -64,13 +64,7 @@
 
         @if (!isProgramSelected(item)) {
           <div kendoTooltip>
-            <span
-              [title]="
-                !item.eligibility?.eligible
-                  ? ('shorts.' + item.eligibility?.personsExistingFlowsErrors[0]?.error?.reason | transloco)
-                  : ('shorts.add_program' | transloco)
-              "
-            >
+            <span [title]="'shorts.' + getEligibilityError(item) | transloco">
               <button
                 kendoButton
                 type="button"

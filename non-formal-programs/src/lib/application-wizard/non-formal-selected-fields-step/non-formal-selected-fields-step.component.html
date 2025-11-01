@@ -10,12 +10,13 @@
         [data]="[program]"
         class="main-grid"
         [resizable]="true"
+        ngSkipHydration
       >
         <kendo-grid-column
           field="isced"
           [title]="'non_formal.field' | transloco"
-          [width]="250"
-          [minResizableWidth]="200"
+          [width]="300"
+          [minResizableWidth]="250"
         >
           <ng-template kendoGridCellTemplate let-dataItem>
             <div class="k-display-flex k-flex-column">
@@ -28,7 +29,7 @@
         </kendo-grid-column>
 
         <kendo-grid-column
-          field="organisation_name"
+          field="organisation.name"
           [title]="'non_formal.organisation_name' | transloco"
           [width]="250"
           [minResizableWidth]="200"
@@ -40,7 +41,7 @@
           [minResizableWidth]="180"
         >
           <ng-template kendoGridCellTemplate let-dataItem>
-            <span>{{ dataItem.registration_start_date }} - {{ dataItem.registration_end_date }}</span>
+            <span>{{ dataItem.registration?.start_date }} - {{ dataItem.registration?.end_date }}</span>
           </ng-template>
         </kendo-grid-column>
 
@@ -56,22 +57,22 @@
                 <button
                   kendoButton
                   fillMode="flat"
-                  size="medium"
-                  [svgIcon]="vetIcons.eye"
                   [title]="'shared.view' | transloco"
                   kendoTooltip
                   (click)="onPreviewProgramClick()"
                   class="action-btn"
-                ></button>
+                >
+                  <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="primary" />
+                </button>
                 <button
                   kendoButton
                   fillMode="flat"
-                  size="small"
-                  [svgIcon]="vetIcons.bin"
                   [title]="'shared.remove' | transloco"
                   (click)="onRemoveClick()"
                   class="action-btn"
-                ></button>
+                >
+                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
+                </button>
               </div>
             </ng-template>
           </kendo-grid-column>

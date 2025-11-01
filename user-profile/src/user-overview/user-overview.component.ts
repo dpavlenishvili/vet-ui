@@ -10,15 +10,14 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { RegistrationPhoneVerificationComponent, RolePipe, UserRolesService } from '@vet/auth';
 import { ButtonComponent, IconButtonComponent, InputComponent, SelectorComponent, useControlValue } from '@vet/shared';
 import { useDistricts, useFilteredDistricts, useRegions } from '@vet/shared-resources';
-import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
 type UserUpdateReq = {
-  address: string,
-  region_id: number,
-  district_id: number,
-  email: string,
-}
+  address: string;
+  region_id: number;
+  district_id: number;
+  email: string;
+};
 
 @Component({
   selector: 'vet-user-overview',
@@ -33,7 +32,7 @@ type UserUpdateReq = {
     SelectorComponent,
     InputComponent,
     ButtonComponent,
-    RolePipe
+    RolePipe,
   ],
 })
 export class UserOverviewComponent extends UserProfileSection {
@@ -49,7 +48,7 @@ export class UserOverviewComponent extends UserProfileSection {
     const isOrganisation = !!this.userRolesService.organisation();
     const isDefaultUser = !isOrganisation;
     const isSuperAdmin = this.userRolesService.hasRole('Super Admin');
-  
+
     return isDefaultUser || isSuperAdmin;
   });
 
@@ -66,7 +65,7 @@ export class UserOverviewComponent extends UserProfileSection {
   regionsOptions = useRegions();
   districtOptions = useDistricts();
 
-  selectedRegion = useControlValue(this.form, form => form.controls['region']);
+  selectedRegion = useControlValue(this.form, (form) => form.controls['region']);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
 
   private readonly _organisationUserResource = rxResource({
@@ -76,9 +75,9 @@ export class UserOverviewComponent extends UserProfileSection {
         code: organisation,
       };
     },
-    loader: ({ request: { code } }) => {  
-      if(code) {
-        return this.organisationService.getUserOrganisation(code)
+    loader: ({ request: { code } }) => {
+      if (code) {
+        return this.organisationService.getUserOrganisation(code);
       }
 
       return of(null);
@@ -87,21 +86,26 @@ export class UserOverviewComponent extends UserProfileSection {
 
   constructor() {
     super();
-  
+
     effect(() => {
       const organisation = this.userRolesService.organisation();
       const organisationUser = this._organisationUserResource.value();
       const user = this.authService.user();
       const canEdit = this.hasEditRights();
-    
+
       const formDataModel = organisation
         ? getOrganisationUserOverviewFormData(organisationUser)
         : getUserOverviewFormData(user);
-    
+
       this.form.reset(formDataModel);
       this.oldPhoneNumber = this.form.value.phone;
-      this.userGender.set(user?.gender)
-    
+      this.userGender.set(user?.gender);
+
+      if (!this.form.valid) {
+        this.form.markAllAsTouched();
+        this.alert.warning('shared.mandatory_fields_warning');
+      }
+
       if (!canEdit) {
         this.disableFormControls();
       }
@@ -114,7 +118,7 @@ export class UserOverviewComponent extends UserProfileSection {
     this.form.get('address')?.disable();
     this.form.get('email')?.disable();
     this.form.get('phone')?.disable();
-  }  
+  }
 
   onAddressExpandClick(): void {
     this.isAddressExpanded.update((expanded) => !expanded);
@@ -141,8 +145,8 @@ export class UserOverviewComponent extends UserProfileSection {
               if (response.error.error.code === 1002) {
                 this.isSmsCodeSent.set(true);
               }
-            }
-          })
+            },
+          }),
         )
         .subscribe();
     }
@@ -156,7 +160,7 @@ export class UserOverviewComponent extends UserProfileSection {
   handleSave(): void {
     const currentPhone = this.form.value.phone;
 
-    if(!this.form.valid) {
+    if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
     }

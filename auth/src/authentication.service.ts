@@ -65,6 +65,12 @@ export class AuthenticationService {
   readonly accessToken = this._accessToken.asReadonly();
   readonly isRefreshing = this._isRefreshing.asReadonly();
   readonly remember = this._remember.asReadonly();
+  readonly isMandatoryFieldsFilled = computed(() => {
+    const user = this.user();
+    if (!user) return false;
+
+    return !!(user.address && user.region && user.district);
+  });
 
   constructor() {
     effect(() => {

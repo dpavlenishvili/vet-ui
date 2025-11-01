@@ -1,3 +1,4 @@
+import { mandatoryFieldsGuard } from '@vet/auth';
 import { Route } from '@angular/router';
 import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
 
@@ -20,6 +21,7 @@ export const shortTermProgramsRoutes: Route[] = [
     loadComponent: () =>
       import('./short-registration/short-registration.component').then((m) => m.ShortRegistrationComponent),
     data: breadcrumb(baseRegistrationItems),
+    canActivate:[mandatoryFieldsGuard],
     children: [
       {
         path: ':step',
@@ -41,7 +43,7 @@ export const shortTermProgramsRoutes: Route[] = [
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/programs/short', text: 'shorts.short_term_programs' },
-      { path: '/programs/short', text: 'shorts.program' },
+      { path: '/programs/short', text: (route) => route.queryParamMap.get('programName') ?? '' },
     ]),
   },
 ];

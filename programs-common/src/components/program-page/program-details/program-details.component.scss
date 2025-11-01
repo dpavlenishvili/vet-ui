@@ -29,4 +29,19 @@
     flex-direction: column;
     gap: 0.875rem;
   }
+
+  .vet-program-card-detail-item {
+    display: flex;
+    gap: 0.875rem;
+
+    strong {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    span {
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+  }
 }

@@ -25,10 +25,17 @@ export class ProgramHeaderComponent {
 
   programName = computed(() => {
     const prog = this.program();
-
     if (!prog) return '';
-    // NonFormalShow uses 'isced', others use 'program_name'
-    return (prog as NonFormalShow).isced || (prog as ShortProgramShow | LongTerm).program_name || '';
+
+    const isced = (prog as Record<string, unknown>)['isced'];
+    if (typeof isced === 'string') return isced;
+
+    const name = (prog as Record<string, unknown>)['program_name'];
+    if (name && typeof name === 'object' && 'name' in (name as object)) {
+      return (name as Record<string, unknown>)['name'] as string;
+    }
+
+    return (typeof name === 'string' ? name : '') as string;
   });
 
   programPartners = computed(() => {

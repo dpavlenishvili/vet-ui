@@ -36,12 +36,14 @@
             formControlName="region"
             [placeholder]="'programs.region' | transloco"
             [options]="regionOptions.value()"
+            [filterable]="true"
           />
 
           <vet-selector
             formControlName="district"
             [placeholder]="'programs.district' | transloco"
             [options]="filteredDistricts()"
+            [filterable]="true"
           />
         </div>
 
@@ -50,6 +52,7 @@
             formControlName="organisation_name"
             [placeholder]="'programs.institution_name' | transloco"
             [options]="institutionOptions.value()"
+            [filterable]="true"
           />
         </div>
 
@@ -88,7 +91,8 @@
           <vet-selector
             formControlName="partner"
             [placeholder]="'programs.partners' | transloco"
-            [options]="partnerOptions.value()"
+            [options]="partnersOptions.value()"
+            [filterable]="true"
           />
         </div>
       </div>

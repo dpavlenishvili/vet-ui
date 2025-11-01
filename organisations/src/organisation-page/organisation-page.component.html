@@ -4,19 +4,26 @@
   <div class="main-container">
     <h2 class="k-text-center">{{ _organisation.name }}</h2>
 
-    <div class="scrollview-container">
-      <kendo-scrollview [data]="items" [width]="width" [height]="height" [arrows]="true" [pageable]="true">
-        <ng-template let-item="item">
-          <img src="{{ item.url }}" alt="{{ item.title }}" draggable="false" />
-        </ng-template>
-      </kendo-scrollview>
-    </div>
+    @if (_organisation.gallery?.length) {
+      @if (_organisation.gallery; as gallery) {
+        <div class="scrollview-container">
+          <kendo-scrollview [data]="gallery" [width]="width" [height]="height" [arrows]="true" [pageable]="true">
+            <ng-template let-item="item">
+              <div class="image-wrapper">
+                <img src="{{ item }}" alt="{{ item }}" class="scrollview-image" />
+              </div>
+            </ng-template>
+          </kendo-scrollview>
+        </div>
+      }
+    }
 
     <div class="info-container">
       <div class="info-block">
         <div class="info-content vet-text-base">
           <div>
-            {{ 'organisations.organisation_type' | transloco }}: <strong>{{ _organisation.institution_type_id }}</strong>
+            {{ 'organisations.organisation_type' | transloco }}:
+            <strong>{{ _organisation.institution_type_id }}</strong>
           </div>
           <div>
             {{ 'organisations.organisation_kind' | transloco }}:
@@ -62,7 +69,10 @@
             {{ 'organisations.legal_address' | transloco }}: <strong>{{ _organisation.legal_address }}</strong>
           </div>
           <div>
-            {{ 'organisations.field_of_activity' | transloco }}: <strong>{{ ' - ' }}</strong>
+            {{ 'organisations.field_of_activity' | transloco }}:
+            @if(_organisation.field_of_activities; as activity) {
+              <strong>{{activity.section_name}}</strong>
+            }
           </div>
         </div>
       </div>
@@ -96,5 +106,14 @@
         </div>
       </div>
     </div>
+
+    @if (_organisation.coordinates?.lng && _organisation.coordinates?.lat) {
+      <div class="map-container">
+        <vet-map 
+          [longitude]="_organisation.coordinates?.lng"
+          [latitude]="_organisation.coordinates?.lat"
+        />
+      </div>
+    }
   </div>
 }

@@ -5,9 +5,7 @@ import { ButtonComponent, FormControls, InfoComponent, useControlValue, vetIcons
 import { AuthenticationService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AdmissionService, ShortProgramAdmission } from '@vet/backend';
-import {
-  ShortRegistrationSelectedProgramsGridComponent
-} from '../short-registration-selected-programs-step/short-registration-selected-programs-grid/short-registration-selected-programs-grid.component';
+import { ShortRegistrationSelectedProgramsGridComponent } from '../short-registration-selected-programs-step/short-registration-selected-programs-grid/short-registration-selected-programs-grid.component';
 import { isPlatformBrowser } from '@angular/common';
 
 export interface ShortRegistrationConfirmationStepFormData {
@@ -35,6 +33,7 @@ export type ShortRegistrationConfirmationStepFormGroup = FormGroup<
 })
 export class ShortRegistrationConfirmationStepComponent {
   formGroup = input.required<ShortRegistrationConfirmationStepFormGroup>();
+  educationLevel = input.required<number | null | undefined>();
   complete = output();
   back = output();
 
@@ -48,7 +47,8 @@ export class ShortRegistrationConfirmationStepComponent {
   selectedPrograms = useControlValue(this.formGroup, (form) => form.controls.selected_programs);
   details = computed(() => {
     const user = this.user();
-    const educationStatus = this.educationStatus.value();
+
+    const educationStatus = this.educationStatus.value()?.find((status) => status.levelId === this.educationLevel());
 
     if (!user || this.educationStatus.isLoading()) {
       return null;
@@ -58,7 +58,7 @@ export class ShortRegistrationConfirmationStepComponent {
       { label: 'shorts.pid', value: user.pid },
       { label: 'shorts.name_surname', value: user.name },
       { label: 'shorts.mobile', value: user.phone },
-      { label: 'shorts.education', value: educationStatus?.[0].level },
+      { label: 'shorts.education', value: educationStatus?.level },
     ];
   });
 

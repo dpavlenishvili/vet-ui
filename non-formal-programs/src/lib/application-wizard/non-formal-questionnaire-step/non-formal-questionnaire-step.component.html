@@ -7,6 +7,7 @@
           formControlName="education_level_id"
           [options]="educationOptions()"
           [placeholder]="'non_formal.education' | transloco"
+          [disabled]="isViewMode()"
         />
       </div>
     </div>
@@ -83,6 +84,7 @@
             <vet-input
               formControlName="who_taught_you_other"
               [placeholder]="'shared.other' | transloco"
+              [disabled]="isViewMode()"
             />
           }
         </div>
@@ -141,6 +143,7 @@
             <vet-input
               formControlName="source_of_information_other"
               [placeholder]="'shared.other' | transloco"
+              [disabled]="isViewMode()"
             />
           }
         </div>
@@ -157,6 +160,7 @@
               formControlName="like_your_job"
               onLabel="{{ 'shared.yes' | transloco }}"
               offLabel="{{ 'shared.no' | transloco }}"
+              [disabled]="isViewMode()"
             />
           </div>
           @if (formGroup().get('like_your_job')?.invalid && formGroup().get('like_your_job')?.touched) {

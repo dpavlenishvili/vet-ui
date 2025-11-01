@@ -14,6 +14,7 @@
     <vet-non-formal-field-selection-step
       [formGroup]="form.controls.field_selection"
       [isViewMode]="isViewMode()"
+      [applicationData]="applicationData()"
       (next)="onNext()"
     />
   }

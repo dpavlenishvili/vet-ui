@@ -18,6 +18,7 @@ export * from './components/component-outlet.component';
 export * from './components/expandable-sidebar/expandable-sidebar.component';
 export * from './components/router-expandable-sidebar/router-expandable-sidebar.component';
 export * from './components/education-standarts/eduaction-standarts.component';
+export * from './components/map/map.component';
 
 export * from './pipes/date-diff.pipe';
 export * from './pipes/format-date.pipe';

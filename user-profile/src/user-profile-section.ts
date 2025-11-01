@@ -3,7 +3,7 @@ import { User, UsersService, UserUpdateReq } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
 import { finalize, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { formatDateFn, FormatDateFn, ToastService, useAlert } from '@vet/shared';
+import { formatDateFn, FormatDateFn, ToastService, useAlert, useNavigation } from '@vet/shared';
 import { Router } from '@angular/router';
 
 @Directive()
@@ -16,16 +16,19 @@ export class UserProfileSection {
   private readonly _userUpdating = signal(false);
   private readonly _mandatoryFieldsFn = mandatoryFieldsFn(formatDateFn('YYYY-MM-DD'));
 
-  private alert = useAlert()
+  alert = useAlert();
+  navigationService = useNavigation();
 
-  router = inject(Router)
+  router = inject(Router);
 
   protected updateUser(userReq: UserUpdateReq) {
     const user = this.authService.user();
     if (!user || !user.id) {
       return;
     }
+
     this._userUpdating.set(true);
+
     this.usersService
       .updateUser(user.id, {
         ...this._mandatoryFieldsFn(user),
@@ -35,8 +38,14 @@ export class UserProfileSection {
         takeUntilDestroyed(this.destroyRef),
         tap({
           next: () => {
-            this.alert.success('profile.user_update_success')
-            this.router.navigate([''])
+            this.alert.success('profile.user_update_success');
+
+            const returnUrl = this.navigationService.getReturnUrl();
+            if (returnUrl) {
+              this.router.navigateByUrl(returnUrl);
+            } else {
+              this.router.navigate(['']);
+            }
           },
           error: () => this.alert.error('profile.user_update_failed'),
         }),

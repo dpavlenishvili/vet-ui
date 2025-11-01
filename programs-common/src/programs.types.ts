@@ -92,3 +92,7 @@ export interface ProgramDetailItem {
   label: string | Translatable;
   value: string | number | null | undefined | false | Translatable;
 }
+
+export interface ProgramWithEmploysArea {
+  employs_area?: string;
+}
