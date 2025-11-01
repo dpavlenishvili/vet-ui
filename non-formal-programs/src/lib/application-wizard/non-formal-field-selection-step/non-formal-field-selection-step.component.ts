@@ -7,7 +7,7 @@ import { NonFormalProgramsFiltersComponent } from '../../non-formal-programs-fil
 import { NonFormalProgramFilters } from '../../non-formal-programs.types';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { NonFormalFieldSelectionGridComponent } from './non-formal-field-selection-grid/non-formal-field-selection-grid.component';
-import { PaginatedGridResult, vetIcons } from '@vet/shared';
+import { PaginatedGridResult, useAlert } from '@vet/shared';
 import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';
 import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';
 
@@ -40,8 +40,8 @@ export class NonFormalFieldSelectionStepComponent {
   next = output<void>();
 
   private readonly nonFormalService = inject(NonFormalService);
+  private readonly alert = useAlert();
 
-  protected readonly vetIcons = vetIcons;
   protected readonly filters = signal<NonFormalProgramFilters>({});
   protected readonly page = signal(1);
   protected readonly selectedProgramId = signal<number | null>(null);
@@ -157,6 +157,10 @@ export class NonFormalFieldSelectionStepComponent {
 
     if (!this.selectedProgramId()) {
       control?.markAsTouched();
+      this.alert.show({
+        text: 'non_formal.error_select_at_least_one_field',
+        variant: 'warning',
+      });
       return;
     }
 

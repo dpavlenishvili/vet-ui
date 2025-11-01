@@ -4,6 +4,7 @@ import { trans, useDialog } from '@vet/shared';
 export interface NonFormalProgramDialogInputs {
   programId: number;
   showGallery: boolean;
+  showVideo: boolean;
 }
 
 export function useNonFormalProgramDialog(
@@ -16,6 +17,7 @@ export function useNonFormalProgramDialog(
     height: '90%',
     inputs: {
       showGallery: false,
+      showVideo: false,
       programId: 0,
     },
   });

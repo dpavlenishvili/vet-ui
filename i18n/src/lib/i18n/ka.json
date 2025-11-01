@@ -859,6 +859,7 @@
     "another_field_selected": "უკვე არჩეულია სხვა სფერო",
     "cannot_change_field_after_submission": "სფეროს შეცვლა შეუძლებელია განაცხადის გაგზავნის შემდეგ",
     "field_already_registered": "ამ სფეროზე უკვე გაქვთ წარდგენილი განაცხადი",
-    "program_update_error": "პროგრამის განახლება ვერ მოხერხდა"
+    "program_update_error": "პროგრამის განახლება ვერ მოხერხდა",
+    "error_select_at_least_one_field": "სავალდებულოა მინიმუმ ერთი სფეროს არჩევა"
   }
 }

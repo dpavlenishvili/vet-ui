@@ -33,6 +33,7 @@ export class NonFormalProgramPageComponent {
 
   programId = input<number>();
   showGallery = input<boolean>(true);
+  showVideo = input<boolean>(true);
   routeProgramId = useRouteNumberParam('programId', 0);
   infoMessagesTemplate = viewChild<TemplateRef<unknown>>('infoMessages');
   programVideoTemplate = viewChild<TemplateRef<unknown>>('programVideo');
@@ -87,7 +88,7 @@ export class NonFormalProgramPageComponent {
       });
     }
 
-    if (program?.video_url) {
+    if (this.showVideo() && program?.video_url) {
       sections.push({
         title: '',
         content: '',

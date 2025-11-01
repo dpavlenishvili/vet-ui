@@ -224,7 +224,7 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
     if (!form) return;
 
     form.markAllAsTouched();
-    console.log(form.valid);
+
     if (form.valid || this.isViewMode()) {
       this.next.emit();
     }

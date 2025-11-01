@@ -110,6 +110,7 @@ export class ApplicationWizardComponent implements OnInit {
   protected readonly currentStepIndex = signal(0);
   protected readonly isMobile = signal(false);
   protected readonly currentStep = computed(() => this.steps()[this.currentStepIndex()]);
+  private readonly initialFormValues = signal<any>(null);
 
   private readonly _fieldSelectionStepTmpl = viewChild.required<TemplateRef<unknown>>('fieldSelectionStepTemplate');
   private readonly _selectedFieldsStepTmpl = viewChild.required<TemplateRef<unknown>>('selectedFieldsStepTemplate');
@@ -225,11 +226,29 @@ export class ApplicationWizardComponent implements OnInit {
       return;
     }
 
+    // Smart navigation in update mode: only call API if data changed
+    const applicationId = this.applicationId();
+    const isUpdateMode = !!applicationId;
+
+    if (isUpdateMode && !this.hasFormChanged(currentStepPath)) {
+      // No changes detected, just navigate without API call
+      if (!isLastStep) {
+        this.currentStepIndex.set(currentIndex + 1);
+        this.navigateToStep(currentIndex + 1);
+      }
+      return;
+    }
+
     // Steps that need API calls: field-selection, questionnaire, confirmation
     const payload = this.preparePayload(currentStepPath);
 
     if (!isLastStep) {
       this.currentStepIndex.set(currentIndex + 1);
+    }
+
+    // Update initial values after successful change
+    if (isUpdateMode) {
+      this.initialFormValues.set(this.getFormSnapshot());
     }
 
     this.emitUpdate(payload, currentStepPath);
@@ -263,6 +282,8 @@ export class ApplicationWizardComponent implements OnInit {
     const applicationData = this.applicationData();
     if (applicationData) {
       this.patchApplication(applicationData);
+      // Capture initial form values for change detection in update mode
+      this.initialFormValues.set(this.getFormSnapshot());
     }
 
     this.disableFormControlsInViewMode();
@@ -476,6 +497,40 @@ export class ApplicationWizardComponent implements OnInit {
       void this.router.navigate([`/programs/non-formal/${routePrefix}/${applicationId}/${stepPath}`]);
     } else {
       void this.router.navigate([`/programs/non-formal/register-application/${stepPath}`]);
+    }
+  }
+
+  /**
+   * Captures a snapshot of current form values for change detection
+   */
+  private getFormSnapshot(): any {
+    const form = this.formGroup();
+    if (!form) return null;
+
+    return JSON.parse(JSON.stringify(form.getRawValue()));
+  }
+
+  /**
+   * Checks if the form values have changed compared to initial values
+   */
+  private hasFormChanged(stepPath: string): boolean {
+    const initial = this.initialFormValues();
+    if (!initial) return true; // If no initial values, assume changed
+
+    const current = this.getFormSnapshot();
+    if (!current) return false;
+
+    // Compare based on step
+    switch (stepPath) {
+      case 'field-selection':
+      case 'selected-fields':
+        return JSON.stringify(initial.field_selection) !== JSON.stringify(current.field_selection);
+      case 'questionnaire':
+        return JSON.stringify(initial.questionnaire) !== JSON.stringify(current.questionnaire);
+      case 'documents':
+        return JSON.stringify(initial.documents) !== JSON.stringify(current.documents);
+      default:
+        return true;
     }
   }
 }

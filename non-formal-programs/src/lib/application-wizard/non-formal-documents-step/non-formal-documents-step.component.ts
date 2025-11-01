@@ -106,7 +106,6 @@ export class NonFormalDocumentsStepComponent {
    * It validates the form and initiates the document upload process.
    */
   protected onNextClick(): void {
-    console.log('onNextClick');
     if (this.isViewMode()) {
       this.next.emit();
       return;

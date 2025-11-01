@@ -5,7 +5,7 @@ import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { NonFormalService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { vetIcons } from '@vet/shared';
+import { useAlert, vetIcons } from '@vet/shared';
 import { of } from 'rxjs';
 import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';
 import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';
@@ -27,6 +27,7 @@ export class NonFormalSelectedFieldsStepComponent {
   next = output<void>();
 
   private readonly nonFormalService = inject(NonFormalService);
+  private readonly alert = useAlert();
   protected readonly vetIcons = vetIcons;
   protected readonly programDialog = useNonFormalProgramDialog(NonFormalProgramPageComponent);
 
@@ -37,7 +38,6 @@ export class NonFormalSelectedFieldsStepComponent {
     request: () => ({ programId: this.selectedProgramId() }),
     loader: ({ request }) => {
       const { programId } = request;
-      console.log(programId);
       if (!programId) {
         return of(null as any);
       }
@@ -67,6 +67,12 @@ export class NonFormalSelectedFieldsStepComponent {
 
   protected onNextClick(): void {
     if (!this.selectedProgramId()) {
+      this.alert.show({
+        text: 'non_formal.error_select_at_least_one_field',
+        variant: 'warning',
+      });
+      // Auto-navigate back to field selection step
+      this.back.emit();
       return;
     }
     this.next.emit();
