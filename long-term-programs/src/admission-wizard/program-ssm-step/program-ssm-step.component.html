@@ -13,17 +13,15 @@
             <b>{{ 'programs.ssm_question' | transloco }}</b>
           </div>
           <div>
-            <kendo-switch
-              formControlName="spec_edu"
-              [readonly]="isViewMode()"
-              [onLabel]="'shared.yes' | transloco"
-              [offLabel]="'shared.no' | transloco"
-              (valueChange)="onSpecEduSwitchChange($event)"
+            <vet-switch
+              [ngModel]="specEduEnabled()"
+              [disabled]="isViewMode()"
+              (ngModelChange)="onSpecEduSwitchChange($event)"
             />
           </div>
         </div>
 
-        @if (form.controls['spec_edu'].value) {
+        @if (specEduEnabled()) {
           <vet-divider />
 
           <div
@@ -38,10 +36,9 @@
             >
               <div class="k-display-flex k-flex-column k-gap-4.5 k-flex-1">
                 <kendo-formfield>
-                  <kendo-textbox
+                  <vet-input
                     formControlName="e_name"
-                    [size]="'large'"
-                    [rounded]="'large'"
+                    version="fat"
                     [placeholder]="'programs.ssm_contact_person_first_name' | transloco"
                     [readonly]="isViewMode()"
                   />
@@ -54,10 +51,9 @@
                   }
                 </kendo-formfield>
                 <kendo-formfield>
-                  <kendo-textbox
+                  <vet-input
                     formControlName="e_email"
-                    [size]="'large'"
-                    [rounded]="'large'"
+                    version="fat"
                     [placeholder]="'programs.ssm_contact_person_email' | transloco"
                     [readonly]="isViewMode()"
                   />
@@ -73,10 +69,9 @@
 
               <div class="k-display-flex k-flex-column k-gap-4.5 k-flex-1">
                 <kendo-formfield>
-                  <kendo-textbox
+                  <vet-input
                     formControlName="e_lastname"
-                    [size]="'large'"
-                    [rounded]="'large'"
+                    version="fat"
                     [placeholder]="'programs.ssm_contact_person_last_name' | transloco"
                     [readonly]="isViewMode()"
                   />
@@ -90,11 +85,7 @@
                 </kendo-formfield>
 
                 <kendo-formfield>
-                  <kendo-textbox [clearButton]="true" [readonly]="isViewMode()" formControlName="e_phone">
-                    <ng-template kendoTextBoxPrefixTemplate>
-                      <span class="k-ml-2 k-color-black">+995</span>
-                    </ng-template>
-                  </kendo-textbox>
+                  <vet-input [readonly]="isViewMode()" formControlName="e_phone" prefix="+995" />
 
                   @if (form.controls['e_phone']; as control) {
                     @if (control.touched) {
@@ -119,35 +110,30 @@
                 <b>{{ 'programs.ssm_translator_requirement_question' | transloco }}</b>
               </div>
               <div>
-                <kendo-switch
-                  [onLabel]="'shared.yes' | transloco"
-                  [offLabel]="'shared.no' | transloco"
-                  [checked]="!!selectedLanguage()"
-                  [readonly]="isViewMode()"
+                <vet-switch
+                  [ngModel]="translateReqEnabled()"
                   [disabled]="isViewMode()"
-                  (valueChange)="onLanguageSwitchChange($event)"
-                  #translateReq
+                  (ngModelChange)="onLanguageSwitchChange($event)"
                 />
               </div>
             </div>
 
-            @if (translateReq.checked) {
+            @if (translateReqEnabled()) {
               <div class="k-display-flex k-gap-3.5 translator-fields-container">
                 <div class="k-flex-1">
-                  <kendo-dropdownlist
-                    [data]="languages$.value()"
-                    [readonly]="isViewMode()"
+                  <vet-selector
+                    [options]="$any(languages$.value() || [])"
+                    [disabled]="isViewMode()"
                     formControlName="translate_select"
-                    (valueChange)="onSelectedLanguageChange($event)"
                   >
-                    <ng-template kendoDropDownListValueTemplate let-item>
+                    <ng-template valueTemplate let-item>
                       {{ item | transloco }}
                     </ng-template>
 
-                    <ng-template kendoDropDownListItemTemplate let-item>
+                    <ng-template itemTemplate let-item>
                       {{ item | transloco }}
                     </ng-template>
-                  </kendo-dropdownlist>
+                  </vet-selector>
                   @if (form.controls['translate_select']; as control) {
                     @if (control.touched) {
                       @if (control.errors?.['required']) {
@@ -159,11 +145,10 @@
 
                 <div class="k-flex-1">
                   @if (selectedLanguage() === 'other' || selectedLanguage() === 'სხვა') {
-                    <kendo-textbox
+                    <vet-input
                       [readonly]="isViewMode()"
                       formControlName="translate"
                       required
-                      inputmode="flat"
                       [placeholder]="'programs.enter_language' | transloco"
                     />
                     @if (form.controls['translate']; as control) {
@@ -205,13 +190,13 @@
     </div>
 
     <div class="k-display-flex k-justify-content-between buttons-container">
-      <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
+      <vet-button variant="secondary" mode="flat" type="button" (click)="onPreviousClick()">
         {{ 'auth.previous' | transloco }}
-      </button>
+      </vet-button>
 
-      <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
+      <vet-button variant="primary" mode="flat" type="button" (click)="onNextClick()">
         {{ 'auth.next' | transloco }}
-      </button>
+      </vet-button>
     </div>
   </form>
 }

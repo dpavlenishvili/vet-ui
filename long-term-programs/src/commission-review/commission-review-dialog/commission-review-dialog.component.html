@@ -7,7 +7,7 @@
             @for (item of CommissionCriteria.controls; track $index) {
               <div [formGroup]="item" class="score-container">
                 <p>{{ _commissionCriteria?.data?.[$index]?.name }}</p>
-                <kendo-textbox
+                <vet-input
                   formControlName="score"
                   class="score-input"
                   [maxlength]="1"
@@ -25,13 +25,13 @@
     </vet-info>
 
     <div class="k-display-flex k-justify-content-between">
-      <button kendoButton themeColor="secondary" look="default" (click)="handleCloseWithWarning()">
+      <vet-button variant="secondary" mode="flat" (click)="handleCloseWithWarning()">
         {{ 'programs.close' | transloco }}
-      </button>
+      </vet-button>
 
-      <button kendoButton themeColor="primary" look="default" (click)="handleSave()">
+      <vet-button variant="primary" mode="flat" (click)="handleSave()">
         {{ 'programs.save' | transloco }}
-      </button>
+      </vet-button>
     </div>
   </div>
 </kendo-dialog>

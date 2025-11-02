@@ -201,10 +201,8 @@
                   {{ 'non_formal.like_your_job_label' | transloco }}
                 </label>
                 <div class="radio-group">
-                  <kendo-switch
+                  <vet-switch
                     formControlName="like_your_job"
-                    onLabel="{{ 'shared.yes' | transloco }}"
-                    offLabel="{{ 'shared.no' | transloco }}"
                     [disabled]="true"
                   />
                 </div>
@@ -255,24 +253,24 @@
       </div>
 
       <div class="confirmation-actions">
-        <button
-          kendoButton
-          themeColor="secondary"
+        <vet-button
+          variant="tertiary"
+          version="fat"
           type="button"
-          [svgIcon]="vetIcons.print"
+          leadingIcon="print"
           (click)="onPrintClick()"
           class="print-button"
         >
           {{ 'programs.print' | transloco }}
-        </button>
+        </vet-button>
 
         <div class="navigation-buttons">
-          <button kendoButton themeColor="secondary" type="button" (click)="onBackClick()">
+          <vet-button version="fat" variant="tertiary" type="button" (click)="onBackClick()">
             {{ 'shared.previous' | transloco }}
-          </button>
-          <button kendoButton themeColor="primary" type="button" (click)="onCompleteClick()">
+          </vet-button>
+          <vet-button version="fat" type="button" (click)="onCompleteClick()">
             {{ (isViewMode() ? 'programs.close' : 'non_formal.submit_application') | transloco }}
-          </button>
+          </vet-button>
         </div>
       </div>
     </form>

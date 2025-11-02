@@ -46,28 +46,25 @@
   </kendo-grid-column>
 
   @if (isEditMode()) {
-    <kendo-grid-column [width]="56" [title]="'programs.selection' | transloco">
+    <kendo-grid-column [width]="80" [title]="'programs.selection' | transloco">
       <ng-template kendoGridCellTemplate let-item>
         <div class="short-grid-action-buttons">
-          <button
-            kendoButton
-            type="button"
-            fillMode="flat"
+          <vet-icon-button
+            icon="eye"
+            mode="flat"
+            iconSize="small"
             class="short-grid-action-button"
             (click)="onPreviewProgram(item)"
-          >
-            <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.eye" themeColor="warning" />
-          </button>
+          />
 
-          <button
-            kendoButton
-            type="button"
-            fillMode="flat"
+          <vet-icon-button
+            icon="minusCircleRed"
+            mode="flat"
+            iconSize="small"
+            variant="error"
             class="short-grid-action-button"
             (click)="onUnselectProgram(item)"
-          >
-            <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.minusCircleRed" themeColor="error" />
-          </button>
+          />
         </div>
       </ng-template>
     </kendo-grid-column>

@@ -77,9 +77,9 @@
     </kendo-grid>
 
     <div class="k-d-flex k-justify-content-end k-mt-4">
-      <button kendoButton [primary]="true" (click)="onClose()">
+      <vet-button variant="primary" mode="flat" (click)="onClose()">
         {{ 'shared.close' | transloco }}
-      </button>
+      </vet-button>
     </div>
   </div>
 } @else if ('Default User' | role) {
@@ -90,8 +90,8 @@
   <vet-admission-program-grid [readonly]="true" />
 
   <div class="k-d-flex k-justify-content-end k-mt-4">
-    <button kendoButton [primary]="true" (click)="onClose()">
+    <vet-button variant="primary" mode="flat" (click)="onClose()">
       {{ 'shared.close' | transloco }}
-    </button>
+    </vet-button>
   </div>
 }

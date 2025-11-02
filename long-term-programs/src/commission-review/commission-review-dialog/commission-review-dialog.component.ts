@@ -2,18 +2,30 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, output }
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { UserRolesService } from '@vet/auth';
 import { CommissionService } from '@vet/backend';
 import { tap } from 'rxjs';
 import { Criteria, ScorePayload } from 'long-term-programs/src/long-term-programs.types';
-import { InfoComponent, scoreValidator } from '@vet/shared';
+import {
+  ButtonComponent as VetButtonComponent,
+  InfoComponent,
+  InputComponent,
+  scoreValidator
+} from '@vet/shared';
 
 @Component({
   selector: 'vet-commission-review-dialog',
-  imports: [KENDO_DIALOG, ReactiveFormsModule, InputsModule, KENDO_BUTTON, TranslocoPipe, InfoComponent],
+  imports: [
+    KENDO_DIALOG,
+    ReactiveFormsModule,
+    InputsModule,
+    TranslocoPipe,
+    InfoComponent,
+    VetButtonComponent,
+    InputComponent,
+  ],
   templateUrl: './commission-review-dialog.component.html',
   styleUrl: './commission-review-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

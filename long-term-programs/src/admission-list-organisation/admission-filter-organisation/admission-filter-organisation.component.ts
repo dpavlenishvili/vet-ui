@@ -7,7 +7,7 @@ import {
   InputComponent,
   SelectorComponent,
   vetIcons,
-  withoutEmptyProperties,
+  withoutEmptyProperties
 } from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';

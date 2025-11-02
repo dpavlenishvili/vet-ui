@@ -54,25 +54,24 @@
           >
             <ng-template kendoGridCellTemplate>
               <div class="k-display-flex k-justify-content-center">
-                <button
-                  kendoButton
-                  fillMode="flat"
+                <vet-icon-button
+                  icon="eye"
+                  mode="flat"
+                  iconSize="small"
                   [title]="'shared.view' | transloco"
                   kendoTooltip
                   (click)="onPreviewProgramClick()"
                   class="action-btn"
-                >
-                  <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="primary" />
-                </button>
-                <button
-                  kendoButton
-                  fillMode="flat"
+                />
+                <vet-icon-button
+                  icon="minusCircleRed"
+                  mode="flat"
+                  iconSize="small"
+                  variant="error"
                   [title]="'shared.remove' | transloco"
                   (click)="onRemoveClick()"
                   class="action-btn"
-                >
-                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
-                </button>
+                />
               </div>
             </ng-template>
           </kendo-grid-column>
@@ -86,15 +85,14 @@
   }
 
   <div class="k-display-flex k-justify-content-between k-mt-4">
-    <button kendoButton themeColor="base" (click)="onBackClick()">
+    <vet-button version="fat" variant="tertiary" (click)="onBackClick()">
       {{ 'shared.previous' | transloco }}
-    </button>
-    <button
-      kendoButton
-      themeColor="primary"
+    </vet-button>
+    <vet-button
+      version="fat"
       (click)="onNextClick()"
     >
       {{ 'shared.next' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </div>

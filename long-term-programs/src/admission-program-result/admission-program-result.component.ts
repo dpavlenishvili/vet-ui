@@ -8,7 +8,7 @@ import { LoaderComponent } from '@progress/kendo-angular-indicators';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { RolePipe } from '@vet/auth';
 import { AdmissionService } from '@vet/backend';
-import { InfoComponent, vetIcons } from '@vet/shared';
+import { ButtonComponent, InfoComponent, vetIcons } from '@vet/shared';
 import { AdmissionProgramGridComponent } from '../admission-program-grid/admission-program-grid.component';
 
 @Component({
@@ -18,6 +18,7 @@ import { AdmissionProgramGridComponent } from '../admission-program-grid/admissi
     ButtonsModule,
     TranslocoPipe,
     InfoComponent,
+    ButtonComponent,
     LoaderComponent,
     AdmissionProgramGridComponent,
     RolePipe,

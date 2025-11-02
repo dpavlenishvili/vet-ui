@@ -11,10 +11,11 @@ import {
   RouteParamsService,
   useFilters,
   useFiltersUpdater,
-  vetIcons,
+  vetIcons
 } from '@vet/shared';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { AdmissionsListAdminFiltersComponent } from './admissions-list-admin-filters/admissions-list-admin-filters.component';
+import {
+  AdmissionsListAdminFiltersComponent
+} from './admissions-list-admin-filters/admissions-list-admin-filters.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AdmissionListFilterParams } from '../long-term-programs.types';
@@ -25,7 +26,6 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
   imports: [
     KENDO_GRID,
     TranslocoPipe,
-    ButtonComponent,
     AdmissionsListAdminFiltersComponent,
     FormatDatePipe,
     IconButtonComponent,

@@ -9,18 +9,18 @@
   />
 
   <div class="k-display-flex k-justify-content-between buttons-container">
-    <button
+    <vet-button
       (click)="onPreviousClick()"
-      kendoButton
-      themeColor="secondary"
+      variant="secondary"
+      mode="flat"
       type="button"
       [title]="'auth.back' | transloco"
     >
       {{ 'auth.back' | transloco }}
-    </button>
+    </vet-button>
 
-    <button (click)="onNextClick()" kendoButton themeColor="primary" type="button" [title]="'auth.next' | transloco">
+    <vet-button (click)="onNextClick()" variant="primary" mode="flat" type="button" [title]="'auth.next' | transloco">
       {{ 'auth.next' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </div>

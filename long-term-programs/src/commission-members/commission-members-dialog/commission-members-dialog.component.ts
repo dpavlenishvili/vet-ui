@@ -8,7 +8,14 @@ import { CommissionService, User } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { georgianLettersValidator, InfoComponent, ToastService, vetIcons } from '@vet/shared';
+import {
+  ButtonComponent as VetButtonComponent,
+  georgianLettersValidator,
+  InfoComponent,
+  InputComponent,
+  ToastService,
+  vetIcons,
+} from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -26,6 +33,8 @@ import { KENDO_LABEL } from '@progress/kendo-angular-label';
     InfoComponent,
     KENDO_SVGICON,
     KENDO_LABEL,
+    VetButtonComponent,
+    InputComponent,
   ],
   templateUrl: './commission-members-dialog.component.html',
   styleUrl: './commission-members-dialog.component.scss',
@@ -173,7 +182,7 @@ export class CommissionMembersDialogComponent implements OnInit {
 
     if (currentMembers.some((member) => member.pid === newMember.pid)) {
       this.showTemporaryError(translate('programs.member_already_added'));
-      
+
       return false;
     }
 

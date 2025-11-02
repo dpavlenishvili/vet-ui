@@ -56,35 +56,28 @@
       >
         <ng-template kendoGridCellTemplate let-dataItem>
           <div class="k-display-flex k-justify-content-center">
-            <button
-              kendoButton
-              fillMode="flat"
-              size="medium"
-              [svgIcon]="vetIcons.eye"
+            <vet-icon-button
+              icon="eye"
+              mode="flat"
+              iconSize="small"
               [title]="'shared.view' | transloco"
               kendoTooltip
               (click)="onPreviewProgram(dataItem)"
               class="action-btn"
-            ></button>
+            />
             @if (!isViewMode()) {
               <span
                 [title]="getDisabledTooltipText()(dataItem) ? (getDisabledTooltipText()(dataItem) | transloco) : ''"
                 kendoTooltip
               >
-                <button
-                  (click)="onToggleProgramSelection(dataItem)"
+                <vet-icon-button
+                  [icon]="isSelected(dataItem.id) ? 'minusCircleRed' :
+                          (isAddButtonDisabled()(dataItem) ? 'blocked' : 'plusCircleGreen')"
+                  mode="flat"
+                  iconSize="small"
                   [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled()(dataItem) || isViewMode()"
-                  fillMode="flat"
-                  kendoButton
-                >
-                  @if (isSelected(dataItem.id)) {
-                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
-                  } @else if (!isSelected(dataItem.id) && isAddButtonDisabled()(dataItem)) {
-                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
-                  } @else {
-                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
-                  }
-                </button>
+                  (click)="onToggleProgramSelection(dataItem)"
+                />
               </span>
             }
           </div>

@@ -1,4 +1,12 @@
-import { ButtonComponent, IconButtonComponent, vetIcons } from '@vet/shared';
+import {
+  ButtonComponent as VetButtonComponent,
+  IconButtonComponent,
+  IconComponent,
+  InputComponent,
+  SelectorComponent,
+  vetIcons,
+  VetSwitchComponent,
+} from '@vet/shared';
 import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -38,7 +46,11 @@ interface Organisation {
     DateInputsModule,
     TooltipDirective,
     IconButtonComponent,
-    ButtonComponent,
+    VetButtonComponent,
+    IconComponent,
+    InputComponent,
+    SelectorComponent,
+    VetSwitchComponent,
   ],
   templateUrl: './program-selection-filters.component.html',
   styleUrl: './program-selection-filters.component.scss',

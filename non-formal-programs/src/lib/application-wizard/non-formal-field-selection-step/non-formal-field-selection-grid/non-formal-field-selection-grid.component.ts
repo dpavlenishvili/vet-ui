@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, ResourceRef } from '@angular/core';
 import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { vetIcons } from '@vet/shared';
+import { IconButtonComponent, vetIcons } from '@vet/shared';
 import { PagerComponent } from '@progress/kendo-angular-pager';
-import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 export interface NonFormalRegistrationProgram {
@@ -18,7 +16,7 @@ export interface NonFormalRegistrationProgram {
 
 @Component({
   selector: 'vet-non-formal-field-selection-grid',
-  imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, PagerComponent, SVGIconComponent, TooltipDirective],
+  imports: [KENDO_GRID, TranslocoPipe, PagerComponent, TooltipDirective, IconButtonComponent],
   templateUrl: './non-formal-field-selection-grid.component.html',
   styleUrl: './non-formal-field-selection-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

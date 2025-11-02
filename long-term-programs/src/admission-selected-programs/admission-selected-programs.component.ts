@@ -8,7 +8,7 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { useConfirm, vetIcons } from '@vet/shared';
+import { IconButtonComponent, useConfirm, vetIcons } from '@vet/shared';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
@@ -32,6 +32,7 @@ export type ProgramSelectedProgramsStepFormGroup = FormGroup;
     UnauthorisedProgramPageComponent,
     KENDO_TOOLTIP,
     LoaderComponent,
+    IconButtonComponent,
   ],
   templateUrl: './admission-selected-programs.component.html',
   styleUrl: './admission-selected-programs.component.scss',

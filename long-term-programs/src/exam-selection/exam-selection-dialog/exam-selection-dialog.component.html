@@ -12,13 +12,13 @@
             </kendo-label>
 
             <kendo-label [text]="'programs.address' | transloco">
-              <kendo-textbox formControlName="address" />
+              <vet-input formControlName="address" />
             </kendo-label>
           </div>
         } @else {
           <div class="k-display-flex k-justify-content-between k-align-items-center">
             <p>{{ selection?.method?.category }}</p>
-            <kendo-textbox formControlName="score" class="score-input" />
+            <vet-input formControlName="score" class="score-input" />
           </div>
         }
       </form>
@@ -26,13 +26,13 @@
   </div>
   <kendo-dialog-actions>
     <div class="k-display-flex k-justify-content-between k-p-2">
-      <button kendoButton (click)="handleClose()" themeColor="secondary">
+      <vet-button (click)="handleClose()" variant="secondary" mode="flat">
         {{ 'programs.close' | transloco }}
-      </button>
+      </vet-button>
 
-      <button kendoButton themeColor="primary" look="default" (click)="handleSave()">
+      <vet-button variant="primary" mode="flat" (click)="handleSave()">
         {{ 'programs.save' | transloco }}
-      </button>
+      </vet-button>
     </div>
   </kendo-dialog-actions>
 </kendo-dialog>

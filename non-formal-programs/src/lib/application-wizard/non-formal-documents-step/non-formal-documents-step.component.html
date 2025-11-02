@@ -50,11 +50,11 @@
   </div>
 
   <div class="actions">
-    <button kendoButton themeColor="base" (click)="back.emit()">
+    <vet-button version="fat" variant="tertiary" (click)="back.emit()">
       {{ 'shared.previous' | transloco }}
-    </button>
-    <button kendoButton themeColor="primary" (click)="onNextClick()">
+    </vet-button>
+    <vet-button version="fat" (click)="onNextClick()">
       {{ 'shared.next' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </div>

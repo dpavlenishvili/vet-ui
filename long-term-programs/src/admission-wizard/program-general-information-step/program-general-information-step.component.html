@@ -4,14 +4,12 @@
       <div class="k-d-flex k-gap-4 form-fields-container">
         <kendo-formfield>
           <kendo-label [text]="'shared.education' | transloco">
-            <kendo-dropdownlist
-              [data]="educations$.value()"
+            <vet-selector
+              [options]="$any(educations$.value() || [])"
               textField="level"
               valueField="levelId"
               formControlName="education"
-              (valueChange)="educationChange($event)"
-              [readonly]="isViewMode()"
-              [valuePrimitive]="true"
+              [disabled]="isViewMode()"
             />
           </kendo-label>
           @if (form.controls['education']; as control) {
@@ -25,14 +23,12 @@
 
         <kendo-formfield>
           <kendo-label [text]="'shared.testCity' | transloco">
-            <kendo-dropdownlist
-              [data]="cities$.value()"
+            <vet-selector
+              [options]="$any(cities$.value() || [])"
               textField="name"
               valueField="id"
               formControlName="district_id"
-              (valueChange)="districtChange()"
-              [readonly]="isViewMode()"
-              [valuePrimitive]="true"
+              [disabled]="isViewMode()"
             />
           </kendo-label>
           @if (form.controls['district_id']; as control) {
@@ -46,14 +42,12 @@
 
         <kendo-formfield>
           <kendo-label [text]="'shared.testLanguage' | transloco">
-            <kendo-dropdownlist
-              [data]="languages$.value()"
+            <vet-selector
+              [options]="$any(languages$.value() || [])"
               textField="value"
               valueField="id"
               formControlName="language"
-              (valueChange)="languageChange()"
-              [readonly]="isViewMode()"
-              [valuePrimitive]="true"
+              [disabled]="isViewMode()"
             />
           </kendo-label>
           @if (form.controls['language']; as control) {
@@ -87,17 +81,13 @@
     <div class="section">
       <div class="title k-text-md">
         <span>{{ 'programs.needAdaptedEnvironment' | transloco }}</span>
-        <kendo-switch
-          [onLabel]="'shared.yes' | transloco"
-          [offLabel]="'shared.no' | transloco"
-          [checked]="isSpecEnvEnabled()"
-          [readonly]="isViewMode()"
+        <vet-switch
+          [ngModel]="isSpecEnvEnabled()"
           [disabled]="isViewMode()"
-          (valueChange)="onSpecEnvSwitchChange($event)"
-          #specEnvSwitch
+          (ngModelChange)="onSpecEnvSwitchChange($event)"
         />
       </div>
-      @if (specEnvSwitch.checked) {
+      @if (isSpecEnvEnabled()) {
         <div class="checkbox-selection-container">
           <div class="k-mb-3 k-text-base">
             {{ 'programs.please_select_your_requirement' | transloco }}
@@ -121,7 +111,7 @@
             @if (
               form?.get('spec_env')?.invalid &&
               !form?.get('spec_env')?.untouched &&
-              specEnvSwitch.checked &&
+              isSpecEnvEnabled() &&
               form?.get('spec_env')?.value?.length === 0
             ) {
               <kendo-formerror>{{ 'shared.minOneFieldIsRequired' | transloco }}</kendo-formerror>
@@ -140,19 +130,15 @@
             {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
           }
         </span>
-        <kendo-switch
-          [onLabel]="'shared.yes' | transloco"
-          [offLabel]="'shared.no' | transloco"
-          [disabled]="abroadSwitch.checked || isViewMode()"
-          [readonly]="isViewMode()"
-          #ocuSwitch
-          (valueChange)="
+        <vet-switch
+          [disabled]="isOcuEnabled() || isViewMode()"
+          [ngModel]="isAbroadEnabled()"
+          (ngModelChange)="
             toggleSwitcher($event, user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad')
           "
-          [checked]="isAbroadEnabled()"
         />
       </div>
-      @if (ocuSwitch.checked && !abroadSwitch.checked && user()?.residential === citizenship.Georgian) {
+      @if (isAbroadEnabled() && !isOcuEnabled() && user()?.residential === citizenship.Georgian) {
         <vet-info variant="warning">
           {{ 'programs.switchWarning' | transloco }}
         </vet-info>
@@ -180,22 +166,18 @@
             {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
           }
         </span>
-        <kendo-switch
-          [onLabel]="'shared.yes' | transloco"
-          [offLabel]="'shared.no' | transloco"
-          [disabled]="ocuSwitch.checked || isViewMode()"
-          [readonly]="isViewMode()"
-          #abroadSwitch
-          (valueChange)="
+        <vet-switch
+          [disabled]="isAbroadEnabled() || isViewMode()"
+          [ngModel]="isOcuEnabled()"
+          (ngModelChange)="
             toggleSwitcher(
               $event,
               user()?.residential === citizenship.Georgian ? 'ocu_doc' : 'complete_base_edu_abroad'
             )
           "
-          [checked]="isOcuEnabled()"
         />
       </div>
-      @if (abroadSwitch.checked && !ocuSwitch.checked && user()?.residential === citizenship.Georgian) {
+      @if (isOcuEnabled() && !isAbroadEnabled() && user()?.residential === citizenship.Georgian) {
         <vet-info variant="warning">
           {{ 'programs.switchWarning' | transloco }}
         </vet-info>
@@ -215,9 +197,9 @@
     </div>
 
     <div class="k-display-flex k-justify-content-end buttons-container">
-      <button kendoButton themeColor="primary" (click)="onNextClick()">
+      <vet-button variant="primary" mode="flat" (click)="onNextClick()">
         {{ 'auth.next' | transloco }}
-      </button>
+      </vet-button>
     </div>
   </form>
 }

@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { FileUploadComponent, UploadedFile } from '@vet/shared';
+import { ButtonComponent as VetButtonComponent, FileUploadComponent, UploadedFile } from '@vet/shared';
 import { NonFormalService } from '@vet/backend';
 import { catchError, finalize, of } from 'rxjs';
 
@@ -11,7 +10,7 @@ const DOCUMENT_FIELDS = ['certificate', 'employment_contract', 'certificate_from
 
 @Component({
   selector: 'vet-non-formal-documents-step',
-  imports: [ReactiveFormsModule, TranslocoPipe, ButtonComponent, FileUploadComponent],
+  imports: [ReactiveFormsModule, TranslocoPipe, FileUploadComponent, VetButtonComponent],
   templateUrl: './non-formal-documents-step.component.html',
   styleUrl: './non-formal-documents-step.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

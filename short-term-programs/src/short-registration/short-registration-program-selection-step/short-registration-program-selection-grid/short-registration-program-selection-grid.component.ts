@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, output, ResourceRef 
 import {
   DateDiffPipe,
   FormatDatePipe,
+  IconButtonComponent,
   IconComponent,
   PaginatedGridResult,
   useAlert,
@@ -9,7 +10,6 @@ import {
   vetIcons,
 } from '@vet/shared';
 import { ProgramShortAdmissionRes, ShortProgram, ShortProgramAdmission } from '@vet/backend';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import {
   CellTemplateDirective,
   ColumnComponent,
@@ -17,7 +17,6 @@ import {
   NoRecordsTemplateDirective,
   PageChangeEvent,
 } from '@progress/kendo-angular-grid';
-import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { useProgramDialog } from '../../../short-term-programs.signals';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
@@ -26,17 +25,16 @@ import { ShortAdmissionEligibility } from 'short-term-programs/src/short-term-pr
 @Component({
   selector: 'vet-short-registration-program-selection-grid',
   imports: [
-    ButtonComponent,
     CellTemplateDirective,
     ColumnComponent,
     GridComponent,
     NoRecordsTemplateDirective,
-    SVGIconComponent,
     TranslocoPipe,
     FormatDatePipe,
     IconComponent,
     DateDiffPipe,
     KENDO_TOOLTIP,
+    IconButtonComponent,
   ],
   templateUrl: './short-registration-program-selection-grid.component.html',
   styleUrl: './short-registration-program-selection-grid.component.scss',

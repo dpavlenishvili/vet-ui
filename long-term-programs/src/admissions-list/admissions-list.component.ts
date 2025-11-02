@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { RolePipe, UserRolesService } from '@vet/auth';
 import { CellClickEvent, GridComponent, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormatDateTimePipe, vetIcons } from '@vet/shared';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { ButtonComponent as VetButtonComponent, FormatDateTimePipe, IconButtonComponent, vetIcons } from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
-import { AdmissionSelectedProgramsComponent } from '../admission-selected-programs/admission-selected-programs.component';
+import {
+  AdmissionSelectedProgramsComponent
+} from '../admission-selected-programs/admission-selected-programs.component';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { catchError, of } from 'rxjs';
 
@@ -17,11 +18,12 @@ import { catchError, of } from 'rxjs';
   imports: [
     KENDO_GRID,
     TranslocoPipe,
-    ButtonComponent,
+    VetButtonComponent,
     FormatDateTimePipe,
     AdmissionSelectedProgramsComponent,
     TooltipDirective,
     RolePipe,
+    IconButtonComponent,
   ],
   templateUrl: './admissions-list.component.html',
   styleUrl: './admissions-list.component.scss',

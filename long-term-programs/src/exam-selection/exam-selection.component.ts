@@ -52,7 +52,7 @@ export type ScheduleItem = {
     DividerComponent,
     ExamSelectionDialogComponent,
     ExamSelectionFiltersComponent,
-    KENDO_LOADER
+    KENDO_LOADER,
   ],
   templateUrl: './exam-selection.component.html',
   styleUrl: './exam-selection.component.scss',

@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { NonFormalService } from '@vet/backend';
 import { useAlert } from '@vet/shared';
 import {
-  ApplicationWizardComponent,
   type ApplicationRequest,
+  ApplicationWizardComponent,
   type NonFormalApplicationData,
   type StepBody,
 } from '../application-wizard/application-wizard.component';

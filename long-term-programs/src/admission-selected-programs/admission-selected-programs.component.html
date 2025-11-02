@@ -68,12 +68,20 @@
           >
             <ng-template kendoGridCellTemplate let-item>
               <div class="k-display-flex k-justify-content-center k-gap-1 grid-actions">
-                <button kendoButton fillMode="flat" (click)="onPreviewProgramClick(item)">
-                  <kendo-svg-icon [size]="'xlarge'" [icon]="vetIcons.eye" themeColor="info" />
-                </button>
-                <button kendoButton fillMode="flat" [disabled]="readonly()" (click)="onDeleteClick(item)">
-                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
-                </button>
+                <vet-icon-button
+                  icon="eye"
+                  mode="flat"
+                  iconSize="small"
+                  (click)="onPreviewProgramClick(item)"
+                />
+                <vet-icon-button
+                  icon="minusCircleRed"
+                  mode="flat"
+                  iconSize="small"
+                  variant="error"
+                  [disabled]="readonly()"
+                  (click)="onDeleteClick(item)"
+                />
               </div>
             </ng-template>
           </kendo-grid-column>

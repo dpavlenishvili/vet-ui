@@ -49,50 +49,39 @@
     </ng-template>
   </kendo-grid-column>
 
-  <kendo-grid-column [width]="56" [title]="'programs.selection' | transloco">
+  <kendo-grid-column [minResizableWidth]="80" [width]="80" [title]="'programs.selection' | transloco">
     <ng-template kendoGridCellTemplate let-item>
       <div class="short-grid-action-buttons">
-        <button
-          kendoButton
-          type="button"
-          fillMode="flat"
+        <vet-icon-button
+          icon="eye"
+          mode="flat"
+          iconSize="small"
           class="short-grid-action-button"
           (click)="onPreviewProgram(item)"
-        >
-          <kendo-svg-icon [size]="'large'" [icon]="vetIcons.eye" themeColor="warning" />
-        </button>
+        />
 
         @if (!isProgramSelected(item)) {
           <div kendoTooltip>
             <span [title]="'shorts.' + getEligibilityError(item) | transloco">
-              <button
-                kendoButton
-                type="button"
-                fillMode="flat"
+              <vet-icon-button
+                [icon]="(!item.eligibility?.eligible || isSelectionDisabled()) ? 'blocked' : 'plusCircleGreen'"
+                mode="flat"
+                iconSize="small"
                 class="short-grid-action-button"
                 [disabled]="!item.eligibility?.eligible || isSelectionDisabled()"
                 (click)="onSelectProgram(item)"
-              >
-                <kendo-svg-icon
-                  [size]="'medium'"
-                  [icon]="
-                    !item.eligibility?.eligible || isSelectionDisabled() ? vetIcons.blocked : vetIcons.plusCircleGreen
-                  "
-                  themeColor="success"
-                />
-              </button>
+              />
             </span>
           </div>
         } @else {
-          <button
-            kendoButton
-            type="button"
-            fillMode="flat"
+          <vet-icon-button
+            icon="minusCircleRed"
+            mode="flat"
+            iconSize="small"
+            variant="error"
             class="short-grid-action-button"
             (click)="onUnselectProgram(item)"
-          >
-            <kendo-svg-icon [size]="'medium'" [icon]="vetIcons.minusCircleRed" themeColor="error" />
-          </button>
+          />
         }
       </div>
     </ng-template>

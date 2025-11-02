@@ -3,8 +3,7 @@ import { NonFormalService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormatDateTimePipe, useAlert, vetIcons } from '@vet/shared';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
+import { ButtonComponent as VetButtonComponent, FormatDateTimePipe, IconButtonComponent, useAlert } from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
@@ -12,13 +11,12 @@ import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'vet-non-formal-applications-list',
-  imports: [KENDO_GRID, TranslocoPipe, ButtonComponent, FormatDateTimePipe, TooltipDirective],
+  imports: [KENDO_GRID, TranslocoPipe, VetButtonComponent, FormatDateTimePipe, TooltipDirective, IconButtonComponent],
   templateUrl: './non-formal-applications-list.component.html',
   styleUrl: './non-formal-applications-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NonFormalApplicationsListComponent {
-  protected readonly vetIcons = vetIcons;
   private readonly router = inject(Router);
   private readonly nonFormalService = inject(NonFormalService);
   private readonly platformId = inject(PLATFORM_ID);

@@ -1,18 +1,24 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { InputsModule, TextAreaModule, SwitchModule } from '@progress/kendo-angular-inputs';
+import { InputsModule, SwitchModule, TextAreaModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { AuthenticationService } from '@vet/auth';
 import { GeneralsService, NonFormalService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { FileUploadComponent, vetIcons, VetCheckboxComponent, InputComponent, SelectorComponent } from '@vet/shared';
+import {
+  ButtonComponent as VetButtonComponent,
+  FileUploadComponent,
+  InputComponent,
+  SelectorComponent,
+  VetCheckboxComponent,
+  vetIcons,
+  VetSwitchComponent
+} from '@vet/shared';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { NonFormalApplicationData } from '../application-wizard.component';
 import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 interface CheckboxOption {
   id: number;
@@ -24,7 +30,6 @@ interface CheckboxOption {
   imports: [
     ReactiveFormsModule,
     TranslocoPipe,
-    ButtonComponent,
     InputsModule,
     TextAreaModule,
     SwitchModule,
@@ -33,6 +38,8 @@ interface CheckboxOption {
     VetCheckboxComponent,
     InputComponent,
     SelectorComponent,
+    VetButtonComponent,
+    VetSwitchComponent,
     CommonModule,
     FormsModule,
   ],

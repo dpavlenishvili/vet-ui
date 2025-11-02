@@ -9,9 +9,9 @@
       <div class="k-display-flex k-flex-column k-gap-5">
         <div class="k-display-flex k-gap-4.5 k-flex-1">
           <kendo-label>
-            <kendo-textbox
+            <vet-input
               formControlName="pid"
-              [size]="'large'"
+              version="fat"
               [placeholder]="'programs.id_passport_number' | transloco"
             />
             @if (form.controls['pid']; as control) {
@@ -24,7 +24,7 @@
           </kendo-label>
 
           <kendo-label>
-            <kendo-textbox formControlName="name" [size]="'large'" [placeholder]="'programs.last_name' | transloco" />
+            <vet-input formControlName="name" version="fat" [placeholder]="'programs.last_name' | transloco" />
             @if (form.controls['name']; as control) {
               @if (control.touched || control.value) {
                 @if (control.errors?.['required']) {
@@ -39,36 +39,36 @@
         </div>
 
         <div class="k-display-flex k-align-self-end">
-          <button kendoButton themeColor="primary" look="default" (click)="checkCommissionMember()">
+          <vet-button variant="primary" mode="flat" (click)="checkCommissionMember()">
             {{ 'programs.check' | transloco }}
-          </button>
+          </vet-button>
         </div>
 
         @if (isCommissionMemberValid()) {
           <div class="k-display-flex k-flex-column k-gap-4.5">
             <div class="k-display-flex k-gap-4.5 k-flex-1">
-              <kendo-textbox
+              <vet-input
                 formControlName="first_name"
-                [size]="'large'"
+                version="fat"
                 [placeholder]="'programs.first_name' | transloco"
               />
 
-              <kendo-textbox formControlName="phone" [size]="'large'" [placeholder]="'programs.phone' | transloco" />
+              <vet-input formControlName="phone" version="fat" [placeholder]="'programs.phone' | transloco" />
             </div>
 
             <div class="k-display-flex k-gap-4.5 k-flex-1">
-              <kendo-textbox
+              <vet-input
                 formControlName="program_name"
-                [size]="'large'"
+                version="fat"
                 [placeholder]="'programs.program_code_name' | transloco"
               />
             </div>
           </div>
 
           <div class="k-display-flex k-align-self-end">
-            <button kendoButton themeColor="primary" look="default" (click)="addCommissionMember()">
+            <vet-button variant="primary" mode="flat" (click)="addCommissionMember()">
               {{ 'programs.add' | transloco }}
-            </button>
+            </vet-button>
           </div>
         }
 
@@ -111,9 +111,9 @@
         </vet-info>
 
         <div class="k-display-flex k-align-self-end">
-          <button kendoButton themeColor="primary" look="default" (click)="saveChanges()">
+          <vet-button variant="primary" mode="flat" (click)="saveChanges()">
             {{ 'programs.save' | transloco }}
-          </button>
+          </vet-button>
         </div>
       </div>
     </form>

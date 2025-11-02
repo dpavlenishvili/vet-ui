@@ -1,19 +1,22 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { DividerComponent, georgianMobileValidator, InfoComponent } from '@vet/shared';
 import {
-  DropDownListComponent,
-  ItemTemplateDirective,
-  ValueTemplateDirective,
-} from '@progress/kendo-angular-dropdowns';
+  ButtonComponent as VetButtonComponent,
+  DividerComponent,
+  georgianMobileValidator,
+  InfoComponent,
+  InputComponent,
+  SelectorComponent,
+  VetSwitchComponent
+} from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export type ProgramSsmStepFormGroup = FormGroup;
 
@@ -21,6 +24,7 @@ export type ProgramSsmStepFormGroup = FormGroup;
   selector: 'vet-program-ssm-step',
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     InputsModule,
     RadioButtonModule,
     ButtonModule,
@@ -29,9 +33,10 @@ export type ProgramSsmStepFormGroup = FormGroup;
     TranslocoPipe,
     InfoComponent,
     DividerComponent,
-    DropDownListComponent,
-    ItemTemplateDirective,
-    ValueTemplateDirective,
+    VetButtonComponent,
+    InputComponent,
+    SelectorComponent,
+    VetSwitchComponent,
   ],
   templateUrl: './program-ssm-step.component.html',
   styleUrl: './program-ssm-step.component.scss',
@@ -45,15 +50,28 @@ export class ProgramSsmStepComponent implements OnInit {
   readonly clearSelectedPrograms = output();
   protected readonly kendoIcons = kendoIcons;
   protected readonly selectedLanguage = signal<string | null>(null);
+  protected readonly specEduEnabled = signal<boolean>(false);
+  protected readonly translateReqEnabled = signal<boolean>(false);
   protected readonly initialSpecEduValue = signal<boolean | null>(null);
   protected readonly maxLengthOfRequirements = 2000;
   private readonly generalsService = inject(GeneralsService);
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly languages$ = rxResource({
     loader: () => this.generalsService.translate(),
   });
 
   ngOnInit(): void {
     this.initializeFormState();
+
+    // Subscribe to translate_select changes
+    const form = this.form();
+    if (form && !this.isViewMode()) {
+      form.get('translate_select')?.valueChanges.pipe(
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe((value) => {
+        this.onSelectedLanguageChange(value as string | null);
+      });
+    }
   }
 
   protected onPreviousClick(): void {
@@ -97,16 +115,21 @@ export class ProgramSsmStepComponent implements OnInit {
   }
 
   protected onSpecEduSwitchChange(checked: boolean): void {
+    this.specEduEnabled.set(checked);
     if (this.isViewMode()) return;
 
     const form = this.form();
     if (!form) return;
+
+    // Update form control value
+    form.get('spec_edu')?.patchValue(checked);
 
     if (checked) {
       this.setRequiredValidators(form);
     } else {
       this.clearNonSpecEduFields(form);
       this.selectedLanguage.set(null);
+      this.translateReqEnabled.set(false);
     }
 
     form.updateValueAndValidity();
@@ -114,6 +137,7 @@ export class ProgramSsmStepComponent implements OnInit {
   }
 
   protected onLanguageSwitchChange(checked: boolean): void {
+    this.translateReqEnabled.set(checked);
     if (this.isViewMode()) return;
 
     const form = this.form();
@@ -144,8 +168,10 @@ export class ProgramSsmStepComponent implements OnInit {
 
     const translateSelect = form.get('translate_select')?.value;
     this.selectedLanguage.set(translateSelect || null);
+    this.translateReqEnabled.set(!!translateSelect);
 
     const specEdu = form.get('spec_edu')?.getRawValue();
+    this.specEduEnabled.set(!!specEdu);
     this.initialSpecEduValue.set(specEdu);
     this.onSpecEduSwitchChange(specEdu);
   }

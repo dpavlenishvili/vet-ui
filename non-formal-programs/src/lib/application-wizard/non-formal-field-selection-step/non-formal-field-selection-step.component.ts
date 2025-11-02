@@ -1,13 +1,16 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { NonFormalService } from '@vet/backend';
-import { NonFormalProgramsFiltersComponent } from '../../non-formal-programs-filters/non-formal-programs-filters.component';
+import {
+  NonFormalProgramsFiltersComponent
+} from '../../non-formal-programs-filters/non-formal-programs-filters.component';
 import { NonFormalProgramFilters } from '../../non-formal-programs.types';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { NonFormalFieldSelectionGridComponent } from './non-formal-field-selection-grid/non-formal-field-selection-grid.component';
-import { PaginatedGridResult, useAlert } from '@vet/shared';
+import {
+  NonFormalFieldSelectionGridComponent
+} from './non-formal-field-selection-grid/non-formal-field-selection-grid.component';
+import { ButtonComponent as VetButtonComponent, PaginatedGridResult, useAlert } from '@vet/shared';
 import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';
 import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';
 
@@ -24,7 +27,7 @@ interface NonFormalProgram {
   imports: [
     ReactiveFormsModule,
     TranslocoPipe,
-    ButtonComponent,
+    VetButtonComponent,
     NonFormalProgramsFiltersComponent,
     NonFormalFieldSelectionGridComponent,
   ],
@@ -73,8 +76,7 @@ export class NonFormalFieldSelectionStepComponent {
         const data = this.applicationData();
 
         if (form && !this.isInitialized() && data !== undefined) {
-          const initialValue =
-            form.get('selected_program_id')?.value || data?.non_formal_id || null;
+          const initialValue = form.get('selected_program_id')?.value || data?.non_formal_id || null;
           this.selectedProgramId.set(initialValue);
           this.isInitialized.set(true);
         }

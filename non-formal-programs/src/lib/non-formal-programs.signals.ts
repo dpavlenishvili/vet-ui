@@ -7,9 +7,7 @@ export interface NonFormalProgramDialogInputs {
   showVideo: boolean;
 }
 
-export function useNonFormalProgramDialog(
-  component: Type<any>,
-) {
+export function useNonFormalProgramDialog(component: Type<any>) {
   return useDialog<NonFormalProgramDialogInputs>({
     title: trans('non_formal.program_description'),
     component,

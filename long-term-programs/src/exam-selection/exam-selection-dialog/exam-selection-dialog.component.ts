@@ -4,13 +4,12 @@ import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { KENDO_DATETIMEPICKER } from '@progress/kendo-angular-dateinputs';
-import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
-import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { iif, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ScheduleProvider } from 'long-term-programs/src/enums/schedule-provider.enum';
 import { SelectionMethod } from 'long-term-programs/src/enums/selection-method.enum';
+import { ButtonComponent as VetButtonComponent, InputComponent } from '@vet/shared';
 
 @Component({
   selector: 'vet-exam-selection-dialog',
@@ -18,10 +17,10 @@ import { SelectionMethod } from 'long-term-programs/src/enums/selection-method.e
     KENDO_DIALOG,
     KENDO_DATETIMEPICKER,
     KENDO_LABEL,
-    KENDO_TEXTBOX,
     TranslocoPipe,
     ReactiveFormsModule,
-    KENDO_BUTTON,
+    VetButtonComponent,
+    InputComponent,
   ],
   templateUrl: './exam-selection-dialog.component.html',
   styleUrl: './exam-selection-dialog.component.scss',

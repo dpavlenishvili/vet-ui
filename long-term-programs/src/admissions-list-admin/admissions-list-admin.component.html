@@ -98,52 +98,48 @@
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [width]="130" [minResizableWidth]="130" [maxResizableWidth]="130" [resizable]="false">
+      <kendo-grid-column [width]="180" [minResizableWidth]="180" [maxResizableWidth]="180" [resizable]="false">
         <ng-template kendoGridCellTemplate let-item>
-          <div class="k-display-flex k-gap-1 k-justify-content-center action-buttons">
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.eye"
+          <div class="k-display-flex k-justify-content-center action-buttons">
+            <vet-icon-button
+              icon="eye"
+              mode="flat"
+              iconSize="small"
               [title]="'shared.view' | transloco"
               kendoTooltip
               (click)="onViewClick(item)"
               class="action-btn"
-            ></button>
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.emptyDocumentIcon"
+            />
+            <vet-icon-button
+              icon="emptyDocumentIcon"
+              mode="flat"
+              iconSize="small"
               [title]="'programs.exam_card' | transloco"
               kendoTooltip
               (click)="onExamCardClick(item)"
               [disabled]="!item.actions.card"
               class="action-btn"
-            ></button>
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.readDocumentIcon"
+            />
+            <vet-icon-button
+              icon="readDocumentIcon"
+              mode="flat"
+              iconSize="small"
               [title]="'programs.last_choose' | transloco"
               kendoTooltip
               (click)="onChooseClick(item)"
               [disabled]="('Default User' | role) ? !item.actions.last_choose : !item.actions.choose"
               class="action-btn"
-            ></button>
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.acceptedDocumentIcon"
+            />
+            <vet-icon-button
+              icon="acceptedDocumentIcon"
+              mode="flat"
+              iconSize="small"
               [title]="'programs.last_result' | transloco"
               kendoTooltip
               (click)="onResultClick(item)"
               [disabled]="!item.actions.result"
               class="action-btn"
-            ></button>
+            />
           </div>
         </ng-template>
       </kendo-grid-column>

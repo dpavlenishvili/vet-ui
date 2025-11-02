@@ -3,7 +3,6 @@ import { NonFormalProgramsFiltersComponent } from './non-formal-programs-filters
 import { NonFormalProgramsGridComponent } from './non-formal-programs-grid/non-formal-programs-grid.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { useFilters, useFiltersUpdater, usePage, usePageUpdater } from '@vet/shared';
-import { ProgramFilters } from '@vet/programs-common';
 import { useNonFormalPrograms } from './non-formal.resources';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';
 import { TranslocoPipe } from '@jsverse/transloco';

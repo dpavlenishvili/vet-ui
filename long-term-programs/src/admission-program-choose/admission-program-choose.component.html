@@ -7,10 +7,10 @@
   <vet-admission-program-grid />
 
   <div class="k-d-flex k-justify-content-end k-mt-4">
-    <button kendoButton [primary]="true" (click)="onSave()">
+    <vet-button variant="primary" mode="flat" (click)="onSave()">
       {{
         ('Super Admin' | role) || ('Organisation' | role) ? ('shared.close' | transloco) : ('shared.save' | transloco)
       }}
-    </button>
+    </vet-button>
   </div>
 </div>

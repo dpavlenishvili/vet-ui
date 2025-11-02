@@ -1,10 +1,26 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal
+} from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { ErrorComponent, SwitchModule, TextAreaModule, NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
+import { ErrorComponent, NumericTextBoxComponent, SwitchModule, TextAreaModule } from '@progress/kendo-angular-inputs';
 import { AdmissionService } from '@vet/backend';
-import { InputComponent, SelectOption, SelectorComponent, VetCheckboxComponent } from '@vet/shared';
+import {
+  ButtonComponent as VetButtonComponent,
+  InputComponent,
+  SelectOption,
+  SelectorComponent,
+  VetCheckboxComponent,
+  VetSwitchComponent
+} from '@vet/shared';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
 
@@ -19,12 +35,13 @@ interface CheckboxOption {
   imports: [
     ReactiveFormsModule,
     TranslocoPipe,
-    ButtonComponent,
+    VetButtonComponent,
     SelectorComponent,
     InputComponent,
     TextAreaModule,
     VetCheckboxComponent,
     SwitchModule,
+    VetSwitchComponent,
     FormsModule,
     ErrorComponent,
     NumericTextBoxComponent,
@@ -182,7 +199,11 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
     const isOther = this.isOtherOption(optionId, field);
     if (isOther && !currentSelection.includes(optionId)) {
       const otherControlName =
-        field === 'who_taught_you' ? 'who_taught_you_other' : field === 'source_of_information' ? 'source_of_information_other' : null;
+        field === 'who_taught_you'
+          ? 'who_taught_you_other'
+          : field === 'source_of_information'
+            ? 'source_of_information_other'
+            : null;
       if (otherControlName) {
         this.formGroup()?.get(otherControlName)?.patchValue(null);
       }

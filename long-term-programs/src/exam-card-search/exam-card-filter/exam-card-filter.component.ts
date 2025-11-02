@@ -1,4 +1,9 @@
-import { ButtonComponent, IconButtonComponent, InputComponent, vetIcons } from '@vet/shared';
+import {
+  ButtonComponent,
+  IconButtonComponent,
+  InputComponent,
+  vetIcons
+} from '@vet/shared';
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -6,7 +11,13 @@ import { ExamCardFilters } from '../exam-card-search.component';
 
 @Component({
   selector: 'vet-exam-card-filter',
-  imports: [TranslocoPipe, ReactiveFormsModule, InputComponent, IconButtonComponent, ButtonComponent],
+  imports: [
+    TranslocoPipe,
+    ReactiveFormsModule,
+    InputComponent,
+    IconButtonComponent,
+    ButtonComponent,
+  ],
   templateUrl: './exam-card-filter.component.html',
   styleUrl: './exam-card-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

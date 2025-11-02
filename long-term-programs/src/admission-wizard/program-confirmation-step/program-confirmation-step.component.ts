@@ -9,7 +9,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
@@ -24,7 +24,14 @@ import {
   ProgramSelectedProgramsStepFormGroup,
 } from '../../admission-selected-programs/admission-selected-programs.component';
 import { ProgramGeneralInformationStepFormGroup } from '../program-general-information-step/program-general-information-step.component';
-import { Citizenship, FileUploadComponent, InfoComponent, vetIcons } from '@vet/shared';
+import {
+  ButtonComponent,
+  Citizenship,
+  FileUploadComponent,
+  InfoComponent,
+  vetIcons,
+  VetSwitchComponent,
+} from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { admissionProgramsResource } from '../admission-programs-resource';
@@ -38,6 +45,7 @@ export type ProgramConfirmationStepFormGroup = FormGroup<{
   selector: 'vet-program-confirmation-step',
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     InputsModule,
     RadioButtonModule,
     ButtonModule,
@@ -47,6 +55,8 @@ export type ProgramConfirmationStepFormGroup = FormGroup<{
     AdmissionSelectedProgramsComponent,
     InfoComponent,
     FileUploadComponent,
+    ButtonComponent,
+    VetSwitchComponent,
   ],
   templateUrl: './program-confirmation-step.component.html',
   styleUrl: './program-confirmation-step.component.scss',

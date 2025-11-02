@@ -3,13 +3,12 @@
     <span>
       {{ 'shared.informationMessage' | transloco }}
     </span>
-    <button
+    <vet-button
       (click)="onRegisterClick()"
-      kendoButton
-      themeColor="primary"
+      version="fat"
     >
       {{ 'non_formal.register_application' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </div>
 <div class="k-bg-white k-p-5 k-rounded-lg">
@@ -84,44 +83,41 @@
 
       <kendo-grid-column [width]="130" [minResizableWidth]="130" [maxResizableWidth]="130" [resizable]="false">
         <ng-template kendoGridCellTemplate let-item>
-          <div class="k-display-flex k-gap-1 k-justify-content-center action-buttons">
+          <div class="k-display-flex k-justify-content-center">
             <!-- View Button - Always Active -->
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.eye"
+            <vet-icon-button
+              icon="eye"
+              mode="flat"
+              iconSize="small"
               [title]="'shared.view' | transloco"
               kendoTooltip
               (click)="onViewClick(item)"
               class="action-btn"
-            ></button>
+            />
 
             <!-- Edit Button - Active during submission period -->
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.editIcon"
+            <vet-icon-button
+              icon="editIcon"
+              mode="flat"
+              iconSize="small"
               [title]="'shared.edit' | transloco"
               kendoTooltip
               (click)="onEditClick(item)"
               [disabled]="!isEditEnabled(item)"
               class="action-btn"
-            ></button>
+            />
 
             <!-- Cancel Button - Active for saved/registered status -->
-            <button
-              kendoButton
-              fillMode="flat"
-              size="small"
-              [svgIcon]="vetIcons.bin"
+            <vet-icon-button
+              icon="bin"
+              mode="flat"
+              iconSize="small"
               [title]="'shared.cancel' | transloco"
               kendoTooltip
               (click)="onCancelClick(item)"
               [disabled]="!isCancelEnabled(item)"
               class="action-btn"
-            ></button>
+            />
           </div>
         </ng-template>
       </kendo-grid-column>

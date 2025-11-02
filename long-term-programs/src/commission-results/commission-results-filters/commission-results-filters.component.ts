@@ -3,12 +3,12 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
-  ButtonComponent,
+  ButtonComponent as VetButtonComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
   vetIcons,
-  withoutEmptyProperties,
+  withoutEmptyProperties
 } from '@vet/shared';
 import { CommissionReviewFilters } from '../commission-results.component';
 import { UserRolesService } from '@vet/auth';
@@ -23,7 +23,7 @@ import { tap } from 'rxjs';
     InputsModule,
     SelectorComponent,
     IconButtonComponent,
-    ButtonComponent,
+    VetButtonComponent,
     InputComponent,
   ],
   templateUrl: './commission-results-filters.component.html',

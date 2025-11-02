@@ -7,7 +7,7 @@ import {
   input,
   OnInit,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
@@ -16,7 +16,15 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
-import { filterNullValues, kendoIcons, RouteParamsService, useAlert, vetIcons } from '@vet/shared';
+import {
+  ButtonComponent as VetButtonComponent,
+  filterNullValues,
+  IconButtonComponent,
+  kendoIcons,
+  RouteParamsService,
+  useAlert,
+  vetIcons
+} from '@vet/shared';
 import { GridDataResult, GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';
@@ -67,6 +75,8 @@ export type ProgramSelectionFilter = {
     DialogModule,
     ProgramSelectionFiltersComponent,
     KENDO_TOOLTIP,
+    IconButtonComponent,
+    VetButtonComponent,
   ],
   templateUrl: './program-selection-step.component.html',
   styleUrl: './program-selection-step.component.scss',

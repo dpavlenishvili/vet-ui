@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, input, OnInit, outp
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
-  ButtonComponent,
+  ButtonComponent as VetButtonComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
@@ -21,7 +21,7 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     TranslocoPipe,
     IconButtonComponent,
-    ButtonComponent,
+    VetButtonComponent,
     InputComponent,
   ],
   templateUrl: './commission-review-filters.component.html',

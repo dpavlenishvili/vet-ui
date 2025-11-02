@@ -60,10 +60,13 @@ export class NonFormalProgramsFiltersComponent {
     });
 
     // Clear district when region changes
-    effect(() => {
-      this.selectedRegion(); // Track region changes
-      this.formGroup.controls.district.setValue(null);
-    }, { allowSignalWrites: true });
+    effect(
+      () => {
+        this.selectedRegion(); // Track region changes
+        this.formGroup.controls.district.setValue(null);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   createFormGroup() {

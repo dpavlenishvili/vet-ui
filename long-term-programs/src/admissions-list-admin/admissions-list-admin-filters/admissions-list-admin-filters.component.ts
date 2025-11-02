@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, effect, inject, input, output } fro
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
-  ButtonComponent,
+  ButtonComponent as VetButtonComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
   vetIcons,
-  withoutEmptyProperties,
+  withoutEmptyProperties
 } from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
 import { isValidIdValue, mapIdValueToOption, useInstitutionsDictionary } from '@vet/shared-resources';
@@ -22,7 +22,7 @@ import { AdmissionListFilterParams } from '../../long-term-programs.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    ButtonComponent,
+    VetButtonComponent,
     ReactiveFormsModule,
     TranslocoPipe,
     InputComponent,

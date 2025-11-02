@@ -46,12 +46,10 @@
       <div class="confirmation-section">
         <div class="section-header">
           <div class="section-title k-text-base">{{ 'programs.needAdaptedEnvironment' | transloco }}</div>
-          <kendo-switch
-            [checked]="specialRequirements().length > 0"
+          <vet-switch
+            [ngModel]="specialRequirements().length > 0"
             [disabled]="true"
-            [offLabel]="'programs.no' | transloco"
-            [onLabel]="'programs.yes' | transloco"
-            [size]="'small'"
+            version="thin"
           />
         </div>
 
@@ -73,12 +71,10 @@
         <div class="confirmation-section ssm-section" [class.active]="!!ssmForm.controls['spec_edu'].value">
           <div class="section-header">
             <div class="section-title k-text-base">{{ 'programs.ssm_question' | transloco }}</div>
-            <kendo-switch
-              [checked]="!!ssmForm.controls['spec_edu'].value"
+            <vet-switch
+              [ngModel]="!!ssmForm.controls['spec_edu'].value"
               [disabled]="true"
-              [offLabel]="'shared.no' | transloco"
-              [onLabel]="'shared.yes' | transloco"
-              [size]="'small'"
+              version="thin"
             />
           </div>
 
@@ -114,12 +110,10 @@
                   <div class="subsection-title k-text-base">
                     {{ 'programs.ssm_translator_requirement_question' | transloco }}
                   </div>
-                  <kendo-switch
-                    [checked]="!!ssmForm.controls['translate_select'].value"
+                  <vet-switch
+                    [ngModel]="!!ssmForm.controls['translate_select'].value"
                     [disabled]="true"
-                    [offLabel]="'shared.no' | transloco"
-                    [onLabel]="'shared.yes' | transloco"
-                    [size]="'small'"
+                    version="thin"
                   />
                 </div>
 
@@ -168,12 +162,10 @@
               {{ 'programs.citizenOfCountryWithFamilyAbroad' | transloco }}
             }
           </div>
-          <kendo-switch
-            [checked]="isAbroadEnabled()"
+          <vet-switch
+            [ngModel]="isAbroadEnabled()"
             [disabled]="true"
-            [offLabel]="'shared.no' | transloco"
-            [onLabel]="'shared.yes' | transloco"
-            [size]="'small'"
+            version="thin"
           />
         </div>
 
@@ -200,12 +192,10 @@
               {{ 'programs.seekerRefugeeOrHumanitarianStatus' | transloco }}
             }
           </div>
-          <kendo-switch
-            [checked]="isOcuEnabled()"
+          <vet-switch
+            [ngModel]="isOcuEnabled()"
             [disabled]="true"
-            [offLabel]="'shared.no' | transloco"
-            [onLabel]="'shared.yes' | transloco"
-            [size]="'small'"
+            version="thin"
           />
         </div>
 
@@ -255,24 +245,24 @@
       </div>
 
       <div class="confirmation-actions">
-        <button
-          kendoButton
-          themeColor="secondary"
+        <vet-button
+          variant="secondary"
+          mode="flat"
           type="button"
-          [svgIcon]="vetIcons.print"
+          leadingIcon="print"
           (click)="onPrintClick()"
           class="print-button"
         >
           {{ 'programs.print' | transloco }}
-        </button>
+        </vet-button>
 
         <div class="navigation-buttons">
-          <button kendoButton themeColor="secondary" type="button" (click)="onPreviousClick()">
+          <vet-button variant="secondary" mode="flat" type="button" (click)="onPreviousClick()">
             {{ 'auth.previous' | transloco }}
-          </button>
-          <button kendoButton themeColor="primary" type="button" (click)="onNextClick()">
+          </vet-button>
+          <vet-button variant="primary" mode="flat" type="button" (click)="onNextClick()">
             {{ (isViewMode() ? 'programs.close' : 'programs.finish') | transloco }}
-          </button>
+          </vet-button>
         </div>
       </div>
     </form>

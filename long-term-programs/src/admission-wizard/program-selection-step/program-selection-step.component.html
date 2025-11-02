@@ -70,11 +70,11 @@
         </kendo-grid-column>
 
         <kendo-grid-column
-          [maxResizableWidth]="80"
-          [minResizableWidth]="80"
+          [maxResizableWidth]="90"
+          [minResizableWidth]="90"
           [resizable]="false"
           [title]="'programs.selection' | transloco"
-          [width]="80"
+          [width]="90"
         >
           <ng-template kendoGridCellTemplate let-item>
             @if (!item.is_eligible) {
@@ -83,34 +83,37 @@
                 kendoTooltip
                 [title]="'programs.programNotAllowed' | transloco"
               >
-                <button (click)="onPreviewProgramClick(item)" fillMode="flat" kendoButton>
-                  <kendo-svg-icon [icon]="vetIcons.eye" [size]="'xlarge'" themeColor="warning" />
-                </button>
-                <button fillMode="flat" kendoButton [disabled]="true">
-                  <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
-                </button>
+                <vet-icon-button
+                  icon="eye"
+                  mode="flat"
+                  iconSize="small"
+                  (click)="onPreviewProgramClick(item)"
+                />
+                <vet-icon-button
+                  icon="blocked"
+                  mode="flat"
+                  iconSize="small"
+                  [disabled]="true"
+                />
               </div>
             } @else {
               <div class="k-display-flex k-justify-content-center k-gap-1 grid-actions">
-                <button (click)="onPreviewProgramClick(item)" fillMode="flat" kendoButton>
-                  <kendo-svg-icon [icon]="vetIcons.eye" [size]="'xlarge'" themeColor="warning" />
-                </button>
-                <button
-                  (click)="toggleProgramSelection(item)"
+                <vet-icon-button
+                  icon="eye"
+                  mode="flat"
+                  iconSize="small"
+                  (click)="onPreviewProgramClick(item)"
+                />
+                <vet-icon-button
+                  [icon]="selectedPrograms().includes(item.program_id) ? 'minusCircleRed' :
+                          (isAddButtonDisabled(item) ? 'blocked' : 'plusCircleGreen')"
+                  mode="flat"
+                  iconSize="small"
                   [disabled]="
                     (!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)) || isViewMode()
                   "
-                  fillMode="flat"
-                  kendoButton
-                >
-                  @if (selectedPrograms().includes(item.program_id)) {
-                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.minusCircleRed" themeColor="warning" />
-                  } @else if (!selectedPrograms().includes(item.program_id) && isAddButtonDisabled(item)) {
-                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.blocked" themeColor="secondary" />
-                  } @else {
-                    <kendo-svg-icon [size]="'large'" [icon]="vetIcons.plusCircleGreen" themeColor="success" />
-                  }
-                </button>
+                  (click)="toggleProgramSelection(item)"
+                />
               </div>
             }
           </ng-template>
@@ -120,12 +123,12 @@
   </div>
 
   <div class="k-display-flex k-justify-content-between buttons-container">
-    <button (click)="onPreviousClick()" kendoButton themeColor="secondary" type="button">
+    <vet-button (click)="onPreviousClick()" variant="secondary" mode="flat" type="button">
       {{ 'auth.back' | transloco }}
-    </button>
-    <button (click)="onNextClick()" kendoButton themeColor="primary" type="button">
+    </vet-button>
+    <vet-button (click)="onNextClick()" variant="primary" mode="flat" type="button">
       {{ 'auth.next' | transloco }}
-    </button>
+    </vet-button>
   </div>
 </div>
 
