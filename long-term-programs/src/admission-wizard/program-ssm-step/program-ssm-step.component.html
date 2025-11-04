@@ -15,6 +15,7 @@
           <div>
             <vet-switch
               [ngModel]="specEduEnabled()"
+              [ngModelOptions]="{standalone: true}"
               [disabled]="isViewMode()"
               (ngModelChange)="onSpecEduSwitchChange($event)"
             />
@@ -112,6 +113,7 @@
               <div>
                 <vet-switch
                   [ngModel]="translateReqEnabled()"
+                  [ngModelOptions]="{standalone: true}"
                   [disabled]="isViewMode()"
                   (ngModelChange)="onLanguageSwitchChange($event)"
                 />
@@ -190,11 +192,11 @@
     </div>
 
     <div class="k-display-flex k-justify-content-between buttons-container">
-      <vet-button variant="secondary" mode="flat" type="button" (click)="onPreviousClick()">
+      <vet-button variant="tertiary" version="fat" type="button" (click)="onPreviousClick()">
         {{ 'auth.previous' | transloco }}
       </vet-button>
 
-      <vet-button variant="primary" mode="flat" type="button" (click)="onNextClick()">
+      <vet-button version="fat" type="button" (click)="onNextClick()">
         {{ 'auth.next' | transloco }}
       </vet-button>
     </div>

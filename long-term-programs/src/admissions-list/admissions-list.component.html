@@ -4,9 +4,8 @@
       {{ 'shared.informationMessage' | transloco }}
     </span>
     <vet-button
-      (click)="onRegisterClick()"
-      variant="primary"
-      mode="flat"
+      (click)="registerStatus$.value()?.data?.is_available && onRegisterClick()"
+      version="fat"
       [disabled]="!registerStatus$.value()?.data?.is_available"
     >
       {{ 'shared.registration' | transloco }}

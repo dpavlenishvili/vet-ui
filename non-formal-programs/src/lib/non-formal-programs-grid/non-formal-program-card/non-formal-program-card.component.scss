@@ -48,9 +48,9 @@
 }
 
 .vet-non-formal-card-title {
-  @include shared.text-md(true);
   color: shared.$kendo-color-body-extra-dark;
   line-height: 1.4;
+  @include shared.text-md(true);
 
   .separator {
     margin-inline: 0.5rem;
@@ -60,9 +60,9 @@
 }
 
 .vet-non-formal-card-recognition {
-  @include shared.text-sm();
   color: shared.$kendo-color-body;
   line-height: 1.5;
+  @include shared.text-sm();
 }
 
 .vet-non-formal-card-check {
@@ -76,10 +76,10 @@
 }
 
 .vet-non-formal-card-organisation {
-  @include shared.text-h2();
   color: shared.$kendo-color-body-extra-dark;
   line-height: 1.6;
   padding-block: 0.5rem;
+  @include shared.text-h2();
 }
 
 .vet-non-formal-card-bottom {
@@ -102,9 +102,9 @@
   align-items: center;
   gap: 0.375rem;
   color: shared.$kendo-color-body;
-  @include shared.text-sm();
   flex: 1;
   min-inline-size: 0;
+  @include shared.text-sm();
 
   kendo-svg-icon {
     color: shared.$kendo-color-hint;
@@ -126,11 +126,11 @@
 .vet-non-formal-card-link {
   color: shared.$kendo-color-link;
   font-weight: 500;
-  @include shared.text-sm();
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
   transition: color 0.2s ease;
+  @include shared.text-sm();
 
   &:hover {
     color: shared.$kendo-color-primary;

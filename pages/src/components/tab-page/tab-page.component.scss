@@ -25,7 +25,6 @@
 }
 
 .vet-tab-page-tab {
-  @include shared.text-base();
   color: shared.$kendo-color-body;
   line-height: 100%;
   background: shared.$white;
@@ -35,6 +34,7 @@
   border: none;
   border-radius: 0.3125rem;
   cursor: pointer;
+  @include shared.text-base();
 
   &.active {
     background-color: shared.$tb-kendo-color-primary;
@@ -44,9 +44,9 @@
 }
 
 .vet-tab-title {
-  @include shared.text-base(true);
   color: shared.$kendo-color-body-extra-dark;
   margin-top: 2.5rem;
+  @include shared.text-base(true);
 }
 
 .vet-tab-body {

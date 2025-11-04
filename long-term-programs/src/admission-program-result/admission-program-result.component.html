@@ -77,7 +77,7 @@
     </kendo-grid>
 
     <div class="k-d-flex k-justify-content-end k-mt-4">
-      <vet-button variant="primary" mode="flat" (click)="onClose()">
+      <vet-button (click)="onClose()">
         {{ 'shared.close' | transloco }}
       </vet-button>
     </div>
@@ -90,7 +90,7 @@
   <vet-admission-program-grid [readonly]="true" />
 
   <div class="k-d-flex k-justify-content-end k-mt-4">
-    <vet-button variant="primary" mode="flat" (click)="onClose()">
+    <vet-button (click)="onClose()">
       {{ 'shared.close' | transloco }}
     </vet-button>
   </div>

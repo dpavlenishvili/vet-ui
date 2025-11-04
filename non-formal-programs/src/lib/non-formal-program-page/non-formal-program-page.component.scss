@@ -27,12 +27,12 @@
   }
 
   .vet-nf-isced-info {
-    @include shared.text-base();
     color: shared.$kendo-color-body-extra-dark;
     margin-block-end: 1rem;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    @include shared.text-base();
 
     @media (max-width: 48rem) {
       margin-block-end: 0.75rem;
@@ -51,11 +51,11 @@
   }
 
   .vet-nf-announcement-footer {
-    @include shared.text-sm();
     color: shared.$kendo-color-body;
     padding-block-start: 1rem;
     margin-block-start: 1rem;
     border-block-start: 1px solid shared.$kendo-color-body;
+    @include shared.text-sm();
   }
 
   .vet-nf-no-announcement {
@@ -75,9 +75,9 @@
     }
 
     p {
-      @include shared.text-base();
       color: shared.$kendo-color-body;
       margin: 0;
+      @include shared.text-base();
     }
   }
 }
@@ -97,9 +97,9 @@
 
   span,
   a {
-    @include shared.text-base();
     color: shared.$kendo-color-body;
     line-height: 100%;
+    @include shared.text-base();
   }
 }
 
@@ -114,15 +114,15 @@
   }
 
   .vet-nf-document-title {
-    @include shared.text-base(true);
     color: shared.$kendo-color-body-extra-dark;
     margin-block-end: 0.75rem;
+    @include shared.text-base(true);
   }
 
   .vet-nf-document-content {
-    @include shared.text-base();
     color: shared.$kendo-color-body;
     white-space: pre-line;
     line-height: 1.4rem;
+    @include shared.text-base();
   }
 }

@@ -5,8 +5,8 @@
 }
 
 button.k-button.vet-icon-button {
-  @include shared.text-sm();
   border-radius: 0.625rem;
+  @include shared.text-sm();
 
   &.vet-icon-button-icon-normal {
     &.vet-icon-button-icon-medium {

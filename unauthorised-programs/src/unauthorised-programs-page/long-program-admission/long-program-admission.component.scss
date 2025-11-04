@@ -9,10 +9,10 @@
 .vet-program-card {
 
   .vet-program-card-details {
-    @include shared.text-base();
     display: flex;
     flex-direction: column;
     gap: 0.875rem;
+    @include shared.text-base();
   }
 
   .vet-program-card-field {

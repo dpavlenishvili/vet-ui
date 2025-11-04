@@ -48,6 +48,7 @@
           <div class="section-title k-text-base">{{ 'programs.needAdaptedEnvironment' | transloco }}</div>
           <vet-switch
             [ngModel]="specialRequirements().length > 0"
+            [ngModelOptions]="{standalone: true}"
             [disabled]="true"
             version="thin"
           />
@@ -73,6 +74,7 @@
             <div class="section-title k-text-base">{{ 'programs.ssm_question' | transloco }}</div>
             <vet-switch
               [ngModel]="!!ssmForm.controls['spec_edu'].value"
+              [ngModelOptions]="{standalone: true}"
               [disabled]="true"
               version="thin"
             />
@@ -112,6 +114,7 @@
                   </div>
                   <vet-switch
                     [ngModel]="!!ssmForm.controls['translate_select'].value"
+                    [ngModelOptions]="{standalone: true}"
                     [disabled]="true"
                     version="thin"
                   />
@@ -164,6 +167,7 @@
           </div>
           <vet-switch
             [ngModel]="isAbroadEnabled()"
+            [ngModelOptions]="{standalone: true}"
             [disabled]="true"
             version="thin"
           />
@@ -194,6 +198,7 @@
           </div>
           <vet-switch
             [ngModel]="isOcuEnabled()"
+            [ngModelOptions]="{standalone: true}"
             [disabled]="true"
             version="thin"
           />
@@ -246,21 +251,20 @@
 
       <div class="confirmation-actions">
         <vet-button
-          variant="secondary"
-          mode="flat"
+          variant="tertiary"
+          version="fat"
           type="button"
           leadingIcon="print"
           (click)="onPrintClick()"
-          class="print-button"
         >
           {{ 'programs.print' | transloco }}
         </vet-button>
 
         <div class="navigation-buttons">
-          <vet-button variant="secondary" mode="flat" type="button" (click)="onPreviousClick()">
+          <vet-button variant="tertiary" version="fat" type="button" (click)="onPreviousClick()">
             {{ 'auth.previous' | transloco }}
           </vet-button>
-          <vet-button variant="primary" mode="flat" type="button" (click)="onNextClick()">
+          <vet-button version="fat" type="button" (click)="onNextClick()">
             {{ (isViewMode() ? 'programs.close' : 'programs.finish') | transloco }}
           </vet-button>
         </div>

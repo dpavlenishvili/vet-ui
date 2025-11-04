@@ -94,10 +94,10 @@
       gap: 0.625rem;
       border-block-end: 1px solid shared.$white;
       color: shared.$kendo-color-hint;
-      @include shared.text-md();
       padding-block: 0.25rem;
       padding-inline: 0;
       align-items: center;
+      @include shared.text-md();
 
       @media (max-width: 29.9375rem) {
         flex-direction: column;
@@ -146,11 +146,11 @@
           th {
             padding: 0.75rem;
             text-align: start;
-            @include shared.text-base(true);
             color: shared.$kendo-color-hint;
             font-weight: 500;
             border-right: 1px solid var(--subsection-border);
             white-space: nowrap;
+            @include shared.text-base(true);
 
             &:last-child {
               border-right: none;
@@ -194,9 +194,9 @@
 
           td {
             padding: 0.75rem;
-            @include shared.text-base();
             color: shared.$kendo-color-body-dark;
             border-right: 1px solid var(--subsection-border);
+            @include shared.text-base();
 
             &:last-child {
               border-right: none;
@@ -260,9 +260,9 @@
   }
 
   .field-label {
-    @include shared.text-sm(true);
     color: shared.$kendo-color-body-extra-dark;
     display: block;
+    @include shared.text-sm(true);
   }
 
   .field-label-with-hint {
@@ -280,9 +280,9 @@
     }
 
     .field-hint {
-      @include shared.text-xs();
       color: shared.$kendo-color-hint;
       white-space: nowrap;
+      @include shared.text-xs();
     }
   }
 
@@ -388,9 +388,9 @@
 @media (max-width: 47.9375rem) and (pointer: coarse) {
   .confirmation-actions button {
     min-block-size: 3rem;
-    @include shared.text-md();
     padding-block: 0.75rem;
     padding-inline: 1.5rem;
+    @include shared.text-md();
   }
 }
 

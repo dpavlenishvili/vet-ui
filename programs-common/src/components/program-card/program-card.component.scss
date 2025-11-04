@@ -28,13 +28,13 @@
 }
 
 .vet-shorts-card-title {
-  @include shared.text-md();
   color: shared.$kendo-color-body-extra-dark;
+  @include shared.text-md();
 }
 
 .vet-shorts-card-subtitle {
-  @include shared.text-base();
   color: shared.$kendo-color-hint;
+  @include shared.text-base();
 }
 
 .vet-shorts-card-details {
@@ -47,7 +47,6 @@
 }
 
 .vet-shorts-card-detail-item {
-  @include shared.text-base();
   width: 8.5rem;
   height: 2.75rem;
   padding: 0.75rem;
@@ -57,10 +56,10 @@
   text-align: center;
   line-height: 100%;
   color: shared.$kendo-color-body;
+  @include shared.text-base();
 }
 
 .vet-shorts-card-field-container {
-  @include shared.text-base();
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -73,6 +72,7 @@
   margin-top: 1.5625rem;
   padding: 0.875rem 0.75rem;
   line-height: 100%;
+  @include shared.text-base();
 
   span {
     color: shared.$kendo-color-body;
@@ -97,13 +97,13 @@
 }
 
 .vet-shorts-card-address {
-  @include shared.text-sm();
   line-height: 100%;
   color: shared.$kendo-color-body;
+  @include shared.text-sm();
 }
 
 .vet-shorts-card-link {
-  @include shared.text-sm();
   line-height: 100%;
   color: shared.$kendo-color-primary;
+  @include shared.text-sm();
 }

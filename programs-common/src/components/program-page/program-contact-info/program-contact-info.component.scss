@@ -37,9 +37,9 @@
     }
 
     span {
-      @include shared.text-base();
       color: shared.$kendo-color-body;
       line-height: 100%;
+      @include shared.text-base();
     }
   }
 }

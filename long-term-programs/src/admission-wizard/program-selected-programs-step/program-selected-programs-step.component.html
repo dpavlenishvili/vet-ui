@@ -11,15 +11,15 @@
   <div class="k-display-flex k-justify-content-between buttons-container">
     <vet-button
       (click)="onPreviousClick()"
-      variant="secondary"
-      mode="flat"
+      variant="tertiary"
+      version="fat"
       type="button"
       [title]="'auth.back' | transloco"
     >
       {{ 'auth.back' | transloco }}
     </vet-button>
 
-    <vet-button (click)="onNextClick()" variant="primary" mode="flat" type="button" [title]="'auth.next' | transloco">
+    <vet-button (click)="onNextClick()" version="fat" type="button" [title]="'auth.next' | transloco">
       {{ 'auth.next' | transloco }}
     </vet-button>
   </div>

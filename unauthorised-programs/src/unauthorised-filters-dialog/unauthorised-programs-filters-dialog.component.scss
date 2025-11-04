@@ -47,7 +47,7 @@
   }
 
   .vet-shorts-clear-text {
-    @include shared.text-sm();
     margin-left: 0.625rem;
+    @include shared.text-sm();
   }
 }

@@ -20,10 +20,10 @@
   }
 
   .vet-program-data-section-content {
-    @include shared.text-base();
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    @include shared.text-base();
 
     @media (max-width: 768px) {
       gap: 1rem;

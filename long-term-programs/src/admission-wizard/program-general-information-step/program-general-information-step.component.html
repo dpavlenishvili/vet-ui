@@ -4,12 +4,14 @@
       <div class="k-d-flex k-gap-4 form-fields-container">
         <kendo-formfield>
           <kendo-label [text]="'shared.education' | transloco">
-            <vet-selector
-              [options]="$any(educations$.value() || [])"
+            <kendo-dropdownlist
+              [data]="educations$.value()"
               textField="level"
               valueField="levelId"
               formControlName="education"
-              [disabled]="isViewMode()"
+              (valueChange)="educationChange($event)"
+              [readonly]="isViewMode()"
+              [valuePrimitive]="true"
             />
           </kendo-label>
           @if (form.controls['education']; as control) {
@@ -23,12 +25,14 @@
 
         <kendo-formfield>
           <kendo-label [text]="'shared.testCity' | transloco">
-            <vet-selector
-              [options]="$any(cities$.value() || [])"
+            <kendo-dropdownlist
+              [data]="cities$.value()"
               textField="name"
               valueField="id"
               formControlName="district_id"
-              [disabled]="isViewMode()"
+              (valueChange)="districtChange()"
+              [readonly]="isViewMode()"
+              [valuePrimitive]="true"
             />
           </kendo-label>
           @if (form.controls['district_id']; as control) {
@@ -42,12 +46,14 @@
 
         <kendo-formfield>
           <kendo-label [text]="'shared.testLanguage' | transloco">
-            <vet-selector
-              [options]="$any(languages$.value() || [])"
+            <kendo-dropdownlist
+              [data]="languages$.value()"
               textField="value"
               valueField="id"
               formControlName="language"
-              [disabled]="isViewMode()"
+              (valueChange)="languageChange()"
+              [readonly]="isViewMode()"
+              [valuePrimitive]="true"
             />
           </kendo-label>
           @if (form.controls['language']; as control) {
@@ -84,6 +90,7 @@
         <vet-switch
           [ngModel]="isSpecEnvEnabled()"
           [disabled]="isViewMode()"
+          [ngModelOptions]="{standalone: true}"
           (ngModelChange)="onSpecEnvSwitchChange($event)"
         />
       </div>
@@ -133,6 +140,7 @@
         <vet-switch
           [disabled]="isOcuEnabled() || isViewMode()"
           [ngModel]="isAbroadEnabled()"
+          [ngModelOptions]="{standalone: true}"
           (ngModelChange)="
             toggleSwitcher($event, user()?.residential === citizenship.Georgian ? 'abroad_doc' : 'complete_edu_abroad')
           "
@@ -169,6 +177,7 @@
         <vet-switch
           [disabled]="isAbroadEnabled() || isViewMode()"
           [ngModel]="isOcuEnabled()"
+          [ngModelOptions]="{standalone: true}"
           (ngModelChange)="
             toggleSwitcher(
               $event,
@@ -197,7 +206,7 @@
     </div>
 
     <div class="k-display-flex k-justify-content-end buttons-container">
-      <vet-button variant="primary" mode="flat" (click)="onNextClick()">
+      <vet-button version="fat" (click)="onNextClick()">
         {{ 'auth.next' | transloco }}
       </vet-button>
     </div>

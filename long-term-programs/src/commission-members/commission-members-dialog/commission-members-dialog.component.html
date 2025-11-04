@@ -39,7 +39,7 @@
         </div>
 
         <div class="k-display-flex k-align-self-end">
-          <vet-button variant="primary" mode="flat" (click)="checkCommissionMember()">
+          <vet-button (click)="checkCommissionMember()">
             {{ 'programs.check' | transloco }}
           </vet-button>
         </div>
@@ -66,7 +66,7 @@
           </div>
 
           <div class="k-display-flex k-align-self-end">
-            <vet-button variant="primary" mode="flat" (click)="addCommissionMember()">
+            <vet-button (click)="addCommissionMember()">
               {{ 'programs.add' | transloco }}
             </vet-button>
           </div>
@@ -111,7 +111,7 @@
         </vet-info>
 
         <div class="k-display-flex k-align-self-end">
-          <vet-button variant="primary" mode="flat" (click)="saveChanges()">
+          <vet-button (click)="saveChanges()">
             {{ 'programs.save' | transloco }}
           </vet-button>
         </div>

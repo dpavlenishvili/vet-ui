@@ -25,9 +25,9 @@
 }
 
 .field-label {
-  @include shared.text-sm(true);
   color: shared.$kendo-color-body-extra-dark;
   display: block;
+  @include shared.text-sm(true);
 }
 
 .field-label-with-hint {
@@ -45,9 +45,9 @@
   }
 
   .field-hint {
-    @include shared.text-xs();
     color: shared.$kendo-color-hint;
     white-space: nowrap;
+    @include shared.text-xs();
   }
 }
 
@@ -79,8 +79,8 @@
 
 .error-message {
   color: shared.$kendo-color-error;
-  @include shared.text-xs();
   margin-block-start: 0.25rem;
+  @include shared.text-xs();
 
   small {
     @include shared.text-xs();

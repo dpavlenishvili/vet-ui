@@ -30,10 +30,10 @@ kendo-dropdownlist.vet-selector {
 }
 
 .vet-error-message {
-  @include shared.text-sm();
   color: shared.$kendo-color-error;
   margin-top: 0.25rem;
   margin-left: 0.625rem;
+  @include shared.text-sm();
 }
 
 ::ng-deep {
@@ -42,8 +42,8 @@ kendo-dropdownlist.vet-selector {
     &.vet-selector-fat {
       .k-input-inner {
         .k-input-value-text {
-          @include shared.text-base(true, true);
           color: shared.$kendo-color-body !important;
+          @include shared.text-base(true, true);
         }
       }
     }
@@ -51,8 +51,8 @@ kendo-dropdownlist.vet-selector {
     &.vet-selector-thin {
       .k-input-inner {
         .k-input-value-text {
-          @include shared.text-sm(false, true);
           color: shared.$kendo-color-hint;
+          @include shared.text-sm(false, true);
         }
       }
     }

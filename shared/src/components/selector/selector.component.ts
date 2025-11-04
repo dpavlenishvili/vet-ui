@@ -30,6 +30,8 @@ import { SelectorVersion } from './selector.component.types';
 export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
   version = input<SelectorVersion>('thin');
   placeholder = input('');
+  valueField = input('value');
+  textField = input('label');
   disabled = input(false);
   options = input<Array<SelectOption<T>>>([]);
   filterable = input(false);

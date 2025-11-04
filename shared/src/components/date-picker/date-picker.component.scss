@@ -15,10 +15,10 @@ kendo-textbox.vet-date-picker {
 }
 
 .vet-error-message {
-  @include shared.text-sm();
   color: shared.$kendo-color-error;
   margin-top: 0.25rem;
   margin-left: 0.625rem;
+  @include shared.text-sm();
 }
 
 .vet-hidden-datepicker {

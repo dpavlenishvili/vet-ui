@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NonFormalService } from '@vet/backend';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { ButtonComponent as VetButtonComponent, IconButtonComponent, useAlert } from '@vet/shared';
 import { of } from 'rxjs';
 import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';
 import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+import { startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'vet-non-formal-selected-fields-step',
@@ -26,9 +27,12 @@ export class NonFormalSelectedFieldsStepComponent {
 
   private readonly nonFormalService = inject(NonFormalService);
   private readonly alert = useAlert();
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly programDialog = useNonFormalProgramDialog(NonFormalProgramPageComponent);
 
-  protected readonly selectedProgramId = computed(() => this.formGroup().getRawValue().selected_program_id);
+  // Writable signal to track the selected program ID reactively
+  protected readonly selectedProgramId = signal<number | null>(null);
+
   protected readonly selectedProgramResource = rxResource({
     request: () => ({ programId: this.selectedProgramId() }),
     loader: ({ request }) => {
@@ -44,6 +48,26 @@ export class NonFormalSelectedFieldsStepComponent {
     const response = this.selectedProgramResource.value();
     return response?.data || null;
   });
+
+  constructor() {
+    effect(() => {
+      const form = this.formGroup();
+
+      // Get initial value
+      const initialValue = form.get('selected_program_id')?.value;
+      this.selectedProgramId.set(initialValue);
+
+      // Subscribe to value changes
+      form.get('selected_program_id')?.valueChanges
+        .pipe(
+          startWith(initialValue),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe(value => {
+          this.selectedProgramId.set(value);
+        });
+    });
+  }
 
   protected onRemoveClick(): void {
     this.formGroup().patchValue({ selected_program_id: null });

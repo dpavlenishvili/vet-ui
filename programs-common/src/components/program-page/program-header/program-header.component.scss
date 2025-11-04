@@ -7,9 +7,9 @@
 }
 
 .vet-program-institution {
-  @include shared.text-base();
   color: shared.$kendo-color-hint;
   text-align: center;
+  @include shared.text-base();
 }
 
 .vet-program-name {

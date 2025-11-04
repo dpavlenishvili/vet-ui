@@ -38,8 +38,8 @@
       padding: 0.5rem;
 
       .vet-switch-label {
-        @include shared.text-sm();
         color: shared.$kendo-color-hint;
+        @include shared.text-sm();
       }
     }
   }

@@ -1,25 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
 import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { AdmissionService, GeneralsService } from '@vet/backend';
 import {
   ButtonComponent,
-  Citizenship,
-  FileUploadComponent,
-  InfoComponent,
-  kendoIcons,
-  SelectorComponent,
-  UploadedFile,
-  useConfirm,
-  VetSwitchComponent
-} from '@vet/shared';
-import { delay, map, pairwise, startWith, tap } from 'rxjs';
+  Citizenship, FileUploadComponent, InfoComponent, kendoIcons, UploadedFile, useConfirm, VetSwitchComponent } from '@vet/shared';
+import { delay, map, tap } from 'rxjs';
 import { AuthenticationService } from '@vet/auth';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 export type ProgramGeneralInformationStepFormGroup = FormGroup;
 
@@ -33,12 +26,12 @@ export type ProgramGeneralInformationStepFormGroup = FormGroup;
     LabelModule,
     SVGIconModule,
     TranslocoPipe,
+    KENDO_DROPDOWNLIST,
     FileUploadComponent,
     FormsModule,
     InfoComponent,
-    ButtonComponent,
-    SelectorComponent,
     VetSwitchComponent,
+    ButtonComponent,
   ],
   templateUrl: './program-general-information-step.component.html',
   styleUrl: './program-general-information-step.component.scss',
@@ -63,7 +56,6 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   generalsService = inject(GeneralsService);
   admissionService = inject(AdmissionService);
   confirm = useConfirm();
-  private destroyRef = inject(DestroyRef);
   educations$ = rxResource({
     loader: () =>
       this.admissionService.educationStatus().pipe(
@@ -248,35 +240,6 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
     } else {
       this.isAbroadEnabled.set(value?.abroad_doc.length > 0);
       this.isOcuEnabled.set(value?.ocu_doc.length > 0);
-    }
-
-    // Subscribe to form control value changes
-    const form = this.form();
-    if (form && !this.isViewMode()) {
-      // Education change
-      form.get('education')?.valueChanges.pipe(
-        startWith(educationValue),
-        pairwise(),
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe(([prev, curr]) => {
-        if (prev !== null && prev !== undefined && curr !== prev) {
-          this.educationChange(curr);
-        }
-      });
-
-      // District change
-      form.get('district_id')?.valueChanges.pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe(() => {
-        this.districtChange();
-      });
-
-      // Language change
-      form.get('language')?.valueChanges.pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe(() => {
-        this.languageChange();
-      });
     }
   }
 }

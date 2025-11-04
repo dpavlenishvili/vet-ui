@@ -15,10 +15,10 @@ button.k-button.vet-button {
   }
 
   &.vet-button-thin {
-    @include shared.text-sm();
     height: 2.375rem;
     border-radius: 0.625rem;
     padding: 0.875rem 1.375rem;
+    @include shared.text-sm();
   }
 
   .vet-icon.vet-button-icon {

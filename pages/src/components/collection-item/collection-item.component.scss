@@ -82,13 +82,12 @@ a {
 }
 
 .vet-collection-item-created-at {
-  @include shared.text-sm();
   color: shared.$kendo-color-body-light;
   margin: 0;
+  @include shared.text-sm();
 }
 
 .vet-collection-item-title {
-  @include shared.text-h3();
   line-height: 1.25rem;
   color: shared.$kendo-color-body-extra-dark;
   margin: 0.625rem 0 0;
@@ -96,6 +95,7 @@ a {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  @include shared.text-h3();
 
   @media (max-width: 640px) {
     @include shared.text-h2();
@@ -103,11 +103,11 @@ a {
 }
 
 .vet-collection-item-content {
-  @include shared.text-base();
   color: shared.$kendo-color-body;
   flex: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0.875rem 0 0;
+  @include shared.text-base();
 }

@@ -26,12 +26,12 @@
   }
 
   .vet-nf-card-title {
-    @include shared.text-base(true);
     color: shared.$kendo-color-body-extra-dark;
     margin-block: 0 1rem;
     margin-inline: 0;
     padding-block-end: 0.75rem;
     border-block-end: 2px solid shared.$kendo-color-primary;
+    @include shared.text-base(true);
   }
 
   .vet-nf-card-details {
@@ -57,13 +57,13 @@
     }
 
     .label {
-      @include shared.text-sm(true);
       color: shared.$kendo-color-body-extra-dark;
+      @include shared.text-sm(true);
     }
 
     .value {
-      @include shared.text-sm();
       color: shared.$kendo-color-body;
+      @include shared.text-sm();
     }
   }
 }

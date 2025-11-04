@@ -45,8 +45,7 @@
           </ng-template>
         </kendo-grid-column>
 
-        @if (!isViewMode()) {
-          <kendo-grid-column
+        <kendo-grid-column
             [width]="90"
             [minResizableWidth]="90"
             [maxResizableWidth]="90"
@@ -63,19 +62,20 @@
                   (click)="onPreviewProgramClick()"
                   class="action-btn"
                 />
-                <vet-icon-button
-                  icon="minusCircleRed"
-                  mode="flat"
-                  iconSize="small"
-                  variant="error"
-                  [title]="'shared.remove' | transloco"
-                  (click)="onRemoveClick()"
-                  class="action-btn"
-                />
+                @if (!isViewMode()) {
+                  <vet-icon-button
+                    icon="minusCircleRed"
+                    mode="flat"
+                    iconSize="small"
+                    variant="error"
+                    [title]="'shared.remove' | transloco"
+                    (click)="onRemoveClick()"
+                    class="action-btn"
+                  />
+                }
               </div>
             </ng-template>
           </kendo-grid-column>
-        }
       </kendo-grid>
     </div>
   } @else {

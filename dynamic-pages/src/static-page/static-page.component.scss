@@ -39,8 +39,8 @@
 }
 
 .vet-static-page > .vet-static-page-content-container > .vet-static-page-content {
-  @include shared.text-base();
   color: shared.$kendo-color-body;
+  @include shared.text-base();
 }
 
 ::ng-deep {
@@ -51,15 +51,15 @@
     h4, h5, h6 { @include shared.text-base(true, true); margin: 0.75rem 0 0.5rem 0; }
 
     p {
-      @include shared.text-base();
       margin: 1rem 0;
       color: shared.$kendo-color-body;
+      @include shared.text-base();
     }
 
     ul, ol {
-      @include shared.text-base();
       margin: 1rem 0;
       padding-left: 1.5rem;
+      @include shared.text-base();
 
       li {
         margin: 0.25rem 0;
@@ -139,10 +139,10 @@
       border: 1px solid shared.$kendo-color-divider-light;
 
       th, td {
-        @include shared.text-sm();
         padding: 0.75rem;
         border: 1px solid shared.$kendo-color-divider-light;
         text-align: left;
+        @include shared.text-sm();
       }
 
       th {
@@ -152,12 +152,12 @@
     }
 
     blockquote {
-      @include shared.text-base();
       margin: 1rem 0;
       padding: 1rem;
       border-left: 4px solid shared.$kendo-color-primary;
       background-color: shared.$kendo-paper-dark;
       font-style: italic;
+      @include shared.text-base();
     }
 
     pre, code {

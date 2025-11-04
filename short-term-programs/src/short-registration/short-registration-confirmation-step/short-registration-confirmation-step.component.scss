@@ -35,12 +35,12 @@
 }
 
 .vet-shorts-confirmation-detail {
-  @include shared.text-base();
   line-height: 1rem;
   display: flex;
   gap: 0.625rem;
   padding: 0.5rem 0 0.4375rem;
   border-bottom: 1px solid shared.$white;
+  @include shared.text-base();
 
   &:first-child {
     padding-top: 0;
@@ -64,7 +64,6 @@
 }
 
 .vet-shorts-confirmation-selected-programs-container-title {
-  @include shared.text-md();
   position: absolute;
   top: 0;
   left: 0;
@@ -73,6 +72,7 @@
   padding: 0.5rem;
   background-color: shared.$white;
   color: shared.$kendo-color-body;
+  @include shared.text-md();
 }
 
 .vet-shorts-step-footer {
