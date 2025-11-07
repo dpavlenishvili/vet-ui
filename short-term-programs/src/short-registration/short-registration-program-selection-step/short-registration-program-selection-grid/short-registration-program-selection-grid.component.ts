@@ -9,7 +9,7 @@ import {
   useConfirm,
   vetIcons,
 } from '@vet/shared';
-import { ProgramShortAdmissionRes, ShortProgram, ShortProgramAdmission } from '@vet/backend';
+import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import {
   CellTemplateDirective,
   ColumnComponent,
@@ -65,7 +65,7 @@ export class ShortRegistrationProgramSelectionGridComponent {
       return reason;
     }
 
-    return 'shorts.add_program';
+    return 'add_program';
   }
 
   isProgramSelected(item: ShortProgramAdmission) {

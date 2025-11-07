@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, OnInit, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
@@ -47,6 +47,20 @@ export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
   filtersChange = output<ProgramFilters>();
   dialogClose = output();
 
+  readonly normalizedFilters = computed(() => {
+    const formVal = this.formValue();
+
+    const hasActualValues = Object.entries(formVal).some(([key, value]) => {
+      return value !== null && value !== '' && value !== false && value !== undefined;
+    });
+
+    if (!hasActualValues) {
+      return null;
+    }
+
+    return formVal;
+  });
+
   formGroup = this.createFormGroup();
   institutionOptions = useOrganisations();
   regionOptions = useRegions();
@@ -63,7 +77,7 @@ export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
     this.selectedDistrict,
     this.institutionOptions.value,
   );
-  foundResultsCount = useFoundUnauthorizedUserPrograms(this.formValue);
+  foundResultsCount = useFoundUnauthorizedUserPrograms(this.normalizedFilters);
 
   vetIcons = vetIcons;
 
@@ -75,13 +89,35 @@ export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.onRegionChange();
+    this.onDistrictChange();
   }
 
   onRegionChange() {
     const regionControl = this.formGroup.get('region');
     const districtControl = this.formGroup.get('district');
+    const organisationControl = this.formGroup.get('organisation_name');
 
-    regionControl?.valueChanges.pipe(tap(() => districtControl?.reset())).subscribe();
+    regionControl?.valueChanges
+      .pipe(
+        tap(() => {
+          districtControl?.reset();
+          organisationControl?.reset();
+        }),
+      )
+      .subscribe();
+  }
+
+  onDistrictChange() {
+    const districtControl = this.formGroup.get('district');
+    const organisationControl = this.formGroup.get('organisation_name');
+
+    districtControl?.valueChanges
+      .pipe(
+        tap(() => {
+          organisationControl?.reset();
+        }),
+      )
+      .subscribe();
   }
 
   createFormGroup() {

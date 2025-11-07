@@ -34,6 +34,11 @@
     display: flex;
     gap: 0.875rem;
 
+    &.vet-program-card-detail-item-expandable {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
     strong {
       white-space: nowrap;
       flex-shrink: 0;
@@ -42,6 +47,34 @@
     span {
       word-break: break-word;
       overflow-wrap: break-word;
+    }
+  }
+
+  .vet-program-card-detail-value {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .vet-program-card-detail-collapsed {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .vet-program-card-detail-toggle {
+      background: none;
+      border: none;
+      color: shared.$kendo-color-primary;
+      cursor: pointer;
+      padding: 0;
+      align-self: flex-start;
+      @include shared.text-sm(true);
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

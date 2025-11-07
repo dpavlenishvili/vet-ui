@@ -17,3 +17,19 @@
     }
   }
 }
+
+// Action buttons styling
+.k-display-flex {
+  gap: 4px;
+}
+
+.action-btn {
+  ::ng-deep {
+    button {
+      min-width: 32px;
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+    }
+  }
+}

@@ -73,7 +73,11 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
 
   minDate = computed(() => {
     const minValue = this.min();
-    return minValue ? dayjs(minValue, this.defaultDateFormat).toDate() : new Date(1900, 0, 1);
+    if (minValue) {
+      return dayjs(minValue, this.defaultDateFormat).toDate();
+    }
+
+    return new Date(new Date().getFullYear(), 0, 1);
   });
 
   maxDate = computed(() => {

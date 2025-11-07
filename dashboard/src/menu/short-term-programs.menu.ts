@@ -10,7 +10,7 @@ export function useShortTermProgramsMenu(): Signal<SidebarMenuItem> {
 
   const isExpanded = signal(false);
   const organisationId = userRolesService.getOrganisationId();
-  const organisation = userRolesService.getOrganisation();
+  const organisation = userRolesService.getOrganisationName();
 
   return computed(() => ({
     id: uuid(),

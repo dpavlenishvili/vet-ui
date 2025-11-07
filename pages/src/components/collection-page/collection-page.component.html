@@ -1,10 +1,12 @@
 @let items = collection.value();
+@let _page = page();
 
 <div class="vet-page-collection">
   @for (item of items; track item.id) {
     <vet-collection-item
       class="vet-page-collection-item"
       [item]="item"
+      [parentPage]="_page"
     />
   }
 </div>

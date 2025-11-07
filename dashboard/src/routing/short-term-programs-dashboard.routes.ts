@@ -1,22 +1,22 @@
 import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
 import { Route } from '@angular/router';
-import { isNot } from '@vet/auth';
+import { UserRolesService } from '@vet/auth';
+import { inject } from '@angular/core';
+import { of } from 'rxjs';
 
 const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
 const BASE_PATH = '/dashboard/programs/short';
 
-const adminBreadcrumbStatisticItem: AppBreadCrumbItem = {
-  path: `${BASE_PATH}/statistics`,
-  text: 'dashboard.statistics',
-};
-const nonAdminBreadcrumbStatisticItem: AppBreadCrumbItem = {
-  path: '`${BASE_PATH}/statistics/:organisationId`',
-  text: 'dashboard.statistics',
-};
+export function getStatisticsBreadcrumb() {
+  const userRolesService = inject(UserRolesService);
+  const isAdmin = userRolesService.hasRole('Super Admin');
 
-const statisticsBreadcrumbItem: AppBreadCrumbItem = isNot('Super Admin')
-  ? nonAdminBreadcrumbStatisticItem
-  : adminBreadcrumbStatisticItem;
+  const item: AppBreadCrumbItem = isAdmin
+    ? { path: `${BASE_PATH}/statistics`, text: 'dashboard.statistics' }
+    : { path: `${BASE_PATH}/statistics/:organisationId`, text: 'dashboard.statistics' };
+
+  return of([item]);
+}
 
 export const shortTermProgramsDashboardRoutes: Route[] = [
   {
@@ -37,12 +37,11 @@ export const shortTermProgramsDashboardRoutes: Route[] = [
   },
   {
     path: 'statistics',
-    pathMatch: 'full',
     loadComponent: () => import('@vet/short-term-programs').then((m) => m.ShortTermStatisticsComponent),
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: BASE_PATH, text: 'dashboard.short_term_programs' },
-      statisticsBreadcrumbItem,
+      getStatisticsBreadcrumb,
     ]),
   },
   {
@@ -51,7 +50,7 @@ export const shortTermProgramsDashboardRoutes: Route[] = [
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: BASE_PATH, text: 'dashboard.short_term_programs' },
-      statisticsBreadcrumbItem,
+      getStatisticsBreadcrumb,
       { path: `${BASE_PATH}/statistics/:organisationId`, text: (route) => route.queryParamMap.get('orgName') ?? '' },
     ]),
   },
@@ -61,8 +60,8 @@ export const shortTermProgramsDashboardRoutes: Route[] = [
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: BASE_PATH, text: 'dashboard.short_term_programs' },
-      statisticsBreadcrumbItem,
-      { path: `${BASE_PATH}/statistics/:organisationId`, text: '...' },
+      getStatisticsBreadcrumb,
+      { path: `${BASE_PATH}/statistics/:organisationId`, text: (route) => route.queryParamMap.get('orgName') ?? '' },
       {
         path: `${BASE_PATH}/statistics/:organisationId/:programId`,
         text: (route) => route.queryParamMap.get('programName') ?? '',

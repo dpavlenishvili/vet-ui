@@ -29,7 +29,7 @@
       <span>{{ _program.organisation?.address }}</span>
     </div>
 
-    <a [routerLink]="['/programs/non-formal', _program.id]" class="vet-non-formal-card-link">
+    <a [routerLink]="['/programs/non-formal', _program.id]" [queryParams]="{programName: _program.isced}" class="vet-non-formal-card-link">
       {{ 'non_formal.view_details' | transloco }}
     </a>
   </div>

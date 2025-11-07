@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
-import { NonFormalService } from '@vet/backend';
+import { ChangeDetectionStrategy, Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
+import { AdmissionService, NonFormalService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent as VetButtonComponent, FormatDateTimePipe, IconButtonComponent, useAlert } from '@vet/shared';
+import { ButtonComponent as VetButtonComponent, FormatDateTimePipe, IconButtonComponent, useAlert, useConfirm } from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
-import { catchError, of } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'vet-non-formal-applications-list',
@@ -19,8 +19,10 @@ import { catchError, of } from 'rxjs';
 export class NonFormalApplicationsListComponent {
   private readonly router = inject(Router);
   private readonly nonFormalService = inject(NonFormalService);
+  private readonly admissionService = inject(AdmissionService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly alert = useAlert();
+  private readonly confirm = useConfirm();
   protected readonly isBrowser = isPlatformBrowser(this.platformId);
 
   protected readonly applicationsList$ = rxResource({
@@ -32,6 +34,27 @@ export class NonFormalApplicationsListComponent {
         }),
       );
     },
+  });
+
+  protected readonly educations$ = rxResource({
+    loader: () =>
+      this.admissionService.educationStatus().pipe(
+        map((educationStatuses) => {
+          return educationStatuses ?? [];
+        }),
+      ),
+  });
+
+  // Helper method to get education name from ID
+  protected getEducationName = computed(() => {
+    const educations = this.educations$.value();
+    return (educationId: number | string | null | undefined): string => {
+      if (!educationId || !educations) {
+        return '-';
+      }
+      const education = educations.find((edu) => Number(edu.levelId) === Number(educationId));
+      return education?.level || '-';
+    };
   });
 
   private showCancelConfirmation = signal(false);
@@ -74,10 +97,13 @@ export class NonFormalApplicationsListComponent {
       return;
     }
 
-    // Show confirmation before canceling
-    if (confirm('Are you sure you want to cancel this application?')) {
-      this.cancelApplication(item.id);
-    }
+    // Show confirmation dialog before canceling
+    this.confirm.show({
+      content: 'non_formal.confirm_application_cancel',
+      onConfirm: () => {
+        this.cancelApplication(item.id);
+      },
+    });
   }
 
   private cancelApplication(applicationId: any): void {

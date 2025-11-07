@@ -44,14 +44,7 @@ export class ProgramPageComponent {
     const prog = this.program();
     if (!prog) return undefined;
 
-    // NonFormalShow doesn't have employs_area or isced_description
-    if ('isced' in prog) {
-      return undefined;
-    }
-
-    // ShortProgramShow and LongTerm have employs_area and isced_description
-    const typedProg = prog as ProgramWithEmploysArea;
-
-    return typedProg.employs_area;
+    // Only return employs_area if it exists
+    return (prog as ProgramWithEmploysArea).employs_area ?? undefined;
   });
 }

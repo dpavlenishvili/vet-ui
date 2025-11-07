@@ -50,20 +50,24 @@
       <ng-template kendoGridCellTemplate let-item>
         <div class="short-grid-action-buttons">
           <vet-icon-button
+            kendoTooltip
             icon="eye"
             mode="flat"
             iconSize="small"
             class="short-grid-action-button"
             (click)="onPreviewProgram(item)"
+            [title]="'shorts.see' | transloco"
           />
 
           <vet-icon-button
+            kendoTooltip
             icon="minusCircleRed"
             mode="flat"
             iconSize="small"
             variant="error"
             class="short-grid-action-button"
             (click)="onUnselectProgram(item)"
+            [title]="'shorts.delete' | transloco"
           />
         </div>
       </ng-template>

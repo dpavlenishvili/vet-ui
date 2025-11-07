@@ -9,6 +9,7 @@ import {
 } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useProgramDialog } from '../../../short-term-programs.signals';
+import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-short-registration-selected-programs-grid',
@@ -21,6 +22,7 @@ import { useProgramDialog } from '../../../short-term-programs.signals';
     FormatDatePipe,
     InfoComponent,
     IconButtonComponent,
+    KENDO_TOOLTIP
   ],
   templateUrl: './short-registration-selected-programs-grid.component.html',
   styleUrl: './short-registration-selected-programs-grid.component.scss',

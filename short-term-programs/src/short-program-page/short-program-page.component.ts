@@ -68,7 +68,7 @@ export class ShortProgramPageComponent {
     const selectionMethods = program.selection_methods?.join(", ");
     
     return [
-      { label: trans('shorts.field'), value: `${program.isced?.code} - ${program.isced?.name}` },
+      { label: trans('shorts.field'), value: `${program.isced?.name}` },
       { label: trans('shorts.program_code'), value: program.program_code },
       { label: trans('shorts.qualification_level'), value: program.education_level as unknown as string },
       { label: trans('shorts.program_kind'), value: program.program_kind?.name },

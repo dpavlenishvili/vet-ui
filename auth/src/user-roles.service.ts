@@ -124,4 +124,8 @@ export class UserRolesService {
   getOrganisationId() {
     return this.selectedAccount()?.organisationId;
   }
+
+  getOrganisationName() {
+    return this.selectedAccount()?.name;
+  }
 }

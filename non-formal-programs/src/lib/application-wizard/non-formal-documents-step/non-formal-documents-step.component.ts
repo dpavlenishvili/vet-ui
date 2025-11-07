@@ -23,6 +23,7 @@ export class NonFormalDocumentsStepComponent {
   isViewMode = input<boolean>(false);
   back = output<void>();
   next = output<void>();
+  documentsUploaded = output<void>();
 
   // --- Services ---
   private readonly nonFormalService = inject(NonFormalService);
@@ -95,7 +96,7 @@ export class NonFormalDocumentsStepComponent {
   protected getErrorMessage(controlName: string, labelKey: string): string | null {
     const control = this.formGroup().get(controlName);
     if (control?.touched && control?.errors?.['required']) {
-      return labelKey; // The pipe in the template will translate this key
+      return 'non_formal.please_upload_documents'; // Generic validation message
     }
     return null;
   }
@@ -178,6 +179,14 @@ export class NonFormalDocumentsStepComponent {
       .subscribe({
         next: (response) => {
           if (response) {
+            // Mark form as pristine after successful upload to prevent re-uploading
+            // The files are now on the server and will have IDs when application data is reloaded
+            const form = this.formGroup();
+            form.markAsPristine();
+
+            // Emit event to notify parent that documents were uploaded (parent should reload data)
+            this.documentsUploaded.emit();
+
             this.next.emit();
           }
         },

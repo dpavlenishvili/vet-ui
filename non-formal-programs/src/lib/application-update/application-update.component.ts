@@ -19,6 +19,7 @@ import {
         [applicationId]="applicationId()"
         [applicationData]="applicationData()"
         (updateApplication)="onUpdate($event)"
+        (reloadApplicationData)="onReloadApplicationData()"
       />
     }
   `,
@@ -172,6 +173,13 @@ export class ApplicationUpdateComponent implements OnInit {
     const statusIdIsDraft = data.status?.id === '0'; // Assuming "0" is draft status ID from your API
 
     return isDraft || statusIsDraft || statusIdIsDraft;
+  }
+
+  protected onReloadApplicationData(): void {
+    const id = this.applicationId();
+    if (id) {
+      this.loadApplicationData(id);
+    }
   }
 
   private loadApplicationData(id: string): void {

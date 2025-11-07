@@ -4,7 +4,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { InputsModule, SwitchModule, TextAreaModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { AuthenticationService } from '@vet/auth';
-import { GeneralsService, NonFormalService } from '@vet/backend';
+import { AdmissionService, NonFormalService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import {
   ButtonComponent as VetButtonComponent,
@@ -17,7 +17,7 @@ import {
 } from '@vet/shared';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { NonFormalApplicationData } from '../application-wizard.component';
-import { of } from 'rxjs';
+import { of, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 interface CheckboxOption {
@@ -58,7 +58,7 @@ export class NonFormalConfirmationStepComponent {
   protected readonly vetIcons = vetIcons;
   protected readonly user = inject(AuthenticationService).user;
   private readonly window = inject(WA_WINDOW);
-  private readonly generalsService = inject(GeneralsService);
+  private readonly admissionService = inject(AdmissionService);
   private readonly nonFormalService = inject(NonFormalService);
 
   // Mapping options for questionnaire fields
@@ -89,7 +89,12 @@ export class NonFormalConfirmationStepComponent {
   ];
 
   protected readonly educations$ = rxResource({
-    loader: () => this.generalsService.getAllConfigs({ key: 'education_levels' }),
+    loader: () =>
+      this.admissionService.educationStatus().pipe(
+        map((educationStatuses) => {
+          return educationStatuses ?? [];
+        }),
+      ),
   });
 
   protected readonly selectedEducation = computed(() => {
@@ -101,9 +106,9 @@ export class NonFormalConfirmationStepComponent {
     }
 
     const selectedEducationId = form.get('questionnaire')?.get('education_level_id')?.value;
-    const selectedEducation = educations?.education_levels?.find((edu) => Number(edu.id) === selectedEducationId);
+    const selectedEducation = educations?.find((edu) => Number(edu.levelId) === selectedEducationId);
 
-    return selectedEducation?.value || '';
+    return selectedEducation?.level || '';
   });
 
   protected readonly programId = computed(() => this.applicationData()?.non_formal_id);
@@ -130,12 +135,12 @@ export class NonFormalConfirmationStepComponent {
 
   protected readonly educationOptions = computed(() => {
     const educations = this.educations$.value();
-    if (!educations?.education_levels) {
+    if (!educations) {
       return [];
     }
-    return educations.education_levels.map((edu) => ({
-      label: edu.value || '',
-      value: edu.id ? Number(edu.id) : null,
+    return educations.map((edu) => ({
+      label: edu.level || '',
+      value: edu.levelId ? Number(edu.levelId) : null,
     }));
   });
 

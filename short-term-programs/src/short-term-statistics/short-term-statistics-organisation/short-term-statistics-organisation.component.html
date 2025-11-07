@@ -15,7 +15,7 @@
     <ng-template kendoGridCellTemplate let-item>
       <a
         [routerLink]="['/dashboard/programs/short/statistics', organisationId, item.id]"
-        [queryParams]="{ programName: item.program_name }"
+        [queryParams]="{ programName: item.program_name, orgName: item.organisation_name }"
         class="organisation-link"
       >
         {{ item.program_name }}

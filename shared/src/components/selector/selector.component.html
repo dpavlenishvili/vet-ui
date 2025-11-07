@@ -16,7 +16,12 @@
     <div class="k-w-full k-display-flex k-justify-content-between k-align-items-center">
       <div class="k-display-flex k-align-items-center k-gap-2 k-m-1">
         <ng-content select="[before]" />
-        <span>{{ item.label | transloco }}</span>
+        @if (item.value) {
+          <span><b>{{ item.label | transloco }}</b></span>
+        } @else {
+          <span>{{ item.label | transloco }}</span>
+        }
+
         <ng-content select="[after]" />
       </div>
 

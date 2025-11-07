@@ -64,16 +64,19 @@ export class NonFormalFieldSelectionGridComponent {
   });
 
   /**
-   * Computed signal that returns a function to get the tooltip text for disabled buttons.
+   * Computed signal that returns a function to get the tooltip text for buttons.
    * This ensures reactive updates when any input signal changes.
    */
-  protected readonly getDisabledTooltipText = computed(() => {
+  protected readonly getTooltipText = computed(() => {
     const selectedId = this.selectedProgramId();
     const fieldChangeDisabled = this.isFieldChangeDisabled();
     const registeredIds = this.registeredNonFormalIds();
     const currentFieldId = this.currentApplicationFieldId();
 
     return (program: NonFormalRegistrationProgram): string => {
+      const isSelected = selectedId === program.id;
+
+      // Check if button is disabled
       if (selectedId !== null && selectedId !== program.id) {
         return 'non_formal.another_field_selected';
       }
@@ -88,7 +91,8 @@ export class NonFormalFieldSelectionGridComponent {
         return 'non_formal.field_already_registered';
       }
 
-      return '';
+      // If not disabled, show add/remove tooltip
+      return isSelected ? 'non_formal.remove_program' : 'non_formal.add_program';
     };
   });
 

@@ -106,7 +106,9 @@
     "next": "გაგრძელება",
     "other": "სხვა",
     "occured_technical_error": "დაფიქსირდა ტექნიკური ხარვეზი, გთხოვთ, სცადოთ მოგვიანებით!",
-    "mandatory_fields_warning": "საჭიროა სავალდებულო ველების შევსება"
+    "mandatory_fields_warning": "საჭიროა სავალდებულო ველების შევსება",
+    "show_more": "მეტის ნახვა",
+    "show_less": "ნაკლების ნახვა"
   },
   "auth": {
     "georgian_citizen": "საქართველოს მოქალაქე ან ბინადრობის მოწმობის მქონე",
@@ -707,16 +709,18 @@
     "study_start_date": "სწავლის დაწყების თარიღი",
     "registration_streams": "ნაკადები",
     "add_program": "დაამატეთ პროგრამა",
+    "remove_program": "წაშალეთ პროგრამა",
     "The student's education level does not match the program prerequisites.": "პროგრამაზე რეგისტრაცია შეზღუდულია, თქვენი განათლების დონე არ შეესაბამება პროგრამის დაშვების წინაპირობას",
     "The student's age does not match the program prerequisites.": "პროგრამაზე რეგისტრაცია შეზღუდულია, თქვენი ასაკი არ შეესაბამება პროგრამის დაშვების წინაპირობას",
-    "Registration for the program is limited, you are already an active listener.": "პროგრამაზე რეგისტრაცია შეზღუდულია, თქვენ უკვე აქტიური მსმენელი ხართ",
-    "Registration for the program is limited, you are a graduate of this program.": "პროგრამაზე რეგისტრაცია შეზღუდულია, თქვენ ამ პროგრამის კურსდამთავრებული ხართ",
+    "Registration for the program is limited, you are already an active listener": "პროგრამაზე რეგისტრაცია შეზღუდულია, თქვენ უკვე აქტიური მსმენელი ხართ",
+    "Registration for the program is limited, you are a graduate of this program": "პროგრამაზე რეგისტრაცია შეზღუდულია, თქვენ ამ პროგრამის კურსდამთავრებული ხართ",
     "Registration for the program is limited, you are already registered.": "პროგრამაზე რეგისტრაცია შეზღუდულია, თქვენ უკვე რეგისტრირებული ხართ",
     "gallery": "გალერეა",
     "no_gallery": "ფოტო ან ვიდეო მასალა არ მოიძებნა",
     "partial_funding": "ნაწილობრივი",
     "no_funding": "არა",
-    "full_funding": "დიახ"
+    "full_funding": "დიახ",
+    "delete": "წაშლა"
   },
   "organisations": {
     "organisation_name": "დაწესებულება",
@@ -761,7 +765,7 @@
     "registration_inactive": "რეგისტრაცია დაუსრულებელია",
     "view_details": "იხილიეთ სრულად",
     "no_programs_found": "პროგრამები ვერ მოიძებნა",
-    "field_description": "სფეროს მოკლე აღწერა",
+    "field_description": "სფეროს აღწერა",
     "recognition_announcement": "გამოცხადებულია აღიარება",
     "application_submission_period": "განაცხადის წარდგენის პერიოდი",
     "submission_period": "წარდგენის პერიოდი",
@@ -860,6 +864,9 @@
     "cannot_change_field_after_submission": "სფეროს შეცვლა შეუძლებელია განაცხადის გაგზავნის შემდეგ",
     "field_already_registered": "ამ სფეროზე უკვე გაქვთ წარდგენილი განაცხადი",
     "program_update_error": "პროგრამის განახლება ვერ მოხერხდა",
-    "error_select_at_least_one_field": "სავალდებულოა მინიმუმ ერთი სფეროს არჩევა"
+    "error_select_at_least_one_field": "სავალდებულოა მინიმუმ ერთი სფეროს არჩევა",
+    "confirm_program_removal": "დარწმუნებული ხართ, რომ გსურთ პროგრამის წაშლა?",
+    "confirm_application_cancel": "დარწმუნებული ხართ, რომ გსურთ განაცხადის გაუქმება?",
+    "please_upload_documents": "გთხოვთ ატვირთეთ დოკუმენტები"
   }
 }

@@ -8,19 +8,23 @@ import { useNavigation } from '@vet/shared';
 export const mandatoryFieldsGuard: CanActivateFn = () => {
   const auth = inject(AuthenticationService);
   const router = inject(Router);
-  
   const navigationService = useNavigation();
 
-  return toObservable(auth.areCookiesLoaded).pipe(
-    filter((loaded) => loaded),
+  return toObservable(auth.isAuthenticated).pipe(
+    filter((isAuth) => isAuth !== null && !auth.isLoadingUser()),
     take(1),
-    map(() => {
-      if (auth.isMandatoryFieldsFilled()) {
+    map((isAuth) => {
+      if (!isAuth) {
+        return true;
+      }
+
+      const filled = auth.isMandatoryFieldsFilled();
+      
+      if (filled) {
         return true;
       }
 
       navigationService.setReturnUrl(router.url);
-
       return new RedirectCommand(router.createUrlTree(['/user-profile']));
     }),
   );

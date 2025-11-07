@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
-import { authenticatedGuard, unAuthenticatedGuard } from '@vet/auth';
+import { authenticatedGuard, mandatoryFieldsGuard, unAuthenticatedGuard } from '@vet/auth';
 
 const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
 
@@ -31,7 +31,7 @@ export const nonFormalProgramsRoutes: Route[] = [
       import('./application-registration/application-registration.component').then(
         (m) => m.ApplicationRegistrationComponent,
       ),
-    canActivate: [authenticatedGuard],
+    canActivate: [authenticatedGuard, mandatoryFieldsGuard],
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
@@ -109,7 +109,7 @@ export const nonFormalProgramsRoutes: Route[] = [
     path: 'update-application/:applicationId',
     loadComponent: () =>
       import('./application-update/application-update.component').then((m) => m.ApplicationUpdateComponent),
-    canActivate: [authenticatedGuard],
+    canActivate: [authenticatedGuard, mandatoryFieldsGuard],
     data: breadcrumb([...baseBreadcrumbItems, { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' }]),
     children: [
       {
@@ -247,7 +247,7 @@ export const nonFormalProgramsRoutes: Route[] = [
     data: breadcrumb([
       ...baseBreadcrumbItems,
       { path: '/programs/non-formal', text: 'non_formal.programs' },
-      { path: '/programs/non-formal/:programId', text: 'non_formal.program_details' },
+      { path: '/programs/non-formal/:programId', text: (route) => route.queryParamMap.get('programName') ?? '' },
     ]),
   },
 ];

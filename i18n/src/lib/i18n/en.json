@@ -76,7 +76,9 @@
     "understood": "Understood",
     "agree": "I Agree",
     "cancel": "Cancel",
-    "remove": "Remove"
+    "remove": "Remove",
+    "show_more": "Show More",
+    "show_less": "Show Less"
   },
   "auth": {
     "georgian_citizen": "Citizen of Georgia or residence permit holder",
@@ -424,7 +426,7 @@
     "registration_inactive": "Registration Incomplete",
     "view_details": "View Details",
     "no_programs_found": "No Programs Found",
-    "field_description": "Brief Field Description",
+    "field_description": "Field Description",
     "recognition_announcement": "Recognition Announced",
     "application_submission_period": "Application Submission Period",
     "submission_period": "Submission Period",
@@ -527,6 +529,11 @@
     "another_field_selected": "Another field is already selected",
     "cannot_change_field_after_submission": "Cannot change field after application submission",
     "field_already_registered": "You already have an application for this field",
-    "program_update_error": "Failed to update selected program"
+    "program_update_error": "Failed to update selected program",
+    "add_program": "Add Program",
+    "remove_program": "Remove Program",
+    "confirm_program_removal": "Are you sure you want to remove this program?",
+    "confirm_application_cancel": "Are you sure you want to cancel this application?",
+    "please_upload_documents": "Please upload documents"
   }
 }

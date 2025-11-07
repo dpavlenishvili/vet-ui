@@ -53,23 +53,25 @@
     <ng-template kendoGridCellTemplate let-item>
       <div class="short-grid-action-buttons">
         <vet-icon-button
+          kendoTooltip
           icon="eye"
           mode="flat"
           iconSize="small"
           class="short-grid-action-button"
           (click)="onPreviewProgram(item)"
+          [title]="'shorts.see' | transloco"
         />
 
         @if (!isProgramSelected(item)) {
           <div kendoTooltip>
             <span [title]="'shorts.' + getEligibilityError(item) | transloco">
               <vet-icon-button
-                [icon]="(!item.eligibility?.eligible || isSelectionDisabled()) ? 'blocked' : 'plusCircleGreen'"
+                [icon]="!item.eligibility?.eligible || isSelectionDisabled() ? 'blocked' : 'plusCircleGreen'"
                 mode="flat"
                 iconSize="small"
                 class="short-grid-action-button"
                 [disabled]="!item.eligibility?.eligible || isSelectionDisabled()"
-                (click)="onSelectProgram(item)"
+                (click)="!item.eligibility?.eligible || isSelectionDisabled() ? null : onSelectProgram(item)"
               />
             </span>
           </div>

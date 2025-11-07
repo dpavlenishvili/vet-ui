@@ -48,9 +48,6 @@
             maxlength="2000"
             [readonly]="isViewMode()"
           ></textarea>
-          <div class="k-display-flex k-justify-content-end k-text-xs k-text-base">
-            {{ formGroup().get('action_description')?.value?.length ?? 0 }}/2000
-          </div>
         </div>
         @if (formGroup().get('action_description')?.invalid && formGroup().get('action_description')?.touched) {
           <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>

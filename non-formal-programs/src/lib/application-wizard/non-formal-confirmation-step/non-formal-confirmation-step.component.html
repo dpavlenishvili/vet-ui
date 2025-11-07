@@ -103,14 +103,9 @@
           <!-- Action Description Textarea (disabled) -->
           <div class="form-section">
             <div class="form-field">
-              <div class="field-label-with-hint">
-                <label class="field-label">
-                  {{ 'non_formal.action_description_label' | transloco }}
-                </label>
-                <span class="field-hint">
-                  ({{ 'non_formal.character_count' | transloco: { count: getDescriptionLength(), max: 2000 } }})
-                </span>
-              </div>
+              <label class="field-label">
+                {{ 'non_formal.action_description_label' | transloco }}
+              </label>
               <kendo-textarea
                 formControlName="action_description"
                 [rows]="5"

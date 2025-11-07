@@ -75,20 +75,28 @@ export function usePrograms(page: Signal<number>, perPage = 5) {
   });
 }
 
-export function useFoundUnauthorizedUserPrograms(filters: Signal<ProgramFilters>) {
+export function useFoundUnauthorizedUserPrograms(filters: Signal<ProgramFilters | null>) {
   const programsService = inject(ProgramsService);
-  const debouncedFilters = useDebounceValue<ProgramFilters>(
+  const debouncedFormValue = useDebounceValue<ProgramFilters | null>(
     filters,
     300,
     (a, b) => JSON.stringify(a) === JSON.stringify(b),
   );
 
-  return rxResource<number | null, ProgramFilters>({
-    request: debouncedFilters,
+  return rxResource<number | null, ProgramFilters | null>({
+    request: debouncedFormValue,
     defaultValue: null,
     loader: ({ request }) => {
-      if (Object.keys(request).length === 0) {
-        return of(0);
+      if (!request) {
+        return of(null);
+      }
+
+      const hasActualFilters = Object.values(request).some(
+        value => value !== null && value !== '' && value !== false && value !== undefined
+      );
+
+      if (!hasActualFilters) {
+        return of(null);
       }
 
       return programsService

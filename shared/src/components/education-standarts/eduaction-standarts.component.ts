@@ -23,8 +23,8 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
   version = input<InputVersion>('thin');
   placeholder = input('');
   vetIcons = vetIcons;
-  expandedItems = new Set<number | undefined>();
 
+  expandedItems = new Set<number | undefined>();
   isDisabled = signal(false);
   hasError = signal(false);
   isDialogOpen = signal(false);
@@ -33,10 +33,11 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
     loader: () => this.generalsService.getIsceds().pipe(map((response) => response.data)),
   });
 
-  selectedCodes = new Set<string>();
+  // Changed to signal for better reactivity
+  selectedCodes = signal(new Set<string>());
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onChange: (value: string[]) => void = () => {};
+  private onChange: (value: string[] | null) => void = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => void = () => {};
 
@@ -45,11 +46,11 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
       this.ngControl.valueAccessor = this;
     }
   }
+
   generalsService = inject(GeneralsService);
 
   errorMessage = computed(() => {
     const control = this.ngControl?.control;
-
     if (!control?.errors) return '';
     const errors = control.errors;
     const keys = Object.keys(errors);
@@ -58,10 +59,11 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
   });
 
   writeValue(value: string[] | null): void {
-    this.selectedCodes.clear();
-    if (Array.isArray(value)) {
-      value.forEach((v) => this.selectedCodes.add(v));
+    const newSet = new Set<string>();
+    if (Array.isArray(value) && value.length > 0) {
+      value.forEach((v) => newSet.add(v));
     }
+    this.selectedCodes.set(newSet);
   }
 
   registerOnChange(fn: any): void {
@@ -97,41 +99,47 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
 
   selectItem(item: any, event: Event) {
     event.stopPropagation();
-
-    const isChecked = this.selectedCodes.has(item.code);
-
+    const currentCodes = this.selectedCodes();
+    const isChecked = currentCodes.has(item.code);
+    
+    const newCodes = new Set(currentCodes);
+    
     if (isChecked) {
-      this.deselectRecursive(item);
+      this.deselectRecursive(item, newCodes);
     } else {
-      this.selectRecursive(item);
+      this.selectRecursive(item, newCodes);
     }
-
-    this.onChange(Array.from(this.selectedCodes));
+    
+    this.selectedCodes.set(newCodes);
+    const codesArray = Array.from(newCodes);
+    this.onChange(codesArray.length > 0 ? codesArray : null);
   }
 
-  private selectRecursive(item: any): void {
-    this.selectedCodes.add(item.code);
+  private selectRecursive(item: any, codesSet: Set<string>): void {
+    codesSet.add(item.code);
     if (item.children) {
-      item.children.forEach((child: any) => this.selectRecursive(child));
+      item.children.forEach((child: any) => this.selectRecursive(child, codesSet));
     }
   }
 
-  private deselectRecursive(item: any): void {
-    this.selectedCodes.delete(item.code);
+  private deselectRecursive(item: any, codesSet: Set<string>): void {
+    codesSet.delete(item.code);
     if (item.children) {
-      item.children.forEach((child: any) => this.deselectRecursive(child));
+      item.children.forEach((child: any) => this.deselectRecursive(child, codesSet));
     }
   }
 
   isSelected(item: any): boolean {
-    return this.selectedCodes.has(item.code);
+    return this.selectedCodes().has(item.code);
   }
 
   getSelectedTitles(): string {
     const standards = this.educationStandards.value() ?? [];
     const all = this.flattenItems(standards);
+    const currentCodes = this.selectedCodes();
+    
     return all
-      .filter((i: any) => this.selectedCodes.has(i.code))
+      .filter((i: any) => currentCodes.has(i.code))
       .map((i: any) => i.title)
       .join(', ');
   }

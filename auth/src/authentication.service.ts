@@ -67,6 +67,10 @@ export class AuthenticationService {
   readonly remember = this._remember.asReadonly();
   readonly isMandatoryFieldsFilled = computed(() => {
     const user = this.user();
+    const isLoading = this.isLoadingUser();
+
+    if (isLoading) return null;
+
     if (!user) return false;
 
     return !!(user.address && user.region && user.district);

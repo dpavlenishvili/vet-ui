@@ -5,6 +5,7 @@ import {
   effect,
   inject,
   input,
+  OnInit,
   output,
   signal,
 } from '@angular/core';
@@ -19,6 +20,7 @@ import {
   useProgramsWithOrganisation,
 } from 'short-term-programs/src/short-term.resources';
 import { ActivatedRoute } from '@angular/router';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'vet-short-term-statistics-filters',
@@ -27,7 +29,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './short-term-statistics-filters.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShortTermStatisticsFiltersComponent {
+export class ShortTermStatisticsFiltersComponent implements OnInit {
   numberOfRecords = input<number>();
   filters = input.required<ShortStatsFilters>();
   filtersChange = output<ShortStatsFilters>();
@@ -51,6 +53,17 @@ export class ShortTermStatisticsFiltersComponent {
     effect(() => {
       this.formGroup.patchValue(this.filters());
     });
+  }
+
+  ngOnInit(): void {
+    this.onProgramChange();
+  }
+
+  onProgramChange() {
+    const programControl = this.formGroup.get('program');
+    const programKindControl = this.formGroup.get('program_kind');
+
+    programControl?.valueChanges.pipe(tap(() => programKindControl?.reset())).subscribe();
   }
 
   createFormGroup() {

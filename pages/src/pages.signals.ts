@@ -1,4 +1,4 @@
-import { computed, effect, inject, Signal } from '@angular/core';
+import { computed, effect, Signal } from '@angular/core';
 import { usePages } from './pages.resources';
 import { getCurrentSlug, getMatchedPage, getMatchedPageList } from './pages.utils';
 import { useCurrentUrl } from '@vet/shared';

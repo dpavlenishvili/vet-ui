@@ -105,6 +105,7 @@ export class ApplicationWizardComponent implements OnInit {
 
   readonly createApplication = output<ApplicationRequest>();
   readonly updateApplication = output<StepBody<ApplicationRequest>>();
+  readonly reloadApplicationData = output<void>();
 
   protected readonly formGroup = signal<FormGroup | null | any>(null);
   protected readonly currentStepIndex = signal(0);
@@ -275,6 +276,12 @@ export class ApplicationWizardComponent implements OnInit {
     this.emitUpdate(payload, 'confirmation');
   }
 
+  protected onDocumentsUploaded(): void {
+    // Emit event to parent to reload application data
+    // This ensures the form gets updated with uploaded files that have IDs from the server
+    this.reloadApplicationData.emit();
+  }
+
   private initializeFormData(): void {
     const form = this.formGroup();
     if (!form) return;
@@ -354,7 +361,7 @@ export class ApplicationWizardComponent implements OnInit {
         who_taught_you_other: new FormControl<string | null>(null),
         source_of_information: new FormControl<string | null>(null, Validators.required),
         source_of_information_other: new FormControl<string | null>(null),
-        like_your_job: new FormControl<boolean | null>(null),
+        like_your_job: new FormControl<boolean | null>(false),
         experience_years: new FormControl<string | null>(null, [Validators.required, numericValidator]),
       }),
       documents: new FormGroup({
@@ -418,6 +425,10 @@ export class ApplicationWizardComponent implements OnInit {
         // Ensure experience_years is passed as string to API
         if (payload.experience_years !== null && payload.experience_years !== undefined) {
           payload.experience_years = String(payload.experience_years);
+        }
+        // Ensure like_your_job is false if null
+        if (payload.like_your_job === null) {
+          payload.like_your_job = false;
         }
         break;
       case 'documents':

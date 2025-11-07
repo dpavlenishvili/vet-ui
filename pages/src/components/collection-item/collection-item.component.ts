@@ -2,7 +2,7 @@ import { DatePipe, NgOptimizedImage, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UploadedFileUriPipe } from '@vet/shared';
-import type { CollectionItem } from '@vet/backend';
+import type { CollectionItem, Page } from '@vet/backend';
 import { PageContentComponent } from '../page-content/page-content.component';
 
 @Component({
@@ -15,4 +15,5 @@ import { PageContentComponent } from '../page-content/page-content.component';
 })
 export class CollectionItemComponent {
   item = input.required<CollectionItem>();
+  parentPage = input.required<Page>();
 }

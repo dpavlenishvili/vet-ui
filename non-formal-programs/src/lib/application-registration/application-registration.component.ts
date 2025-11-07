@@ -18,6 +18,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         [applicationId]="applicationId()"
         [applicationData]="applicationData()"
         (updateApplication)="onUpdate($event)"
+        (reloadApplicationData)="onReloadApplicationData()"
       />
     }
   `,
@@ -44,6 +45,12 @@ export class ApplicationRegistrationComponent implements OnInit {
     if (event.step === 'field-selection' || event.step === 'selected-fields') {
       this.handleFieldSelection(event.body.payload);
     }
+  }
+
+  protected onReloadApplicationData(): void {
+    // Registration component doesn't handle reload
+    // By the time documents are uploaded, we're in update mode
+    // This method is here to satisfy the template binding
   }
 
   private handleFieldSelection(payload: ApplicationRequest): void {

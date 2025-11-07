@@ -56,7 +56,10 @@
   text-align: center;
   line-height: 100%;
   color: shared.$kendo-color-body;
-  @include shared.text-base();
+  @include shared.text-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .vet-shorts-card-field-container {

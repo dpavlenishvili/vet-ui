@@ -1,15 +1,14 @@
 @let _item = item();
+@let _parentPage = parentPage();
 
-<a [routerLink]="['/article', _item.id]">
+<a
+  [routerLink]="['/article', _item.id]"
+  [state]="{ parentPageSlug: _parentPage.slug, parentPageTitle: _parentPage.title }"
+>
   <article class="vet-collection-item">
     <div class="vet-collection-item-image-container">
       @if (_item.image) {
-        <img
-          [ngSrc]="_item.image | vetUploadedFileUri"
-          [attr.alt]="_item.slug"
-          width="373"
-          height="98"
-        />
+        <img [ngSrc]="_item.image | vetUploadedFileUri" [attr.alt]="_item.slug" width="373" height="98" />
       }
     </div>
 
@@ -18,7 +17,7 @@
       <h2 class="vet-collection-item-title">{{ _item.title }}</h2>
       <p class="vet-collection-item-content">
         <vet-page-content
-          [content]="(_item.content | slice:0:130) + ((_item.content?.length || 0) > 130 ? '...' : '')"
+          [content]="(_item.content | slice: 0 : 130) + ((_item.content?.length || 0) > 130 ? '...' : '')"
         />
       </p>
     </div>

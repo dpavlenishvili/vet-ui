@@ -46,3 +46,7 @@
 .program-image {
   object-fit: contain;
 }
+
+.vet-program-data-section-title {
+  @include shared.text-h2();
+}

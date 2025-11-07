@@ -6,47 +6,41 @@
   (filtersChange)="updateFilters($event)"
 />
 
-@if (_registeredListeners) {
-  <kendo-grid [data]="_registeredListeners?.data ?? []" [loading]="registeredListeners.isLoading()">
-    <ng-template kendoGridNoRecordsTemplate>
-      {{ 'shared.noRecords' | transloco }}
+<kendo-grid [data]="_registeredListeners?.data ?? []" [loading]="registeredListeners.isLoading()">
+  <ng-template kendoGridNoRecordsTemplate>
+    {{ 'shared.noRecords' | transloco }}
+  </ng-template>
+
+  <kendo-grid-column [title]="'shorts.pid' | transloco">
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.user.pid }}
     </ng-template>
+  </kendo-grid-column>
 
-    <kendo-grid-column [title]="'shorts.pid' | transloco">
-      <ng-template kendoGridCellTemplate let-item>
-        {{ item.user.pid }}
-      </ng-template>
-    </kendo-grid-column>
+  <kendo-grid-column [title]="'shorts.name_surname' | transloco">
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.user.name }}
+    </ng-template>
+  </kendo-grid-column>
 
-    <kendo-grid-column [title]="'shorts.name_surname' | transloco">
-      <ng-template kendoGridCellTemplate let-item>
-        {{ item.user.name }}
-      </ng-template>
-    </kendo-grid-column>
+  <kendo-grid-column [title]="'shorts.phone' | transloco">
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.user.phone }}
+    </ng-template>
+  </kendo-grid-column>
 
-    <kendo-grid-column [title]="'shorts.phone' | transloco">
-      <ng-template kendoGridCellTemplate let-item>
-        {{ item.user.phone }}
-      </ng-template>
-    </kendo-grid-column>
+  <kendo-grid-column [title]="'shorts.email' | transloco">
+    <ng-template kendoGridCellTemplate let-item>
+      {{ item.user.email }}
+    </ng-template>
+  </kendo-grid-column>
 
-    <kendo-grid-column [title]="'shorts.email' | transloco">
-      <ng-template kendoGridCellTemplate let-item>
-        {{ item.user.email }}
-      </ng-template>
-    </kendo-grid-column>
-
-    <kendo-grid-column [title]="'shorts.status' | transloco">
-      <ng-template kendoGridCellTemplate let-item>
-        <div class="k-display-flex k-flex-column k-gap-2">
-          <p>{{item.status.name}}</p>
-          <p>{{item.status.value}}</p>
-        </div>
-      </ng-template>
-    </kendo-grid-column>
-  </kendo-grid>
-} @else {
-  <div class="no-records-template">
-    <p class="k-text-error">{{ 'shared.noRecords' | transloco }}</p>
-  </div>
-}
+  <kendo-grid-column [title]="'shorts.status' | transloco">
+    <ng-template kendoGridCellTemplate let-item>
+      <div class="k-display-flex k-flex-column k-gap-2">
+        <p>{{item.status.name}}</p>
+        <p>{{item.status.value}}</p>
+      </div>
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

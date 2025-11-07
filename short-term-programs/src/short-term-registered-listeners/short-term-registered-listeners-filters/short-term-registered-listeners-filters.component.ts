@@ -60,6 +60,36 @@ export class ShortTermRegisteredListenersFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.updateSignalByControl(this.formGroup.controls['organisation_id'], this.organisationId);
     this.updateSignalByControl(this.formGroup.controls['program_id'], this.selectedProgramId);
+    this.onOrganisationChange();
+    this.onProgramChange();
+  }
+
+  onOrganisationChange() {
+    const organisationControl = this.formGroup.get('organisation_id');
+    const programControl = this.formGroup.get('program_id');
+    const admissionControl = this.formGroup.get('program_admission_id');
+
+    organisationControl?.valueChanges
+      .pipe(
+        tap(() => {
+          programControl?.reset();
+          admissionControl?.reset();
+        }),
+      )
+      .subscribe();
+  }
+
+  onProgramChange() {
+    const programControl = this.formGroup.get('program_id');
+    const admissionControl = this.formGroup.get('program_admission_id');
+
+    programControl?.valueChanges
+      .pipe(
+        tap(() => {
+          admissionControl?.reset();
+        }),
+      )
+      .subscribe();
   }
 
   updateSignalByControl(control: AbstractControl, signal: WritableSignal<string | null | undefined>) {

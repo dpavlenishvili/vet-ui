@@ -155,20 +155,28 @@ export function useShortTermProgramAdmissions(educationLevelId: Signal<number | 
   });
 }
 
-export function useFoundProgramsCount(filters: Signal<ShortTermProgramFilters>) {
+export function useFoundProgramsCount(filters: Signal<ShortTermProgramFilters | null>) {
   const programsService = inject(ShortProgramsService);
-  const debouncedFormValue = useDebounceValue<ShortTermProgramFilters>(
+  const debouncedFormValue = useDebounceValue<ShortTermProgramFilters | null>(
     filters,
     300,
     (a, b) => JSON.stringify(a) === JSON.stringify(b),
   );
 
-  return rxResource<number | null, ProgramFilters>({
+  return rxResource<number | null, ProgramFilters | null>({
     request: debouncedFormValue,
     defaultValue: null,
     loader: ({ request }) => {
-      if (Object.keys(request).length === 0) {
-        return of(0);
+      if (!request) {
+        return of(null);
+      }
+
+      const hasActualFilters = Object.values(request).some(
+        value => value !== null && value !== '' && value !== false && value !== undefined
+      );
+
+      if (!hasActualFilters) {
+        return of(null);
       }
 
       return programsService

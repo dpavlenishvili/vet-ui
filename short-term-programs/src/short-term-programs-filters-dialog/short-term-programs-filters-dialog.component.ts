@@ -46,10 +46,22 @@ import { tap } from 'rxjs';
 })
 export class ShortTermProgramsFiltersDialogComponent implements OnInit {
   filters = input.required<ShortTermProgramFilters>();
-  filtersChange = output<ShortTermProgramFilters>();
+  filtersChange = output<ShortTermProgramFilters | null>();
   dialogClose = output();
 
-  readonly normalizedFilters = computed(() => this.normalizeFilters(this.formValue()));
+  readonly normalizedFilters = computed(() => {
+    const formVal = this.formValue();
+
+    const hasActualValues = Object.entries(formVal).some(([key, value]) => {
+      return value !== null && value !== '' && value !== false && value !== undefined;
+    });
+
+    if (!hasActualValues) {
+      return null;
+    }
+
+    return this.normalizeFilters(formVal);
+  });
 
   formGroup = this.createFormGroup();
   institutionOptions = useOrganisations();
@@ -79,13 +91,35 @@ export class ShortTermProgramsFiltersDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.onRegionChange();
+    this.onDistrictChange();
   }
 
   onRegionChange() {
     const regionControl = this.formGroup.get('region');
     const districtControl = this.formGroup.get('district');
+    const organisationControl = this.formGroup.get('organisation_name');
 
-    regionControl?.valueChanges.pipe(tap(() => districtControl?.reset())).subscribe();
+    regionControl?.valueChanges
+      .pipe(
+        tap(() => {
+          districtControl?.reset();
+          organisationControl?.reset();
+        }),
+      )
+      .subscribe();
+  }
+
+  onDistrictChange() {
+    const districtControl = this.formGroup.get('district');
+    const organisationControl = this.formGroup.get('organisation_name');
+
+    districtControl?.valueChanges
+      .pipe(
+        tap(() => {
+          organisationControl?.reset();
+        }),
+      )
+      .subscribe();
   }
 
   createFormGroup() {

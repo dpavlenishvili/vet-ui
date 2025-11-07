@@ -10,19 +10,19 @@
         <vet-organisations />
       }
       @case ('collection') {
-        @if (_page.collection && _page.collection.length > 0) {
-          <vet-navigation-page [page]="_page" />
-        } @else {
-          @switch (_page.collection?.[0]?.type) {
-            @case ('articles') {
-              <vet-collection-page [page]="_page" />
-            }
-            @case ('tabs') {
+        @switch (_page.collection?.[0]?.type) {
+          @case ('articles') {
+            <vet-collection-page [page]="_page" />
+          }
+          @case ('tabs') {
+            @if (_page.collection?.length === 1) {
               <vet-tab-page [page]="_page" />
+            } @else {
+              <vet-navigation-page [page]="_page" />
             }
-            @case ('list') {
-              <vet-sidebar-page [page]="_page" />
-            }
+          }
+          @case ('list') {
+            <vet-sidebar-page [page]="_page" />
           }
         }
       }

@@ -119,7 +119,7 @@
         [disabled]="foundResultsCount.isLoading()"
         (click)="onSubmit()"
       >
-        @if (foundResultsCount.hasValue() === null) {
+        @if (foundResultsCount.value() === null) {
           {{ 'shorts.search_filters' | transloco }}
         } @else if (foundResultsCount.isLoading()) {
           {{ 'shorts.search_filters_pending' | transloco }}

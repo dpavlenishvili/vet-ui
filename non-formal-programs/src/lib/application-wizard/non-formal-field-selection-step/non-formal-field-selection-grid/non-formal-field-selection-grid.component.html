@@ -66,19 +66,17 @@
               class="action-btn"
             />
             @if (!isViewMode()) {
-              <span
-                [title]="getDisabledTooltipText()(dataItem) ? (getDisabledTooltipText()(dataItem) | transloco) : ''"
+              <vet-icon-button
+                [icon]="isSelected(dataItem.id) ? 'minusCircleRed' :
+                        (isAddButtonDisabled()(dataItem) ? 'blocked' : 'plusCircleGreen')"
+                mode="flat"
+                iconSize="small"
+                [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled()(dataItem) || isViewMode()"
+                [title]="getTooltipText()(dataItem) | transloco"
                 kendoTooltip
-              >
-                <vet-icon-button
-                  [icon]="isSelected(dataItem.id) ? 'minusCircleRed' :
-                          (isAddButtonDisabled()(dataItem) ? 'blocked' : 'plusCircleGreen')"
-                  mode="flat"
-                  iconSize="small"
-                  [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled()(dataItem) || isViewMode()"
-                  (click)="onToggleProgramSelection(dataItem)"
-                />
-              </span>
+                (click)="onToggleProgramSelection(dataItem)"
+                class="action-btn"
+              />
             }
           </div>
         </ng-template>

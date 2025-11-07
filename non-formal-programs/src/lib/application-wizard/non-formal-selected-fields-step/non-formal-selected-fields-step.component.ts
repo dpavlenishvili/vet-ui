@@ -4,7 +4,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { NonFormalService } from '@vet/backend';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { ButtonComponent as VetButtonComponent, IconButtonComponent, useAlert } from '@vet/shared';
+import { ButtonComponent as VetButtonComponent, IconButtonComponent, useAlert, useConfirm } from '@vet/shared';
 import { of } from 'rxjs';
 import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';
 import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';
@@ -27,6 +27,7 @@ export class NonFormalSelectedFieldsStepComponent {
 
   private readonly nonFormalService = inject(NonFormalService);
   private readonly alert = useAlert();
+  private readonly confirm = useConfirm();
   private readonly destroyRef = inject(DestroyRef);
   protected readonly programDialog = useNonFormalProgramDialog(NonFormalProgramPageComponent);
 
@@ -70,7 +71,14 @@ export class NonFormalSelectedFieldsStepComponent {
   }
 
   protected onRemoveClick(): void {
-    this.formGroup().patchValue({ selected_program_id: null });
+    this.confirm.show({
+      content: 'non_formal.confirm_program_removal',
+      onConfirm: () => {
+        this.formGroup().get('field_selection.selected_program_id')?.setValue(null);
+        // Navigate back to field selection step
+        this.back.emit();
+      },
+    });
   }
 
   protected onPreviewProgramClick(): void {

@@ -47,7 +47,7 @@
       >
         <ng-template kendoGridCellTemplate let-item>
           <span>
-            {{ item?.education_level || '-' }}
+            {{ getEducationName()(item?.education_level_id || item?.education_level) }}
           </span>
         </ng-template>
       </kendo-grid-column>

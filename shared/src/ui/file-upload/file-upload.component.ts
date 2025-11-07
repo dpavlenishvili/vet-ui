@@ -92,8 +92,16 @@ export class FileUploadComponent {
 
   downloadFile(file: UploadedFile): void {
     if (file.id) {
-      this.document.defaultView?.open(file.download_url, '_blank');
+      // Server-uploaded file - use various possible URL properties
+      // API may return: download_url, downloadUrl, url, or path
+      const fileUrl = (file as any).url || file.download_url || file.downloadUrl || file.path;
+      if (fileUrl) {
+        // If it's a relative path, combine with baseUrl
+        const fullUrl = fileUrl.startsWith('http') ? fileUrl : `${this.baseUrl}${fileUrl}`;
+        this.document.defaultView?.open(fullUrl, '_blank');
+      }
     } else {
+      // Local file not yet uploaded - download from base64
       const link = this.document.createElement('a');
       link.href = file.base64 ? file.base64 : '';
       link.download = file.filename || 'downloaded-file';

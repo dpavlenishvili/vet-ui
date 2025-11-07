@@ -80,13 +80,35 @@ export class UnAuthorisedProgramsFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.onRegionChange();
+    this.onDistrictChange();
   }
 
   onRegionChange() {
     const regionControl = this.formGroup.get('region');
     const districtControl = this.formGroup.get('district');
+    const organisationControl = this.formGroup.get('organisation_name');
 
-    regionControl?.valueChanges.pipe(tap(() => districtControl?.reset())).subscribe();
+    regionControl?.valueChanges
+      .pipe(
+        tap(() => {
+          districtControl?.reset();
+          organisationControl?.reset();
+        }),
+      )
+      .subscribe();
+  }
+
+  onDistrictChange() {
+    const districtControl = this.formGroup.get('district');
+    const organisationControl = this.formGroup.get('organisation_name');
+
+    districtControl?.valueChanges
+      .pipe(
+        tap(() => {
+          organisationControl?.reset();
+        }),
+      )
+      .subscribe();
   }
 
   createFormGroup() {

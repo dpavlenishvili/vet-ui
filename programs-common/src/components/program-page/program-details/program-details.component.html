@@ -1,9 +1,22 @@
 <div class="vet-program-card">
   <div class="vet-program-card-details">
-    @for (item of items(); track item.label) {
-      <div class="vet-program-card-detail-item">
+    @for (item of items(); track item.label; let i = $index) {
+      <div class="vet-program-card-detail-item" [class.vet-program-card-detail-item-expandable]="shouldShowToggle(item.value)">
         <strong>{{ item.label | trans }}:</strong>
-        <span [innerHTML]="item.value"></span>
+        <div class="vet-program-card-detail-value">
+          <span
+            [innerHTML]="item.value"
+            [class.vet-program-card-detail-collapsed]="shouldShowToggle(item.value) && !isExpanded(i)"
+          ></span>
+          @if (shouldShowToggle(item.value)) {
+            <button
+              class="vet-program-card-detail-toggle"
+              (click)="toggleExpand(i)"
+            >
+              {{ (isExpanded(i) ? 'shared.show_less' : 'shared.show_more') | transloco }}
+            </button>
+          }
+        </div>
       </div>
     }
   </div>
