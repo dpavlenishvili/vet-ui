@@ -29,8 +29,12 @@
             />
           }
         </div>
-        @if (formGroup().get('recognition_purpose')?.invalid && formGroup().get('recognition_purpose')?.touched) {
-          <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+        @if (formGroup().controls['recognition_purpose']; as control) {
+          @if (control.touched) {
+            @if (control.errors?.['required']) {
+              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+            }
+          }
         }
       </div>
     </div>
@@ -48,9 +52,16 @@
             maxlength="2000"
             [readonly]="isViewMode()"
           ></textarea>
+          <div class="k-display-flex k-justify-content-end k-text-xs k-text-base">
+            {{ formGroup().get('action_description')?.value?.length ?? 0 }}/2000
+          </div>
         </div>
-        @if (formGroup().get('action_description')?.invalid && formGroup().get('action_description')?.touched) {
-          <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+        @if (formGroup().controls['action_description']; as control) {
+          @if (control.touched) {
+            @if (control.errors?.['required']) {
+              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+            }
+          }
         }
       </div>
     </div>
@@ -74,8 +85,12 @@
               />
             }
           </div>
-          @if (formGroup().get('who_taught_you')?.invalid && formGroup().get('who_taught_you')?.touched) {
-            <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+          @if (formGroup().controls['who_taught_you']; as control) {
+            @if (control.touched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+              }
+            }
           }
           @if (isOtherSelected('who_taught_you')) {
             <vet-input
@@ -102,12 +117,14 @@
             [format]="'#'"
             [min]="0"
           />
-          @if (formGroup().get('experience_years')?.invalid && formGroup().get('experience_years')?.touched) {
-            @if (formGroup().get('experience_years')?.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-            @if (formGroup().get('experience_years')?.errors?.['numericError']) {
-              <kendo-formerror>{{ 'shared.onlyNumbers' | transloco }}</kendo-formerror>
+          @if (formGroup().controls['experience_years']; as control) {
+            @if (control.touched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+              }
+              @if (control.errors?.['numericError']) {
+                <kendo-formerror>{{ 'shared.onlyNumbers' | transloco }}</kendo-formerror>
+              }
             }
           }
         </div>
@@ -133,8 +150,12 @@
               />
             }
           </div>
-          @if (formGroup().get('source_of_information')?.invalid && formGroup().get('source_of_information')?.touched) {
-            <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+          @if (formGroup().controls['source_of_information']; as control) {
+            @if (control.touched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+              }
+            }
           }
           @if (isOtherSelected('source_of_information')) {
             <vet-input
@@ -158,8 +179,12 @@
               [disabled]="isViewMode()"
             />
           </div>
-          @if (formGroup().get('like_your_job')?.invalid && formGroup().get('like_your_job')?.touched) {
-            <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+          @if (formGroup().controls['like_your_job']; as control) {
+            @if (control.touched) {
+              @if (control.errors?.['required']) {
+                <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
+              }
+            }
           }
         </div>
       </div>

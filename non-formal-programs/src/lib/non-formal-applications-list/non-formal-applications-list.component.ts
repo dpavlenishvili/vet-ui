@@ -83,12 +83,12 @@ export class NonFormalApplicationsListComponent {
   protected isEditEnabled(item: any): boolean {
     // Edit button is active during application submission period
     // This check can be expanded based on actual business logic from the backend
-    return item?.status?.code !== 'registered' && item?.status?.code !== 'approved';
+    return true;
   }
 
   protected isCancelEnabled(item: any): boolean {
     // Cancel button is active for applications with status 'saved' or 'registered'
-    return item?.status?.code === 'saved' || item?.status?.code === 'registered';
+    return false
   }
 
   protected onCancelClick(item: any): void {

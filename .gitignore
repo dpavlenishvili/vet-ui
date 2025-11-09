@@ -12,4 +12,3 @@ dist
 .nx/
 .yarn/cache
 .yarn/install-state.gz
-backend/src/lib/generated

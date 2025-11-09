@@ -234,15 +234,13 @@
                 [uploadedFiles]="getDocuments('certificate_from_workplace')"
               />
             </div>
-            @if (getDocuments('other').length > 0) {
-              <div class="document-item">
-                <vet-file-upload
-                  [readonly]="true"
-                  [title]="'non_formal.other_documents'"
-                  [uploadedFiles]="getDocuments('other')"
-                />
-              </div>
-            }
+            <div class="document-item">
+              <vet-file-upload
+                [readonly]="true"
+                [title]="'non_formal.other_documents'"
+                [uploadedFiles]="getDocuments('other')"
+              />
+            </div>
           </div>
         </div>
       </div>

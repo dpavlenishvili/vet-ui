@@ -48,7 +48,7 @@
         <vet-selector
           formControlName="organisation"
           [placeholder]="'non_formal.institution_name' | transloco"
-          [options]="institutionOptions.value()"
+          [options]="filteredInstitutions()"
         />
       </div>
     }

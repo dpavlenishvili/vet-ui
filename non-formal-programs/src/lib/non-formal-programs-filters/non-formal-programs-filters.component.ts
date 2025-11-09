@@ -13,7 +13,7 @@ import {
 } from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
-import { useDistricts, useFilteredDistricts, useInstitutionsDictionary, useRegions } from '@vet/shared-resources';
+import { useDistricts, useFilteredDistricts, useFilteredOrganisations, useOrganisations, useRegions } from '@vet/shared-resources';
 import { NonFormalProgramFilters } from '../non-formal-programs.types';
 
 @Component({
@@ -42,11 +42,13 @@ export class NonFormalProgramsFiltersComponent {
   );
   formGroup = this.createFormGroup();
   isExpanded = signal(false);
-  institutionOptions = useInstitutionsDictionary(true);
+  institutionOptions = useOrganisations();
   regionOptions = useRegions();
   districtOptions = useDistricts();
   selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
+  selectedDistrict = useControlValue(this.formGroup, (form) => form.controls.district);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
+  filteredInstitutions = useFilteredOrganisations(this.selectedRegion, this.selectedDistrict, this.institutionOptions.value);
 
   vetIcons = vetIcons;
 
@@ -64,6 +66,16 @@ export class NonFormalProgramsFiltersComponent {
       () => {
         this.selectedRegion(); // Track region changes
         this.formGroup.controls.district.setValue(null);
+      },
+      { allowSignalWrites: true },
+    );
+
+    // Clear organisation when region or district changes
+    effect(
+      () => {
+        this.selectedRegion(); // Track region changes
+        this.selectedDistrict(); // Track district changes
+        this.formGroup.controls.organisation.setValue(null);
       },
       { allowSignalWrites: true },
     );

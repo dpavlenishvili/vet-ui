@@ -102,7 +102,7 @@
               iconSize="small"
               [title]="'shared.edit' | transloco"
               kendoTooltip
-              (click)="onEditClick(item)"
+              (click)="isEditEnabled(item) && onEditClick(item)"
               [disabled]="!isEditEnabled(item)"
               class="action-btn"
             />
@@ -114,7 +114,7 @@
               iconSize="small"
               [title]="'shared.cancel' | transloco"
               kendoTooltip
-              (click)="onCancelClick(item)"
+              (click)="isCancelEnabled(item) && onCancelClick(item)"
               [disabled]="!isCancelEnabled(item)"
               class="action-btn"
             />

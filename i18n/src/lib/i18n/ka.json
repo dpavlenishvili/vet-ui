@@ -867,6 +867,8 @@
     "error_select_at_least_one_field": "სავალდებულოა მინიმუმ ერთი სფეროს არჩევა",
     "confirm_program_removal": "დარწმუნებული ხართ, რომ გსურთ პროგრამის წაშლა?",
     "confirm_application_cancel": "დარწმუნებული ხართ, რომ გსურთ განაცხადის გაუქმება?",
-    "please_upload_documents": "გთხოვთ ატვირთეთ დოკუმენტები"
+    "please_upload_documents": "გთხოვთ ატვირთეთ დოკუმენტები",
+    "remove_program": "პროგრამის წაშლა",
+    "add_program": "პროგრამის დამატება"
   }
 }
