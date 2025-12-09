@@ -51,8 +51,12 @@ export function provideSso(params: AuthEnvironmentSso) {
     initOptions: {
       checkLoginIframe: false, // Disable iframe to avoid CSP violations
       checkLoginIframeInterval: 0, // Disable iframe polling
-      redirectUri: params.redirectUri,
+      // redirectUri: params.redirectUri, // Removed to prevent redirect to home
       onLoad: 'check-sso',
+      silentCheckSsoRedirectUri:
+        // eslint-disable-next-line no-restricted-globals
+        typeof window !== 'undefined' ? `${window.location.origin}/assets/silent-check-sso.html` : undefined,
+      pkceMethod: 'S256',
     },
     features: [
       withAutoRefreshToken({

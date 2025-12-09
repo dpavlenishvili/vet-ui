@@ -1,10 +1,11 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, Injector, signal } from '@angular/core';
 import { AuthService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { useAuthEnvironment } from './auth.providers';
 import Keycloak from 'keycloak-js';
+import { UserRolesService } from './user-roles.service';
 
 @Injectable({
   providedIn: 'root',
@@ -71,9 +72,15 @@ export class AuthenticationService {
     void this._keycloak.login();
   }
 
+  private readonly _injector = inject(Injector);
+
   logout() {
     const postLogoutRedirectUri =
       this._environment.keycloak.postLogoutRedirectUri || this._environment.keycloak.redirectUri;
+
+    // Clear user data before logout
+    const userRolesService = this._injector.get(UserRolesService);
+    userRolesService.clearUserData();
 
     void this._keycloak.logout({ redirectUri: postLogoutRedirectUri });
   }

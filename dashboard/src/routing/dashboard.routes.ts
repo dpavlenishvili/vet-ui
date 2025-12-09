@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { longTermProgramsDashboardRoutes } from './long-term-programs-dashboard.routes';
 import { shortTermProgramsDashboardRoutes } from './short-term-programs-dashboard.routes';
 import { nonFormalProgramsDashboardRoutes } from './non-formal-programs-dashboard.routes';
+import { authenticatedGuard } from '@vet/auth';
 import { breadcrumb } from '@vet/shared';
 
 export const dashboardRoutes: Route[] = [
@@ -9,6 +10,7 @@ export const dashboardRoutes: Route[] = [
     path: '',
     loadComponent: () =>
       import('../dashboard-layout/dashboard-layout.component').then((m) => m.DashboardLayoutComponent),
+    canActivate: [authenticatedGuard],
     children: [
       {
         path: '',

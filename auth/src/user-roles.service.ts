@@ -117,7 +117,6 @@ export class UserRolesService {
   }
 
   getOrganisation() {
-    console.log('getOrganisation', this.selectedAccount()?.organisation);
     return this.selectedAccount()?.organisation;
   }
 
@@ -127,5 +126,11 @@ export class UserRolesService {
 
   getOrganisationName() {
     return this.selectedAccount()?.name;
+  }
+
+  clearUserData(): void {
+    this._savedAccountName.set('');
+    this.isUserAccountsLoaded.set(false);
+    this._cookieService.delete(USER_SELECTED_ACCOUNT_NAME, '/');
   }
 }

@@ -60,7 +60,7 @@ export const appRoutes: Routes = [
         path: 'user-profile',
         children: userProfileRoutes,
         data: breadcrumb([]),
-        canActivate: [],
+        canActivate: [authenticatedGuard],
       },
       {
         path: '',

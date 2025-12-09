@@ -1,113 +1,86 @@
-stages:
-  - install-dependencies
-  - node-ssr-build
-#  - lint-libraries
-#  - test-libraries
-  - webserver-setup
-  - check-approvals
-
+include:
+  - project: CICD/default-node
+    file: default-heml.yml
+    ref: main
 variables:
-  REMOTE_DIR: '/var/www/vet-seit.emis.ge'
-  REMOTE_SSH: 'www@192.168.202.56'
+  PROJECT: vet
+  BUILD_CONFIGURATION: production
+  APP_BASE_URL: https://develop-vet-back.dev01.dev.emis.ge
+  APP_BASE_URL_MAIN: https://api.vet.ge
 
-Check Approvals:
-  stage: check-approvals
-  tags:
-    - docker
-  image: node:18-alpine
-  allow_failure: false
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+  BUILD_ARGS: "--build-arg BUILD_CONFIGURATION=${BUILD_CONFIGURATION} --build-arg APP_BASE_URL=${APP_BASE_URL_MAIN}"
+.interruptible_deploy:
+  extends: .deploy-template
+  interruptible: true
+  resource_group: ${PROJECT}-deployment
+.get-branch-image-and-host-name: &get-branch-image-and-host-name
+  - export BRANCH_NAME_SLUG=$(echo "$CI_COMMIT_BRANCH" | sed 's|[/.]|-|g' | tr '[:upper:]' '[:lower:]' | cut -c 1-50);
+  - export IMAGE_TAG="$BRANCH_NAME_SLUG-$PROJECT-$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA";
+  #- export IMAGE_TAG="$CI_COMMIT_SHORT_SHA";
+  - export HOST_NAME="$BRANCH_NAME_SLUG-$ENV_HOST";
+publish-image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+  #  - unset DOCKER_HOST
+    #- docker system prune -af
+    - *get-branch-image-and-host-name
   script:
-    - node ./tools/scripts/check-approvals.js
-
-Install dependencies:
-  stage: install-dependencies
-  tags:
-    - docker
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  allow_failure: false
-  image: node:18-alpine
-  artifacts:
-    paths:
-      - node_modules/
-    expire_in: 1 day
-  script:
-    - yarn install --immutable
-
-Build:
-  needs:
-    - job: Install dependencies
-      artifacts: true
-  stage: node-ssr-build
-  tags:
-    - docker
-  artifacts:
-    paths:
-      - dist/
-    expire_in: 1 day
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  allow_failure: false
-  image: node:18-alpine
-  script:
-    - yarn build
-
-# todo: gets stuck in infinite loop. disable until we figure out why.
-#Lint Libraries:
-#  stage: lint-libraries
-#  needs:
-#    - job: Install dependencies
-#      artifacts: true
-#  tags:
-#    - docker
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-#    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-#  image: node:18-alpine
-#  script:
-#    #    - yarn nx affected -t lint --base $CI_DEFAULT_BRANCH
-#        - yarn nx run-many --target=lint --all
-
-#Test Libraries:
-#  stage: test-libraries
-#  needs:
-#    - job: Install dependencies
-#      artifacts: true
-#  tags:
-#    - docker
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-#    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-#  image: node:18-alpine
-#  before_script:
-#    - yarn nx run-many --target=generate --all
-#  script:
-#    #    - yarn nx affected -t test --base $CI_DEFAULT_BRANCH
-#    #    - yarn nx run-many --target=test --all
-
-Webserver Setup:
-  stage: webserver-setup
+    - echo  $BUILD_ARGS
+    - echo "Building and pushing image";
+    - eval "docker build --pull $BUILD_ARGS -t nexus.emis.ge/$PROJECT/$CI_PROJECT_NAME:$IMAGE_TAG ."
+    - docker push "nexus.emis.ge/$PROJECT/$CI_PROJECT_NAME:$IMAGE_TAG";
   tags:
     - oc
-  only:
-    - main
-  needs:
-    - job: Build
-      artifacts: true
-  allow_failure: false
+  rules:
+    # main/prod → production configuration
+    - if: '$CI_COMMIT_BRANCH == "prod"'
+      variables:
+        BUILD_CONFIGURATION: production
+        BUILD_ARGS: "--build-arg BUILD_CONFIGURATION=production --build-arg APP_BASE_URL=${APP_BASE_URL_MAIN}"
+    # develop → development configuration
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      variables:
+        BUILD_CONFIGURATION: development
+        BUILD_ARGS: "--build-arg BUILD_CONFIGURATION=development --build-arg APP_BASE_URL=${APP_BASE_URL}" 
+
+deploy-prod:
+  extends: .deploy-template
+  variables:
+    KUBECONFIG: $public01
+    NAMESPACE: vet-prod
+    HELM_VALUES_FILE: helm/values.prod.yml
+    GIT_HASH: $CI_COMMIT_SHA
+    ENV_HOST: prod01.public.emis.ge
+    ENV_SECRET: prod01-public
   environment:
-    name: seit
-    url: https://vet-seit.emis.ge
-  script:
-    - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 kill"
-    - ssh $REMOTE_SSH "cd $REMOTE_DIR; rm -rf dist"
-    - scp -r ./dist "$REMOTE_SSH":"$REMOTE_DIR/dist"
-    - scp -r ./pm2.config.js "$REMOTE_SSH":"$REMOTE_DIR/pm2.config.js"
-    - ssh $REMOTE_SSH "cd $REMOTE_DIR; pm2 start pm2.config.js"
+    name: production/$PROJECT/$CI_COMMIT_BRANCH
+  needs:
+    - publish-image
+  only:
+    - prod
+  tags:
+    - prod
+    - shell
+    - ubuntu
+
+deploy-dev:
+  extends: .deploy-template
+  variables:
+    KUBECONFIG: $DEV
+    NAMESPACE: vet
+    HELM_VALUES_FILE: helm/values.dev.yml
+    GIT_HASH: $CI_COMMIT_SHA
+    ENV_HOST: dev01.dev.emis.ge
+  environment:
+    name: production/$PROJECT/$CI_COMMIT_BRANCH
+  needs:
+    - publish-image
+  only: 
+   - develop 
+  tags:
+    - prod
+    - shell
+    - ubuntu
