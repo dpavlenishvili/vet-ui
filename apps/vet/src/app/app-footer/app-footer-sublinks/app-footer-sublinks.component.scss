@@ -1,0 +1,30 @@
+@use '@vet/shared-styles' as *;
+
+:host {
+  display: block;
+}
+
+a {
+  @include text-sm();
+  display: flex;
+  align-items: center;
+  color: $kendo-color-body-dark;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--link-color);
+  }
+}
+
+ul {
+  margin-left: 1.25rem;
+
+  li {
+    @include text-sm();
+
+    &:not(:first-child) {
+      margin-top: 0.5rem;
+    }
+  }
+}

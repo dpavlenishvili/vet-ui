@@ -2,10 +2,10 @@ import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { BreadcrumbComponent, NavbarComponent, ThemeService } from '@vet/shared';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { AuthenticationService } from '@vet/auth';
-import { filter, take } from 'rxjs';
+import { filter } from 'rxjs';
 import { AppFooterComponent } from '../../app-footer/app-footer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { useMenuPages } from '@vet/pages';
+import { usePages } from '@vet/pages';
 
 @Component({
   selector: 'vet-main-layout',
@@ -14,7 +14,7 @@ import { useMenuPages } from '@vet/pages';
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent implements OnInit {
-  protected readonly pages$ = useMenuPages('top menu');
+  protected readonly pages$ = usePages();
   protected readonly user = computed(() => this.authenticationService.user());
   protected router = inject(Router);
   protected themeService = inject(ThemeService);
@@ -22,7 +22,7 @@ export class MainLayoutComponent implements OnInit {
   protected authenticationService = inject(AuthenticationService);
 
   protected logout() {
-    this.authenticationService.logout().pipe(take(1)).subscribe();
+    this.authenticationService.logout();
   }
 
   ngOnInit(): void {

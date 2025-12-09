@@ -1,4 +1,5 @@
-import { ComponentRef, computed, Inject, inject, type InjectDecorator } from '@angular/core';
+import { computed, Inject, inject, type InjectDecorator } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 
 import {
@@ -9,19 +10,21 @@ import {
   DEFAULT_DATE_TIME_FALLBACK,
   DEFAULT_DATE_TIME_FORMAT,
   DEFAULT_DISPLAY_DATE_FORMAT,
+  DEFAULT_DISPLAY_DATE_SEPARATOR,
   DEFAULT_DISPLAY_DATE_TIME_FORMAT,
   ENVIRONMENT,
   KENDO_DATE_PICKER_FORMAT,
   KENDO_DATE_TIME_PICKER_FORMAT,
+  PARENT_FORM_GROUP,
+  STEP_FORM_GROUP,
 } from './shared.tokens';
-import { RouteParamsService } from './services/route-params.service';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import {
   getJsonQueryParam,
   getQueryParam,
   getRouteNumberParam,
   getRouteParam,
-  withoutEmptyProperties
+  withoutEmptyProperties,
 } from './shared.utils';
 import { AlertDialogService } from './services/alert-dialog.service';
 import { ConfirmationDialogService } from './services/confirmation-dialog.service';
@@ -59,6 +62,10 @@ export function useDefaultDisplayDateFormat() {
 
 export function useDefaultDisplayDateTimeFormat() {
   return inject<string>(DEFAULT_DISPLAY_DATE_TIME_FORMAT);
+}
+
+export function useDefaultDisplayDateSeparator() {
+  return inject<string>(DEFAULT_DISPLAY_DATE_SEPARATOR);
 }
 
 export function useDefaultDateFallback() {
@@ -128,7 +135,7 @@ export function useToast() {
 }
 
 export function useNavigation() {
-  return inject(NavigationService)
+  return inject(NavigationService);
 }
 
 export function useDialog<Inputs = Record<string, unknown>>(
@@ -141,15 +148,18 @@ export function useDialog<Inputs = Record<string, unknown>>(
   return {
     id,
     ...params,
-    show: (inputs: Record<string, unknown> = {}) => dialogService.show({
-      ...model,
-      inputs: model.inputs ? {
-        ...model.inputs,
-        ...inputs
-      } : inputs,
-    }),
+    show: (inputs: Record<string, unknown> = {}) =>
+      dialogService.show({
+        ...model,
+        inputs: model.inputs
+          ? {
+              ...model.inputs,
+              ...inputs,
+            }
+          : inputs,
+      }),
     hide: () => dialogService.hide(id),
-  }
+  };
 }
 
 export function useFilters<T extends object>() {
@@ -178,7 +188,7 @@ export function useFiltersUpdater<T extends object>() {
         filters: JSON.stringify(withoutEmptyProperties(filters)),
       }),
     });
-  }
+  };
 }
 
 export function useQueryUpdater() {
@@ -189,7 +199,7 @@ export function useQueryUpdater() {
       queryParamsHandling: 'merge',
       queryParams: query ? withoutEmptyProperties(query) : null,
     });
-  }
+  };
 }
 
 export function usePageUpdater() {
@@ -202,7 +212,7 @@ export function usePageUpdater() {
         page,
       }),
     });
-  }
+  };
 }
 
 export function useSanitizedUrl(getUrl: () => string | null | undefined) {
@@ -211,9 +221,7 @@ export function useSanitizedUrl(getUrl: () => string | null | undefined) {
   return computed(() => {
     const videoUrl = getUrl();
 
-    return videoUrl
-      ? sanitizer.bypassSecurityTrustResourceUrl(videoUrl)
-      : undefined;
+    return videoUrl ? sanitizer.bypassSecurityTrustResourceUrl(videoUrl) : undefined;
   });
 }
 
@@ -223,19 +231,19 @@ export function useSanitizedHtml(getHtml: () => string | null | undefined) {
   return computed(() => {
     const html = getHtml();
 
-    return html
-      ? sanitizer.bypassSecurityTrustHtml(html)
-      : undefined;
+    return html ? sanitizer.bypassSecurityTrustHtml(html) : undefined;
   });
 }
 
 export function useCurrentUrl() {
   const router = inject(Router);
-  const url = toSignal(router.events.pipe(
-    filter((event) => event instanceof NavigationEnd),
-    map((event) => event.urlAfterRedirects),
-    startWith(router.url),
-  ));
+  const url = toSignal(
+    router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects),
+      startWith(router.url),
+    ),
+  );
 
   return computed(() => url() ?? '');
 }
@@ -245,5 +253,13 @@ export function useUniqueId(prefix?: string) {
     const id = uuid();
 
     return prefix ? `${prefix}-${id}` : id;
-  })
+  });
+}
+
+export function useStepFormGroup<T extends FormGroup = FormGroup>() {
+  return inject(STEP_FORM_GROUP) as T;
+}
+
+export function useParentFormGroup<T extends FormGroup = FormGroup>() {
+  return inject(PARENT_FORM_GROUP) as T;
 }

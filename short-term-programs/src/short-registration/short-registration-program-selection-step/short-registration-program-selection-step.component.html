@@ -2,6 +2,7 @@
   <div class="k-display-flex k-flex-column k-gap-11 k-pt-2">
     <vet-short-term-programs-filters
       class="vet-shorts-filters"
+      [foundCount]="'admissions'"
       [filters]="filters()"
       (filtersChange)="onFiltersChange($event)"
     />

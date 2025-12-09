@@ -7,9 +7,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent as VetButtonComponent, FormatDateTimePipe, IconButtonComponent, vetIcons } from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
-import {
-  AdmissionSelectedProgramsComponent
-} from '../admission-selected-programs/admission-selected-programs.component';
+import { AdmissionSelectedProgramsComponent } from '../admission-selected-programs/admission-selected-programs.component';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { catchError, of } from 'rxjs';
 

@@ -10,6 +10,7 @@ import {
   HasAccessPipe,
   isAuthenticated,
   isGuest,
+  isOneOf,
   UserRolesService,
 } from '@vet/auth';
 
@@ -35,7 +36,9 @@ export class ServicesComponent {
   router = inject(Router);
   userRolesService = inject(UserRolesService);
 
-  isNonDefaultUser = this.userRolesService.hasRole('Organisation') || this.userRolesService.hasRole('Super Admin')
+  isNonDefaultUser = computed(() =>
+    this.userRolesService.hasRole('Organisation') || this.userRolesService.hasRole('Super Admin')
+  );
 
   showTitle = computed(() => !this.isAuthenticated());
   cards: ServiceItem[] = [
@@ -69,7 +72,7 @@ export class ServicesComponent {
       text: 'home.trainingPrograms',
       icon: 'trainingPrograms',
       color: 'yellow',
-      url: this.isNonDefaultUser ? '/dashboard/programs/short/registered-listeners' :'/dashboard/programs/short',
+      url: this.isNonDefaultUser() ? '/dashboard/programs/short/registered-listeners' : '/dashboard/programs/short',
     },
     {
       // არაფორმალური: თუ არა-ავტორიზებულია, მაშინ ზოგადი პროგრამების სია უნდა ვუჩვენოთ
@@ -81,35 +84,36 @@ export class ServicesComponent {
     },
     {
       // არაფორმალური: თუ ავტორიზებულია, მაშინ პროგრამების დეშბორდი უნდა ვუჩვენოთ
-      accessControl: isAuthenticated(),
+      accessControl: (isAuthenticated() && isOneOf('Default User')),
       text: 'home.informalEducation',
       icon: 'informalEducation',
       color: 'green',
       url: '/dashboard/programs/non-formal',
     },
-    {
-      text: 'home.orientationService',
-      icon: 'orientationService',
-      color: 'pink',
-      url: null,
-    },
-    {
-      text: 'home.governmentLanguageTrainingPrograms',
-      icon: 'governmentLanguageTrainingPrograms',
-      color: 'pink',
-      url: null,
-    },
-    {
-      text: 'home.teacherTrainingPrograms',
-      icon: 'teacherTrainingPrograms',
-      color: 'yellow',
-      url: null,
-    },
-    {
-      text: 'home.collegeEmployment',
-      icon: 'collegeEmployment',
-      color: 'blue',
-      url: null,
-    },
+    // temporarily commented. DO NOT DELETE
+    // {
+    //   text: 'home.orientationService',
+    //   icon: 'orientationService',
+    //   color: 'pink',
+    //   url: null,
+    // },
+    // {
+    //   text: 'home.governmentLanguageTrainingPrograms',
+    //   icon: 'governmentLanguageTrainingPrograms',
+    //   color: 'pink',
+    //   url: null,
+    // },
+    // {
+    //   text: 'home.teacherTrainingPrograms',
+    //   icon: 'teacherTrainingPrograms',
+    //   color: 'yellow',
+    //   url: null,
+    // },
+    // {
+    //   text: 'home.collegeEmployment',
+    //   icon: 'collegeEmployment',
+    //   color: 'blue',
+    //   url: null,
+    // },
   ];
 }

@@ -1,5 +1,9 @@
 <header>
-  <vet-ui-navbar [pages]="pages$()" [user]="user()" (logout)="logout()" />
+  <vet-ui-navbar
+    [pages]="pages$.value()"
+    [user]="user()"
+    (logout)="logout()"
+  />
 </header>
 
 <main class="vet-dashboard-layout">
@@ -20,4 +24,4 @@
   </div>
 </main>
 
-<vet-app-footer />
+<vet-app-footer [pages]="pages$.value()" />

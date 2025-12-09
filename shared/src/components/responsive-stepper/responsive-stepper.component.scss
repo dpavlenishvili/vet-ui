@@ -1,0 +1,169 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+  height: 100%;
+
+  --container-bg-color: #ffffff;
+  --container-border-radius: 1.25rem;
+  --container-padding: 1.25rem;
+  --mobile-padding: 1rem;
+}
+
+// Ensure Kendo dropdown popups render correctly
+::ng-deep {
+  // Force proper rendering for popup containers
+  .k-animation-container,
+  .k-popup {
+    isolation: isolate;
+  }
+}
+
+.vet-responsive-stepper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 1rem;
+
+  .vet-responsive-stepper-container.collapsed {
+    @media (min-width: 768px) {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  kendo-stepper {
+    width: 100%;
+
+    .k-step {
+      min-height: 3rem;
+
+      .k-step-indicator {
+        min-width: 2rem;
+        min-height: 2rem;
+        font-size: 0.875rem;
+        border: 2px solid shared.$tb-kendo-color-border;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin: 0 auto;
+      }
+    }
+
+    .k-step-current .k-step-indicator,
+    .k-step-done .k-step-indicator {
+      background-color: shared.$tb-kendo-color-primary;
+      color: white;
+    }
+
+    .k-stepper-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .k-step {
+      flex: 1;
+    }
+
+    .k-step-label {
+      display: none;
+    }
+
+    .k-step-separator {
+      flex: 1;
+      height: 2px;
+      background-color: shared.$tb-kendo-color-border;
+      margin: 0 0.5rem;
+
+      &.k-step-separator-done {
+        background-color: shared.$tb-kendo-color-primary;
+      }
+    }
+  }
+
+  .step-content-container {
+    flex: 1;
+    padding: var(--mobile-padding);
+    border-radius: var(--container-border-radius);
+    background-color: var(--container-bg-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .step-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.875rem;
+
+      .step-title {
+        flex-shrink: 0;
+      }
+
+      .step-body {
+        flex: 1;
+      }
+    }
+
+    .step-navigation {
+      flex-shrink: 0;
+      display: flex;
+      gap: 0.75rem;
+      justify-content: space-between;
+      padding-top: 1rem;
+    }
+  }
+
+  @media (max-width: 767px) and (pointer: coarse) {
+    kendo-stepper {
+      .k-step-indicator {
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    gap: 1rem;
+
+    kendo-stepper {
+      max-width: 2rem;
+
+      .k-stepper-steps {
+        display: block;
+      }
+
+      .k-step {
+        flex: initial;
+      }
+
+      .k-step-indicator {
+        border: none;
+        margin: 0;
+      }
+
+      .k-step-separator {
+        display: none;
+      }
+    }
+
+    .step-content-container {
+      flex: 1;
+      height: 100%;
+      padding: var(--container-padding);
+
+      .step-navigation {
+        gap: 1rem;
+      }
+    }
+  }
+}
+
+
+

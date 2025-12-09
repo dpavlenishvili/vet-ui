@@ -33,3 +33,17 @@
     }
   }
 }
+
+.non-formal-info-text {
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 2;
+  padding: 1rem;
+  border-radius: 0.625rem;
+  border: 1px solid shared.$kendo-color-border-alt;
+  color: shared.$kendo-color-body;
+  line-height: 1.5rem;
+  font-weight: bold;
+}

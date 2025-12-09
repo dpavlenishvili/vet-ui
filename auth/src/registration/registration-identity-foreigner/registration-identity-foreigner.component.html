@@ -1,139 +1,73 @@
 @if (identityForm(); as form) {
-  <form class="k-display-flex k-flex-column k-gap-4" [formGroup]="form">
-    <div class="k-display-flex k-gap-4 form-fields-container">
-      <kendo-label [text]="'auth.citizenship' | transloco">
-        <kendo-dropdownlist
-          [data]="countries"
-          formControlName="residential"
-          inputmode="flat"
-          valueField="code"
-          textField="name"
-          [valuePrimitive]="true"
-        />
-        @if (form.controls['residential']; as control) {
-          @if (!control.untouched) {
-            @if (control.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-          }
-        }
-      </kendo-label>
+  <form vet-container gap-s [formGroup]="form">
+    <div vet-row>
+      <vet-selector
+        self-grow
+        formControlName="residential"
+        [label]="'auth.citizenship' | transloco"
+        version="fat"
+        valueField="value"
+        textField="label"
+        [options]="countriesOptions()"
+      />
 
-      <kendo-label [text]="'auth.id_or_passport_number' | transloco">
-        <kendo-textbox [clearButton]="true" formControlName="personalNumber" />
-        @if (form.controls['personalNumber']; as control) {
-          @if (!control.untouched) {
-            @if (control.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-          }
-        }
-      </kendo-label>
+      <vet-input
+        self-grow
+        version="fat"
+        formControlName="personalNumber"
+        [topLabelFromThe90s]="'auth.id_or_passport_number' | transloco"
+      />
     </div>
 
-    <div class="k-display-flex k-gap-5 form-fields-container">
-      <kendo-label [text]="'auth.name' | transloco">
-        <kendo-textbox [clearButton]="true" formControlName="firstName" />
-        @if (form.controls['firstName']; as control) {
-          @if (!control.untouched || control.value) {
-            @if (control.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-            @if (control.errors?.['georgianLettersError']) {
-              <kendo-formerror>{{ 'shared.invalidGeorgianLetters' | transloco }}</kendo-formerror>
-            }
-          }
-        }
-      </kendo-label>
+    <div vet-row>
+      <vet-input
+        self-grow
+        version="fat"
+        formControlName="firstName"
+        [topLabelFromThe90s]="'auth.name' | transloco"
+      />
 
-      <kendo-label [text]="'auth.last_name' | transloco">
-        <kendo-textbox [clearButton]="true" formControlName="lastName" />
-        @if (form.controls['lastName']; as control) {
-          @if (!control.untouched || control.value) {
-            @if (control.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-            @if (control.errors?.['georgianLettersError']) {
-              <kendo-formerror>{{ 'shared.invalidGeorgianLetters' | transloco }}</kendo-formerror>
-            }
-          }
-        }
-      </kendo-label>
+      <vet-input
+        self-grow
+        version="fat"
+        formControlName="lastName"
+        [topLabelFromThe90s]="'auth.last_name' | transloco"
+      />
     </div>
 
-    <div class="k-display-flex k-gap-5 form-fields-container">
-      <kendo-label [text]="'auth.name_english' | transloco">
-        <kendo-textbox [clearButton]="true" formControlName="firstNameEn" />
-        @if (form.controls['firstNameEn']; as control) {
-          @if (!control.untouched || control.value) {
-            @if (control.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-            @if (control.errors?.['englishLettersError']) {
-              <kendo-formerror>{{ 'shared.invalidEnglishLetters' | transloco }}</kendo-formerror>
-            }
-          }
-        }
-      </kendo-label>
+    <div vet-row>
+      <vet-input
+        self-grow
+        version="fat"
+        formControlName="firstNameEn"
+        [topLabelFromThe90s]="'auth.name_english' | transloco"
+      />
 
-      <kendo-label [text]="'auth.last_name_english' | transloco">
-        <kendo-textbox [clearButton]="true" formControlName="lastNameEn" />
-        @if (form.controls['lastNameEn']; as control) {
-          @if (!control.untouched || control.value) {
-            @if (control.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-            @if (control.errors?.['englishLettersError']) {
-              <kendo-formerror>{{ 'shared.invalidEnglishLetters' | transloco }}</kendo-formerror>
-            }
-          }
-        }
-      </kendo-label>
+      <vet-input
+        self-grow
+        version="fat"
+        formControlName="lastNameEn"
+        [topLabelFromThe90s]="'auth.last_name_english' | transloco"
+      />
     </div>
 
-    <div class="k-display-flex k-gap-5 form-fields-container">
-      <kendo-label [text]="'auth.date_of_birth' | transloco">
-        <kendo-datepicker format="dd/MM/yyyy" calendarType="classic" formControlName="dateOfBirth" />
-        @if (form.controls['dateOfBirth']; as control) {
-          @if (!control.untouched) {
-            @if (control.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-          }
-        }
-      </kendo-label>
+    <div vet-row>
+      <vet-date-picker
+        self-grow
+        formControlName="dateOfBirth"
+        [label]="'auth.date_of_birth' | transloco"
+        version="fat"
+      />
 
-      <kendo-label [text]="'auth.gender' | transloco">
-        <kendo-dropdownlist
-          [data]="genders"
-          formControlName="gender"
-          [valuePrimitive]="true"
-          valueField="code"
-          textField="name"
-        />
-        @if (form.controls['gender']; as control) {
-          @if (!control.untouched) {
-            @if (control.errors?.['required']) {
-              <kendo-formerror>{{ 'shared.fieldIsRequired' | transloco }}</kendo-formerror>
-            }
-          }
-        }
-      </kendo-label>
-    </div>
-
-    <div class="k-display-flex k-justify-content-between buttons-container">
-      <button kendoButton type="button" themeColor="secondary" (click)="onPreviousClick()">
-        {{ 'auth.previous' | transloco }}
-      </button>
-
-      <button
-        kendoButton
-        themeColor="primary"
-        type="button"
-        (click)="isPersonVerified() ? onNextClick() : onCheckClick()"
-      >
-        {{ (isPersonVerified() ? 'auth.next' : 'auth.check') | transloco }}
-      </button>
+      <vet-selector
+        self-grow
+        formControlName="gender"
+        [label]="'auth.gender' | transloco"
+        version="fat"
+        valueField="value"
+        textField="label"
+        [options]="gendersOptions()"
+      />
     </div>
   </form>
 }

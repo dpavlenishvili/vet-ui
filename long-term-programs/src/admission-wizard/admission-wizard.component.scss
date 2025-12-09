@@ -160,7 +160,7 @@
   background-color: var(--container-bg);
   border-radius: var(--container-radius);
   padding: var(--container-padding);
-  overflow: auto;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   height: fit-content;

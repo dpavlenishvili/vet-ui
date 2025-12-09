@@ -1,11 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 import { noop } from 'lodash-es';
-import { DropDownFilterSettings, DropDownListComponent, ItemTemplateDirective, ValueTemplateDirective, FilterDirective, NoDataTemplateDirective } from '@progress/kendo-angular-dropdowns';
+import {
+  DropDownFilterSettings,
+  DropDownListComponent,
+  FilterDirective,
+  ItemTemplateDirective,
+  NoDataTemplateDirective,
+  ValueTemplateDirective,
+} from '@progress/kendo-angular-dropdowns';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { vetIcons } from '../../shared.icons';
 import { SelectOption } from '../../shared.types';
+import { useUniqueId } from '../../shared.injectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { SelectorVersion } from './selector.component.types';
@@ -20,8 +28,8 @@ import { SelectorVersion } from './selector.component.types';
     FormsModule,
     SVGIconComponent,
     FilterDirective,
-    NoDataTemplateDirective
-],
+    NoDataTemplateDirective,
+  ],
   templateUrl: './selector.component.html',
   styleUrl: './selector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,15 +37,20 @@ import { SelectorVersion } from './selector.component.types';
 })
 export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
   version = input<SelectorVersion>('thin');
+  label = input('');
+  floatingLabel = input('');
   placeholder = input('');
   valueField = input('value');
   textField = input('label');
   disabled = input(false);
   options = input<Array<SelectOption<T>>>([]);
-  filterable = input(false);
+  error = input<string | null>(null);
+  dense = input<boolean>(false);
+  filterable = input<boolean>(false);
 
   ngControl = inject(NgControl, { optional: true, self: true });
   destroyRef = inject(DestroyRef);
+  id = useUniqueId();
   value = signal<T | null>(null);
   isDisabled = signal(false);
   vetIcons = vetIcons;
@@ -50,8 +63,18 @@ export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
   }));
 
   hasError = signal(false);
+  private validationTrigger = signal(0);
 
   errorMessage = computed(() => {
+    const _error = this.error();
+
+    if (_error) {
+      return _error;
+    }
+
+    // Force recomputation when validation state changes
+    this.validationTrigger();
+
     const control = this.ngControl?.control;
 
     if (!control?.errors) {
@@ -60,9 +83,14 @@ export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
 
     const errors = control.errors;
     const keys = Object.keys(errors);
-    const error = keys.find((key) => errors[key]) ?? 'required';
-
-    return `errors.${error}`;
+    
+    // Prioritize non-required errors when the field has a value
+    const hasValue = control.value !== null && control.value !== '' && control.value !== undefined;
+    const error = hasValue 
+      ? keys.find((key) => key !== 'required' && errors[key]) ?? keys.find((key) => errors[key])
+      : keys.find((key) => errors[key]);
+    
+    return `errors.${error ?? 'required'}`;
   });
 
   constructor() {
@@ -76,7 +104,7 @@ export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
 
     if (control) {
       this.updateErrorState();
-      control.events
+      control.statusChanges
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           tap(() => this.updateErrorState()),
@@ -112,15 +140,17 @@ export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
 
     if (!control?.errors) {
       this.hasError.set(false);
+      this.validationTrigger.update(v => v + 1);
       return;
     }
 
     this.hasError.set(control.dirty || control.touched);
+    this.validationTrigger.update(v => v + 1);
   }
 
   public filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
-    operator: 'startsWith',
+    operator: 'contains',
   };
 
   public changeFilterOperator(operator: 'startsWith' | 'contains'): void {

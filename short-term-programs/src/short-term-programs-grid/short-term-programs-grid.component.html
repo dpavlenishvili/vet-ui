@@ -1,3 +1,9 @@
+@if (totalPrograms() !== 0) {
+  <div class="vet-total">
+    {{ 'shared.numberOfRecords' | transloco: { count: totalPrograms() } }}
+  </div>
+}
+
 <div class="vet-shorts-grid">
   @if (allPrograms().length === 0 && !shortPrograms.isLoading()) {
     <div class="loader-container">
@@ -9,6 +15,7 @@
         class="vet-shorts-grid-item" 
         [program]="item" 
         [programDetailsPath]="'/programs/short'" 
+        [iscedCode]="item.isced?.code"
       />
     }
   }

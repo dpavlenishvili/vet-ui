@@ -36,6 +36,10 @@ export function useShortApplicationsForOrganisation(filters: Signal<ShortApplica
       };
     },
     loader: ({ request }) => {
+      // Prevent API call if required parameters are missing
+      if (!request.organisation_id || !request.program_id || !request.program_admission_id) {
+        return of({ data: [] });
+      }
       return programsService.programsShortApplicationsForOrganisation(request);
     },
   });
@@ -172,7 +176,7 @@ export function useFoundProgramsCount(filters: Signal<ShortTermProgramFilters | 
       }
 
       const hasActualFilters = Object.values(request).some(
-        value => value !== null && value !== '' && value !== false && value !== undefined
+        (value) => value !== null && value !== '' && value !== false && value !== undefined,
       );
 
       if (!hasActualFilters) {
@@ -181,6 +185,37 @@ export function useFoundProgramsCount(filters: Signal<ShortTermProgramFilters | 
 
       return programsService
         .programsShort(flattenQueryParams(withoutEmptyProperties(request), 'filters'))
+        .pipe(map((response) => response.meta?.total ?? 0));
+    },
+  });
+}
+
+export function useFoundShortAdmissions(filters: Signal<ShortTermProgramFilters | null>) {
+  const programsService = inject(ShortProgramsService);
+  const debouncedFormValue = useDebounceValue<ShortTermProgramFilters | null>(
+    filters,
+    300,
+    (a, b) => JSON.stringify(a) === JSON.stringify(b),
+  );
+
+  return rxResource<number | null, ProgramFilters | null>({
+    request: debouncedFormValue,
+    defaultValue: null,
+    loader: ({ request }) => {
+      if (!request) {
+        return of(null);
+      }
+
+      const hasActualFilters = Object.values(request).some(
+        (value) => value !== null && value !== '' && value !== false && value !== undefined,
+      );
+
+      if (!hasActualFilters) {
+        return of(null);
+      }
+
+      return programsService
+        .programsShortAdmissions(flattenQueryParams(withoutEmptyProperties(request), 'filters'))
         .pipe(map((response) => response.meta?.total ?? 0));
     },
   });

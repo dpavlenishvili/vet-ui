@@ -13,7 +13,7 @@ import {
   InfoComponent,
   InputComponent,
   SelectorComponent,
-  VetSwitchComponent
+  VetSwitchComponent,
 } from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -66,11 +66,12 @@ export class ProgramSsmStepComponent implements OnInit {
     // Subscribe to translate_select changes
     const form = this.form();
     if (form && !this.isViewMode()) {
-      form.get('translate_select')?.valueChanges.pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe((value) => {
-        this.onSelectedLanguageChange(value as string | null);
-      });
+      form
+        .get('translate_select')
+        ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((value) => {
+          this.onSelectedLanguageChange(value as string | null);
+        });
     }
   }
 

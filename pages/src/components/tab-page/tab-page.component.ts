@@ -15,7 +15,7 @@ import { PageContentComponent } from '../page-content/page-content.component';
 export class TabPageComponent {
   page = input.required<Page>();
 
-  activeTabId = useQueryParam('tab');
+  activeTabId = useQueryParam('item');
   updateQuery = useQueryUpdater();
   collectionId = computed(() => this.page()?.collection?.[0]?.id);
   collection = usePageCollection(this.collectionId);
@@ -30,13 +30,13 @@ export class TabPageComponent {
 
       if (!this.activeTabId() && firstTabId) {
         this.updateQuery({
-          tab: firstTabId,
+          item: firstTabId,
         });
       }
     });
   }
 
   onTabClick(item: CollectionItem) {
-    this.updateQuery({ tab: item.id });
+    this.updateQuery({ item: item.id });
   }
 }

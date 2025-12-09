@@ -27,15 +27,18 @@
 }
 
 .vet-short-info {
-  @include text-md(true);
+  font-size: 0.8rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   flex: 2;
-  padding: 1.5rem 0.625rem;
+  gap: 0.5rem;
+  padding: 1rem;
   border-radius: 0.625rem;
   border: 1px solid $kendo-color-border-alt;
   color: $kendo-color-body;
+  font-weight: bold;
+  line-height: 1rem;
 }
 
 .vet-short-actions {

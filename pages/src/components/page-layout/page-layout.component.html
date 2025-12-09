@@ -1,5 +1,9 @@
 <header>
-  <vet-ui-navbar [pages]="pages$()" [user]="user()" (logout)="logout()" />
+  <vet-ui-navbar
+    [pages]="pages$.value()"
+    [user]="user()"
+    (logout)="logout()"
+  />
 </header>
 
 <main class="main-container">
@@ -11,7 +15,7 @@
 </main>
 
 @defer (on viewport) {
-  <vet-app-footer />
+  <vet-app-footer [pages]="pages$.value()" />
 } @placeholder {
   <div class="k-h-24"></div>
 }

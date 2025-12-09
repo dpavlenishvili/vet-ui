@@ -10,15 +10,9 @@
     <div class="vet-program-card">
       <div class="vet-program-card-details">
         <div class="vet-program-card-field">
-          @if(educationLevelNumber >= 5) {
-            <div
-              kendoTooltip
-              [tooltipWidth]="400"
-            >
-              <kendo-svg-icon
-                [title]="'programs.student_limit_warning' | transloco"
-                [icon]="vetIcons.info"
-              />
+          @if (educationLevelNumber >= 5) {
+            <div kendoTooltip [tooltipWidth]="400">
+              <kendo-svg-icon [title]="'programs.student_limit_warning' | transloco" [icon]="vetIcons.info" />
             </div>
           }
 
@@ -58,18 +52,18 @@
         </div>
 
         <vet-divider />
+
+        @if (isUserLoaded() && !_user) {
+          <div class="vet-text-base">
+            <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
+          </div>
+        }
       </div>
     </div>
-
-    @if (isUserLoaded() && !_user) {
-      <div class="vet-text-base k-mt-7">
-        <span [innerHTML]="'programs.admission_authorize' | transloco: { link: '/authorization' }"></span>
-      </div>
-    }
   </div>
 } @else {
-  <div class="vet-short-card">
-    <div class="vet-short-card-no-admission-container">
+  <div class="vet-program-card">
+    <div class="vet-program-no-admission-container">
       <kendo-svg-icon [icon]="vetIcons.searchBg" [style.width]="'40px'" [style.height]="'40px'" />
 
       <div>

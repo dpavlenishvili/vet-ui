@@ -1,148 +1,157 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, type OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { KENDO_LAYOUT } from '@progress/kendo-angular-layout';
-import { StepperActivateEvent } from '@progress/kendo-angular-layout/stepper/events/activate-event';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { RegistrationCitizenshipComponent } from './registration-citizenship/registration-citizenship.component';
 import { RegistrationIdentityCitizenComponent } from './registration-identity-citizen/registration-identity-citizen.component';
-import { RegistrationPhoneComponent } from './registration-phone/registration-phone.component';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { RegistrationContactComponent } from './registration-contact/registration-contact.component';
 import { RegistrationIdentityForeignerComponent } from './registration-identity-foreigner/registration-identity-foreigner.component';
-import { RegistrationPasswordCreateComponent } from './registration-password-create/registration-password-create.component';
 import { RegistrationTermsAndConditionsComponent } from './registration-terms-and-conditions/registration-terms-and-conditions.component';
 import {
   Citizenship,
-  georgianLettersValidator,
   englishLettersValidator,
+  georgianLettersValidator,
   mobileNumberValidator,
-  passwordMatchValidator,
-  passwordPatternValidator,
   personalNumberValidator,
+  ResponsiveStepperComponent,
+  StepDefinition,
   useAlert,
-  vetIcons,
+  useConfirm,
+  useControlValue,
 } from '@vet/shared';
-import { RegisterService, type User, type UserReq } from '@vet/backend';
+import { EmailService, RegisterService, SmsService, type User, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
-import { BehaviorSubject, debounceTime, fromEvent, tap } from 'rxjs';
-import { ButtonComponent } from '@progress/kendo-angular-buttons';
-import { TooltipDirective } from '@progress/kendo-angular-tooltip';
-import { useAuthEnvironment } from '@vet/auth';
-import { WA_WINDOW } from '@ng-web-apis/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, map, Observable, of, switchMap, tap, timer } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AuthenticationService, useAuthEnvironment } from '@vet/auth';
+import { fromPromise } from 'rxjs/internal/observable/innerFrom';
+
+interface ForeignerUserReq extends UserReq {
+  first_name_en: string;
+  last_name_en: string;
+}
 
 @Component({
   selector: 'vet-registration',
   imports: [
-    KENDO_LAYOUT,
     ReactiveFormsModule,
+    ResponsiveStepperComponent,
     RegistrationCitizenshipComponent,
     RegistrationIdentityCitizenComponent,
     RegistrationIdentityForeignerComponent,
-    RegistrationPhoneComponent,
-    TranslocoPipe,
-    RegistrationPasswordCreateComponent,
+    RegistrationContactComponent,
     RegistrationTermsAndConditionsComponent,
-    ButtonComponent,
-    TooltipDirective,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent {
   alert = useAlert();
+  confirm = useConfirm();
 
-  currentStepIndex = 0;
-  currentStepSubject = new BehaviorSubject<number>(0);
+  currentStepKey = signal('chooseCitizenship');
   formGroup = this.createFormGroup();
-  vetIcons = vetIcons;
-  isExpanded = signal(true);
-  lastCitizenshipValue = '';
-  phoneVerified = signal(false);
-  personVerified = signal(false);
-  isMobile = signal(false);
-  stepperOrientation = signal<'horizontal' | 'vertical'>('horizontal');
+  citizenship = useControlValue(this.formGroup, (form) => form.controls.chooseCitizenship.controls.citizenship);
+  personVerified = useControlValue(this.formGroup, (form) => form.controls.isPersonVerified);
+  phoneVerificationNumberLength = useAuthEnvironment().phoneVerificationNumberLength;
 
-  steps = [
-    {
-      label: 'auth.citizenship_selection',
-      title: 'auth.choose_citizenship',
-      path: 'citizenship_selection',
-      form: () => this.formGroup.controls.chooseCitizenship,
-    },
-    {
-      label: 'auth.id_verification',
-      title: 'auth.fill_in_personal_info',
-      path: 'id_verification',
-      form: () =>
-        this.citizenship === this.CitizenshipType.Georgian
-          ? this.formGroup.controls.checkIdentity
-          : this.formGroup.controls.checkIdentityForeigner,
-    },
-    {
-      label: 'auth.phone_verification',
-      title: 'auth.enter_phone_number',
-      path: 'phone_verification',
-      form: () => this.formGroup.controls.phone,
-    },
-    {
-      label: 'auth.password_creation',
-      title: 'auth.enter_password',
-      path: 'password_creation',
-      form: () => this.formGroup.controls.passwords,
-    },
-    {
-      label: 'auth.terms_and_conditions',
-      title: 'auth.terms_and_conditions',
-      path: 'terms_and_conditions',
-      form: () => this.formGroup.controls.termsAndConditions,
-    },
-  ];
+  steps = computed(
+    () =>
+      [
+        {
+          key: 'chooseCitizenship',
+          label: 'auth.citizenship_selection',
+          title: 'auth.choose_citizenship',
+          path: 'citizenship_selection',
+        },
+        {
+          key: 'checkIdentity',
+          label: 'auth.id_verification',
+          title: 'auth.fill_in_personal_info',
+          path: 'id_verification',
+          condition: (formGroup: FormGroup) => {
+            const citizenship = formGroup.get('chooseCitizenship.citizenship')?.value;
+            return citizenship === this.CitizenshipType.Georgian;
+          },
+          nextActions: [
+            {
+              label: 'auth.check',
+              action: () => this.performPersonVerification(),
+              condition: (formGroup) => !formGroup.get('isPersonVerified')?.value,
+            },
+            {
+              label: 'shared.next',
+            },
+          ],
+        },
+        {
+          key: 'checkIdentityForeigner',
+          label: 'auth.id_verification',
+          title: 'auth.fill_in_personal_info',
+          path: 'id_verification',
+          condition: (formGroup: FormGroup) => {
+            const citizenship = formGroup.get('chooseCitizenship.citizenship')?.value;
+            return citizenship === this.CitizenshipType.Foreigner;
+          },
+          nextActions: [
+            {
+              label: 'auth.next',
+              action: () => this.performPersonVerification(),
+            },
+          ],
+        },
+        {
+          key: 'contact',
+          label: 'auth.contact_information',
+          title: 'auth.enter_contact_information',
+          path: 'contact_info',
+        },
+        {
+          key: 'termsAndConditions',
+          label: 'auth.terms_and_conditions',
+          title: 'auth.terms_and_conditions',
+          path: 'terms_and_conditions',
+        },
+      ] as StepDefinition[],
+  );
+
   CitizenshipType = Citizenship;
 
   private router = inject(Router);
   private registrationService = inject(RegisterService);
-  private window = inject(WA_WINDOW);
-  private destroyRef = inject(DestroyRef);
+  private smsService = inject(SmsService);
+  private emailService = inject(EmailService);
+  private authenticationService = inject(AuthenticationService);
 
-  ngOnInit(): void {
-    if (!this.router.url.includes('/citizenship_selection')) {
-      void this.router.navigate(['/registration/citizenship_selection']);
-    }
+  constructor() {
+    effect(() => {
+      const stepKey = this.currentStepKey();
+      const step = this.steps().find((s) => s.key === stepKey);
 
-    if (this.citizenship) {
-      this.lastCitizenshipValue = this.citizenship;
-    }
+      if (step && step.path) {
+        const currentUrl = this.router.url;
+        const expectedPath = `/registration/${step.path}`;
 
-    this.updateResponsiveState();
-
-    fromEvent(this.window, 'resize')
-      .pipe(debounceTime(150), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.updateResponsiveState());
-  }
-
-  private updateResponsiveState(): void {
-    const width = this.window.innerWidth;
-    const mobile = width < 768;
-
-    this.isMobile.set(mobile);
-
-    if (mobile) {
-      this.stepperOrientation.set('horizontal');
-      this.isExpanded.set(false);
-    } else if (width < 992) {
-      this.stepperOrientation.set('vertical');
-      this.isExpanded.set(false);
-    } else {
-      this.stepperOrientation.set('vertical');
-      this.isExpanded.set(true);
-    }
+        if (!currentUrl.includes(step.path)) {
+          void this.router.navigate([expectedPath], { replaceUrl: true });
+        }
+      }
+    });
   }
 
   createFormGroup() {
     return new FormGroup({
+      isPersonVerified: new FormControl(false),
       chooseCitizenship: new FormGroup({
-        citizenship: new FormControl<string | null>(null, Validators.required),
+        citizenship: new FormControl<string | null>(Citizenship.Georgian, Validators.required),
       }),
       checkIdentity: new FormGroup({
         lastName: new FormControl('', [Validators.required, georgianLettersValidator]),
@@ -153,234 +162,159 @@ export class RegistrationComponent implements OnInit {
       }),
       checkIdentityForeigner: new FormGroup({
         residential: new FormControl('', Validators.required),
-        lastName: new FormControl('', [Validators.required, georgianLettersValidator]),
         firstName: new FormControl('', [Validators.required, georgianLettersValidator]),
-        lastNameEn: new FormControl('', [Validators.required, englishLettersValidator]),
+        lastName: new FormControl('', [Validators.required, georgianLettersValidator]),
         firstNameEn: new FormControl('', [Validators.required, englishLettersValidator]),
+        lastNameEn: new FormControl('', [Validators.required, englishLettersValidator]),
         personalNumber: new FormControl('', Validators.required),
         dateOfBirth: new FormControl<Date | null>(null, Validators.required),
         gender: new FormControl('', Validators.required),
       }),
-      phone: new FormGroup({
+      contact: new FormGroup({
+        isPhoneVerified: new FormControl(false, Validators.requiredTrue),
         phoneNumber: new FormControl('', [Validators.required, mobileNumberValidator]),
-        verificationNumber: new FormControl('', [
-          Validators.required,
-          Validators.minLength(useAuthEnvironment().phoneVerificationNumberLength),
-        ]),
+        phoneVerificationNumber: new FormControl(
+          '',
+          [Validators.required, Validators.minLength(this.phoneVerificationNumberLength)],
+          [this.phoneVerificationValidator()],
+        ),
+        email: new FormControl('', [Validators.required, Validators.email], [this.emailUniquenessValidator()]),
       }),
-      passwords: new FormGroup(
-        {
-          password: new FormControl('', [Validators.required, passwordPatternValidator]),
-          confirmPassword: new FormControl('', [Validators.required, passwordPatternValidator]),
-        },
-        { validators: passwordMatchValidator },
-      ),
       termsAndConditions: new FormGroup({
         accepted: new FormControl(false, Validators.requiredTrue),
       }),
     });
   }
 
-  getUserReq(): UserReq {
-    const chooseCitizenship = this.formGroup.get('chooseCitizenship') as FormGroup;
-    const checkIdentity = this.formGroup.get('checkIdentity') as FormGroup;
-    const checkIdentityForeigner = this.formGroup.get('checkIdentityForeigner') as FormGroup;
-    const phone = this.formGroup.get('phone') as FormGroup;
-    const passwords = this.formGroup.get('passwords') as FormGroup;
+  getUserReq(): UserReq | ForeignerUserReq {
+    const isForeigner =
+      this.formGroup.controls.chooseCitizenship.controls.citizenship.value === this.CitizenshipType.Foreigner;
+    const contact = this.formGroup.controls.contact;
 
-    const isForeigner = chooseCitizenship.get('citizenship')?.value === this.CitizenshipType.Foreigner;
-    const identityGroup = isForeigner ? checkIdentityForeigner : checkIdentity;
-
-    const userReq: UserReq = {
-      pid: identityGroup.get('personalNumber')?.value,
-      phone: phone.get('phoneNumber')?.value,
-      sms_code: phone.get('verificationNumber')?.value,
-      first_name: identityGroup.get('firstName')?.value,
-      last_name: identityGroup.get('lastName')?.value,
-      gender: identityGroup.get('gender')?.value,
-      birth_date: identityGroup.get('dateOfBirth')?.value
-        ? identityGroup.get('dateOfBirth')?.value?.toISOString().split('T')[0]
-        : null,
-      residential: isForeigner ? identityGroup.get('residential')?.value : chooseCitizenship.get('citizenship')?.value,
-      password: passwords.get('password')?.value,
-      password_confirmation: passwords.get('confirmPassword')?.value,
-    };
-
-    // Add English name fields for foreigners
     if (isForeigner) {
-      (userReq as any).first_name_en = identityGroup.get('firstNameEn')?.value;
-      (userReq as any).last_name_en = identityGroup.get('lastNameEn')?.value;
+      const foreignerForm = this.formGroup.controls.checkIdentityForeigner;
+      const foreignerReq: ForeignerUserReq = {
+        pid: foreignerForm.controls.personalNumber.value ?? '',
+        phone: contact.controls.phoneNumber.value ?? '',
+        sms_code: contact.controls.phoneVerificationNumber.value ?? '',
+        email: contact.controls.email.value ?? '',
+        first_name: foreignerForm.controls.firstName.value ?? '',
+        last_name: foreignerForm.controls.lastName.value ?? '',
+        first_name_en: foreignerForm.controls.firstNameEn.value ?? '',
+        last_name_en: foreignerForm.controls.lastNameEn.value ?? '',
+        gender: foreignerForm.controls.gender.value ?? '',
+        birth_date: foreignerForm.controls.dateOfBirth.value
+          ? foreignerForm.controls.dateOfBirth.value.toISOString().split('T')[0]
+          : '',
+        residential: foreignerForm.controls.residential.value ?? '',
+      };
+      return foreignerReq;
     }
+
+    const georgianForm = this.formGroup.controls.checkIdentity;
+    const userReq: UserReq = {
+      pid: georgianForm.controls.personalNumber.value ?? '',
+      phone: contact.controls.phoneNumber.value ?? '',
+      sms_code: contact.controls.phoneVerificationNumber.value ?? '',
+      email: contact.controls.email.value ?? '',
+      first_name: georgianForm.controls.firstName.value ?? '',
+      last_name: georgianForm.controls.lastName.value ?? '',
+      gender: georgianForm.controls.gender.value ?? '',
+      birth_date: georgianForm.controls.dateOfBirth.value
+        ? georgianForm.controls.dateOfBirth.value.toISOString().split('T')[0]
+        : '',
+      residential: this.formGroup.controls.chooseCitizenship.controls.citizenship.value ?? '',
+    };
 
     return userReq;
   }
 
-  get citizenship() {
-    return this.formGroup.controls.chooseCitizenship.controls.citizenship.value;
-  }
-
-  isStepValid(stepIndex: number): boolean {
-    const step = this.steps[stepIndex];
-    if (!step || !step.form()?.valid) {
-      return false;
-    }
-
-    if (stepIndex === 1) {
-      return this.personVerified();
-    }
-
-    if (stepIndex === 2) {
-      return this.phoneVerified();
-    }
-
-    return true;
-  }
-
-  onStepChange(event: StepperActivateEvent) {
-    if (this.isStepValid(this.currentStepIndex) || event.index < this.currentStepIndex) {
-      this.currentStepIndex = event.index;
-      this.currentStepSubject.next(this.currentStepIndex);
-      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-    } else {
-      event.preventDefault();
-    }
-  }
-
-  onPreviousClick() {
-    if (this.currentStepIndex > 0) {
-      this.currentStepIndex--;
-      this.currentStepSubject.next(this.currentStepIndex);
-      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-    }
-  }
-
   handleSwitchToGeorgianCitizenship(personalInfo: User) {
+    // Set citizenship first - this will trigger condition re-evaluation
     this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(Citizenship.Georgian);
-    this.lastCitizenshipValue = Citizenship.Georgian;
 
     const georgianForm = this.formGroup.controls.checkIdentity;
-    georgianForm.controls.personalNumber.setValue(personalInfo.pid || null);
-    georgianForm.controls.lastName.setValue(personalInfo.lastName || null);
-    georgianForm.controls.firstName.setValue(personalInfo.firstName || null);
-    georgianForm.controls.dateOfBirth.setValue(personalInfo.birthDate ? new Date(personalInfo.birthDate) : null);
-    georgianForm.controls.gender.setValue(personalInfo.gender || null);
+    const foreignerForm = this.formGroup.controls.checkIdentityForeigner;
+    const foreignerFormData = foreignerForm.value;
+    const birthDate = personalInfo.birthDate || foreignerFormData.dateOfBirth;
+    georgianForm.controls.personalNumber.setValue(personalInfo.pid || foreignerFormData.personalNumber || null);
+    georgianForm.controls.lastName.setValue(personalInfo.lastName || foreignerFormData.lastName || null);
+    georgianForm.controls.firstName.setValue(personalInfo.firstName || foreignerFormData.firstName || null);
+    georgianForm.controls.dateOfBirth.setValue(birthDate ? new Date(birthDate) : null);
+    georgianForm.controls.gender.setValue(personalInfo.gender || foreignerFormData.gender || null);
 
     this.formGroup.controls.checkIdentityForeigner.reset();
-    this.personVerified.set(true);
-    this.currentStepIndex++;
-    this.currentStepSubject.next(this.currentStepIndex);
-    void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
+    this.setPersonVerified(true);
+
+    // Use setTimeout to ensure step conditions are evaluated before setting step key
+    // This allows the stepper's condition evaluation to complete first
+    setTimeout(() => {
+      this.currentStepKey.set('contact');
+      void this.router.navigate(['/registration/contact_info']);
+    }, 0);
   }
 
-  onNextClick() {
-    if (this.currentStepIndex === 0 && this.isStepValid(this.currentStepIndex)) {
-      this.lastCitizenshipValue = this.citizenship as string;
-      this.currentStepIndex++;
-      this.currentStepSubject.next(this.currentStepIndex);
-      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-      return;
-    }
-
-    if (this.currentStepIndex === 1 && this.isStepValid(this.currentStepIndex)) {
-      this.currentStepIndex++;
-      this.currentStepSubject.next(this.currentStepIndex);
-      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-      return;
-    }
-
-    if (this.currentStepIndex === 2 && this.isStepValid(this.currentStepIndex)) {
-      this.currentStepIndex++;
-      this.currentStepSubject.next(this.currentStepIndex);
-      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-      return;
-    }
-
-    if (this.currentStepIndex === 3 && this.isStepValid(this.currentStepIndex)) {
-      this.currentStepIndex++;
-      this.currentStepSubject.next(this.currentStepIndex);
-      void this.router.navigate([`/registration/${this.steps[this.currentStepIndex].path}`]);
-      return;
-    }
-
-    if (this.currentStepIndex === this.steps.length - 1 && this.isStepValid(this.currentStepIndex)) {
-      const user = this.getUserReq();
-      this.registrationService
-        .register(user)
-        .pipe(
-          tap({
-            next: () => {
-              void this.router.navigate(['/authorization'], {
-                queryParams: {
-                  referrer: 'registration',
-                },
-              });
-            },
-            error: (error) => {
-              if (error.error.errors) {
-                for (const item of error.error.errors) {
-                  this.alert.error(item);
-                }
+  onSubmitForm(): void {
+    const user = this.getUserReq();
+    this.registrationService
+      .register(user)
+      .pipe(
+        tap({
+          next: () => {
+            this.confirm.success({
+              content: 'auth.registration_success_verify_email',
+              showYesNoButtons: false,
+              singleTypeDialogActionText: 'shared.acknowledge',
+              onConfirm: () => {
+                this.authenticationService.initiateLogin();
+              },
+            });
+          },
+          error: (error) => {
+            if (error.error.errors) {
+              for (const item of error.error.errors) {
+                this.alert.error(item);
               }
-            },
-          }),
-        )
-        .subscribe();
-    }
+            }
+          },
+        }),
+      )
+      .subscribe();
   }
 
   onResetForm(citizenship?: string) {
     this.formGroup.reset();
     if (citizenship) {
       this.formGroup.controls.chooseCitizenship.controls.citizenship.setValue(citizenship);
-      this.lastCitizenshipValue = citizenship;
     } else {
-      this.currentStepIndex = 0;
+      this.currentStepKey.set('chooseCitizenship');
     }
     this.formGroup.markAsPristine();
     this.formGroup.markAsUntouched();
-    this.resetStepsFrom(1);
-    this.phoneVerified.set(false);
-    this.personVerified.set(false);
+    this.resetStepsFrom('checkIdentity');
+    this.setPersonVerified(false);
+    this.formGroup.controls.contact.controls.isPhoneVerified.setValue(false);
   }
 
-  resetStepsFrom(index: number) {
-    if (index <= 1) {
+  resetStepsFrom(stepKey: string) {
+    const stepIndex = this.steps().findIndex((s) => s.key === stepKey);
+
+    if (stepIndex <= 1) {
       this.formGroup.controls.checkIdentity.reset();
       this.formGroup.controls.checkIdentityForeigner.reset();
     }
 
-    if (index <= 2) {
-      this.formGroup.controls.phone.reset();
+    if (stepIndex <= 2) {
+      this.formGroup.controls.contact.reset();
     }
 
-    if (index <= 3) {
-      this.formGroup.controls.passwords.reset();
-    }
-
-    if (index <= 4) {
+    if (stepIndex <= 3) {
       this.formGroup.controls.termsAndConditions.reset();
     }
   }
 
-  onToggleExpansion() {
-    if (!this.isMobile()) {
-      this.isExpanded.update((value) => !value);
-    }
-  }
-
-  setPhoneVerified(verified: boolean) {
-    this.phoneVerified.set(verified);
-
-    const phoneForm = this.formGroup.controls.phone;
-    if (!verified && phoneForm.valid) {
-      phoneForm.setErrors({ phoneNotVerified: true });
-    } else if (verified && phoneForm.hasError('phoneNotVerified')) {
-      this.removeFormError(phoneForm, 'phoneNotVerified');
-    }
-  }
-
   setPersonVerified(verified: boolean) {
-    this.personVerified.set(verified);
+    this.formGroup.controls.isPersonVerified.setValue(verified);
 
     const identityForm = this.getCurrentIdentityForm();
     if (!verified && identityForm.valid) {
@@ -391,7 +325,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   getCurrentIdentityForm() {
-    return this.citizenship === this.CitizenshipType.Georgian
+    return this.citizenship() === this.CitizenshipType.Georgian
       ? this.formGroup.controls.checkIdentity
       : this.formGroup.controls.checkIdentityForeigner;
   }
@@ -405,5 +339,144 @@ export class RegistrationComponent implements OnInit {
     } else {
       form.setErrors(errors);
     }
+  }
+
+  performPersonVerification(): Observable<boolean> {
+    const isGeorgian = this.citizenship() === this.CitizenshipType.Georgian;
+    const identityForm = isGeorgian
+      ? this.formGroup.controls.checkIdentity
+      : this.formGroup.controls.checkIdentityForeigner;
+
+    identityForm.markAllAsTouched();
+
+    if (identityForm.invalid) {
+      return of(false);
+    }
+
+    const formValue = identityForm.value;
+    const verificationPayload = isGeorgian
+      ? {
+          pid: formValue.personalNumber as string,
+          last_name: formValue.lastName as string,
+          residential: 'GEO',
+        }
+      : {
+          pid: formValue.personalNumber as string,
+          last_name: formValue.lastName as string,
+          residential: (formValue as { residential?: string }).residential as string,
+        };
+
+    return this.registrationService.validatePerson(verificationPayload, {}).pipe(
+      switchMap((personalInfo: User) => {
+        if (!isGeorgian && personalInfo.firstName) {
+          return fromPromise(
+            new Promise<boolean>((resolve) => {
+              this.confirm.show({
+                content: 'auth.citizenship_auto_update_confirm_content',
+                confirmButtonText: 'shared.agree',
+                onConfirm: () => {
+                  this.handleSwitchToGeorgianCitizenship(personalInfo);
+                  resolve(true);
+                },
+                onDismiss: () => {
+                  void this.router.navigate(['/']);
+                  resolve(false);
+                },
+              });
+            }),
+          );
+        } else {
+          if (isGeorgian) {
+            identityForm.controls.firstName.setValue(personalInfo.firstName ?? null, { emitEvent: false });
+            identityForm.controls.dateOfBirth.setValue(
+              personalInfo.birthDate ? new Date(personalInfo.birthDate) : null,
+              { emitEvent: false },
+            );
+            identityForm.controls.gender.setValue(personalInfo.gender ?? null, { emitEvent: false });
+          }
+
+          this.setPersonVerified(true);
+
+          return of(true);
+        }
+      }),
+      catchError((error) => {
+        this.setPersonVerified(false);
+
+        const errorMessage = error?.error?.error?.message || 'auth.person_validation_failed';
+        this.alert.show({
+          variant: 'warning',
+          text: errorMessage,
+        });
+
+        return of(false);
+      }),
+    );
+  }
+
+  phoneVerificationValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (this.formGroup.controls.contact.controls.isPhoneVerified.value) {
+        return of(null);
+      }
+
+      const verificationCode = (control.value as string) || '';
+      const requiredLength = this.phoneVerificationNumberLength;
+
+      if (verificationCode.length !== requiredLength) {
+        return of(null);
+      }
+
+      const contactForm = control.parent;
+      if (!contactForm) {
+        return of(null);
+      }
+
+      const phoneControl = contactForm.get('phoneNumber');
+      if (!phoneControl?.valid || !phoneControl?.value) {
+        return of(null);
+      }
+
+      const phoneNumber = phoneControl.value as string;
+
+      return this.smsService.validateSms({ phone: phoneNumber, sms_code: verificationCode }).pipe(
+        map(() => ({ phoneVerificationInvalid: false })),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage =
+            error?.error?.error?.message || error?.error?.message || error?.message || 'errors.server_error_0';
+
+          return of({ phoneVerificationInvalid: errorMessage } as ValidationErrors);
+        }),
+      );
+    };
+  }
+
+  emailUniquenessValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const email = (control.value as string) || '';
+
+      if (!email || control.hasError('email') || control.hasError('required')) {
+        return of(null);
+      }
+
+      return timer(500).pipe(
+        switchMap(() => this.emailService.checkEmailUnic({ email })),
+        map((response) => {
+          if (response.status === true) {
+            return null;
+          } else {
+            return { emailTaken: true } as ValidationErrors;
+          }
+        }),
+        catchError((error) => {
+          if (error.error?.error?.message) {
+            const message = error.error.error.message;
+            return of({ emailTaken: message } as ValidationErrors);
+          }
+
+          return of(null);
+        }),
+      );
+    };
   }
 }

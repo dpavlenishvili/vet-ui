@@ -3,11 +3,17 @@ import { AdmissionService, NonFormalService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent as VetButtonComponent, FormatDateTimePipe, IconButtonComponent, useAlert, useConfirm } from '@vet/shared';
+import {
+  ButtonComponent as VetButtonComponent,
+  FormatDateTimePipe,
+  IconButtonComponent,
+  useAlert,
+  useConfirm,
+} from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
-import { catchError, map, of } from 'rxjs';
+import { catchError, map, of, tap } from 'rxjs';
 
 @Component({
   selector: 'vet-non-formal-applications-list',
@@ -45,7 +51,6 @@ export class NonFormalApplicationsListComponent {
       ),
   });
 
-  // Helper method to get education name from ID
   protected getEducationName = computed(() => {
     const educations = this.educations$.value();
     return (educationId: number | string | null | undefined): string => {
@@ -86,29 +91,34 @@ export class NonFormalApplicationsListComponent {
     return true;
   }
 
-  protected isCancelEnabled(item: any): boolean {
-    // Cancel button is active for applications with status 'saved' or 'registered'
-    return false
-  }
-
   protected onCancelClick(item: any): void {
     if (!item.id) {
-      console.error('Cannot cancel application without ID');
+      this.alert.show({
+        variant: 'error',
+        text: 'non_formal.cannot_cancel',
+      });
       return;
     }
 
-    // Show confirmation dialog before canceling
     this.confirm.show({
-      content: 'non_formal.confirm_application_cancel',
+      content: item.status.id === '1' ? 'non_formal.sent_application_delete' : 'non_formal.draft_application_delete',
       onConfirm: () => {
         this.cancelApplication(item.id);
       },
     });
   }
 
-  private cancelApplication(applicationId: any): void {
-    // TODO: Add cancel/delete functionality when it's implemented
-    console.log('Cancel application:', applicationId);
-    this.alert.success('Application cancelled successfully');
+  private cancelApplication(applicationId: number): void {
+    this.nonFormalService
+      .deleteNonFormalApplication(applicationId)
+      .pipe(
+        tap({
+          next: () => {
+            this.alert.success('non_formal.delete_success');
+            this.applicationsList$.reload();
+          },
+        }),
+      )
+      .subscribe();
   }
 }

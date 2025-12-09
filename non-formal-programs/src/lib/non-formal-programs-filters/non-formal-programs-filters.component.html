@@ -10,23 +10,19 @@
       </div>
 
       <div vet-row>
-        <vet-selector
-          formControlName="field"
-          [placeholder]="'non_formal.field' | transloco"
-          [options]="[]"
-          [disabled]="true"
+        <vet-eduaction-standarts 
+          formControlName="isced_code"
+          [placeholder]="'programs.field' | transloco"
         />
 
         <vet-date-picker
-          formControlName="start_date"
+          formControlName="registration_start_from"
           [placeholder]="'non_formal.start_date' | transloco"
-          [disabled]="true"
         />
 
         <vet-date-picker
-          formControlName="end_date"
+          formControlName="registration_start_to"
           [placeholder]="'non_formal.end_date' | transloco"
-          [disabled]="true"
         />
       </div>
     </div>

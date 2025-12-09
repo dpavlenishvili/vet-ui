@@ -25,6 +25,8 @@
     <vet-non-formal-selected-fields-step
       [formGroup]="form.controls.field_selection"
       [isViewMode]="isViewMode()"
+      [applicationData]="applicationData()"
+      (programToggle)="onProgramDelete()"
       (next)="onNext()"
       (back)="onBack()"
     />
@@ -36,6 +38,7 @@
     <vet-non-formal-questionnaire-step
       [formGroup]="form.controls.questionnaire"
       [isViewMode]="isViewMode()"
+      [applicationData]="applicationData()"
       (next)="onNext()"
       (back)="onBack()"
     />

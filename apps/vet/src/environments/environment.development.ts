@@ -1,6 +1,7 @@
 import type { AuthEnvironment } from '@vet/auth';
 import {BuildVars} from "./build-vars.interface";
 import {AppFeatureFlags} from "@vet/feature-flags";
+import { baseEnvironment } from './environment.base';
 
 declare const BUILD_VARS: BuildVars;
 
@@ -11,23 +12,20 @@ const featureFlags: AppFeatureFlags = {
 }
 
 export const environment = {
+  ...baseEnvironment,
   production: false,
   baseUrl,
   apiBaseUrl: `${baseUrl}/api/v1`,
-  defaultDateFormat: 'YYYY-MM-DD',
-  defaultDateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
-  defaultDisplayDateFormat: 'DD/MM/YYYY',
-  defaultDisplayDateTimeFormat: 'DD/MM/YYYY HH:mm:ss',
-  defaultDateFallback: '---',
-  defaultDateTimeFallback: '---',
-  kendoDatePickerFormat: 'dd/MM/yyyy',
-  kendoDateTimePickerFormat: 'dd/MM/yyyy HH:mm:ss',
   modules: {
     auth: <AuthEnvironment>{
-      phoneVerificationNumberLength: 4,
-      phoneVerificationNumberTimeoutSeconds: 120,
-      login2faTimeoutSeconds: 120,
-      authDataTtlInSeconds: 30 * 24 * 60 * 60,
+      ...baseEnvironment.modules.auth,
+      keycloak: {
+        ...baseEnvironment.modules.auth.keycloak,
+        authority: 'https://auth-test.emis.ge/auth',  // ← ADDED THIS LINE
+        realm: 'main',                                 // ← ADDED THIS LINE
+        clientId: 'vet-front',                        // ← ADDED THIS LINE
+        redirectUri: 'https://vet-front-develop.dev01.dev.emis.ge',
+      },
     },
   },
   featureFlags

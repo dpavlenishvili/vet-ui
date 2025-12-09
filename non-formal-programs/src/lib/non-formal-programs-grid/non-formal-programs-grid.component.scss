@@ -1,26 +1,32 @@
-.vet-non-formal-programs-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  margin-block-end: 2rem;
-  grid-auto-rows: 1fr;
+@use '@vet/shared-styles' as shared;
 
-  ::ng-deep vet-non-formal-program-card {
-    display: flex;
-    block-size: 100%;
+:host {
+  display: block;
+}
 
-    > * {
-      inline-size: 100%;
-    }
+.vet-non-formal-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: -1.25rem;
+
+  .vet-non-formal-grid-item {
+    flex: 0 0 calc(50% - 0.625rem);
+    box-sizing: border-box;
+    margin-top: 1.25rem;
   }
 }
 
-.vet-programs-pager {
-  margin-block-start: 2rem;
+.loader-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
 }
 
-@media (max-width: 60.5rem) {
-  .vet-non-formal-programs-grid {
-    grid-template-columns: 1fr;
-  }
+.vet-total {
+  margin: 0 0 2rem 2rem;
+  font-family: shared.$font-family-primary;
+  font-size: 0.85rem;
 }

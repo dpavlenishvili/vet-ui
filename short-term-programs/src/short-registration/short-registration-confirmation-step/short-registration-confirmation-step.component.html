@@ -5,13 +5,7 @@
     <div class="vet-shorts-confirmation-container">
       <div class="vet-shorts-confirmation-details-container">
         <img
-          [src]="
-            user()?.photo !== null
-              ? user()?.photo
-              : user()?.gender === 'male'
-                ? '/assets/images/default-male.png'
-                : '/assets/images/default-female.png'
-          "
+          [src]="user()?.gender === 'male' ? '/assets/images/default-male.png' : '/assets/images/default-female.png'"
           width="183"
           height="157"
           alt="Profile"
@@ -40,7 +34,7 @@
         @if (isBrowser) {
           <vet-short-registration-selected-programs-grid
             [isEditMode]="false"
-            [selectedPrograms]="selectedPrograms()"
+            [selectedPrograms]="selectedPrograms() ?? []"
           />
         }
       </div>

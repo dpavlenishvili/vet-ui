@@ -11,13 +11,11 @@ import {
   RouteParamsService,
   useFilters,
   useFiltersUpdater,
-  vetIcons
+  vetIcons,
 } from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import {
-  AdmissionFilterOrganisationComponent
-} from './admission-filter-organisation/admission-filter-organisation.component';
+import { AdmissionFilterOrganisationComponent } from './admission-filter-organisation/admission-filter-organisation.component';
 import { catchError, of } from 'rxjs';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { AdmissionListFilterParams } from '../long-term-programs.types';

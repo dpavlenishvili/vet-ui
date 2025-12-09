@@ -1,8 +1,8 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
+import { ApplicationConfig, ErrorHandler, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, Router, withComponentInputBinding } from '@angular/router';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 
 // import { dynamicPagesInitializer } from '@vet/dynamic-pages';
@@ -14,6 +14,7 @@ import {
   provideDefaultDateTimeFallback,
   provideDefaultDateTimeFormat,
   provideDefaultDisplayDateFormat,
+  provideDefaultDisplayDateSeparator,
   provideDefaultDisplayDateTimeFormat,
   provideEnvironment,
   provideKendoDatePickerFormat,
@@ -22,11 +23,12 @@ import {
 } from '@vet/shared';
 
 import { environment } from '../environments/environment';
+import * as Sentry from "@sentry/angular";
 
 import { acceptLanguageInterceptor } from './accept-language.interceptor';
 import { appRoutes } from './app.routes';
 import { initializeTransolco } from '@vet/i18n';
-import { authenticationInterceptor, provideAuthEnvironment } from '@vet/auth';
+import { authenticationInterceptor, provideAuthEnvironment, provideSso } from '@vet/auth';
 import { NOTIFICATION_CONTAINER } from '@progress/kendo-angular-notification';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { provideKendoDateSettings } from './kendo-date-config.provider';
@@ -56,11 +58,13 @@ export const appConfig: ApplicationConfig = {
     provideDefaultDateTimeFormat(environment.defaultDateTimeFormat),
     provideDefaultDisplayDateFormat(environment.defaultDisplayDateFormat),
     provideDefaultDisplayDateTimeFormat(environment.defaultDisplayDateTimeFormat),
+    provideDefaultDisplayDateSeparator(environment.defaultDisplayDateSeparator),
     provideDefaultDateFallback(environment.defaultDateFallback),
     provideDefaultDateTimeFallback(environment.defaultDateTimeFallback),
     provideKendoDatePickerFormat(environment.kendoDatePickerFormat),
     provideKendoDateTimePickerFormat(environment.kendoDateTimePickerFormat),
     provideAuthEnvironment(environment.modules.auth),
+    provideSso(environment.modules.auth.keycloak),
     provideFeatureFlags(environment.featureFlags),
     // dynamicPagesInitializer(),
     provideKendoDateSettings(),
@@ -72,5 +76,16 @@ export const appConfig: ApplicationConfig = {
         return { nativeElement: _window.document.body };
       },
     },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler(),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    provideAppInitializer(() => {
+      inject(Sentry.TraceService);
+    }),
   ],
 };

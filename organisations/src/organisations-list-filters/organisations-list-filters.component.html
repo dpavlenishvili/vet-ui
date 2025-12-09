@@ -1,49 +1,3 @@
-<!-- <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <div vet-container>
-    <div vet-row>
-      <vet-input self-grow [placeholder]="'shared.search' | transloco" formControlName="search" />
-
-      <vet-selector
-        self-grow
-        [placeholder]="'organisations.organisation_name' | transloco"
-        formControlName="name"
-        [options]="institutionOptions.value()"
-      />
-    </div>
-
-    <div vet-row>
-      <vet-input self-grow [placeholder]="'organisations.legal_form' | transloco" />
-
-      <vet-selector
-        self-grow
-        [placeholder]="'organisations.organisation_type' | transloco"
-        formControlName="org_type"
-      />
-
-      <vet-selector
-        self-grow
-        [placeholder]="'organisations.organisation_kind' | transloco"
-        formControlName="institution_type_id"
-      />
-
-      <vet-input self-grow [placeholder]="'organisations.identification_code' | transloco" formControlName="id" />
-    </div>
-
-    <div vet-line space-between align-center>
-      <p class="k-text-sm k-color-body">
-        {{ 'shared.numberOfRecords' | transloco: { count: numberOfRecords() } }}
-      </p>
-
-      <div vet-line gap-dense content-right>
-        <vet-icon-button icon="close" (click)="onClearClick()" />
-
-        <vet-button leadingIcon="search" type="submit">
-          {{ 'shared.search' | transloco }}
-        </vet-button>
-      </div>
-    </div>
-  </div>
-</form> -->
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div vet-container>
     <div vet-row>
@@ -54,7 +8,7 @@
 
         @if (!isExpanded()) {
           <div vet-spacer></div>
-          <ng-container *ngTemplateOutlet="buttons"/>
+          <ng-container *ngTemplateOutlet="buttons" />
         }
       </div>
 
@@ -63,13 +17,15 @@
           <vet-selector
             self-grow
             [placeholder]="'organisations.organisation_type' | transloco"
-            formControlName="org_type"
+            formControlName="institution_type_id"
+            [options]="institutionTypesOptions.value() ?? []"
           />
-  
+
           <vet-selector
             self-grow
             [placeholder]="'organisations.organisation_kind' | transloco"
-            formControlName="institution_type_id"
+            formControlName="org_type"
+            [options]="institutionOrgType.value() ?? []"
           />
         </div>
       }
@@ -82,27 +38,30 @@
             formControlName="region"
             [placeholder]="'programs.region' | transloco"
             [options]="regionOptions.value()"
+            [filterable]="true"
           />
 
           <vet-selector
             formControlName="district"
             [placeholder]="'programs.district' | transloco"
             [options]="filteredDistricts()"
+            [filterable]="true"
           />
         </div>
 
         <vet-selector
           self-grow
-          formControlName="name"
+          formControlName="id"
           [placeholder]="'programs.institution_name' | transloco"
           [options]="institutionOptions.value()"
+          [filterable]="true"
         />
       </div>
 
       <div vet-row>
         <div vet-row></div>
         <div vet-row content-right>
-          <ng-container *ngTemplateOutlet="buttons"/>
+          <ng-container *ngTemplateOutlet="buttons" />
         </div>
       </div>
     }

@@ -116,15 +116,15 @@
 
       <vet-button
         type="submit"
-        [disabled]="foundResultsCount.isLoading()"
+        [disabled]="foundResultsCount().isLoading()"
         (click)="onSubmit()"
       >
-        @if (foundResultsCount.value() === null) {
+        @if (foundResultsCount().value() === null) {
           {{ 'shorts.search_filters' | transloco }}
-        } @else if (foundResultsCount.isLoading()) {
+        } @else if (foundResultsCount().isLoading()) {
           {{ 'shorts.search_filters_pending' | transloco }}
         } @else {
-          {{ 'shorts.search_found' | transloco : { found: foundResultsCount.value() } }}
+          {{ 'shorts.search_found' | transloco : { found: foundResultsCount().value() } }}
         }
       </vet-button>
     </div>

@@ -2,7 +2,7 @@
 
 <div class="vet-shorts-card">
   <div class="vet-shorts-card-header">
-    <div class="vet-shorts-card-icon" [innerHTML]="_program.icon"></div>
+    <vet-program-isced-icon [iconId]="iscedCode()"/>
 
     <div class="vet-shorts-card-heading">
       <div class="vet-shorts-card-title">{{ _program.program_name }}</div>
@@ -26,7 +26,7 @@
 
   <div class="vet-shorts-card-field-container">
     <span>{{ 'shorts.field' | transloco }}:</span>
-    <span>{{ 'shorts.field_type_education' | transloco }}</span>
+    <span>{{ _program.isced?.name }}</span>
   </div>
 
   <div class="vet-shorts-card-footer">

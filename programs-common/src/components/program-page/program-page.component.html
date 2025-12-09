@@ -7,7 +7,7 @@
 } @else if (program()) {
   <div class="vet-program-page">
     <div class="vet-program-page-main">
-      <vet-program-header [program]="_program" [details]="details()" [showPartners]="showPartners()">
+      <vet-program-header [program]="_program" [details]="details()" [showPartners]="showPartners()" [iscedCode]="iscedCode()">
         <ng-container admissions>
           <ng-content select="[admissions]" />
         </ng-container>

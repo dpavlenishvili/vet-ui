@@ -1,27 +1,40 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
 }
 
+.vet-success-box {
+  @include shared.text-md();
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid shared.$kendo-color-success;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 kendo-numerictextbox {
   &.input-valid {
-    border-color: #2f9e44 !important;
+    border-color: shared.$kendo-color-success !important;
     border-width: 1px;
     border-style: solid;
     border-radius: 0.5rem;
 
     .k-input-inner {
-      color: #2f9e44;
+      color: shared.$kendo-color-success;
     }
   }
 
   &.input-invalid {
-    border-color: #e03131 !important;
+    border-color: shared.$kendo-color-error !important;
     border-width: 1px;
     border-style: solid;
     border-radius: 0.5rem;
 
     .k-input-inner {
-      color: #e03131;
+      color: shared.$kendo-color-error;
     }
   }
 

@@ -16,6 +16,10 @@
           </kendo-scrollview>
         </div>
       }
+    } @else {
+      <div class="vet-default-image">
+        <img [src]="defaultImage" />
+      </div>
     }
 
     <div class="info-container">
@@ -30,7 +34,8 @@
             <strong>{{ _organisation.org_type }}</strong>
           </div>
           <div>
-            {{ 'organisations.founded_date' | transloco }}: <strong>{{ _organisation.establishment_date }}</strong>
+            {{ 'organisations.founded_date' | transloco }}:
+            <strong>{{ _organisation.establishment_date | formatDate }}</strong>
           </div>
           <div>
             {{ 'organisations.founder' | transloco }}: <strong>{{ _organisation.manager }}</strong>
@@ -70,9 +75,7 @@
           </div>
           <div>
             {{ 'organisations.field_of_activity' | transloco }}:
-            @if(_organisation.field_of_activities; as activity) {
-              <strong>{{activity.section_name}}</strong>
-            }
+            <strong>{{ _organisation.field_of_activities?.[0]?.section_name }}</strong>
           </div>
         </div>
       </div>
@@ -101,18 +104,21 @@
           </div>
         </div>
 
-        <div class="contact-info vet-text-base">
-          <a [routerLink]="['/programs']">{{ 'organisations.prof_edu_programs' | transloco }}</a>
+        <div class="vet-org-programs vet-text-base">
+          <a [routerLink]="['/programs']" [queryParams]="{ filters: longTermFilters }">
+            {{ 'organisations.prof_edu_programs' | transloco }}
+          </a>
+
+          <a [routerLink]="['/programs/short']" [queryParams]="{ filters: shortTermFilters }">
+            {{ 'organisations.short_term_programs' | transloco }}
+          </a>
         </div>
       </div>
     </div>
 
     @if (_organisation.coordinates?.lng && _organisation.coordinates?.lat) {
       <div class="map-container">
-        <vet-map 
-          [longitude]="_organisation.coordinates?.lng"
-          [latitude]="_organisation.coordinates?.lat"
-        />
+        <vet-map [longitude]="_organisation.coordinates?.lng" [latitude]="_organisation.coordinates?.lat" />
       </div>
     }
   </div>

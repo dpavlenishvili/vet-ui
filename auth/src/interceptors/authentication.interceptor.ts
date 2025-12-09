@@ -8,8 +8,7 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
-import { authorizationSkipped } from '../skip-authorization-token-ctx';
-import { AuthenticationService } from '../authentication.service';
+import Keycloak from 'keycloak-js';
 
 function addAuthHeader(req: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
   return req.clone({
@@ -23,25 +22,26 @@ export const authenticationInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
-  const authService = inject(AuthenticationService);
+  const keycloak = inject<Keycloak>(Keycloak);
 
-  if (authorizationSkipped(req.context) || !authService.hasTokens()) {
+  if (!keycloak.token || !keycloak.authenticated) {
     return next(req);
   }
 
-  return next(addAuthHeader(req, authService.accessToken())).pipe(
+  return next(addAuthHeader(req, keycloak.token)).pipe(
     catchError((err: HttpErrorResponse) => {
       if (err.status !== HttpStatusCode.Unauthorized && err.status !== HttpStatusCode.Forbidden) {
-        // Not an auth error, just propagate
         return throwError(() => err);
       }
 
-      return from(authService.handleUnauthorized()).pipe(
-        switchMap((success) => {
-          if (success) {
-            return next(addAuthHeader(req, authService.accessToken()));
+      return from(keycloak.updateToken(30)).pipe(
+        switchMap((updated) => {
+          if (updated && keycloak.token) {
+            return next(addAuthHeader(req, keycloak.token));
           }
-
+          return throwError(() => err);
+        }),
+        catchError(() => {
           return throwError(() => err);
         }),
       );

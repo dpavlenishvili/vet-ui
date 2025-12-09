@@ -6,9 +6,10 @@ export interface ProgramFilters {
   search?: string | null;
   program_name_or_code?: string | null;
   field?: string | null;
-  region?: string | null;
-  district?: string | null;
+  region?: number | null;
+  district?: number | null;
   organisation_name?: string | null;
+  organisation?: string | null;
   program_kind?: string | null;
   program_types?: string | null;
   duration?: string | null;

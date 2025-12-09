@@ -1,6 +1,7 @@
 <div class="vet-shorts">
   <vet-short-term-programs-filters
     class="vet-shorts-filters"
+    [foundCount]="'programs'"
     [filters]="filters()"
     (filtersChange)="onFiltersChange($event)"
   />

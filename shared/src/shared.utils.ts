@@ -1,9 +1,23 @@
-import * as R from 'ramda';
-import { AppBreadCrumbItem, FilterOptionsMap, QueryParams, SelectOption, WizardStepDefinition } from './shared.types';
+import {
+  AppBreadCrumbItem,
+  ExtractControlValue,
+  FilterOptionsMap,
+  QueryParams,
+  SelectOption,
+  WizardStepDefinition
+} from './shared.types';
 import { map, Observable } from 'rxjs';
 import { ActivatedRoute, type Params } from '@angular/router';
+import { AbstractControl, FormControlState } from '@angular/forms';
 
-export const isEmptyOrUndefined = R.anyPass([R.isEmpty, R.isNil]);
+export function isEmptyOrUndefined<T>(value: T | null | undefined | [] | Record<string, never>): value is T {
+  return (
+    value == null ||
+    (typeof value === 'string' && value === '') ||
+    (Array.isArray(value) && value.length === 0) ||
+    (typeof value === 'object' && Object.keys(value).length === 0)
+  );
+}
 
 export function withoutEmptyProperties<T extends object = Params>(params: T) {
   const filteredParams: Partial<T> = {};
@@ -26,27 +40,25 @@ export function withoutEmptyProperties<T extends object = Params>(params: T) {
  * @param obj
  * @param prefix
  */
-export const flattenQueryParams = (obj: QueryParams, prefix?: string): Record<string, string> =>
-  R.pipe(
-    R.toPairs,
-    R.reduce((red, [key, value]) => {
-      const nestedKey = prefix ? `${prefix}[${key.toString()}]` : key.toString();
+export function flattenQueryParams(obj: QueryParams, prefix?: string): Record<string, string> {
+  return Object.entries(obj).reduce((red, [key, value]) => {
+    const nestedKey = prefix ? `${prefix}[${key.toString()}]` : key.toString();
 
-      if (!R.is(Object, value)) {
-        return value === undefined || value === false
-          ? red
-          : {
-              ...red,
-              [nestedKey]: value as string,
-            };
-      }
+    if (typeof value !== 'object' || value === null) {
+      return value === undefined || value === false
+        ? red
+        : {
+          ...red,
+          [nestedKey]: value as string,
+        };
+    }
 
-      return {
-        ...red,
-        ...flattenQueryParams(value as QueryParams, nestedKey),
-      };
-    }, {}),
-  )(obj) as unknown as Record<string, string>;
+    return {
+      ...red,
+      ...flattenQueryParams(value as QueryParams, nestedKey),
+    };
+  }, {} as Record<string, string>);
+}
 
 /**
  * Converts nested objects into JSON-strings preserving types
@@ -80,13 +92,11 @@ export function isJsonEncodedObject(value: unknown): value is string {
   return typeof value === 'string' && value[0] === '{' && value[value.length - 1] === '}';
 }
 
-export const toQueryString = (obj: QueryParams): string =>
-  R.pipe(
-    flattenQueryParams,
-    R.toPairs,
-    R.map(([key, value]) => `${encodeURIComponent(key.toString())}=${encodeURIComponent(value.toString())}`),
-    R.join('&'),
-  )(obj);
+export function toQueryString(obj: QueryParams): string {
+  return Object.entries(flattenQueryParams(obj))
+    .map(([key, value]) => `${encodeURIComponent(key.toString())}=${encodeURIComponent(value.toString())}`)
+    .join('&');
+}
 
 export function extractData<T extends { data: unknown }>(): (source: Observable<T>) => Observable<T['data']> {
   return (source: Observable<T>) => source.pipe(map(({ data }) => data));
@@ -397,3 +407,45 @@ export function breakOnCommas(input: string, maxLineLength: number): string {
   return lines.join('\n');
 }
 
+export function getControlValue(control: AbstractControl) {
+  // Use getValue() if available (FormControl/FormGroup) to avoid FormControlState
+  // Otherwise fall back to .value and handle FormControlState if present
+  if ('getValue' in control && typeof control.getValue === 'function') {
+    return control.getValue();
+  }
+
+  const value = control.value;
+
+  // FormControlState is an object with 'value' property, check if it's a FormControlState
+  // FormControlState has structure: { value: T, disabled: boolean, ... }
+  // We check if it's an object (but not null), has 'value' property, and is not an array
+  if (value != null && typeof value === 'object' && 'value' in value && !Array.isArray(value) && 'disabled' in value) {
+    return (value as FormControlState<any>).value;
+  }
+
+  return value;
+}
+
+export interface ReactiveControl<T extends AbstractControl> {
+  control: T;
+  value: ExtractControlValue<T>;
+  errors: T['errors'];
+  valid: boolean;
+  invalid: boolean;
+  pending: boolean;
+  disabled: boolean;
+  dirty: boolean;
+}
+
+export function mapControlToReactiveControl<T extends AbstractControl>(control: T): ReactiveControl<T> {
+  return {
+    control,
+    value: getControlValue(control),
+    errors: control.errors,
+    valid: control.valid,
+    invalid: control.invalid,
+    pending: control.pending,
+    disabled: control.disabled,
+    dirty: control.dirty,
+  };
+}

@@ -4,10 +4,11 @@ import { kendoIcons, TransPipe, vetIcons } from '@vet/shared';
 import { LongTerm, NonFormalShow, ShortProgramShow } from '@vet/backend';
 import { ProgramDetailItem } from '@vet/programs-common';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { ProgramIscedIconComponent } from '../../program-isced-icon/program-isced-icon.component';
 
 @Component({
   selector: 'vet-program-details',
-  imports: [KENDO_ICONS, TransPipe, TranslocoPipe],
+  imports: [KENDO_ICONS, TransPipe, TranslocoPipe, ProgramIscedIconComponent],
   templateUrl: './program-details.component.html',
   styleUrl: './program-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +17,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 export class ProgramDetailsComponent {
   program = input.required<ShortProgramShow | LongTerm | NonFormalShow | undefined>();
   items = input<ProgramDetailItem[]>([]);
+  iscedCode = input<string | null | undefined>(null);
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;
 

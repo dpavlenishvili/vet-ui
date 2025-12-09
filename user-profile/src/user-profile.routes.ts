@@ -20,17 +20,6 @@ export const userProfileRoutes: Route[] = [
         pathMatch: 'full',
         data: breadcrumb([...baseBreadcrumbItems, { path: '/user-profile/overview', text: 'profile.my_profile' }]),
       },
-      {
-        path: 'password',
-        loadComponent: () =>
-          import('./user-password-change/user-password-change.component').then((m) => m.UserPasswordChangeComponent),
-        pathMatch: 'full',
-        data: breadcrumb([
-          ...baseBreadcrumbItems,
-          { path: '/user-profile/overview', text: 'profile.my_profile' },
-          { path: '/user-profile/password', text: 'profile.password' },
-        ]),
-      },
     ],
   },
 ];

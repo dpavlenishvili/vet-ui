@@ -44,29 +44,27 @@ export class ShortProgramPageComponent {
     const requirements = program.requirements || {};
     const parts: string[] = [];
 
-    if (requirements.min_age != null) {
-      parts.push(this.translocoService.translate('shorts.prerequisite_min_age', { age: requirements.min_age }));
-    }
+    parts.push(
+      this.translocoService.translate('shorts.prerequisite_min_age', {
+        age: requirements.min_age ?? '',
+      }),
+    );
 
-    if (requirements.min_allowed_education != null) {
-      parts.push(
-        this.translocoService.translate('shorts.prerequisite_min_allowed_education', {
-          education: requirements.min_allowed_education,
-        }),
-      );
-    }
+    parts.push(
+      this.translocoService.translate('shorts.prerequisite_min_allowed_education', {
+        education: requirements.min_allowed_education ?? '',
+      }),
+    );
 
-    if (requirements.other_requirements?.trim()) {
-      parts.push(
-        this.translocoService.translate('shorts.prerequisite_other_requirements', {
-          text: requirements.other_requirements,
-        }),
-      );
-    }
+    parts.push(
+      this.translocoService.translate('shorts.prerequisite_other_requirements', {
+        text: requirements.other_requirements ?? '',
+      }),
+    );
 
-    const admissionPrerequisite = parts.length > 0 ? parts.join(', ') : '';
-    const selectionMethods = program.selection_methods?.join(", ");
-    
+    const admissionPrerequisite = parts.length > 0 ? parts.join('<br>') : '-';
+    const selectionMethods = program.selection_methods?.join(', ');
+
     return [
       { label: trans('shorts.field'), value: `${program.isced?.name}` },
       { label: trans('shorts.program_code'), value: program.program_code },
@@ -104,19 +102,29 @@ export class ShortProgramPageComponent {
       return [];
     }
 
+    const now = Date.now();
+
     return program.admissions.filter((admission) => {
       const registrationStartDate = admission.registration_start_date
-        ? dayjs(admission.registration_start_date).toDate().getTime()
+        ? dayjs(admission.registration_start_date).startOf('day').valueOf()
         : null;
       const registrationEndDate = admission.registration_end_date
-        ? dayjs(admission.registration_end_date).toDate().getTime()
+        ? dayjs(admission.registration_end_date).endOf('day').valueOf()
         : null;
 
-      if (registrationEndDate != null) {
-        return registrationEndDate > Date.now();
+      if (registrationStartDate != null && registrationEndDate != null) {
+        return registrationStartDate <= now && registrationEndDate >= now;
       }
 
-      return registrationStartDate != null && registrationStartDate > Date.now();
+      if (registrationEndDate != null) {
+        return registrationEndDate >= now;
+      }
+
+      if (registrationStartDate != null) {
+        return registrationStartDate <= now;
+      }
+
+      return false;
     });
   });
 }

@@ -1,0 +1,22 @@
+@let _page = page();
+@let _collectionId = collectionId();
+@let _items = items.value();
+@let _isNavigationPage = isNavigationPage();
+
+@if (_items.length) {
+  <ul>
+    @for (item of _items; track item.id) {
+      <li>
+        <a
+          [routerLink]="'/pages/' + _page.slug"
+          [queryParams]="{
+            collection: _isNavigationPage ? _collectionId : undefined,
+            item: item.id,
+          }"
+        >
+          {{ item.title }}
+        </a>
+      </li>
+    }
+  </ul>
+}

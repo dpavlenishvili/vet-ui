@@ -30,8 +30,8 @@ export interface ShortTermProgramFilters {
   search?: string | null;
   program_name_or_code?: string | null;
   field?: string | null;
-  region?: string | null;
-  district?: string | null;
+  region?: number | null;
+  district?: number | null;
   organisation_name?: string | null;
   program_kind?: string | null;
   start_study?: string | null;

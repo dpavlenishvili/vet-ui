@@ -665,6 +665,8 @@ export interface NonFormalShow {
   general_rules?: string;
   note?: string;
   video_url?: string;
+  result_type?: string;
+  status?: string;
 }
 
 export interface OpenhouseCollection {
@@ -892,6 +894,8 @@ export interface ShortProgram {
      */
     name?: string;
   };
+  selection_methods?: string[] | null;
+  isced?: Isced;
 }
 
 export interface ShortProgramAdmission {
@@ -1205,6 +1209,12 @@ export interface User {
    * @example "01000000000"
    */
   pid?: string;
+  /**
+   * Username
+   * Username
+   * @example "01000000000"
+   */
+  username?: string;
   /**
    * Name
    * Fullname of the user
@@ -2028,18 +2038,6 @@ export interface UserReq {
    * @example "1234"
    */
   sms_code?: null | string;
-  /**
-   * Password
-   * Password of the user
-   * @example "password"
-   */
-  password?: null | string;
-  /**
-   * Password confirmation
-   * Password confirmation
-   * @example "password"
-   */
-  password_confirmation?: null | string;
   /**
    * Photo
    * Photo of the user

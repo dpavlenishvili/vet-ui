@@ -7,10 +7,13 @@ import { AuthService, GeneralsService, SmsService, UserReq } from '@vet/backend'
 import { getOrganisationUserOverviewFormData, getUserOverviewFormData, userOverviewForm } from './user-overview-form';
 import { UserProfileSection } from '../user-profile-section';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { RegistrationPhoneVerificationComponent, RolePipe, UserRolesService } from '@vet/auth';
+import { RolePipe, UserRolesService } from '@vet/auth';
 import { ButtonComponent, IconButtonComponent, InputComponent, SelectorComponent, useControlValue } from '@vet/shared';
 import { useDistricts, useFilteredDistricts, useRegions } from '@vet/shared-resources';
 import { of } from 'rxjs';
+import {
+  RegistrationPhoneVerificationComponent
+} from '../../../auth/src/registration/registration-phone-verification/registration-phone-verification.component';
 
 type UserUpdateReq = {
   address: string;

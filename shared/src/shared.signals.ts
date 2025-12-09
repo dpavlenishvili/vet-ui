@@ -1,26 +1,71 @@
-import { effect, inject, isSignal, signal, Signal, WritableSignal } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { computed, effect, inject, isSignal, signal, Signal } from '@angular/core';
+import { AbstractControl, FormControlState } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { of, startWith, switchMap } from 'rxjs';
+import { of, startWith, switchMap, map, combineLatest } from 'rxjs';
+
 import { LocalStoredStateService } from './services/local-stored-state.service';
-import { StoredSignal, ToggleSignal } from './shared.types';
+import { ExtractControlValue, StoredSignal, ToggleSignal } from './shared.types';
 import { SessionStoredStateService } from './services/session-stored-state.service';
 import { BaseStoredStateService } from './services/base-stored-state.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { mapControlToReactiveControl, ReactiveControl } from './shared.utils';
 
-export function useControlValue<T extends AbstractControl>(
-  control: T | Signal<T>,
-  selectControl: (control: T) => AbstractControl = (control) => control,
-) {
+export function useReactiveControl<T>(
+  control: AbstractControl<T> | Signal<AbstractControl<T> | null | undefined> | null | undefined,
+): Signal<ReactiveControl<AbstractControl<T>>>
+export function useReactiveControl<T extends AbstractControl, U extends AbstractControl>(
+  control: T | Signal<T | null | undefined> | null | undefined,
+  selectControl: (control: T) => U,
+): Signal<ReactiveControl<U>>
+export function useReactiveControl<T extends AbstractControl, U extends AbstractControl>(
+  control: T | Signal<T | null | undefined> | null | undefined,
+  selectControl: (control: T) => U = control => control as unknown as U,
+): Signal<ReactiveControl<U>> {
   return toSignal(
     (isSignal(control) ? toObservable(control) : of(control)).pipe(
       switchMap((control) => {
+        if (!control) {
+          return of(undefined);
+        }
+
         const selectedControl = selectControl(control);
 
-        return selectedControl.valueChanges.pipe(startWith(selectedControl.value));
+        return combineLatest([
+          selectedControl.events,
+          selectedControl.valueChanges,
+          selectedControl.statusChanges,
+        ]).pipe(
+          map(() => mapControlToReactiveControl(selectedControl)),
+          startWith(mapControlToReactiveControl(selectedControl)),
+        );
       }),
     ),
-  );
+  ) as Signal<ReactiveControl<U>>;
+}
+
+export function useControlValue<T>(
+  control: AbstractControl<T> | Signal<AbstractControl<T> | null | undefined> | null | undefined,
+): Signal<T extends FormControlState<infer U> ? U : T>
+export function useControlValue<T extends AbstractControl, U extends AbstractControl>(
+  control: T | Signal<T | null | undefined> | null | undefined,
+  selectControl: (control: T) => U,
+): Signal<ExtractControlValue<U>>
+export function useControlValue<T extends AbstractControl, U extends AbstractControl>(
+  control: T | Signal<T | null | undefined> | null | undefined,
+  selectControl: (control: T) => U = control => control as unknown as U,
+): Signal<ExtractControlValue<U>> {
+  const $control = useReactiveControl(control, selectControl);
+
+  return computed(() => $control().value);
+}
+
+export function useMappedControlValue<T, U>(
+  control: AbstractControl<T> | Signal<AbstractControl<T>>,
+  mapValue: (value: T extends FormControlState<infer V> ? V : T) => U,
+) {
+  const value = useControlValue(control, control => control);
+
+  return computed(() => mapValue(value() as T extends FormControlState<infer V> ? V : T));
 }
 
 export function useStoredValue<T>(

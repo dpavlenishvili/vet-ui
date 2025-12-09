@@ -1,36 +1,22 @@
+@let _details = details();
+
 @if (user(); as _user) {
   @if (formGroup(); as _form) {
     <form class="confirmation-container" [formGroup]="_form">
       <div class="confirmation-section user-profile">
         <img
-          [src]="
-            _user?.photo !== null
-              ? _user?.photo
-              : _user?.gender === 'male'
-                ? '/assets/images/default-male.png'
-                : '/assets/images/default-female.png'
-          "
+          [src]="user()?.gender === 'male' ? '/assets/images/default-male.png' : '/assets/images/default-female.png'"
           width="183"
           height="157"
           alt="Profile"
         />
         <div class="user-details">
-          <div class="user-detail-row">
-            <span class="label">{{ 'programs.pid' | transloco }}:</span>
-            <span class="value k-text-base">{{ _user.pid }}</span>
-          </div>
-          <div class="user-detail-row">
-            <span class="label">{{ 'programs.name_surname' | transloco }}:</span>
-            <span class="value k-text-base">{{ _user.name }}</span>
-          </div>
-          <div class="user-detail-row">
-            <span class="label">{{ 'programs.mobile' | transloco }}:</span>
-            <span class="value k-text-base">{{ _user.phone }}</span>
-          </div>
-          <div class="user-detail-row">
-            <span class="label">{{ 'programs.education' | transloco }}:</span>
-            <span class="value k-text-base">{{ selectedEducation() }}</span>
-          </div>
+          @for (detail of _details; track $index) {
+            <div class="user-detail-row">
+              <span class="label">{{ detail.label | transloco }}:</span>
+              <span class="value k-text-base">{{ detail.value }}</span>
+            </div>
+          }
         </div>
       </div>
 
@@ -69,18 +55,6 @@
           <div class="section-title k-text-base">{{ 'non_formal.questionnaire_responses' | transloco }}</div>
         </div>
         <div class="section-content">
-          <!-- Education Dropdown (disabled) -->
-          <div class="form-section">
-            <div class="form-field">
-              <vet-selector
-                formControlName="education_level_id"
-                [options]="educationOptions()"
-                [placeholder]="'non_formal.education' | transloco"
-                [disabled]="true"
-              />
-            </div>
-          </div>
-
           <!-- Recognition Purpose Checkboxes (disabled) -->
           <div class="form-section">
             <div class="form-field">
@@ -88,12 +62,12 @@
                 {{ 'non_formal.recognition_purpose_label' | transloco }}
               </label>
               <div class="checkbox-list">
-                @for (option of recognitionPurposeOptions; track option.id) {
+                @for (option of selectedRecognitionPurposes; track option.id) {
                   <vet-checkbox
                     [label]="option.translationKey | transloco"
                     [disabled]="true"
                     [ngModel]="isCheckboxChecked(option.id, 'recognition_purpose')"
-                    [ngModelOptions]="{standalone: true}"
+                    [ngModelOptions]="{ standalone: true }"
                   />
                 }
               </div>
@@ -123,12 +97,12 @@
                   {{ 'non_formal.who_taught_you_label' | transloco }}
                 </label>
                 <div class="checkbox-list">
-                  @for (option of whoTaughtYouOptions; track option.id) {
+                  @for (option of selectedWhoTaughtYouOptions; track option.id) {
                     <vet-checkbox
                       [label]="option.translationKey | transloco"
                       [disabled]="true"
                       [ngModel]="isCheckboxChecked(option.id, 'who_taught_you')"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                     />
                   }
                 </div>
@@ -170,12 +144,12 @@
                   {{ 'non_formal.source_of_information_label' | transloco }}
                 </label>
                 <div class="checkbox-list">
-                  @for (option of sourceOfInformationOptions; track option.id) {
+                  @for (option of selectedSourceOfInformationOptions; track option.id) {
                     <vet-checkbox
                       [label]="option.translationKey | transloco"
                       [disabled]="true"
                       [ngModel]="isCheckboxChecked(option.id, 'source_of_information')"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                     />
                   }
                 </div>
@@ -246,17 +220,7 @@
       </div>
 
       <div class="confirmation-actions">
-        <vet-button
-          variant="tertiary"
-          version="fat"
-          type="button"
-          leadingIcon="print"
-          (click)="onPrintClick()"
-          class="print-button"
-        >
-          {{ 'programs.print' | transloco }}
-        </vet-button>
-
+        <div></div>
         <div class="navigation-buttons">
           <vet-button version="fat" variant="tertiary" type="button" (click)="onBackClick()">
             {{ 'shared.previous' | transloco }}

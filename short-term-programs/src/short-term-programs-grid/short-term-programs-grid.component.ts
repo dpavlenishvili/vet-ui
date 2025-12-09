@@ -23,6 +23,7 @@ export class ShortTermProgramsGridComponent implements OnDestroy {
 
   shortPrograms = useShorts(this.page, this.perPage);
   allPrograms = signal<ShortProgram[]>([]);
+  totalPrograms = signal<number>(0);
 
   private scrollHandler = () => this.onScroll();
 
@@ -37,6 +38,8 @@ export class ShortTermProgramsGridComponent implements OnDestroy {
         if (this.page() === 1) return res.data!;
         return [...prev, ...res.data!];
       });
+
+      this.totalPrograms.update(() => res.meta?.total ?? 0);
     });
 
     window.addEventListener('scroll', this.scrollHandler);

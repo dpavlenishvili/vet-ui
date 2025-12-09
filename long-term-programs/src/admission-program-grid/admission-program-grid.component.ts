@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { GridModule, RowArgs, SelectableSettings } from '@progress/kendo-angular-grid';
-import { SelectionEvent } from '@progress/kendo-angular-grid/selection/types';
+import { GridModule, RowArgs, SelectableSettings, SelectionEvent } from '@progress/kendo-angular-grid';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { catchError, finalize, of } from 'rxjs';

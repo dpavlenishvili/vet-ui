@@ -7,6 +7,14 @@
 }
 
 .vet-program-card {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  gap: 1.25rem;
+  flex: 1;
+  min-width: 0;
+  border-radius: 1.25rem;
+  height: 100%;
 
   .vet-program-card-details {
     display: flex;
@@ -19,5 +27,18 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .vet-program-no-admission-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.25rem;
+    color: shared.$kendo-color-primary;
+    border: 2px solid shared.$kendo-color-chip;
+    @include shared.text-md();
   }
 }

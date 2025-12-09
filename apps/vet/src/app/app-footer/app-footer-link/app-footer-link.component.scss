@@ -1,0 +1,28 @@
+@use '@vet/shared-styles' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+h6 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 100%;
+  text-transform: uppercase;
+  color: $kendo-color-primary-extra-dark;
+}
+
+a {
+  @include text-sm();
+  display: flex;
+  align-items: center;
+  color: $kendo-color-body-dark;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--link-color);
+  }
+}

@@ -6,12 +6,12 @@ import {
   DEFAULT_DATE_FORMAT,
   DEFAULT_DATE_TIME_FALLBACK,
   DEFAULT_DATE_TIME_FORMAT,
-  DEFAULT_DISPLAY_DATE_FORMAT,
+  DEFAULT_DISPLAY_DATE_FORMAT, DEFAULT_DISPLAY_DATE_SEPARATOR,
   DEFAULT_DISPLAY_DATE_TIME_FORMAT,
   ENVIRONMENT,
   KENDO_DATE_PICKER_FORMAT,
   KENDO_DATE_TIME_PICKER_FORMAT,
-  SAML_LOGIN_URL,
+  SAML_LOGIN_URL
 } from './shared.tokens';
 
 export function provideEnvironment(environment: object): Provider {
@@ -95,5 +95,12 @@ export function provideKendoDateTimePickerFormat(format: string): Provider {
   return {
     provide: KENDO_DATE_TIME_PICKER_FORMAT,
     useValue: format,
+  };
+}
+
+export function provideDefaultDisplayDateSeparator(separator: string): Provider {
+  return {
+    provide: DEFAULT_DISPLAY_DATE_SEPARATOR,
+    useValue: separator,
   };
 }

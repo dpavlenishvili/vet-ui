@@ -42,7 +42,24 @@
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/vet/src/environments/environment.ts",
+              "with": "apps/vet/src/environments/environment.development.ts"
+            }
+          ]
+        },
+        "local": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/vet/src/environments/environment.ts",
+              "with": "apps/vet/src/environments/environment.local.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -50,7 +67,8 @@
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
       "options": {
-        "port": 4201
+        "port": 4200,
+        "proxyConfig": "apps/vet/proxy.config.json"
       },
       "configurations": {
         "production": {
@@ -61,9 +79,12 @@
         },
         "qwerty": {
           "buildTarget": "vet:build:qwerty"
+        },
+        "local": {
+          "buildTarget": "vet:build:local"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "local"
     },
     "lint": {
       "executor": "@nx/eslint:lint",

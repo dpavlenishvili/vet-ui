@@ -4,6 +4,7 @@ import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
 import { KENDO_DIALOGS } from '@progress/kendo-angular-dialog';
 import { AlertDialogOutletComponent, ConfirmationDialogOutletComponent, DialogOutletComponent } from '@vet/shared';
 import { AuthenticationService, UserRolesService } from '@vet/auth';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   standalone: true,
@@ -14,11 +15,13 @@ import { AuthenticationService, UserRolesService } from '@vet/auth';
     ConfirmationDialogOutletComponent,
     AlertDialogOutletComponent,
     DialogOutletComponent,
+    TranslocoPipe
   ],
   selector: 'vet-root',
   template: `
     @if (isAppReady()) {
-      <button class="toggle-container-button" (click)="toggleAppContainer()">
+      <!-- temporarily comment ssm button. DO NOT DELETE -->
+      <!-- <button class="toggle-container-button" (click)="toggleAppContainer()">
         <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="23" cy="23" r="23" fill="#4CAEE8" />
           <g clip-path="url(#clip0_2954_242861)">
@@ -33,7 +36,13 @@ import { AuthenticationService, UserRolesService } from '@vet/auth';
             </clipPath>
           </defs>
         </svg>
-      </button>
+      </button> -->
+
+      <div class="vet-development-mode">
+        <p class="vet-development-mode-text">
+          {{'shared.in_dev_mode' | transloco}}
+        </p>
+      </div>
 
       <vet-theme-sidebar [open]="isOpen()" />
 
@@ -42,6 +51,22 @@ import { AuthenticationService, UserRolesService } from '@vet/auth';
       <vet-confirmation-dialog-outlet />
       <vet-alert-dialog-outlet />
       <vet-dialog-outlet />
+    } @else {
+      <div class="loading-container">
+        <svg
+          class="spinner"
+          width="48"
+          height="48"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 1C8.55228 1 9 0.552285 9 0C9 -0.552285 8.55228 -1 8 -1C3.58172 -1 0 2.58172 0 7C0 7.55228 0.447715 8 1 8C1.55228 8 2 7.55228 2 7C2 3.68629 4.68629 1 8 1Z"
+            fill="#4CAEE8"
+          />
+        </svg>
+      </div>
     }
   `,
   styles: [
@@ -50,6 +75,27 @@ import { AuthenticationService, UserRolesService } from '@vet/auth';
         display: block;
         min-height: 100%;
         height: 100%;
+      }
+
+      .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .spinner {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       .toggle-container-button {
@@ -67,6 +113,14 @@ import { AuthenticationService, UserRolesService } from '@vet/auth';
           height: 2.875rem;
         }
       }
+
+      .vet-development-mode {
+        padding: 0.5rem;
+
+        .vet-development-mode-text {
+          text-align:center;
+        }
+      }
     `,
   ],
   host: { ngSkipHydration: '' },
@@ -78,7 +132,8 @@ export class AppComponent {
   isAppReady = computed(() => {
     const authReady = this.authService.isReady();
     const rolesLoaded = this.userRolesService.isUserAccountsLoaded();
-    return authReady && rolesLoaded;
+    const isLoadingUser = this.authService.isLoadingUser();
+    return authReady && rolesLoaded && !isLoadingUser;
   });
 
   toggleAppContainer(): void {

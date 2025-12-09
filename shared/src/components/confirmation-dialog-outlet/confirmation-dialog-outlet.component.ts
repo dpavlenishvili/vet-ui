@@ -67,7 +67,7 @@ export class ConfirmationDialogOutletComponent {
 
   @HostListener('window:keydown', ['$event'])
   public onKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && !this.params()?.preventCloseOnKeyDown) {
       event.preventDefault();
       event.stopImmediatePropagation();
       this.close();
@@ -75,10 +75,7 @@ export class ConfirmationDialogOutletComponent {
   }
 
   protected close() {
-    if (!this.params()?.preventCloseOnKeyDown) {
-      this.params()?.onDismiss?.();
-      this.confirmationDialogService.close();
-    }
+    this.confirmationDialogService.close();
   }
 
   protected confirm() {
@@ -98,8 +95,12 @@ export class ConfirmationDialogOutletComponent {
     const result = this.params()?.onDismiss?.();
 
     if (result) {
-      result.subscribe(() => this.close());
+      result.subscribe(() => {
+        this.params()?.onDismiss?.();
+        this.close();
+      });
     } else {
+      this.params()?.onDismiss?.();
       this.close();
     }
   }

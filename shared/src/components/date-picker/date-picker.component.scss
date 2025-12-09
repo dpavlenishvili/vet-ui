@@ -3,7 +3,6 @@
 :host {
   display: block;
   width: 100%;
-  position: relative;
 }
 
 kendo-textbox.vet-date-picker {
@@ -14,18 +13,9 @@ kendo-textbox.vet-date-picker {
   border-color: shared.$kendo-color-error !important;
 }
 
-.vet-error-message {
-  color: shared.$kendo-color-error;
-  margin-top: 0.25rem;
-  margin-left: 0.625rem;
-  @include shared.text-sm();
-}
-
 .vet-hidden-datepicker {
   position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  z-index: -1;
-  width: fit-content;
-  left: 0;
+  height: 0;
+  width: 0;
+  overflow: hidden;
 }

@@ -19,4 +19,5 @@ export * from './stats';
 export * from './users';
 export * from './register';
 export * from './sms';
+export * from './email';
 export * from './roles';

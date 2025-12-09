@@ -23,7 +23,7 @@ import {
   useRegions,
 } from '@vet/shared-resources';
 import { ShortTermProgramFilters } from '../short-term-programs.types';
-import { useFoundProgramsCount } from '../short-term.resources';
+import { useFoundProgramsCount, useFoundShortAdmissions } from '../short-term.resources';
 import { tap } from 'rxjs';
 
 @Component({
@@ -46,6 +46,7 @@ import { tap } from 'rxjs';
 })
 export class ShortTermProgramsFiltersDialogComponent implements OnInit {
   filters = input.required<ShortTermProgramFilters>();
+  foundCount = input.required<'programs' | 'admissions'>();
   filtersChange = output<ShortTermProgramFilters | null>();
   dialogClose = output();
 
@@ -79,13 +80,22 @@ export class ShortTermProgramsFiltersDialogComponent implements OnInit {
     this.selectedDistrict,
     this.institutionOptions.value,
   );
-  foundResultsCount = useFoundProgramsCount(this.normalizedFilters);
+  programsCount = useFoundProgramsCount(this.normalizedFilters);
+  admissionsCount = useFoundShortAdmissions(this.normalizedFilters);
+
+  foundResultsCount = computed(() => (this.foundCount() === 'programs' ? this.programsCount : this.admissionsCount));
 
   vetIcons = vetIcons;
 
   constructor() {
     effect(() => {
-      this.formGroup.patchValue(this.filters());
+      const filters = this.filters();
+      // Convert string region/district from filters to number for form controls
+      this.formGroup.patchValue({
+        ...filters,
+        region: filters.region != null ? Number(filters.region) : null,
+        district: filters.district != null ? Number(filters.district) : null,
+      });
     });
   }
 
@@ -127,8 +137,8 @@ export class ShortTermProgramsFiltersDialogComponent implements OnInit {
       search: new FormControl(''),
       program_name_or_code: new FormControl(''),
       field: new FormControl<string | null>(null),
-      region: new FormControl<string | null>(null),
-      district: new FormControl<string | null>(null),
+      region: new FormControl<number | null>(null),
+      district: new FormControl<number | null>(null),
       organisation_name: new FormControl(''),
       program_kind: new FormControl<string | null>(null),
       start_study: new FormControl<string | null>(null),
@@ -140,9 +150,12 @@ export class ShortTermProgramsFiltersDialogComponent implements OnInit {
     });
   }
 
-  normalizeFilters(filterValue: ShortTermProgramFilters) {
+  normalizeFilters(filterValue: any) {
     return {
       ...filterValue,
+      // Convert number region/district from form to string for filter type
+      region: filterValue.region != null ? String(filterValue.region) : null,
+      district: filterValue.district != null ? String(filterValue.district) : null,
       start_study: isDate(filterValue.start_study)
         ? this.formatDateForBackend(filterValue.start_study)
         : filterValue.start_study,

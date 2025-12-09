@@ -1,13 +1,12 @@
 import { Component, computed, ElementRef, HostListener, inject, input, output, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import type { NavbarMenuItemType } from './navbar-menu-item.type';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { Page, User } from '@vet/backend';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
 import { Citizenship } from '../../shared.enums';
-import { UserAccount, UserRolesService } from '@vet/auth';
+import { UserAccount, UserRolesService, AuthenticationService } from '@vet/auth';
 
 @Component({
   selector: 'vet-ui-navbar',
@@ -18,6 +17,17 @@ import { UserAccount, UserRolesService } from '@vet/auth';
 export class NavbarComponent {
   pages = input.required<Page[]>();
   user = input.required<User | null>();
+
+  headerPages = computed(() => {
+    return this.pages()
+      .filter((page) => {
+        return page.menus?.some((menu) => {
+          const lcName = menu.name.toLowerCase();
+
+          return lcName.includes('top');
+        });
+      });
+  });
 
   protected readonly userRolesService = inject(UserRolesService);
   protected readonly selectedAccountName = computed(() => this.userRolesService.selectedAccountName());
@@ -37,6 +47,13 @@ export class NavbarComponent {
   isMobileMenuOpen = signal(false);
 
   vetIcons = vetIcons;
+  private readonly _authenticationService = inject(AuthenticationService);
+  protected readonly isAuthReady = this._authenticationService.isReady;
+  protected readonly isAuthUiReady = computed(() =>
+    this.isAuthReady() &&
+    this.userRolesService.isUserAccountsLoaded() &&
+    !this._authenticationService.isLoadingUser()
+  );
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
@@ -70,11 +87,17 @@ export class NavbarComponent {
     this.transloco.setActiveLang(newLang);
   }
 
+  handleLoginClick(event: Event): void {
+    event.preventDefault();
+    this.isMobileMenuOpen.set(false);
+    this._authenticationService.initiateLogin();
+  }
+
   handleLogout(): void {
     this.isMobileMenuOpen.set(false);
     this.isProfileCardOpen.set(false);
     this.logout.emit();
-    void this.router.navigate(['authorization']);
+    this._authenticationService.logout();
   }
 
   onUserAccountClick(userAccount: UserAccount) {

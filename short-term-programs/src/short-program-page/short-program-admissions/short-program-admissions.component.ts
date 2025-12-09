@@ -4,6 +4,7 @@ import { FormatDatePipe, kendoIcons, vetIcons } from '@vet/shared';
 import { Admission } from '@vet/backend';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useIsUserLoaded, useUser } from '@vet/auth';
+import { YesNo } from '@vet/shared';
 
 @Component({
   selector: 'vet-short-program-admissions',
@@ -19,4 +20,5 @@ export class ShortProgramAdmissionsComponent {
   admissions = input.required<Admission[] | undefined>();
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;
+  yesNoEnum = YesNo
 }

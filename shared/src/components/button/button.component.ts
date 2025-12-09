@@ -23,5 +23,8 @@ export class ButtonComponent {
   trailingIcon = input<keyof typeof vetIcons>();
   iconSize = input<IconSize>();
   disabled = input(false);
+  text = input<string>('');
+  floatingFix = input<boolean | ''>(false);
+  isLoading = input(false);
   vetIcons = vetIcons;
 }

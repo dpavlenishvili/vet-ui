@@ -58,7 +58,12 @@ export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
       return null;
     }
 
-    return formVal;
+    // Convert number region/district to string for ProgramFilters type
+    return {
+      ...formVal,
+      region: formVal.region != null ? String(formVal.region) : null,
+      district: formVal.district != null ? String(formVal.district) : null,
+    } as ProgramFilters;
   });
 
   formGroup = this.createFormGroup();
@@ -83,7 +88,13 @@ export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      this.formGroup.patchValue(this.filters());
+      const filters = this.filters();
+      // Convert string region/district from filters to number for form controls
+      this.formGroup.patchValue({
+        ...filters,
+        region: filters.region != null ? Number(filters.region) : null,
+        district: filters.district != null ? Number(filters.district) : null,
+      });
     });
   }
 
@@ -126,9 +137,9 @@ export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
       program_name_or_code: new FormControl(''),
       field: new FormControl<string | null>(null),
       duration: new FormControl<string | null>(null),
-      region: new FormControl<string | null>(null),
-      district: new FormControl<string | null>(null),
-      organisation_name: new FormControl(''),
+      region: new FormControl<number | null>(null),
+      district: new FormControl<number | null>(null),
+      organisation: new FormControl(''),
       program_type: new FormControl<string | null>(null),
       tuition_start_date: new FormControl<string | null>(null),
       tuition_end_date: new FormControl<string | null>(null),
@@ -141,7 +152,14 @@ export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.formGroup.valid) {
-      this.filtersChange.emit(withoutEmptyProperties(this.formGroup.value) as ProgramFilters);
+      const formVal = this.formGroup.value;
+      // Convert number region/district to string for ProgramFilters type
+      const normalized = {
+        ...formVal,
+        region: formVal.region != null ? String(formVal.region) : null,
+        district: formVal.district != null ? String(formVal.district) : null,
+      };
+      this.filtersChange.emit(withoutEmptyProperties(normalized) as ProgramFilters);
       this.onClose();
     }
   }
@@ -150,7 +168,7 @@ export class UnAuthorisedProgramsFiltersDialogComponent implements OnInit {
     this.formGroup.patchValue({
       search: '',
       program_name_or_code: '',
-      organisation_name: '',
+      organisation: null,
       field: null,
       region: null,
       district: null,

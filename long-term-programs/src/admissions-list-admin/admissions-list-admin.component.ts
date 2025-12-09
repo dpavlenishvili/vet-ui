@@ -11,11 +11,9 @@ import {
   RouteParamsService,
   useFilters,
   useFiltersUpdater,
-  vetIcons
+  vetIcons,
 } from '@vet/shared';
-import {
-  AdmissionsListAdminFiltersComponent
-} from './admissions-list-admin-filters/admissions-list-admin-filters.component';
+import { AdmissionsListAdminFiltersComponent } from './admissions-list-admin-filters/admissions-list-admin-filters.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AdmissionListFilterParams } from '../long-term-programs.types';

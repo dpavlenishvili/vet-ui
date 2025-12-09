@@ -4,18 +4,18 @@ import { useCollectionsWithItems } from '@vet/pages';
 
 export interface NavigationPageUpdateParams {
   collection?: string | number | null | undefined;
-  tab?: string | number | null | undefined;
+  item?: string | number | null | undefined;
 }
 
 export interface UseNavigationPageStateParams {
   page: Signal<Page>;
   collectionId: Signal<number | null>;
-  tabId: Signal<number | null>;
+  itemId: Signal<number | null>;
   onUpdate: (params: NavigationPageUpdateParams) => void;
 }
 
 export function useNavigationPageState(params: UseNavigationPageStateParams) {
-  const { page, collectionId, tabId, onUpdate } = params;
+  const { page, collectionId, itemId, onUpdate } = params;
 
   const rawCollections = computed(() => page()?.collection);
   const collections = useCollectionsWithItems(rawCollections);
@@ -32,13 +32,13 @@ export function useNavigationPageState(params: UseNavigationPageStateParams) {
     return (activeCollection()?.items ?? []) as CollectionItem[];
   });
   const activeTab = computed(() => {
-    const _activeTabId = tabId();
+    const _activeTabId = itemId();
 
     return activeTabItems().find(item => item.id === _activeTabId);
   });
   const update = (params: NavigationPageUpdateParams) => {
     let _collectionId = params.collection;
-    let _tabId = params.tab;
+    let _itemId = params.item;
 
     // First, try to get existing collection ID
     if (!_collectionId) {
@@ -55,20 +55,20 @@ export function useNavigationPageState(params: UseNavigationPageStateParams) {
     if (_collectionId) {
       const collection = tabCollections().find((i) => i.id === _collectionId);
       const collectionTabIds = collection?.items?.map((i) => i.id) ?? [];
-      const shouldResetTab = !_tabId || !collectionTabIds?.includes(Number(_tabId));
+      const shouldResetTab = !_itemId || !collectionTabIds?.includes(Number(_itemId));
 
       // If tabId is absent, or it's invalid, reset it to the first tab ID of the
       // selected collection
       if (shouldResetTab && collection && collection.items.length > 0) {
-        _tabId = Number(collection.items[0].id);
+        _itemId = Number(collection.items[0].id);
       }
     }
 
     // Update only if final collectionId or tabId is different from the original ones
-    if (_collectionId !== collectionId() || _tabId !== tabId()) {
+    if (_collectionId !== collectionId() || _itemId !== itemId()) {
       onUpdate({
         collection: _collectionId,
-        tab: _tabId,
+        item: _itemId,
       });
     }
   };
@@ -79,13 +79,13 @@ export function useNavigationPageState(params: UseNavigationPageStateParams) {
     // if not, reset.
     update({
       collection: collectionId(),
-      tab: tabId(),
+      item: itemId(),
     });
   });
 
   return {
     activeCollectionId: collectionId,
-    activeTabId: tabId,
+    activeTabId: itemId,
     isLoading: collections.isLoading,
     tabCollections,
     activeCollection,

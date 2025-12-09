@@ -107,7 +107,7 @@ export class UserRolesService {
       isAuthenticated: this._authenticationService.isAuthenticated(),
       roles: this.accountRoles,
       permissions: this.accountPermissions,
-    })
+    });
   }
 
   selectUserAccount(accountName: string) {

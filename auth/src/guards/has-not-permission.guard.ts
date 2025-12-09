@@ -14,14 +14,14 @@ export function hasNotPermissionGuard(permission: AuthPermission): CanActivateFn
 
     return combineLatest([
       toObservable(authenticationService.isReady),
-      toObservable(userRolesService.isUserAccountsLoaded)
+      toObservable(userRolesService.isUserAccountsLoaded),
     ]).pipe(
       filter(([authReady, rolesLoaded]) => authReady && rolesLoaded),
       take(1),
       map(() => {
         const selectedAccount = userRolesService.selectedAccount();
         return !!selectedAccount && !userRolesService.can(permission);
-      })
+      }),
     );
   };
 }

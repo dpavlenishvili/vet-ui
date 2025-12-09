@@ -53,8 +53,8 @@ export class NonFormalProgramPageComponent {
     }
 
     return [
-      { label: trans('non_formal.field'), value: program.isced },
-      { label: trans('non_formal.isced_code'), value: program.isced_code },
+      { label: trans('non_formal.field'), value: program.announced_isced_title },
+      { label: trans('non_formal.isced_code'), value: program.announced_isced_code },
       { label: trans('non_formal.recognition_result'), value: '' },
       { label: trans('non_formal.field_description'), value: program.note },
     ];
@@ -102,6 +102,6 @@ export class NonFormalProgramPageComponent {
   hasAnnouncement = computed(() => {
     const prog = this.program.value();
     if (!prog) return false;
-    return !!(prog.registration || prog.consultation || prog.evidence);
+    return prog.registration?.start_date !== null;
   });
 }

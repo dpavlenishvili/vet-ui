@@ -13,23 +13,23 @@ ingress:
     nginx.ingress.kubernetes.io/forwarded-for-header: "X-Forwarded-For"
     nginx.ingress.kubernetes.io/proxy-add-original-forwarded-for: "true"
   hosts:
-    - host: new.vet.ge
+    - host: vet.ge
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: prod01-public
+    - secretName: vet-ge
       hosts:
-        - new.vet.ge
+        - vet.ge
 
   
 resources:
   limits:
-    cpu: 2000m
-    memory: 2000Mi
+    cpu: 800m
+    memory: 1024Mi
   requests:
-    cpu: 100m
-    memory: 100Mi
+    cpu: 400m
+    memory: 256Mi
 
 
 volumeMounts:
@@ -42,3 +42,9 @@ volumes:
       path: /usr/share/zoneinfo/Asia/Tbilisi
 
 
+autoscaling:
+  enabled: true
+  minReplicas: 4
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70

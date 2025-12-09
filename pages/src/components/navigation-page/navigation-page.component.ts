@@ -1,17 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { CollectionItem, Page } from '@vet/backend';
-import {
-  ExpandableSidebarComponent,
-  SidebarMenuItem,
-  useNumberQueryParam,
-  useQueryUpdater
-} from '@vet/shared';
+import { ExpandableSidebarMenuComponent, SidebarMenuItem, useNumberQueryParam, useQueryUpdater } from '@vet/shared';
 import { PageContentComponent } from '../page-content/page-content.component';
 import { useNavigationPageState } from './navigation-page.resources';
 
 @Component({
   selector: 'vet-navigation-page',
-  imports: [ExpandableSidebarComponent, PageContentComponent],
+  imports: [PageContentComponent, ExpandableSidebarMenuComponent],
   templateUrl: './navigation-page.component.html',
   styleUrl: './navigation-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,19 +18,18 @@ export class NavigationPageComponent {
   state = useNavigationPageState({
     page: this.page,
     collectionId: useNumberQueryParam('collection'),
-    tabId: useNumberQueryParam('tab'),
+    itemId: useNumberQueryParam('item'),
     onUpdate: useQueryUpdater(),
-  })
+  });
   sidebarItems = computed(() => {
     return (
-      this.state.tabCollections()
-        .map<SidebarMenuItem>((item) => ({
-          id: Number(item.id),
-          icon: 'qualifications',
-          text: String(item.name),
-          url: `/pages/${this.page()?.slug}?collection=${item.id}`,
-          isExpanded: signal(false),
-        })) ?? []
+      this.state.tabCollections().map<SidebarMenuItem>((item) => ({
+        id: Number(item.id),
+        icon: 'qualifications',
+        text: String(item.name),
+        url: `/pages/${this.page()?.slug}?collection=${item.id}`,
+        isExpanded: signal(false),
+      })) ?? []
     );
   });
 
@@ -44,6 +38,6 @@ export class NavigationPageComponent {
   }
 
   onTabClick(item: CollectionItem) {
-    this.state.update({ tab: item.id });
+    this.state.update({ item: item.id });
   }
 }

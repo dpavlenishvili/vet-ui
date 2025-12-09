@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonComponent,
   DatePickerComponent,
+  EduactionStandartsComponent,
   IconButtonComponent,
   InputComponent,
   isDate,
@@ -13,7 +14,13 @@ import {
 } from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
-import { useDistricts, useFilteredDistricts, useFilteredOrganisations, useOrganisations, useRegions } from '@vet/shared-resources';
+import {
+  useDistricts,
+  useFilteredDistricts,
+  useFilteredOrganisations,
+  useOrganisations,
+  useRegions,
+} from '@vet/shared-resources';
 import { NonFormalProgramFilters } from '../non-formal-programs.types';
 
 @Component({
@@ -27,6 +34,7 @@ import { NonFormalProgramFilters } from '../non-formal-programs.types';
     InputComponent,
     IconButtonComponent,
     DatePickerComponent,
+    EduactionStandartsComponent,
   ],
   templateUrl: './non-formal-programs-filters.component.html',
   styleUrl: './non-formal-programs-filters.component.scss',
@@ -48,7 +56,11 @@ export class NonFormalProgramsFiltersComponent {
   selectedRegion = useControlValue(this.formGroup, (form) => form.controls.region);
   selectedDistrict = useControlValue(this.formGroup, (form) => form.controls.district);
   filteredDistricts = useFilteredDistricts(this.selectedRegion, this.districtOptions.value);
-  filteredInstitutions = useFilteredOrganisations(this.selectedRegion, this.selectedDistrict, this.institutionOptions.value);
+  filteredInstitutions = useFilteredOrganisations(
+    this.selectedRegion,
+    this.selectedDistrict,
+    this.institutionOptions.value,
+  );
 
   vetIcons = vetIcons;
 
@@ -61,20 +73,18 @@ export class NonFormalProgramsFiltersComponent {
       }
     });
 
-    // Clear district when region changes
     effect(
       () => {
-        this.selectedRegion(); // Track region changes
+        this.selectedRegion();
         this.formGroup.controls.district.setValue(null);
       },
       { allowSignalWrites: true },
     );
 
-    // Clear organisation when region or district changes
     effect(
       () => {
-        this.selectedRegion(); // Track region changes
-        this.selectedDistrict(); // Track district changes
+        this.selectedRegion();
+        this.selectedDistrict();
         this.formGroup.controls.organisation.setValue(null);
       },
       { allowSignalWrites: true },
@@ -85,33 +95,51 @@ export class NonFormalProgramsFiltersComponent {
     return new FormGroup({
       search: new FormControl<string>(''),
       organisation: new FormControl<number | null>(null),
-      field: new FormControl<string | null>(null),
+      isced_code: new FormControl<string[] | null>(null),
       region: new FormControl<number | null>(null),
       district: new FormControl<number | null>(null),
-      start_date: new FormControl<string | Date | null>(null),
-      end_date: new FormControl<string | Date | null>(null),
+      registration_start_from: new FormControl<string | Date | null>(null),
+      registration_start_to: new FormControl<string | Date | null>(null),
     });
   }
 
   onSubmit() {
     const normalizedFilters = this.normalizeFilters(this.formGroup.value);
-    this.filtersChange.emit(withoutEmptyProperties(normalizedFilters) as NonFormalProgramFilters);
+    const filtered = withoutEmptyProperties(normalizedFilters) as NonFormalProgramFilters;
+
+    if (filtered.isced_code && !Array.isArray(filtered.isced_code)) {
+      filtered.isced_code = Object.values(filtered.isced_code);
+    }
+
+    this.filtersChange.emit(filtered);
   }
 
   normalizeFilters(filterValue: any): NonFormalProgramFilters {
     return {
       search: filterValue.search || null,
-      // Convert IDs to numbers to match API expectations (filters[region], filters[district], filters[organisation])
       region: filterValue.region != null ? Number(filterValue.region) : null,
       district: filterValue.district != null ? Number(filterValue.district) : null,
       organisation: filterValue.organisation != null ? Number(filterValue.organisation) : null,
-      // Keep unsupported filters in code but they won't be sent to API
-      field: filterValue.field || null,
-      start_date: isDate(filterValue.start_date)
-        ? this.formatDateForBackend(filterValue.start_date)
-        : filterValue.start_date,
-      end_date: isDate(filterValue.end_date) ? this.formatDateForBackend(filterValue.end_date) : filterValue.end_date,
+      isced_code: this.normalizeIsced(filterValue.isced_code),
+      registration_start_from: isDate(filterValue.registration_start_from)
+        ? this.formatDateForBackend(filterValue.registration_start_from)
+        : filterValue.registration_start_from,
+      registration_start_to: isDate(filterValue.registration_start_to)
+        ? this.formatDateForBackend(filterValue.registration_start_to)
+        : filterValue.registration_start_to,
     };
+  }
+
+  private normalizeIsced(value: any): string[] | null {
+    if (!value) return null;
+
+    if (Array.isArray(value)) return value;
+
+    if (typeof value === 'object') {
+      return Object.values(value);
+    }
+
+    return null;
   }
 
   formatDateForBackend(date: Date): string {
@@ -128,11 +156,11 @@ export class NonFormalProgramsFiltersComponent {
     this.formGroup.patchValue({
       search: '',
       organisation: null,
-      field: null,
+      isced_code: null,
       region: null,
       district: null,
-      start_date: null,
-      end_date: null,
+      registration_start_from: null,
+      registration_start_to: null,
     });
     this.onSubmit();
   }

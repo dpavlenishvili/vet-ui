@@ -7,7 +7,7 @@ import {
   input,
   OnInit,
   output,
-  signal
+  signal,
 } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -19,10 +19,11 @@ import {
   SelectOption,
   SelectorComponent,
   VetCheckboxComponent,
-  VetSwitchComponent
+  VetSwitchComponent,
 } from '@vet/shared';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
+import { NonFormalApplicationData } from '../application-wizard.component';
 
 interface CheckboxOption {
   id: number;
@@ -54,6 +55,7 @@ interface CheckboxOption {
 export class NonFormalQuestionnaireStepComponent implements OnInit {
   formGroup = input.required<FormGroup>();
   isViewMode = input<boolean>(false);
+  applicationData = input<NonFormalApplicationData | null>(null);
   back = output<void>();
   next = output<void>();
 
@@ -86,7 +88,6 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
     { id: 1000, name: 'other', translationKey: 'non_formal.source_other' },
   ];
 
-  // Track selected checkbox IDs
   selectedRecognitionPurpose = signal<number[]>([]);
   selectedWhoTaughtYou = signal<number[]>([]);
   selectedSourceOfInformation = signal<number[]>([]);
@@ -109,12 +110,15 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
           return educationStatuses ?? [];
         }),
         tap((educations) => {
-          // Auto-select if there's only one education option
-          if (educations.length === 1) {
-            const educationControl = this.formGroup()?.get('education_level_id');
-            const currentValue = educationControl?.getRawValue();
+          const educationControl = this.formGroup()?.get('education_level_id');
+          const currentValue = educationControl?.getRawValue();
+          const selectedEducationLevel = this.applicationData()?.education_level_id;
 
-            // Only set if there's no existing value
+          if (selectedEducationLevel) {
+            educationControl?.patchValue(Number(selectedEducationLevel));
+          }
+
+          if (educations.length === 1) {
             if (!currentValue && educations[0].levelId) {
               educationControl?.patchValue(Number(educations[0].levelId));
             }
@@ -124,7 +128,6 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    // Initialize selected checkboxes from form values
     const recognitionPurpose = this.formGroup()?.get('recognition_purpose')?.value;
     if (recognitionPurpose) {
       try {
@@ -188,14 +191,12 @@ export class NonFormalQuestionnaireStepComponent implements OnInit {
 
     signalToUpdate.set(currentSelection);
 
-    // Update form control with JSON stringified array of IDs
     const control = this.formGroup()?.get(field);
     if (control) {
       control.patchValue(JSON.stringify(currentSelection));
       control.markAsTouched();
     }
 
-    // If "Other" unchecked, clear corresponding "other" input
     const isOther = this.isOtherOption(optionId, field);
     if (isOther && !currentSelection.includes(optionId)) {
       const otherControlName =

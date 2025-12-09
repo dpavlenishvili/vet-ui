@@ -38,7 +38,7 @@ export interface NonFormalApplicationData {
     name?: string;
     changed_at?: string;
   };
-  status_id?: number | string; // Numeric status ID (e.g., 1 for draft)
+  status_id?: number | string;
   is_draft?: boolean;
   recognition_purpose?: string | null;
   action_description?: string | null;
@@ -55,6 +55,7 @@ export interface NonFormalApplicationData {
     certificate_from_workplace?: Array<{ id?: number; file_name?: string; url?: string }>;
     other?: Array<{ id?: number; file_name?: string; url?: string }>;
   };
+  can_change_program?: boolean;
 }
 
 export interface ApplicationRequest {
@@ -148,7 +149,7 @@ export class ApplicationWizardComponent implements OnInit {
         const form = this.createFormGroup();
         this.formGroup.set(form);
         this.isFormInitialized.set(true);
-
+        this.setupConditionalValidators(form);
         this.initializeFormData();
         this.initializeRouting();
       }
@@ -163,6 +164,13 @@ export class ApplicationWizardComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateResponsiveState();
+  }
+
+  onProgramDelete() {
+    const fieldSelectionGroup = this.formGroup().get('field_selection');
+    fieldSelectionGroup?.patchValue({ selected_program_id: null });
+    fieldSelectionGroup?.get('selected_program_id')?.markAsTouched();
+    fieldSelectionGroup?.get('selected_program_id')?.updateValueAndValidity();
   }
 
   protected isStepValid(index: number): boolean {
@@ -214,9 +222,6 @@ export class ApplicationWizardComponent implements OnInit {
 
     const isLastStep = currentIndex === this.steps().length - 1;
 
-    // Some steps don't require API calls (just navigation)
-    // - selected-fields: No API needed, just displays selected program info
-    // - documents: Handles its own API call with FormData internally
     const stepsWithoutApiCall = ['selected-fields', 'documents'];
 
     if (stepsWithoutApiCall.includes(currentStepPath)) {
@@ -227,12 +232,10 @@ export class ApplicationWizardComponent implements OnInit {
       return;
     }
 
-    // Smart navigation in update mode: only call API if data changed
     const applicationId = this.applicationId();
     const isUpdateMode = !!applicationId;
 
     if (isUpdateMode && !this.hasFormChanged(currentStepPath)) {
-      // No changes detected, just navigate without API call
       if (!isLastStep) {
         this.currentStepIndex.set(currentIndex + 1);
         this.navigateToStep(currentIndex + 1);
@@ -240,14 +243,12 @@ export class ApplicationWizardComponent implements OnInit {
       return;
     }
 
-    // Steps that need API calls: field-selection, questionnaire, confirmation
     const payload = this.preparePayload(currentStepPath);
 
     if (!isLastStep) {
       this.currentStepIndex.set(currentIndex + 1);
     }
 
-    // Update initial values after successful change
     if (isUpdateMode) {
       this.initialFormValues.set(this.getFormSnapshot());
     }
@@ -277,8 +278,6 @@ export class ApplicationWizardComponent implements OnInit {
   }
 
   protected onDocumentsUploaded(): void {
-    // Emit event to parent to reload application data
-    // This ensures the form gets updated with uploaded files that have IDs from the server
     this.reloadApplicationData.emit();
   }
 
@@ -289,7 +288,6 @@ export class ApplicationWizardComponent implements OnInit {
     const applicationData = this.applicationData();
     if (applicationData) {
       this.patchApplication(applicationData);
-      // Capture initial form values for change detection in update mode
       this.initialFormValues.set(this.getFormSnapshot());
     }
 
@@ -373,6 +371,48 @@ export class ApplicationWizardComponent implements OnInit {
     });
   }
 
+  private setupConditionalValidators(form: FormGroup): void {
+    const questionnaireGroup = form.get('questionnaire') as FormGroup;
+    if (!questionnaireGroup) return;
+
+    const whoTaughtYouControl = questionnaireGroup.get('who_taught_you');
+    const whoTaughtYouOtherControl = questionnaireGroup.get('who_taught_you_other');
+    const sourceOfInfoControl = questionnaireGroup.get('source_of_information');
+    const sourceOfInfoOtherControl = questionnaireGroup.get('source_of_information_other');
+
+    whoTaughtYouControl?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+      try {
+        const selectedIds = JSON.parse(value || '[]');
+        if (Array.isArray(selectedIds) && selectedIds.includes(1000)) {
+          whoTaughtYouOtherControl?.setValidators([Validators.required]);
+        } else {
+          whoTaughtYouOtherControl?.clearValidators();
+          whoTaughtYouOtherControl?.patchValue(null);
+        }
+        whoTaughtYouOtherControl?.updateValueAndValidity();
+      } catch {
+        whoTaughtYouOtherControl?.clearValidators();
+        whoTaughtYouOtherControl?.updateValueAndValidity();
+      }
+    });
+
+    sourceOfInfoControl?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+      try {
+        const selectedIds = JSON.parse(value || '[]');
+        if (Array.isArray(selectedIds) && selectedIds.includes(1000)) {
+          sourceOfInfoOtherControl?.setValidators([Validators.required]);
+        } else {
+          sourceOfInfoOtherControl?.clearValidators();
+          sourceOfInfoOtherControl?.patchValue(null);
+        }
+        sourceOfInfoOtherControl?.updateValueAndValidity();
+      } catch {
+        sourceOfInfoOtherControl?.clearValidators();
+        sourceOfInfoOtherControl?.updateValueAndValidity();
+      }
+    });
+  }
+
   private updateResponsiveState(): void {
     const width = this.window.innerWidth;
     const mobile = width < MOBILE_BREAKPOINT;
@@ -388,7 +428,7 @@ export class ApplicationWizardComponent implements OnInit {
         selected_program_id: data.non_formal_id ?? null,
       },
       questionnaire: {
-        education_level_id: Number(data.education_level_id) ?? null,
+        education_level_id: data.education_level_id ?? null,
         recognition_purpose: data.recognition_purpose ?? null,
         action_description: data.action_description ?? null,
         who_taught_you: data.who_taught_you ?? null,
@@ -422,11 +462,10 @@ export class ApplicationWizardComponent implements OnInit {
         break;
       case 'questionnaire':
         payload = form.get('questionnaire')?.getRawValue() || {};
-        // Ensure experience_years is passed as string to API
         if (payload.experience_years !== null && payload.experience_years !== undefined) {
           payload.experience_years = String(payload.experience_years);
         }
-        // Ensure like_your_job is false if null
+
         if (payload.like_your_job === null) {
           payload.like_your_job = false;
         }
@@ -435,7 +474,6 @@ export class ApplicationWizardComponent implements OnInit {
         payload = form.get('documents')?.getRawValue() || {};
         break;
       case 'confirmation':
-        // For confirmation, we just submit (no payload needed)
         break;
     }
 
@@ -445,8 +483,6 @@ export class ApplicationWizardComponent implements OnInit {
   private emitUpdate(payload: ApplicationRequest, stepPath: string): void {
     const applicationId = this.applicationId();
 
-    // Always emit updateApplication with step information
-    // Parent component will handle whether to create or update
     this.updateApplication.emit({
       step: stepPath,
       body: {
@@ -457,8 +493,6 @@ export class ApplicationWizardComponent implements OnInit {
   }
 
   private buildSteps(form: FormGroup): WizardStepDefinition[] {
-    // Step configuration: defines all steps with their properties
-    // Using a configuration array reduces duplication and improves maintainability
     const stepConfigs = [
       {
         i18nKey: 'field_selection',
@@ -467,7 +501,7 @@ export class ApplicationWizardComponent implements OnInit {
       },
       {
         i18nKey: 'selected_fields',
-        formControlName: 'field_selection', // Shares form with field_selection
+        formControlName: 'field_selection',
         template: this._selectedFieldsStepTmpl,
       },
       {
@@ -482,7 +516,7 @@ export class ApplicationWizardComponent implements OnInit {
       },
       {
         i18nKey: 'confirmation',
-        formControlName: 'field_selection', // Uses field_selection form for validation
+        formControlName: 'field_selection',
         template: this._confirmationStepTmpl,
       },
     ];
@@ -492,7 +526,7 @@ export class ApplicationWizardComponent implements OnInit {
       title: `non_formal.${config.i18nKey}`,
       form: () => form.controls[config.formControlName] as FormGroup,
       template: config.template,
-      path: config.i18nKey.replace(/_/g, '-'), // Convert snake_case to kebab-case
+      path: config.i18nKey.replace(/_/g, '-'),
     }));
   }
 
@@ -511,9 +545,6 @@ export class ApplicationWizardComponent implements OnInit {
     }
   }
 
-  /**
-   * Captures a snapshot of current form values for change detection
-   */
   private getFormSnapshot(): any {
     const form = this.formGroup();
     if (!form) return null;
@@ -521,17 +552,13 @@ export class ApplicationWizardComponent implements OnInit {
     return JSON.parse(JSON.stringify(form.getRawValue()));
   }
 
-  /**
-   * Checks if the form values have changed compared to initial values
-   */
   private hasFormChanged(stepPath: string): boolean {
     const initial = this.initialFormValues();
-    if (!initial) return true; // If no initial values, assume changed
+    if (!initial) return true;
 
     const current = this.getFormSnapshot();
     if (!current) return false;
 
-    // Compare based on step
     switch (stepPath) {
       case 'field-selection':
       case 'selected-fields':

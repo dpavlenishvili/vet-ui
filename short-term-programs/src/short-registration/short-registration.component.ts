@@ -94,11 +94,6 @@ export class ShortRegistrationComponent {
 
   constructor() {
     effect(() => {
-      if (!this.isInitialized()) {
-        this.formGroup.patchValue(this.initialValues());
-        this.isInitialized.set(true);
-      }
-
       const requestedStepPath = this.params()?.['step'];
       const { requestedStepIndex, currentStepIndex } = getCurrentStepIndex(this.steps, requestedStepPath);
 

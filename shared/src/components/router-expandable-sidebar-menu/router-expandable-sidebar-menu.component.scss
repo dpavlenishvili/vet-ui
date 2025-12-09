@@ -1,0 +1,7 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+  height: 100%;
+  overflow: hidden;
+}

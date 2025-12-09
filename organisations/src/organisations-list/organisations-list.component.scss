@@ -59,15 +59,31 @@
     }
   }
 
-  .contact {
+  .vet-contact {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .contact-info {
+  .vet-contact-info {
     display: flex;
     gap: 1rem;
+
+    a {
+      max-width: 12rem;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .vet-contact-info-item-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
   }
 }
 
@@ -76,4 +92,10 @@
   width: 100%;
   justify-content: center;
   align-items: center;
+}
+
+.vet-total {
+  margin-left: 2rem;
+  font-family: shared.$font-family-primary;
+  font-size: 0.85rem;
 }

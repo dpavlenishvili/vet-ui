@@ -175,6 +175,12 @@ export class GeneralsService {
         /** @example "საბიუჯეტო" */
         value?: string;
       }[];
+      institution_org_type?: {
+        /** @example "1" */
+        id?: string;
+        /** @example "პროფესიული" */
+        value?: string;
+      }[];
       institution_legal_types?: {
         /** @example "1" */
         id?: string;

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import type { BreadCrumbItem } from '@progress/kendo-angular-navigation';
 import { ActivatedRouteSnapshot, Params } from '@angular/router';
 import { Signal, TemplateRef, Type, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormControlState, FormGroup } from '@angular/forms';
 import { Translatable } from './shared.utils';
 import { AccessControl } from '@vet/auth';
 import { VetIcon } from './shared.icons';
@@ -178,6 +178,26 @@ export interface WizardStepDefinition {
   path: string;
 }
 
+export interface StepNextAction {
+  label: string | Translatable;
+  action?: () => Observable<boolean>;
+  validator?: () => boolean;
+  condition?: (formGroup: FormGroup) => boolean | Observable<boolean>;
+}
+
+export interface StepDefinition {
+  key: string;
+  label: string | Translatable;
+  title: string | Translatable;
+  path?: string;
+  component?: Type<any>;
+  validator?: () => boolean;
+  disabled?: boolean;
+  previousButtonLabel?: string | Translatable;
+  nextActions?: StepNextAction[];
+  condition?: (formGroup: FormGroup) => boolean | Observable<boolean>;
+}
+
 export interface SidebarMenuItem {
   id: string | number;
   text: string;
@@ -194,3 +214,16 @@ export interface EducationType {
   code?: string;
   category?: string;
 }
+
+// Helper type to extract the actual value type from AbstractControl, excluding FormControlState
+// AbstractControl<T>.value can be T | FormControlState<T>, so we need to extract just T
+export type ExtractControlValue<T extends AbstractControl> = T extends AbstractControl<infer V>
+  ? V extends FormControlState<infer U>
+    ? U
+    : V extends FormControlState<infer U> | infer W
+      ? W extends FormControlState<any>
+        ? never
+        : W
+      : V
+  : never;
+

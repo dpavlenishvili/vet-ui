@@ -1,9 +1,25 @@
-<button
-  kendoButton
-  class="vet-icon-button vet-icon-button-icon-{{ iconSize() }} vet-icon-button-icon-{{ version() }}"
-  [type]="type()"
-  [fillMode]="mode()"
-  [themeColor]="variant()"
-  [disabled]="disabled()"
-  [svgIcon]="vetIcons[icon()]"
-></button>
+@let _tooltip = tooltip();
+
+@if (_tooltip) {
+  <button
+    kendoButton
+    kendoTooltip
+    [title]="_tooltip"
+    class="vet-icon-button vet-icon-button-icon-{{ iconSize() }} vet-icon-button-icon-{{ version() }}"
+    [type]="type()"
+    [fillMode]="mode()"
+    [themeColor]="variant()"
+    [disabled]="disabled()"
+    [svgIcon]="vetIcons[icon()]"
+  ></button>
+} @else {
+  <button
+    kendoButton
+    class="vet-icon-button vet-icon-button-icon-{{ iconSize() }} vet-icon-button-icon-{{ version() }}"
+    [type]="type()"
+    [fillMode]="mode()"
+    [themeColor]="variant()"
+    [disabled]="disabled()"
+    [svgIcon]="vetIcons[icon()]"
+  ></button>
+}

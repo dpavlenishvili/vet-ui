@@ -1,17 +1,26 @@
-@let _data = data();
-@let _value = _data.value();
+@if (totalPrograms() !== 0) {
+  <div class="vet-total">
+    {{ 'shared.numberOfRecords' | transloco: { count: totalPrograms() } }}
+  </div>
+}
 
-<div vet-container class="vet-non-formal-programs-grid">
-  @for (program of _data.value().data; track program.id) {
-    <vet-non-formal-program-card [program]="program" />
+<div class="vet-non-formal-grid">
+  @if (allPrograms().length === 0 && !nonFormals.isLoading()) {
+    <div class="loader-container">
+      {{ 'shared.noRecords' | transloco }}
+    </div>
+  } @else {
+    @for (item of allPrograms(); track item?.id) {
+      <vet-non-formal-program-card 
+        class="vet-non-formal-grid-item" 
+        [program]="item" 
+      />
+    }
   }
 </div>
 
-@if (_value.data.length < _value.total) {
-  <kendo-pager
-    [total]="data().value()!.total"
-    [skip]="data().value()!.skip"
-    [pageSize]="data().value()!.size"
-    (pageChange)="onPageChange($event)"
-  />
+@if (nonFormals.isLoading()) {
+  <div class="loader-container">
+    <kendo-loader [type]="'pulsing'" />
+  </div>
 }

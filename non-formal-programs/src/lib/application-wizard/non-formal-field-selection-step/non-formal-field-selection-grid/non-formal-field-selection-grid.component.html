@@ -71,7 +71,7 @@
                         (isAddButtonDisabled()(dataItem) ? 'blocked' : 'plusCircleGreen')"
                 mode="flat"
                 iconSize="small"
-                [disabled]="!isSelected(dataItem.id) && isAddButtonDisabled()(dataItem) || isViewMode()"
+                [disabled]="isAddButtonDisabled()(dataItem) ? true : isFieldChangeDisabled()"
                 [title]="getTooltipText()(dataItem) | transloco"
                 kendoTooltip
                 (click)="onToggleProgramSelection(dataItem)"

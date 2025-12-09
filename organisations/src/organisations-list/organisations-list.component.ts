@@ -34,12 +34,19 @@ export class OrganisationsListComponent implements OnDestroy {
 
   organisationsResource = useOrganisationsList(this.filters, this.page, this.perPage);
   allOrganisations = signal<Organisation[]>([]);
+  totalOrganisations = signal<number>(0);
 
   private scrollHandler = () => this.onScroll();
 
   private router = inject(Router);
 
   constructor() {
+    effect(() => {
+      this.filters();
+      this.page.set(1);
+      this.allOrganisations.set([]);
+    });
+
     effect(() => {
       const res = this.organisationsResource?.value?.();
       if (!res?.data) return;
@@ -48,6 +55,8 @@ export class OrganisationsListComponent implements OnDestroy {
         if (this.page() === 1) return res.data!;
         return [...prev, ...res.data!];
       });
+
+      this.totalOrganisations.update(() => res.meta?.total ?? 0);
     });
 
     window.addEventListener('scroll', this.scrollHandler);

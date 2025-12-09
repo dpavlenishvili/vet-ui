@@ -1,0 +1,26 @@
+@use '@vet/shared-styles' as shared;
+
+:host {
+  display: block;
+}
+
+.program-card-icon {
+  width: 3.75rem;
+  height: 3.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  
+  &.program-bg-isced-01 { background-color: shared.$kendo-color-isced-01; }
+  &.program-bg-isced-02 { background-color: shared.$kendo-color-isced-02; }
+  &.program-bg-isced-03 { background-color: shared.$kendo-color-isced-03; }
+  &.program-bg-isced-04 { background-color: shared.$kendo-color-isced-04; }
+  &.program-bg-isced-05 { background-color: shared.$kendo-color-isced-05; }
+  &.program-bg-isced-06 { background-color: shared.$kendo-color-isced-06; }
+  &.program-bg-isced-07 { background-color: shared.$kendo-color-isced-07; }
+  &.program-bg-isced-08 { background-color: shared.$kendo-color-isced-08; }
+  &.program-bg-isced-09 { background-color: shared.$kendo-color-isced-09; }
+  &.program-bg-isced-10 { background-color: shared.$kendo-color-isced-10; }
+}

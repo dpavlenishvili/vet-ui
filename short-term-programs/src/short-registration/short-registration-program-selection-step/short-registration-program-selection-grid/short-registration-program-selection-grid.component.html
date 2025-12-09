@@ -53,28 +53,24 @@
     <ng-template kendoGridCellTemplate let-item>
       <div class="short-grid-action-buttons">
         <vet-icon-button
-          kendoTooltip
           icon="eye"
           mode="flat"
           iconSize="small"
           class="short-grid-action-button"
           (click)="onPreviewProgram(item)"
-          [title]="'shorts.see' | transloco"
+          [tooltip]="'shorts.see' | transloco"
         />
 
         @if (!isProgramSelected(item)) {
-          <div kendoTooltip>
-            <span [title]="'shorts.' + getEligibilityError(item) | transloco">
-              <vet-icon-button
-                [icon]="!item.eligibility?.eligible || isSelectionDisabled() ? 'blocked' : 'plusCircleGreen'"
-                mode="flat"
-                iconSize="small"
-                class="short-grid-action-button"
-                [disabled]="!item.eligibility?.eligible || isSelectionDisabled()"
-                (click)="!item.eligibility?.eligible || isSelectionDisabled() ? null : onSelectProgram(item)"
-              />
-            </span>
-          </div>
+          <vet-icon-button
+            [icon]="!item.eligibility?.eligible || isSelectionDisabled() ? 'blocked' : 'plusCircleGreen'"
+            mode="flat"
+            iconSize="small"
+            class="short-grid-action-button"
+            [tooltip]="'shorts.' + getEligibilityError(item) | transloco"
+            [disabled]="!item.eligibility?.eligible || isSelectionDisabled()"
+            (click)="!item.eligibility?.eligible || isSelectionDisabled() ? null : onSelectProgram(item)"
+          />
         } @else {
           <vet-icon-button
             icon="minusCircleRed"
@@ -82,6 +78,7 @@
             iconSize="small"
             variant="error"
             class="short-grid-action-button"
+            [tooltip]="'shorts.delete' | transloco"
             (click)="onUnselectProgram(item)"
           />
         }

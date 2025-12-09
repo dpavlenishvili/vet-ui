@@ -1,50 +1,38 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, model, output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  model,
+  output,
+} from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonModule } from '@progress/kendo-angular-buttons';
-import { KENDO_DATEINPUTS } from '@progress/kendo-angular-dateinputs';
-import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
-import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
-import { LabelModule } from '@progress/kendo-angular-label';
 import {
   countries,
+  DatePickerComponent,
   genders,
+  InputComponent,
+  SelectOption,
+  SelectorComponent,
   useAlert,
-  useAlertApiErrorHandler,
-  useApiErrorConditionalContextFactory,
   useConfirm,
-  useToastApiErrorHandler,
-  englishLettersValidator,
 } from '@vet/shared';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
-import { RegisterService, User } from '@vet/backend';
-import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vet-registration-identity-foreigner',
-  imports: [
-    ReactiveFormsModule,
-    InputsModule,
-    RadioButtonModule,
-    ButtonModule,
-    LabelModule,
-    TranslocoPipe,
-    KENDO_DATEINPUTS,
-    KENDO_DROPDOWNS,
-  ],
+  imports: [ReactiveFormsModule, TranslocoPipe, InputComponent, SelectorComponent, DatePickerComponent],
   templateUrl: './registration-identity-foreigner.component.html',
   styleUrl: './registration-identity-foreigner.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class RegistrationIdentityForeignerComponent {
-  createApiErrorHandlerContext = useApiErrorConditionalContextFactory({
-    when: ({ code }) => code === 1009,
-    then: useAlertApiErrorHandler(),
-    else: useToastApiErrorHandler(),
-  });
-
   alert = useAlert();
   confirm = useConfirm();
 
@@ -62,18 +50,15 @@ export class RegistrationIdentityForeignerComponent {
       gender: FormControl<string | null>;
     }>
   >();
-  countries = countries;
-  genders = genders;
-  previousClick = output();
-  nextClick = output();
+
+  countriesOptions = computed<SelectOption<string>[]>(() => countries.map((c) => ({ label: c.name, value: c.code })));
+
+  gendersOptions = computed<SelectOption<string>[]>(() => genders.map((g) => ({ label: g.name, value: g.code })));
   personVerificationChange = output<boolean>();
-  switchToGeorgianCitizenship = output<User>();
-  resetForm = output<void>();
 
-  registerService = inject(RegisterService);
-  router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
-  constructor(private destroyRef: DestroyRef) {
+  constructor() {
     effect(() => {
       const identityForm = this.identityForm();
 
@@ -86,7 +71,6 @@ export class RegistrationIdentityForeignerComponent {
           filter(() => this.isPersonVerified()),
           debounceTime(300),
           distinctUntilChanged((prev, curr) => {
-            // ყველა მთავარი ველის შემოწმება რომ თავიდან გადამოწმება მოხდეს
             return (
               prev.personalNumber === curr.personalNumber &&
               prev.lastName === curr.lastName &&
@@ -110,95 +94,5 @@ export class RegistrationIdentityForeignerComponent {
         )
         .subscribe();
     });
-  }
-
-  onPreviousClick() {
-    this.previousClick.emit();
-  }
-
-  onCheckClick() {
-    this.identityForm()?.markAllAsTouched();
-
-    const form = this.identityForm()?.value;
-
-    if (this.identityForm()?.invalid) {
-      const errors = this.identityForm()?.errors || {};
-      const errorKeys = Object.keys(errors);
-      const hasOnlyPersonNotVerifiedError = errorKeys.length === 1 && errors['personNotVerified'];
-
-      if (!hasOnlyPersonNotVerifiedError) {
-        this.identityForm()?.markAllAsTouched();
-        return;
-      }
-    }
-
-    if (this.isPersonVerified() && this.identityForm()?.valid) {
-      this.nextClick.emit();
-      return;
-    }
-
-    this.registerService
-      .validatePerson(
-        {
-          pid: form?.personalNumber as string,
-          last_name: form?.lastName as string,
-          residential: form?.residential as string,
-        },
-        {
-          context: this.createApiErrorHandlerContext(),
-        },
-      )
-      .pipe(
-        tap({
-          next: (personalInfo: User) => {
-            if (personalInfo.firstName) {
-              const title = 'auth.citizenship_auto_update_confirm';
-
-              this.confirm.show({
-                title,
-                onConfirm: () => {
-                  this.isPersonVerified.set(true);
-                  this.switchToGeorgianCitizenship.emit({
-                    pid: personalInfo.pid || (form?.personalNumber as string),
-                    firstName: personalInfo.firstName || (form?.firstName as string),
-                    lastName: personalInfo.lastName || (form?.lastName as string),
-                    birthDate: personalInfo.birthDate || (form?.dateOfBirth as unknown as string),
-                    gender: personalInfo.gender || (form?.gender as string),
-                  });
-                  this.personVerificationChange.emit(true);
-                  this.onNextClick();
-                },
-                onDismiss: () => {
-                  this.isPersonVerified.set(false);
-                  this.personVerificationChange.emit(false);
-                  this.resetForm.emit();
-                  this.router.navigate(['/registration', 'citizenship_selection']);
-                },
-              });
-            } else {
-              this.isPersonVerified.set(true);
-              this.personVerificationChange.emit(true);
-              this.onNextClick();
-            }
-          },
-          error: (error) => {
-            this.isPersonVerified.set(false);
-            this.personVerificationChange.emit(false);
-
-            const errorMessage = error?.error?.error?.message || 'auth.person_validation_failed';
-            this.alert.show({
-              variant: 'warning',
-              text: errorMessage,
-            });
-          },
-        }),
-      )
-      .subscribe();
-  }
-
-  onNextClick() {
-    if (this.isPersonVerified() && this.identityForm()?.valid) {
-      this.nextClick.emit();
-    }
   }
 }

@@ -7,6 +7,10 @@
 button.k-button.vet-button {
   width: 100%;
 
+  &.vet-floating-fix {
+    //margin-top: 0.125rem;
+  }
+
   &.vet-button-fat {
     @include shared.text-base(true);
     height: 3.125rem;
@@ -15,14 +19,29 @@ button.k-button.vet-button {
   }
 
   &.vet-button-thin {
+    @include shared.text-base();
     height: 2.375rem;
     border-radius: 0.625rem;
     padding: 0.875rem 1.375rem;
-    @include shared.text-sm();
   }
 
   .vet-icon.vet-button-icon {
 
+  }
+
+  &.vet-button-loading {
+    .vet-loading-spinner {
+      animation: vet-button-spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes vet-button-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 

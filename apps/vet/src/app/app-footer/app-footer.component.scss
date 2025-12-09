@@ -1,3 +1,5 @@
+@use '@vet/shared-styles' as *;
+
 :host {
   display: block;
   --main-bg: #ffffff;
@@ -35,8 +37,10 @@
     h6 {
       font-size: 0.875rem;
       font-weight: 500;
+      line-height: 100%;
       margin-bottom: 0.875rem;
       text-transform: uppercase;
+      color: $kendo-color-primary-extra-dark;
     }
 
     a {

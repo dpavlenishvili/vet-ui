@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NonFormalService } from '@vet/backend';
@@ -10,6 +20,7 @@ import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non
 import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { startWith } from 'rxjs/operators';
+import { NonFormalApplicationData } from '../application-wizard.component';
 
 @Component({
   selector: 'vet-non-formal-selected-fields-step',
@@ -22,8 +33,10 @@ import { startWith } from 'rxjs/operators';
 export class NonFormalSelectedFieldsStepComponent {
   formGroup = input.required<FormGroup>();
   isViewMode = input<boolean>(false);
+  applicationData = input<NonFormalApplicationData | null>(null);
   back = output<void>();
   next = output<void>();
+  programToggle = output<void>();
 
   private readonly nonFormalService = inject(NonFormalService);
   private readonly alert = useAlert();
@@ -31,7 +44,6 @@ export class NonFormalSelectedFieldsStepComponent {
   private readonly destroyRef = inject(DestroyRef);
   protected readonly programDialog = useNonFormalProgramDialog(NonFormalProgramPageComponent);
 
-  // Writable signal to track the selected program ID reactively
   protected readonly selectedProgramId = signal<number | null>(null);
 
   protected readonly selectedProgramResource = rxResource({
@@ -50,21 +62,24 @@ export class NonFormalSelectedFieldsStepComponent {
     return response?.data || null;
   });
 
+  protected readonly isFieldChangeDisabled = computed(() => {
+    const data = this.applicationData();
+    if (!data || !data.id) return false;
+
+    return !data.can_change_program;
+  });
+
   constructor() {
     effect(() => {
       const form = this.formGroup();
 
-      // Get initial value
       const initialValue = form.get('selected_program_id')?.value;
       this.selectedProgramId.set(initialValue);
 
-      // Subscribe to value changes
-      form.get('selected_program_id')?.valueChanges
-        .pipe(
-          startWith(initialValue),
-          takeUntilDestroyed(this.destroyRef)
-        )
-        .subscribe(value => {
+      form
+        .get('selected_program_id')
+        ?.valueChanges.pipe(startWith(initialValue), takeUntilDestroyed(this.destroyRef))
+        .subscribe((value) => {
           this.selectedProgramId.set(value);
         });
     });
@@ -75,10 +90,13 @@ export class NonFormalSelectedFieldsStepComponent {
       content: 'non_formal.confirm_program_removal',
       onConfirm: () => {
         this.formGroup().get('field_selection.selected_program_id')?.setValue(null);
-        // Navigate back to field selection step
         this.back.emit();
       },
     });
+  }
+
+  protected removeProgram(): void {
+    this.programToggle.emit();
   }
 
   protected onPreviewProgramClick(): void {
@@ -98,7 +116,7 @@ export class NonFormalSelectedFieldsStepComponent {
         text: 'non_formal.error_select_at_least_one_field',
         variant: 'warning',
       });
-      // Auto-navigate back to field selection step
+
       this.back.emit();
       return;
     }

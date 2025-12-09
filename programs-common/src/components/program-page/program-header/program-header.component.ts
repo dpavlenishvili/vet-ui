@@ -17,6 +17,7 @@ export class ProgramHeaderComponent {
   program = input.required<ShortProgramShow | LongTerm | NonFormalShow | undefined>();
   details = input<ProgramDetailItem[]>([]);
   showPartners = input<boolean>(true);
+  iscedCode = input<string | null | undefined>(null);
   vetIcons = vetIcons;
 
   get organisation() {

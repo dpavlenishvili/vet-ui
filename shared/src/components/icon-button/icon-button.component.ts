@@ -9,10 +9,11 @@ import {
   InputButtonVersion
 } from './icon-button.component.types';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'vet-icon-button',
-  imports: [FormsModule, KENDO_BUTTON],
+  imports: [FormsModule, KENDO_BUTTON, TooltipDirective],
   templateUrl: './icon-button.component.html',
   styleUrl: './icon-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,5 +27,6 @@ export class IconButtonComponent {
   variant = input<IconButtonVariant>('primary');
   version = input<InputButtonVersion>('normal');
   disabled = input(false);
+  tooltip = input<string>();
   vetIcons = vetIcons;
 }

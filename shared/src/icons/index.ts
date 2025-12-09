@@ -60,6 +60,27 @@ import { integrated } from './integrated';
 import { checkProgram } from './check-program';
 import { publicIcon } from './public';
 import { professionalIcon } from './professional';
+export { field_01 } from './field_01';
+export { field_02 } from './field_02';
+export { field_03 } from './field_03';
+export { field_04 } from './field_04';
+export { field_05 } from './field_05';
+export { field_06 } from './field_06';
+export { field_07 } from './field_07';
+export { field_08 } from './field_08';
+export { field_09 } from './field_09';
+export { field_10 } from './field_10';
+import { isced_01 } from './isced_01';
+import { isced_02 } from './isced_02';
+import { isced_03 } from './isced_03';
+import { isced_04 } from './isced_04';
+import { isced_05 } from './isced_05';
+import { isced_06 } from './isced_06';
+import { isced_07 } from './isced_07';
+import { isced_08 } from './isced_08';
+import { isced_09 } from './isced_09';
+import { isced_10 } from './isced_10';
+import { loadingSpinner } from './loading-spinner';
 
 export {
   bin,
@@ -121,7 +142,18 @@ export {
   professionalIcon,
   CheckIcon,
   treeChevronRight,
-  treeChevronDown
+  treeChevronDown,
+  loadingSpinner,
+  isced_01,
+  isced_02,
+  isced_03,
+  isced_04,
+  isced_05,
+  isced_06,
+  isced_07,
+  isced_08,
+  isced_09,
+  isced_10,
 };
 
 export * from './icons';

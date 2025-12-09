@@ -9,7 +9,14 @@ import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { AdmissionService, GeneralsService } from '@vet/backend';
 import {
   ButtonComponent,
-  Citizenship, FileUploadComponent, InfoComponent, kendoIcons, UploadedFile, useConfirm, VetSwitchComponent } from '@vet/shared';
+  Citizenship,
+  FileUploadComponent,
+  InfoComponent,
+  kendoIcons,
+  UploadedFile,
+  useConfirm,
+  VetSwitchComponent,
+} from '@vet/shared';
 import { delay, map, tap } from 'rxjs';
 import { AuthenticationService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';

@@ -69,3 +69,21 @@
 .map-container {
   padding: 0 10rem 5rem 10rem;
 }
+
+.vet-org-programs {
+  display: flex;
+  gap: 1rem;
+  width: 50%;
+  flex-direction: column;
+}
+
+.vet-default-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 60%;
+  }
+}

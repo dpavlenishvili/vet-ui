@@ -51,7 +51,7 @@
             [maxResizableWidth]="90"
             [resizable]="false"
           >
-            <ng-template kendoGridCellTemplate>
+            <ng-template kendoGridCellTemplate let-item>
               <div class="k-display-flex k-justify-content-center">
                 <vet-icon-button
                   icon="eye"
@@ -70,7 +70,8 @@
                     variant="error"
                     [title]="'non_formal.remove_program' | transloco"
                     kendoTooltip
-                    (click)="onRemoveClick()"
+                    (click)="removeProgram()"
+                    [disabled]="isFieldChangeDisabled()"
                     class="action-btn"
                   />
                 }

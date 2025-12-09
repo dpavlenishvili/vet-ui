@@ -1,0 +1,42 @@
+@let _page = page();
+
+<h6 class="vet-text-uppercase">
+  {{ _page.title }}
+</h6>
+
+@if (_page.children?.length) {
+  @for (child of _page.children; track child.slug) {
+    <a
+      class="app-footer-link-child"
+      [routerLink]="'/pages/' + child.slug"
+    >
+      {{ child.title }}
+    </a>
+  }
+}
+
+@if (_page.type === 'collection' && _page.collection) {
+  @let _isNavigationPage = isNavigationPage();
+
+  @for (collection of _page.collection; track collection.id) {
+    @if (_isNavigationPage) {
+      <a
+        [routerLink]="'/pages/' + _page.slug"
+        [queryParams]="{
+          collection: _isNavigationPage ? collection.id : undefined,
+          item: !_isNavigationPage ? collection.id : undefined,
+        }"
+      >
+        {{ _page.title }}
+      </a>
+    }
+
+    @if (collection.type !== 'articles') {
+      <vet-app-footer-sublinks
+        [page]="_page"
+        [collection]="collection"
+        [isNavigationPage]="_isNavigationPage"
+      />
+    }
+  }
+}

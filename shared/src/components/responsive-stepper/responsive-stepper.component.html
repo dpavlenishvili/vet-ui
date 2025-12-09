@@ -1,0 +1,65 @@
+<div class="vet-responsive-stepper" [class.expanded]="isExpanded()">
+  <vet-expandable-sidebar [(isExpanded)]="isExpanded">
+    <div class="vet-responsive-stepper-container" [class.collapsed]="!isExpanded()">
+      <kendo-stepper
+        [currentStep]="currentStepIndex()"
+        [steps]="kendoSteps()"
+        [stepType]="stepType()"
+        [orientation]="stepperOrientation()"
+        (currentStepChange)="handleStepChange($event)"
+      >
+        <ng-template kendoStepperIndicatorTemplate let-step let-index="index">
+          <div kendoTooltip [title]="!isExpanded() ? (step.label | trans) : ''" [position]="'right'">
+            {{ index + 1 }}
+          </div>
+        </ng-template>
+
+        <ng-template kendoStepperLabelTemplate let-step>
+          @if (isExpanded()) {
+            {{ step.label | trans }}
+          }
+        </ng-template>
+      </kendo-stepper>
+    </div>
+  </vet-expandable-sidebar>
+
+  <div class="step-content-container">
+    <div class="step-content">
+      @if (activeStep(); as currentStep) {
+        <div class="k-text-md k-color-body step-title">{{ currentStep.title | trans }}</div>
+
+        <div class="step-body">
+          @if (activeStepComponent()) {
+            <ng-container
+              *ngComponentOutlet="activeStepComponent(); injector: stepInjector"
+            />
+          } @else {
+            <ng-content />
+          }
+        </div>
+      }
+    </div>
+
+    <div class="step-navigation">
+      <div>
+        @if (canGoBack()) {
+          <vet-button
+            version="fat"
+            [text]="previousButtonLabel() | trans"
+            [variant]="'secondary'"
+            (click)="back()"
+          />
+        }
+      </div>
+
+      <vet-button
+        version="fat"
+        [text]="nextButtonLabel() | trans"
+        [disabled]="!canGoNext() || isSubmitting() || isNextActionLoading()"
+        [variant]="'primary'"
+        [isLoading]="isNextActionLoading() || isSubmitting()"
+        (click)="next()"
+      />
+    </div>
+  </div>
+</div>

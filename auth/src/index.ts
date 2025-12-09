@@ -1,7 +1,4 @@
 export * from './access-control';
-export {
-  RegistrationPhoneVerificationComponent
-} from './registration/registration-phone-verification/registration-phone-verification.component';
 
 export * from './interceptors/authentication.interceptor';
 
@@ -18,5 +15,4 @@ export * from './authentication.service';
 export * from './auth.signals';
 export * from './auth.types';
 export * from './user-roles.service';
-export * from './skip-authorization-token-ctx';
 export * from './authenticated.guard';

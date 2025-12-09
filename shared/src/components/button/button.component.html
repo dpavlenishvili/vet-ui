@@ -2,18 +2,27 @@
 @let _trailingIcon = trailingIcon();
 @let _version = version();
 @let _iconSize = iconSize() || (_version === 'fat' ? 'medium' : 'small');
+@let _isLoading = isLoading();
 
 <button
   kendoButton
   class="vet-button vet-button-{{ _version }}"
+  [class.vet-floating-fix]="floatingFix() !== false"
+  [class.vet-button-loading]="_isLoading"
   [type]="type()"
   [fillMode]="mode()"
   [themeColor]="variant()"
-  [disabled]="disabled()"
+  [disabled]="disabled() || _isLoading"
 >
   <ng-content select="[prefix]" />
 
-  @if (_leadingIcon) {
+  @if (_isLoading) {
+    <vet-icon
+      class="vet-button-icon vet-icon-leading vet-loading-spinner"
+      icon="loadingSpinner"
+      [size]="_iconSize"
+    />
+  } @else if (_leadingIcon) {
     <vet-icon
       class="vet-button-icon vet-icon-leading"
       [icon]="_leadingIcon"
@@ -22,6 +31,7 @@
   }
 
   <span>
+    {{ text() }}
     <ng-content />
   </span>
 

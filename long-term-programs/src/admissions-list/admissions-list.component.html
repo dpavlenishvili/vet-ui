@@ -1,8 +1,10 @@
 <div class="k-bg-white k-p-5 k-mb-4 k-rounded-lg">
   <div class="k-d-flex k-justify-content-between k-align-items-center">
-    <span>
+    <!-- temporarily hide before we have text! -->
+    <!-- <span>
       {{ 'shared.informationMessage' | transloco }}
-    </span>
+    </span> -->
+    <span></span>
     <vet-button
       (click)="registerStatus$.value()?.data?.is_available && onRegisterClick()"
       version="fat"

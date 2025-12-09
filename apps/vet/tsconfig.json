@@ -19,6 +19,9 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./tsconfig.local.json"
     }
   ],
   "extends": "../../tsconfig.base.json",

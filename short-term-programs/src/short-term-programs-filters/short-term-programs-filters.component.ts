@@ -47,6 +47,7 @@ import { tap } from 'rxjs';
 })
 export class ShortTermProgramsFiltersComponent implements OnInit {
   filters = input.required<ShortTermProgramFilters>();
+  foundCount = input.required<'programs' | 'admissions'>();
   filtersChange = output<ShortTermProgramFilters>();
 
   hasExtraFilters = computed(() => Object.keys(this.filters()).filter((key) => key !== 'search').length > 0);
@@ -116,8 +117,8 @@ export class ShortTermProgramsFiltersComponent implements OnInit {
       search: new FormControl<string>(''),
       program_name_or_code: new FormControl(''),
       isced_code: new FormControl<string | null>(null),
-      region: new FormControl<string | null>(null),
-      district: new FormControl<string | null>(null),
+      region: new FormControl<number | null>(null),
+      district: new FormControl<number | null>(null),
       organisation_name: new FormControl(''),
       program_kind: new FormControl<string | null>(null),
       start_study: new FormControl<string | null>(null),
@@ -136,6 +137,10 @@ export class ShortTermProgramsFiltersComponent implements OnInit {
       Object.entries(raw).map(([key, value]) => {
         if (typeof value === 'boolean' && value === false) {
           return [key, undefined];
+        }
+        // Convert number region/district to string for filter type
+        if ((key === 'region' || key === 'district') && value != null) {
+          return [key, String(value)];
         }
         return [key, value];
       }),
@@ -169,7 +174,12 @@ export class ShortTermProgramsFiltersComponent implements OnInit {
 
   onDialogFiltersChange(filters: ShortTermProgramFilters | null) {
     if (filters) {
-      this.formGroup.patchValue(filters);
+      // Convert string region/district from filters to number for form controls
+      this.formGroup.patchValue({
+        ...filters,
+        region: filters.region != null ? Number(filters.region) : null,
+        district: filters.district != null ? Number(filters.district) : null,
+      });
       this.onSubmit();
     }
   }

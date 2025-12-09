@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, input, OnDestroy, output, signal, viewChild } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
 import { IconModule, SVGIconModule } from '@progress/kendo-angular-icons';
@@ -26,7 +26,7 @@ import { vetIcons } from '../../shared.icons';
   styleUrl: './dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent {
+export class DialogComponent implements AfterViewInit, OnDestroy {
   title = input<string>();
   showHeader = input<boolean>(true);
   showActionsBar = input<boolean>(true);
@@ -37,7 +37,40 @@ export class DialogComponent {
   // eslint-disable-next-line @angular-eslint/no-output-native
   close = output();
 
+  contentContainer = viewChild<ElementRef>('contentContainer');
+  
+  hasDialogActions = signal(false);
+  private mutationObserver?: MutationObserver;
+
   vetIcons = vetIcons;
+
+  ngAfterViewInit() {
+    const container = this.contentContainer()?.nativeElement;
+
+    if (!container) {
+      return;
+    }
+
+    this.checkForDialogActions(container);
+
+    this.mutationObserver = new MutationObserver(() => {
+      this.checkForDialogActions(container);
+    });
+
+    this.mutationObserver.observe(container, {
+      childList: true,
+      subtree: true,
+    });
+  }
+
+  ngOnDestroy() {
+    this.mutationObserver?.disconnect();
+  }
+
+  private checkForDialogActions(container: HTMLElement) {
+    const hasActions = !!container.querySelector('[dialog-actions]');
+    this.hasDialogActions.set(hasActions);
+  }
 
   onClose() {
     this.close.emit();

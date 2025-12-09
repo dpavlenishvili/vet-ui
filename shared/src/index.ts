@@ -6,6 +6,7 @@ export * from './components/confirmation-dialog-outlet/confirmation-dialog-outle
 export * from './components/dialog/dialog.component';
 export * from './components/dialog-outlet/dialog-outlet.component';
 export * from './components/date-picker/date-picker.component';
+export * from './components/responsive-stepper/responsive-stepper.component';
 export * from './components/switch';
 export * from './components/selector';
 export * from './components/input';
@@ -15,8 +16,9 @@ export * from './components/icon-button';
 export * from './components/checkbox';
 export * from './components/single-dialog-outlet/single-dialog-outlet.component';
 export * from './components/component-outlet.component';
+export * from './components/expandable-sidebar-menu/expandable-sidebar-menu.component';
 export * from './components/expandable-sidebar/expandable-sidebar.component';
-export * from './components/router-expandable-sidebar/router-expandable-sidebar.component';
+export * from './components/router-expandable-sidebar-menu/router-expandable-sidebar-menu.component';
 export * from './components/education-standarts/eduaction-standarts.component';
 export * from './components/map/map.component';
 
@@ -44,7 +46,6 @@ export * from './validators/custom-pattern-validator';
 export * from './validators/georgian-letters-validator';
 export * from './validators/english-letters-validator';
 export * from './validators/mobile-number-validator';
-export * from './validators/password-pattern-validator';
 export * from './validators/personal-number-validator';
 export * from './validators/score-pattern-validator';
 
@@ -65,7 +66,6 @@ export { mobileNumberValidator } from './validators/mobile-number-validator';
 export { customPatternValidator } from './validators/custom-pattern-validator';
 export { georgianLettersValidator } from './validators/georgian-letters-validator';
 export { englishLettersValidator } from './validators/english-letters-validator';
-export { passwordPatternValidator } from './validators/password-pattern-validator';
 export { personalNumberValidator } from './validators/personal-number-validator';
 export { numericValidator } from './validators/numeric-validator';
 export * from './shared.validators';

@@ -3,15 +3,15 @@
 :host {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
   width: 100%;
+  min-width: 0;
 }
 
 .vet-label {
-  color: shared.$kendo-color-body;
+  @include shared.text-base();
   line-height: 100%;
   height: 1.0625rem;
-  @include shared.text-base();
+  margin-bottom: 0.25rem;
 }
 
 kendo-textbox.vet-input {
@@ -33,14 +33,26 @@ kendo-textbox.vet-input {
 }
 
 .vet-error-message {
-  color: shared.$kendo-color-error;
-  margin-top: 0.25rem;
-  margin-left: 0.625rem;
   @include shared.text-sm();
+  padding: 0.0625rem 0.625rem 0;
+  color: shared.$kendo-color-error;
+  font-size: 0.7rem;
+  line-height: 0.6875rem;
+  min-height: 0.75rem;
+  max-height: 0.75rem;
+  white-space: nowrap;
+  overflow-x: clip;
+  text-overflow: ellipsis;
+  width: 100%;
+  min-width: 0;
+  margin-top: 0.25rem;
 }
 
 kendo-textbox.vet-input {
   width: 100%;
+}
+
+.vet-input-container {
 }
 
 ::ng-deep {
@@ -68,6 +80,31 @@ kendo-textbox.vet-input {
     .vet-input-icon {
       padding: 0.375rem;
       color: shared.$kendo-color-body-light;
+    }
+
+    .k-floating-label-container {
+      padding-top: 0 !important;
+    }
+  }
+
+  kendo-formfield.vet-input-field {
+    margin-top: 0.25rem !important;
+
+    kendo-floatinglabel.vet-input-floating-label {
+      &.k-floating-label-container {
+        padding-top: 0 !important;
+      }
+
+      &.k-floating-label-container > .k-floating-label {
+        margin-top: 0 !important;
+        top: 9px;
+      }
+
+      &.k-floating-label-container.k-focus > .k-floating-label,
+      &.k-floating-label-container:not(.k-empty) .k-input.ng-touched:not(.ng-invalid) ~ .k-floating-label,
+      &.k-floating-label-container:not(.k-empty) > .k-floating-label {
+        top: -9px;
+      }
     }
   }
 }

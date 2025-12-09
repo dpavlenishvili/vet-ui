@@ -1,23 +1,41 @@
-<kendo-scrollview
-  #scrollViewComponent
-  class="posts vet-posts-scrollview !k-border-none"
-  [data]="items()"
-  [width]="width"
-  [height]="height"
-  [animate]="true"
-  [arrows]="true"
-  [pageable]="true"
->
-  <ng-template let-item="item">
-    <div class="posts__item">
-      <div class="posts__item-image">
-        <img [src]="item.imageUrl" alt="Post Image" class="posts__item-image-img" />
-      </div>
-      <div class="posts__item-content">
-        <small class="posts__item-content-date">{{ item.date }}</small>
-        <h3 class="posts__item-content-title">{{ item.title }}</h3>
-        <p class="posts__item-content-description">{{ item.description }}</p>
-      </div>
-    </div>
-  </ng-template>
-</kendo-scrollview>
+@let _pinnedItems = pinnedItems();
+
+@if (_pinnedItems?.length) {
+  <kendo-scrollview
+    #scrollViewComponent
+    class="posts vet-posts-scrollview !k-border-none"
+    [data]="pinnedItems()"
+    [width]="width"
+    [height]="height"
+    [animate]="true"
+    [arrows]="true"
+    [pageable]="true"
+  >
+    <ng-template let-item="item">
+      @if (item?.image || item?.title || item?.content) {
+        <div class="vet-pinned-post">
+          <div class="vet-pinned-post-image-container">
+            @if (item.image) {
+              <img
+                class="vet-pinned-post-image"
+                [src]="item.image | vetUploadedFileUri"
+                [attr.alt]="item.slug"
+              />
+            }
+          </div>
+          <div class="vet-pinned-post-content">
+            <small class="vet-pinned-post-date">
+              {{ item.created_at | date: 'short' }}
+            </small>
+            <h3 class="vet-pinned-post-title">{{ item.title }}</h3>
+            <p class="vet-pinned-post-description">
+              <vet-page-content
+                [content]="(item.content | slice: 0 : 130) + ((item.content?.length || 0) > 130 ? '...' : '')"
+              />
+            </p>
+          </div>
+        </div>
+      }
+    </ng-template>
+  </kendo-scrollview>
+}

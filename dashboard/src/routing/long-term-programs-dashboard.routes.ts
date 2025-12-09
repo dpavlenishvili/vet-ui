@@ -15,6 +15,16 @@ export const longTermProgramsDashboardRoutes: Route[] = [
     ]),
   },
   {
+    path: 'registered-applicant',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('@vet/long-term-programs').then((m) => m.AdmissionsListContainerComponent),
+    data: breadcrumb([
+      ...baseBreadcrumbItems,
+      { path: `${BASE_PATH}/registered-applicant`, text: 'dashboard.registered_applicant' },
+    ]),
+  },
+  {
     path: 'commission/members',
     loadComponent: () =>
       import('@vet/long-term-programs').then((m) => m.CommissionMembersComponent),

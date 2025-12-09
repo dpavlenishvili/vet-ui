@@ -22,6 +22,7 @@ export class UnauthorisedProgramsGridComponent implements OnDestroy {
 
   unAuthorisedPrograms = usePrograms(this.page, this.perPage);
   allPrograms = signal<LongTerm[]>([]);
+  totalPrograms = signal<number>(0);
 
   private scrollHandler = () => this.onScroll();
 
@@ -36,6 +37,8 @@ export class UnauthorisedProgramsGridComponent implements OnDestroy {
         if (this.page() === 1) return res.data!;
         return [...prev, ...res.data!];
       });
+
+      this.totalPrograms.update(() => res.meta?.total ?? 0);
     });
 
     window.addEventListener('scroll', this.scrollHandler);

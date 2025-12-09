@@ -1,5 +1,5 @@
 import { rxResource } from '@angular/core/rxjs-interop';
-import { inject } from '@angular/core';
+import { inject, Signal } from '@angular/core';
 import { NonFormalService } from '@vet/backend';
 import { map } from 'rxjs';
 import { flattenQueryParams, PaginatedGridResult, useFilters, usePage } from '@vet/shared';
@@ -37,5 +37,27 @@ export function useNonFormalPrograms() {
               }) as PaginatedGridResult,
           ),
         ),
+  });
+}
+
+export function useNonFormals(page: Signal<number>, perPage = 5) {
+  const nonFormalService = inject(NonFormalService);
+  const filters = useFilters<ProgramFilters>();
+
+  return rxResource({
+    request: () => ({
+      filters: filters(),
+      page: page(),
+      perPage,
+    }),
+    loader: ({ request }) => {
+      const queryParams = {
+        page: request.page.toString(),
+        perPage: request.perPage.toString(),
+        ...flattenQueryParams(request.filters, 'filters'),
+      };
+
+      return nonFormalService.nonFormals(queryParams as any);
+    },
   });
 }

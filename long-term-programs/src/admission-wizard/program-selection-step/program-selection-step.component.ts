@@ -7,7 +7,7 @@ import {
   input,
   OnInit,
   output,
-  signal
+  signal,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputsModule, RadioButtonModule } from '@progress/kendo-angular-inputs';
@@ -23,7 +23,7 @@ import {
   kendoIcons,
   RouteParamsService,
   useAlert,
-  vetIcons
+  vetIcons,
 } from '@vet/shared';
 import { GridDataResult, GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { DialogModule } from '@progress/kendo-angular-dialog';

@@ -10,15 +10,13 @@ import {
   ButtonComponent as VetButtonComponent,
   FileUploadComponent,
   InputComponent,
-  SelectorComponent,
   VetCheckboxComponent,
   vetIcons,
-  VetSwitchComponent
+  VetSwitchComponent,
 } from '@vet/shared';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { NonFormalApplicationData } from '../application-wizard.component';
-import { of, map } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { map, of } from 'rxjs';
 
 interface CheckboxOption {
   id: number;
@@ -37,10 +35,8 @@ interface CheckboxOption {
     FileUploadComponent,
     VetCheckboxComponent,
     InputComponent,
-    SelectorComponent,
     VetButtonComponent,
     VetSwitchComponent,
-    CommonModule,
     FormsModule,
   ],
   templateUrl: './non-formal-confirmation-step.component.html',
@@ -111,6 +107,23 @@ export class NonFormalConfirmationStepComponent {
     return selectedEducation?.level || '';
   });
 
+  protected details = computed(() => {
+    const user = this.user();
+
+    const educationStatus = this.selectedEducation();
+
+    if (!user) {
+      return null;
+    }
+
+    return [
+      { label: 'shorts.pid', value: user.pid },
+      { label: 'shorts.name_surname', value: user.name },
+      { label: 'shorts.mobile', value: user.phone },
+      { label: 'shorts.education', value: educationStatus },
+    ];
+  });
+
   protected readonly programId = computed(() => this.applicationData()?.non_formal_id);
 
   protected readonly selectedProgramResource = rxResource({
@@ -143,6 +156,18 @@ export class NonFormalConfirmationStepComponent {
       value: edu.levelId ? Number(edu.levelId) : null,
     }));
   });
+
+  get selectedRecognitionPurposes() {
+    return this.recognitionPurposeOptions.filter((o) => this.isCheckboxChecked(o.id, 'recognition_purpose'));
+  }
+
+  get selectedWhoTaughtYouOptions() {
+    return this.whoTaughtYouOptions.filter((o) => this.isCheckboxChecked(o.id, 'who_taught_you'));
+  }
+
+  get selectedSourceOfInformationOptions() {
+    return this.sourceOfInformationOptions.filter((o) => this.isCheckboxChecked(o.id, 'source_of_information'));
+  }
 
   protected onBackClick(): void {
     this.back.emit();

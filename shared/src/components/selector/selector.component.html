@@ -1,50 +1,69 @@
-<kendo-dropdownlist
-  class="vet-selector vet-selector-{{ version() }}"
-  [class.vet-has-error]="hasError()"
-  [data]="options()"
-  [filterable]="filterable()"
-  [kendoDropDownFilter]="filterSettings"
-  [valueField]="valueField()"
-  [textField]="textField()"
-  [valuePrimitive]="true"
-  [defaultItem]="defaultItem()"
-  [disabled]="isDisabled() || disabled()"
-  [ngModel]="value()"
-  (ngModelChange)="handleChange($event)"
->
-  <ng-template kendoDropDownListValueTemplate let-item>
-    <div class="k-w-full k-display-flex k-justify-content-between k-align-items-center">
-      <div class="k-display-flex k-align-items-center k-gap-2 k-m-1">
-        <ng-content select="[before]" />
-        @if (item.value) {
-          <span><b>{{ item.label | transloco }}</b></span>
-        } @else {
-          <span>{{ item.label | transloco }}</span>
-        }
+@let _label = label();
 
-        <ng-content select="[after]" />
-      </div>
+@if (_label && !floatingLabel()) {
+  <label class="vet-label" [for]="id()">
+    {{ _label }}
+  </label>
+}
 
-      <kendo-svg-icon
-        class="k-color-body-light"
-        [icon]="vetIcons.chevronDown"
-        [style.width.px]="10"
-        [style.height.px]="6"
-      />
-    </div>
-  </ng-template>
 
-  <ng-template kendoDropDownListItemTemplate let-item>
-    <p class="vet-list-item">{{ item.label | transloco }}</p>
-  </ng-template>
+<div vet-container class="vet-selector-container">
+  <div vet-row>
+    <ng-content select="[before]" />
 
-  <ng-template kendoDropDownListNoDataTemplate>
-    <p>{{ 'shared.noRecords' | transloco }}</p>
-  </ng-template>
-</kendo-dropdownlist>
+    <kendo-dropdownlist
+      [id]="id()"
+      class="vet-selector vet-selector-{{ version() }}"
+      [class.vet-has-error]="hasError()"
+      [data]="options()"
+      [filterable]="filterable()"
+      [kendoDropDownFilter]="filterSettings"
+      [valueField]="valueField()"
+      [textField]="textField()"
+      [valuePrimitive]="true"
+      [defaultItem]="defaultItem()"
+      [disabled]="isDisabled() || disabled()"
+      [ngModel]="value()"
+      (ngModelChange)="handleChange($event)"
+    >
+      <ng-template kendoDropDownListValueTemplate let-item>
+        <div class="k-w-full k-display-flex k-justify-content-between k-align-items-center">
+          <div class="k-display-flex k-align-items-center k-gap-2 k-m-1">
+            <ng-content select="[prefix]" />
 
-@if (hasError()) {
+            @if (item.value) {
+              <span><b>{{ item.label | transloco }}</b></span>
+            } @else {
+              <span>{{ item.label | transloco }}</span>
+            }
+
+            <ng-content select="[suffix]" />
+          </div>
+
+          <kendo-svg-icon
+            class="k-color-body-light"
+            [icon]="vetIcons.chevronDown"
+            [style.width.px]="10"
+            [style.height.px]="6"
+          />
+        </div>
+      </ng-template>
+
+      <ng-template kendoDropDownListItemTemplate let-item>
+        <p class="vet-selector-item">{{ item.label | transloco }}</p>
+      </ng-template>
+
+      <ng-template kendoDropDownListNoDataTemplate>
+        <p>{{ 'shared.noRecords' | transloco }}</p>
+      </ng-template>
+    </kendo-dropdownlist>
+
+    <ng-content select="[after]" />
+  </div>
+</div>
+
+@if (hasError() || (version() === 'fat' && !dense())) {
   <div class="vet-error-message">
-    {{ errorMessage() | transloco }}
+    {{ hasError() ? (error() ? error() : (errorMessage() | transloco)) : '' }}
   </div>
 }

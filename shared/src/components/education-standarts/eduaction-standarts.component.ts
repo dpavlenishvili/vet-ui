@@ -4,13 +4,14 @@ import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { ButtonComponent, vetIcons } from '@vet/shared';
+import { vetIcons } from '../../shared.icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { InputVersion } from '../input';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
+import { ButtonComponent } from '../button';
 
 @Component({
   selector: 'vet-eduaction-standarts',
@@ -30,7 +31,7 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
   isDialogOpen = signal(false);
 
   educationStandards = rxResource({
-    loader: () => this.generalsService.getIsceds().pipe(map((response) => response.data)),
+    loader: () => this.generalsService.getNqf().pipe(map((response) => response.data)),
   });
 
   // Changed to signal for better reactivity
@@ -58,11 +59,17 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
     return `errors.${error}`;
   });
 
-  writeValue(value: string[] | null): void {
+  writeValue(value: string[] | null | Record<number, string>): void {
     const newSet = new Set<string>();
-    if (Array.isArray(value) && value.length > 0) {
-      value.forEach((v) => newSet.add(v));
+
+    if (value) {
+      if (Array.isArray(value)) {
+        value.forEach((v) => newSet.add(v));
+      } else if (typeof value === 'object') {
+        Object.values(value).forEach((v) => newSet.add(v));
+      }
     }
+
     this.selectedCodes.set(newSet);
   }
 
@@ -101,15 +108,15 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
     event.stopPropagation();
     const currentCodes = this.selectedCodes();
     const isChecked = currentCodes.has(item.code);
-    
+
     const newCodes = new Set(currentCodes);
-    
+
     if (isChecked) {
       this.deselectRecursive(item, newCodes);
     } else {
       this.selectRecursive(item, newCodes);
     }
-    
+
     this.selectedCodes.set(newCodes);
     const codesArray = Array.from(newCodes);
     this.onChange(codesArray.length > 0 ? codesArray : null);
@@ -137,7 +144,7 @@ export class EduactionStandartsComponent implements ControlValueAccessor {
     const standards = this.educationStandards.value() ?? [];
     const all = this.flattenItems(standards);
     const currentCodes = this.selectedCodes();
-    
+
     return all
       .filter((i: any) => currentCodes.has(i.code))
       .map((i: any) => i.title)

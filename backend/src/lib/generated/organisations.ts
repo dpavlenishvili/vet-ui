@@ -20,6 +20,10 @@ export class OrganisationsService {
       'filters[id]'?: number;
       /** Filter by name */
       'filters[name]'?: string;
+      /** Filter by region id */
+      'filters[region]'?: string;
+      /** Filter by region id */
+      'filters[district]'?: string;
       /** Filter by org type */
       'filters[org_type]'?: string;
       /** Filter by org institution_type_id */
@@ -149,9 +153,11 @@ export class OrganisationsService {
           lng?: number | null;
         };
         field_of_activities?: {
+          /** @example "სოფლის, სატყეო და თევზის მეურნეობა" */
           section_name?: string;
+          /** @example "მემცენარეობა და მეცხოველეობა, ნადირობა და აღნიშნულ სფეროებში მომსახურების გაწევა" */
           division_name?: string;
-        };
+        }[];
         gallery?: string[];
       };
     }>(`${this.baseUrl}/organisations/${organisation}`, options);

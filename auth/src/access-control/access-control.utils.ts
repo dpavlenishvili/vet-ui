@@ -1,9 +1,13 @@
 import { AuthPermission, AuthRole } from '../auth.types';
 import {
   AccessControl,
-  CanControl, CanEveryControl, CanSomeControl,
-  EveryControl, IsAuthenticatedControl,
-  IsControl, IsOneOfControl,
+  CanControl,
+  CanEveryControl,
+  CanSomeControl,
+  EveryControl,
+  IsAuthenticatedControl,
+  IsControl,
+  IsOneOfControl,
   NotControl,
   SomeControl
 } from './access-control.types';

@@ -1,40 +1,36 @@
 @if (form(); as form) {
-  <form class="k-display-flex k-flex-column k-gap-10" [formGroup]="form">
-    <div class="k-formfield-wrap">
-      <div class="k-display-flex radio-buttons-container">
-        <div class="k-display-flex k-gap-3">
-          <kendo-radiobutton
-            #georgian
+  <form vet-container gap-s [formGroup]="form">
+    <div vet-container gap-s>
+      <div vet-row gap-wide>
+        <label vet-line>
+          <input
+            type="radio"
             formControlName="citizenship"
             [value]="citizenship.Georgian"
-            (checkedChange)="onRadioChange($event, citizenship.Georgian)"
+            (change)="onRadioChange(true, citizenship.Georgian)"
+            class="vet-radio"
           />
-          <kendo-label [for]="georgian" [text]="'auth.georgian_citizen' | transloco" />
-        </div>
+          <span>{{ 'auth.georgian_citizen' | transloco }}</span>
+        </label>
 
-        <div class="k-display-flex k-gap-3">
-          <kendo-radiobutton
-            #foreigner
+        <label vet-line>
+          <input
+            type="radio"
             formControlName="citizenship"
             [value]="citizenship.Foreigner"
-            (checkedChange)="onRadioChange($event, citizenship.Foreigner)"
+            (change)="onRadioChange(true, citizenship.Foreigner)"
+            class="vet-radio"
           />
-          <kendo-label [for]="foreigner" [text]="'auth.other_citizen' | transloco" />
-        </div>
+          <span>{{ 'auth.other_citizen' | transloco }}</span>
+        </label>
       </div>
 
       @if (isWarningVisible()) {
-        <kendo-formerror class="k-display-flex k-gap-2 k-align-items-center">
-          <kendo-svg-icon [icon]="kendoIcons.warningCircleIcon" [size]="'small'" />
+        <div vet-line align-center class="vet-error-message">
+          <vet-icon icon="infoWarning" />
           <span>{{ 'auth.choose_one' | transloco }}</span>
-        </kendo-formerror>
+        </div>
       }
-    </div>
-
-    <div class="k-display-flex k-justify-content-end">
-      <button kendoButton themeColor="primary" (click)="onNextClick()">
-        {{ 'auth.next' | transloco }}
-      </button>
     </div>
   </form>
 }

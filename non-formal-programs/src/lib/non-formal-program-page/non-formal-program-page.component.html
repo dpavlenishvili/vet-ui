@@ -42,7 +42,7 @@
 
 @if (_program) {
   <vet-program-page
-    [showGallery]="false"
+    [showGallery]="true"
     [showPartners]="false"
     [showIscedList]="false"
     [program]="_program"
@@ -71,7 +71,7 @@
           }
         } @else {
           <div class="vet-nf-no-announcement">
-            <kendo-svg-icon [icon]="vetIcons.searchBg" />
+            <kendo-svg-icon size="xxxlarge" [icon]="vetIcons.searchBg" />
             <p>{{ 'non_formal.recognition_not_announced_message' | transloco }}</p>
           </div>
         }

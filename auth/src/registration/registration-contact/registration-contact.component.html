@@ -1,0 +1,24 @@
+@if (form(); as formGroup) {
+  <form vet-container gap-s [formGroup]="formGroup">
+    <div vet-container>
+      <div vet-row>
+        <vet-input
+          self-grow
+          version="fat"
+          formControlName="email"
+          [topLabelFromThe90s]="'auth.email' | transloco"
+        />
+
+        <div self-grow>
+          <vet-icon
+            class="k-color-primary"
+            [icon]="'info'"
+            [tooltip]="'shared.email_info' | transloco"
+          />
+        </div>
+      </div>
+    </div>
+
+    <vet-registration-phone [form]="formGroup" />
+  </form>
+}

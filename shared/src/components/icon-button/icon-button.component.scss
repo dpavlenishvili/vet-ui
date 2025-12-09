@@ -4,6 +4,10 @@
   display: block;
 }
 
+.vet-icon-button:disabled {
+  pointer-events: auto !important;
+}
+
 button.k-button.vet-icon-button {
   border-radius: 0.625rem;
   @include shared.text-sm();

@@ -1,0 +1,8 @@
+{
+  "/api/v1": {
+    "target": "https://develop-vet-back.dev01.dev.emis.ge",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

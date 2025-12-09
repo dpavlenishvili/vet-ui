@@ -1,15 +1,49 @@
+@use '@vet/shared-styles' as shared;
+
 :host {
   display: block;
 
-  .radio-buttons-container {
-    @media (max-width: 767px) {
-      flex-direction: column;
-      gap: 3.5rem;
+  label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .vet-radio {
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      border: 1px solid shared.$kendo-color-border-alt;
+      background-color: #fff;
+      cursor: pointer;
+      appearance: none;
+      margin: 0;
+      position: relative;
+
+      &:checked {
+        border-color: shared.$tb-kendo-color-primary;
+        background-color: shared.$tb-kendo-color-primary;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3e%3ccircle cx='50%25' cy='50%25' r='4' fill='white'/%3e%3c/svg%3e");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+
+      &:focus {
+        outline: 2px solid rgba(61, 139, 150, 0.3);
+        outline-offset: 2px;
+      }
     }
 
-    @media (min-width: 768px) {
-      flex-direction: row;
-      gap: 2.5rem;
+    span {
+      @include shared.text-base();
+      color: shared.$kendo-color-body;
     }
+  }
+
+  .vet-error-message {
+    color: shared.$kendo-color-error;
+    @include shared.text-sm();
+    margin-top: 0.5rem;
   }
 }

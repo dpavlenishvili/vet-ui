@@ -24,7 +24,7 @@
     </div>
   </kendo-dialog-titlebar>
 
-  <div>
+  <div #contentContainer class="vet-dialog-content-container" [class.has-actions]="hasDialogActions()">
     <ng-content/>
     <ng-content select="[content]"/>
   </div>

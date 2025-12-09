@@ -10,7 +10,7 @@
     <div class="vet-admission-table vet-grid-table vet-grid-size-6 vet-grid-dense k-mt-10">
       <div class="vet-grid-cell vet-grid-long-cell vet-grid-header">{{ 'programs.registration_period' | transloco }}</div>
       <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_start_date' | transloco }}</div>
-      <div class="vet-grid-cell vet-grid-header">{{ 'programs.number_of_vacant_positions' | transloco }}</div>
+      <div class="vet-grid-cell vet-grid-header">{{ 'programs.number_of_listeners_positions' | transloco }}</div>
       <div class="vet-grid-cell vet-grid-header">{{ 'programs.tuition_fee' | transloco }}</div>
       <div class="vet-grid-cell vet-grid-header">{{ 'programs.grant_status' | transloco }}</div>
       <div class="vet-grid-cell vet-grid-header">{{ 'programs.listener_fee' | transloco }}</div>
@@ -23,7 +23,9 @@
         <div class="vet-grid-cell">{{ admission.students_limit }}</div>
         <div class="vet-grid-cell">{{ admission.program_fee }}</div>
         <div class="vet-grid-cell">{{ admission.funded_method }}</div>
-        <div class="vet-grid-cell">{{ admission.student_fee }}</div>
+        <div class="vet-grid-cell">
+          {{ admission.funded_method === yesNoEnum.no ? admission.program_fee : admission.student_fee }}
+        </div>
       }
     </div>
 

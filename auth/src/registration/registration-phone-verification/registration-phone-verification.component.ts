@@ -8,9 +8,9 @@ import {
   model,
   output,
   signal,
-  viewChildren
+  viewChildren,
 } from '@angular/core';
-import { ErrorComponent, NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
+import { ErrorComponent, HintComponent, NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 import { type ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { useAuthEnvironment } from '../../auth.providers';
 import { RegistrationPhoneTimeoutComponent } from '../registration-phone-timeout/registration-phone-timeout.component';
@@ -21,7 +21,14 @@ export type VerificationState = 'default' | 'valid' | 'invalid';
 
 @Component({
   selector: 'vet-registration-phone-verification',
-  imports: [FormsModule, NumericTextBoxComponent, RegistrationPhoneTimeoutComponent, ErrorComponent, TranslocoPipe],
+  imports: [
+    FormsModule,
+    NumericTextBoxComponent,
+    RegistrationPhoneTimeoutComponent,
+    ErrorComponent,
+    TranslocoPipe,
+    HintComponent,
+  ],
   templateUrl: './registration-phone-verification.component.html',
   styleUrl: './registration-phone-verification.component.scss',
   providers: [
@@ -34,6 +41,7 @@ export type VerificationState = 'default' | 'valid' | 'invalid';
   standalone: true,
 })
 export class RegistrationPhoneVerificationComponent implements ControlValueAccessor {
+  isSuccess = input(false);
   isPending = input(false);
   errorMessage = model<string | null>(null);
   timeSent = input(Date.now());
@@ -52,10 +60,8 @@ export class RegistrationPhoneVerificationComponent implements ControlValueAcces
 
   readonly input = computed(() =>
     this.digits()
-      .map((digit: number | null): string =>
-        digit !== null && digit !== undefined ? digit.toString() : ''
-      )
-      .join('')
+      .map((digit: number | null): string => (digit !== null && digit !== undefined ? digit.toString() : ''))
+      .join(''),
   );
 
   readonly state = computed<VerificationState>(() => {

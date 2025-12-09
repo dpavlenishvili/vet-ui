@@ -1,35 +1,33 @@
 @let _program = sanitizedProgram();
 
 <div class="vet-non-formal-card">
-  <div class="vet-non-formal-card-top">
+  <div class="vet-non-formal-card-header">
     <div class="vet-non-formal-card-icon" [innerHTML]="_program.icon"></div>
 
-    <div class="vet-non-formal-card-info">
+    <div class="vet-non-formal-card-heading">
       <div class="vet-non-formal-card-title">
-        {{ _program.isced }} <span class="separator">|</span> {{ 'non_formal.code' | transloco }}: {{ _program.isced_code }}
+        {{ _program.isced }} <span class="separator">|</span> {{ 'non_formal.code' | transloco }}:
+        {{ _program.isced_code }}
       </div>
-
-      <div class="vet-non-formal-card-recognition">
-        {{ 'non_formal.recognition_result' | transloco }}: {{ 'non_formal.not_available_yet' | transloco }}
-      </div>
+      <!-- <div class="vet-non-formal-card-subtitle">{{ 'non_formal.recognition_result' | transloco }}: {{ 'non_formal.not_available_yet' | transloco }}</div> -->
     </div>
-
-    @if (_program?.registration_is_progress) {
-      <kendo-svg-icon [icon]="vetIcons.successCircle" class="vet-non-formal-card-check" />
-    }
   </div>
 
-  <div class="vet-non-formal-card-organisation">
+  <div class="vet-non-formal-card-field-container">
     {{ _program.organisation?.name }}
   </div>
 
-  <div class="vet-non-formal-card-bottom">
+  <div class="vet-non-formal-card-footer">
     <div class="vet-non-formal-card-location">
       <kendo-svg-icon [icon]="vetIcons.locationPin" />
-      <span>{{ _program.organisation?.address }}</span>
+      <span class="vet-non-formal-card-address">{{ _program.organisation?.address }}</span>
     </div>
 
-    <a [routerLink]="['/programs/non-formal', _program.id]" [queryParams]="{programName: _program.isced}" class="vet-non-formal-card-link">
+    <a
+      [routerLink]="['/programs/non-formal', _program.id]"
+      [queryParams]="{ programName: _program.isced }"
+      class="vet-non-formal-card-link"
+    >
       {{ 'non_formal.view_details' | transloco }}
     </a>
   </div>

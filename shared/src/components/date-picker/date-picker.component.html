@@ -1,21 +1,21 @@
 <div>
-  <kendo-textbox
-    class="vet-filter-input vet-date-picker"
-    [class.vet-has-error]="hasError()"
+  <vet-input
     [ngModel]="displayValue()"
-    fillMode="outline"
-    inputmode="flat"
     [placeholder]="placeholder()"
-    [readonly]="true"
+    [floatingLabel]="floatingLabel()"
+    [label]="label()"
     [clearButton]="true"
-    [disabled]="isDisabled() || disabled()"
-    (focus)="onTextboxFocus()"
-    (blur)="onTextboxBlur()"
-  >
-    <ng-template kendoTextBoxSuffixTemplate>
-      <kendo-svgicon [icon]="vetIcons.scheduleIcon" />
-    </ng-template>
-  </kendo-textbox>
+    [disabled]="isDisabled()"
+    [isInvalid]="hasError()"
+    [readonly]="readonly()"
+    [error]="error() ? error() : (errorMessage() | transloco)"
+    [dense]="dense()"
+    [version]="version()"
+    [maxlength]="defaultDisplayDateFormat.length"
+    trailingIcon="scheduleIcon"
+    (ngModelChange)="onDisplayValueChange($event)"
+    (click)="datePicker.isOpen ? datePicker.toggle(false) : datePicker.toggle(true)"
+  />
 
   <kendo-datepicker
     #datePicker
@@ -25,13 +25,7 @@
     [ngModel]="value()"
     [min]="minDate()"
     [max]="maxDate()"
-    [disabled]="isDisabled() || disabled()"
+    [disabled]="isDisabled()"
     (ngModelChange)="handleChange($event)"
   />
-
-  @if (hasError()) {
-    <div class="vet-error-message">
-      {{ errorMessage() | transloco }}
-    </div>
-  }
 </div>

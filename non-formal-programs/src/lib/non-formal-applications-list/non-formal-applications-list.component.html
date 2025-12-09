@@ -1,12 +1,11 @@
 <div class="k-bg-white k-p-5 k-mb-4 k-rounded-lg">
-  <div class="k-d-flex k-justify-content-between k-align-items-center">
-    <span>
+  <div class="k-d-flex k-gap-4 k-justify-content-between k-align-items-center">
+    <!-- temporarily hide before we have text! -->
+    <!-- <div class="non-formal-info-text">
       {{ 'shared.informationMessage' | transloco }}
-    </span>
-    <vet-button
-      (click)="onRegisterClick()"
-      version="fat"
-    >
+    </div> -->
+    <div></div>
+    <vet-button (click)="onRegisterClick()" version="fat">
       {{ 'non_formal.register_application' | transloco }}
     </vet-button>
   </div>
@@ -40,14 +39,14 @@
       </kendo-grid-column>
 
       <kendo-grid-column
-        [title]="'shared.education' | transloco"
+        [title]="'non_formal.organisation' | transloco"
         [width]="150"
         [minResizableWidth]="120"
         [maxResizableWidth]="200"
       >
         <ng-template kendoGridCellTemplate let-item>
           <span>
-            {{ getEducationName()(item?.education_level_id || item?.education_level) }}
+            {{ item.program.organisation_name }}
           </span>
         </ng-template>
       </kendo-grid-column>
@@ -75,50 +74,48 @@
           <div class="status-cell">
             <span class="k-font-weight-bold">{{ item.status?.name || '-' }}</span>
             <small class="k-text-xs k-text-base k-text-nowrap">
-              {{ (item.updated_at || item.created_at || item.changed_at) | formatDateTime: { format: 'DD.MM.YYYY' } }}
+              {{ item.status.updated_at || item.status.created_at || item.status.changed_at | formatDateTime: { format: 'DD.MM.YYYY' } }}
             </small>
           </div>
         </ng-template>
       </kendo-grid-column>
 
-      <kendo-grid-column [width]="130" [minResizableWidth]="130" [maxResizableWidth]="130" [resizable]="false">
+      <kendo-grid-column [width]="90">
         <ng-template kendoGridCellTemplate let-item>
-          <div class="k-display-flex k-justify-content-center">
+          <div class="k-display-flex k-align-items-center k-justify-content-center">
             <!-- View Button - Always Active -->
             <vet-icon-button
+              kendoTooltip
               icon="eye"
               mode="flat"
-              iconSize="small"
-              [title]="'shared.view' | transloco"
-              kendoTooltip
+              version="minimal"
               (click)="onViewClick(item)"
-              class="action-btn"
+              [title]="'shared.view' | transloco"
             />
 
             <!-- Edit Button - Active during submission period -->
             <vet-icon-button
+              kendoTooltip
               icon="editIcon"
               mode="flat"
-              iconSize="small"
-              [title]="'shared.edit' | transloco"
-              kendoTooltip
+              version="minimal"
+              [disabled]="!item.can_edit"
               (click)="isEditEnabled(item) && onEditClick(item)"
-              [disabled]="!isEditEnabled(item)"
-              class="action-btn"
+              [title]="'shared.edit' | transloco"
             />
 
             <!-- Cancel Button - Active for saved/registered status -->
             <vet-icon-button
+              kendoTooltip
               icon="bin"
               mode="flat"
-              iconSize="small"
+              version="minimal"
+              (click)="onCancelClick(item)"
               [title]="'shared.cancel' | transloco"
-              kendoTooltip
-              (click)="isCancelEnabled(item) && onCancelClick(item)"
-              [disabled]="!isCancelEnabled(item)"
-              class="action-btn"
+              [disabled]="!item.can_delete"
             />
           </div>
+          <div class="k-display-flex k-justify-content-center"></div>
         </ng-template>
       </kendo-grid-column>
     </kendo-grid>

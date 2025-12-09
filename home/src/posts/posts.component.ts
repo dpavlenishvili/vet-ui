@@ -1,6 +1,9 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, input, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, viewChild } from '@angular/core';
 import { KENDO_SCROLLVIEW, ScrollViewComponent } from '@progress/kendo-angular-scrollview';
-import { vetIcons } from '@vet/shared';
+import { UploadedFileUriPipe, vetIcons } from '@vet/shared';
+import { usePageCollection, usePages } from '@vet/pages';
+import { DatePipe, SlicePipe } from '@angular/common';
+import { PageContentComponent } from '../../../pages/src/components/page-content/page-content.component';
 
 export interface Item {
   date: string;
@@ -31,15 +34,25 @@ export const data: Item[] = [
 @Component({
   selector: 'vet-posts',
   standalone: true,
-  imports: [KENDO_SCROLLVIEW],
+  imports: [KENDO_SCROLLVIEW, UploadedFileUriPipe, DatePipe, PageContentComponent, SlicePipe],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsComponent implements AfterViewInit {
-  readonly items = input<Item[]>(data);
   protected readonly width = '100%';
   protected readonly height = '370px';
+
+  pages = usePages();
+  collectionId = computed(
+    () =>
+      this.pages
+        .value()
+        .flatMap((page) => page.collection ?? [])
+        .find((collection) => collection.type === 'articles')?.id,
+  );
+  items = usePageCollection(this.collectionId);
+  pinnedItems = computed(() => this.items.value().filter((item) => !!item.pin));
 
   scrollViewComponent = viewChild<ScrollViewComponent>('scrollViewComponent');
 

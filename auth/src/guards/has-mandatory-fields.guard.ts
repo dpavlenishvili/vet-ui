@@ -19,7 +19,7 @@ export const mandatoryFieldsGuard: CanActivateFn = () => {
       }
 
       const filled = auth.isMandatoryFieldsFilled();
-      
+
       if (filled) {
         return true;
       }

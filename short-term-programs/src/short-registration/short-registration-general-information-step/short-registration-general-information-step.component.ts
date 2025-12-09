@@ -32,12 +32,35 @@ export class ShortRegistrationGeneralInformationStepComponent implements OnInit 
   constructor() {
     effect(() => {
       const educationLevelOptions = this.educationLevelOptions();
-      const formValue = this.formGroup().value;
 
-      if (!formValue.education_level) {
-        this.formGroup().setValue({
-          education_level: Number(educationLevelOptions?.length === 1 ? educationLevelOptions?.[0].value : null),
-        });
+      if (!educationLevelOptions || educationLevelOptions.length === 0) {
+        return;
+      }
+
+      const currentValue = this.formGroup().value.education_level;
+
+      if (educationLevelOptions.length === 1) {
+        const singleOptionValue = educationLevelOptions[0].value;
+
+        if (singleOptionValue != null) {
+          const valueToSet = Number(singleOptionValue);
+
+          if (currentValue !== valueToSet) {
+            this.formGroup().patchValue({
+              education_level: valueToSet,
+            });
+          }
+        }
+      } else if (educationLevelOptions.length > 1) {
+        if (currentValue != null) {
+          const isValidOption = educationLevelOptions.some((option) => Number(option.value) === currentValue);
+
+          if (!isValidOption) {
+            this.formGroup().patchValue({
+              education_level: null,
+            });
+          }
+        }
       }
     });
   }
@@ -51,7 +74,7 @@ export class ShortRegistrationGeneralInformationStepComponent implements OnInit 
       .get('education_level')
       ?.valueChanges.pipe(
         tap(() => {
-          this.selectedProgramsForm().setValue({
+          this.selectedProgramsForm().patchValue({
             selected_programs: [],
           });
         }),

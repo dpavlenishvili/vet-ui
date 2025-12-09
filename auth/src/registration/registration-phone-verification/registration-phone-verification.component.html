@@ -1,23 +1,29 @@
 <div class="k-display-flex k-flex-column k-gap-5">
   <div class="k-display-flex k-justify-content-end k-gap-5">
-    @for (digit of digits(); track $index) {
-      <kendo-numerictextbox
-        #input
-        type="number"
-        [disabled]="disabled()"
-        [maxlength]="1"
-        [selectOnFocus]="true"
-        [spinners]="false"
-        [format]="'#'"
-        [ngModel]="digit"
-        [style.width.rem]="3.5"
-        [style.height.rem]="3.5"
-        [class.input-valid]="state() === 'valid'"
-        [class.input-invalid]="state() === 'invalid' ? state() : isDigitInvalid()[$index]"
-        (ngModelChange)="onDigitChange($index, $event, input)"
-        (keydown)="onKeyDown($event, $index)"
-        (blur)="onBlur()"
-      />
+    @if (isSuccess()) {
+      @for (digit of digits(); track $index) {
+        <div class="vet-success-box">*</div>
+      }
+    } @else {
+      @for (digit of digits(); track $index) {
+        <kendo-numerictextbox
+          #input
+          type="number"
+          [disabled]="disabled()"
+          [maxlength]="1"
+          [selectOnFocus]="true"
+          [spinners]="false"
+          [format]="'#'"
+          [ngModel]="digit"
+          [style.width.rem]="3.5"
+          [style.height.rem]="3.5"
+          [class.input-valid]="state() === 'valid'"
+          [class.input-invalid]="state() === 'invalid' ? state() : isDigitInvalid()[$index]"
+          (ngModelChange)="onDigitChange($index, $event, input)"
+          (keydown)="onKeyDown($event, $index)"
+          (blur)="onBlur()"
+        />
+      }
     }
   </div>
 
@@ -33,9 +39,17 @@
         {{ 'shared.fieldIsRequired' | transloco }}
       </kendo-formerror>
     </div>
+  } @else if (isSuccess()) {
+    <div class="k-display-flex k-justify-content-end">
+      <kendo-formhint class="k-color-success">
+        {{ 'shared.phone_number_verification_successful' | transloco }}
+      </kendo-formhint>
+    </div>
   }
 
-  <div>
-    <vet-registration-phone-timeout [isPending]="isPending()" [startTime]="startTime()" (resend)="onSend()" />
-  </div>
+  @if (!isSuccess()) {
+    <div>
+      <vet-registration-phone-timeout [isPending]="isPending()" [startTime]="startTime()" (resend)="onSend()" />
+    </div>
+  }
 </div>

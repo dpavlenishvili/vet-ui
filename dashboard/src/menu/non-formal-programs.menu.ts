@@ -10,8 +10,9 @@ export function useNonFormalProgramsMenu(): Signal<SidebarMenuItem> {
 
   return computed(() => ({
     id: uuid(),
+    accessControl: isOneOf('Default User'),
     text: 'dashboard.non_formal_programs',
-    icon: 'professionalPrograms',
+    icon: 'informalEducation',
     url: BASE_PATH,
     isExpanded,
     children: [

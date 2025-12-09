@@ -6,6 +6,8 @@ export interface OrganisationFilters {
   institution_type_id?: string;
   per_page?: number;
   page?: number;
+  region?: number;
+  district?: number;
 }
 
 export interface Organisation {

@@ -2,7 +2,7 @@
   <div>
     @if (isBrowser) {
       <vet-short-registration-selected-programs-grid
-        [selectedPrograms]="selectedPrograms()"
+        [selectedPrograms]="selectedPrograms() ?? []"
         (itemUnselect)="onUnselectProgram($event)"
       />
     }

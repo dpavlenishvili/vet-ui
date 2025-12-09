@@ -1,8 +1,21 @@
 @use '@vet/shared-styles' as shared;
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  min-width: 0;
+}
+
+.vet-selector-container {
+  width: 100%;
+}
+
+.vet-label {
+  @include shared.text-base();
+  line-height: 100%;
+  height: 1.0625rem;
+  margin-bottom: 0.25rem;
 }
 
 kendo-dropdownlist.vet-selector {
@@ -25,22 +38,46 @@ kendo-dropdownlist.vet-selector {
   border-color: shared.$kendo-color-error !important;
 }
 
-.vet-list-item {
-  font-size: 0.8rem;
-}
-
 .vet-error-message {
+  @include shared.text-sm();
+  padding: 0.0625rem 0.625rem 0;
   color: shared.$kendo-color-error;
+  font-size: 0.7rem;
+  line-height: 0.6875rem;
+  min-height: 0.75rem;
+  max-height: 0.75rem;
+  white-space: nowrap;
+  overflow-x: clip;
+  text-overflow: ellipsis;
+  width: 100%;
+  min-width: 0;
   margin-top: 0.25rem;
   margin-left: 0.625rem;
-  @include shared.text-sm();
+}
+
+.vet-selector-selected {
+  font-weight: bold;
+}
+
+.vet-selector-selected {
+  font-weight: bold;
 }
 
 ::ng-deep {
-  kendo-dropdownlist.vet-selector {
+  .vet-selector-item {
+    @include shared.text-base(false, true);
+  }
 
+  // Fix dropdown corner clipping - Kendo popup needs overflow: auto to show rounded corners properly
+  .k-popup {
+    overflow: auto !important;
+  }
+
+  kendo-dropdownlist.vet-selector, kendo-combobox.vet-selector {
     &.vet-selector-fat {
       .k-input-inner {
+        @include shared.text-base(true, true);
+
         .k-input-value-text {
           color: shared.$kendo-color-body !important;
           @include shared.text-base(true, true);
@@ -50,6 +87,8 @@ kendo-dropdownlist.vet-selector {
 
     &.vet-selector-thin {
       .k-input-inner {
+        @include shared.text-base(false, true);
+
         .k-input-value-text {
           color: shared.$kendo-color-hint;
           @include shared.text-sm(false, true);
@@ -63,6 +102,27 @@ kendo-dropdownlist.vet-selector {
 
     .k-input-value-text {
       display: flex !important;
+    }
+  }
+
+  kendo-formfield.vet-input-field {
+    margin-top: 0.25rem !important;
+
+    kendo-floatinglabel.vet-input-floating-label {
+      &.k-floating-label-container {
+        padding-top: 0 !important;
+      }
+
+      &.k-floating-label-container > .k-floating-label {
+        margin-top: 0 !important;
+        top: 9px;
+      }
+
+      &.k-floating-label-container.k-focus > .k-floating-label,
+      &.k-floating-label-container:not(.k-empty) > .k-floating-label,
+      &.k-floating-label-container:not(.k-empty) .k-input.ng-touched:not(.ng-invalid) ~ .k-floating-label {
+        top: -9px;
+      }
     }
   }
 }

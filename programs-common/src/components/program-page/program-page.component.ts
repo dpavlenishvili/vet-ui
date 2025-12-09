@@ -36,6 +36,7 @@ export class ProgramPageComponent {
   isLoading = input<boolean>();
   details = input<ProgramDetailItem[]>([]);
   sections = input<ProgramSectionItem[]>([]);
+  iscedCode = input<string | null | undefined>(null);
 
   kendoIcons = kendoIcons;
   vetIcons = vetIcons;
