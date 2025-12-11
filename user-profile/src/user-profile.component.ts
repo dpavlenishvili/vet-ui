@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ToastModule, vetIcons } from '@vet/shared';
+import { ToastModule } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';

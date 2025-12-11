@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_MENUS } from '@progress/kendo-angular-menu';

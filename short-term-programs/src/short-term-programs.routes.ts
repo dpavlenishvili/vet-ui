@@ -1,6 +1,6 @@
 import { mandatoryFieldsGuard } from '@vet/auth';
 import { Route } from '@angular/router';
-import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
+import { AppBreadCrumbItem, breadcrumb } from '@vet/shared/utils';
 
 const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
 const baseRegistrationItems: AppBreadCrumbItem[] = [

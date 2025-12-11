@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import { ChangeDetectionStrategy, Component, effect, inject, OnDestroy, output, signal } from '@angular/core';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { ShortProgram } from '@vet/backend';
 import { ProgramCardComponent } from '@vet/programs-common';
 import { useShorts } from '../short-term.resources';

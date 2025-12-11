@@ -6,7 +6,7 @@ import { LoaderComponent } from '@progress/kendo-angular-indicators';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { catchError, finalize, of } from 'rxjs';
 import { AdmissionPrograms, AdmissionService } from '@vet/backend';
-import { useConfirm } from '@vet/shared';
+import { useConfirm } from '@vet/shared/dialogs';
 import { RolePipe } from '@vet/auth';
 
 @Component({

@@ -3,7 +3,9 @@ import { User, UsersService, UserUpdateReq } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
 import { finalize, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { formatDateFn, FormatDateFn, ToastService, useAlert, useNavigation } from '@vet/shared';
+import { formatDateFn, FormatDateFn, useNavigation } from '@vet/shared';
+import { useAlert } from '@vet/shared/dialogs';
+import { ToastService } from '@vet/shared/services';
 import { Router } from '@angular/router';
 
 @Directive()

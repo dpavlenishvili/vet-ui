@@ -1,9 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { KENDO_SCROLLVIEW, ScrollViewComponent } from '@progress/kendo-angular-scrollview';
-import { UploadedFileUriPipe, vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { UploadedFileUriPipe } from '@vet/shared/pipes';
 import { usePageCollection, usePages } from '@vet/pages';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { PageContentComponent } from '../../../pages/src/components/page-content/page-content.component';
+import { Router } from '@angular/router';
+import { CollectionItem } from '@vet/backend';
 
 export interface Item {
   date: string;
@@ -43,6 +46,8 @@ export class PostsComponent implements AfterViewInit {
   protected readonly width = '100%';
   protected readonly height = '370px';
 
+  private readonly _router = inject(Router);
+
   pages = usePages();
   collectionId = computed(
     () =>
@@ -63,5 +68,16 @@ export class PostsComponent implements AfterViewInit {
       scrollViewComponent.chevronLeftIcon = vetIcons.previousLarge;
       scrollViewComponent.chevronRightIcon = vetIcons.nextLarge;
     }
+  }
+
+  navigateToArticle(item: CollectionItem): void {
+    const parentPage = this.pages.value().find((page) => page.collection?.some((c) => c.type === 'articles'));
+
+    this._router.navigate(['/article', item.id], {
+      state: {
+        parentPageSlug: parentPage?.slug,
+        parentPageTitle: parentPage?.title,
+      },
+    });
   }
 }

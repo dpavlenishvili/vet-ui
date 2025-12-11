@@ -4,8 +4,9 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { useSingleOrganisation } from '../organisations.resources';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { FormatDatePipe, vetIcons } from '@vet/shared';
-import { MapComponent } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { FormatDatePipe } from '@vet/shared/pipes';
+import { MapComponent } from '@vet/shared/heavy-components';
 
 @Component({
   selector: 'vet-organisation-page',

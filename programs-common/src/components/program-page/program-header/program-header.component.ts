@@ -1,6 +1,6 @@
 import { ProgramPartnersComponent } from '../program-partners/program-partners.component';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { LongTerm, NonFormalShow, ShortProgramShow } from '@vet/backend';
 import { ProgramDetailsComponent } from '../program-details/program-details.component';
 import { Organisation, ProgramDetailItem } from '../../../programs.types';

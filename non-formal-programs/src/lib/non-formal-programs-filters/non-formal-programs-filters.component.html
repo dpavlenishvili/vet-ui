@@ -33,18 +33,21 @@
           formControlName="region"
           [placeholder]="'non_formal.region' | transloco"
           [options]="regionOptions.value()"
+          [filterable]="true"
         />
 
         <vet-selector
           formControlName="district"
           [placeholder]="'non_formal.district' | transloco"
           [options]="filteredDistricts()"
+          [filterable]="true"
         />
 
         <vet-selector
           formControlName="organisation"
           [placeholder]="'non_formal.institution_name' | transloco"
           [options]="filteredInstitutions()"
+          [filterable]="true"
         />
       </div>
     }

@@ -5,7 +5,7 @@ import { default as duration } from 'dayjs/esm/plugin/duration';
 
 import { useAuthEnvironment } from '@vet/auth';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { Reloader } from '@vet/shared';
+import { Reloader } from '@vet/shared/services';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';

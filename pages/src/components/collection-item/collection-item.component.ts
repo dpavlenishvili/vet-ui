@@ -1,7 +1,7 @@
 import { DatePipe, NgOptimizedImage, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UploadedFileUriPipe } from '@vet/shared';
+import { UploadedFileUriPipe } from '@vet/shared/pipes';
 import type { CollectionItem, Page } from '@vet/backend';
 import { PageContentComponent } from '../page-content/page-content.component';
 

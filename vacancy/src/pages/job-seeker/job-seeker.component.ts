@@ -7,7 +7,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_CHECKBOX, KENDO_SWITCH } from '@progress/kendo-angular-inputs';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 
 @Component({
   selector: 'vet-vacancy',

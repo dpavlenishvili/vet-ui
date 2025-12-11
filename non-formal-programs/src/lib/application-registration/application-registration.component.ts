@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { NonFormalService } from '@vet/backend';
-import { useAlert } from '@vet/shared';
+import { useAlert } from '@vet/shared/dialogs';
 import {
   type ApplicationRequest,
   ApplicationWizardComponent,

@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { RolePipe, UserRolesService } from '@vet/auth';
 import { CellClickEvent, GridComponent, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent as VetButtonComponent, FormatDateTimePipe, IconButtonComponent, vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { FormatDateTimePipe } from '@vet/shared/pipes';
+import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { AdmissionSelectedProgramsComponent } from '../admission-selected-programs/admission-selected-programs.component';
@@ -62,7 +64,7 @@ export class AdmissionsListComponent {
   });
 
   protected onRegisterClick(): void {
-    this.router.navigate(['long-term-programs', 'register-admission', 'general_information']);
+    this.router.navigate(['programs/long', 'register-admission', 'general_information']);
   }
 
   protected onViewClick(item: AdmissionReq): void {
@@ -70,7 +72,7 @@ export class AdmissionsListComponent {
       console.error('Cannot navigate to admission without ID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'view-admission', item.id, 'general_information']);
+    this.router.navigate(['programs/long', 'view-admission', item.id, 'general_information']);
   }
 
   protected onEditClick(item: AdmissionReq): void {
@@ -78,7 +80,7 @@ export class AdmissionsListComponent {
       console.error('Cannot navigate to admission without ID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'update-admission', item.id, 'general_information']);
+    this.router.navigate(['programs/long', 'update-admission', item.id, 'general_information']);
   }
 
   protected onExamCardClick(item: AdmissionReq): void {
@@ -86,7 +88,7 @@ export class AdmissionsListComponent {
       console.error('Cannot navigate to exam card without user PID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
+    this.router.navigate(['programs/long', 'exam-card', item.user.pid]);
   }
 
   protected onChooseClick(item: AdmissionReq): void {
@@ -94,7 +96,7 @@ export class AdmissionsListComponent {
       console.error('Cannot navigate to choose without admission ID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'last-choose', item.id]);
+    this.router.navigate(['programs/long', 'last-choose', item.id]);
   }
 
   protected onResultClick(item: AdmissionReq): void {
@@ -102,7 +104,7 @@ export class AdmissionsListComponent {
       console.error('Cannot navigate to result without admission ID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'last-result', item.id]);
+    this.router.navigate(['programs/long', 'last-result', item.id]);
   }
 
   protected onCellClick(event: CellClickEvent): void {

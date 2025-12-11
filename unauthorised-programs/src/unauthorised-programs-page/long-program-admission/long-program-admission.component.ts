@@ -4,7 +4,9 @@ import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { useIsUserLoaded, useUser } from '@vet/auth';
 import { Admission, IdName } from '@vet/backend';
-import { DividerComponent, kendoIcons, vetIcons } from '@vet/shared';
+import { kendoIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { DividerComponent } from '@vet/shared/ui-components';
 import { RegisteredCount } from 'programs-common/src/programs.types';
 
 @Component({

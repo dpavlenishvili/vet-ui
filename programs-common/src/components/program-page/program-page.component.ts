@@ -3,7 +3,8 @@ import { ProgramContactInfoComponent } from './program-contact-info/program-cont
 import { ProgramGalleryComponent } from './program-gallery/program-gallery.component';
 import { ProgramHeaderComponent } from './program-header/program-header.component';
 import * as kendoIcons from '@progress/kendo-svg-icons';
-import { TransPipe, vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { TransPipe } from '@vet/shared/pipes';
 import { LongTerm, NonFormalShow, ShortProgramShow } from '@vet/backend';
 import { ProgramSectionComponent } from './program-section/program-section.component';
 import { ProgramIscedListComponent } from './program-isced-list/program-isced-list.component';

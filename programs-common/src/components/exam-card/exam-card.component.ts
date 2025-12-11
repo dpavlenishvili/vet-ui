@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardService } from '@vet/backend';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
 import { of } from 'rxjs';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';
 import { genders } from '@vet/shared';
-import { FormatDateTimePipe } from '@vet/shared';
+import { FormatDateTimePipe } from '@vet/shared/pipes';
 
 @Component({
   selector: 'vet-exam-card',

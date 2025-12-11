@@ -5,7 +5,7 @@ import { AddAgreementDetailsFormComponent } from './add-vacancy-forms/add-agreem
 import { AddExtraDetailsFormComponent } from './add-vacancy-forms/add-extra-details-form/add-extra-details-form.component';
 import { AddVacancyService } from './add-vacancy.service';
 import { VacancyResource, VacancyResourceRes, VacancyService } from '@vet/backend';
-import { ToastService } from '@vet/shared';
+import { ToastService } from '@vet/shared/services';
 import { catchError, finalize } from 'rxjs';
 import { UserRolesService } from '@vet/auth';
 import { TranslocoService } from '@jsverse/transloco';

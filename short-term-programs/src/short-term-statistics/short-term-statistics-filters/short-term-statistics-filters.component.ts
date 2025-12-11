@@ -12,7 +12,9 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { UserRolesService } from '@vet/auth';
-import { SelectorComponent, IconButtonComponent, ButtonComponent, withoutEmptyProperties } from '@vet/shared';
+import { withoutEmptyProperties } from '@vet/shared';
+import { SelectorComponent } from '@vet/shared/heavy-components';
+import { IconButtonComponent, ButtonComponent } from '@vet/shared/ui-components';
 import { ShortStatsFilters } from 'short-term-programs/src/short-term-programs.types';
 import { useProgramKinds } from '@vet/shared-resources';
 import {

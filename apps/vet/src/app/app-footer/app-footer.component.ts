@@ -1,5 +1,5 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AuthenticationService } from '@vet/auth';

@@ -14,6 +14,7 @@ export class AuthenticationService {
   private readonly _authService = inject(AuthService);
   private readonly _environment = useAuthEnvironment();
   private readonly _keycloak = inject<Keycloak>(Keycloak);
+  private readonly _injector = inject(Injector);
 
   private readonly _isInitialized = signal(false);
 
@@ -71,8 +72,6 @@ export class AuthenticationService {
   initiateLogin(): void {
     void this._keycloak.login();
   }
-
-  private readonly _injector = inject(Injector);
 
   logout() {
     const postLogoutRedirectUri =

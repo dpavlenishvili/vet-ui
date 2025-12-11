@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { ActivatedRoute } from '@angular/router';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { VacancyReq, VacancyResourceRes, VacancyService } from '@vet/backend';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { VacancyDetailsInfoComponent } from '../../components/vacancy-detailed-info/vacancy-detailed-info.component';
 import { AddVacancyService } from '../add-vacancy/add-vacancy.service';
 import { TranslocoPipe } from '@jsverse/transloco';

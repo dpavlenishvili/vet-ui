@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, effect, input, OnInit, output } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent, FormControls, InfoComponent, SelectorComponent } from '@vet/shared';
+import { FormControls } from '@vet/shared';
+import { SelectorComponent } from '@vet/shared/heavy-components';
+import { ButtonComponent, InfoComponent } from '@vet/shared/ui-components';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { useUserSpecificEducationLevelOptions } from '@vet/shared-resources';
 import { ShortRegistrationProgramSelectionStepFormGroup } from '../short-registration-program-selection-step/short-registration-program-selection-step.component';

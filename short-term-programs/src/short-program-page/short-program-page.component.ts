@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { trans, useRouteNumberParam, vetIcons } from '@vet/shared';
+import { trans, useRouteNumberParam } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { ShortProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
 import * as kendoIcons from '@progress/kendo-svg-icons';

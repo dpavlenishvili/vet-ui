@@ -19,7 +19,8 @@ import {
   mapOrganistaiontemToOption,
   mapPartnersItemToOption,
 } from './utils';
-import { SelectOption, useAlert, withoutEmptyProperties } from '@vet/shared';
+import { SelectOption, withoutEmptyProperties } from '@vet/shared';
+import { useAlert } from '@vet/shared/dialogs';
 
 export function useEducationLevels() {
   return useConfigDictionary('education_levels');

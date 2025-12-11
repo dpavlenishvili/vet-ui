@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormatDatePipe, vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { FormatDatePipe } from '@vet/shared/pipes';
 import { NonFormalShow } from '@vet/backend';
 
 @Component({

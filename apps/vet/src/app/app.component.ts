@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
 import { KENDO_DIALOGS } from '@progress/kendo-angular-dialog';
-import { AlertDialogOutletComponent, ConfirmationDialogOutletComponent, DialogOutletComponent } from '@vet/shared';
+import { AlertDialogOutletComponent, ConfirmationDialogOutletComponent, DialogOutletComponent } from '@vet/shared/dialogs';
 import { AuthenticationService, UserRolesService } from '@vet/auth';
 import { TranslocoPipe } from '@jsverse/transloco';
 

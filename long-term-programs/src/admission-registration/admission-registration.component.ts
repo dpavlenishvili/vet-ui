@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { type AdmissionRequest, AdmissionService } from '@vet/backend';
-import { useConfirm } from '@vet/shared';
+import { useConfirm } from '@vet/shared/dialogs';
 import { AdmissionWizardComponent } from '../admission-wizard/admission-wizard.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -68,7 +68,7 @@ export class AdmissionRegistrationComponent implements OnInit {
       .subscribe((res) => {
         const newId = res.data?.id;
         if (newId) {
-          this.router.navigate(['long-term-programs', 'update-admission', newId, 'ssm_status']);
+          this.router.navigate(['programs/long', 'update-admission', newId, 'ssm_status']);
         }
       });
   }

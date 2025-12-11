@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { ExamCardComponent } from '@vet/programs-common';
 import { ExamCardFilterComponent } from './exam-card-filter/exam-card-filter.component';
 

@@ -2,7 +2,9 @@ import { CommissionResultsFiltersComponent } from './commission-results-filters/
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommissionService, CommissionsReview } from '@vet/backend';
-import { DividerComponent, kendoIcons, useFilters, useFiltersUpdater, vetIcons } from '@vet/shared';
+import { kendoIcons, useFilters, useFiltersUpdater } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { DividerComponent } from '@vet/shared/ui-components';
 import { UserRolesService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';

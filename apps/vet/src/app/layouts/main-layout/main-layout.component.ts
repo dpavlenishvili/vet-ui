@@ -1,5 +1,7 @@
 import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
-import { BreadcrumbComponent, NavbarComponent, ThemeService } from '@vet/shared';
+import { BreadcrumbComponent } from '@vet/shared/heavy-components';
+import { ThemeService } from '@vet/shared/services';
+import { NavbarComponent } from '@vet/shared/ui-components';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { AuthenticationService } from '@vet/auth';
 import { filter } from 'rxjs';

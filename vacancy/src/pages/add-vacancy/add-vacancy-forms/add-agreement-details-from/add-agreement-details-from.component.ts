@@ -7,7 +7,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddVacancyService } from '../../add-vacancy.service';
 import { VacancyService } from '@vet/backend';
-import { ToastService } from '@vet/shared';
+import { ToastService } from '@vet/shared/services';
 import { catchError, finalize } from 'rxjs';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { UserRolesService } from '@vet/auth';

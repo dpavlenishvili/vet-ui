@@ -1,4 +1,4 @@
-import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
+import { AppBreadCrumbItem, breadcrumb } from '@vet/shared/utils';
 import { Route } from '@angular/router';
 import { UserRolesService } from '@vet/auth';
 import { inject } from '@angular/core';

@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { FormatDatePipe, IconButtonComponent, InfoComponent, useConfirm, vetIcons } from '@vet/shared';
+import { useConfirm } from '@vet/shared/dialogs';
+import { vetIcons } from '@vet/shared/icons';
+import { FormatDatePipe } from '@vet/shared/pipes';
+import { IconButtonComponent, InfoComponent } from '@vet/shared/ui-components';
 import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import {
   CellTemplateDirective,

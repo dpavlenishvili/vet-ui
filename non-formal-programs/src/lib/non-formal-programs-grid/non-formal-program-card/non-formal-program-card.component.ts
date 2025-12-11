@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { NonFormal } from '@vet/backend';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
+import { ProgramIscedIconComponent } from '@vet/programs-common';
 
 @Component({
   selector: 'vet-non-formal-program-card',
   standalone: true,
-  imports: [TranslocoPipe, RouterLink, SVGIconComponent],
+  imports: [TranslocoPipe, RouterLink, SVGIconComponent, ProgramIscedIconComponent],
   templateUrl: './non-formal-program-card.component.html',
   styleUrl: './non-formal-program-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

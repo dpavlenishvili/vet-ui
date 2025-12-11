@@ -75,7 +75,7 @@ export class AdmissionListOrganisationComponent {
       console.error('Cannot navigate to admission without ID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'view-admission', item.id, 'general_information']);
+    this.router.navigate(['programs/long', 'view-admission', item.id, 'general_information']);
   }
 
   onExamCardClick(item: AdmissionReq): void {
@@ -83,7 +83,7 @@ export class AdmissionListOrganisationComponent {
       console.error('Cannot navigate to exam card without user PID');
       return;
     }
-    this.router.navigate(['long-term-programs', 'exam-card', item.user.pid]);
+    this.router.navigate(['programs/long', 'exam-card', item.user.pid]);
   }
 
   onChooseClick(item: AdmissionReq): void {
@@ -92,7 +92,7 @@ export class AdmissionListOrganisationComponent {
       return;
     }
 
-    this.router.navigate(['long-term-programs', 'last-choose', item.id]);
+    this.router.navigate(['programs/long', 'last-choose', item.id]);
   }
 
   onResultClick(item: AdmissionReq): void {
@@ -101,7 +101,7 @@ export class AdmissionListOrganisationComponent {
       return;
     }
 
-    this.router.navigate(['long-term-programs', 'last-result', item.id]);
+    this.router.navigate(['programs/long', 'last-result', item.id]);
   }
 
   handlePageChange(event: PageChangeEvent) {

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { LongTerm, NonFormalShow } from '@vet/backend';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { Organisation, ProgramShow } from 'programs-common/src/programs.types';
 
 @Component({

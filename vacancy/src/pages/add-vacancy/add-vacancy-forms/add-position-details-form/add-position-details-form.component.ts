@@ -7,7 +7,7 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { AddVacancyService } from '../../add-vacancy.service';
 import { VacancyService } from '@vet/backend';
-import { ToastService } from '@vet/shared';
+import { ToastService } from '@vet/shared/services';
 import { catchError, finalize } from 'rxjs';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { UserRolesService } from '@vet/auth';

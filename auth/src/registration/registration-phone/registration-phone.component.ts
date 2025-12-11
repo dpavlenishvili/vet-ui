@@ -5,7 +5,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SmsService } from '@vet/backend';
-import { ButtonComponent, InputComponent, ToastModule, useControlValue, useReactiveControl } from '@vet/shared';
+import { ToastModule, useControlValue, useReactiveControl } from '@vet/shared';
+import { ButtonComponent, InputComponent } from '@vet/shared/ui-components';
 import { useAuthEnvironment } from '../../auth.providers';
 import { RegistrationPhoneVerificationComponent } from '../registration-phone-verification/registration-phone-verification.component';
 

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { FormatDatePipe, kendoIcons, vetIcons } from '@vet/shared';
+import { kendoIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { FormatDatePipe } from '@vet/shared/pipes';
 import { Admission } from '@vet/backend';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useIsUserLoaded, useUser } from '@vet/auth';

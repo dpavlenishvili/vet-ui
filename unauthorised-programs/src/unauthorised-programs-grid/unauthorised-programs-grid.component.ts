@@ -2,7 +2,7 @@
 import { ProgramCardComponent } from '@vet/programs-common';
 import { ChangeDetectionStrategy, Component, effect, inject, OnDestroy, signal } from '@angular/core';
 import { LongTerm } from '@vet/backend';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { usePrograms } from '../unauthorised-programs.resources';
 import { Router } from '@angular/router';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';

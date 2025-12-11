@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { RouterLink } from '@angular/router';
 import { LongTerm, ShortProgram } from '@vet/backend';
 import { ProgramIscedIconComponent } from '../program-isced-icon/program-isced-icon.component';

@@ -1,7 +1,7 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { ActionMenuComponent } from '../action-menu/action-menu.component';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { VacancyCollection } from '@vet/backend';
 import { DatePipe } from '@angular/common';

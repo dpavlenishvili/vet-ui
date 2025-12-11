@@ -65,7 +65,7 @@ export class AdmissionUpdateComponent implements OnInit {
         if (event.step === 'confirmation' && event.body.payload.status === 'registered') {
           this.router.navigate(['dashboard', 'programs', 'long']);
         } else {
-          void this.router.navigate([`long-term-programs/update-admission/${admissionId}/${event.step}`]);
+          void this.router.navigate([`programs/long/update-admission/${admissionId}/${event.step}`]);
         }
       });
   }

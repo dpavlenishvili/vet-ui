@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, input, output, PLATFORM_ID 
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ShortProgramAdmission } from '@vet/backend';
-import { ButtonComponent, FormControls, useControlValue } from '@vet/shared';
+import { FormControls, useControlValue } from '@vet/shared';
+import { ButtonComponent } from '@vet/shared/ui-components';
 import { isPlatformBrowser } from '@angular/common';
 import { ShortRegistrationSelectedProgramsGridComponent } from './short-registration-selected-programs-grid/short-registration-selected-programs-grid.component';
 

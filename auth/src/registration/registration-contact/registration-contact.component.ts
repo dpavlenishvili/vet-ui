@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationPhoneComponent } from '../registration-phone/registration-phone.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { IconComponent, InputComponent } from '@vet/shared';
+import { IconComponent, InputComponent } from '@vet/shared/ui-components';
 
 @Component({
   selector: 'vet-registration-contact',

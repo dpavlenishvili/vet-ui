@@ -2,7 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, TemplateRe
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { InfoComponent, trans, useRouteNumberParam, vetIcons } from '@vet/shared';
+import { trans, useRouteNumberParam } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { InfoComponent } from '@vet/shared/ui-components';
 import { NonFormalService } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
 import { NonFormalAnnouncementComponent } from './non-formal-announcement/non-formal-announcement.component';
@@ -55,7 +57,7 @@ export class NonFormalProgramPageComponent {
     return [
       { label: trans('non_formal.field'), value: program.announced_isced_title },
       { label: trans('non_formal.isced_code'), value: program.announced_isced_code },
-      { label: trans('non_formal.recognition_result'), value: '' },
+      { label: trans('non_formal.recognition_result'), value: program.evidence?.document },
       { label: trans('non_formal.field_description'), value: program.note },
     ];
   });

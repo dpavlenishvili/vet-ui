@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NonFormal } from '@vet/backend';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { useNonFormals } from '../non-formal.resources';
 import { NonFormalProgramCardComponent } from './non-formal-program-card/non-formal-program-card.component';
 

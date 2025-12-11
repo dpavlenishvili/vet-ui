@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { kendoIcons, TransPipe, vetIcons } from '@vet/shared';
+import { kendoIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { TransPipe } from '@vet/shared/pipes';
 import { LongTerm, NonFormalShow, ShortProgramShow } from '@vet/backend';
 import { ProgramDetailItem } from '@vet/programs-common';
 import { TranslocoPipe } from '@jsverse/transloco';

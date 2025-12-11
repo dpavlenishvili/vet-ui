@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, output, signal, ViewEncapsulation } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';

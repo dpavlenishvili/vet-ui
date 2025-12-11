@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { IconComponent, VetIcon } from '@vet/shared';
+import { VetIcon } from '@vet/shared/icons';
+import { IconComponent } from '@vet/shared/ui-components';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { Router, RouterLink } from '@angular/router';
 import {

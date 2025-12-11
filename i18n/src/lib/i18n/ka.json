@@ -215,7 +215,7 @@
   "home": {
     "services": "სერვისები",
     "partners": "პარტნიორები",
-    "professionalPrograms": "პროფესიული პროგრამები",
+    "professionalPrograms": "პროფესიული საგანმანათლებლო პროგრამები",
     "trainingPrograms": "მომზადება/გადამზადების პროგრამები",
     "informalEducation": "არაფორმალური განათლების აღიარება",
     "orientationService": "საორიენტაციო სერვისი",
@@ -226,7 +226,7 @@
   "dashboard": {
     "registered_applicant": "რეგისტრირებული აპლიკანტი",
     "exam_schedule": "ტესტირების/შერჩევის განრიგი და შედეგები",
-    "long_term_programs": "პროფესიული პროგრამები",
+    "long_term_programs": "პროფესიული საგანმანათლებლო პროგრამები",
     "commission_members": "კომისიის წევრები",
     "commission_grading": "კომისიის შეფასება",
     "commission_results": "კომისიის შედეგები",

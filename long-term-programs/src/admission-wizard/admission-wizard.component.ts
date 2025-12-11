@@ -26,7 +26,9 @@ import { TranslocoPipe } from '@jsverse/transloco';
 
 import { AdmissionReq, type AdmissionRequest } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
-import { Citizenship, georgianMobileValidator, vetIcons } from '@vet/shared';
+import { Citizenship } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { georgianMobileValidator } from '@vet/shared/validators';
 import { StepBody, StepDefinition } from '../long-term-programs.types';
 import { ButtonComponent } from '@progress/kendo-angular-buttons';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
@@ -494,9 +496,9 @@ export class AdmissionWizardComponent implements OnInit {
 
     if (admissionId) {
       const routePrefix = this.isViewMode() ? 'view-admission' : 'update-admission';
-      void this.router.navigate([`long-term-programs/${routePrefix}/${admissionId}/${stepPath}`]);
+      void this.router.navigate([`programs/long/${routePrefix}/${admissionId}/${stepPath}`]);
     } else {
-      void this.router.navigate([`/registration/${stepPath}`]);
+      void this.router.navigate([`/auth/registration/${stepPath}`]);
     }
   }
 }

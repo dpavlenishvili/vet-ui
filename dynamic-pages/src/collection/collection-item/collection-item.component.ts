@@ -9,7 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UploadedFileUriPipe } from '@vet/shared';
+import { UploadedFileUriPipe } from '@vet/shared/pipes';
 
 import type { CollectionItem } from 'backend';
 

@@ -250,7 +250,7 @@ export class RegistrationComponent {
     // This allows the stepper's condition evaluation to complete first
     setTimeout(() => {
       this.currentStepKey.set('contact');
-      void this.router.navigate(['/registration/contact_info']);
+      void this.router.navigate(['/auth/registration/contact_info']);
     }, 0);
   }
 

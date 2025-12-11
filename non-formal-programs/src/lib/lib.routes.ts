@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
+import { AppBreadCrumbItem, breadcrumb } from '@vet/shared/utils';
 import { authenticatedGuard, mandatoryFieldsGuard, unAuthenticatedGuard } from '@vet/auth';
 
 const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];

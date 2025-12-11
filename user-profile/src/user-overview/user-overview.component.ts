@@ -8,7 +8,9 @@ import { getOrganisationUserOverviewFormData, getUserOverviewFormData, userOverv
 import { UserProfileSection } from '../user-profile-section';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { RolePipe, UserRolesService } from '@vet/auth';
-import { ButtonComponent, IconButtonComponent, InputComponent, SelectorComponent, useControlValue } from '@vet/shared';
+import { useControlValue } from '@vet/shared';
+import { SelectorComponent } from '@vet/shared/heavy-components';
+import { ButtonComponent, IconButtonComponent, InputComponent } from '@vet/shared/ui-components';
 import { useDistricts, useFilteredDistricts, useRegions } from '@vet/shared-resources';
 import { of } from 'rxjs';
 import {

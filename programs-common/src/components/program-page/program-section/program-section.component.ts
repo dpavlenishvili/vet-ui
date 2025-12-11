@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { vetIcons } from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
 
 @Component({
   selector: 'vet-program-section',

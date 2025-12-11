@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { PagesComponent } from './pages.component';
-import { breadcrumb } from '@vet/shared';
+import { breadcrumb } from '@vet/shared/utils';
 import { useMatchedPageList } from './pages.signals';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { map, of } from 'rxjs';
@@ -8,9 +8,13 @@ import { ArticlePageComponent } from './components/article-page/article-page.com
 import { usePageCollectionItem } from './pages.resources';
 import { signal } from '@angular/core';
 
-export const pagesRoutes: Route[] = [
+/**
+ * Pages Layout Routes (for /pages/**)
+ * Handles dynamic page content rendering
+ */
+export const pagesLayoutRoutes: Route[] = [
   {
-    path: 'pages',
+    path: '',
     loadComponent: () => import('./components/page-layout/page-layout.component').then((m) => m.PageLayoutComponent),
     children: [
       {
@@ -34,8 +38,15 @@ export const pagesRoutes: Route[] = [
       },
     ],
   },
+];
+
+/**
+ * Article Routes (for /article/:id)
+ * Handles individual article pages
+ */
+export const articleRoutes: Route[] = [
   {
-    path: 'article',
+    path: '',
     loadComponent: () => import('./components/page-layout/page-layout.component').then((m) => m.PageLayoutComponent),
     children: [
       {
@@ -82,5 +93,20 @@ export const pagesRoutes: Route[] = [
         ]),
       },
     ],
+  },
+];
+
+/**
+ * Combined routes (backward compatibility)
+ * @deprecated Use pagesLayoutRoutes and articleRoutes separately for proper lazy loading
+ */
+export const pagesRoutes: Route[] = [
+  {
+    path: 'pages',
+    children: pagesLayoutRoutes,
+  },
+  {
+    path: 'article',
+    children: articleRoutes,
   },
 ];

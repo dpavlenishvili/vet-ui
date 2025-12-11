@@ -2,7 +2,10 @@ import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input, 
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
-import { DatePickerComponent, InputComponent, ToastModule, useAlert } from '@vet/shared';
+import { ToastModule } from '@vet/shared';
+import { useAlert } from '@vet/shared/dialogs';
+import { DatePickerComponent } from '@vet/shared/heavy-components';
+import { InputComponent } from '@vet/shared/ui-components';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({

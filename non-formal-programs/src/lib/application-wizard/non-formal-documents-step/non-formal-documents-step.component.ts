@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent as VetButtonComponent, FileUploadComponent, UploadedFile } from '@vet/shared';
+import { UploadedFile } from '@vet/shared';
+import { FileUploadComponent } from '@vet/shared/heavy-components';
+import { ButtonComponent as VetButtonComponent } from '@vet/shared/ui-components';
 import { NonFormalService } from '@vet/backend';
 import { catchError, finalize, of } from 'rxjs';
 

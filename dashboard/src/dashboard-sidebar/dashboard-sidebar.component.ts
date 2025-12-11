@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { useDashboardMenu } from '../menu/dashboard.items';
-import { RouterExpandableSidebarMenuComponent } from '@vet/shared';
+import { RouterExpandableSidebarMenuComponent } from '@vet/shared/ui-components';
 
 @Component({
   selector: 'vet-dashboard-sidebar',

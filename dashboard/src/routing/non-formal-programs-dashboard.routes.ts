@@ -1,4 +1,4 @@
-import { AppBreadCrumbItem, breadcrumb } from '@vet/shared';
+import { AppBreadCrumbItem, breadcrumb } from '@vet/shared/utils';
 import { Route } from '@angular/router';
 
 const BASE_PATH = '/dashboard/programs/non-formal';

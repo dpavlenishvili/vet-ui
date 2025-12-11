@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { FormatDateStringPipe } from '@vet/shared';
+import { FormatDateStringPipe } from '@vet/shared/pipes';
 import { useShortStatsAddmission } from 'short-term-programs/src/short-term.resources';
 
 @Component({
