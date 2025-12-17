@@ -1,4 +1,5 @@
-import { computed, effect, inject, Injectable, Injector, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, Injector, PLATFORM_ID, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map, of } from 'rxjs';
@@ -15,8 +16,10 @@ export class AuthenticationService {
   private readonly _environment = useAuthEnvironment();
   private readonly _keycloak = inject<Keycloak>(Keycloak);
   private readonly _injector = inject(Injector);
+  private readonly _platformId = inject(PLATFORM_ID);
 
   private readonly _isInitialized = signal(false);
+  private readonly _isAuthCheckComplete = signal(false);
 
   private readonly _userResource = rxResource({
     request: () => ({
@@ -39,7 +42,7 @@ export class AuthenticationService {
     },
   });
 
-  readonly isReady = this._isInitialized.asReadonly();
+  readonly isReady = this._isAuthCheckComplete.asReadonly();
   readonly user = computed(() => this._userResource.value());
   readonly isAuthenticated = computed(() => this._keycloak.authenticated && !!this.user());
   readonly isLoadingUser = computed(() => this._userResource.isLoading());
@@ -65,6 +68,27 @@ export class AuthenticationService {
     effect(() => {
       if (this._keycloak.authenticated && this._keycloak.token) {
         this._userResource.reload();
+      }
+    });
+
+    // Auth check complete effect: Only set to true when we definitively know auth state
+    effect(() => {
+      // On server, auth check is never complete (forces spinner in SSR HTML)
+      if (!isPlatformBrowser(this._platformId)) {
+        this._isAuthCheckComplete.set(false);
+        return;
+      }
+
+      const isInitialized = this._isInitialized();
+      const authenticated = this._keycloak.authenticated;
+      const isLoadingUser = this._userResource.isLoading();
+      const user = this._userResource.value();
+
+      // Only mark as complete when:
+      // 1. Keycloak has initialized AND
+      // 2. Either user is not authenticated OR user data has loaded
+      if (isInitialized && (!authenticated || (authenticated && !isLoadingUser))) {
+        this._isAuthCheckComplete.set(true);
       }
     });
   }

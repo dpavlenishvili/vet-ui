@@ -1,7 +1,7 @@
 import { Route, ActivatedRouteSnapshot } from '@angular/router';
 import { type AppBreadCrumbItem, breadcrumb } from '@vet/shared/utils';
 
-const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
+const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }];
 
 export const unauthorisedProgramsRoutes: Route[] = [
   {

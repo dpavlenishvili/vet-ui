@@ -132,8 +132,8 @@ export class AppComponent {
   isAppReady = computed(() => {
     const authReady = this.authService.isReady();
     const rolesLoaded = this.userRolesService.isUserAccountsLoaded();
-    const isLoadingUser = this.authService.isLoadingUser();
-    return authReady && rolesLoaded && !isLoadingUser;
+    // isReady now incorporates auth check completion (including user load)
+    return authReady && rolesLoaded;
   });
 
   toggleAppContainer(): void {

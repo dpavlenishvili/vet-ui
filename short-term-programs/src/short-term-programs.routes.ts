@@ -2,10 +2,10 @@ import { mandatoryFieldsGuard } from '@vet/auth';
 import { Route } from '@angular/router';
 import { AppBreadCrumbItem, breadcrumb } from '@vet/shared/utils';
 
-const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
+const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }];
 const baseRegistrationItems: AppBreadCrumbItem[] = [
   ...baseBreadcrumbItems,
-  { path: '/dashboard/programs/short', text: 'shorts.short_term_programs' },
+  { path: '/programs/short', text: 'shorts.short_term_programs' },
   { path: '/programs/short/registration', text: 'shorts.registration' },
 ];
 

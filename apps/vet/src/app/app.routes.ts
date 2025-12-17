@@ -58,11 +58,11 @@ export const appRoutes: Routes = [
       // =====================================
       {
         path: 'programs',
+        data: breadcrumb([]),
         children: [
           // Public program catalog
           {
             path: '',
-            pathMatch: 'full',
             canActivate: [unAuthenticatedGuard],
             data: breadcrumb([]),
             loadChildren: () =>
@@ -85,10 +85,9 @@ export const appRoutes: Routes = [
               import('@vet/non-formal-programs')
                 .then(m => m.nonFormalProgramsRoutes),
           },
-          // Long-term programs (authenticated)
+          // Long-term programs (mixed public/auth)
           {
             path: 'long',
-            canActivate: [authenticatedGuard],
             data: breadcrumb([]),
             loadChildren: () =>
               import('@vet/long-term-programs')

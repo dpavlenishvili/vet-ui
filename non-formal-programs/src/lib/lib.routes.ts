@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { AppBreadCrumbItem, breadcrumb } from '@vet/shared/utils';
 import { authenticatedGuard, mandatoryFieldsGuard, unAuthenticatedGuard } from '@vet/auth';
 
-const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
+const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }];
 
 export const nonFormalProgramsRoutes: Route[] = [
   {
@@ -21,8 +21,8 @@ export const nonFormalProgramsRoutes: Route[] = [
     canActivate: [authenticatedGuard],
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
-      { path: '/non-formal/applications', text: 'non_formal.applications' },
+      { path: '/programs/non-formal', text: 'non_formal.programs' },
+      { path: '/programs/non-formal/applications', text: 'non_formal.applications' },
     ]),
   },
   {
@@ -34,8 +34,8 @@ export const nonFormalProgramsRoutes: Route[] = [
     canActivate: [authenticatedGuard, mandatoryFieldsGuard],
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
-      { path: '/non-formal/register-application', text: 'non_formal.registration' },
+      { path: '/programs/non-formal', text: 'non_formal.programs' },
+      { path: '/programs/non-formal/register-application', text: 'non_formal.registration' },
     ]),
     children: [
       {
@@ -46,7 +46,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           ),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.field_selection' },
           { path: null, text: 'non_formal.registration' },
         ]),
@@ -59,7 +59,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           ),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.selected_fields' },
           { path: null, text: 'non_formal.registration' },
         ]),
@@ -72,7 +72,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           ),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.questionnaire' },
           { path: null, text: 'non_formal.registration' },
         ]),
@@ -85,7 +85,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           ),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.documents' },
           { path: null, text: 'non_formal.registration' },
         ]),
@@ -98,7 +98,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           ),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.confirmation' },
           { path: null, text: 'non_formal.registration' },
         ]),
@@ -110,7 +110,7 @@ export const nonFormalProgramsRoutes: Route[] = [
     loadComponent: () =>
       import('./application-update/application-update.component').then((m) => m.ApplicationUpdateComponent),
     canActivate: [authenticatedGuard, mandatoryFieldsGuard],
-    data: breadcrumb([...baseBreadcrumbItems, { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' }]),
+    data: breadcrumb([...baseBreadcrumbItems, { path: '/programs/non-formal', text: 'non_formal.programs' }]),
     children: [
       {
         path: 'field-selection',
@@ -118,7 +118,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-update/application-update.component').then((m) => m.ApplicationUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.field_selection' },
           { path: null, text: 'non_formal.update' },
         ]),
@@ -129,7 +129,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-update/application-update.component').then((m) => m.ApplicationUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.selected_fields' },
           { path: null, text: 'non_formal.update' },
         ]),
@@ -140,7 +140,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-update/application-update.component').then((m) => m.ApplicationUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.questionnaire' },
           { path: null, text: 'non_formal.update' },
         ]),
@@ -151,7 +151,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-update/application-update.component').then((m) => m.ApplicationUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.documents' },
           { path: null, text: 'non_formal.update' },
         ]),
@@ -162,7 +162,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-update/application-update.component').then((m) => m.ApplicationUpdateComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.confirmation' },
           { path: null, text: 'non_formal.update' },
         ]),
@@ -176,7 +176,7 @@ export const nonFormalProgramsRoutes: Route[] = [
     canActivate: [authenticatedGuard],
     data: breadcrumb([
       ...baseBreadcrumbItems,
-      { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+      { path: '/programs/non-formal', text: 'non_formal.programs' },
       { path: null, text: 'non_formal.view' },
     ]),
     children: [
@@ -186,7 +186,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-view/application-view.component').then((m) => m.ApplicationViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.field_selection' },
           { path: null, text: 'non_formal.view' },
         ]),
@@ -197,7 +197,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-view/application-view.component').then((m) => m.ApplicationViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.selected_fields' },
           { path: null, text: 'non_formal.view' },
         ]),
@@ -208,7 +208,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-view/application-view.component').then((m) => m.ApplicationViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.questionnaire' },
           { path: null, text: 'non_formal.view' },
         ]),
@@ -219,7 +219,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-view/application-view.component').then((m) => m.ApplicationViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.documents' },
           { path: null, text: 'non_formal.view' },
         ]),
@@ -230,7 +230,7 @@ export const nonFormalProgramsRoutes: Route[] = [
           import('./application-view/application-view.component').then((m) => m.ApplicationViewComponent),
         data: breadcrumb([
           ...baseBreadcrumbItems,
-          { path: '/dashboard/programs/non-formal', text: 'non_formal.programs' },
+          { path: '/programs/non-formal', text: 'non_formal.programs' },
           { path: null, text: 'non_formal.confirmation' },
           { path: null, text: 'non_formal.view' },
         ]),

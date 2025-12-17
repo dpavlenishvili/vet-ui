@@ -2,7 +2,7 @@ import { AppBreadCrumbItem, breadcrumb } from '@vet/shared/utils';
 import { Route } from '@angular/router';
 
 const BASE_PATH = '/dashboard/programs/long';
-const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }, { path: BASE_PATH, text: 'dashboard.long_term_programs' },];
+const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }, { path: BASE_PATH, text: 'dashboard.long_term_programs' },];
 
 export const longTermProgramsDashboardRoutes: Route[] = [
   {

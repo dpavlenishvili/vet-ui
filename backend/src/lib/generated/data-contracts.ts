@@ -875,6 +875,7 @@ export interface ShortProgram {
   employs_area?: string;
   program_kind?: IdName;
   education_level?: IdName;
+  step?: string;
   region?: IdName;
   program_duration?: string;
   /**

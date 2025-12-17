@@ -2,7 +2,7 @@ import type { Route, Routes } from '@angular/router';
 
 import type { ApplicationPage } from './application.page.type';
 import { resolvePageComponent } from './resolve-page.component';
-import { breadcrumb } from '@vet/shared';
+import { breadcrumb } from '@vet/shared/utils';
 
 export function generateRoutesFromPages(pages: ApplicationPage[], routes: Routes = []): Routes {
   pages.forEach((page) => {
@@ -20,7 +20,7 @@ export function generateRoutesFromPages(pages: ApplicationPage[], routes: Routes
         data: {
           page, // This will be passed to the component as an input
           ...breadcrumb([
-            { path: '', text: 'shared.home' },
+            { path: '/', text: 'shared.home' },
             { path: path, text: page.title ?? '' },
           ])
         },
@@ -30,7 +30,7 @@ export function generateRoutesFromPages(pages: ApplicationPage[], routes: Routes
       path,
       children,
       data: breadcrumb([
-        { path: '', text: 'shared.home' },
+        { path: '/', text: 'shared.home' },
         { path: path, text: page.title ?? '' },
       ]),
     };
@@ -45,7 +45,7 @@ export function generateRoutesFromPages(pages: ApplicationPage[], routes: Routes
         data: {
           page,
           ...breadcrumb([
-            { path: '', text: 'shared.home' },
+            { path: '/', text: 'shared.home' },
             { path: path, text: page.title ?? '' },
           ])
         },

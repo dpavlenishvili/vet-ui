@@ -147,7 +147,7 @@ export class ShortRegistrationComponent {
       tap({
         next: () => {
           this.alert.success('shorts.registration_success');
-          void this.router.navigate(['/dashboard/programs/short']);
+          void this.router.navigate(['/programs/short']);
           this.stepIndex.set(0);
           this.initialValues.set({
             general_information: {

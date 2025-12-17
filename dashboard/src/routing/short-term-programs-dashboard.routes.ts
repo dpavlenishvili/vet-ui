@@ -4,7 +4,7 @@ import { UserRolesService } from '@vet/auth';
 import { inject } from '@angular/core';
 import { of } from 'rxjs';
 
-const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '', text: 'shared.home' }];
+const baseBreadcrumbItems: AppBreadCrumbItem[] = [{ path: '/', text: 'shared.home' }];
 const BASE_PATH = '/dashboard/programs/short';
 
 export function getStatisticsBreadcrumb() {

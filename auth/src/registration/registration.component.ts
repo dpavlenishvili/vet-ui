@@ -138,7 +138,7 @@ export class RegistrationComponent {
 
       if (step && step.path) {
         const currentUrl = this.router.url;
-        const expectedPath = `/registration/${step.path}`;
+        const expectedPath = `/auth/registration/${step.path}`;
 
         if (!currentUrl.includes(step.path)) {
           void this.router.navigate([expectedPath], { replaceUrl: true });
