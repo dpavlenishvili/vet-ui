@@ -214,14 +214,19 @@
   },
   "home": {
     "services": "სერვისები",
+    "services.description": "პროფესიული განათლების სერვისები და რესურსები",
     "partners": "პარტნიორები",
     "professionalPrograms": "პროფესიული საგანმანათლებლო პროგრამები",
+    "professionalPrograms.description": "გრძელვადიანი პროფესიული საგანმანათლებლო პროგრამები სახელმწიფო სერტიფიკატით",
     "trainingPrograms": "მომზადება/გადამზადების პროგრამები",
+    "trainingPrograms.description": "მოკლევადიანი პროფესიული მომზადების და გადამზადების კურსები",
     "informalEducation": "არაფორმალური განათლების აღიარება",
+    "informalEducation.description": "სამუშაო გამოცდილებისა და არაფორმალური განათლების აღიარება",
     "orientationService": "საორიენტაციო სერვისი",
     "governmentLanguageTrainingPrograms": "სახელმწიფო ენის მომზადების პროგრამები",
     "teacherTrainingPrograms": "მასწავლებელთა გადამზადების პროგრამები",
-    "collegeEmployment": "კოლეჯში დასაქმება"
+    "collegeEmployment": "კოლეჯში დასაქმება",
+    "learn_more": "გაიგე მეტი"
   },
   "dashboard": {
     "registered_applicant": "რეგისტრირებული აპლიკანტი",

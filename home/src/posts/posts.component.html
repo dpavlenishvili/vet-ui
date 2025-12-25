@@ -1,28 +1,58 @@
 @let _pinnedItems = pinnedItems();
 
 @if (_pinnedItems?.length) {
-<kendo-scrollview #scrollViewComponent class="posts vet-posts-scrollview !k-border-none" [data]="pinnedItems()"
-  [width]="width" [height]="height" [animate]="true" [arrows]="true" [pageable]="true">
-  <ng-template let-item="item">
-    @if (item?.image || item?.title || item?.content) {
-    <div class="vet-pinned-post" (click)="navigateToArticle(item)" style="cursor: pointer">
-      <div class="vet-pinned-post-image-container">
-        @if (item.image) {
-        <img class="vet-pinned-post-image" [src]="item.image | vetUploadedFileUri" [attr.alt]="item.slug" />
-        }
-      </div>
-      <div class="vet-pinned-post-content">
-        <small class="vet-pinned-post-date">
-          {{ item.created_at | date: 'short' }}
-        </small>
-        <h3 class="vet-pinned-post-title">{{ item.title }}</h3>
-        <p class="vet-pinned-post-description">
+<div class="hero-slider">
+  <div class="hero-viewport">
+    <article class="hero-card is-active">
+      @if (activeItem(); as active) {
+      <div class="text-section">
+        <div class="date-badge">
+          <vet-icon icon="calendarIcon" />
+          <span>{{ active.created_at | date: 'MM/dd/yy' }}</span>
+        </div>
+        <h3 class="hero-title fade-in">
+          {{ active.title }}
+        </h3>
+        <p class="hero-description fade-in">
           <vet-page-content
-            [content]="(item.content | slice: 0 : 130) + ((item.content?.length || 0) > 130 ? '...' : '')" />
+            [content]="(active.content | slice: 0 : 200) + ((active.content?.length || 0) > 200 ? '...' : '')" />
         </p>
+        <button class="cta-button" type="button" (click)="navigateToArticle(active)">
+          <span>{{ 'home.learn_more' | transloco }}</span>
+          <vet-icon icon="chevronRight" />
+        </button>
       </div>
-    </div>
-    }
-  </ng-template>
-</kendo-scrollview>
+
+      <div class="image-wrapper">
+        @if (active.image) {
+        <img [src]="active.image | vetUploadedFileUri" [attr.alt]="active.slug || active.title" class="fade-in-image" loading="lazy" />
+        }
+        <div class="image-overlay"></div>
+      </div>
+      }
+
+      <div class="controls-section">
+        <div class="pagination-dots">
+          @for (item of _pinnedItems; track item.id; let idx = $index) {
+          <button
+            class="dot"
+            [class.active]="idx === activeIndex()"
+            (click)="goToIndex(idx)"
+            [attr.aria-label]="'Go to slide ' + (idx + 1)"
+          ></button>
+          }
+        </div>
+
+        <div class="nav-arrows">
+          <button class="arrow-btn" (click)="prev()" aria-label="Previous">
+            <vet-icon icon="previousLarge" />
+          </button>
+          <button class="arrow-btn" (click)="next()" aria-label="Next">
+            <vet-icon icon="nextLarge" />
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
 }

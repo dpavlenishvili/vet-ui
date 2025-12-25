@@ -1,0 +1,108 @@
+@use 'mixins' as mixins;
+
+kendo-grid.k-grid {
+  border-radius: var(--border-radius-sm, 0.625rem);
+  border-color: var(--border-default);
+  background-color: var(--bg-card);
+  overflow: hidden;
+
+  kendo-pager-info {
+    display: none;
+  }
+
+  .k-grid-aria-root {
+    border-color: var(--border-default);
+
+    .k-grid-header {
+      border-bottom-color: var(--border-default);
+      background-color: var(--bg-surface);
+
+      thead:first-of-type {
+        background: transparent;
+        border-top-left-radius: var(--border-radius-sm);
+        border-top-right-radius: var(--border-radius-sm);
+        border-color: var(--border-default);
+
+        th {
+          padding: 1.125rem 0.4rem;
+          background-color: var(--bg-surface);
+          border-color: var(--border-default);
+
+          .k-cell-inner {
+            .k-column-title {
+              @include mixins.text-sm(true);
+              color: var(--text-primary);
+            }
+          }
+        }
+
+        th:first-of-type {
+          border-top-left-radius: var(--border-radius-sm);
+
+          .k-cell-inner {
+            border-top-left-radius: var(--border-radius-sm);
+          }
+        }
+
+        th:last-of-type {
+          .k-cell-inner {
+            border-top-right-radius: var(--border-radius-sm);
+          }
+        }
+      }
+    }
+
+    .k-grid-container {
+      table {
+        tbody {
+          tr {
+            background-color: var(--bg-card);
+
+            &:hover {
+              background-color: var(--bg-surface);
+            }
+
+            &.k-selected {
+              background-color: var(--color-primary-lightest);
+            }
+
+            td {
+              @include mixins.text-sm();
+              color: var(--text-secondary);
+              padding: 0.4rem 0.4rem !important;
+              border-color: var(--border-default) !important;
+            }
+          }
+
+          tr:first-of-type {
+            td {
+              border-top: none !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  kendo-pager {
+    border-bottom-left-radius: var(--border-radius-sm);
+    border-bottom-right-radius: var(--border-radius-sm);
+    background-color: var(--bg-surface);
+    border-color: var(--border-default);
+    color: var(--text-secondary);
+    @include mixins.text-sm();
+
+    .k-pager-numbers .k-button {
+      color: var(--text-secondary);
+
+      &.k-selected {
+        background-color: var(--kendo-color-primary);
+        color: var(--text-on-primary);
+      }
+    }
+  }
+}
+
+.k-grid-header {
+  padding-right: 0 !important;
+}

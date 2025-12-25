@@ -1,0 +1,247 @@
+.k-virtual-content {
+  overflow: auto;
+}
+
+kendo-label {
+  width: 100%;
+  color: var(--text-secondary);
+}
+
+.k-dropdownlist {
+  width: 100%;
+  height: 2.375rem;
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover:not(.k-disabled) {
+    border-color: var(--input-border-hover);
+  }
+
+  &:focus-within:not(.k-disabled),
+  &.k-focus:not(.k-disabled) {
+    border-color: var(--input-border-focus);
+  }
+}
+
+.k-checkbox,
+.k-radio {
+  border-color: var(--border-medium);
+  background-color: var(--input-bg);
+
+  &:checked {
+    background-color: var(--kendo-color-primary);
+    border-color: var(--kendo-color-primary);
+  }
+}
+
+.k-textbox {
+  height: 2.375rem;
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover:not(.k-disabled) {
+    border-color: var(--input-border-hover);
+  }
+
+  &:focus-within:not(.k-disabled) {
+    border-color: var(--input-border-focus);
+  }
+
+  .k-input-inner {
+    padding-block: 8px;
+    color: var(--input-text);
+    background-color: transparent;
+
+    &::placeholder {
+      color: var(--input-placeholder);
+    }
+  }
+}
+
+.k-floating-label-container {
+  width: 100%;
+
+  .k-floating-label {
+    color: var(--input-placeholder);
+  }
+
+  &.k-focus .k-floating-label,
+  &:not(.k-empty) .k-floating-label {
+    color: var(--text-secondary);
+  }
+}
+
+.k-drawer-wrapper {
+  height: 100%;
+}
+
+.k-rounded-card {
+  border-radius: 1.25rem;
+  background-color: var(--bg-card);
+  border-color: var(--border-default);
+}
+
+.k-rounded-xl {
+  padding: 1.25rem;
+}
+
+.k-scrollview {
+  border-radius: var(--border-radius-xl, 20px);
+  border: none;
+
+  .k-scrollview-wrap {
+    background: var(--bg-surface);
+  }
+
+  .k-scrollview-elements {
+    .k-scrollview-next {
+      color: var(--text-muted);
+      right: 20px;
+
+      &:hover {
+        color: var(--text-secondary);
+      }
+    }
+
+    .k-scrollview-prev {
+      color: var(--text-muted);
+      left: 20px;
+
+      &:hover {
+        color: var(--text-secondary);
+      }
+    }
+
+    .k-scrollview-nav-wrap {
+      .k-scrollview-nav {
+        span.k-link {
+          border: 1px solid var(--border-default);
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            width: 20px;
+            border-radius: 10px;
+          }
+        }
+
+        span.k-link.k-primary {
+          width: 20px;
+          border-radius: 10px;
+          background: var(--text-muted);
+        }
+      }
+    }
+  }
+}
+
+.k-popup {
+  background-color: var(--bg-card);
+  border-color: var(--border-default);
+}
+
+.k-list {
+  background-color: var(--bg-card);
+}
+
+.k-list-item {
+  color: var(--text-primary);
+
+  &:hover,
+  &.k-hover {
+    background-color: var(--bg-surface);
+  }
+
+  &.k-selected {
+    background-color: var(--kendo-color-primary);
+    color: var(--text-on-primary);
+
+    &:hover {
+      background-color: var(--kendo-color-primary-hover);
+    }
+  }
+}
+
+kendo-datepicker {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+
+  &:hover:not(.k-disabled) {
+    border-color: var(--input-border-hover);
+  }
+
+  &:focus-within:not(.k-disabled) {
+    border-color: var(--input-border-focus);
+  }
+
+  .k-input-inner {
+    color: var(--input-text);
+    background-color: transparent;
+  }
+
+  .k-button {
+    color: var(--text-muted);
+  }
+}
+
+.k-calendar {
+  background-color: var(--bg-card);
+  border-color: var(--border-default);
+  color: var(--text-primary);
+
+  .k-calendar-header {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+  }
+
+  .k-calendar-td {
+    color: var(--text-secondary);
+
+    &:hover {
+      background-color: var(--bg-surface);
+    }
+
+    &.k-selected {
+      background-color: var(--kendo-color-primary);
+      color: var(--text-on-primary);
+    }
+
+    &.k-today {
+      color: var(--kendo-color-primary);
+    }
+  }
+}
+
+.k-button {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+  &.k-button-solid-primary {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+
+    &:hover {
+      background-color: var(--btn-primary-hover);
+      border-color: var(--btn-primary-hover);
+    }
+  }
+
+  &.k-button-outline-primary {
+    border-color: var(--kendo-color-primary);
+    color: var(--kendo-color-primary);
+
+    &:hover {
+      background-color: var(--kendo-color-primary);
+      color: var(--text-on-primary);
+    }
+  }
+
+  &.k-button-flat {
+    color: var(--text-secondary);
+
+    &:hover {
+      background-color: var(--bg-surface);
+    }
+  }
+}

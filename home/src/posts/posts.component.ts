@@ -1,51 +1,22 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
-import { KENDO_SCROLLVIEW, ScrollViewComponent } from '@progress/kendo-angular-scrollview';
-import { vetIcons } from '@vet/shared/icons';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { UploadedFileUriPipe } from '@vet/shared/pipes';
 import { usePageCollection, usePages } from '@vet/pages';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { PageContentComponent } from '../../../pages/src/components/page-content/page-content.component';
 import { Router } from '@angular/router';
 import { CollectionItem } from '@vet/backend';
-
-export interface Item {
-  date: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-}
-
-// Example data; use real data or move to separate file
-export const data: Item[] = [
-  {
-    date: '18.04.2023',
-    title: 'პროფესიულ საგანმანათლებლო პროგრამებზე რეგისტრაციის მეორე ეტაპი დაიწყო',
-    description: `2022 წელს, დარჩენილი თავისუფალი ადგილების შევსების მიზნით
-                      გამოცხადებული მიღების ფარგლებში, შერჩევის პროცესში ჩართვის
-                      შესაძლებლობა აქვს ნებისმიერ დაინტერესებულ პირს 14 - დან 18
-                      ოქტომბრის ჩათვლით.`,
-    imageUrl: 'https://bit.ly/2cJjYuB',
-  },
-  {
-    date: '15.05.2023',
-    title: 'Digital Skills for Modern Education',
-    description: 'Empowering individuals with critical skills for modern challenges.',
-    imageUrl: 'https://bit.ly/2cJjYuB',
-  },
-];
+import { IconComponent } from '@vet/shared/ui-components';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'vet-posts',
   standalone: true,
-  imports: [KENDO_SCROLLVIEW, UploadedFileUriPipe, DatePipe, PageContentComponent, SlicePipe],
+  imports: [UploadedFileUriPipe, DatePipe, PageContentComponent, SlicePipe, IconComponent, TranslocoPipe],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostsComponent implements AfterViewInit {
-  protected readonly width = '100%';
-  protected readonly height = '370px';
-
+export class PostsComponent {
   private readonly _router = inject(Router);
 
   pages = usePages();
@@ -58,17 +29,8 @@ export class PostsComponent implements AfterViewInit {
   );
   items = usePageCollection(this.collectionId);
   pinnedItems = computed(() => this.items.value().filter((item) => !!item.pin));
-
-  scrollViewComponent = viewChild<ScrollViewComponent>('scrollViewComponent');
-
-  ngAfterViewInit() {
-    const scrollViewComponent = this.scrollViewComponent();
-
-    if (scrollViewComponent) {
-      scrollViewComponent.chevronLeftIcon = vetIcons.previousLarge;
-      scrollViewComponent.chevronRightIcon = vetIcons.nextLarge;
-    }
-  }
+  activeIndex = signal(0);
+  activeItem = computed(() => this.pinnedItems()[this.activeIndex()] ?? this.pinnedItems()[0]);
 
   navigateToArticle(item: CollectionItem): void {
     const parentPage = this.pages.value().find((page) => page.collection?.some((c) => c.type === 'articles'));
@@ -79,5 +41,28 @@ export class PostsComponent implements AfterViewInit {
         parentPageTitle: parentPage?.title,
       },
     });
+  }
+
+  onActiveIndexChange(idx: number): void {
+    const total = this.pinnedItems().length;
+    if (total === 0) return;
+    const safeIndex = (idx + total) % total;
+    this.activeIndex.set(safeIndex);
+  }
+
+  next(): void {
+    const total = this.pinnedItems().length;
+    if (!total) return;
+    this.onActiveIndexChange(this.activeIndex() + 1);
+  }
+
+  prev(): void {
+    const total = this.pinnedItems().length;
+    if (!total) return;
+    this.onActiveIndexChange(this.activeIndex() - 1);
+  }
+
+  goToIndex(idx: number): void {
+    this.onActiveIndexChange(idx);
   }
 }

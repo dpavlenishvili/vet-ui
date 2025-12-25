@@ -1,0 +1,10 @@
+/* =============================================================================
+   GLOBAL LAYOUT UTILITIES
+   ============================================================================= */
+
+.layout-shell {
+  max-width: var(--layout-max-width, 90rem);
+  width: min(100%, var(--layout-max-width, 90rem));
+  margin: 0 auto;
+  padding-inline: var(--layout-padding-x, 1.5rem);
+}

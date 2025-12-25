@@ -14,7 +14,6 @@ import { RolePipe } from '@vet/auth';
   standalone: true,
   imports: [GridModule, TranslocoPipe, LoaderComponent, RolePipe],
   templateUrl: './admission-program-grid.component.html',
-  styleUrl: './admission-program-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdmissionProgramGridComponent implements OnInit {

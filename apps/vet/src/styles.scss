@@ -1,24 +1,25 @@
+/* =============================================================================
+   VET APPLICATION GLOBAL STYLES
+   Entry point for all application styling
+   ============================================================================= */
+
+// 1. Core SCSS Configuration
 @use '@vet/shared-styles' as shared;
-@import '@vet/shared-styles/_styles.scss';
+
+// 2. External Dependencies
 @import 'bpg-mrgvlovani-caps/css/bpg-mrgvlovani-caps.css';
 @import "leaflet/dist/leaflet.css";
 
-/* Default Theme (applies to :root) */
-:root {
-  --main-bg: #f5f7f8;
-  --secondary-color: #4682b4;
-  --text-color: #292D32;
-  --secondary-text-color: #626262;
-  // --text-color: #444444;
-  --text-secondary-color: #444444;
-  --link-color: #4682b4;
-  --nav-link-color: #ffffff;
-  --nav-link-color-visited: #cccccc;
-  --nav-bg-color: #4682b4;
-  --border-none: #b1b7bb;
-  --font-size: 1rem;
-}
+// 3. Design Tokens (Light Theme First)
+@import 'styles/theme-light';
 
+// 4. Layout Utilities
+@import 'styles/layout';
+
+// 5. Shared Kendo & Component Styles
+@import '@vet/shared-styles/_styles.scss';
+
+// Legacy Theme Support (Deprecated - Preserved for Backward Compatibility)
 .theme-v1 {
   --main-bg: #ffff54;
   --secondary-color: #000000;
@@ -55,12 +56,15 @@
   --border-none: #0000f5;
 }
 
+/* =============================================================================
+   GLOBAL ELEMENT STYLING
+   ============================================================================= */
 
 body {
-  background-color: var(--main-bg);
-  transition: background-color 0.3s ease-in-out;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
-
 
 * {
   box-sizing: border-box;
@@ -73,8 +77,6 @@ html,
 body {
   min-height: 100%;
   height: 100%;
-  background-color: var(--main-bg);
-  color: var(--text-color);
   font-size: var(--font-size);
 }
 

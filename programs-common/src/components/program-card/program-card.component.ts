@@ -32,5 +32,20 @@ export class ProgramCardComponent {
     return '';
   }
 
+  get programLevel(): string {
+    const program = this.program();
+
+    if ('step' in program) {
+      return program.step ?? '';
+    }
+
+    if ('education_level' in program) {
+      const educationLevel = program.education_level as unknown as number;
+      return educationLevel?.toString() ?? '';
+    }
+
+    return '';
+  }
+
   protected readonly vetIcons = vetIcons;
 }

@@ -108,13 +108,13 @@ Modern font declarations with performance optimizations:
 **Location**: `shared/src/ui/navbar/navbar.component.scss`
 
 **Applied to:**
-- `.v-ui-navbar-logo-text`: Logo text
-- `.v-ui-navbar-menu-link`: Menu links (desktop)
-- `.v-ui-navbar-menu-mobile-item a`: Menu links (mobile)
+- `.nav-link .vet-text-uppercase`: Menu links (desktop)
+- `.nav-mobile-link`: Menu links (mobile)
 
 **Implementation:**
 ```scss
-.v-ui-navbar-logo-text {
+.nav-link,
+.nav-mobile-link {
   text-transform: uppercase;
   font-family: 'BPG Mrgvlovani Caps', 'HelveticaNeue', Arial, sans-serif;
 }

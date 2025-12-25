@@ -1,8 +1,8 @@
-import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, Injector, OnInit } from '@angular/core';
 import { BreadcrumbComponent } from '@vet/shared/heavy-components';
 import { ThemeService } from '@vet/shared/services';
 import { NavbarComponent } from '@vet/shared/ui-components';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { AuthenticationService } from '@vet/auth';
 import { filter } from 'rxjs';
 import { AppFooterComponent } from '../../app-footer/app-footer.component';
@@ -18,7 +18,9 @@ import { usePages } from '@vet/pages';
 export class MainLayoutComponent implements OnInit {
   protected readonly pages$ = usePages();
   protected readonly user = computed(() => this.authenticationService.user());
+  protected injector = inject(Injector);
   protected router = inject(Router);
+  protected route = inject(ActivatedRoute);
   protected themeService = inject(ThemeService);
   protected destroyRef = inject(DestroyRef);
   protected authenticationService = inject(AuthenticationService);
@@ -28,23 +30,39 @@ export class MainLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Apply/remove style on startup
-    this.updateThemeForUrl(this.router.url);
-
-    // Re-run on every navigation
+    this.updateThemeForRoute();
+    effect(() => {
+      this.authenticationService.isReady();
+      this.authenticationService.isAuthenticated();
+      this.updateThemeForRoute();
+    }, { injector: this.injector });
     this.router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe((e) => this.updateThemeForUrl(e.urlAfterRedirects));
+      .subscribe(() => this.updateThemeForRoute());
   }
 
-  private updateThemeForUrl(url: string) {
-    if (url === '/' || url.startsWith('/home')) {
+  private updateThemeForRoute(): void {
+    const isHome = this.isHomeRoute();
+    const isAuthReady = this.authenticationService.isReady();
+    const isAuthenticated = this.authenticationService.isAuthenticated();
+
+    if (isHome && isAuthReady && !isAuthenticated) {
       this.themeService.applyHomePageStyle();
     } else {
       this.themeService.removeHomePageStyle();
     }
+  }
+
+  private isHomeRoute(): boolean {
+    let route: ActivatedRoute | null = this.route;
+
+    while (route?.firstChild) {
+      route = route.firstChild;
+    }
+
+    return route?.snapshot.data?.['isHome'] === true;
   }
 }

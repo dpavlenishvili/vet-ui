@@ -6,6 +6,7 @@ export const homeRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
+    data: { isHome: true },
     component: HomeComponent,
   },
 ];

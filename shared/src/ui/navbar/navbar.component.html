@@ -1,35 +1,44 @@
-<nav class="v-ui-navbar">
-  <div class="v-ui-navbar-container">
-    <div class="v-ui-navbar-logo">
-      <a routerLink="/">
-        <img src="/assets/images/evet-logo.svg" width="257" height="32" />
-      </a>
-    </div>
+<nav class="navbar" [class.nav-compact]="isCompactNav()">
+  <div class="navbar-inner layout-shell k-display-flex k-align-items-center k-justify-content-between">
+    <a routerLink="/" class="navbar-brand" aria-label="Navigate home">
+      <img src="/assets/images/evet-logo.svg" width="257" height="32" alt="VET logo" />
+    </a>
 
-    <ul class="v-ui-navbar-menu">
+    <ul class="nav-menu k-display-flex k-align-items-center">
       @for (page of headerPages(); track page.slug) {
-      <li class="v-ui-navbar-menu-item">
-        <a [routerLink]="['/pages', page.slug]" class="v-ui-navbar-menu-link k-text-base"
-          (click)="isMobileMenuOpen.set(false)">
-          <p class="vet-text-uppercase">{{ page.title }}</p>
+      <li class="nav-item" [class.has-children]="hasChildren(page)">
+        <a
+          [routerLink]="['/pages', page.slug]"
+          class="nav-link"
+          (click)="isMobileMenuOpen.set(false)"
+        >
+          <span class="vet-text-uppercase">{{ page.title }}</span>
+          @if (hasChildren(page)) {
+          <vet-icon icon="chevronDown" class="nav-icon" />
+          }
         </a>
+
+        @if (hasChildren(page)) {
+        <div class="nav-dropdown">
+          @for (sub of page.children; track sub.slug) {
+          <a
+            [routerLink]="['/pages', sub.slug]"
+            class="nav-dropdown-link"
+            (click)="isMobileMenuOpen.set(false)"
+          >
+            {{ sub.title }}
+          </a>
+          }
+        </div>
+        }
       </li>
-      @if (!$last) {
-      <li class="v-ui-navbar-menu-separator"></li>
-      }
       }
     </ul>
 
-    <div class="v-ui-navbar-actions-desktop">
+    <div class="nav-actions k-display-flex k-align-items-center">
       @if (isAuthUiReady()) {
       @if (!user()) {
-      <div class="v-ui-navbar-guest-search-lang">
-        <button kendoButton [svgIcon]="vetIcons.searchSmall" fillMode="flat"></button>
-        <button kendoButton fillMode="flat" themeColor="light" [svgIcon]="vetIcons.globeSmall" (click)="switchLang()">
-          <div class="k-text-sm k-ml-2">{{ currentLangLabel }}</div>
-        </button>
-      </div>
-      <div class="v-ui-navbar-guest-auth">
+      <div class="nav-auth k-display-flex k-align-items-center">
         <button class="!k-border-none" kendoButton themeColor="light" fillMode="outline"
           (click)="handleLoginClick($event)">
           <span class="k-text-base">
@@ -47,162 +56,148 @@
         </a>
       </div>
       } @else {
-      <div class="v-ui-navbar-user-notif-lang">
-        <button kendoButton [svgIcon]="kendoIcons.bellIcon" fillMode="outline" themeColor="light"></button>
-        <button kendoButton fillMode="flat" themeColor="light" [svgIcon]="vetIcons.globeSmall" (click)="switchLang()">
-          <div class="k-text-sm k-ml-2">{{ currentLangLabel }}</div>
-        </button>
-      </div>
-
-      <div class="v-ui-navbar-profile-desktop" (click)="toggleProfileCard()">
-        <!-- @if (user()?.photo; as photo) {
-            <img [src]="photo" alt="Avatar" class="v-ui-navbar-profile-avatar" />
-          } -->
-        <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon" />
-        <span class="v-ui-navbar-profile-name">{{ selectedAccountName() ?? user()?.name }}</span>
-        @if (isProfileCardOpen()) {
-        <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowUpIcon" />
-        } @else {
-        <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.arrowDownIcon" />
-        }
-      </div>
-
-      @if (isProfileCardOpen()) {
-      <div class="v-ui-navbar-profile-card">
-        @for (acct of userAccounts(); track acct.name) {
-        @if ($first) {
-        <button class="v-ui-navbar-profile-card-header" (click)="onUserAccountClick(acct)">
-          <img
-            [src]="
-              user()?.gender === 'male'
-                ? '/assets/images/default-male.png'
-                : '/assets/images/default-female.png'
-            "
-            alt="Avatar"
-            class="v-ui-navbar-profile-card-avatar"
+      <div class="nav-user k-display-flex k-align-items-center">
+        <div class="nav-profile" (click)="toggleProfileCard()">
+          <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon" />
+          <span class="nav-profile-name">{{ selectedAccountName() ?? user()?.name }}</span>
+          <kendo-svg-icon
+            [themeColor]="'light'"
+            [icon]="isProfileCardOpen() ? kendoIcons.arrowUpIcon : kendoIcons.arrowDownIcon"
           />
-          <span class="v-ui-navbar-profile-card-username">{{ acct.name }}</span>
-        </button>
-        } @else {
-        <button class="v-ui-navbar-profile-card-item" (click)="onUserAccountClick(acct)">
-          <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon" />
-          {{ acct.name }}
-        </button>
+        </div>
+
+        @if (isProfileCardOpen()) {
+        <div class="nav-profile-card">
+          @for (acct of userAccounts(); track acct.name) {
+          @if ($first) {
+          <button class="nav-profile-card-header" (click)="onUserAccountClick(acct)">
+            <img
+              [src]="
+                user()?.gender === 'male'
+                  ? '/assets/images/default-male.png'
+                  : '/assets/images/default-female.png'
+              "
+              alt="Avatar"
+              class="nav-profile-card-avatar"
+            />
+            <span class="nav-profile-card-username">{{ acct.name }}</span>
+          </button>
+          } @else {
+          <button class="nav-profile-card-item" (click)="onUserAccountClick(acct)">
+            <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon" />
+            {{ acct.name }}
+          </button>
+          }
+          }
+          <button class="nav-profile-card-item nav-profile-card-logout" (click)="handleLogout()">
+            <kendo-svg-icon [icon]="kendoIcons.loginIcon" />
+            {{ 'auth.logout' | transloco }}
+          </button>
+        </div>
         }
-        }
-        <button class="v-ui-navbar-profile-card-item v-ui-navbar-profile-card-logout" (click)="handleLogout()">
-          <kendo-svg-icon [icon]="kendoIcons.loginIcon" />
-          {{ 'auth.logout' | transloco }}
-        </button>
       </div>
-      }
       }
       }
     </div>
 
-    <div class="v-ui-navbar-mobile-toggle">
-      <button kendoButton fillMode="flat" themeColor="light"
+    <div class="nav-toggle">
+      <button
+        kendoButton
+        fillMode="flat"
+        themeColor="light"
         [svgIcon]="isMobileMenuOpen() ? kendoIcons.xCircleIcon : kendoIcons.menuIcon"
-        (click)="toggleMobileMenu()"></button>
+        (click)="toggleMobileMenu()"
+        aria-label="Toggle menu"
+      ></button>
     </div>
   </div>
 
   @if (isMobileMenuOpen()) {
-  <div class="v-ui-navbar-mobile-panel">
-    <ul class="v-ui-navbar-menu-mobile">
-      @for (page of headerPages(); track page.slug) {
-      <li class="v-ui-navbar-menu-mobile-item">
-        <a [routerLink]="['pages', page.slug]" class="k-text-base" (click)="toggleMobileMenu()">
-          {{ page.title }}
-        </a>
-      </li>
-      }
-    </ul>
+  <div class="nav-mobile-panel">
+    <div class="nav-mobile-panel-inner">
+      <ul class="nav-mobile-menu">
+        @for (page of headerPages(); track page.slug) {
+        <li class="nav-mobile-item">
+          <div class="nav-mobile-row">
+            <a [routerLink]="['pages', page.slug]" class="nav-mobile-link" (click)="toggleMobileMenu()">
+              {{ page.title }}
+            </a>
+            @if (hasChildren(page)) {
+            <button type="button" class="nav-mobile-toggle" (click)="toggleMobileSubmenu(page?.slug)">
+              <vet-icon
+                icon="chevronDown"
+                class="nav-mobile-icon"
+                [class.is-open]="isMobileSubmenuOpen(page?.slug)"
+              />
+            </button>
+            }
+          </div>
+          @if (hasChildren(page) && isMobileSubmenuOpen(page?.slug)) {
+          <ul class="nav-submenu">
+            @for (sub of page.children; track sub.slug) {
+            <li>
+              <a [routerLink]="['/pages', sub.slug]" (click)="toggleMobileMenu()">
+                {{ sub.title }}
+              </a>
+            </li>
+            }
+          </ul>
+          }
+        </li>
+        }
+      </ul>
 
-    <div class="v-ui-navbar-actions-mobile">
-      @if (isAuthUiReady()) {
-      @if (!user()) {
-      <div class="v-ui-navbar-guest-search-lang-mobile">
-        <button kendoButton [svgIcon]="vetIcons.searchSmall" fillMode="flat"></button>
-        <button kendoButton fillMode="flat" themeColor="light" [svgIcon]="vetIcons.globeSmall" (click)="switchLang()">
-          <div class="k-text-sm k-ml-2">{{ currentLangLabel }}</div>
-        </button>
-      </div>
-      <div class="v-ui-navbar-guest-auth-mobile">
-        <button class="!k-border-none" kendoButton themeColor="light" fillMode="outline"
-          (click)="handleLoginClick($event)">
-          <span class="k-text-base">
-            {{ 'auth.authorization' | transloco }}
-          </span>
-        </button>
-
-        <a [routerLink]="['/auth/registration']">
-          <button class="!k-border-none k-bg-button-light" kendoButton themeColor="light" fillMode="outline"
-            (click)="isMobileMenuOpen.set(false)">
-            <span class="k-text-base k-color-button-light-contrast">
-              {{ 'auth.registration' | transloco }}
+      <div class="nav-mobile-actions">
+        @if (isAuthUiReady()) {
+        @if (!user()) {
+        <div class="nav-mobile-auth">
+          <button class="!k-border-none" kendoButton themeColor="light" fillMode="outline"
+            (click)="handleLoginClick($event)">
+            <span class="k-text-base">
+              {{ 'auth.authorization' | transloco }}
             </span>
           </button>
-        </a>
-      </div>
-      } @else {
-      <div class="v-ui-navbar-user-notif-lang-mobile">
-        <button kendoButton [svgIcon]="kendoIcons.bellIcon" fillMode="outline" themeColor="light"></button>
-        <button kendoButton fillMode="flat" themeColor="light" [svgIcon]="vetIcons.globeSmall" (click)="switchLang()">
-          <div class="k-text-sm k-ml-2">{{ currentLangLabel }}</div>
-        </button>
-      </div>
 
-      <div class="v-ui-navbar-profile-mobile" (click)="toggleProfileCard()">
-        @if (user()?.photo; as photo) {
-        <img [src]="photo" alt="Avatar" class="v-ui-navbar-profile-avatar" />
+          <a [routerLink]="['/auth/registration']">
+            <button class="!k-border-none k-bg-button-light" kendoButton themeColor="light" fillMode="outline"
+              (click)="isMobileMenuOpen.set(false)">
+              <span class="k-text-base k-color-button-light-contrast">
+                {{ 'auth.registration' | transloco }}
+              </span>
+            </button>
+          </a>
+        </div>
         } @else {
-        <kendo-svg-icon [icon]="kendoIcons.userIcon" />
-        }
-        <span class="v-ui-navbar-profile-name">{{ selectedAccountName() ?? user()?.name }}</span>
-        @if (isProfileCardOpen()) {
-        <kendo-svg-icon [icon]="kendoIcons.arrowUpIcon" />
-        } @else {
-        <kendo-svg-icon [icon]="kendoIcons.arrowDownIcon" />
-        }
-      </div>
-
-      @if (isProfileCardOpen()) {
-      <div class="v-ui-navbar-profile-card-mobile">
-        @for (acct of userAccounts(); track acct.name) {
-        @if ($first) {
-        <button class="v-ui-navbar-profile-card-header" (click)="onUserAccountClick(acct)">
-          <!-- @if (user()?.photo; as p) {
-          <img [src]="p" alt="Avatar" class="v-ui-navbar-profile-card-avatar" />
-          } @else {
+        <div class="nav-mobile-profile" (click)="toggleProfileCard()">
           <kendo-svg-icon [icon]="kendoIcons.userIcon" />
-          } -->
-          <img
-            [src]="
-              user()?.gender === 'male'
-                ? '/assets/images/default-male.png'
-                : '/assets/images/default-female.png'
-            "
-            alt="Avatar"
-            class="v-ui-navbar-profile-card-avatar"
-          />
-          <span class="v-ui-navbar-profile-card-username">{{ acct.name }}</span>
-        </button>
-        } @else {
-        <button class="v-ui-navbar-profile-card-item" (click)="onUserAccountClick(acct)">
-          <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon" />
-          {{ acct.name }}
-        </button>
+          <span class="nav-profile-name">{{ selectedAccountName() ?? user()?.name }}</span>
+          <kendo-svg-icon [icon]="isProfileCardOpen() ? kendoIcons.arrowUpIcon : kendoIcons.arrowDownIcon" />
+        </div>
+
+        @if (isProfileCardOpen()) {
+        <div class="nav-profile-card">
+          @for (acct of userAccounts(); track acct.name) {
+          @if ($first) {
+          <button class="nav-profile-card-header" (click)="onUserAccountClick(acct)">
+            <kendo-svg-icon [icon]="kendoIcons.userIcon" />
+            <span class="nav-profile-card-username">{{ acct.name }}</span>
+          </button>
+          } @else {
+          <button class="nav-profile-card-item" (click)="onUserAccountClick(acct)">
+            <kendo-svg-icon [icon]="kendoIcons.buildingBlocksIcon" />
+            {{ acct.name }}
+          </button>
+          }
+          }
+          <button class="nav-profile-card-item nav-profile-card-logout" (click)="handleLogout()">
+            <kendo-svg-icon [icon]="kendoIcons.loginIcon" />
+            {{ 'auth.logout' | transloco }}
+          </button>
+        </div>
         }
         }
-        <button class="v-ui-navbar-profile-card-item v-ui-navbar-profile-card-logout" (click)="handleLogout()">
-          <kendo-svg-icon [icon]="kendoIcons.loginIcon" />
-          {{ 'auth.logout' | transloco }}
-        </button>
+        }
       </div>
-      }
-      }
-      }
     </div>
   </div>
   }

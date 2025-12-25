@@ -1,10 +1,13 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ThemeSidebarComponent } from './theme-sidebar/theme-sidebar.component';
 import { KENDO_DIALOGS } from '@progress/kendo-angular-dialog';
 import { AlertDialogOutletComponent, ConfirmationDialogOutletComponent, DialogOutletComponent } from '@vet/shared/dialogs';
 import { AuthenticationService, UserRolesService } from '@vet/auth';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { ThemeService } from '@vet/shared/services';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -115,20 +118,40 @@ import { TranslocoPipe } from '@jsverse/transloco';
       }
 
       .vet-development-mode {
-        padding: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #f0f2f5 0%, #e5e7eb 100%);
+        border-bottom: 1px solid #d1d5db;
 
         .vet-development-mode-text {
-          text-align:center;
+          text-align: center;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: #4a5565;
+          margin: 0;
+        }
+      }
+
+      :host-context([data-theme='dark']) .vet-development-mode {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border-bottom: 1px solid #334155;
+
+        .vet-development-mode-text {
+          color: #94a3b8;
         }
       }
     `,
   ],
   host: { ngSkipHydration: '' },
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   isOpen = signal(false);
   authService = inject(AuthenticationService);
   userRolesService = inject(UserRolesService);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+  themeService = inject(ThemeService);
+  destroyRef = inject(DestroyRef);
+
   isAppReady = computed(() => {
     const authReady = this.authService.isReady();
     const rolesLoaded = this.userRolesService.isUserAccountsLoaded();
@@ -136,7 +159,48 @@ export class AppComponent {
     return authReady && rolesLoaded;
   });
 
+  constructor() {
+    effect(() => {
+      // Re-evaluate theme when auth state changes
+      this.authService.isAuthenticated(); 
+      this.updateThemeForRoute();
+    });
+  }
+
+  ngOnInit(): void {
+    // Initial check (non-reactive for Route, but isHomeRoute uses snapshot which is ready)
+    this.updateThemeForRoute();
+    
+    this.router.events
+      .pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => this.updateThemeForRoute());
+  }
+
   toggleAppContainer(): void {
     this.isOpen.set(!this.isOpen());
+  }
+
+  private updateThemeForRoute(): void {
+    // Logic: 
+    // 1. If Home Route AND NOT Authenticated -> White (applyHomePageStyle)
+    // 2. Otherwise (Auth Home, Dashboard, etc.) -> Gray (removeHomePageStyle)
+    if (this.isHomeRoute() && !this.authService.isAuthenticated()) {
+      this.themeService.applyHomePageStyle();
+    } else {
+      this.themeService.removeHomePageStyle();
+    }
+  }
+
+  private isHomeRoute(): boolean {
+    let route: ActivatedRoute | null = this.route;
+
+    while (route?.firstChild) {
+      route = route.firstChild;
+    }
+
+    return route?.snapshot.data?.['isHome'] === true;
   }
 }

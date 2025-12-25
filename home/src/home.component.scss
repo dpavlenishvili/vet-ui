@@ -2,17 +2,27 @@
 
 :host {
   display: block;
-  .k-width-desktop {
-    max-width: shared.$vet-layout-width-desktop;
-    width: 100%;
-  }
 }
 
-.vet-home-padded-section {
-  max-width: shared.$vet-layout-width-desktop;
-  padding: 0 5rem;
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
 
-  @media (max-width: 48rem) {
-    padding: 0 2rem;
-  }
+.home-section {
+  padding: clamp(1.5rem, 2.5vw, 2.5rem) 0;
+}
+
+.home-hero {
+  padding-top: clamp(1rem, 2vw, 2rem);
+  padding-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
+}
+
+.home-services {
+  background: transparent;
+}
+
+:host-context(.home-page) .home-services {
+  background: var(--bg-secondary);
 }

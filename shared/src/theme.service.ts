@@ -9,6 +9,8 @@ export class ThemeService {
   private readonly rootElement: HTMLElement;
   private readonly themeKey = 'preferred-theme';
   private readonly storage = inject(WA_LOCAL_STORAGE);
+  private readonly themeAttribute = 'data-theme';
+  private readonly defaultThemeValue = 'light';
 
 
   constructor(rendererFactory: RendererFactory2) {
@@ -34,6 +36,7 @@ export class ThemeService {
   
   setTheme(theme: ThemeName): void {
     this.clearTheme();
+    this.renderer.setAttribute(this.rootElement, this.themeAttribute, this.defaultThemeValue);
     if (theme !== 'default-theme') {
       this.renderer.addClass(this.rootElement, theme);
       this.removeHomePageStyle();

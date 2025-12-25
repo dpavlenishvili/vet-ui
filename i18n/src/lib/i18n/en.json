@@ -169,14 +169,19 @@
   },
   "home": {
     "services": "Services",
+    "services.description": "Access professional education services and resources",
     "partners": "Partners",
     "professionalPrograms": "Professional Programs",
+    "professionalPrograms.description": "Long-term professional education programs with state certification",
     "trainingPrograms": "Training/Retraining Programs",
+    "trainingPrograms.description": "Short-term training and professional retraining courses",
     "informalEducation": "Recognition of Non-Formal Education",
+    "informalEducation.description": "Recognize your work experience and non-formal education",
     "orientationService": "Orientation Service",
     "governmentLanguageTrainingPrograms": "State Language Preparation Programs",
     "teacherTrainingPrograms": "Teacher Training Programs",
-    "collegeEmployment": "College Employment"
+    "collegeEmployment": "College Employment",
+    "learn_more": "Learn More"
   },
   "programs": {
     "field": "Field",

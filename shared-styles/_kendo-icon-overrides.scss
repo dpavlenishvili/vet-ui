@@ -1,0 +1,37 @@
+kendo-svg-icon.tiny,
+kendo-svg-icon.icon-tiny {
+  display: block !important;
+  width: 4px !important;
+
+  svg {
+    width: 4px !important;
+    height: 8px !important;
+  }
+}
+
+kendo-svg-icon.medium,
+kendo-svg-icon.icon-medium {
+  display: block !important;
+  width: 22px;
+  height: 22px !important;
+
+  svg {
+    height: 100% !important;
+  }
+}
+
+kendo-svg-icon.large,
+kendo-svg-icon.icon-large {
+  display: block !important;
+  width: 46px !important;
+  height: 46px !important;
+
+  svg {
+    height: 46px !important;
+  }
+}
+
+.vet-icon-btn-sm kendo-svg-icon {
+  width: 1rem;
+  height: 1rem;
+}

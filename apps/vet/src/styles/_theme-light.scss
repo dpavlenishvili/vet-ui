@@ -1,0 +1,287 @@
+/* =============================================================================
+   LIGHT THEME - DESIGN TOKENS
+   Bridge Strategy: Modern tokens, legacy visual values
+   ============================================================================= */
+
+:root,
+:root[data-theme='light'] {
+  --bg-page: #f5f7f8;           /* Global page background (Default: Gray) */
+
+  &.home-page {
+    --bg-page: #ffffff;         /* Homepage override (White) */
+  }
+
+  /* ==========================================================================
+     PRIMARY & SECONDARY COLORS
+     ========================================================================== */
+  --color-primary: #4682b4;
+  --color-primary-hover: #3c6e96;
+  --color-primary-light: #6ba3cf;
+  --color-primary-lightest: #eaf0ff;
+  --color-secondary: #4682b4;
+  --color-secondary-hover: #3c6e96;
+
+  /* ==========================================================================
+     GRAYSCALE PALETTE
+     ========================================================================== */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5dc;
+  --color-gray-400: #b1b7bb;
+  --color-gray-500: #757575;
+  --color-gray-600: #626262;
+  --color-gray-700: #444444;
+  --color-gray-800: #292d32;
+  --color-gray-900: #1f2227;
+
+  /* ==========================================================================
+     BACKGROUNDS
+     ========================================================================== */
+  --bg-primary: #ffffff;        /* Homepage/cards - pure white */
+  --bg-secondary: #ffffff;      /* Secondary surfaces */
+  --bg-tertiary: #f2f3f6;       /* Tertiary surfaces */
+  --bg-card: #ffffff;           /* Card backgrounds */
+  --bg-surface: #f5f7f8;        /* Surface for components */
+  --bg-overlay: rgba(245, 247, 248, 0.9);
+  --bg-info: #eaf0ff;
+  --bg-warning: #fefce8;
+  --bg-success: #f0fdf4;
+
+  /* Layout - Authorized pages get gray background */
+  --bg-app: var(--bg-page);
+  --main-container-bg: transparent;
+  --dashboard-bg: transparent;
+
+  /* ==========================================================================
+     TEXT COLORS
+     ========================================================================== */
+  --text-primary: #292d32;
+  --text-secondary: #626262;
+  --text-tertiary: #444444;
+  --text-muted: #757575;
+  --text-disabled: #b1b7bb;
+  --text-on-primary: #ffffff;
+  --text-link: #4682b4;
+  --text-link-hover: #3c6e96;
+
+  /* ==========================================================================
+     BORDERS
+     ========================================================================== */
+  --border-default: #b1b7bb;
+  --border-light: #e0e0e0;
+  --border-medium: #c8c8c8;
+  --border-subtle: rgba(177, 183, 187, 0.5);
+  --border-strong: #626262;
+
+  /* ==========================================================================
+     BUTTONS
+     ========================================================================== */
+  --btn-primary-bg: var(--color-primary);
+  --btn-primary-hover: var(--color-primary-hover);
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: var(--color-secondary);
+  --btn-secondary-hover: var(--color-secondary-hover);
+  --btn-secondary-text: #ffffff;
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: var(--text-secondary);
+  --btn-ghost-hover-bg: rgba(70, 130, 180, 0.08);
+
+  /* ==========================================================================
+     SPACING
+     ========================================================================== */
+  --space-xs: 0.25rem;  /* 4px */
+  --space-sm: 0.5rem;   /* 8px */
+  --space-md: 1rem;     /* 16px */
+  --space-lg: 1.5rem;   /* 24px */
+  --space-xl: 2.5rem;   /* 40px */
+  --space-2xl: 3.75rem; /* 60px */
+  --space-3xl: 5rem;    /* 80px */
+
+  /* ==========================================================================
+     BORDER RADIUS
+     ========================================================================== */
+  --border-radius-sm: 0.625rem; /* 10px */
+  --border-radius-md: 0.875rem; /* 14px */
+  --border-radius-lg: 1rem;     /* 16px */
+  --border-radius-xl: 1.5rem;   /* 24px */
+  --border-radius-2xl: 2rem;    /* 32px */
+  --border-radius-full: 9999px;
+
+  /* ==========================================================================
+     TYPOGRAPHY
+     ========================================================================== */
+  --font-size-xs: 0.625rem;    /* 10px */
+  --font-size-sm: 0.75rem;     /* 12px */
+  --font-size-base: 0.8125rem; /* 13px */
+  --font-size-md: 0.875rem;    /* 14px */
+  --font-size-lg: 0.9375rem;   /* 15px */
+  --font-size-xl: 1rem;        /* 16px */
+  --font-size-2xl: 1.125rem;   /* 18px */
+  --font-size-3xl: 1.5rem;     /* 24px */
+  --font-size-4xl: 1.875rem;   /* 30px */
+  --font-size-5xl: 2rem;       /* 32px */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  --letter-spacing-tighter: -0.9px;
+  --letter-spacing-tight: -0.5px;
+  --letter-spacing-snug: -0.31px;
+  --letter-spacing-normal: -0.15px;
+  --letter-spacing-wide: -0.1px;
+  --letter-spacing-wider: 0.2px;
+  --letter-spacing-widest: 0.35px;
+
+  --line-height-xs: 12px;
+  --line-height-sm: 15px;
+  --line-height-base: 16px;
+  --line-height-md: 18px;
+  --line-height-lg: 19.5px;
+  --line-height-xl: 21px;
+  --line-height-2xl: 23.4px;
+  --line-height-3xl: 24px;
+  --line-height-4xl: 29.25px;
+  --line-height-5xl: 37.5px;
+  --line-height-6xl: 40px;
+
+  /* ==========================================================================
+     SHADOWS
+     ========================================================================== */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.12);
+  --shadow-primary: 0 4px 6px rgba(70, 130, 180, 0.18);
+  --shadow-secondary: 0 10px 15px rgba(70, 130, 180, 0.18);
+  --shadow-card: var(--shadow-sm);
+
+  /* ==========================================================================
+     FOOTER (Light Bridge)
+     ========================================================================== */
+  --footer-bg: #ffffff;
+  --footer-bg-contrast: #f5f7f8;
+  --footer-text: #626262;
+  --footer-text-muted: #626262;
+  --footer-text-bright: #292d32;
+  --footer-accent: #4682b4;
+  --footer-border: #e0e0e0;
+  --footer-border-hover: #c8c8c8;
+
+  /* ==========================================================================
+     OPACITY
+     ========================================================================== */
+  --opacity-disabled: 0.5;
+  --opacity-hover: 0.8;
+
+  /* ==========================================================================
+     LAYOUT
+     ========================================================================== */
+  --layout-max-width: 90rem; /* 1440px */
+  --layout-padding-x: 1.5rem; /* 24px */
+  --layout-padding-x-lg: 2.5rem; /* 40px */
+  --container-bg: var(--bg-primary);
+  --container-divider-color: var(--border-default);
+
+  /* ==========================================================================
+     NAVBAR
+     ========================================================================== */
+  --nav-height: 5rem;
+  --nav-bg-color: #4682b4;
+  --nav-link-color: #ffffff;
+
+  /* ==========================================================================
+     KENDO-COMPATIBLE VARIABLES
+     ========================================================================== */
+  --kendo-color-primary: var(--color-primary);
+  --kendo-color-primary-hover: var(--color-primary-hover);
+  --kendo-color-error: #ee4f64;
+  --kendo-color-success: #1e9f6f;
+  --kendo-color-warning: #ffc107;
+  --kendo-color-info: #2196f3;
+  --kendo-color-border: var(--border-default);
+  --kendo-color-border-alt: var(--border-medium);
+  --kendo-color-divider-light: var(--border-light);
+  --kendo-color-body: var(--text-primary);
+  --kendo-color-body-alt: var(--text-secondary);
+  --kendo-color-hint: var(--text-muted);
+  --kendo-color-disabled: var(--text-disabled);
+  --kendo-bg-surface: var(--bg-card);
+  --kendo-bg-surface-alt: var(--bg-surface);
+
+  /* ==========================================================================
+     FORM & INPUT
+     ========================================================================== */
+  --input-bg: var(--bg-card);
+  --input-border: var(--border-default);
+  --input-border-hover: var(--border-medium);
+  --input-border-focus: var(--color-primary);
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--text-muted);
+  --input-disabled-bg: var(--bg-tertiary);
+  --input-disabled-text: var(--text-disabled);
+  --input-error-border: var(--kendo-color-error);
+  --input-error-text: var(--kendo-color-error);
+
+  /* ==========================================================================
+     STEPPER
+     ========================================================================== */
+  --stepper-indicator-bg: var(--bg-card);
+  --stepper-indicator-border: var(--border-medium);
+  --stepper-indicator-active-bg: var(--color-primary);
+  --stepper-indicator-active-text: var(--text-on-primary);
+  --stepper-separator-bg: var(--border-medium);
+  --stepper-separator-done: var(--color-primary);
+  --stepper-content-bg: var(--bg-card);
+
+  /* ==========================================================================
+     LEGACY ALIASES (Backward Compatibility)
+     ========================================================================== */
+  --bg-body: var(--bg-primary);
+  --color-bg: var(--bg-primary);
+  --color-surface: var(--bg-card);
+  --color-surface-muted: var(--bg-surface);
+  --color-surface-contrast: var(--color-gray-900);
+  --color-border: var(--border-default);
+  --color-border-strong: var(--border-strong);
+  --color-card-border: #e8eaf3;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-link: var(--text-link);
+  --color-accent: var(--color-primary);
+  --color-accent-contrast: var(--text-on-primary);
+  --color-nav-bg: var(--nav-bg-color);
+  --color-nav-text: var(--nav-link-color);
+  --space-8: var(--space-sm);
+  --space-12: 0.75rem;
+  --space-16: var(--space-md);
+  --space-20: 1.25rem;
+  --space-24: var(--space-lg);
+  --space-32: 2rem;
+  --space-40: var(--space-xl);
+  --space-56: 3.5rem;
+  --space-72: 4.5rem;
+  --radius-sm: var(--border-radius-sm);
+  --radius-md: var(--border-radius-md);
+  --radius-lg: var(--border-radius-lg);
+  --radius-xl: var(--border-radius-xl);
+  --radius-pill: var(--border-radius-full);
+  --main-bg: var(--bg-primary);
+  --secondary-color: var(--color-primary);
+  --text-color: var(--text-primary);
+  --text-secondary-color: var(--text-secondary);
+  --secondary-text-color: var(--text-muted);
+  --link-color: var(--text-link);
+  --nav-link-color-visited: #cccccc;
+  --border-none: var(--color-border);
+  --font-size: 1rem;
+}
+
+:root[data-theme='dark'] {
+  /* Dormant dark mode scaffold. */
+}

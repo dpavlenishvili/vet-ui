@@ -1,0 +1,133 @@
+/* Dark theme overrides */
+[data-theme='dark'] {
+  /* background aligned to Figma dark */
+  --bg-primary: #0f172a;        /* page background */
+  --bg-secondary: #0b1220;      /* subtle panels */
+  --bg-tertiary: #111827;       /* chips/pills */
+  --bg-card: #0b1220;           /* cards */
+  --bg-surface: rgba(255, 255, 255, 0.04);
+  --bg-overlay: rgba(15, 23, 42, 0.8);
+  --bg-info: rgba(28, 57, 142, 0.2);
+  --bg-warning: rgba(115, 62, 10, 0.2);
+  --bg-success: rgba(13, 84, 43, 0.2);
+
+  /* text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-muted: #94a3b8;
+  --text-disabled: rgba(255, 255, 255, 0.2);
+  --text-link: #3b82f6;
+  --text-link-hover: #60a5fa;
+
+  /* borders - improved visibility for dark mode */
+  --border-default: rgba(255, 255, 255, 0.15);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.2);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.3);
+
+  /* buttons */
+  --btn-primary-bg: #2563eb;
+  --btn-primary-hover: #1d4ed8;
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: #ff6900;
+  --btn-secondary-hover: #ff8533;
+  --btn-secondary-text: #ffffff;
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: #cbd5e1;
+  --btn-ghost-hover-bg: rgba(255, 255, 255, 0.1);
+
+  /* shadows */
+  --shadow-sm: 0px 1px 3px 0px rgba(0, 0, 0, 0.35), 0px 1px 2px -1px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0px 10px 15px -3px rgba(0, 0, 0, 0.45), 0px 4px 6px -4px rgba(0, 0, 0, 0.55);
+  --shadow-lg: var(--shadow-md);
+  --shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.55), 0px 8px 10px -6px rgba(0, 0, 0, 0.6);
+  --shadow-primary: var(--shadow-md);
+  --shadow-secondary: 0 10px 15px -3px rgba(255, 105, 0, 0.3), 0 4px 6px -4px rgba(255, 105, 0, 0.3);
+  --shadow-button: var(--shadow-md);
+  --shadow-card: var(--shadow-sm);
+  --color-bg: var(--bg-primary);
+  --color-surface: var(--bg-card);
+  --color-surface-muted: var(--bg-surface);
+  --color-surface-contrast: #f8fafc;
+  --color-border: var(--border-default);
+  --color-border-strong: #1f2a3c;
+  --color-card-border: var(--border-default);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-link: var(--text-link);
+  --color-accent: var(--color-primary);
+  --color-accent-contrast: #0b1220;
+  --color-nav-bg: #0f172a;
+  --color-nav-text: #e8edf5;
+  --color-shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.55);
+  --color-shadow-card: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+  /* hero/slider specific - dark */
+  --hero-bg: #0b1220;
+  --hero-bg-alt: #101827;
+  --hero-border: transparent;
+  --hero-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  --hero-dot-active: #ffffff;
+  --hero-dot-inactive: #475569;
+  --hero-btn-bg: #1a2433;
+  --hero-btn-bg-hover: #243148;
+  --hero-btn-text: #e5e7eb;
+
+  /* footer specific - dark (same as light, footer is always dark) */
+  --footer-bg: #0f172a;
+  --footer-bg-contrast: #0b1220;
+  --footer-text: #cbd5e1;
+  --footer-text-muted: #94a3b8;
+  --footer-text-bright: #e2e8f0;
+  --footer-accent: #3b82f6;
+  --footer-border: rgba(255, 255, 255, 0.05);
+  --footer-border-hover: rgba(255, 255, 255, 0.08);
+
+  /* Kendo-compatible form variables - dark */
+  --kendo-color-primary: #3b82f6;
+  --kendo-color-primary-hover: #60a5fa;
+  --kendo-color-error: #f87171;
+  --kendo-color-success: #4ade80;
+  --kendo-color-warning: #fbbf24;
+  --kendo-color-info: #60a5fa;
+  --kendo-color-border: var(--border-default);
+  --kendo-color-border-alt: var(--border-medium);
+  --kendo-color-divider-light: var(--border-light);
+  --kendo-color-body: var(--text-primary);
+  --kendo-color-body-alt: var(--text-secondary);
+  --kendo-color-hint: var(--text-muted);
+  --kendo-color-disabled: var(--text-disabled);
+  --kendo-bg-surface: var(--bg-card);
+  --kendo-bg-surface-alt: var(--bg-surface);
+
+  /* Form & input specific - dark */
+  --input-bg: var(--bg-card);
+  --input-border: var(--border-default);
+  --input-border-hover: var(--border-medium);
+  --input-border-focus: #3b82f6;
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--text-muted);
+  --input-disabled-bg: var(--bg-surface);
+  --input-disabled-text: var(--text-disabled);
+  --input-error-border: #f87171;
+  --input-error-text: #f87171;
+
+  /* Stepper specific - dark */
+  --stepper-indicator-bg: var(--bg-card);
+  --stepper-indicator-border: var(--border-medium);
+  --stepper-indicator-active-bg: #3b82f6;
+  --stepper-indicator-active-text: #ffffff;
+  --stepper-separator-bg: var(--border-medium);
+  --stepper-separator-done: #3b82f6;
+  --stepper-content-bg: var(--bg-card);
+
+  /* Layout - dark */
+  --container-bg: var(--bg-primary);
+  --container-divider-color: var(--border-default);
+  --bg-app: var(--bg-primary);
+  --main-container-bg: var(--bg-app);
+  --dashboard-bg: var(--bg-secondary);
+}

@@ -13,10 +13,10 @@ header {
   flex-direction: column;
   flex: 1;
   margin: 0 auto;
-  padding: 0 1.25rem 1.25rem;
+  padding: 0 var(--layout-padding-x, 1.5rem) var(--space-md, 1rem);
   width: 100%;
-  max-width: 92.5rem;
-  background: var(--container-bg);
+  max-width: var(--layout-max-width, 90rem);
+  background: transparent;
   border-bottom: 0.0625rem solid var(--container-divider-color, transparent);
 
   .vet-dashboard-container {

@@ -7,12 +7,13 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
 import { Citizenship } from '../../shared.enums';
 import { UserAccount, UserRolesService, AuthenticationService } from '@vet/auth';
+import { IconComponent } from '../../components/icon/icon.component';
 
 @Component({
   selector: 'vet-ui-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
-  imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe],
+  imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe, IconComponent],
 })
 export class NavbarComponent {
   pages = input.required<Page[]>();
@@ -36,6 +37,7 @@ export class NavbarComponent {
       return a.name === this.selectedAccountName() ? -1 : 1;
     }),
   );
+  protected readonly isCompactNav = computed(() => this.headerPages().length >= 5);
 
   logout = output<void>();
 
@@ -45,6 +47,7 @@ export class NavbarComponent {
   kendoIcons = kendoIcons;
   isProfileCardOpen = signal(false);
   isMobileMenuOpen = signal(false);
+  mobileOpenSubmenus = signal<Set<string>>(new Set());
 
   vetIcons = vetIcons;
   private readonly _authenticationService = inject(AuthenticationService);
@@ -73,6 +76,7 @@ export class NavbarComponent {
   toggleMobileMenu(): void {
     this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
     this.isProfileCardOpen.set(false);
+    this.mobileOpenSubmenus.set(new Set());
   }
 
   navigateTo(direction: string) {
@@ -109,5 +113,29 @@ export class NavbarComponent {
       this.isProfileCardOpen.set(false);
       void this.router.navigate(['']);
     }
+  }
+
+  hasChildren(page: Page): boolean {
+    return !!page.children && page.children.length > 0;
+  }
+
+  isMobileSubmenuOpen(slug: string | null | undefined): boolean {
+    if (!slug) {
+      return false;
+    }
+    return this.mobileOpenSubmenus().has(slug);
+  }
+
+  toggleMobileSubmenu(slug: string | null | undefined): void {
+    if (!slug) {
+      return;
+    }
+    const next = new Set(this.mobileOpenSubmenus());
+    if (next.has(slug)) {
+      next.delete(slug);
+    } else {
+      next.add(slug);
+    }
+    this.mobileOpenSubmenus.set(next);
   }
 }

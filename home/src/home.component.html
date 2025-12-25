@@ -1,24 +1,15 @@
-<div class="k-display-flex k-flex-column k-gap-20">
-  @if(!authenticated()) {
-    <section class="k-display-flex k-justify-content-center">
-      <div class="k-width-desktop k-px-5">
+<div class="home">
+  @if (!authenticated()) {
+    <section class="home-section home-hero">
+      <div class="layout-shell">
         <vet-posts />
       </div>
     </section>
   }
 
-  <section class="k-display-flex k-justify-content-center">
-    <div class="k-width-desktop k-px-5">
+  <section class="home-section home-services">
+    <div class="layout-shell">
       <vet-services />
     </div>
   </section>
-
-<!--  დროებით დავმალეთ-->
-<!--  @if(!authenticated()) {-->
-<!--    <section class="k-display-flex k-justify-content-center k-bg-paper-dark">-->
-<!--      <div class="k-width-desktop k-px-5">-->
-<!--        <vet-partners />-->
-<!--      </div>-->
-<!--    </section>-->
-<!--  }-->
 </div>

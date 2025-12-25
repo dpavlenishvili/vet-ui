@@ -13,10 +13,12 @@ import {
   isGuest,
   isOneOf,
   UserRolesService,
+  useAccessControl,
 } from '@vet/auth';
 
 export interface ServiceItem {
   text: string;
+  description?: string;
   icon: VetIcon;
   color: string;
   url: string | null;
@@ -36,6 +38,7 @@ export class ServicesComponent {
   isAuthenticated = inject(AuthenticationService).isAuthenticated;
   router = inject(Router);
   userRolesService = inject(UserRolesService);
+  private readonly _hasAccess = useAccessControl();
 
   isNonDefaultUser = computed(() =>
     this.userRolesService.hasRole('Organisation') || this.userRolesService.hasRole('Super Admin')
@@ -44,77 +47,62 @@ export class ServicesComponent {
   showTitle = computed(() => !this.isAuthenticated());
   cards: ServiceItem[] = [
     {
-      // გრძელ ვადიანებში: თუ არა-ავტორიზებულია, მაშინ ზოგადი პროგრამების სია უნდა ვუჩვენოთ
       accessControl: isGuest(),
       text: 'home.professionalPrograms',
+      description: 'home.professionalPrograms.description',
       icon: 'professionalPrograms',
       color: 'blue',
       url: 'programs',
     },
     {
-      // გრძელ ვადიანებში: თუ ავტორიზებულია, მაშინ პროგრამების დეშბორდი უნდა ვუჩვენოთ
       accessControl: isAuthenticated(),
       text: 'home.professionalPrograms',
+      description: 'home.professionalPrograms.description',
       icon: 'professionalPrograms',
       color: 'blue',
       url: '/dashboard/programs/long',
     },
     {
-      // მოკლე ვადიანებში: თუ არა-ავტორიზებულია, მაშინ ზოგადი პროგრამების სია უნდა ვუჩვენოთ
       accessControl: isGuest(),
       text: 'home.trainingPrograms',
+      description: 'home.trainingPrograms.description',
       icon: 'trainingPrograms',
       color: 'yellow',
       url: '/programs/short',
     },
     {
-      // მოკლე ვადიანებში: თუ ავტორიზებულია, მაშინ პროგრამების დეშბორდი უნდა ვუჩვენოთ
       accessControl: isAuthenticated(),
       text: 'home.trainingPrograms',
+      description: 'home.trainingPrograms.description',
       icon: 'trainingPrograms',
       color: 'yellow',
       url: this.isNonDefaultUser() ? '/dashboard/programs/short/registered-listeners' : '/dashboard/programs/short',
     },
     {
-      // არაფორმალური: თუ არა-ავტორიზებულია, მაშინ ზოგადი პროგრამების სია უნდა ვუჩვენოთ
       accessControl: isGuest(),
       text: 'home.informalEducation',
+      description: 'home.informalEducation.description',
       icon: 'informalEducation',
       color: 'green',
       url: '/programs/non-formal',
     },
     {
-      // არაფორმალური: თუ ავტორიზებულია, მაშინ პროგრამების დეშბორდი უნდა ვუჩვენოთ
       accessControl: (isAuthenticated() && isOneOf('Default User')),
       text: 'home.informalEducation',
+      description: 'home.informalEducation.description',
       icon: 'informalEducation',
       color: 'green',
       url: '/dashboard/programs/non-formal',
     },
-    // temporarily commented. DO NOT DELETE
-    // {
-    //   text: 'home.orientationService',
-    //   icon: 'orientationService',
-    //   color: 'pink',
-    //   url: null,
-    // },
-    // {
-    //   text: 'home.governmentLanguageTrainingPrograms',
-    //   icon: 'governmentLanguageTrainingPrograms',
-    //   color: 'pink',
-    //   url: null,
-    // },
-    // {
-    //   text: 'home.teacherTrainingPrograms',
-    //   icon: 'teacherTrainingPrograms',
-    //   color: 'yellow',
-    //   url: null,
-    // },
-    // {
-    //   text: 'home.collegeEmployment',
-    //   icon: 'collegeEmployment',
-    //   color: 'blue',
-    //   url: null,
-    // },
   ];
+
+  visibleCards = computed(() => {
+    const allowed = this.cards.filter((card) => {
+      if (!card.accessControl) {
+        return true;
+      }
+      return this._hasAccess(card.accessControl)();
+    });
+    return allowed;
+  });
 }

@@ -1,36 +1,38 @@
 <footer class="footer">
   @if (!authenticated()) {
-    <div class="footer-content-container">
-      <div class="link-groups">
-        @for (page of footerPages(); track page.slug) {
-          <div class="link-section">
-            <vet-app-footer-link [page]="page" />
-          </div>
-        }
+    <div class="footer-links">
+      <div class="layout-shell">
+        <div class="footer-grid">
+          @for (page of footerPages(); track page.slug) {
+            <div class="footer-column">
+              <vet-app-footer-link [page]="page" />
+            </div>
+          }
 
-        <div class="link-section">
-          <h6 class="vet-text-uppercase">{{ 'contact.title' | transloco }}</h6>
-          <a href="#">
-            <kendo-svg-icon [icon]="vetIcons.location" />
-            <span>{{ 'contact.address' | transloco }}</span>
-          </a>
-          <a href="#">
-            <kendo-svg-icon [icon]="vetIcons.phone" />
-            <span>{{ 'contact.phone' | transloco }}</span>
-          </a>
-          <a href="#">
-            <kendo-svg-icon [icon]="vetIcons.mail" />
-            <span>{{ 'contact.email' | transloco }}</span>
-          </a>
+          <div class="footer-column">
+            <h6 class="vet-text-uppercase">{{ 'contact.title' | transloco }}</h6>
+            <a href="#">
+              <kendo-svg-icon [icon]="vetIcons.location" />
+              <span>{{ 'contact.address' | transloco }}</span>
+            </a>
+            <a href="#">
+              <kendo-svg-icon [icon]="vetIcons.phone" />
+              <span>{{ 'contact.phone' | transloco }}</span>
+            </a>
+            <a href="#">
+              <kendo-svg-icon [icon]="vetIcons.mail" />
+              <span>{{ 'contact.email' | transloco }}</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   }
-  <div class="logos" [class.contrast]="authenticated()">
-    <div class="logos-content-container">
+  <div class="footer-logos" [class.contrast]="authenticated()">
+    <div class="layout-shell footer-logos-inner">
       <img src="/assets/images/edu-logo.svg" alt="Ministry Logo" />
       <img src="/assets/images/copyright-emis.svg" alt="Copyright EMIS" />
     </div>
   </div>
-  <div class="copyright">&copy; {{ 'copyright.emis' | transloco }}</div>
+  <div class="footer-copy">&copy; {{ 'copyright.emis' | transloco }}</div>
 </footer>

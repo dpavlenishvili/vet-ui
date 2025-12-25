@@ -1,24 +1,33 @@
-<div class="k-display-flex k-flex-column k-gap-10">
+<div class="services">
   @if (showTitle()) {
-    <div class="k-text-lg">
+    <h2 class="services-title">
       {{ 'home.services' | transloco }}
-    </div>
+    </h2>
+    <p class="services-subtitle">
+      {{ 'home.services.description' | transloco }}
+    </p>
   }
 
-  <div class="card-list">
-    @for (card of cards; track card) {
+  <div class="service-grid">
+    @for (card of visibleCards(); track card) {
       @if (card.accessControl | hasAccess) {
-        <a
-          class="card-list__item k-display-flex k-gap-9"
-          [ngClass]="'card-list__item--' + card.color"
-          [routerLink]="card.url"
-        >
-          <div class="card-list__icon">
-            <vet-icon [icon]="card.icon" />
-          </div>
-
-          <p class="k-text-base k-color-body-dark vet-text-uppercase">{{ card.text | transloco }}</p>
-        </a>
+      <a
+        class="service-card"
+        [ngClass]="'accent-' + card.color"
+        [routerLink]="card.url"
+      >
+        <div class="service-icon">
+          <vet-icon [icon]="card.icon" size="xl" />
+        </div>
+        <h3 class="service-title">{{ card.text | transloco }}</h3>
+        @if (card.description) {
+        <p class="service-description">{{ card.description | transloco }}</p>
+        }
+        <div class="service-learn-more">
+          <span>{{ 'home.learn_more' | transloco }}</span>
+          <vet-icon icon="chevronRight" size="small" />
+        </div>
+      </a>
       }
     }
   </div>
