@@ -17,14 +17,12 @@ import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AdmissionService, LongTerm } from '@vet/backend';
 import {
-  ButtonComponent as VetButtonComponent,
   filterNullValues,
-  IconButtonComponent,
-  kendoIcons,
-  RouteParamsService,
-  useAlert,
-  vetIcons,
-} from '@vet/shared';
+} from '@vet/shared/utils';
+import { useAlert } from '@vet/shared/dialogs';
+import { kendoIcons, vetIcons } from '@vet/shared/icons';
+import { RouteParamsService } from '@vet/shared/services';
+import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
 import { GridDataResult, GridModule, KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { EducationLevel } from 'long-term-programs/src/enums/education-level.enum';

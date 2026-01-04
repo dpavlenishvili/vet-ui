@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
-import { useFilters, useFiltersUpdater } from '@vet/shared';
+import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { useAlert } from '@vet/shared/dialogs';
 import { vetIcons } from '@vet/shared/icons';
 import { DividerComponent } from '@vet/shared/ui-components';

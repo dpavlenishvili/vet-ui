@@ -4,7 +4,7 @@ import {
   FilterOptionsMap,
   QueryParams,
   SelectOption,
-  WizardStepDefinition
+  WizardStepDefinition,
 } from './shared.types';
 import { map, Observable } from 'rxjs';
 import { ActivatedRoute, type Params } from '@angular/router';
@@ -41,23 +41,26 @@ export function withoutEmptyProperties<T extends object = Params>(params: T) {
  * @param prefix
  */
 export function flattenQueryParams(obj: QueryParams, prefix?: string): Record<string, string> {
-  return Object.entries(obj).reduce((red, [key, value]) => {
-    const nestedKey = prefix ? `${prefix}[${key.toString()}]` : key.toString();
+  return Object.entries(obj).reduce(
+    (red, [key, value]) => {
+      const nestedKey = prefix ? `${prefix}[${key.toString()}]` : key.toString();
 
-    if (typeof value !== 'object' || value === null) {
-      return value === undefined || value === false
-        ? red
-        : {
-          ...red,
-          [nestedKey]: value as string,
-        };
-    }
+      if (typeof value !== 'object' || value === null) {
+        return value === undefined || value === false
+          ? red
+          : {
+              ...red,
+              [nestedKey]: value as string,
+            };
+      }
 
-    return {
-      ...red,
-      ...flattenQueryParams(value as QueryParams, nestedKey),
-    };
-  }, {} as Record<string, string>);
+      return {
+        ...red,
+        ...flattenQueryParams(value as QueryParams, nestedKey),
+      };
+    },
+    {} as Record<string, string>,
+  );
 }
 
 /**
@@ -124,7 +127,7 @@ export function getJsonQueryParam<T>(
 ): Observable<T | null> {
   return activatedRoute.queryParamMap.pipe(
     map((params) => params.get(key)),
-    map((value) => value ? JSON.parse(value) : fallback),
+    map((value) => (value ? JSON.parse(value) : fallback)),
   );
 }
 
@@ -387,7 +390,7 @@ export function isDate(value: unknown): value is Date {
 export function breakOnCommas(input: string, maxLineLength: number): string {
   if (!input) return '';
 
-  const parts = input.split(',').map(p => p.trim());
+  const parts = input.split(',').map((p) => p.trim());
   const lines: string[] = [];
   let currentLine = '';
 

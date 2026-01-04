@@ -12,10 +12,14 @@ export const authenticatedGuard: CanActivateFn = () => {
     filter((isReady) => isReady),
     take(1),
     map(() => {
-      if (authenticationService.hasTokens()) {
-        return true;
+      try {
+        if (authenticationService.hasTokens()) {
+          return true;
+        }
+        return new RedirectCommand(router.parseUrl('/'));
+      } catch {
+        return new RedirectCommand(router.parseUrl('/'));
       }
-      return new RedirectCommand(router.parseUrl('/'));
     }),
   );
 };
@@ -28,10 +32,14 @@ export const unAuthenticatedGuard: CanActivateFn = () => {
     filter((isReady) => isReady),
     take(1),
     map(() => {
-      if (!authenticationService.hasTokens()) {
-        return true;
+      try {
+        if (!authenticationService.hasTokens()) {
+          return true;
+        }
+        return new RedirectCommand(router.parseUrl('/'));
+      } catch {
+        return new RedirectCommand(router.parseUrl('/'));
       }
-      return new RedirectCommand(router.parseUrl('/'));
     }),
   );
 };

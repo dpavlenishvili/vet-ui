@@ -27,6 +27,7 @@
   padding: var(--container-padding);
   background: var(--container-bg);
   border-bottom: 0.0625rem solid var(--container-divider-color, transparent);
+  --shell-padding: 0;
 }
 
 .router-container {

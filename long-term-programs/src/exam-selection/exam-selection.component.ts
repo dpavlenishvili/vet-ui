@@ -6,15 +6,11 @@ import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { UserRolesService } from '@vet/auth';
 import { Schedule, ScheduleRes, SchedulesService, Selection } from '@vet/backend';
-import {
-  DividerComponent,
-  RouteParamsService,
-  useAlert,
-  useConfirm,
-  useFilters,
-  useFiltersUpdater,
-  vetIcons,
-} from '@vet/shared';
+import { useAlert, useConfirm } from '@vet/shared/dialogs';
+import { vetIcons } from '@vet/shared/icons';
+import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
+import { RouteParamsService } from '@vet/shared/services';
+import { DividerComponent } from '@vet/shared/ui-components';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { ExamSelectionDialogComponent } from './exam-selection-dialog/exam-selection-dialog.component';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
@@ -48,7 +44,6 @@ export type ScheduleItem = {
     KENDO_SVGICON,
     KENDO_TOOLTIP,
     TranslocoPipe,
-    DividerComponent,
     DividerComponent,
     ExamSelectionDialogComponent,
     ExamSelectionFiltersComponent,

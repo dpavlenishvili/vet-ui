@@ -83,13 +83,13 @@ export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
 
     const errors = control.errors;
     const keys = Object.keys(errors);
-    
+
     // Prioritize non-required errors when the field has a value
     const hasValue = control.value !== null && control.value !== '' && control.value !== undefined;
-    const error = hasValue 
-      ? keys.find((key) => key !== 'required' && errors[key]) ?? keys.find((key) => errors[key])
+    const error = hasValue
+      ? (keys.find((key) => key !== 'required' && errors[key]) ?? keys.find((key) => errors[key]))
       : keys.find((key) => errors[key]);
-    
+
     return `errors.${error ?? 'required'}`;
   });
 
@@ -140,12 +140,12 @@ export class SelectorComponent<T> implements ControlValueAccessor, OnInit {
 
     if (!control?.errors) {
       this.hasError.set(false);
-      this.validationTrigger.update(v => v + 1);
+      this.validationTrigger.update((v) => v + 1);
       return;
     }
 
     this.hasError.set(control.dirty || control.touched);
-    this.validationTrigger.update(v => v + 1);
+    this.validationTrigger.update((v) => v + 1);
   }
 
   public filterSettings: DropDownFilterSettings = {

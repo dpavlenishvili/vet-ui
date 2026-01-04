@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { useSanitizedUrl } from '@vet/shared';
+import { useSanitizedUrl } from '@vet/shared/utils';
 
 @Component({
   selector: 'vet-program-gallery',

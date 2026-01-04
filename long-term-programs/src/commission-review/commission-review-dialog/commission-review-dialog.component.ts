@@ -8,7 +8,7 @@ import { UserRolesService } from '@vet/auth';
 import { CommissionService } from '@vet/backend';
 import { tap } from 'rxjs';
 import { Criteria, ScorePayload } from 'long-term-programs/src/long-term-programs.types';
-import { scoreValidator } from '@vet/shared';
+import { scoreValidator } from '@vet/shared/validators';
 import { ButtonComponent as VetButtonComponent, InfoComponent, InputComponent } from '@vet/shared/ui-components';
 
 @Component({

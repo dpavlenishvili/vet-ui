@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ToastModule } from '@vet/shared';
+import { ToastModule } from '@vet/shared/ui-components';
 import { vetIcons } from '@vet/shared/icons';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -33,22 +33,6 @@ export class UserProfileComponent {
       icon: '/assets/images/my-profile.svg',
       url: ['/user-profile', 'overview'],
     },
-    // @todo(ilia): work on this
-    // {
-    //   text: 'interest_areas',
-    //   icon: '/assets/images/interest-areas.svg',
-    //   url: ['/user-profile', 'interest-areas'],
-    // },
-    // {
-    //   text: 'terms_conditions',
-    //   icon: '/assets/images/termsAndConditions.svg',
-    //   url: ['/user-profile', 'terms-conditions'],
-    // },
-    // {
-    //   text: 'my_messages',
-    //   icon: '/assets/images/bell-icon.svg',
-    //   url: ['/user-profile', 'my-messages'],
-    // },
   ];
   isExpanded = signal(true);
 

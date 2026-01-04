@@ -6,13 +6,13 @@ import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
   filterEmptyValues,
-  FormatDatePipe,
-  IconButtonComponent,
-  RouteParamsService,
   useFilters,
   useFiltersUpdater,
-  vetIcons,
-} from '@vet/shared';
+} from '@vet/shared/utils';
+import { vetIcons } from '@vet/shared/icons';
+import { FormatDatePipe } from '@vet/shared/pipes';
+import { RouteParamsService } from '@vet/shared/services';
+import { IconButtonComponent } from '@vet/shared/ui-components';
 import { AdmissionsListAdminFiltersComponent } from './admissions-list-admin-filters/admissions-list-admin-filters.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';

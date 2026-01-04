@@ -6,14 +6,14 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { AuthenticationService } from '@vet/auth';
 import { AdmissionService, NonFormalService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { vetIcons } from '@vet/shared/icons';
 import {
   ButtonComponent as VetButtonComponent,
   FileUploadComponent,
   InputComponent,
   VetCheckboxComponent,
-  vetIcons,
   VetSwitchComponent,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { NonFormalApplicationData } from '../application-wizard.component';
 import { map, of } from 'rxjs';
@@ -57,7 +57,6 @@ export class NonFormalConfirmationStepComponent {
   private readonly admissionService = inject(AdmissionService);
   private readonly nonFormalService = inject(NonFormalService);
 
-  // Mapping options for questionnaire fields
   protected readonly recognitionPurposeOptions: CheckboxOption[] = [
     { id: 1, translationKey: 'non_formal.recognition_purpose_personal_development' },
     { id: 2, translationKey: 'non_formal.recognition_purpose_continuing_education' },

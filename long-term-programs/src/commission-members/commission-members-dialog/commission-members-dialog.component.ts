@@ -8,14 +8,10 @@ import { CommissionService, User } from '@vet/backend';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import {
-  ButtonComponent as VetButtonComponent,
-  georgianLettersValidator,
-  InfoComponent,
-  InputComponent,
-  ToastService,
-  vetIcons,
-} from '@vet/shared';
+import { vetIcons } from '@vet/shared/icons';
+import { ToastService } from '@vet/shared/services';
+import { georgianLettersValidator } from '@vet/shared/validators';
+import { ButtonComponent as VetButtonComponent, InfoComponent, InputComponent } from '@vet/shared/ui-components';
 import { UserRolesService } from '@vet/auth';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { animate, style, transition, trigger } from '@angular/animations';

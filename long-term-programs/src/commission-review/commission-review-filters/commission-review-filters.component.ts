@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { vetIcons } from '@vet/shared/icons';
+import { withoutEmptyProperties } from '@vet/shared/utils';
 import {
   ButtonComponent as VetButtonComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-  vetIcons,
-  withoutEmptyProperties,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { ReviewFilters } from '../commission-review.component';
 import { useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
 import { UserRolesService } from '@vet/auth';

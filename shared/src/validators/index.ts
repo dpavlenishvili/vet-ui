@@ -14,6 +14,9 @@ export * from '../validators/personal-number-validator';
 export * from '../validators/score-pattern-validator';
 export * from '../validators/numeric-validator';
 
+// Shared Validators
+export * from '../shared.validators';
+
 // Named exports for convenience
 export { mobileNumberValidator } from '../validators/mobile-number-validator';
 export { customPatternValidator } from '../validators/custom-pattern-validator';

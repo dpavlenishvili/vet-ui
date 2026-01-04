@@ -13,14 +13,11 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
   countries,
-  DatePickerComponent,
   genders,
-  InputComponent,
   SelectOption,
-  SelectorComponent,
-  useAlert,
-  useConfirm,
-} from '@vet/shared';
+} from '@vet/shared/utils';
+import { useAlert, useConfirm } from '@vet/shared/dialogs';
+import { DatePickerComponent, InputComponent, SelectorComponent } from '@vet/shared/ui-components';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 

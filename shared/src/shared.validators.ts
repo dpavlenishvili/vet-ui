@@ -1,19 +1,20 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { effect, Signal } from '@angular/core';
 
-export function withSignalValidation<T extends AbstractControl>(
-  control: T,
-  signalDeps: Array<Signal<unknown>>
-): T {
+export function withSignalValidation<T extends AbstractControl>(control: T, signalDeps: Array<Signal<unknown>>): T {
   effect(() => {
-    signalDeps.forEach(dep => dep());
+    signalDeps.forEach((dep) => dep());
     control.updateValueAndValidity({ emitEvent: false });
   });
 
   return control;
 }
 
-export function conditionalValidator({ when, then, else: _else }: {
+export function conditionalValidator({
+  when,
+  then,
+  else: _else,
+}: {
   when: () => boolean | null | undefined;
   then: () => ValidatorFn | null;
   else?: () => ValidatorFn | null;

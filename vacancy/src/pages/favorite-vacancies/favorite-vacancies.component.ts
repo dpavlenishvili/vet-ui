@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { VacancyCollectionRes, VacancyService } from '@vet/backend';
-import { filterNullValues } from '@vet/shared';
+import { filterNullValues } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
 import { ToastService } from '@vet/shared/services';
 import { VacancyFormComponent } from '../../components/vacancy-form/vacancy-form.component';

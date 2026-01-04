@@ -1,4 +1,4 @@
-import { trans, useDialog } from '@vet/shared';
+import { trans, useDialog } from '@vet/shared/utils';
 import { ShortProgramPageComponent } from './short-program-page/short-program-page.component';
 
 export function useProgramDialog() {

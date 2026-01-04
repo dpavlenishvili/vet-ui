@@ -6,9 +6,7 @@ export abstract class BaseStoredStateService {
   private state = signal<Record<string, StoredStateItem<unknown>>>({});
 
   protected constructor(private storage: Storage) {
-    this.state.set(
-      (this.storage.getJSON(STORED_STATE_STORAGE_KEY) ?? {}) as Record<string, StoredStateItem<unknown>>
-    );
+    this.state.set((this.storage.getJSON(STORED_STATE_STORAGE_KEY) ?? {}) as Record<string, StoredStateItem<unknown>>);
   }
 
   get<T>(key: string, fallback: T): Signal<T> {

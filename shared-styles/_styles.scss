@@ -40,20 +40,6 @@
 
 @include tb-overrides();
 
-//@import 'backup/tokens';
-//
-//@import '@progress/kendo-theme-default/dist/all';
-//
-//@import 'backup/overrides';
-//
-//@import 'general';
-//
-//.k-button-outline {
-//  border-color: $kendo-button-border;
-//}
-//
-//@include kendo-theme--styles();
-//
 @import 'helvetica-neue-font';
 @import 'custom-kendo-utilities';
 @import 'custom-kendo-overrides';

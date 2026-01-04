@@ -1,9 +1,9 @@
-import {inject, PLATFORM_ID} from '@angular/core';
-import type {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
-import {TranslocoService} from '@jsverse/transloco';
-import {catchError, throwError} from 'rxjs';
+import { inject, PLATFORM_ID } from '@angular/core';
+import type { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { TranslocoService } from '@jsverse/transloco';
+import { catchError, throwError } from 'rxjs';
 import { getApiErrorHandler, getApiErrorUiHandler, useToastApiErrorHandler } from './api-error-ctx';
-import {isPlatformServer} from "@angular/common";
+import { isPlatformServer } from '@angular/common';
 
 export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const translocoService = inject(TranslocoService);
@@ -44,7 +44,7 @@ export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
       };
 
       if (code !== 1004) {
-        uiHandler(resolvedError)
+        uiHandler(resolvedError);
       }
 
       return throwError(() => error);

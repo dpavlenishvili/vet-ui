@@ -45,7 +45,6 @@ export class ApplicationPagesService {
   populate(): Observable<ApplicationPage[]> {
     return this.pagesService.getPagesList().pipe(
       map(({ data }) => {
-        console.log('pop', data);
         return (data || []).sort((ap, bp) => {
           const a = ap.position || 0;
           const b = bp.position || 0;

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { trans, useRouteNumberParam } from '@vet/shared';
+import { trans, useRouteNumberParam } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
 import { ShortProgramsService } from '@vet/backend';
 import { map } from 'rxjs';

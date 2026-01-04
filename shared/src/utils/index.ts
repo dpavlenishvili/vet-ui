@@ -43,7 +43,6 @@ export * from '../shared.tokens';
 export * from '../shared.providers';
 export * from '../shared.interceptors';
 export * from '../shared.guards';
-export * from '../shared.validators';
 export * from '../vet-provide';
 
 // ============================================

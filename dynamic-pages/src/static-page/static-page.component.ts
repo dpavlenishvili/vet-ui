@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, SecurityContext } from '@angular/core';
 
 import type { Page } from 'backend';
-import { useSanitizedHtml } from '@vet/shared';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 
@@ -24,7 +23,6 @@ export class StaticPageComponent {
 
     div.querySelectorAll('img').forEach(img => {
       const width = parseInt(img.getAttribute('width') || '0');
-      const height = parseInt(img.getAttribute('height') || '0');
 
       if (width < 100) img.classList.add('vet-img', 'img-small');
       else if (width > 800) img.classList.add('vet-img', 'img-large');
@@ -33,8 +31,6 @@ export class StaticPageComponent {
       img.setAttribute('loading', 'lazy');
     });
 
-    return this.sanitizer.bypassSecurityTrustHtml(div.innerHTML);
-  })
-
-
+    return this.sanitizer.sanitize(SecurityContext.HTML, div.innerHTML) ?? '';
+  });
 }

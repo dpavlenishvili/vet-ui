@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ExamCardComponent } from '@vet/programs-common';
-import { useRouteParam } from '@vet/shared';
+import { useRouteParam } from '@vet/shared/utils';
 
 @Component({
   selector: 'vet-exam-card-display',

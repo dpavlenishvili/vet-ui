@@ -13,10 +13,7 @@ export class TransPipe implements PipeTransform {
 
   transform(value: string | number | undefined | null | false | Translatable, params?: HashMap): string {
     if (isTranslatable(value)) {
-      return this.transloco.translate(
-        getTranslatableKey(value),
-        getTranslatableParams(value),
-      );
+      return this.transloco.translate(getTranslatableKey(value), getTranslatableParams(value));
     }
 
     if (!value || typeof value !== 'string') {

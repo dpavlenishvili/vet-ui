@@ -12,19 +12,19 @@
 
 .hero-card {
   background-color: var(--bg-card);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-light);
   border-radius: var(--border-radius-xl);
-  padding: 1.25rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
   width: 100%;
   overflow: hidden;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: clamp(0.75rem, 2.5vw, 1.25rem);
+  box-shadow: var(--shadow-sm);
 
   @media (min-width: 48rem) {
     padding: 1.5rem;
-    gap: 1.25rem;
   }
 
   @media (min-width: 64rem) {
@@ -32,8 +32,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr auto;
-    column-gap: 2rem;
-    row-gap: 1.5rem;
+    column-gap: clamp(1.5rem, 2vw, 2rem);
+    row-gap: clamp(1.25rem, 2vw, 1.5rem);
     align-items: start;
     border-radius: var(--border-radius-2xl);
   }
@@ -59,7 +59,7 @@
   align-items: flex-start;
   z-index: 10;
   order: 2;
-  gap: 0.75rem;
+  gap: clamp(0.6rem, 2vw, 1rem);
 
   @media (min-width: 48rem) {
     gap: 1rem;
@@ -76,42 +76,34 @@
 .image-wrapper {
   position: relative;
   width: 100%;
-  height: 12rem;
+  height: clamp(12rem, 45vw, 22rem);
   border-radius: var(--border-radius-lg);
   overflow: hidden;
   order: 1;
-  background: var(--bg-tertiary);
+  background: var(--bg-surface);
   flex-shrink: 0;
-
-  @media (min-width: 48rem) {
-    height: 14rem;
-  }
+  border: 1px solid var(--border-light);
 
   @media (min-width: 64rem) {
     grid-column: 2;
     grid-row: 1;
-    height: 18rem;
     order: unset;
   }
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
-    transition: transform 0.7s ease;
+    transition: opacity 0.3s ease;
     display: block;
-  }
-
-  &:hover img {
-    transform: scale(1.02);
   }
 }
 
 .image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.06), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.03), transparent);
   pointer-events: none;
 }
 
@@ -122,6 +114,8 @@
   width: 100%;
   order: 3;
   padding-top: 0.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 
   @media (min-width: 64rem) {
     grid-column: 1 / -1;
@@ -138,23 +132,23 @@
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
   color: var(--text-secondary);
-  padding: 0.375rem 0.75rem;
+  padding: clamp(0.3rem, 1.5vw, 0.45rem) clamp(0.6rem, 2vw, 0.85rem);
   border-radius: var(--border-radius-full);
-  font-size: var(--font-size-sm);
+  font-size: clamp(0.75rem, 2vw, var(--font-size-sm));
   font-weight: var(--font-weight-semibold);
 
   vet-icon {
-    opacity: 0.7;
-    width: 0.875rem;
-    height: 0.875rem;
+    opacity: 0.75;
+    width: 0.95rem;
+    height: 0.95rem;
   }
 }
 
 .hero-title {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
   font-weight: var(--font-weight-bold);
-  line-height: 1.25;
+  line-height: 1.3;
   letter-spacing: -0.02em;
   color: var(--text-primary);
   display: -webkit-box;
@@ -163,19 +157,18 @@
   overflow: hidden;
 
   @media (min-width: 48rem) {
-    font-size: 1.5rem;
+    -webkit-line-clamp: 2;
   }
 
   @media (min-width: 64rem) {
-    font-size: 1.75rem;
     -webkit-line-clamp: 2;
   }
 }
 
 .hero-description {
   margin: 0;
-  font-size: var(--font-size-md);
-  line-height: 1.6;
+  font-size: clamp(0.95rem, 2.5vw, var(--font-size-md));
+  line-height: 1.65;
   color: var(--text-secondary);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -201,14 +194,15 @@
   gap: 0.5rem;
   background-color: var(--btn-primary-bg);
   color: var(--btn-primary-text);
-  padding: 0.75rem 1.25rem;
+  padding: clamp(0.7rem, 2.5vw, 0.9rem) clamp(1rem, 4vw, 1.5rem);
   border-radius: var(--border-radius-md);
-  font-size: var(--font-size-md);
+  font-size: clamp(0.95rem, 2.5vw, var(--font-size-md));
   font-weight: var(--font-weight-bold);
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-top: 0.5rem;
+  min-height: 2.75rem;
 
   @media (min-width: 48rem) {
     padding: 0.875rem 1.5rem;
@@ -234,30 +228,30 @@
 .pagination-dots {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
+  gap: 0.5rem;
 }
 
 .pagination-dots .dot {
-  height: 0.375rem;
+  height: 0.5rem;
   border-radius: var(--border-radius-full);
   background-color: var(--border-default);
   transition: width 0.3s ease, background-color 0.3s ease;
-  width: 0.375rem;
+  width: 0.5rem;
   border: none;
   cursor: pointer;
   padding: 0;
 
   &.active {
-    width: 1.25rem;
+    width: 1.5rem;
     background-color: var(--text-secondary);
   }
 
   @media (min-width: 48rem) {
-    height: 0.5rem;
-    width: 0.5rem;
+    height: 0.625rem;
+    width: 0.625rem;
 
     &.active {
-      width: 1.5rem;
+      width: 1.75rem;
     }
   }
 }
@@ -272,12 +266,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: clamp(2.5rem, 8vw, 3rem);
+  height: clamp(2.5rem, 8vw, 3rem);
   border-radius: 50%;
-  background-color: var(--bg-overlay);
+  background-color: color-mix(in srgb, var(--bg-surface) 75%, transparent);
   color: var(--text-secondary);
-  border: none;
+  border: 1px solid var(--border-light);
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
 
@@ -287,18 +281,27 @@
   }
 
   vet-icon {
-    width: 1rem;
-    height: 1rem;
+    width: 1.1rem;
+    height: 1.1rem;
   }
 
   @media (min-width: 64rem) {
-    width: 2.75rem;
-    height: 2.75rem;
-
     vet-icon {
       width: 1.25rem;
       height: 1.25rem;
     }
+  }
+}
+
+@media (max-width: 40rem) {
+  .controls-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-arrows {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 

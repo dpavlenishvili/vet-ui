@@ -1,4 +1,4 @@
-import { InjectionToken, Type, type Provider } from '@angular/core';
+import { InjectionToken, type Provider, Type } from '@angular/core';
 
 type ProvideToken<T> = InjectionToken<T> | Type<T>;
 
@@ -27,11 +27,7 @@ interface VetValueProvider<T> {
   multi?: boolean;
 }
 
-type VetProvider<T> =
-  | VetFactoryProvider<T>
-  | VetClassProvider<T>
-  | VetExistingProvider<T>
-  | VetValueProvider<T>;
+type VetProvider<T> = VetFactoryProvider<T> | VetClassProvider<T> | VetExistingProvider<T> | VetValueProvider<T>;
 
 export function vetProvide<T>(options: VetProvider<T>): Provider {
   return options;

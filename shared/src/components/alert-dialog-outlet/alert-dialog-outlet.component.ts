@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostListener, inject, Signal, SecurityContext } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
@@ -65,7 +65,6 @@ export class AlertDialogOutletComponent {
 
   @HostListener('window:keydown', ['$event'])
   public onKeydown(event: KeyboardEvent): void {
-    
     if (event.key === 'Escape') {
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -90,7 +89,7 @@ export class AlertDialogOutletComponent {
     }
 
     const translatedText = this.translocoService.translate(text);
-    return this.sanitizer.bypassSecurityTrustHtml(translatedText);
+    return this.sanitizer.sanitize(SecurityContext.HTML, translatedText) ?? '';
   }
 
   protected close() {

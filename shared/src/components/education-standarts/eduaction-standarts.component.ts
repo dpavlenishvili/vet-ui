@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal, Optional, Self } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, Optional, Self, signal } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';

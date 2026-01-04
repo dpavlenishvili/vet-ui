@@ -27,13 +27,8 @@ export class ConfirmationDialogService {
     this.currentDialogParams.set(null);
   }
 
-  private showVariant(
-    type: DialogVariant,
-    params: string | Omit<ConfirmationDialogParams, 'variant'>,
-  ) {
-    const dialogParams = typeof params === 'string'
-      ? { content: params, onConfirm: noop }
-      : params;
+  private showVariant(type: DialogVariant, params: string | Omit<ConfirmationDialogParams, 'variant'>) {
+    const dialogParams = typeof params === 'string' ? { content: params, onConfirm: noop } : params;
 
     return this.show({
       ...dialogParams,

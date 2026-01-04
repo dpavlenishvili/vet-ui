@@ -9,7 +9,7 @@ import {
   mapDictionaryItemToOption,
   mapIdValueToOption,
 } from '@vet/shared-resources';
-import { withoutEmptyProperties } from '@vet/shared';
+import { withoutEmptyProperties } from '@vet/shared/utils';
 
 export function useSeparateDictionary(fetch: (generals: GeneralsService) => Observable<{
   data?: Partial<DictionaryType>[] | undefined;

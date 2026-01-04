@@ -1,12 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef, effect,
+  DestroyRef,
+  effect,
   inject,
   input,
   Type,
   viewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';

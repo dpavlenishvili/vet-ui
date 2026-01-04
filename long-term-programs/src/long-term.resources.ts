@@ -4,7 +4,7 @@ import { inject, Signal } from '@angular/core';
 import { GeneralsService } from '@vet/backend';
 import { isValidIdValue, mapIdValueToOption } from '@vet/shared-resources';
 import { UserRolesService } from '@vet/auth';
-import { withoutEmptyProperties } from '@vet/shared';
+import { withoutEmptyProperties } from '@vet/shared/utils';
 import { useConfigDictionary } from '@vet/programs-common';
 
 export function useProgramsWithOrganisation(organisationSignal: Signal<string | null>) {

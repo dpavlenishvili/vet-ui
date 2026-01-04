@@ -12,8 +12,8 @@ import {
 } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { withoutEmptyProperties } from '@vet/shared';
-import { SelectorComponent } from '@vet/shared/heavy-components';
+import { withoutEmptyProperties } from '@vet/shared/utils';
+import { SelectorComponent } from '@vet/shared/ui-components';
 import { vetIcons } from '@vet/shared/icons';
 import { ButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
 import { ShortApplicationsListenersFilters } from '../../short-term-programs.types';

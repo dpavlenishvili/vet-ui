@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { vetIcons } from '@vet/shared/icons';
+import { withoutEmptyProperties } from '@vet/shared/utils';
 import {
   ButtonComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-  vetIcons,
-  withoutEmptyProperties,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';

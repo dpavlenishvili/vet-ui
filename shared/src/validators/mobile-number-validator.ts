@@ -5,10 +5,9 @@ export const mobileNumberValidator = customPatternValidator('^5\\d{8}$', {
   mobileNumber: true,
 });
 
-
 export const georgianMobileValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const value = control.value || '';
-  if (!value) return null; 
+  if (!value) return null;
 
   const georgianPattern = /^5\d{8}$/;
   return georgianPattern.test(value) ? null : { mobileNumber: true };

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
 import { CollectionItem, Page } from '@vet/backend';
 import { usePageCollection } from '@vet/pages';
-import { useQueryParam, useQueryUpdater } from '@vet/shared';
+import { useQueryParam, useQueryUpdater } from '@vet/shared/utils';
 import { PageContentComponent } from '../page-content/page-content.component';
 
 @Component({

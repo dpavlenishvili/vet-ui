@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { kendoIcons } from '@vet/shared';
-import { vetIcons } from '@vet/shared/icons';
+import { kendoIcons, vetIcons } from '@vet/shared/icons';
 import { TransPipe } from '@vet/shared/pipes';
 import { LongTerm, NonFormalShow, ShortProgramShow } from '@vet/backend';
 import { ProgramDetailItem } from '@vet/programs-common';
@@ -23,7 +22,6 @@ export class ProgramDetailsComponent {
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;
 
-  // Track expanded state for each item by index
   expandedItems = signal<Set<number>>(new Set());
 
   toggleExpand(index: number) {

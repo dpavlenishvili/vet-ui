@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, signal, TemplateRef
 import { Router } from '@angular/router';
 import { ShortRegistrationStepperComponent } from './short-registration-stepper/short-registration-stepper.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { getCurrentStepIndex, useRouterParams, useSessionValue, WizardStepDefinition } from '@vet/shared';
+import { getCurrentStepIndex, useRouterParams, useSessionValue, WizardStepDefinition } from '@vet/shared/utils';
 import { useAlert } from '@vet/shared/dialogs';
 import {
   ShortRegistrationGeneralInformationStepComponent,

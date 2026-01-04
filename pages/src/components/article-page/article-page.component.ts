@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { useRouteNumberParam } from '@vet/shared';
+import { useRouteNumberParam } from '@vet/shared/utils';
 import { UploadedFileUriPipe } from '@vet/shared/pipes';
 import { usePageCollectionItem } from '@vet/pages';
 import { DatePipe, NgOptimizedImage } from '@angular/common';

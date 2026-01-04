@@ -12,7 +12,6 @@ export class ThemeService {
   private readonly themeAttribute = 'data-theme';
   private readonly defaultThemeValue = 'light';
 
-
   constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
     const _document = inject(WA_WINDOW).document;
@@ -20,7 +19,6 @@ export class ThemeService {
     this.initTheme();
   }
 
-  
   private initTheme(): void {
     const storedTheme = this.storage.getItem(this.themeKey);
     if (storedTheme) {
@@ -28,12 +26,10 @@ export class ThemeService {
     }
   }
 
-  
   getCurrentTheme(): ThemeName {
     return (this.storage.getItem(this.themeKey) as ThemeName) || 'default-theme';
   }
 
-  
   setTheme(theme: ThemeName): void {
     this.clearTheme();
     this.renderer.setAttribute(this.rootElement, this.themeAttribute, this.defaultThemeValue);
@@ -44,21 +40,18 @@ export class ThemeService {
     this.storage.setItem(this.themeKey, theme);
   }
 
-  
   applyHomePageStyle(): void {
     this.renderer.addClass(this.rootElement, 'home-page');
   }
 
-  
   removeHomePageStyle(): void {
     this.renderer.removeClass(this.rootElement, 'home-page');
   }
 
-  
   adjustFontSize(action: 'zoomIn' | 'zoomOut'): void {
     const currentFontSize = parseFloat(getComputedStyle(this.rootElement).fontSize);
 
-    const step = 2; 
+    const step = 2;
     const newFontSize = action === 'zoomIn' ? currentFontSize + step : currentFontSize - step;
 
     if (newFontSize >= 16 && newFontSize <= 64) {
@@ -66,7 +59,6 @@ export class ThemeService {
     }
   }
 
-  
   private clearTheme(): void {
     const themes: ThemeName[] = ['theme-v1', 'theme-v2', 'theme-v3'];
     themes.forEach((theme) => this.renderer.removeClass(this.rootElement, theme));

@@ -34,9 +34,5 @@ export const KENDO_DATE_TIME_PICKER_FORMAT = new InjectionToken<string>(
   'The default date format intended to be used in kendo date pickers',
 );
 
-export const STEP_FORM_GROUP = new InjectionToken<FormGroup>(
-  'FormGroup of the current step',
-);
-export const PARENT_FORM_GROUP = new InjectionToken<FormGroup>(
-  'FormGroup of the parent container',
-);
+export const STEP_FORM_GROUP = new InjectionToken<FormGroup>('FormGroup of the current step');
+export const PARENT_FORM_GROUP = new InjectionToken<FormGroup>('FormGroup of the parent container');

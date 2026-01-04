@@ -50,8 +50,8 @@
 
   /* Layout - Authorized pages get gray background */
   --bg-app: var(--bg-page);
-  --main-container-bg: transparent;
-  --dashboard-bg: transparent;
+  --main-container-bg: var(--bg-app);
+  --dashboard-bg: var(--bg-app);
 
   /* ==========================================================================
      TEXT COLORS
@@ -182,7 +182,7 @@
   --layout-max-width: 90rem; /* 1440px */
   --layout-padding-x: 1.5rem; /* 24px */
   --layout-padding-x-lg: 2.5rem; /* 40px */
-  --container-bg: var(--bg-primary);
+  --container-bg: var(--bg-app);
   --container-divider-color: var(--border-default);
 
   /* ==========================================================================

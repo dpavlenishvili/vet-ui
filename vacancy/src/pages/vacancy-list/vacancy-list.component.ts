@@ -3,7 +3,7 @@ import { VacancyFormComponent } from '../../components/vacancy-form/vacancy-form
 import { VacancyTableComponent } from '../../components/vacancy-table/vacancy-table.component';
 import { VacancyListCardComponent } from '../../components/vacancy-list-card/vacancy-list-card.component';
 import { KENDO_ICONS, KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { filterNullValues } from '@vet/shared';
+import { filterNullValues } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
 import { ToastService } from '@vet/shared/services';
 import { NgClass } from '@angular/common';

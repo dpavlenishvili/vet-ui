@@ -6,9 +6,10 @@ export class AlertDialogService {
   readonly currentDialogParams = signal<AlertDialogParams | null>(null);
 
   show(params: string | AlertDialogParams) {
-    const dialogParams = typeof params === 'string'
-      ? { text: params, variant: 'success' as const }
-      : { ...params, variant: params.variant || 'success' };
+    const dialogParams =
+      typeof params === 'string'
+        ? { text: params, variant: 'success' as const }
+        : { ...params, variant: params.variant || 'success' };
 
     this.currentDialogParams.set(dialogParams);
   }
@@ -29,14 +30,11 @@ export class AlertDialogService {
     this.currentDialogParams.set(null);
   }
 
-  private showVariant(
-    type: AlertDialogParams['variant'],
-    params: string | Omit<AlertDialogParams, 'variant'>,
-  ) {
+  private showVariant(type: AlertDialogParams['variant'], params: string | Omit<AlertDialogParams, 'variant'>) {
     return this.show({
       ...(typeof params === 'string' ? {} : params),
       variant: type,
       text: typeof params === 'string' ? params : params.text,
-    })
+    });
   }
 }

@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, OnInit, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { vetIcons } from '@vet/shared/icons';
+import { useControlValue, withoutEmptyProperties } from '@vet/shared/utils';
 import {
   ButtonComponent,
   EduactionStandartsComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-  useControlValue,
-  vetIcons,
   VetSwitchComponent,
-  withoutEmptyProperties,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
 import {
@@ -36,7 +35,6 @@ import { tap } from 'rxjs';
     NgTemplateOutlet,
     ShortTermProgramsFiltersDialogComponent,
     InputComponent,
-    ButtonComponent,
     IconButtonComponent,
     EduactionStandartsComponent,
   ],

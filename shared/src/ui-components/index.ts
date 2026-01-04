@@ -22,6 +22,14 @@ export * from '../components/icon';
 export * from '../components/icon-button';
 export * from '../components/checkbox';
 export * from '../components/component-outlet.component';
+// Heavy Components
+export * from '../components/breadcrumb/breadcrumb.component';
+export * from '../components/dialog/dialog.component';
+export * from '../components/date-picker/date-picker.component';
+export * from '../components/responsive-stepper/responsive-stepper.component';
+export * from '../components/selector';
+export * from '../components/education-standarts/eduaction-standarts.component';
+export * from '../components/map/map.component';
 
 // Sidebar Components
 export * from '../components/expandable-sidebar-menu/expandable-sidebar-menu.component';
@@ -31,3 +39,7 @@ export * from '../components/router-expandable-sidebar-menu/router-expandable-si
 // Navbar Components
 export * from '../ui/navbar/navbar-logo.directive';
 export * from '../ui/navbar/navbar.component';
+export * from '../ui/file-upload/file-upload.component';
+
+// UI Modules
+export * from '../toast.module';

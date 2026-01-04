@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, type OnInit } from '@angular/core';
-import { type ThemeName } from '@vet/shared';
-import { ThemeService } from '@vet/shared/services';
+import { ThemeService, type ThemeName } from '@vet/shared/services';
 
 @Component({
   selector: 'vet-theme-sidebar',

@@ -11,14 +11,14 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { vetIcons } from '@vet/shared/icons';
 import {
   ButtonComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-  vetIcons,
   VetSwitchComponent,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { SchedulesFilters } from '../exam-selection.component';
 import { useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
 import { UserRolesService } from '@vet/auth';

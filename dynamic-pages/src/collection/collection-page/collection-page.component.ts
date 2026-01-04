@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Meta } from '@angular/platform-browser';
-import { first, map, Observable, switchMap } from 'rxjs';
+import { first, map, Observable, of, switchMap } from 'rxjs';
 
 import { CollectionItemComponent } from '../collection-item/collection-item.component';
 import { type CollectionItem, type Page, PagesService } from '@vet/backend';
@@ -22,18 +22,33 @@ export class CollectionPageComponent {
 
   constructor(meta: Meta) {
     effect(() => {
-      meta.updateTag({
-        name: 'og-title',
-        content: this.page().meta_title!,
-      });
-      meta.updateTag({
-        name: 'og-description',
-        content: this.page().meta_description!,
-      });
+      const page = this.page();
+      const metaTitle = page.meta_title?.trim();
+      const metaDescription = page.meta_description?.trim();
+
+      if (metaTitle) {
+        meta.updateTag({
+          name: 'og-title',
+          content: metaTitle,
+        });
+      }
+
+      if (metaDescription) {
+        meta.updateTag({
+          name: 'og-description',
+          content: metaDescription,
+        });
+      }
     });
     this.collectionItems$ = toObservable(this.page).pipe(
-      switchMap((page) => this.pagesService.collectionsItems(page.collection?.[0]?.id!)),
-      map((response) => response.data!),
+      map((page) => page.collection?.[0]?.id),
+      switchMap((collectionId) => {
+        if (collectionId == null) {
+          return of([]);
+        }
+
+        return this.pagesService.collectionsItems(collectionId).pipe(map((response) => response.data ?? []));
+      }),
       first(),
     );
   }

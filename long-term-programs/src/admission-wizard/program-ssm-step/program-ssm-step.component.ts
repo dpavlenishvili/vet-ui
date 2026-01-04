@@ -6,15 +6,15 @@ import { LabelModule } from '@progress/kendo-angular-label';
 import { SVGIconModule } from '@progress/kendo-angular-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { georgianMobileValidator } from '@vet/shared/validators';
 import {
   ButtonComponent as VetButtonComponent,
   DividerComponent,
-  georgianMobileValidator,
   InfoComponent,
   InputComponent,
   SelectorComponent,
   VetSwitchComponent,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { GeneralsService } from '@vet/backend';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -63,7 +63,6 @@ export class ProgramSsmStepComponent implements OnInit {
   ngOnInit(): void {
     this.initializeFormState();
 
-    // Subscribe to translate_select changes
     const form = this.form();
     if (form && !this.isViewMode()) {
       form

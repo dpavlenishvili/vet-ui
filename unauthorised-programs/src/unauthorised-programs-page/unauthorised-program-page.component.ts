@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { ProgramDetailItem, ProgramPageComponent, ProgramSectionItem } from '@vet/programs-common';
 import { LongProgramAdmissionComponent } from './long-program-admission/long-program-admission.component';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { trans, useRouteNumberParam } from '@vet/shared';
+import { trans, useRouteNumberParam } from '@vet/shared/utils';
 import { ProgramsService } from '@vet/backend';
 import { map } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';

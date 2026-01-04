@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ChangeDetectionStrategy, PLATFORM_ID, inject, input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject, input, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({

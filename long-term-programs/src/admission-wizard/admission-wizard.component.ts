@@ -26,7 +26,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 
 import { AdmissionReq, type AdmissionRequest } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
-import { Citizenship } from '@vet/shared';
+import { Citizenship } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
 import { georgianMobileValidator } from '@vet/shared/validators';
 import { StepBody, StepDefinition } from '../long-term-programs.types';

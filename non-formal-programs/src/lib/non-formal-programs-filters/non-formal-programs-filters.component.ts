@@ -1,17 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { vetIcons } from '@vet/shared/icons';
+import { isDate, useControlValue, withoutEmptyProperties } from '@vet/shared/utils';
 import {
   ButtonComponent,
   DatePickerComponent,
   EduactionStandartsComponent,
   IconButtonComponent,
   InputComponent,
-  isDate,
   SelectorComponent,
-  useControlValue,
-  vetIcons,
-  withoutEmptyProperties,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
 import {

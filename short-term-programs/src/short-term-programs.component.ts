@@ -1,6 +1,6 @@
 import { ShortTermProgramsFiltersComponent } from './short-term-programs-filters/short-term-programs-filters.component';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { useFilters, useFiltersUpdater } from '@vet/shared';
+import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShortTermProgramsGridComponent } from './short-term-programs-grid/short-term-programs-grid.component';
 import { ShortTermProgramFilters } from './short-term-programs.types';

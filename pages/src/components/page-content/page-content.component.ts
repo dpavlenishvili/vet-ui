@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostListener, inject, input } from '@angular/core';
-import { useBaseApiUrl } from '@vet/shared';
+import { useBaseApiUrl } from '@vet/shared/utils';
 import { SanitizePipe } from '@vet/shared/pipes';
 import { FormatPageContentPipe } from '../../pipes/format-page-content.pipe';
 import { DOCUMENT } from '@angular/common';

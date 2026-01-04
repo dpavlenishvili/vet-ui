@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
-import { useFilters, useFiltersUpdater } from '@vet/shared';
+import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { ShortApplicationsListenersFilters } from '../short-term-programs.types';
 import { useShortApplicationsForOrganisation } from '../short-term.resources';
 import { ShortTermRegisteredListenersFiltersComponent } from './short-term-registered-listeners-filters/short-term-registered-listeners-filters.component';

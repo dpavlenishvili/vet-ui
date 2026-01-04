@@ -31,7 +31,6 @@
       "@vet/shared": ["shared/src/index.ts"],
       "@vet/shared-resources": ["shared-resources/src/index.ts"],
       "@vet/shared/dialogs": ["shared/src/dialogs/index.ts"],
-      "@vet/shared/heavy-components": ["shared/src/heavy-components/index.ts"],
       "@vet/shared/icons": ["shared/src/icons/index.ts"],
       "@vet/shared/pipes": ["shared/src/pipes/index.ts"],
       "@vet/shared/services": ["shared/src/services/index.ts"],

@@ -58,18 +58,12 @@ export class BreadcrumbComponent {
   }
 
   private resolveBreadcrumbItem(item: AppBreadCrumbItemObject, params: Params) {
-    const path = typeof item['path'] === 'function'
-      ? item['path'](this.activatedRoute.snapshot, params)
-      : item['path'];
+    const path = typeof item['path'] === 'function' ? item['path'](this.activatedRoute.snapshot, params) : item['path'];
 
-    const text = typeof item['text'] === 'function'
-      ? item['text'](this.activatedRoute.snapshot, params)
-      : item['text'];
+    const text = typeof item['text'] === 'function' ? item['text'](this.activatedRoute.snapshot, params) : item['text'];
 
     return {
-      path: path
-        ?.split('/')
-        .map((segment) => (segment.startsWith(':') ? (params[segment.slice(1)] ?? '') : segment)),
+      path: path?.split('/').map((segment) => (segment.startsWith(':') ? (params[segment.slice(1)] ?? '') : segment)),
       text,
     } as ResolvedBreadCrumbItem;
   }

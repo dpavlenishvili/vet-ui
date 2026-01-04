@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { vetIcons } from '../../shared.icons';
 import {
-  IconButtonMode,
   IconButtonIconSize,
+  IconButtonMode,
   IconButtonType,
   IconButtonVariant,
-  InputButtonVersion
+  InputButtonVersion,
 } from './icon-button.component.types';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';

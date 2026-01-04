@@ -138,7 +138,7 @@ export class ResponsiveStepperComponent<
       return null;
     }
 
-    return this.formGroup().get(step.key)
+    return this.formGroup().get(step.key);
   });
   reactiveActiveStepForm = useReactiveControl(this.activeStepForm);
   activeStepComponent = computed(() => this.activeStep()?.component || null);

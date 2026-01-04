@@ -19,8 +19,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { DatePickerComponent as KendoDatePickerComponent } from '@progress/kendo-angular-dateinputs';
 import {
-  useDefaultDisplayDateFormat,
   useDefaultDateFormat,
+  useDefaultDisplayDateFormat,
   useDefaultDisplayDateSeparator,
   useKendoDatePickerFormat,
 } from '../../shared.injectors';

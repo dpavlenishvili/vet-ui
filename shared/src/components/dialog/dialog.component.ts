@@ -1,4 +1,14 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, input, OnDestroy, output, signal, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  input,
+  OnDestroy,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
 import { IconModule, SVGIconModule } from '@progress/kendo-angular-icons';
@@ -38,7 +48,7 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
   close = output();
 
   contentContainer = viewChild<ElementRef>('contentContainer');
-  
+
   hasDialogActions = signal(false);
   private mutationObserver?: MutationObserver;
 

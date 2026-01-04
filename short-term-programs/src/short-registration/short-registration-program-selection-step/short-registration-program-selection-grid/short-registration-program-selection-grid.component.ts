@@ -1,14 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, ResourceRef } from '@angular/core';
-import {
-  DateDiffPipe,
-  FormatDatePipe,
-  IconButtonComponent,
-  IconComponent,
-  PaginatedGridResult,
-  useAlert,
-  useConfirm,
-  vetIcons,
-} from '@vet/shared';
+import { useAlert, useConfirm } from '@vet/shared/dialogs';
+import { vetIcons } from '@vet/shared/icons';
+import { DateDiffPipe, FormatDatePipe } from '@vet/shared/pipes';
+import { PaginatedGridResult } from '@vet/shared/utils';
+import { IconButtonComponent, IconComponent } from '@vet/shared/ui-components';
 import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import {
   CellTemplateDirective,

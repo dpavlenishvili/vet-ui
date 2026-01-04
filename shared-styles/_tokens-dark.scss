@@ -1,0 +1,90 @@
+// Compatible with @progress/kendo-theme-bootstrap v.10.2.0 (dark)
+
+$tb-kendo-color-surface: #0f131a;
+$tb-kendo-color-on-app-surface: #e2e8f0;
+$tb-kendo-color-border: rgba(148, 163, 184, 0.25);
+$tb-kendo-color-primary: #62b5f5;
+$tb-kendo-color-on-dark: #ffffff;
+$tb-kendo-color-primary-hover: #8bc9ff;
+$tb-kendo-color-secondary: #1e293b;
+$tb-kendo-color-primary-active: #3b92d1;
+$tb-kendo-color-primary-subtle: #19324a;
+$tb-header-bg: #0b1220;
+$tb-bg-color: #0f172a;
+$tb-kendo-color-primary-subtle-hover: #1f3f5b;
+$tb-kendo-color-primary-subtle-active: #274a6a;
+$tb-kendo-color-primary-on-surface: #62b5f5;
+$tb-kendo-color-secondary-hover: #24324a;
+$tb-kendo-color-secondary-active: #2a3b56;
+$tb-kendo-color-tertiary-subtle: #1b1f27;
+$tb-kendo-color-tertiary-subtle-hover: #232a35;
+$tb-kendo-color-tertiary-subtle-active: #2b3442;
+$tb-kendo-color-tertiary: #2f3745;
+$tb-kendo-color-tertiary-hover: #3a4456;
+$tb-kendo-color-tertiary-active: #445066;
+$tb-kendo-color-tertiary-emphasis: #94a3b866;
+$tb-kendo-color-tertiary-on-subtle: #cbd5e1;
+$tb-kendo-color-tertiary-on-surface: #94a3b8;
+$tb-kendo-base-bg: $tb-kendo-color-surface;
+$tb-kendo-base-text: $tb-kendo-color-on-app-surface;
+$tb-kendo-appbar-dark-text: $tb-kendo-color-on-dark;
+$tb-kendo-breadcrumb-current-item-text: $tb-kendo-color-secondary;
+$tb-kendo-component-border: $tb-kendo-color-border;
+$tb-kendo-table-border: $tb-kendo-component-border;
+
+$tb-kendo-font-family: 'HelveticaNeue', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$tb-kendo-font-size: 1rem;
+$tb-kendo-font-weight-normal: 400;
+$tb-kendo-line-height: 1.5;
+$enable-gradients: true;
+
+$tb-typography: (
+  kendo-default-typography: (
+    font-family: '"HelveticaNeue", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    font-size: 1rem,
+    font-weight: 400,
+    line-height: 1.5,
+  ),
+);
+
+@mixin typography-classes ($typography) {
+  @each $selector, $property in $typography {
+    &-#{$selector} {
+      @each $propName, $propValue in $property {
+        #{$propName}: #{$propValue};
+      }
+    } &-#{$selector}-important {
+      @each $propName, $propValue in $property {
+        #{$propName}: $propValue !important;
+      }
+    }
+  }
+}
+
+$tb-effects: (
+  tb-internal-none-effects: (
+    box-shadow: (none), filter: (none), backdrop-filter: (none),
+  ),
+);
+
+@mixin effects-classes ($effects) {
+  @each $selector, $property in $effects {
+    &-#{$selector} {
+      @each $propName, $propValue in $property {
+        #{$propName}: #{$propValue};
+      }
+    } &-#{$selector}-important {
+      @each $propName, $propValue in $property {
+        #{$propName}: $propValue !important;
+      }
+    }
+  }
+}
+
+%tb-typography {
+  @include typography-classes($tb-typography);
+}
+
+%tb-effects {
+  @include effects-classes($tb-effects);
+}

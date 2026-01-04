@@ -7,4 +7,3 @@ export const loadingSpinner: SVGIcon = {
 </svg>`,
   viewBox: '0 0 16 16',
 };
-

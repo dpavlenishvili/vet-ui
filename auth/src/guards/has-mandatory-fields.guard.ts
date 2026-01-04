@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, map, take } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
-import { useNavigation } from '@vet/shared';
+import { useNavigation } from '@vet/shared/utils';
 
 export const mandatoryFieldsGuard: CanActivateFn = () => {
   const auth = inject(AuthenticationService);

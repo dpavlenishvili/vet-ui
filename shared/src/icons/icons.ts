@@ -1,5 +1,5 @@
-import  { SVGIcon } from '@progress/kendo-svg-icons';
 import * as kendoIcons from '@progress/kendo-svg-icons';
+import { SVGIcon } from '@progress/kendo-svg-icons';
 
 export const eyeSlash = kendoIcons.eyeSlashIcon;
 

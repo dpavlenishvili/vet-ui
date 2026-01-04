@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, effect, inject, input, OnInit, outp
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { vetIcons } from '@vet/shared/icons';
+import { withoutEmptyProperties } from '@vet/shared/utils';
 import {
   ButtonComponent as VetButtonComponent,
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-  vetIcons,
-  withoutEmptyProperties,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { CommissionReviewFilters } from '../commission-results.component';
 import { UserRolesService } from '@vet/auth';
 import { useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';

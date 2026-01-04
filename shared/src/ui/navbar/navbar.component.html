@@ -58,10 +58,10 @@
       } @else {
       <div class="nav-user k-display-flex k-align-items-center">
         <div class="nav-profile" (click)="toggleProfileCard()">
-          <kendo-svg-icon [themeColor]="'light'" [icon]="kendoIcons.userIcon" />
+          <kendo-svg-icon [themeColor]="'inherit'" [icon]="kendoIcons.userIcon" />
           <span class="nav-profile-name">{{ selectedAccountName() ?? user()?.name }}</span>
           <kendo-svg-icon
-            [themeColor]="'light'"
+            [themeColor]="'inherit'"
             [icon]="isProfileCardOpen() ? kendoIcons.arrowUpIcon : kendoIcons.arrowDownIcon"
           />
         </div>
@@ -108,13 +108,14 @@
         [svgIcon]="isMobileMenuOpen() ? kendoIcons.xCircleIcon : kendoIcons.menuIcon"
         (click)="toggleMobileMenu()"
         aria-label="Toggle menu"
+        [attr.aria-expanded]="isMobileMenuOpen()"
       ></button>
     </div>
   </div>
 
   @if (isMobileMenuOpen()) {
   <div class="nav-mobile-panel">
-    <div class="nav-mobile-panel-inner">
+    <div class="nav-mobile-panel-inner layout-shell">
       <ul class="nav-mobile-menu">
         @for (page of headerPages(); track page.slug) {
         <li class="nav-mobile-item">

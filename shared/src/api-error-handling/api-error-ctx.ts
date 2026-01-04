@@ -1,4 +1,4 @@
-import {HttpContext, HttpContextToken, HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
+import { HttpContext, HttpContextToken, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { AlertDialogService } from '../services/alert-dialog.service';
@@ -7,9 +7,8 @@ export interface ApiErrorHandlerResult {
   code: number | null;
   message: string | null;
   translate?: boolean;
-  excludedStatuses?: HttpStatusCode[]
+  excludedStatuses?: HttpStatusCode[];
 }
-
 
 export interface ResolvedApiError {
   code: number;
@@ -34,7 +33,7 @@ const defaultApiErrorHandler: ApiErrorHandler = (err: HttpErrorResponse): ApiErr
     translate: !message,
     excludedStatuses: [HttpStatusCode.Forbidden],
   };
-}
+};
 
 const apiErrorCtxToken = new HttpContextToken<ApiErrorHandler>(() => defaultApiErrorHandler);
 export const API_ERROR_UI_HANDLER = new HttpContextToken<ApiErrorUiHandler | null>(() => null);

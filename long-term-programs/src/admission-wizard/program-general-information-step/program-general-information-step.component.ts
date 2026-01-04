@@ -8,15 +8,17 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { AdmissionService, GeneralsService } from '@vet/backend';
 import {
-  ButtonComponent,
   Citizenship,
+  UploadedFile,
+} from '@vet/shared/utils';
+import { useConfirm } from '@vet/shared/dialogs';
+import { kendoIcons } from '@vet/shared/icons';
+import {
+  ButtonComponent,
   FileUploadComponent,
   InfoComponent,
-  kendoIcons,
-  UploadedFile,
-  useConfirm,
   VetSwitchComponent,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { delay, map, tap } from 'rxjs';
 import { AuthenticationService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -189,9 +191,6 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
         control?.setValue(educationId);
         this.clearSelectedPrograms.emit();
         this.previousEducationId.set(educationId);
-        console.log(educationId);
-        console.log(control);
-        console.log(this.previousEducationId());
       },
       onDismiss: () => {
         control?.setValue(this.previousEducationId(), { emitEvent: false });
@@ -238,7 +237,6 @@ export class ProgramGeneralInformationStepComponent implements OnInit {
   ngOnInit(): void {
     const value = this.form()?.getRawValue();
     const educationValue = this.form()?.get('education')?.getRawValue();
-    console.log(value, educationValue, this.form());
     this.previousEducationId.set(educationValue ? Number(educationValue) : null);
     this.isSpecEnvEnabled.set(value.spec_env.length > 0);
     if (this.user()?.residential !== this.citizenship.Georgian) {

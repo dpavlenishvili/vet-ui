@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { DashboardSidebarComponent } from '../dashboard-sidebar/dashboard-sidebar.component';
 import { isPlatformBrowser } from '@angular/common';
 import { AppFooterComponent } from '../../../apps/vet/src/app/app-footer/app-footer.component';
-import { BreadcrumbComponent } from '@vet/shared/heavy-components';
+import { BreadcrumbComponent } from '@vet/shared/ui-components';
 import { NavbarComponent } from '@vet/shared/ui-components';
 import { MainLayoutComponent } from '../../../apps/vet/src/app/layouts/main-layout/main-layout.component';
 

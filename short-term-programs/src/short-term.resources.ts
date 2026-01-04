@@ -11,7 +11,7 @@ import {
   useFilters,
   usePage,
   withoutEmptyProperties,
-} from '@vet/shared';
+} from '@vet/shared/utils';
 import { UserRolesService } from '@vet/auth';
 import { HttpClient } from '@angular/common/http';
 import {

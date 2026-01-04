@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { KENDO_ICONS } from '@progress/kendo-angular-icons';
-import { kendoIcons } from '@vet/shared';
-import { vetIcons } from '@vet/shared/icons';
+import { kendoIcons, vetIcons } from '@vet/shared/icons';
 import { FormatDatePipe } from '@vet/shared/pipes';
 import { Admission } from '@vet/backend';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useIsUserLoaded, useUser } from '@vet/auth';
-import { YesNo } from '@vet/shared';
+import { YesNo } from '@vet/shared/utils';
 
 @Component({
   selector: 'vet-short-program-admissions',
@@ -22,5 +21,5 @@ export class ShortProgramAdmissionsComponent {
   admissions = input.required<Admission[] | undefined>();
   vetIcons = vetIcons;
   kendoIcons = kendoIcons;
-  yesNoEnum = YesNo
+  yesNoEnum = YesNo;
 }

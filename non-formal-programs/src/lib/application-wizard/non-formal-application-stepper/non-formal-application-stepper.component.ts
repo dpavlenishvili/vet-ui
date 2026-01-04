@@ -20,7 +20,7 @@ import {
 } from '@progress/kendo-angular-layout';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { WizardStepDefinition } from '@vet/shared';
+import { WizardStepDefinition } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
 import { NgTemplateOutlet } from '@angular/common';
 import { fromEvent } from 'rxjs';

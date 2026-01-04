@@ -11,18 +11,15 @@ export class AppDialogService {
   show<T>(params: DialogParams<T>): DialogHandle {
     const id = uuid();
 
-    this._openedDialogs.update(items => [
-      ...items,
-      { id, ...params },
-    ]);
+    this._openedDialogs.update((items) => [...items, { id, ...params }]);
 
     return {
       id,
       hide: () => this.hide(id),
-    }
+    };
   }
 
   hide(id: string) {
-    this._openedDialogs.update(items => items.filter(item => item.id !== id));
+    this._openedDialogs.update((items) => items.filter((item) => item.id !== id));
   }
 }

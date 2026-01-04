@@ -9,7 +9,7 @@ import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { DatePipe } from '@angular/common';
 import { of } from 'rxjs';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';
-import { genders } from '@vet/shared';
+import { genders } from '@vet/shared/utils';
 import { FormatDateTimePipe } from '@vet/shared/pipes';
 
 @Component({

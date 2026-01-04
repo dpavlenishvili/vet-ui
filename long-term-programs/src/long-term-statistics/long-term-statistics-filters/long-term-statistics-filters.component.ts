@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { vetIcons } from '@vet/shared/icons';
+import { withoutEmptyProperties } from '@vet/shared/utils';
 import {
   ButtonComponent,
   IconButtonComponent,
   SelectorComponent,
-  vetIcons,
   VetSwitchComponent,
-  withoutEmptyProperties,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { InputsModule } from '@progress/kendo-angular-inputs';

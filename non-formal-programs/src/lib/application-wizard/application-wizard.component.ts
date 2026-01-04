@@ -24,7 +24,7 @@ import { NonFormalSelectedFieldsStepComponent } from './non-formal-selected-fiel
 import { NonFormalQuestionnaireStepComponent } from './non-formal-questionnaire-step/non-formal-questionnaire-step.component';
 import { NonFormalDocumentsStepComponent } from './non-formal-documents-step/non-formal-documents-step.component';
 import { NonFormalConfirmationStepComponent } from './non-formal-confirmation-step/non-formal-confirmation-step.component';
-import { WizardStepDefinition } from '@vet/shared';
+import { WizardStepDefinition } from '@vet/shared/utils';
 import { numericValidator } from '@vet/shared/validators';
 
 const MOBILE_BREAKPOINT = 768;

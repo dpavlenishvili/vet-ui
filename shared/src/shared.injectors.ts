@@ -1,4 +1,4 @@
-import { computed, Inject, inject, type InjectDecorator } from '@angular/core';
+import { computed, Inject, inject, type InjectDecorator, SecurityContext } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { v4 as uuid } from 'uuid';
 
@@ -231,7 +231,7 @@ export function useSanitizedHtml(getHtml: () => string | null | undefined) {
   return computed(() => {
     const html = getHtml();
 
-    return html ? sanitizer.bypassSecurityTrustHtml(html) : undefined;
+    return html ? sanitizer.sanitize(SecurityContext.HTML, html) ?? '' : undefined;
   });
 }
 

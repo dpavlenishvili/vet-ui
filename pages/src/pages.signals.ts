@@ -1,7 +1,7 @@
 import { computed, effect, Signal } from '@angular/core';
 import { usePages } from './pages.resources';
 import { getCurrentSlug, getMatchedPage, getMatchedPageList } from './pages.utils';
-import { useCurrentUrl } from '@vet/shared';
+import { useCurrentUrl } from '@vet/shared/utils';
 import { Page } from '@vet/backend';
 import { Meta } from '@angular/platform-browser';
 
@@ -36,8 +36,6 @@ export function useMatchedPageList() {
 
     const slug = getCurrentSlug(url());
     const matched = getMatchedPageList(slug, pages);
-
-    // console.log('matched', slug, matched, pages);
 
     return matched;
   });

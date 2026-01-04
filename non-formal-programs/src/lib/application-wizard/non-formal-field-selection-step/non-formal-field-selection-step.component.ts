@@ -16,7 +16,7 @@ import { NonFormalProgramsFiltersComponent } from '../../non-formal-programs-fil
 import { NonFormalProgramFilters } from '../../non-formal-programs.types';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonFormalFieldSelectionGridComponent } from './non-formal-field-selection-grid/non-formal-field-selection-grid.component';
-import { PaginatedGridResult } from '@vet/shared';
+import { PaginatedGridResult } from '@vet/shared/utils';
 import { useAlert } from '@vet/shared/dialogs';
 import { ButtonComponent as VetButtonComponent } from '@vet/shared/ui-components';
 import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';

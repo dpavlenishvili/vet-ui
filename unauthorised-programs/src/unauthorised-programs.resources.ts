@@ -7,7 +7,7 @@ import {
   useFilters,
   usePage,
   withoutEmptyProperties,
-} from '@vet/shared';
+} from '@vet/shared/utils';
 import { ProgramFilters } from '@vet/programs-common';
 import { inject, Signal } from '@angular/core';
 import { ProgramsService } from '@vet/backend';

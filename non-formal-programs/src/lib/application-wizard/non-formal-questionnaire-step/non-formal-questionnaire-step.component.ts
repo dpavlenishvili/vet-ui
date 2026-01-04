@@ -13,14 +13,14 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ErrorComponent, NumericTextBoxComponent, SwitchModule, TextAreaModule } from '@progress/kendo-angular-inputs';
 import { AdmissionService } from '@vet/backend';
+import { SelectOption } from '@vet/shared/utils';
 import {
   ButtonComponent as VetButtonComponent,
   InputComponent,
-  SelectOption,
   SelectorComponent,
   VetCheckboxComponent,
   VetSwitchComponent,
-} from '@vet/shared';
+} from '@vet/shared/ui-components';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
 import { NonFormalApplicationData } from '../application-wizard.component';

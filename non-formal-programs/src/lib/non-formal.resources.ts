@@ -2,7 +2,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { inject, Signal } from '@angular/core';
 import { NonFormalService } from '@vet/backend';
 import { map } from 'rxjs';
-import { flattenQueryParams, PaginatedGridResult, useFilters, usePage } from '@vet/shared';
+import { flattenQueryParams, PaginatedGridResult, useFilters, usePage } from '@vet/shared/utils';
 import { ProgramFilters } from '@vet/programs-common';
 
 export function useNonFormalPrograms() {

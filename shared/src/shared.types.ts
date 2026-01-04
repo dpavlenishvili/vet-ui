@@ -217,13 +217,13 @@ export interface EducationType {
 
 // Helper type to extract the actual value type from AbstractControl, excluding FormControlState
 // AbstractControl<T>.value can be T | FormControlState<T>, so we need to extract just T
-export type ExtractControlValue<T extends AbstractControl> = T extends AbstractControl<infer V>
-  ? V extends FormControlState<infer U>
-    ? U
-    : V extends FormControlState<infer U> | infer W
-      ? W extends FormControlState<any>
-        ? never
-        : W
-      : V
-  : never;
-
+export type ExtractControlValue<T extends AbstractControl> =
+  T extends AbstractControl<infer V>
+    ? V extends FormControlState<infer U>
+      ? U
+      : V extends FormControlState<infer U> | infer W
+        ? W extends FormControlState<any>
+          ? never
+          : W
+        : V
+    : never;

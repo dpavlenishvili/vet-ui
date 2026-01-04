@@ -1,15 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 import { Page } from '@vet/backend';
 import { usePageCollection } from '@vet/pages';
-import {
-  ExpandableSidebarComponent,
-  ExpandableSidebarMenuComponent,
-  SidebarMenuItem,
-  useQueryParam,
-  useQueryUpdater,
-  VetIcon,
-  vetIcons,
-} from '@vet/shared';
+import { vetIcons, type VetIcon } from '@vet/shared/icons';
+import { SidebarMenuItem, useQueryParam, useQueryUpdater } from '@vet/shared/utils';
+import { ExpandableSidebarMenuComponent } from '@vet/shared/ui-components';
 import { PageContentComponent } from '../page-content/page-content.component';
 import { FIELDS_PAGE_SLUG } from '../../pages.constants';
 
@@ -30,7 +24,6 @@ export class SidebarPageComponent {
   collection = usePageCollection(this.collectionId);
   sidebarItems = computed(() => {
     const page = this.page();
-    console.log('page', page)
     return (
       this.collection
         .value()

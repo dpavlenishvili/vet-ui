@@ -15,16 +15,17 @@ import { RegistrationIdentityForeignerComponent } from './registration-identity-
 import { RegistrationTermsAndConditionsComponent } from './registration-terms-and-conditions/registration-terms-and-conditions.component';
 import {
   Citizenship,
+  StepDefinition,
+  useControlValue,
+} from '@vet/shared/utils';
+import { useAlert, useConfirm } from '@vet/shared/dialogs';
+import {
   englishLettersValidator,
   georgianLettersValidator,
   mobileNumberValidator,
   personalNumberValidator,
-  ResponsiveStepperComponent,
-  StepDefinition,
-  useAlert,
-  useConfirm,
-  useControlValue,
-} from '@vet/shared';
+} from '@vet/shared/validators';
+import { ResponsiveStepperComponent } from '@vet/shared/ui-components';
 import { EmailService, RegisterService, SmsService, type User, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, of, switchMap, tap, timer } from 'rxjs';

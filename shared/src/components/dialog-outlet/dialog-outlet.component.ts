@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopoverModule, TooltipModule } from '@progress/kendo-angular-tooltip';
 import { IconModule, SVGIconModule } from '@progress/kendo-angular-icons';
@@ -6,7 +6,6 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { AppDialogService } from '../../services/app-dialog.service';
-import { DialogRef } from '../../shared.types';
 import { SingleDialogOutletComponent } from '../single-dialog-outlet/single-dialog-outlet.component';
 
 @Component({

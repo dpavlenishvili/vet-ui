@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UnauthorisedProgramsGridComponent } from './unauthorised-programs-grid/unauthorised-programs-grid.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { useFilters, useFiltersUpdater } from '@vet/shared';
+import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { ProgramFilters } from '@vet/programs-common';
 import { UnAuthorisedProgramsFiltersComponent } from './unauthorised-programs-filters/unauthorised-programs-filters.component';
 

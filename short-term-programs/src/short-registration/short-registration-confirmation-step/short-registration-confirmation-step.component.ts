@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, PLATFORM_ID } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormControls, useControlValue } from '@vet/shared';
+import { FormControls, useControlValue } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
 import { ButtonComponent, InfoComponent } from '@vet/shared/ui-components';
 import { AuthenticationService } from '@vet/auth';

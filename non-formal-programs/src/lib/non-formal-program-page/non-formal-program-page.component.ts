@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, TemplateRe
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { trans, useRouteNumberParam } from '@vet/shared';
+import { trans, useRouteNumberParam } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
 import { InfoComponent } from '@vet/shared/ui-components';
 import { NonFormalService } from '@vet/backend';

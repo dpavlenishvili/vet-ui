@@ -5,8 +5,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SmsService } from '@vet/backend';
-import { ToastModule, useControlValue, useReactiveControl } from '@vet/shared';
-import { ButtonComponent, InputComponent } from '@vet/shared/ui-components';
+import { useControlValue, useReactiveControl } from '@vet/shared/utils';
+import { ButtonComponent, InputComponent, ToastModule } from '@vet/shared/ui-components';
 import { useAuthEnvironment } from '../../auth.providers';
 import { RegistrationPhoneVerificationComponent } from '../registration-phone-verification/registration-phone-verification.component';
 
@@ -57,7 +57,6 @@ export class RegistrationPhoneComponent {
         return;
       }
 
-      // Initialize status based on isPhoneVerified
       if (this.isPhoneVerified()) {
         this.status.set('success');
       }
@@ -69,7 +68,6 @@ export class RegistrationPhoneComponent {
           tap(() => {
             if (this.status() !== 'initial') {
               this.resetVerificationState();
-              // Reset parent control
               form.get('isPhoneVerified')?.setValue(false);
             }
           }),

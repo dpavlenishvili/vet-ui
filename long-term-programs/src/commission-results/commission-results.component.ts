@@ -2,8 +2,8 @@ import { CommissionResultsFiltersComponent } from './commission-results-filters/
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommissionService, CommissionsReview } from '@vet/backend';
-import { kendoIcons, useFilters, useFiltersUpdater } from '@vet/shared';
-import { vetIcons } from '@vet/shared/icons';
+import { kendoIcons, vetIcons } from '@vet/shared/icons';
+import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { DividerComponent } from '@vet/shared/ui-components';
 import { UserRolesService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';

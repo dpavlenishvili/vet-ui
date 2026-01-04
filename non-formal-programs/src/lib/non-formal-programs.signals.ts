@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { trans, useDialog } from '@vet/shared';
+import { trans, useDialog } from '@vet/shared/utils';
 
 export interface NonFormalProgramDialogInputs {
   programId: number;

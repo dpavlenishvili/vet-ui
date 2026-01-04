@@ -1,7 +1,7 @@
 import { computed, effect, inject, isSignal, signal, Signal } from '@angular/core';
 import { AbstractControl, FormControlState } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { of, startWith, switchMap, map, combineLatest } from 'rxjs';
+import { combineLatest, map, of, startWith, switchMap } from 'rxjs';
 
 import { LocalStoredStateService } from './services/local-stored-state.service';
 import { ExtractControlValue, StoredSignal, ToggleSignal } from './shared.types';
@@ -12,14 +12,14 @@ import { mapControlToReactiveControl, ReactiveControl } from './shared.utils';
 
 export function useReactiveControl<T>(
   control: AbstractControl<T> | Signal<AbstractControl<T> | null | undefined> | null | undefined,
-): Signal<ReactiveControl<AbstractControl<T>>>
+): Signal<ReactiveControl<AbstractControl<T>>>;
 export function useReactiveControl<T extends AbstractControl, U extends AbstractControl>(
   control: T | Signal<T | null | undefined> | null | undefined,
   selectControl: (control: T) => U,
-): Signal<ReactiveControl<U>>
+): Signal<ReactiveControl<U>>;
 export function useReactiveControl<T extends AbstractControl, U extends AbstractControl>(
   control: T | Signal<T | null | undefined> | null | undefined,
-  selectControl: (control: T) => U = control => control as unknown as U,
+  selectControl: (control: T) => U = (control) => control as unknown as U,
 ): Signal<ReactiveControl<U>> {
   return toSignal(
     (isSignal(control) ? toObservable(control) : of(control)).pipe(
@@ -45,14 +45,14 @@ export function useReactiveControl<T extends AbstractControl, U extends Abstract
 
 export function useControlValue<T>(
   control: AbstractControl<T> | Signal<AbstractControl<T> | null | undefined> | null | undefined,
-): Signal<T extends FormControlState<infer U> ? U : T>
+): Signal<T extends FormControlState<infer U> ? U : T>;
 export function useControlValue<T extends AbstractControl, U extends AbstractControl>(
   control: T | Signal<T | null | undefined> | null | undefined,
   selectControl: (control: T) => U,
-): Signal<ExtractControlValue<U>>
+): Signal<ExtractControlValue<U>>;
 export function useControlValue<T extends AbstractControl, U extends AbstractControl>(
   control: T | Signal<T | null | undefined> | null | undefined,
-  selectControl: (control: T) => U = control => control as unknown as U,
+  selectControl: (control: T) => U = (control) => control as unknown as U,
 ): Signal<ExtractControlValue<U>> {
   const $control = useReactiveControl(control, selectControl);
 
@@ -63,7 +63,7 @@ export function useMappedControlValue<T, U>(
   control: AbstractControl<T> | Signal<AbstractControl<T>>,
   mapValue: (value: T extends FormControlState<infer V> ? V : T) => U,
 ) {
-  const value = useControlValue(control, control => control);
+  const value = useControlValue(control, (control) => control);
 
   return computed(() => mapValue(value() as T extends FormControlState<infer V> ? V : T));
 }
@@ -131,7 +131,7 @@ export function useToggleState(initialState: boolean): ToggleSignal {
 
   Object.assign(state, {
     toggle: () => state.update((value) => !value),
-  })
+  });
 
   return state as unknown as ToggleSignal;
 }

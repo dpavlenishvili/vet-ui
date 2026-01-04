@@ -1,4 +1,4 @@
-import { Scalar } from '@vet/shared';
+import { Scalar } from '@vet/shared/utils';
 
 export interface Option {
   label: string;

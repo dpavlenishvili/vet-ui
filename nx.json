@@ -75,5 +75,6 @@
         "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
-  }
+  },
+  "nxCloudId": "695ad5559506f57260f8fc59"
 }

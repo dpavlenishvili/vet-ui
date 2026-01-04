@@ -14,16 +14,16 @@ import { ShortRegistrationProgramSelectionGridComponent } from './short-registra
 import { ShortProgramAdmission } from '@vet/backend';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  ButtonComponent,
   FormControls,
   getUniqueItems,
-  useAlert,
   useControlValue,
   useFilters,
   useFiltersUpdater,
   usePage,
   usePageUpdater,
-} from '@vet/shared';
+} from '@vet/shared/utils';
+import { useAlert } from '@vet/shared/dialogs';
+import { ButtonComponent } from '@vet/shared/ui-components';
 import { isPlatformBrowser } from '@angular/common';
 import { ShortTermProgramFilters } from '../../short-term-programs.types';
 import { ShortTermProgramsFiltersComponent } from 'short-term-programs/src/short-term-programs-filters/short-term-programs-filters.component';
@@ -45,7 +45,6 @@ export type ShortRegistrationProgramSelectionStepFormGroup = FormGroup<
     ButtonComponent,
     ShortRegistrationProgramSelectionGridComponent,
     ShortTermProgramsFiltersComponent,
-    ButtonComponent,
   ],
   templateUrl: './short-registration-program-selection-step.component.html',
   styleUrl: './short-registration-program-selection-step.component.scss',

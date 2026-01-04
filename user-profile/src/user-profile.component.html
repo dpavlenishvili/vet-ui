@@ -18,7 +18,6 @@
         [title]="!isExpanded() ? text : ''"
         [position]="'right'"
       >
-        <!-- <kendo-svg-icon [icon]="kendoIcons.menuIcon"></kendo-svg-icon> -->
         <img routerLinkActive="selected-menu-item-icon" [src]="item.icon" [alt]="text" />
 
         @if (isExpanded()) {

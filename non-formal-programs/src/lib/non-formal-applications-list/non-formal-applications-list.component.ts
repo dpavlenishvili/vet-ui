@@ -3,13 +3,9 @@ import { AdmissionService, NonFormalService } from '@vet/backend';
 import { Router } from '@angular/router';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
-import {
-  ButtonComponent as VetButtonComponent,
-  FormatDateTimePipe,
-  IconButtonComponent,
-  useAlert,
-  useConfirm,
-} from '@vet/shared';
+import { useAlert, useConfirm } from '@vet/shared/dialogs';
+import { FormatDateTimePipe } from '@vet/shared/pipes';
+import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';

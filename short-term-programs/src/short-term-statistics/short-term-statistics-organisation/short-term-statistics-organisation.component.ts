@@ -4,7 +4,7 @@ import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ShortTermStatisticsFiltersComponent } from '../short-term-statistics-filters/short-term-statistics-filters.component';
 import { useShortStatsOrganisation } from 'short-term-programs/src/short-term.resources';
-import { useFilters, useFiltersUpdater } from '@vet/shared';
+import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { ShortStatsFilters } from 'short-term-programs/src/short-term-programs.types';
 
 @Component({

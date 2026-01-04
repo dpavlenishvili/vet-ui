@@ -6,8 +6,8 @@ import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { kendoIcons, vetIcons } from '../../shared.icons';
 import { Citizenship } from '../../shared.enums';
-import { UserAccount, UserRolesService, AuthenticationService } from '@vet/auth';
-import { IconComponent } from '../../components/icon/icon.component';
+import { AuthenticationService, UserAccount, UserRolesService } from '@vet/auth';
+import { IconComponent } from '../../components/icon';
 
 @Component({
   selector: 'vet-ui-navbar',
@@ -20,14 +20,13 @@ export class NavbarComponent {
   user = input.required<User | null>();
 
   headerPages = computed(() => {
-    return this.pages()
-      .filter((page) => {
-        return page.menus?.some((menu) => {
-          const lcName = menu.name.toLowerCase();
+    return this.pages().filter((page) => {
+      return page.menus?.some((menu) => {
+        const lcName = menu.name.toLowerCase();
 
-          return lcName.includes('top');
-        });
+        return lcName.includes('top');
       });
+    });
   });
 
   protected readonly userRolesService = inject(UserRolesService);
@@ -37,7 +36,7 @@ export class NavbarComponent {
       return a.name === this.selectedAccountName() ? -1 : 1;
     }),
   );
-  protected readonly isCompactNav = computed(() => this.headerPages().length >= 5);
+  protected readonly isCompactNav = computed(() => this.headerPages().length >= 6);
 
   logout = output<void>();
 
@@ -52,10 +51,11 @@ export class NavbarComponent {
   vetIcons = vetIcons;
   private readonly _authenticationService = inject(AuthenticationService);
   protected readonly isAuthReady = this._authenticationService.isReady;
-  protected readonly isAuthUiReady = computed(() =>
-    this.isAuthReady() &&
-    this.userRolesService.isUserAccountsLoaded() &&
-    !this._authenticationService.isLoadingUser()
+  protected readonly isAuthUiReady = computed(
+    () =>
+      this.isAuthReady() &&
+      this.userRolesService.isUserAccountsLoaded() &&
+      !this._authenticationService.isLoadingUser(),
   );
 
   @HostListener('document:click', ['$event'])

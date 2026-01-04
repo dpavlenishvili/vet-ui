@@ -1,5 +1,5 @@
 import { Admission, IdName, ProgramPartner, RegistereCount } from '@vet/backend';
-import { Translatable } from '@vet/shared';
+import { Translatable } from '@vet/shared/utils';
 import { TemplateRef } from '@angular/core';
 
 export interface ProgramFilters {

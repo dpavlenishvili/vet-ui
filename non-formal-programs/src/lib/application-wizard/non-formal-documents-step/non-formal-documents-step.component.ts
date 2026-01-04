@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { UploadedFile } from '@vet/shared';
-import { FileUploadComponent } from '@vet/shared/heavy-components';
+import { UploadedFile } from '@vet/shared/utils';
+import { FileUploadComponent } from '@vet/shared/ui-components';
 import { ButtonComponent as VetButtonComponent } from '@vet/shared/ui-components';
 import { NonFormalService } from '@vet/backend';
 import { catchError, finalize, of } from 'rxjs';
 
-// Constant for iterating over form control names
 const DOCUMENT_FIELDS = ['certificate', 'employment_contract', 'certificate_from_workplace', 'other'] as const;
 
 @Component({
@@ -75,7 +74,7 @@ export class NonFormalDocumentsStepComponent {
   protected getErrorMessage(controlName: string, labelKey: string): string | null {
     const control = this.formGroup().get(controlName);
     if (control?.touched && control?.errors?.['required']) {
-      return 'non_formal.please_upload_documents'; // Generic validation message
+      return 'non_formal.please_upload_documents';
     }
     return null;
   }

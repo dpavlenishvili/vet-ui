@@ -19,7 +19,7 @@ import {
   mapOrganistaiontemToOption,
   mapPartnersItemToOption,
 } from './utils';
-import { SelectOption, withoutEmptyProperties } from '@vet/shared';
+import { SelectOption, withoutEmptyProperties } from '@vet/shared/utils';
 import { useAlert } from '@vet/shared/dialogs';
 
 export function useEducationLevels() {
