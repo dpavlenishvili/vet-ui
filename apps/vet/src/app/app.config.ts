@@ -4,6 +4,9 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, Router, withComponentInputBinding } from '@angular/router';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
+
+// import { dynamicPagesInitializer } from '@vet/dynamic-pages';
+
 import {
   provideBaseApiUrl,
   provideBaseUrl,
@@ -64,6 +67,7 @@ export const appConfig: ApplicationConfig = {
     provideAuthEnvironment(environment.modules.auth),
     provideSso(environment.modules.auth.keycloak),
     provideFeatureFlags(environment.featureFlags),
+    // dynamicPagesInitializer(),
     provideKendoDateSettings(),
     provideAppInitializer(initTranslations),
     {

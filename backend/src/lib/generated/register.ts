@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { useBaseApiUrl, type HttpRequestOptions } from '@vet/shared/utils';
+import { useBaseApiUrl, type HttpRequestOptions } from '@vet/shared';
 
 import type { UserReq, UserRes } from './data-contracts';
 
