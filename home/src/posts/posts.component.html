@@ -14,44 +14,43 @@
           {{ active.title }}
         </h3>
         <p class="hero-description fade-in">
-          <vet-page-content
-            [content]="(active.content | slice: 0 : 200) + ((active.content?.length || 0) > 200 ? '...' : '')" />
+          <vet-page-content [content]="active.content" />
         </p>
         <button class="cta-button" type="button" (click)="navigateToArticle(active)">
           <span>{{ 'home.learn_more' | transloco }}</span>
-          <vet-icon icon="chevronRight" />
         </button>
+
+        <div class="controls-section">
+          <div class="pagination-dots">
+            @for (item of _pinnedItems; track item.id; let idx = $index) {
+            <button
+              class="dot"
+              [class.active]="idx === activeIndex()"
+              (click)="goToIndex(idx)"
+              [attr.aria-label]="'Go to slide ' + (idx + 1)"
+            ></button>
+            }
+          </div>
+
+          <div class="nav-arrows">
+            <button class="arrow-btn" (click)="prev()" aria-label="Previous">
+              <vet-icon icon="previousLarge" />
+            </button>
+            <button class="arrow-btn" (click)="next()" aria-label="Next">
+              <vet-icon icon="nextLarge" />
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div class="image-wrapper">
+      <div class="image-wrapper" (click)="navigateToArticle(active)"
+           [style.background-image]="'url(' + (active.image | vetUploadedFileUri) + ')'">
         @if (active.image) {
         <img [src]="active.image | vetUploadedFileUri" [attr.alt]="active.slug || active.title" class="fade-in-image" loading="lazy" />
         }
         <div class="image-overlay"></div>
       </div>
       }
-
-      <div class="controls-section">
-        <div class="pagination-dots">
-          @for (item of _pinnedItems; track item.id; let idx = $index) {
-          <button
-            class="dot"
-            [class.active]="idx === activeIndex()"
-            (click)="goToIndex(idx)"
-            [attr.aria-label]="'Go to slide ' + (idx + 1)"
-          ></button>
-          }
-        </div>
-
-        <div class="nav-arrows">
-          <button class="arrow-btn" (click)="prev()" aria-label="Previous">
-            <vet-icon icon="previousLarge" />
-          </button>
-          <button class="arrow-btn" (click)="next()" aria-label="Next">
-            <vet-icon icon="nextLarge" />
-          </button>
-        </div>
-      </div>
     </article>
   </div>
 </div>

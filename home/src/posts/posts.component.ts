@@ -11,7 +11,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 @Component({
   selector: 'vet-posts',
   standalone: true,
-  imports: [UploadedFileUriPipe, DatePipe, PageContentComponent, SlicePipe, IconComponent, TranslocoPipe],
+  imports: [UploadedFileUriPipe, DatePipe, PageContentComponent, IconComponent, TranslocoPipe],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

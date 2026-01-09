@@ -14,28 +14,26 @@
   background-color: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--border-radius-xl);
-  padding: clamp(1rem, 3vw, 1.5rem);
   width: 100%;
   overflow: hidden;
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.75rem, 2.5vw, 1.25rem);
   box-shadow: var(--shadow-sm);
 
   @media (min-width: 48rem) {
-    padding: 1.5rem;
+    border-radius: var(--border-radius-2xl);
   }
 
   @media (min-width: 64rem) {
-    padding: 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr auto;
-    column-gap: clamp(1.5rem, 2vw, 2rem);
-    row-gap: clamp(1.25rem, 2vw, 1.5rem);
-    align-items: start;
-    border-radius: var(--border-radius-2xl);
+    /* ULTRATHINK: Strict 50/50 Split
+       Using minmax(0, 1fr) suppresses the grid's default behavior of respecting 
+       content's minimum width (auto). This guarantees an exact 50% split 
+       regardless of the image or text content size. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    height: 28rem;
+    min-height: unset;
   }
 }
 
@@ -60,34 +58,38 @@
   z-index: 10;
   order: 2;
   gap: clamp(0.6rem, 2vw, 1rem);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  height: 100%;
 
   @media (min-width: 48rem) {
     gap: 1rem;
+    padding: 1.5rem;
   }
 
   @media (min-width: 64rem) {
-    grid-column: 1;
-    grid-row: 1;
     order: unset;
-    align-self: center;
+    justify-content: center;
+    padding: 2.5rem 3rem;
   }
 }
 
 .image-wrapper {
   position: relative;
   width: 100%;
-  height: clamp(12rem, 45vw, 22rem);
-  border-radius: var(--border-radius-lg);
+  height: clamp(14rem, 50vw, 20rem);
   overflow: hidden;
   order: 1;
   background: var(--bg-surface);
   flex-shrink: 0;
-  border: 1px solid var(--border-light);
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   @media (min-width: 64rem) {
-    grid-column: 2;
-    grid-row: 1;
     order: unset;
+    height: 100%;
+    border-radius: 0 var(--border-radius-2xl) var(--border-radius-2xl) 0;
   }
 
   img {
@@ -95,15 +97,26 @@
     height: 100%;
     object-fit: contain;
     object-position: center;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.5s ease;
     display: block;
+    will-change: transform;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  }
+
+  &:hover img {
+    transform: scale(1.03);
   }
 }
 
 .image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.03), transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.1); // Slight lighten mix
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -112,16 +125,13 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  order: 3;
-  padding-top: 0.25rem;
+  padding-top: 0.5rem;
   flex-wrap: wrap;
   gap: 0.75rem;
+  margin-top: auto;
 
   @media (min-width: 64rem) {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    order: unset;
-    padding-top: 0;
+    padding-top: 1rem;
   }
 }
 
@@ -201,7 +211,6 @@
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: 0.5rem;
   min-height: 2.75rem;
 
   @media (min-width: 48rem) {
@@ -212,16 +221,6 @@
     background-color: var(--btn-primary-hover);
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
-  }
-
-  vet-icon {
-    width: 1rem;
-    height: 1rem;
-    transition: transform 0.3s ease;
-  }
-
-  &:hover vet-icon {
-    transform: translateX(4px);
   }
 }
 
@@ -295,13 +294,24 @@
 
 @media (max-width: 40rem) {
   .controls-section {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 3rem;
+  }
+
+  .pagination-dots {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    z-index: 10;
   }
 
   .nav-arrows {
     width: 100%;
     justify-content: space-between;
+    gap: 0;
   }
 }
 

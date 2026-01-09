@@ -6,5 +6,5 @@
   max-width: var(--layout-max-width, 90rem);
   width: min(100%, var(--layout-max-width, 90rem));
   margin: 0 auto;
-  padding-inline: var(--shell-padding, var(--layout-padding-x, 1.5rem));
+  padding-inline: var(--shell-padding);
 }

@@ -7,19 +7,14 @@
 .home {
   display: flex;
   flex-direction: column;
-  gap: 0;
-}
-
-.home-section {
-  padding: clamp(1.25rem, 3vw, 3rem) 0;
 }
 
 .home-hero {
-  padding-top: clamp(0.75rem, 2.5vw, 2rem);
-  padding-bottom: clamp(1.25rem, 3vw, 3rem);
+  padding-block: clamp(0.75rem, 2.5vw, 2rem) clamp(1.25rem, 3vw, 3rem);
 }
 
 .home-services {
+  padding-block: clamp(1.25rem, 3vw, 3rem);
   background: transparent;
 }
 

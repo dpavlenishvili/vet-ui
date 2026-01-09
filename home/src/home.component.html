@@ -1,15 +1,11 @@
 <div class="home">
   @if (!authenticated()) {
-    <section class="home-section home-hero">
-      <div class="layout-shell">
-        <vet-posts />
-      </div>
+    <section class="home-hero layout-shell">
+      <vet-posts />
     </section>
   }
 
-  <section class="home-section home-services">
-    <div class="layout-shell">
-      <vet-services />
-    </div>
+  <section class="home-services layout-shell">
+    <vet-services />
   </section>
 </div>
