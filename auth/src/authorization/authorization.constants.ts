@@ -1,1 +1,0 @@
-export const CODE_2FA_SENT = 'USER_AUTH_CODE_2FA_SENT'
