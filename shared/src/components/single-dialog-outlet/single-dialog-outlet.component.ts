@@ -7,7 +7,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { DialogParams } from '../../shared.types';
 import { DialogComponent } from '../dialog/dialog.component';
-import { ComponentOutletComponent } from '../component-outlet.component';
+import { ComponentOutletComponent } from '../component-outlet';
 import { NgTemplateOutlet } from '@angular/common';
 import { TransPipe } from '../../pipes/trans.pipe';
 

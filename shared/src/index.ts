@@ -16,7 +16,7 @@ export * from './components/alert-dialog-outlet';
 export * from './components/breadcrumb';
 export * from './components/button';
 export * from './components/checkbox';
-export * from './components/component-outlet.component';
+export * from './components/component-outlet';
 export * from './components/confirmation-dialog-outlet';
 export * from './components/date-picker';
 export * from './components/dialog';

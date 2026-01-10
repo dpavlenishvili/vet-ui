@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { vetIcons } from '@vet/shared/icons';
 import { useControlValue, withoutEmptyProperties } from '@vet/shared/utils';
 import { ButtonComponent, IconButtonComponent, InputComponent, SelectorComponent, VetSwitchComponent } from '@vet/shared';
-import { EducationStandartsComponent } from '@vet/long-term-programs';
+import { EducationStandardsComponent } from '@vet/long-term-programs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
 import { ProgramFilters } from '@vet/programs-common';
@@ -30,7 +30,7 @@ import { tap } from 'rxjs';
     UnAuthorisedProgramsFiltersDialogComponent,
     InputComponent,
     IconButtonComponent,
-    EducationStandartsComponent,
+    EducationStandardsComponent,
   ],
   templateUrl: './unauthorised-filters.component.html',
   styleUrl: './unauthorised-programs-filters.component.scss',

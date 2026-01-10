@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { vetIcons } from '@vet/shared/icons';
 import { isDate, useControlValue, withoutEmptyProperties } from '@vet/shared/utils';
 import { ButtonComponent, DatePickerComponent, IconButtonComponent, InputComponent, SelectorComponent } from '@vet/shared';
-import { EducationStandartsComponent } from '@vet/long-term-programs';
+import { EducationStandardsComponent } from '@vet/long-term-programs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
 import {
@@ -26,7 +26,7 @@ import { NonFormalProgramFilters } from '../non-formal-programs.types';
     InputComponent,
     IconButtonComponent,
     DatePickerComponent,
-    EducationStandartsComponent,
+    EducationStandardsComponent,
   ],
   templateUrl: './non-formal-programs-filters.component.html',
   styleUrl: './non-formal-programs-filters.component.scss',

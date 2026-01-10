@@ -26,6 +26,13 @@
       }
     },
     {
+      "files": ["src/lib/generated/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": "off"
+      }
+    },
+    {
       "files": ["*.html"],
       "extends": ["plugin:@nx/angular-template"],
       "rules": {}

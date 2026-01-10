@@ -13,13 +13,13 @@ import { vetIcons } from '@vet/shared/icons';
 import { ButtonComponent, InputVersion } from '@vet/shared';
 
 @Component({
-  selector: 'vet-education-standarts',
-  templateUrl: './education-standarts.component.html',
-  styleUrls: ['./education-standarts.component.scss'],
+  selector: 'vet-education-standards',
+  templateUrl: './education-standards.component.html',
+  styleUrls: ['./education-standards.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [KENDO_TEXTBOX, KENDO_DIALOG, KENDO_LABEL, KENDO_SVGICON, KENDO_LOADER, ButtonComponent, TranslocoPipe],
 })
-export class EducationStandartsComponent implements ControlValueAccessor {
+export class EducationStandardsComponent implements ControlValueAccessor {
   version = input<InputVersion>('thin');
   placeholder = input('');
   vetIcons = vetIcons;
