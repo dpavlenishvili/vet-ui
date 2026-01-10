@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { HasAccessPipe, useAccessControl } from '@vet/auth';
-import { IconComponent } from '../icon';
-import { ExpandableSidebarComponent } from '../expandable-sidebar/expandable-sidebar.component';
-import { SidebarMenuItem } from '../../shared.types';
+import { IconComponent, ExpandableSidebarComponent } from '@vet/shared';
+import { SidebarMenuItem } from '../sidebar-menu-item.type';
 
 @Component({
   selector: 'vet-expandable-sidebar-menu',

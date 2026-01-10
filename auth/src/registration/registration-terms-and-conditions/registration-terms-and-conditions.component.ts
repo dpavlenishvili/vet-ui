@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { VetCheckboxComponent } from '@vet/shared/ui-components';
+import { VetCheckboxComponent } from '@vet/shared';
 
 @Component({
   selector: 'vet-registration-terms-and-conditions',

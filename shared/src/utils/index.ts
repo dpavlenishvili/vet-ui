@@ -50,11 +50,11 @@ export * from '../vet-provide';
 // ============================================
 export * from '../http-request-options';
 export * from '../use-http-contexts';
-export * from '../api-error-handling/api-error-ctx';
-export * from '../api-error-handling/api-error.interceptor';
+export * from './api-error-handling/api-error-ctx';
+export * from './api-error-handling/api-error.interceptor';
 
 // ============================================
 // Theme & UI Utilities
 // ============================================
 export * from '../theme.service';
-export * from '../coercion/number-property';
+export * from './coercion/number-property';

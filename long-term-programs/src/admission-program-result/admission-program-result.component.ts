@@ -9,7 +9,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { RolePipe } from '@vet/auth';
 import { AdmissionService } from '@vet/backend';
 import { vetIcons } from '@vet/shared/icons';
-import { ButtonComponent, InfoComponent } from '@vet/shared/ui-components';
+import { ButtonComponent, InfoComponent } from '@vet/shared';
 import { AdmissionProgramGridComponent } from '../admission-program-grid/admission-program-grid.component';
 
 @Component({

@@ -2,14 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, output, si
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { vetIcons } from '@vet/shared/icons';
 import { isDate, useControlValue, withoutEmptyProperties } from '@vet/shared/utils';
-import {
-  ButtonComponent,
-  DatePickerComponent,
-  EduactionStandartsComponent,
-  IconButtonComponent,
-  InputComponent,
-  SelectorComponent,
-} from '@vet/shared/ui-components';
+import { ButtonComponent, DatePickerComponent, IconButtonComponent, InputComponent, SelectorComponent } from '@vet/shared';
+import { EducationStandartsComponent } from '@vet/long-term-programs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
 import {
@@ -32,7 +26,7 @@ import { NonFormalProgramFilters } from '../non-formal-programs.types';
     InputComponent,
     IconButtonComponent,
     DatePickerComponent,
-    EduactionStandartsComponent,
+    EducationStandartsComponent,
   ],
   templateUrl: './non-formal-programs-filters.component.html',
   styleUrl: './non-formal-programs-filters.component.scss',

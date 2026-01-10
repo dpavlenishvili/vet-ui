@@ -5,7 +5,7 @@ import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useAlert, useConfirm } from '@vet/shared/dialogs';
 import { FormatDateTimePipe } from '@vet/shared/pipes';
-import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
+import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';

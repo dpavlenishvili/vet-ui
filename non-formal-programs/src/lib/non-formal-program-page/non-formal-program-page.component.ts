@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { trans, useRouteNumberParam } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
-import { InfoComponent } from '@vet/shared/ui-components';
+import { InfoComponent } from '@vet/shared';
 import { NonFormalService } from '@vet/backend';
 import { AuthenticationService } from '@vet/auth';
 import { NonFormalAnnouncementComponent } from './non-formal-announcement/non-formal-announcement.component';

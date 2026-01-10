@@ -13,7 +13,7 @@ import {
   InputComponent,
   VetCheckboxComponent,
   VetSwitchComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { NonFormalApplicationData } from '../application-wizard.component';
 import { map, of } from 'rxjs';

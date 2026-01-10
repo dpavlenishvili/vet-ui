@@ -5,7 +5,7 @@ import { DatePipe, SlicePipe } from '@angular/common';
 import { PageContentComponent } from '../../../pages/src/components/page-content/page-content.component';
 import { Router } from '@angular/router';
 import { CollectionItem } from '@vet/backend';
-import { IconComponent } from '@vet/shared/ui-components';
+import { IconComponent } from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({

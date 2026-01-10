@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommissionService, CommissionsReview } from '@vet/backend';
 import { kendoIcons, vetIcons } from '@vet/shared/icons';
 import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
-import { DividerComponent } from '@vet/shared/ui-components';
+import { DividerComponent } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';

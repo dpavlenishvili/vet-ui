@@ -4,8 +4,6 @@ import { ActivatedRouteSnapshot, Params } from '@angular/router';
 import { Signal, TemplateRef, Type, WritableSignal } from '@angular/core';
 import { AbstractControl, FormControl, FormControlState, FormGroup } from '@angular/forms';
 import { Translatable } from './shared.utils';
-import { AccessControl } from '@vet/auth';
-import { VetIcon } from './shared.icons';
 
 export interface QueryParams {
   [key: string]: any; // Allow any value type
@@ -196,16 +194,6 @@ export interface StepDefinition {
   previousButtonLabel?: string | Translatable;
   nextActions?: StepNextAction[];
   condition?: (formGroup: FormGroup) => boolean | Observable<boolean>;
-}
-
-export interface SidebarMenuItem {
-  id: string | number;
-  text: string;
-  url?: string | null;
-  children?: this[];
-  accessControl?: AccessControl;
-  icon?: VetIcon;
-  isExpanded?: WritableSignal<boolean>;
 }
 
 export interface EducationType {

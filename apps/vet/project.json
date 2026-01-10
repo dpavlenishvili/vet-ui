@@ -25,19 +25,7 @@
         "assets": ["{projectRoot}/src/favicon.ico", "{projectRoot}/src/assets"],
         "styles": ["{projectRoot}/src/styles.scss"],
         "scripts": [],
-        "allowedCommonJsDependencies": ["dayjs"],
-        "budgets": [
-          {
-            "type": "initial",
-            "maximumWarning": "1mb",
-            "maximumError": "3mb"
-          },
-          {
-            "type": "anyComponentStyle",
-            "maximumWarning": "50kb",
-            "maximumError": "100kb"
-          }
-        ]
+        "allowedCommonJsDependencies": ["dayjs"]
       },
       "configurations": {
         "production": {

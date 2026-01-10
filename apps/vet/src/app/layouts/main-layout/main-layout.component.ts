@@ -1,10 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
-import { BreadcrumbComponent } from '@vet/shared/ui-components';
-import { NavbarComponent } from '@vet/shared/ui-components';
+import { BreadcrumbComponent } from '@vet/shared';
 import { RouterOutlet } from '@angular/router';
 import { AuthenticationService } from '@vet/auth';
 import { AppFooterComponent } from '../../app-footer/app-footer.component';
 import { usePages } from '@vet/pages';
+import { NavbarComponent } from '../../shell/navbar/navbar.component';
 
 @Component({
   selector: 'vet-main-layout',

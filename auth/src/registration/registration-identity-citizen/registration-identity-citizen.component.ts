@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import { useAlert } from '@vet/shared/dialogs';
-import { DatePickerComponent, InputComponent, ToastModule } from '@vet/shared/ui-components';
+import { DatePickerComponent, InputComponent, ToastModule } from '@vet/shared';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({

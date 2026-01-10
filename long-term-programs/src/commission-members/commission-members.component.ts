@@ -6,7 +6,7 @@ import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { useAlert } from '@vet/shared/dialogs';
 import { vetIcons } from '@vet/shared/icons';
-import { DividerComponent } from '@vet/shared/ui-components';
+import { DividerComponent } from '@vet/shared';
 import { CommissionMembersDialogComponent } from './commission-members-dialog/commission-members-dialog.component';
 import { UserRolesService } from '@vet/auth';
 import { CommissionService, ProgramWithCommission, User } from '@vet/backend';

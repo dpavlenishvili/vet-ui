@@ -3,7 +3,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormControls, useControlValue } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
-import { ButtonComponent, InfoComponent } from '@vet/shared/ui-components';
+import { ButtonComponent, InfoComponent } from '@vet/shared';
 import { AuthenticationService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AdmissionService, ShortProgramAdmission } from '@vet/backend';

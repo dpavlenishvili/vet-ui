@@ -2,14 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, OnInit, ou
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { vetIcons } from '@vet/shared/icons';
 import { useControlValue, withoutEmptyProperties } from '@vet/shared/utils';
-import {
-  ButtonComponent,
-  EduactionStandartsComponent,
-  IconButtonComponent,
-  InputComponent,
-  SelectorComponent,
-  VetSwitchComponent,
-} from '@vet/shared/ui-components';
+import { ButtonComponent, IconButtonComponent, InputComponent, SelectorComponent, VetSwitchComponent } from '@vet/shared';
+import { EducationStandartsComponent } from '@vet/long-term-programs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NgTemplateOutlet } from '@angular/common';
 import {
@@ -36,7 +30,7 @@ import { tap } from 'rxjs';
     ShortTermProgramsFiltersDialogComponent,
     InputComponent,
     IconButtonComponent,
-    EduactionStandartsComponent,
+    EducationStandartsComponent,
   ],
   templateUrl: './short-term-programs-filters.component.html',
   styleUrl: './short-term-programs-filters.component.scss',

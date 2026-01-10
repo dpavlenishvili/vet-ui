@@ -12,7 +12,7 @@ import {
 import { vetIcons } from '@vet/shared/icons';
 import { FormatDatePipe } from '@vet/shared/pipes';
 import { RouteParamsService } from '@vet/shared/services';
-import { IconButtonComponent } from '@vet/shared/ui-components';
+import { IconButtonComponent } from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { AdmissionFilterOrganisationComponent } from './admission-filter-organisation/admission-filter-organisation.component';

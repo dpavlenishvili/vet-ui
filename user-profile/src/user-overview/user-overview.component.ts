@@ -9,8 +9,8 @@ import { UserProfileSection } from '../user-profile-section';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { RolePipe, UserRolesService } from '@vet/auth';
 import { useControlValue } from '@vet/shared/utils';
-import { SelectorComponent } from '@vet/shared/ui-components';
-import { ButtonComponent, IconButtonComponent, InputComponent } from '@vet/shared/ui-components';
+import { SelectorComponent } from '@vet/shared';
+import { ButtonComponent, IconButtonComponent, InputComponent } from '@vet/shared';
 import { useDistricts, useFilteredDistricts, useRegions } from '@vet/shared-resources';
 import { of } from 'rxjs';
 import {

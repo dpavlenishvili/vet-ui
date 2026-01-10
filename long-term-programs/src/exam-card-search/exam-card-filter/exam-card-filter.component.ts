@@ -1,5 +1,5 @@
 import { vetIcons } from '@vet/shared/icons';
-import { ButtonComponent, IconButtonComponent, InputComponent } from '@vet/shared/ui-components';
+import { ButtonComponent, IconButtonComponent, InputComponent } from '@vet/shared';
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';

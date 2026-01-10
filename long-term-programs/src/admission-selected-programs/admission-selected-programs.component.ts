@@ -10,7 +10,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useConfirm } from '@vet/shared/dialogs';
 import { vetIcons } from '@vet/shared/icons';
-import { IconButtonComponent } from '@vet/shared/ui-components';
+import { IconButtonComponent } from '@vet/shared';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';

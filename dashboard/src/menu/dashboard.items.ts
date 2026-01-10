@@ -2,8 +2,8 @@ import { computed, signal } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 import { useLongTermProgramsMenu } from './long-term-programs.menu';
 import { useShortTermProgramsMenu } from './short-term-programs.menu';
-import { SidebarMenuItem } from '@vet/shared/utils';
 import { useNonFormalProgramsMenu } from './non-formal-programs.menu';
+import { SidebarMenuItem } from '../../../apps/vet/src/app/shell/sidebar/sidebar-menu-item.type';
 
 export function useDashboardMenu() {
   const longTermProgramsMenu = useLongTermProgramsMenu();

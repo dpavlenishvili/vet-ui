@@ -8,7 +8,7 @@ import {
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
 import { isValidIdValue, mapIdValueToOption, useInstitutionsDictionary } from '@vet/shared-resources';
 import { rxResource } from '@angular/core/rxjs-interop';

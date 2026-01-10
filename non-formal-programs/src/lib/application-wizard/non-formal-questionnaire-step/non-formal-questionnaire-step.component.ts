@@ -20,7 +20,7 @@ import {
   SelectorComponent,
   VetCheckboxComponent,
   VetSwitchComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, tap } from 'rxjs';
 import { NonFormalApplicationData } from '../application-wizard.component';

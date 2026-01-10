@@ -13,9 +13,9 @@ import {
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { withoutEmptyProperties } from '@vet/shared/utils';
-import { SelectorComponent } from '@vet/shared/ui-components';
+import { SelectorComponent } from '@vet/shared';
 import { vetIcons } from '@vet/shared/icons';
-import { ButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
+import { ButtonComponent, IconButtonComponent } from '@vet/shared';
 import { ShortApplicationsListenersFilters } from '../../short-term-programs.types';
 import { RolePipe, UserRolesService } from '@vet/auth';
 import { ShortProgramsService } from '@vet/backend';

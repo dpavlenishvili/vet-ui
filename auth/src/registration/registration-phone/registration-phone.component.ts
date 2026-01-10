@@ -6,7 +6,7 @@ import { distinctUntilChanged, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SmsService } from '@vet/backend';
 import { useControlValue, useReactiveControl } from '@vet/shared/utils';
-import { ButtonComponent, InputComponent, ToastModule } from '@vet/shared/ui-components';
+import { ButtonComponent, InputComponent, ToastModule } from '@vet/shared';
 import { useAuthEnvironment } from '../../auth.providers';
 import { RegistrationPhoneVerificationComponent } from '../registration-phone-verification/registration-phone-verification.component';
 

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output, ResourceRe
 import { KENDO_GRID, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { vetIcons } from '@vet/shared/icons';
-import { IconButtonComponent } from '@vet/shared/ui-components';
+import { IconButtonComponent } from '@vet/shared';
 import { PagerComponent } from '@progress/kendo-angular-pager';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 

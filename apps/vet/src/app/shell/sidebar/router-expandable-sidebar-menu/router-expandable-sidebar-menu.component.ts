@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExpandableSidebarMenuComponent } from '../expandable-sidebar-menu/expandable-sidebar-menu.component';
-import { SidebarMenuItem } from '../../shared.types';
-import { useCurrentUrl } from '../../shared.injectors';
+import { SidebarMenuItem } from '../sidebar-menu-item.type';
+import { useCurrentUrl } from '@vet/shared/utils';
 
 @Component({
   selector: 'vet-router-expandable-sidebar-menu',

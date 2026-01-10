@@ -1,4 +1,5 @@
 export * from './long-term-program.routes';
+export { EducationStandartsComponent } from './ui/education-standards/education-standarts.component';
 export { AdmissionsListContainerComponent } from './admissions-list-container/admissions-list-container.component';
 export { AdmissionsListComponent } from './admissions-list/admissions-list.component';
 export { CommissionMembersComponent } from './commission-members/commission-members.component';

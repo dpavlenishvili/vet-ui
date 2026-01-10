@@ -18,7 +18,7 @@ import {
   FileUploadComponent,
   InfoComponent,
   VetSwitchComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { delay, map, tap } from 'rxjs';
 import { AuthenticationService } from '@vet/auth';
 import { rxResource } from '@angular/core/rxjs-interop';

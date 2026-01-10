@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, signal } f
 import { Page } from '@vet/backend';
 import { usePageCollection } from '@vet/pages';
 import { vetIcons, type VetIcon } from '@vet/shared/icons';
-import { SidebarMenuItem, useQueryParam, useQueryUpdater } from '@vet/shared/utils';
-import { ExpandableSidebarMenuComponent } from '@vet/shared/ui-components';
+import { useQueryParam, useQueryUpdater } from '@vet/shared/utils';
+import { ExpandableSidebarMenuComponent } from '../../../../apps/vet/src/app/shell/sidebar/expandable-sidebar-menu/expandable-sidebar-menu.component';
+import { SidebarMenuItem } from '../../../../apps/vet/src/app/shell/sidebar/sidebar-menu-item.type';
 import { PageContentComponent } from '../page-content/page-content.component';
 import { FIELDS_PAGE_SLUG } from '../../pages.constants';
 

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { useConfirm } from '@vet/shared/dialogs';
 import { vetIcons } from '@vet/shared/icons';
 import { FormatDatePipe } from '@vet/shared/pipes';
-import { IconButtonComponent, InfoComponent } from '@vet/shared/ui-components';
+import { IconButtonComponent, InfoComponent } from '@vet/shared';
 import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import {
   CellTemplateDirective,

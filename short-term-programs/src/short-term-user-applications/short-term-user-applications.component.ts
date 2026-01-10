@@ -4,7 +4,7 @@ import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { useShortTermUserApplications } from '../short-term.resources';
 import { useAlert, useConfirm } from '@vet/shared/dialogs';
 import { FormatDatePipe } from '@vet/shared/pipes';
-import { ButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
+import { ButtonComponent, IconButtonComponent } from '@vet/shared';
 import { ShortProgramApplication, ShortProgramsService } from '@vet/backend';
 import { useProgramDialog } from '../short-term-programs.signals';
 import { tap } from 'rxjs';

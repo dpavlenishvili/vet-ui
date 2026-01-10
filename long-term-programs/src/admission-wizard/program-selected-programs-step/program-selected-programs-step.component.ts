@@ -18,7 +18,7 @@ import * as kendoIcons from '@progress/kendo-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { useAlert } from '@vet/shared/dialogs';
 import { vetIcons } from '@vet/shared/icons';
-import { ButtonComponent as VetButtonComponent } from '@vet/shared/ui-components';
+import { ButtonComponent as VetButtonComponent } from '@vet/shared';
 import { AdmissionPrograms, AdmissionService, LongTerm } from '@vet/backend';
 import { AdmissionSelectedProgramsComponent } from '../../admission-selected-programs/admission-selected-programs.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

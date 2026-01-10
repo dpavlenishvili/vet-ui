@@ -350,7 +350,7 @@ export const vetIcons = {
 };
 
 // Shared Icon Utilities
-export * from '../shared.icons';
+export * from '../../shared.icons';
 
 // Icon type
 export type VetIcon = keyof typeof vetIcons;

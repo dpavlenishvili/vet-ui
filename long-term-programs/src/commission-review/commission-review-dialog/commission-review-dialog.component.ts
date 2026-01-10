@@ -9,7 +9,7 @@ import { CommissionService } from '@vet/backend';
 import { tap } from 'rxjs';
 import { Criteria, ScorePayload } from 'long-term-programs/src/long-term-programs.types';
 import { scoreValidator } from '@vet/shared/validators';
-import { ButtonComponent as VetButtonComponent, InfoComponent, InputComponent } from '@vet/shared/ui-components';
+import { ButtonComponent as VetButtonComponent, InfoComponent, InputComponent } from '@vet/shared';
 
 @Component({
   selector: 'vet-commission-review-dialog',

@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { computed, inject, Signal, signal } from '@angular/core';
 import { isOneOf, UserRolesService } from '@vet/auth';
-import { SidebarMenuItem } from '@vet/shared/utils';
+import { SidebarMenuItem } from '../../../apps/vet/src/app/shell/sidebar/sidebar-menu-item.type';
 
 const BASE_PATH = '/dashboard/programs/long';
 

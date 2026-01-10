@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent, InfoComponent } from '@vet/shared/ui-components';
+import { ButtonComponent, InfoComponent } from '@vet/shared';
 import { AdmissionProgramGridComponent } from '../admission-program-grid/admission-program-grid.component';
 import { RolePipe } from '@vet/auth';
 

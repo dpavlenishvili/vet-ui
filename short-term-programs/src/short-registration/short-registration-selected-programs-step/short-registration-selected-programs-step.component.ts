@@ -3,7 +3,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ShortProgramAdmission } from '@vet/backend';
 import { FormControls, useControlValue } from '@vet/shared/utils';
-import { ButtonComponent } from '@vet/shared/ui-components';
+import { ButtonComponent } from '@vet/shared';
 import { isPlatformBrowser } from '@angular/common';
 import { ShortRegistrationSelectedProgramsGridComponent } from './short-registration-selected-programs-grid/short-registration-selected-programs-grid.component';
 

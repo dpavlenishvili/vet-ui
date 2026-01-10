@@ -15,7 +15,7 @@ import { NonFormalService } from '@vet/backend';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { useAlert, useConfirm } from '@vet/shared/dialogs';
-import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
+import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared';
 import { of } from 'rxjs';
 import { NonFormalProgramPageComponent } from '../../non-formal-program-page/non-formal-program-page.component';
 import { useNonFormalProgramDialog } from '../../non-formal-programs.signals';

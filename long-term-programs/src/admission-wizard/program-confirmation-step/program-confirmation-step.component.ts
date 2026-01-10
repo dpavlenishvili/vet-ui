@@ -28,7 +28,7 @@ import {
   Citizenship,
 } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
-import { ButtonComponent, FileUploadComponent, InfoComponent, VetSwitchComponent } from '@vet/shared/ui-components';
+import { ButtonComponent, FileUploadComponent, InfoComponent, VetSwitchComponent } from '@vet/shared';
 import { ProgramSsmStepFormGroup } from '../program-ssm-step/program-ssm-step.component';
 import { WA_WINDOW } from '@ng-web-apis/common';
 import { admissionProgramsResource } from '../admission-programs-resource';

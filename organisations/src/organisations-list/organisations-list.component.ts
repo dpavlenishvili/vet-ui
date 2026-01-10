@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, effect, signal, OnDestroy, inject }
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { vetIcons } from '@vet/shared/icons';
-import { ButtonComponent, DividerComponent } from '@vet/shared/ui-components';
+import { ButtonComponent, DividerComponent } from '@vet/shared';
 import { Organisation, OrganisationFilters } from '../organisations.types';
 import { useOrganisationsList } from '../organisations.resources';
 import { LoaderComponent } from '@progress/kendo-angular-indicators';

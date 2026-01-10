@@ -21,7 +21,7 @@ import {
   provideKendoDatePickerFormat,
   provideKendoDateTimePickerFormat,
 } from '@vet/shared/utils';
-import { ToastModule } from '@vet/shared/ui-components';
+import { ToastModule } from '@vet/shared';
 
 import { environment } from '../environments/environment';
 import * as Sentry from '@sentry/angular';

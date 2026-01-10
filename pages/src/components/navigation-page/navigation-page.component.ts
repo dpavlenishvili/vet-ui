@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { CollectionItem, Page } from '@vet/backend';
-import { SidebarMenuItem, useNumberQueryParam, useQueryUpdater } from '@vet/shared/utils';
-import { ExpandableSidebarMenuComponent } from '@vet/shared/ui-components';
+import { useNumberQueryParam, useQueryUpdater } from '@vet/shared/utils';
+import { ExpandableSidebarMenuComponent } from '../../../../apps/vet/src/app/shell/sidebar/expandable-sidebar-menu/expandable-sidebar-menu.component';
+import { SidebarMenuItem } from '../../../../apps/vet/src/app/shell/sidebar/sidebar-menu-item.type';
 import { PageContentComponent } from '../page-content/page-content.component';
 import { useNavigationPageState } from './navigation-page.resources';
 

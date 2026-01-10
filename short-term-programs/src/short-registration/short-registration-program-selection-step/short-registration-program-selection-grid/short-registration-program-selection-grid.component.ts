@@ -3,7 +3,7 @@ import { useAlert, useConfirm } from '@vet/shared/dialogs';
 import { vetIcons } from '@vet/shared/icons';
 import { DateDiffPipe, FormatDatePipe } from '@vet/shared/pipes';
 import { PaginatedGridResult } from '@vet/shared/utils';
-import { IconButtonComponent, IconComponent } from '@vet/shared/ui-components';
+import { IconButtonComponent, IconComponent } from '@vet/shared';
 import { ShortProgram, ShortProgramAdmission } from '@vet/backend';
 import {
   CellTemplateDirective,

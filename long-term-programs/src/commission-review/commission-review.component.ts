@@ -5,7 +5,7 @@ import { GridDataResult, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { useAlert } from '@vet/shared/dialogs';
 import { vetIcons } from '@vet/shared/icons';
-import { DividerComponent } from '@vet/shared/ui-components';
+import { DividerComponent } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { CommissionService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';

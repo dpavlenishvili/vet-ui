@@ -9,7 +9,7 @@ import { iif, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ScheduleProvider } from 'long-term-programs/src/enums/schedule-provider.enum';
 import { SelectionMethod } from 'long-term-programs/src/enums/selection-method.enum';
-import { ButtonComponent as VetButtonComponent, InputComponent } from '@vet/shared/ui-components';
+import { ButtonComponent as VetButtonComponent, InputComponent } from '@vet/shared';
 
 @Component({
   selector: 'vet-exam-selection-dialog',

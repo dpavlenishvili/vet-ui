@@ -18,7 +18,7 @@ import {
   InputComponent,
   SelectorComponent,
   VetSwitchComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { SchedulesFilters } from '../exam-selection.component';
 import { useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
 import { UserRolesService } from '@vet/auth';

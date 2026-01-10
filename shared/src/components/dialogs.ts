@@ -6,10 +6,10 @@
  */
 
 // Dialog Outlet Components
-export * from '../components/alert-dialog-outlet/alert-dialog-outlet.component';
-export * from '../components/confirmation-dialog-outlet/confirmation-dialog-outlet.component';
-export * from '../components/dialog-outlet/dialog-outlet.component';
-export * from '../components/single-dialog-outlet/single-dialog-outlet.component';
+export * from './alert-dialog-outlet/alert-dialog-outlet.component';
+export * from './confirmation-dialog-outlet/confirmation-dialog-outlet.component';
+export * from './dialog-outlet/dialog-outlet.component';
+export * from './single-dialog-outlet/single-dialog-outlet.component';
 
 // Dialog Services
 export * from '../services/alert-dialog.service';

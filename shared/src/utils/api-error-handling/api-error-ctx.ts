@@ -1,7 +1,7 @@
 import { HttpContext, HttpContextToken, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { AlertDialogService } from '../services/alert-dialog.service';
+import { AlertDialogService } from '../../services/alert-dialog.service';
 
 export interface ApiErrorHandlerResult {
   code: number | null;

@@ -8,7 +8,7 @@ import {
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { OrganisationFilters } from '../organisations.types';
 import {
   useDistricts,

@@ -44,10 +44,6 @@
           {
             "selector": "ImportDeclaration[source.value='@jsverse/transloco'] > ImportSpecifier[imported.name='TranslocoModule']",
             "message": "Do not import entire transloco module, instead import only the things you need. e.g TranslocoPipe"
-          },
-          {
-            "selector": "ImportDeclaration[source.value='@vet/shared']",
-            "message": "Avoid barrel imports from '@vet/shared'. Use specific secondary entry points instead: @vet/shared/services, @vet/shared/icons, @vet/shared/ui-components, etc. This improves tree-shaking and reduces bundle size."
           }
         ],
         "no-restricted-globals": [

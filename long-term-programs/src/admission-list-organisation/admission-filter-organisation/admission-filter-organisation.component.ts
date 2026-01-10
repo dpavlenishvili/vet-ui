@@ -8,7 +8,7 @@ import {
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';

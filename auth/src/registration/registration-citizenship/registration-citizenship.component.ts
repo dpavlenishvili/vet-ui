@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { Citizenship } from '@vet/shared/utils';
-import { IconComponent } from '@vet/shared/ui-components';
+import { IconComponent } from '@vet/shared';
 
 @Component({
   selector: 'vet-registration-citizenship',

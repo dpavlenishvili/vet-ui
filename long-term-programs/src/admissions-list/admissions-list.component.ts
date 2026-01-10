@@ -6,7 +6,7 @@ import { CellClickEvent, GridComponent, KENDO_GRID } from '@progress/kendo-angul
 import { TranslocoPipe } from '@jsverse/transloco';
 import { vetIcons } from '@vet/shared/icons';
 import { FormatDateTimePipe } from '@vet/shared/pipes';
-import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared/ui-components';
+import { ButtonComponent as VetButtonComponent, IconButtonComponent } from '@vet/shared';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { isPlatformBrowser } from '@angular/common';
 import { AdmissionSelectedProgramsComponent } from '../admission-selected-programs/admission-selected-programs.component';

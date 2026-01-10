@@ -8,7 +8,7 @@ import {
   IconButtonComponent,
   InputComponent,
   SelectorComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { ReviewFilters } from '../commission-review.component';
 import { useProgramsWithOrganisation } from 'long-term-programs/src/long-term.resources';
 import { UserRolesService } from '@vet/auth';

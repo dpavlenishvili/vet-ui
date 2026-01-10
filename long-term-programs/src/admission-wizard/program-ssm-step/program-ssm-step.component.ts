@@ -14,7 +14,7 @@ import {
   InputComponent,
   SelectorComponent,
   VetSwitchComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { GeneralsService } from '@vet/backend';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 

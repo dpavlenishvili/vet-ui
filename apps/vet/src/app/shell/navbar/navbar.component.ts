@@ -4,13 +4,14 @@ import { KENDO_ICONS } from '@progress/kendo-angular-icons';
 import { Page, User } from '@vet/backend';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { kendoIcons, vetIcons } from '../../shared.icons';
-import { Citizenship } from '../../shared.enums';
+import * as kendoIcons from '@progress/kendo-svg-icons';
+import { vetIcons } from '@vet/shared/icons';
+import { Citizenship } from '@vet/shared/utils';
 import { AuthenticationService, UserAccount, UserRolesService } from '@vet/auth';
-import { IconComponent } from '../../components/icon';
+import { IconComponent } from '@vet/shared';
 
 @Component({
-  selector: 'vet-ui-navbar',
+  selector: 'vet-app-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
   imports: [RouterLink, KENDO_ICONS, KENDO_BUTTON, TranslocoPipe, IconComponent],

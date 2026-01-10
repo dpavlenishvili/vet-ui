@@ -25,7 +25,7 @@ import {
   mobileNumberValidator,
   personalNumberValidator,
 } from '@vet/shared/validators';
-import { ResponsiveStepperComponent } from '@vet/shared/ui-components';
+import { ResponsiveStepperComponent } from '@vet/shared';
 import { EmailService, RegisterService, SmsService, type User, type UserReq } from '@vet/backend';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, of, switchMap, tap, timer } from 'rxjs';

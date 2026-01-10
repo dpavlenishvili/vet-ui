@@ -6,7 +6,7 @@ import {
   IconButtonComponent,
   SelectorComponent,
   VetSwitchComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { InputsModule } from '@progress/kendo-angular-inputs';

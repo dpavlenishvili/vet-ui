@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { BreadcrumbComponent } from '@vet/shared/ui-components';
-import { NavbarComponent } from '@vet/shared/ui-components';
+import { BreadcrumbComponent } from '@vet/shared';
 import { AppFooterComponent } from '../../../../apps/vet/src/app/app-footer/app-footer.component';
 import { MainLayoutComponent } from '../../../../apps/vet/src/app/layouts/main-layout/main-layout.component';
+import { NavbarComponent } from '../../../../apps/vet/src/app/shell/navbar/navbar.component';
 
 @Component({
   selector: 'vet-page-layout',

@@ -8,7 +8,7 @@ import {
   InputComponent,
   SelectorComponent,
   VetSwitchComponent,
-} from '@vet/shared/ui-components';
+} from '@vet/shared';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ProgramFilters } from '@vet/programs-common';
 import {

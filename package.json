@@ -14,7 +14,7 @@
     "postinstall": "husky install",
     "serve:ssr": "node dist/apps/vet/server/main.js",
     "lint": "npx nx run-many --target=lint --all",
-    "generate:icons": "./generate-icons.mjs shared/src/icons/svg shared/src/icons"
+    "generate:icons": "./generate-icons.mjs shared/src/utils/icons/svg shared/src/utils/icons"
   },
   "engines": {
     "node": ">=20.19.0"
@@ -150,8 +150,6 @@
     "postcss-import": "~14.1.0",
     "postcss-preset-env": "~7.5.0",
     "postcss-url": "~10.1.3",
-    "prettier": "^3.3.3",
-    "ramda": "^0.30.1",
     "swagger-typescript-api": "^13.0.3",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",

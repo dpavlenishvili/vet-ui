@@ -10,7 +10,7 @@ import { useAlert, useConfirm } from '@vet/shared/dialogs';
 import { vetIcons } from '@vet/shared/icons';
 import { useFilters, useFiltersUpdater } from '@vet/shared/utils';
 import { RouteParamsService } from '@vet/shared/services';
-import { DividerComponent } from '@vet/shared/ui-components';
+import { DividerComponent } from '@vet/shared';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { ExamSelectionDialogComponent } from './exam-selection-dialog/exam-selection-dialog.component';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';

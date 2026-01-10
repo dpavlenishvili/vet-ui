@@ -6,7 +6,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { SVGIconComponent } from '@progress/kendo-angular-icons';
 import { vetIcons } from '@vet/shared/icons';
 import { FormatDatePipe } from '@vet/shared/pipes';
-import { MapComponent } from '@vet/shared/ui-components';
+import { MapComponent } from '../ui/map/map.component';
 
 @Component({
   selector: 'vet-organisation-page',

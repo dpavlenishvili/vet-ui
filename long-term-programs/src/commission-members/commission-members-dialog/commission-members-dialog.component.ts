@@ -11,7 +11,7 @@ import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { vetIcons } from '@vet/shared/icons';
 import { ToastService } from '@vet/shared/services';
 import { georgianLettersValidator } from '@vet/shared/validators';
-import { ButtonComponent as VetButtonComponent, InfoComponent, InputComponent } from '@vet/shared/ui-components';
+import { ButtonComponent as VetButtonComponent, InfoComponent, InputComponent } from '@vet/shared';
 import { UserRolesService } from '@vet/auth';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { animate, style, transition, trigger } from '@angular/animations';

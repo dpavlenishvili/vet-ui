@@ -23,7 +23,7 @@ import {
   usePageUpdater,
 } from '@vet/shared/utils';
 import { useAlert } from '@vet/shared/dialogs';
-import { ButtonComponent } from '@vet/shared/ui-components';
+import { ButtonComponent } from '@vet/shared';
 import { isPlatformBrowser } from '@angular/common';
 import { ShortTermProgramFilters } from '../../short-term-programs.types';
 import { ShortTermProgramsFiltersComponent } from 'short-term-programs/src/short-term-programs-filters/short-term-programs-filters.component';

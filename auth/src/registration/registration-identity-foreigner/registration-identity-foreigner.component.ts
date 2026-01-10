@@ -17,7 +17,7 @@ import {
   SelectOption,
 } from '@vet/shared/utils';
 import { useAlert, useConfirm } from '@vet/shared/dialogs';
-import { DatePickerComponent, InputComponent, SelectorComponent } from '@vet/shared/ui-components';
+import { DatePickerComponent, InputComponent, SelectorComponent } from '@vet/shared';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 

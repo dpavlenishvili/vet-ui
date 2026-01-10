@@ -4,23 +4,22 @@ import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
-import { vetIcons } from '../../shared.icons';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { GeneralsService } from '@vet/backend';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { InputVersion } from '../input';
 import { KENDO_LOADER } from '@progress/kendo-angular-indicators';
-import { ButtonComponent } from '../button';
+import { vetIcons } from '@vet/shared/icons';
+import { ButtonComponent, InputVersion } from '@vet/shared';
 
 @Component({
-  selector: 'vet-eduaction-standarts',
-  templateUrl: './eduaction-standarts.component.html',
-  styleUrls: ['./eduaction-standarts.component.scss'],
+  selector: 'vet-education-standarts',
+  templateUrl: './education-standarts.component.html',
+  styleUrls: ['./education-standarts.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [KENDO_TEXTBOX, KENDO_DIALOG, KENDO_LABEL, KENDO_SVGICON, KENDO_LOADER, ButtonComponent, TranslocoPipe],
 })
-export class EduactionStandartsComponent implements ControlValueAccessor {
+export class EducationStandartsComponent implements ControlValueAccessor {
   version = input<InputVersion>('thin');
   placeholder = input('');
   vetIcons = vetIcons;
